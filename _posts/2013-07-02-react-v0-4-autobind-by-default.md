@@ -12,7 +12,7 @@ If you take a look at most of our current examples, you'll see us using `React.a
 
 Before we launched React, we would write this:
 
-```js{4}
+```js
 React.createClass({
   onClick: function(event) {/* do something with this */},
   render: function() {
@@ -23,7 +23,7 @@ React.createClass({
 
 We wrote `React.autoBind` as a way to cache the function creation and save on memory usage. Since `render` can get called multiple times, if you used `this.onClick.bind(this)` you would actually create a new function on each pass. With React v0.3 you were able to write this instead:
 
-```js{2,4}
+```js
 React.createClass({
   onClick: React.autoBind(function(event) {/* do something with this */}),
   render: function() {
@@ -39,7 +39,7 @@ After using `React.autoBind` for a few weeks, we realized that there were very f
 
 Starting with v0.4 you can just write this:
 
-```js{2,4}
+```js
 React.createClass({
   onClick: function(event) {/* do something with this */},
   render: function() {
