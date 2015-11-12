@@ -218,7 +218,7 @@ Markdown はインラインでテキストをフォーマットする簡単な�
 
 まず最初に、サードパーティ製の **marked** ライブラリをアプリケーションに追加します。 marked は Markdown テキストを生の HTML に変換する JavaScript ライブラリです。 既にある head タグの内側に script タグを書き込み、以下のように marked を読み込ませます。
 
-```html{9}
+```html
 <!-- index.html -->
 <head>
   <meta charset="UTF-8" />

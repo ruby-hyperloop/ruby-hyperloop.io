@@ -221,7 +221,7 @@ Il Markdown è una maniera semplice di formattare il tuo testo in linea. Ad esem
 
 Per prima cosa, aggiungiamo la libreria di terze parti **marked** alla tua applicazione. Questa è una libreria JavaScript che prende il testo Markdown e lo converte in HTML nativo. Per fare ciò è richiesto un tag script nel tag head (che abbiamo già incluso nel playground React):
 
-```html{9}
+```html
 <!-- index.html -->
 <head>
   <meta charset="utf-8" />

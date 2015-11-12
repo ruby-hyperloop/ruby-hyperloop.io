@@ -88,7 +88,7 @@ ReactDOM.render(
 
 然后在 `helloworld.html` 引用该文件：
 
-```html{10}
+```html
 <script type="text/babel" src="src/helloworld.js"></script>
 ```
 

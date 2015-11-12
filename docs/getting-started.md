@@ -88,7 +88,7 @@ ReactDOM.render(
 
 Then reference it from `helloworld.html`:
 
-```html{10}
+```html
 <script type="text/babel" src="src/helloworld.js"></script>
 ```
 

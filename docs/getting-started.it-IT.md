@@ -61,7 +61,7 @@ ReactDOM.render(
 
 Quindi fai riferimento ad esso da `helloworld.html`:
 
-```html{10}
+```html
 <script type="text/babel" src="src/helloworld.js"></script>
 ```
 

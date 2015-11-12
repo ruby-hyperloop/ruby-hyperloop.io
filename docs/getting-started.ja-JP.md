@@ -61,7 +61,7 @@ ReactDOM.render(
 
 それが終わったら、`helloworld.js` への参照を `helloworld.html` に書き込みましょう。
 
-```html{10}
+```html
 <script type="text/babel" src="src/helloworld.js"></script>
 ```
 

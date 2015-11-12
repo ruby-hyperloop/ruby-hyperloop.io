@@ -88,7 +88,7 @@ ReactDOM.render(
 
 그다음 `helloworld.html`에서 참조합니다:
 
-```html{10}
+```html
 <script type="text/babel" src="src/helloworld.js"></script>
 ```
 
