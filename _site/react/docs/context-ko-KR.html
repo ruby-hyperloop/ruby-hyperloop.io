@@ -1,0 +1,138 @@
+<p>React의 가장 큰 장점 중 하나는 React 컴포넌트를 통해 데이터의 흐름을 추적하기 쉽다는 것입니다. 컴포넌트를 보면 각각의 프로퍼티가 어떻게 전달되었는지 쉽게 파악할 수 있습니다. </p>
+
+<p>때때로 컴포넌트 트리를 통해 props을 전단하는 대신 수동으로 모든 레벨에서 데이터를 전달하고 싶은 경우가 있습니다. React의 &quot;컨텍스트&quot; 기능은 이를 가능하게 해줍니다.</p>
+
+<blockquote>
+<p>주의:</p>
+
+<p>컨텍스트는 실험적인 고급 기능입니다. 향후 릴리즈에서 API가 변경될 수 있습니다.</p>
+
+<p>대부분은 애플리켄이션은 컨텍스트가 필요하지 않을겁니다. 특히 React로 시작한 경우에는 컨텍스트를 사용하지 않을겁니다. 컨텍스트의 사용은 데이터 흐름을 명확하지 않게 만들기 때문에 코드를 이해하기 어려워 집니다. 이는 마치 앱에서 전역 변수를 state로 전달하는 경우와 유사합니다.</p>
+
+<p><strong>만약 컨텍스트를 사용해야 하는 경우에도, 가능한 아껴 사용하세요.</strong></p>
+
+<p>구축하는것이 애플리케이션이든 라이브러리든간에, 가능한 컨텍스트의 사용은 작은 영역으로 격리하고 직접적으로 컨텍스트 API를 사용하는 것을 피하세요. 그렇게 하면 API가 변경 되더라도 쉽게 업데이트 할 수 있습니다. </p>
+</blockquote>
+<h2><a class="anchor" name="----"></a>트리를 통해 정보를 자동으로 전달하기 <a class="hash-link" href="#----">#</a></h2>
+<p>아래와 같은 구조가 있다고 가정해 봅시다:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">Button</span> <span class="o">=</span> <span class="nx">React</span><span class="p">.</span><span class="nx">createClass</span><span class="p">({</span>
+  <span class="nx">render</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">(</span>
+      <span class="o">&lt;</span><span class="nx">button</span> <span class="nx">style</span><span class="o">=</span><span class="p">{{</span><span class="nx">background</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">color</span><span class="p">}}</span><span class="o">&gt;</span>
+        <span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">children</span><span class="p">}</span>
+      <span class="o">&lt;</span><span class="err">/button&gt;</span>
+    <span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+
+<span class="kd">var</span> <span class="nx">Message</span> <span class="o">=</span> <span class="nx">React</span><span class="p">.</span><span class="nx">createClass</span><span class="p">({</span>
+  <span class="nx">render</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">(</span>
+      <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
+        <span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">text</span><span class="p">}</span> <span class="o">&lt;</span><span class="nx">Button</span> <span class="nx">color</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">color</span><span class="p">}</span><span class="o">&gt;</span><span class="err">삭제</span><span class="o">&lt;</span><span class="err">/Button&gt;</span>
+      <span class="o">&lt;</span><span class="err">/div&gt;</span>
+    <span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+
+<span class="kd">var</span> <span class="nx">MessageList</span> <span class="o">=</span> <span class="nx">React</span><span class="p">.</span><span class="nx">createClass</span><span class="p">({</span>
+  <span class="nx">render</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">color</span> <span class="o">=</span> <span class="s2">&quot;purple&quot;</span><span class="p">;</span>
+    <span class="kd">var</span> <span class="nx">children</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">messages</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">message</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="o">&lt;</span><span class="nx">Message</span> <span class="nx">text</span><span class="o">=</span><span class="p">{</span><span class="nx">message</span><span class="p">.</span><span class="nx">text</span><span class="p">}</span> <span class="nx">color</span><span class="o">=</span><span class="p">{</span><span class="nx">color</span><span class="p">}</span> <span class="o">/&gt;</span><span class="p">;</span>
+    <span class="p">});</span>
+    <span class="k">return</span> <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span><span class="p">{</span><span class="nx">children</span><span class="p">}</span><span class="o">&lt;</span><span class="err">/div&gt;;</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+</code></pre></div>
+<p>이 예제에서, 우리는 스타일을 주기 위해 수동으로 적절하게 <code>Button</code>과 <code>Messages</code> 컴포넌트에 <code>color</code> 프로퍼티를 엮어서 전달했습니다. 테마는 서브트리가 정보 조각의 일부(여기선 color)에 접근하기 원하는 좋은 예제입니다. 컨텍스트를 사용하면 우리는 이를 자동으로 트리로 전달할 수 있습니다:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">Button</span> <span class="o">=</span> <span class="nx">React</span><span class="p">.</span><span class="nx">createClass</span><span class="p">({</span>
+  <span class="nx">contextTypes</span><span class="o">:</span> <span class="p">{</span>
+    <span class="nx">color</span><span class="o">:</span> <span class="nx">React</span><span class="p">.</span><span class="nx">PropTypes</span><span class="p">.</span><span class="nx">string</span>
+  <span class="p">},</span>
+  <span class="nx">render</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">(</span>
+      <span class="o">&lt;</span><span class="nx">button</span> <span class="nx">style</span><span class="o">=</span><span class="p">{{</span><span class="nx">background</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">context</span><span class="p">.</span><span class="nx">color</span><span class="p">}}</span><span class="o">&gt;</span>
+        <span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">children</span><span class="p">}</span>
+      <span class="o">&lt;</span><span class="err">/button&gt;</span>
+    <span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+
+<span class="kd">var</span> <span class="nx">Message</span> <span class="o">=</span> <span class="nx">React</span><span class="p">.</span><span class="nx">createClass</span><span class="p">({</span>
+  <span class="nx">render</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">(</span>
+      <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
+        <span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">text</span><span class="p">}</span> <span class="o">&lt;</span><span class="nx">Button</span><span class="o">&gt;</span><span class="nx">Delete</span><span class="o">&lt;</span><span class="err">/Button&gt;</span>
+      <span class="o">&lt;</span><span class="err">/div&gt;</span>
+    <span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+
+<span class="kd">var</span> <span class="nx">MessageList</span> <span class="o">=</span> <span class="nx">React</span><span class="p">.</span><span class="nx">createClass</span><span class="p">({</span>
+  <span class="nx">childContextTypes</span><span class="o">:</span> <span class="p">{</span>
+    <span class="nx">color</span><span class="o">:</span> <span class="nx">React</span><span class="p">.</span><span class="nx">PropTypes</span><span class="p">.</span><span class="nx">string</span>
+  <span class="p">},</span>
+  <span class="nx">getChildContext</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">{</span><span class="nx">color</span><span class="o">:</span> <span class="s2">&quot;purple&quot;</span><span class="p">};</span>
+  <span class="p">},</span>
+  <span class="nx">render</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">children</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">messages</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">message</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="o">&lt;</span><span class="nx">Message</span> <span class="nx">text</span><span class="o">=</span><span class="p">{</span><span class="nx">message</span><span class="p">.</span><span class="nx">text</span><span class="p">}</span> <span class="o">/&gt;</span><span class="p">;</span>
+    <span class="p">});</span>
+    <span class="k">return</span> <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span><span class="p">{</span><span class="nx">children</span><span class="p">}</span><span class="o">&lt;</span><span class="err">/div&gt;;</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+</code></pre></div>
+<p><code>childContextTypes</code>와 <code>getChildContext</code>를 <code>MessageList</code>(context provider)에 추가함으로써, React는 정보를 자동으로 아래로 전달하며 서브트리내의 어떤 컴포넌트든 (여기선 <code>Button</code>) <code>contextTypes</code>를 정의함으로써 이에 접근할 수 있습니다.</p>
+
+<p><code>contextTypes</code>가 정의되지 않은 경우, <code>this.context</code>는 빈 오브젝트가 됩니다.</p>
+<h2><a class="anchor" name="--"></a>부모-자식 커플링 <a class="hash-link" href="#--">#</a></h2>
+<p>컨텍스트는 다음과 같은 API를 구성할 수 있게 해줍니다:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="o">&lt;</span><span class="nx">Menu</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="nx">MenuItem</span><span class="o">&gt;</span><span class="err">가지</span><span class="o">&lt;</span><span class="err">/MenuItem&gt;</span>
+  <span class="o">&lt;</span><span class="nx">MenuItem</span><span class="o">&gt;</span><span class="err">땅콩호박</span><span class="o">&lt;</span><span class="err">/MenuItem&gt;</span>
+  <span class="o">&lt;</span><span class="nx">MenuItem</span><span class="o">&gt;</span><span class="err">클레멘타인</span><span class="o">&lt;</span><span class="err">/MenuItem&gt;</span>
+<span class="o">&lt;</span><span class="err">/Menu&gt;</span>
+</code></pre></div>
+<p><code>Menu</code> 컴포넌트에서 관련 정보를 전달함으로써 각각의 <code>MenuItem</code>가 부모인 <code>Menu</code> 컴포넌트와 통신할 수 있습니다.</p>
+
+<p><strong>이 API를 이용해 컴포넌트를 구성하기 전에, 깔끔한 대안이 있는지 먼저 고려해 보세요.</strong> 다음과 같이 간단히 아이템을 배열로 넘겨 보겠습니다:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="o">&lt;</span><span class="nx">Menu</span> <span class="nx">items</span><span class="o">=</span><span class="p">{[</span><span class="s1">&#39;가지&#39;</span><span class="p">,</span> <span class="s1">&#39;땅콩호박&#39;</span><span class="p">,</span> <span class="s1">&#39;클레멘타인&#39;</span><span class="p">]}</span> <span class="o">/&gt;</span>
+</code></pre></div>
+<p>원한다면 전체 React 컴포넌트를 프로퍼티로 전달할 수도 있습니다. </p>
+<h2><a class="anchor" name="referencing-context-in-lifecycle-methods"></a>Referencing context in lifecycle methods <a class="hash-link" href="#referencing-context-in-lifecycle-methods">#</a></h2>
+<p>If <code>contextTypes</code> is defined within a component, the following lifecycle methods will receive an additional parameter, the <code>context</code> object:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="k">void</span> <span class="nx">componentWillReceiveProps</span><span class="p">(</span>
+  <span class="nx">object</span> <span class="nx">nextProps</span><span class="p">,</span> <span class="nx">object</span> <span class="nx">nextContext</span>
+<span class="p">)</span>
+
+<span class="kr">boolean</span> <span class="nx">shouldComponentUpdate</span><span class="p">(</span>
+  <span class="nx">object</span> <span class="nx">nextProps</span><span class="p">,</span> <span class="nx">object</span> <span class="nx">nextState</span><span class="p">,</span> <span class="nx">object</span> <span class="nx">nextContext</span>
+<span class="p">)</span>
+
+<span class="k">void</span> <span class="nx">componentWillUpdate</span><span class="p">(</span>
+  <span class="nx">object</span> <span class="nx">nextProps</span><span class="p">,</span> <span class="nx">object</span> <span class="nx">nextState</span><span class="p">,</span> <span class="nx">object</span> <span class="nx">nextContext</span>
+<span class="p">)</span>
+
+<span class="k">void</span> <span class="nx">componentDidUpdate</span><span class="p">(</span>
+  <span class="nx">object</span> <span class="nx">prevProps</span><span class="p">,</span> <span class="nx">object</span> <span class="nx">prevState</span><span class="p">,</span> <span class="nx">object</span> <span class="nx">prevContext</span>
+<span class="p">)</span>
+</code></pre></div><h2><a class="anchor" name="referencing-context-in-stateless-functional-components"></a>Referencing context in stateless functional components <a class="hash-link" href="#referencing-context-in-stateless-functional-components">#</a></h2>
+<p>Stateless functional components are also able to reference <code>context</code> if <code>contextTypes</code> is defined as a property of the function. The following code shows the <code>Button</code> component above written as a stateless functional component.</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">function</span> <span class="nx">Button</span><span class="p">(</span><span class="nx">props</span><span class="p">,</span> <span class="nx">context</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="p">(</span>
+    <span class="o">&lt;</span><span class="nx">button</span> <span class="nx">style</span><span class="o">=</span><span class="p">{{</span><span class="nx">background</span><span class="o">:</span> <span class="nx">context</span><span class="p">.</span><span class="nx">color</span><span class="p">}}</span><span class="o">&gt;</span>
+      <span class="p">{</span><span class="nx">props</span><span class="p">.</span><span class="nx">children</span><span class="p">}</span>
+    <span class="o">&lt;</span><span class="err">/button&gt;</span>
+  <span class="p">);</span>
+<span class="p">}</span>
+<span class="nx">Button</span><span class="p">.</span><span class="nx">contextTypes</span> <span class="o">=</span> <span class="p">{</span><span class="nx">color</span><span class="o">:</span> <span class="nx">React</span><span class="p">.</span><span class="nx">PropTypes</span><span class="p">.</span><span class="nx">string</span><span class="p">};</span>
+</code></pre></div><h2><a class="anchor" name="----"></a>컨텍스트를 사용하지 말아야 하는 경우 <a class="hash-link" href="#----">#</a></h2>
+<p>대부분의 경우, 깔끔한 코드를 위해 전역 변수를 피하는 것과 마찬가지로 컨텍스트의 사용을 피해야 합니다. 특히 &quot;타이핑을 줄이거나&quot; 명시적인 프로퍼티 전달 대신 이를 사용하려는 경우 다시 한번 생각해 보세요.</p>
+
+<p>컨텍스트의 가장 적절한 사용 사례는 로그인한 유저, 언어 설정, 테마 정보 등을 암시적으로 전달하는 것입니다. 컨텍스트를 사용함으로써 이런 정보들을 전역으로 다루는 대신 단일 React 서브트리 내에서 다룰 수 있습니다. </p>
+
+<p>모델 데이터를 컴포넌트로 전달하는데 컨텍스트를 사용하지 마세요. 트리를 통해 명시적으로 데이터를 엮어 전달하는 것이 훨씬 이해하기 쉽습니다. 컨텍스트는 렌더되는 위치에 따라 다르게 작동하기 때문에 컴포넌트를 더욱 연결되고(coupled) 재사용성이 떨어지게 만듭니다. </p>
+<h2><a class="anchor" name="-"></a>알려진 한계점 <a class="hash-link" href="#-">#</a></h2>
+<p>컴포넌트에 의해 제공되는 컨텍스트의 값이 변경될 때, 중간 부모가 <code>shouldComponentUpdate</code>에서<code>false</code>을 반환한다면 그 값을 사용하는 자손은 업데이트되지 않습니다. 자세한 내용은 <a href="https://github.com/facebook/react/issues/2517">#2517</a> 이슈를 확인하세요.</p>

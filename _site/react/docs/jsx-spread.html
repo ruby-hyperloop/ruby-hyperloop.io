@@ -1,0 +1,26 @@
+<p>If you know all the properties that you want to place on a component ahead of time, it is easy to use JSX:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript">  <span class="kd">var</span> <span class="nx">component</span> <span class="o">=</span> <span class="o">&lt;</span><span class="nx">Component</span> <span class="nx">foo</span><span class="o">=</span><span class="p">{</span><span class="nx">x</span><span class="p">}</span> <span class="nx">bar</span><span class="o">=</span><span class="p">{</span><span class="nx">y</span><span class="p">}</span> <span class="o">/&gt;</span><span class="p">;</span>
+</code></pre></div><h2><a class="anchor" name="mutating-props-is-bad"></a>Mutating Props is Bad <a class="hash-link" href="#mutating-props-is-bad">#</a></h2>
+<p>If you don&#39;t know which properties you want to set, you might be tempted to add them onto the object later:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript">  <span class="kd">var</span> <span class="nx">component</span> <span class="o">=</span> <span class="o">&lt;</span><span class="nx">Component</span> <span class="o">/&gt;</span><span class="p">;</span>
+  <span class="nx">component</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">foo</span> <span class="o">=</span> <span class="nx">x</span><span class="p">;</span> <span class="c1">// bad</span>
+  <span class="nx">component</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">bar</span> <span class="o">=</span> <span class="nx">y</span><span class="p">;</span> <span class="c1">// also bad</span>
+</code></pre></div>
+<p>This is an anti-pattern because it means that we can&#39;t help you check the right propTypes until way later. This means that your propTypes errors end up with a cryptic stack trace.</p>
+
+<p>The props should be considered immutable. Mutating the props object somewhere else could cause unexpected consequences so ideally it would be a frozen object at this point.</p>
+<h2><a class="anchor" name="spread-attributes"></a>Spread Attributes <a class="hash-link" href="#spread-attributes">#</a></h2>
+<p>Now you can use a new feature of JSX called spread attributes:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript">  <span class="kd">var</span> <span class="nx">props</span> <span class="o">=</span> <span class="p">{};</span>
+  <span class="nx">props</span><span class="p">.</span><span class="nx">foo</span> <span class="o">=</span> <span class="nx">x</span><span class="p">;</span>
+  <span class="nx">props</span><span class="p">.</span><span class="nx">bar</span> <span class="o">=</span> <span class="nx">y</span><span class="p">;</span>
+  <span class="kd">var</span> <span class="nx">component</span> <span class="o">=</span> <span class="o">&lt;</span><span class="nx">Component</span> <span class="p">{...</span><span class="nx">props</span><span class="p">}</span> <span class="o">/&gt;</span><span class="p">;</span>
+</code></pre></div>
+<p>The properties of the object that you pass in are copied onto the component&#39;s props.</p>
+
+<p>You can use this multiple times or combine it with other attributes. The specification order is important. Later attributes override previous ones.</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript">  <span class="kd">var</span> <span class="nx">props</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">foo</span><span class="o">:</span> <span class="s1">&#39;default&#39;</span> <span class="p">};</span>
+  <span class="kd">var</span> <span class="nx">component</span> <span class="o">=</span> <span class="o">&lt;</span><span class="nx">Component</span> <span class="p">{...</span><span class="nx">props</span><span class="p">}</span> <span class="nx">foo</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;override&#39;</span><span class="p">}</span> <span class="o">/&gt;</span><span class="p">;</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">component</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">foo</span><span class="p">);</span> <span class="c1">// &#39;override&#39;</span>
+</code></pre></div><h2><a class="anchor" name="whats-with-the-weird-...-notation"></a>What&#39;s with the weird <code>...</code> notation? <a class="hash-link" href="#whats-with-the-weird-...-notation">#</a></h2>
+<p>The <code>...</code> operator (or spread operator) is already supported for <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_operator">arrays in ES6</a>. There is also an ES7 proposal for <a href="https://github.com/sebmarkbage/ecmascript-rest-spread">Object Rest and Spread Properties</a>. We&#39;re taking advantage of these supported and developing standards in order to provide a cleaner syntax in JSX.</p>

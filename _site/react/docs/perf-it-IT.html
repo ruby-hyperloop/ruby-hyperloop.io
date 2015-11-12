@@ -1,0 +1,55 @@
+<p>React è solitamente assai veloce. Tuttavia, in situazioni nelle quali devi spremere fino all&#39;ultima goccia di prestazioni dalla tua applicazione, fornisce un hook <a href="/react/docs/component-specs.html#updating-shouldcomponentupdate">shouldComponentUpdate</a> nel quale puoi aggiungere controlli di ottimizzazione per l&#39;algoritmo di confronto di React.</p>
+
+<p>Oltre a darti una panoramica sulle prestazioni generali della tua applicazione, ReactPerf è uno strumento di profilazione che ti dice esattamente dove è necessario aggiungere questi hook.</p>
+
+<blockquote>
+<p>Nota:</p>
+
+<p>La build di sviluppo di React è più lenta della build di produzione, per via di tutta la logica aggiuntiva per fornire, ad esempio, gli avvisi amichevoli di React nella console (eliminati dalla build di produzione). Pertanto, il profilatore serve soltanto ad indicare le parti <em>relativamente</em> costose della tua applicazione.</p>
+</blockquote>
+<h2><a class="anchor" name="api-generale"></a>API Generale <a class="hash-link" href="#api-generale">#</a></h2>
+<p>L&#39;oggetto <code>Perf</code> documentato di seguito è esposto come <code>React.addons.Perf</code> quando si usa la build <code>react-with-addons.js</code> in modalità di sviluppo.</p>
+<h3><a class="anchor" name="perf.start-and-perf.stop"></a><code>Perf.start()</code> and <code>Perf.stop()</code> <a class="hash-link" href="#perf.start-and-perf.stop">#</a></h3>
+<p>Avvia/interrompe la misurazione. Le operazioni React intermedie sono registrate per analisi in seguito. Le operazioni che hanno impiegato un tempo trascurabile vengono ignorate.</p>
+
+<p>Dopo l&#39;interruzione, dovrai chiamare <code>Perf.getLastMeasurements()</code> (descritta in seguito) per ottenere le misurazioni.</p>
+<h3><a class="anchor" name="perf.printinclusivemeasurements"></a><code>Perf.printInclusive(measurements)</code> <a class="hash-link" href="#perf.printinclusivemeasurements">#</a></h3>
+<p>Stampa il tempo complessivo impiegato. Se non vengono passati argomenti, stampa tutte le misurazioni dall&#39;ultima registrazione. Stampa una tabella gradevolmente formattata nella console, come segue:</p>
+
+<p><img src="/react/img/docs/perf-inclusive.png" alt=""></p>
+<h3><a class="anchor" name="perf.printexclusivemeasurements"></a><code>Perf.printExclusive(measurements)</code> <a class="hash-link" href="#perf.printexclusivemeasurements">#</a></h3>
+<p>I tempi &quot;esclusivi&quot; non includono il tempo impiegato a montare i componenti: processare le proprietà, <code>getInitialState</code>, chiamare <code>componentWillMount</code> e <code>componentDidMount</code>, etc.</p>
+
+<p><img src="/react/img/docs/perf-exclusive.png" alt=""></p>
+<h3><a class="anchor" name="perf.printwastedmeasurements"></a><code>Perf.printWasted(measurements)</code> <a class="hash-link" href="#perf.printwastedmeasurements">#</a></h3>
+<p><strong>La parte più utile in assoluto del profilatore</strong>.</p>
+
+<p>Il tempo &quot;sprecato&quot; è impiegato nei componenti che non hanno di fatto visualizzato nulla, ad es. il rendering è rimasto inalterato, quindi il DOM non è stato toccato.</p>
+
+<p><img src="/react/img/docs/perf-wasted.png" alt=""></p>
+<h3><a class="anchor" name="perf.printdommeasurements"></a><code>Perf.printDOM(measurements)</code> <a class="hash-link" href="#perf.printdommeasurements">#</a></h3>
+<p>Stampa le manipolazioni sottostanti del DOM, ad es. &quot;imposta innerHTML&quot; e &quot;rimuovi&quot;.</p>
+
+<p><img src="/react/img/docs/perf-dom.png" alt=""></p>
+<h2><a class="anchor" name="api-avanzata"></a>API Avanzata <a class="hash-link" href="#api-avanzata">#</a></h2>
+<p>I metodi di stampa precedenti utilizzano <code>Perf.getLastMeasurements()</code> per effettuare una gradevole stampa dei risultati.</p>
+<h3><a class="anchor" name="perf.getlastmeasurements"></a><code>Perf.getLastMeasurements()</code> <a class="hash-link" href="#perf.getlastmeasurements">#</a></h3>
+<p>Ottieni l&#39;array delle misurazioni dall&#39;ultima sessione di avvio-interruzione. L&#39;array contiene oggetti, ciascuno dei quali assomiglia a quanto segue:</p>
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="p">{</span>
+  <span class="c1">// I termini &quot;inclusive&quot; ed &quot;exclusive&quot; sono spiegati in seguito</span>
+  <span class="s2">&quot;exclusive&quot;</span><span class="o">:</span> <span class="p">{},</span>
+  <span class="c1">// &#39;.0.0&#39; è l&#39;identificativo React del nodo</span>
+  <span class="s2">&quot;inclusive&quot;</span><span class="o">:</span> <span class="p">{</span><span class="s2">&quot;.0.0&quot;</span><span class="o">:</span> <span class="mf">0.0670000008540228</span><span class="p">,</span> <span class="s2">&quot;.0&quot;</span><span class="o">:</span> <span class="mf">0.3259999939473346</span><span class="p">},</span>
+  <span class="s2">&quot;render&quot;</span><span class="o">:</span> <span class="p">{</span><span class="s2">&quot;.0&quot;</span><span class="o">:</span> <span class="mf">0.036999990697950125</span><span class="p">,</span> <span class="s2">&quot;.0.0&quot;</span><span class="o">:</span> <span class="mf">0.010000003385357559</span><span class="p">},</span>
+  <span class="c1">// Numero di istanze</span>
+  <span class="s2">&quot;counts&quot;</span><span class="o">:</span> <span class="p">{</span><span class="s2">&quot;.0&quot;</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;.0.0&quot;</span><span class="o">:</span> <span class="mi">1</span><span class="p">},</span>
+  <span class="c1">// Scritture sul DOM</span>
+  <span class="s2">&quot;writes&quot;</span><span class="o">:</span> <span class="p">{},</span>
+  <span class="c1">// Informazioni aggiuntive per il debug</span>
+  <span class="s2">&quot;displayNames&quot;</span><span class="o">:</span> <span class="p">{</span>
+    <span class="s2">&quot;.0&quot;</span><span class="o">:</span> <span class="p">{</span><span class="s2">&quot;current&quot;</span><span class="o">:</span> <span class="s2">&quot;App&quot;</span><span class="p">,</span> <span class="s2">&quot;owner&quot;</span><span class="o">:</span> <span class="s2">&quot;&lt;root&gt;&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;.0.0&quot;</span><span class="o">:</span> <span class="p">{</span><span class="s2">&quot;current&quot;</span><span class="o">:</span> <span class="s2">&quot;Box&quot;</span><span class="p">,</span> <span class="s2">&quot;owner&quot;</span><span class="o">:</span> <span class="s2">&quot;App&quot;</span><span class="p">}</span>
+  <span class="p">},</span>
+  <span class="s2">&quot;totalTime&quot;</span><span class="o">:</span> <span class="mf">0.48499999684281647</span>
+<span class="p">}</span>
+</code></pre></div>

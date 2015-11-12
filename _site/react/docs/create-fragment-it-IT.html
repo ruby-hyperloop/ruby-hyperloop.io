@@ -1,0 +1,56 @@
+<p>In molti casi, puoi utilizzare la proprietà <code>key</code> per specificare chiavi sugli elementi che restituisci da <code>render</code>. Tuttavia, questo approccio fallisce in una situazione: se hai due insiemi di figli che devi riordinare, non esiste alcun modo di assegnare una chiave a ciascuno di essi senza aggiungere un elemento contenitore.</p>
+
+<p>Ovvero, se hai un componente come il seguente:</p>
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="kd">var</span> <span class="nx">Swapper</span> <span class="o">=</span> <span class="nx">React</span><span class="p">.</span><span class="nx">createClass</span><span class="p">({</span>
+  <span class="nx">propTypes</span><span class="o">:</span> <span class="p">{</span>
+    <span class="c1">// `leftChildren` e `rightChildren` possono essere una stringa, un elemento, un array, etc.</span>
+    <span class="nx">leftChildren</span><span class="o">:</span> <span class="nx">React</span><span class="p">.</span><span class="nx">PropTypes</span><span class="p">.</span><span class="nx">node</span><span class="p">,</span>
+    <span class="nx">rightChildren</span><span class="o">:</span> <span class="nx">React</span><span class="p">.</span><span class="nx">PropTypes</span><span class="p">.</span><span class="nx">node</span><span class="p">,</span>
+
+    <span class="nx">swapped</span><span class="o">:</span> <span class="nx">React</span><span class="p">.</span><span class="nx">PropTypes</span><span class="p">.</span><span class="nx">bool</span>
+  <span class="p">}</span>
+  <span class="nx">render</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">children</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">swapped</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">children</span> <span class="o">=</span> <span class="p">[</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">rightChildren</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">leftChildren</span><span class="p">];</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="nx">children</span> <span class="o">=</span> <span class="p">[</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">leftChildren</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">rightChildren</span><span class="p">];</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span><span class="p">{</span><span class="nx">children</span><span class="p">}</span><span class="o">&lt;</span><span class="err">/div&gt;;</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+</code></pre></div>
+<p>I figli saranno smontati e rimontati nel momento in cui cambi la proprietà <code>swapped</code> poiché non ci sono chiavi che marcano i due insiemi di figli.</p>
+
+<p>Per risolvere questo problema, puoi utilizzare <code>React.addons.createFragment</code> per dare una chiave a ciascun insieme di figli.</p>
+<h4><a class="anchor" name="reactfragment-react.addons.createfragmentobject-children"></a><code>ReactFragment React.addons.createFragment(object children)</code> <a class="hash-link" href="#reactfragment-react.addons.createfragmentobject-children">#</a></h4>
+<p>Anziché creare array, scriviamo:</p>
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">swapped</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">children</span> <span class="o">=</span> <span class="nx">React</span><span class="p">.</span><span class="nx">addons</span><span class="p">.</span><span class="nx">createFragment</span><span class="p">({</span>
+    <span class="nx">right</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">rightChildren</span><span class="p">,</span>
+    <span class="nx">left</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">leftChildren</span>
+  <span class="p">});</span>
+<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+  <span class="nx">children</span> <span class="o">=</span> <span class="nx">React</span><span class="p">.</span><span class="nx">addons</span><span class="p">.</span><span class="nx">createFragment</span><span class="p">({</span>
+    <span class="nx">left</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">leftChildren</span><span class="p">,</span>
+    <span class="nx">right</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">rightChildren</span>
+  <span class="p">});</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Le chiavi degli oggetti passati (ovvero, <code>left</code> e <code>right</code>) sono usate come chiavi per l&#39;intero insieme di figli, e l&#39;ordine delle chiavi dell&#39;oggetto è utilizzato per determinare l&#39;ordine dei figli visualizzati. Con questo cambiamento, i due insiemi di figli saranno correttamente riordinati nel DOM senza bisogno di smontaggio.</p>
+
+<p>Il valore di ritorno di <code>createFragment</code> deve essere trattato come un oggetto opaco; puoi usare gli helper <code>React.Children</code> per iterare su un frammento ma non dovresti accedervi direttamente. Nota anche che ci stiamo affidando al motore JavaScript per preservare l&#39;ordine dell&#39;enumerazione degli oggetti, che non viene garantito dalla specifica ma è implementato dai principali browser e macchine virtuali per oggetti con chiavi non numeriche.</p>
+
+<blockquote>
+<p><strong>Nota:</strong></p>
+
+<p>In un futuro, <code>createFragment</code> potrebbe essere sostituito da una API quale</p>
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="k">return</span> <span class="p">(</span>
+  <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="nx">x</span><span class="o">:</span><span class="nx">frag</span> <span class="nx">key</span><span class="o">=</span><span class="s2">&quot;right&quot;</span><span class="o">&gt;</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">rightChildren</span><span class="p">}</span><span class="o">&lt;</span><span class="err">/x:frag&gt;,</span>
+    <span class="o">&lt;</span><span class="nx">x</span><span class="o">:</span><span class="nx">frag</span> <span class="nx">key</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="o">&gt;</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">leftChildren</span><span class="p">}</span><span class="o">&lt;</span><span class="err">/x:frag&gt;</span>
+  <span class="o">&lt;</span><span class="err">/div&gt;</span>
+<span class="p">);</span>
+</code></pre></div>
+<p>che ti permette di assegnare chiavi direttamente in JSX senza aggiungere elementi contenitore.</p>
+</blockquote>

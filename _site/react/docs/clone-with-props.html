@@ -1,0 +1,27 @@
+<blockquote>
+<p>Note:
+<code>cloneWithProps</code> is deprecated. Use <a href="top-level-api.html#react.cloneelement">React.cloneElement</a> instead.</p>
+</blockquote>
+
+<p>In rare situations, you may want to create a copy of a React element with different props from those of the original element. One example is cloning the elements passed into <code>this.props.children</code> and rendering them with different props:</p>
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="kd">var</span> <span class="nx">cloneWithProps</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;react-addons-clone-with-props&#39;</span><span class="p">);</span>
+
+<span class="kd">var</span> <span class="nx">_makeBlue</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">element</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="nx">cloneWithProps</span><span class="p">(</span><span class="nx">element</span><span class="p">,</span> <span class="p">{</span><span class="nx">style</span><span class="o">:</span> <span class="p">{</span><span class="nx">color</span><span class="o">:</span> <span class="s1">&#39;blue&#39;</span><span class="p">}});</span>
+<span class="p">};</span>
+
+<span class="kd">var</span> <span class="nx">Blue</span> <span class="o">=</span> <span class="nx">React</span><span class="p">.</span><span class="nx">createClass</span><span class="p">({</span>
+  <span class="nx">render</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">blueChildren</span> <span class="o">=</span> <span class="nx">React</span><span class="p">.</span><span class="nx">Children</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">children</span><span class="p">,</span> <span class="nx">_makeBlue</span><span class="p">);</span>
+    <span class="k">return</span> <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span><span class="p">{</span><span class="nx">blueChildren</span><span class="p">}</span><span class="o">&lt;</span><span class="err">/div&gt;;</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+
+<span class="nx">ReactDOM</span><span class="p">.</span><span class="nx">render</span><span class="p">(</span>
+  <span class="o">&lt;</span><span class="nx">Blue</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="nx">This</span> <span class="nx">text</span> <span class="nx">is</span> <span class="nx">blue</span><span class="p">.</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
+  <span class="o">&lt;</span><span class="err">/Blue&gt;,</span>
+  <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;container&#39;</span><span class="p">)</span>
+<span class="p">);</span>
+</code></pre></div>
+<p><code>cloneWithProps</code> does not transfer <code>key</code> or <code>ref</code> to the cloned element. <code>className</code> and <code>style</code> props are automatically merged.</p>

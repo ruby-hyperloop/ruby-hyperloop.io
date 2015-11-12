@@ -1,0 +1,127 @@
+<p>Un pattern comune in React è l&#39;uso di un&#39;astrazione per esporre un componente. Il componente esterno espone una semplice proprietà per effettuare un&#39;azione che può richiedere un&#39;implementazione più complessa.</p>
+
+<p>Puoi usare gli <a href="/react/docs/jsx-spread.html">attributi spread di JSX</a> per unire le vecchie props con valori aggiuntivi:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="o">&lt;</span><span class="nx">Component</span> <span class="p">{...</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">}</span> <span class="nx">more</span><span class="o">=</span><span class="s2">&quot;values&quot;</span> <span class="o">/&gt;</span>
+</code></pre></div>
+<p>Se non usi JSX, puoi usare qualsiasi helper come l&#39;API <code>Object.assign</code> di ES6, o il metodo <code>_.extend</code> di Underscore:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">React</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="nx">Component</span><span class="p">,</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">assign</span><span class="p">({},</span> <span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">,</span> <span class="p">{</span> <span class="nx">more</span><span class="o">:</span> <span class="s1">&#39;values&#39;</span> <span class="p">}));</span>
+</code></pre></div>
+<p>Nel resto di questo tutorial vengono illustrate le best practices, usando JSX e sintassi sperimentale di ES7.</p>
+<h2><a class="anchor" name="trasferimento-manuale"></a>Trasferimento Manuale <a class="hash-link" href="#trasferimento-manuale">#</a></h2>
+<p>Nella maggior parte dei casi dovresti esplicitamente passare le proprietà. Ciò assicura che venga esposto soltanto un sottoinsieme dell&#39;API interna, del cui funzionamento si è certi.</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">FancyCheckbox</span> <span class="o">=</span> <span class="nx">React</span><span class="p">.</span><span class="nx">createClass</span><span class="p">({</span>
+  <span class="nx">render</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">fancyClass</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">checked</span> <span class="o">?</span> <span class="s1">&#39;FancyChecked&#39;</span> <span class="o">:</span> <span class="s1">&#39;FancyUnchecked&#39;</span><span class="p">;</span>
+    <span class="k">return</span> <span class="p">(</span>
+      <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="p">{</span><span class="nx">fancyClass</span><span class="p">}</span> <span class="nx">onClick</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">onClick</span><span class="p">}</span><span class="o">&gt;</span>
+        <span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">children</span><span class="p">}</span>
+      <span class="o">&lt;</span><span class="err">/div&gt;</span>
+    <span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+<span class="nx">ReactDOM</span><span class="p">.</span><span class="nx">render</span><span class="p">(</span>
+  <span class="o">&lt;</span><span class="nx">FancyCheckbox</span> <span class="nx">checked</span><span class="o">=</span><span class="p">{</span><span class="kc">true</span><span class="p">}</span> <span class="nx">onClick</span><span class="o">=</span><span class="p">{</span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="nx">console</span><span class="p">)}</span><span class="o">&gt;</span>
+    <span class="nx">Ciao</span> <span class="nx">mondo</span><span class="o">!</span>
+  <span class="o">&lt;</span><span class="err">/FancyCheckbox&gt;,</span>
+  <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;example&#39;</span><span class="p">)</span>
+<span class="p">);</span>
+</code></pre></div>
+<p>E se aggiungessimo una proprietà <code>name</code>? O una proprietà <code>title</code>? O <code>onMouseOver</code>?</p>
+<h2><a class="anchor" name="trasferire-con-...-in-jsx"></a>Trasferire con <code>...</code> in JSX <a class="hash-link" href="#trasferire-con-...-in-jsx">#</a></h2>
+<blockquote>
+<p>NOTA:</p>
+
+<p>La sintassi <code>...</code> fa parte della proposta Object Rest Spread. Questa proposta è in processo di diventare uno standard. Consulta la sezione <a href="/react/docs/transferring-props.html#rest-and-spread-properties-...">Proprietà Rest e Spread ...</a> di seguito per maggiori dettagli.</p>
+</blockquote>
+
+<p>A volte passare manualmente ciascuna proprietà può essere noioso e fragile. In quei casi puoi usare l&#39;<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment">assegnamento destrutturante</a> con le proprietà residue per estrarre un insieme di proprietà sconosciute.</p>
+
+<p>Elenca tutte le proprietà che desideri consumare, seguite da <code>...other</code>.</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="p">{</span> <span class="nx">checked</span><span class="p">,</span> <span class="p">...</span><span class="nx">other</span> <span class="p">}</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">;</span>
+</code></pre></div>
+<p>Ciò assicura che vengano passate tutte le proprietà TRANNE quelle che stai consumando tu stesso.</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">FancyCheckbox</span> <span class="o">=</span> <span class="nx">React</span><span class="p">.</span><span class="nx">createClass</span><span class="p">({</span>
+  <span class="nx">render</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="p">{</span> <span class="nx">checked</span><span class="p">,</span> <span class="p">...</span><span class="nx">other</span> <span class="p">}</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">;</span>
+    <span class="kd">var</span> <span class="nx">fancyClass</span> <span class="o">=</span> <span class="nx">checked</span> <span class="o">?</span> <span class="s1">&#39;FancyChecked&#39;</span> <span class="o">:</span> <span class="s1">&#39;FancyUnchecked&#39;</span><span class="p">;</span>
+    <span class="c1">// `other` contiene { onClick: console.log } ma non la proprietà checked</span>
+    <span class="k">return</span> <span class="p">(</span>
+      <span class="o">&lt;</span><span class="nx">div</span> <span class="p">{...</span><span class="nx">other</span><span class="p">}</span> <span class="nx">className</span><span class="o">=</span><span class="p">{</span><span class="nx">fancyClass</span><span class="p">}</span> <span class="o">/&gt;</span>
+    <span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+<span class="nx">ReactDOM</span><span class="p">.</span><span class="nx">render</span><span class="p">(</span>
+  <span class="o">&lt;</span><span class="nx">FancyCheckbox</span> <span class="nx">checked</span><span class="o">=</span><span class="p">{</span><span class="kc">true</span><span class="p">}</span> <span class="nx">onClick</span><span class="o">=</span><span class="p">{</span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="nx">console</span><span class="p">)}</span><span class="o">&gt;</span>
+    <span class="nx">Ciao</span> <span class="nx">mondo</span><span class="o">!</span>
+  <span class="o">&lt;</span><span class="err">/FancyCheckbox&gt;,</span>
+  <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;example&#39;</span><span class="p">)</span>
+<span class="p">);</span>
+</code></pre></div>
+<blockquote>
+<p>NOTA:</p>
+
+<p>Nell&#39;esempio precedente, la proprietà <code>checked</code> è anche un attributo DOM valido. Se non utilizzassi la destrutturazione in questo modo, potresti inavvertitamente assegnarlo al <code>div</code>.</p>
+</blockquote>
+
+<p>Usa sempre il pattern di destrutturazione quando trasferisci altre proprietà sconosciute in <code>other</code>.</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">FancyCheckbox</span> <span class="o">=</span> <span class="nx">React</span><span class="p">.</span><span class="nx">createClass</span><span class="p">({</span>
+  <span class="nx">render</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">fancyClass</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">checked</span> <span class="o">?</span> <span class="s1">&#39;FancyChecked&#39;</span> <span class="o">:</span> <span class="s1">&#39;FancyUnchecked&#39;</span><span class="p">;</span>
+    <span class="c1">// ANTI-PATTERN: `checked` sarebbe passato al componente interno</span>
+    <span class="k">return</span> <span class="p">(</span>
+      <span class="o">&lt;</span><span class="nx">div</span> <span class="p">{...</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">}</span> <span class="nx">className</span><span class="o">=</span><span class="p">{</span><span class="nx">fancyClass</span><span class="p">}</span> <span class="o">/&gt;</span>
+    <span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+</code></pre></div><h2><a class="anchor" name="consumare-e-trasferire-la-stessa-propriet"></a>Consumare e Trasferire la Stessa Proprietà <a class="hash-link" href="#consumare-e-trasferire-la-stessa-propriet">#</a></h2>
+<p>Se il tuo componente desidera consumare una proprietà, ma anche passarla ad altri, puoi passarla esplicitamente mediante <code>checked={checked}</code>. Questo è preferibile a passare l&#39;intero oggetto <code>this.props</code> dal momento che è più facile effettuarne il linting e il refactoring.</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">FancyCheckbox</span> <span class="o">=</span> <span class="nx">React</span><span class="p">.</span><span class="nx">createClass</span><span class="p">({</span>
+  <span class="nx">render</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="p">{</span> <span class="nx">checked</span><span class="p">,</span> <span class="nx">title</span><span class="p">,</span> <span class="p">...</span><span class="nx">other</span> <span class="p">}</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">;</span>
+    <span class="kd">var</span> <span class="nx">fancyClass</span> <span class="o">=</span> <span class="nx">checked</span> <span class="o">?</span> <span class="s1">&#39;FancyChecked&#39;</span> <span class="o">:</span> <span class="s1">&#39;FancyUnchecked&#39;</span><span class="p">;</span>
+    <span class="kd">var</span> <span class="nx">fancyTitle</span> <span class="o">=</span> <span class="nx">checked</span> <span class="o">?</span> <span class="s1">&#39;X &#39;</span> <span class="o">+</span> <span class="nx">title</span> <span class="o">:</span> <span class="s1">&#39;O &#39;</span> <span class="o">+</span> <span class="nx">title</span><span class="p">;</span>
+    <span class="k">return</span> <span class="p">(</span>
+      <span class="o">&lt;</span><span class="nx">label</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">input</span> <span class="p">{...</span><span class="nx">other</span><span class="p">}</span>
+          <span class="nx">checked</span><span class="o">=</span><span class="p">{</span><span class="nx">checked</span><span class="p">}</span>
+          <span class="nx">className</span><span class="o">=</span><span class="p">{</span><span class="nx">fancyClass</span><span class="p">}</span>
+          <span class="nx">type</span><span class="o">=</span><span class="s2">&quot;checkbox&quot;</span>
+        <span class="o">/&gt;</span>
+        <span class="p">{</span><span class="nx">fancyTitle</span><span class="p">}</span>
+      <span class="o">&lt;</span><span class="err">/label&gt;</span>
+    <span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+</code></pre></div>
+<blockquote>
+<p>NOTA:</p>
+
+<p>L&#39;ordine è importante. Mettendo il <code>{...other}</code> prima delle tue proprietà JSX ti assicuri che il consumatore del tuo componente non possa ridefinirle. Nell&#39;esempio precedente, abbiamo garantito che l&#39;elemento input sarà del tipo <code>&quot;checkbox&quot;</code>.</p>
+</blockquote>
+<h2><a class="anchor" name="propriet-rest-e-spread-..."></a>Proprietà Rest e Spread <code>...</code> <a class="hash-link" href="#propriet-rest-e-spread-...">#</a></h2>
+<p>Le proprietà Rest ti permettono di estrarre le proprietà residue di un oggetto in un nuovo oggetto. Vengono escluse tutte le altre proprietà elencate nel pattern di destrutturazione.</p>
+
+<p>Questa è un&#39;implementazione sperimentale di una <a href="https://github.com/sebmarkbage/ecmascript-rest-spread">proposta ES7</a>.</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="p">{</span> <span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="p">...</span><span class="nx">z</span> <span class="p">}</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">x</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span> <span class="nx">y</span><span class="o">:</span> <span class="mi">2</span><span class="p">,</span> <span class="nx">a</span><span class="o">:</span> <span class="mi">3</span><span class="p">,</span> <span class="nx">b</span><span class="o">:</span> <span class="mi">4</span> <span class="p">};</span>
+<span class="nx">x</span><span class="p">;</span> <span class="c1">// 1</span>
+<span class="nx">y</span><span class="p">;</span> <span class="c1">// 2</span>
+<span class="nx">z</span><span class="p">;</span> <span class="c1">// { a: 3, b: 4 }</span>
+</code></pre></div>
+<blockquote>
+<p>Nota:</p>
+
+<p>Questa proposta ha raggiunto lo stadio 2 ed è attivata in modo predefinito in Babel. Vecchie versioni di Babel potrebbero richiedere l&#39;abilitazione esplicita di questa trasformazione con <code>babel --optional es7.objectRestSpread</code></p>
+</blockquote>
+<h2><a class="anchor" name="trasferire-con-underscore"></a>Trasferire con Underscore <a class="hash-link" href="#trasferire-con-underscore">#</a></h2>
+<p>Se non usi JSX, puoi usare una libreria per ottenere il medesimo pattern. Underscore supporta <code>_.omit</code> per omettere delle proprietà ed <code>_.extend</code> per copiare le proprietà in un nuovo oggetto.</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">FancyCheckbox</span> <span class="o">=</span> <span class="nx">React</span><span class="p">.</span><span class="nx">createClass</span><span class="p">({</span>
+  <span class="nx">render</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">checked</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">checked</span><span class="p">;</span>
+    <span class="kd">var</span> <span class="nx">other</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">omit</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">,</span> <span class="s1">&#39;checked&#39;</span><span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">fancyClass</span> <span class="o">=</span> <span class="nx">checked</span> <span class="o">?</span> <span class="s1">&#39;FancyChecked&#39;</span> <span class="o">:</span> <span class="s1">&#39;FancyUnchecked&#39;</span><span class="p">;</span>
+    <span class="k">return</span> <span class="p">(</span>
+      <span class="nx">React</span><span class="p">.</span><span class="nx">DOM</span><span class="p">.</span><span class="nx">div</span><span class="p">(</span><span class="nx">_</span><span class="p">.</span><span class="nx">extend</span><span class="p">({},</span> <span class="nx">other</span><span class="p">,</span> <span class="p">{</span> <span class="nx">className</span><span class="o">:</span> <span class="nx">fancyClass</span> <span class="p">}))</span>
+    <span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+</code></pre></div>

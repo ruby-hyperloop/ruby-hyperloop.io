@@ -1,0 +1,19 @@
+<p>Reactコンポーネントのrender関数が「ピュア」である（言い換えると、同じpropsやstateが与えられた時に同じ結果をレンダリングする）場合は、いくつかのケースでパフォーマンスをあげるためにこのミックスインを使用することができます。</p>
+
+<p>例:</p>
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="kd">var</span> <span class="nx">PureRenderMixin</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;react/addons&#39;</span><span class="p">).</span><span class="nx">addons</span><span class="p">.</span><span class="nx">PureRenderMixin</span><span class="p">;</span>
+<span class="nx">React</span><span class="p">.</span><span class="nx">createClass</span><span class="p">({</span>
+  <span class="nx">mixins</span><span class="o">:</span> <span class="p">[</span><span class="nx">PureRenderMixin</span><span class="p">],</span>
+
+  <span class="nx">render</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">className</span><span class="p">}</span><span class="o">&gt;</span><span class="nx">foo</span><span class="o">&lt;</span><span class="err">/div&gt;;</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+</code></pre></div>
+<p>内部で、このミックスインは<a href="/react/docs/component-specs-ja-JP.html#updating-shouldcomponentupdate">shouldComponentUpdate</a>を実行します。現在のpropsとstateを次のものと比較し、同様のものであれば、 <code>false</code> を返します。</p>
+
+<blockquote>
+<p>注意:
+このミックスインはオブジェクトの比較のみを行います。それらが複雑なデータ構造を持っていた場合、深い位置における違いは見逃されることがあります。単純なpropsやstateをコンポーネントが持っている場合にのみ、使用してください。深いデータ構造が変更されることが分かっている場合は、 <code>forceUpdate()</code> を使用してください。または、ネストされたデータの比較を速く行うために<a href="https://facebook.github.io/immutable-js/">不変オブジェクト</a>の使用を考えてみてください。
+更に、 <code>shouldComponentUpdate</code> は全てのコンポーネントのサブツリーのアップデートをスキップします。全ての子要素のコンポーネントもまた、「ピュア」であることを確認してください。</p>
+</blockquote>

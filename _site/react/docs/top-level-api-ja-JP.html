@@ -1,0 +1,83 @@
+<h2><a class="anchor" name="react"></a>React <a class="hash-link" href="#react">#</a></h2>
+<p><code>React</code> はReactのライブラリに対するエントリーポイントです。事前にビルドされたパッケージを使用する場合は、グローバルで使用可能です。CommonJSのモジュールを使用する場合は、 <code>require()</code> できます。</p>
+<h3><a class="anchor" name="react.component"></a>React.Component <a class="hash-link" href="#react.component">#</a></h3><div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">class</span> <span class="nx">Component</span>
+</code></pre></div>
+<p>これは、ES6のクラスを使用して定義されている場合の、Reactコンポーネントに対する基底クラスです。ReactでES6のクラスを使用する方法については、<a href="/react/docs/reusable-components-ja-JP.html#es6-classes">再利用可能なコンポーネント</a>をご覧ください。基底クラスからどのメソッドが実際に提供されるかについては、<a href="/react/docs/component-api-ja-JP.html">コンポーネントAPI</a>をご覧ください。</p>
+<h3><a class="anchor" name="react.createclass"></a>React.createClass <a class="hash-link" href="#react.createclass">#</a></h3><div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">ReactClass</span> <span class="nx">createClass</span><span class="p">(</span><span class="nx">object</span> <span class="nx">specification</span><span class="p">)</span>
+</code></pre></div>
+<p>与えられた仕様に基づいてコンポーネントクラスを作成します。コンポーネントは <strong>ある単一の</strong> 子要素を返す <code>render</code> メソッドを実行します。その子要素は勝手に深い子要素の構造を保持しています。コンポーネントが標準的なプロトタイプのクラスと異なっている部分は、newを呼ぶ必要がないということです。それらは内部で（newを行う）インスタンスを構築する便利なラッパーです。</p>
+
+<p>specificationオブジェクトについての情報は、<a href="/react/docs/component-specs-ja-JP.html">コンポーネントのスペックとライフサイクル</a>をご覧ください。</p>
+<h3><a class="anchor" name="react.createelement"></a>React.createElement <a class="hash-link" href="#react.createelement">#</a></h3><div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">ReactElement</span> <span class="nx">createElement</span><span class="p">(</span>
+  <span class="nx">string</span><span class="o">/</span><span class="nx">ReactClass</span> <span class="nx">type</span><span class="p">,</span>
+  <span class="p">[</span><span class="nx">object</span> <span class="nx">props</span><span class="p">],</span>
+  <span class="p">[</span><span class="nx">children</span> <span class="p">...]</span>
+<span class="p">)</span>
+</code></pre></div>
+<p>与えられた型の <code>ReactElement</code> を作成し、返します。type引数はhtmlタグ名（例えば、&#39;div&#39;、&#39;span&#39;など）の文字列にも<code>ReactClass</code>（<code>React.createClass</code> によって作成される）にもなり得ます。</p>
+<h3><a class="anchor" name="react.cloneelement"></a>React.cloneElement <a class="hash-link" href="#react.cloneelement">#</a></h3><div class="highlight"><pre><code class="language-text" data-lang="text">ReactElement cloneElement(
+  ReactElement element,
+  [object props],
+  [children ...]
+)
+</code></pre></div>
+<p><code>element</code> をスターティングポイントとして使用する新しい <code>ReactElement</code> をクローンして返します。
+結果として生まれる要素はオリジナルの要素のpropsと新しいpropsを暗にマージしたものを保持しています。新しい子要素は現存する子要素を置き換えます。 <code>React.addons.cloneWithProps</code> と異なり、オリジナルの要素から得られた <code>key</code> と <code>ref</code> は保存されます。（<code>cloneWithProps</code> とは異なり）propsをマージする際に特別な動きは行いません。詳細については、<a href="/react/blog/2015/03/03/react-v0.13-rc2.html">v0.13 RC2 blog記事</a>をご覧ください。</p>
+<h3><a class="anchor" name="react.createfactory"></a>React.createFactory <a class="hash-link" href="#react.createfactory">#</a></h3><div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">factoryFunction</span> <span class="nx">createFactory</span><span class="p">(</span>
+  <span class="nx">string</span><span class="o">/</span><span class="nx">ReactClass</span> <span class="nx">type</span>
+<span class="p">)</span>
+</code></pre></div>
+<p>与えられた型のReactElementsを生成する関数を返します。 <code>React.createElement</code> と同様に、type引数はhtmlタグ名（例えば、&#39;div&#39;、&#39;span&#39;など）の文字列にも<code>ReactClass</code> にもなり得ます。</p>
+<h3><a class="anchor" name="react.render"></a>React.render <a class="hash-link" href="#react.render">#</a></h3><div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">ReactComponent</span> <span class="nx">render</span><span class="p">(</span>
+  <span class="nx">ReactElement</span> <span class="nx">element</span><span class="p">,</span>
+  <span class="nx">DOMElement</span> <span class="nx">container</span><span class="p">,</span>
+  <span class="p">[</span><span class="kd">function</span> <span class="nx">callback</span><span class="p">]</span>
+<span class="p">)</span>
+</code></pre></div>
+<p>与えられた <code>container</code> によってReactElementをDOMにレンダリングし、コンポーネントへの参照を返します。</p>
+
+<p>もしReactElementが事前に <code>container</code> にレンダリングされていた場合は、更新を行い、DOMが最新のReactのコンポーネントを表すように変化させます。</p>
+
+<p>オプションのコールバックが与えられた場合は、コンポーネントがレンダリングされたり、更新された後に実行されます。</p>
+
+<blockquote>
+<p>注意:
+<code>React.render()</code> は渡されたコンテナーノードの内容を制御します。内部に存在するDOM要素は最初に呼ばれた際に置き換えられます。その後に呼ばれた場合は、ReactのDOMの差分アルゴリズムを使用して、効率的に更新されます。</p>
+
+<p><code>React.render()</code> はコンテナーノードの変更は行いません（コンテナの子要素のみ変更を行います）。今後、存在する子要素を上書きすることなく、存在するDOMノードにコンポーネントを挿入することが可能になるでしょう。</p>
+</blockquote>
+<h3><a class="anchor" name="react.unmountcomponentatnode"></a>React.unmountComponentAtNode <a class="hash-link" href="#react.unmountcomponentatnode">#</a></h3><div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">boolean</span> <span class="nx">unmountComponentAtNode</span><span class="p">(</span><span class="nx">DOMElement</span> <span class="nx">container</span><span class="p">)</span>
+</code></pre></div>
+<p>マウントされたReactのコンポーネントをDOMから削除し、そのイベントハンドラとstateをクリーンアップします。コンテナにコンポーネントがマウントされていない場合は、この関数を呼んでも何も行われません。コンポーネントがアンマウントされた場合は <code>true</code> を返し、アンマウントするコンポーネントが存在しない場合は <code>false</code> を返します。</p>
+<h3><a class="anchor" name="react.rendertostring"></a>React.renderToString <a class="hash-link" href="#react.rendertostring">#</a></h3><div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">string</span> <span class="nx">renderToString</span><span class="p">(</span><span class="nx">ReactElement</span> <span class="nx">element</span><span class="p">)</span>
+</code></pre></div>
+<p>ReactElementを最初にHTMLにレンダリングします。これはサーバでのみ使用されるべきです。ReactはHTML文字列を返します。このメソッドを、サーバでHTMLを生成し、最初のリクエストに対してマークアップを送るのに使用することができます。そうすることで、ページロードが速くなり、サーチエンジンはSEOの目的でページをクロールします。</p>
+
+<p>既にサーバでレンダリングされたマークアップを保持しているノードで <code>React.render()</code> を呼んだ場合は、Reactはそれを保護し、イベントハンドラを加えます。そうすることで、最初のローディングのパフォーマンスがとても良くなります。</p>
+<h3><a class="anchor" name="react.rendertostaticmarkup"></a>React.renderToStaticMarkup <a class="hash-link" href="#react.rendertostaticmarkup">#</a></h3><div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">string</span> <span class="nx">renderToStaticMarkup</span><span class="p">(</span><span class="nx">ReactElement</span> <span class="nx">element</span><span class="p">)</span>
+</code></pre></div>
+<p><code>renderToString</code> に似ていますが、Reactが内部で使用する <code>data-react-id</code> のような外部のDOM属性を作成しません。Reactを、単純な静的なページを生成するために使用したい場合は有用です。外部の属性を取り除くことでメモリを節約することができます。</p>
+<h3><a class="anchor" name="react.isvalidelement"></a>React.isValidElement <a class="hash-link" href="#react.isvalidelement">#</a></h3><div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">boolean</span> <span class="nx">isValidElement</span><span class="p">(</span><span class="o">*</span> <span class="nx">object</span><span class="p">)</span>
+</code></pre></div>
+<p>オブジェクトがReactElementであるかどうか調査します。</p>
+<h3><a class="anchor" name="react.finddomnode"></a>React.findDOMNode <a class="hash-link" href="#react.finddomnode">#</a></h3><div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">DOMElement</span> <span class="nx">findDOMNode</span><span class="p">(</span><span class="nx">ReactComponent</span> <span class="nx">component</span><span class="p">)</span>
+</code></pre></div>
+<p>このコンポーネントがDOMにマウントされた場合は、対応するネイティブブラウザのDOM要素を返します。このメソッドはDOMの外の値を読み込む場合に有用です。例えば、formフィールドの値やDOMの測定を行う場合があります。 <code>render</code> が <code>null</code> や <code>false</code> を返した場合は、 <code>findDOMNode</code> は <code>null</code> を返します。</p>
+<h3><a class="anchor" name="react.dom"></a>React.DOM <a class="hash-link" href="#react.dom">#</a></h3>
+<p><code>React.DOM</code> はDOMコンポーネントのための <code>React.createElement</code> の周りの便利なラッパーを提供します。JSXを使用しない場合にのみ使用すべきです。例えば、 <code>React.DOM.div(null, &#39;Hello World!&#39;)</code> のように。</p>
+<h3><a class="anchor" name="react.proptypes"></a>React.PropTypes <a class="hash-link" href="#react.proptypes">#</a></h3>
+<p><code>React.PropTypes</code> はコンポーネントに与えられたpropsをバリデーションするためにコンポーネントの <code>propTypes</code> と使用できる型を含んでいます。 <code>propTypes</code> についての更なる情報は、<a href="/react/docs/reusable-components-ja-JP.html">再利用可能なコンポーネント</a>をご覧ください。</p>
+<h3><a class="anchor" name="react.children"></a>React.Children <a class="hash-link" href="#react.children">#</a></h3>
+<p><code>React.Children</code> は <code>this.props.children</code> の不透明なデータ構造を扱うユーティリティを提供します。</p>
+<h4><a class="anchor" name="react.children.map"></a>React.Children.map <a class="hash-link" href="#react.children.map">#</a></h4><div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">object</span> <span class="nx">React</span><span class="p">.</span><span class="nx">Children</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">object</span> <span class="nx">children</span><span class="p">,</span> <span class="kd">function</span> <span class="nx">fn</span> <span class="p">[,</span> <span class="nx">object</span> <span class="nx">thisArg</span><span class="p">])</span>
+</code></pre></div>
+<p>全ての <code>children</code> を含む子要素に対して、 <code>fn</code> を実行します。 <code>this</code> は <code>thisArg</code> にセットされます。 <code>children</code> がネストしたオブジェクトや配列だった場合は、実行されません。 <code>fn</code> はコンテナのオブジェクトから渡されません。子要素が <code>null</code> か <code>undefined</code> だった場合は、空のオブジェクトではなく <code>null</code> か <code>undefined</code> を返します。</p>
+<h4><a class="anchor" name="react.children.foreach"></a>React.Children.forEach <a class="hash-link" href="#react.children.foreach">#</a></h4><div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">React</span><span class="p">.</span><span class="nx">Children</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="nx">object</span> <span class="nx">children</span><span class="p">,</span> <span class="kd">function</span> <span class="nx">fn</span> <span class="p">[,</span> <span class="nx">object</span> <span class="nx">thisArg</span><span class="p">])</span>
+</code></pre></div>
+<p><code>React.Children.map()</code> に似ていますが、オブジェクトを返しはしません。</p>
+<h4><a class="anchor" name="react.children.count"></a>React.Children.count <a class="hash-link" href="#react.children.count">#</a></h4><div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">number</span> <span class="nx">React</span><span class="p">.</span><span class="nx">Children</span><span class="p">.</span><span class="nx">count</span><span class="p">(</span><span class="nx">object</span> <span class="nx">children</span><span class="p">)</span>
+</code></pre></div>
+<p><code>children</code> の中のコンポーネントの合計数を返します。 <code>map</code> や <code>forEach</code> に渡されるコールバックが実行される数と等しくなります。</p>
+<h4><a class="anchor" name="react.children.only"></a>React.Children.only <a class="hash-link" href="#react.children.only">#</a></h4><div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">object</span> <span class="nx">React</span><span class="p">.</span><span class="nx">Children</span><span class="p">.</span><span class="nx">only</span><span class="p">(</span><span class="nx">object</span> <span class="nx">children</span><span class="p">)</span>
+</code></pre></div>
+<p><code>children</code> の単一の子要素を返します。それ以外の場合は例外をスローします。</p>

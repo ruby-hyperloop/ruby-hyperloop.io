@@ -3,8 +3,8 @@
 	<channel>
 		<title>React</title>
 		<description>A JavaScript library for building user interfaces</description>
-		<link>https://facebook.github.io/react</link>
-		<atom:link href="https://facebook.github.io/react/feed.xml" rel="self" type="application/rss+xml" />
+		<link>https://facebook.github.io/</link>
+		<atom:link href="https://facebook.github.io//feed.xml" rel="self" type="application/rss+xml" />
 		
 			<item>
 				<title>React v0.14.2</title>
@@ -37,8 +37,8 @@ Minified build for production: &lt;a href=&quot;https://fb.me/react-dom-0.14.2.m
 &lt;/ul&gt;
 </description>
 				<pubDate>2015-11-02T00:00:00-08:00</pubDate>
-				<link>https://facebook.github.io/react/blog/2015/11/02/react-v0.14.2.html</link>
-				<guid isPermaLink="true">https://facebook.github.io/react/blog/2015/11/02/react-v0.14.2.html</guid>
+				<link>https://facebook.github.io//blog/2015/11/02/react-v0.14.2.html</link>
+				<guid isPermaLink="true">https://facebook.github.io//blog/2015/11/02/react-v0.14.2.html</guid>
 			</item>
 		
 			<item>
@@ -84,8 +84,8 @@ Minified build for production: &lt;a href=&quot;https://fb.me/react-dom-0.14.1.m
 &lt;/ul&gt;
 </description>
 				<pubDate>2015-10-28T00:00:00-07:00</pubDate>
-				<link>https://facebook.github.io/react/blog/2015/10/28/react-v0.14.1.html</link>
-				<guid isPermaLink="true">https://facebook.github.io/react/blog/2015/10/28/react-v0.14.1.html</guid>
+				<link>https://facebook.github.io//blog/2015/10/28/react-v0.14.1.html</link>
+				<guid isPermaLink="true">https://facebook.github.io//blog/2015/10/28/react-v0.14.1.html</guid>
 			</item>
 		
 			<item>
@@ -145,8 +145,8 @@ Minified build for production: &lt;a href=&quot;https://fb.me/react-dom-0.14.1.m
 &lt;p&gt;&lt;em&gt;Note: Jordan Hawker’s thorough &lt;a href=&quot;http://jhawk.co/team-chat-comparison&quot;&gt;research&lt;/a&gt; made our decision a lot easier.&lt;/em&gt;&lt;/p&gt;
 </description>
 				<pubDate>2015-10-19T00:00:00-07:00</pubDate>
-				<link>https://facebook.github.io/react/blog/2015/10/19/reactiflux-is-moving-to-discord.html</link>
-				<guid isPermaLink="true">https://facebook.github.io/react/blog/2015/10/19/reactiflux-is-moving-to-discord.html</guid>
+				<link>https://facebook.github.io//blog/2015/10/19/reactiflux-is-moving-to-discord.html</link>
+				<guid isPermaLink="true">https://facebook.github.io//blog/2015/10/19/reactiflux-is-moving-to-discord.html</guid>
 			</item>
 		
 			<item>
@@ -334,8 +334,8 @@ Minified build for production: &lt;a href=&quot;https://fb.me/react-dom-0.14.0.m
 &lt;/ul&gt;
 </description>
 				<pubDate>2015-10-07T00:00:00-07:00</pubDate>
-				<link>https://facebook.github.io/react/blog/2015/10/07/react-v0.14.html</link>
-				<guid isPermaLink="true">https://facebook.github.io/react/blog/2015/10/07/react-v0.14.html</guid>
+				<link>https://facebook.github.io//blog/2015/10/07/react-v0.14.html</link>
+				<guid isPermaLink="true">https://facebook.github.io//blog/2015/10/07/react-v0.14.html</guid>
 			</item>
 		
 			<item>
@@ -449,8 +449,8 @@ Minified build for production: &lt;a href=&quot;https://fb.me/react-dom-0.14.0.m
 &lt;p&gt;This example shows how to provide an imperative API on top of a declarative one. Similarly, the reverse can be done, and a declarative wrapper can be used when exposing a Web Component as a React component.&lt;/p&gt;
 </description>
 				<pubDate>2015-10-01T00:00:00-07:00</pubDate>
-				<link>https://facebook.github.io/react/blog/2015/10/01/react-render-and-top-level-api.html</link>
-				<guid isPermaLink="true">https://facebook.github.io/react/blog/2015/10/01/react-render-and-top-level-api.html</guid>
+				<link>https://facebook.github.io//blog/2015/10/01/react-render-and-top-level-api.html</link>
+				<guid isPermaLink="true">https://facebook.github.io//blog/2015/10/01/react-render-and-top-level-api.html</guid>
 			</item>
 		
 			<item>
@@ -521,8 +521,8 @@ Minified build for production: &lt;a href=&quot;https://fb.me/react-dom-0.14.0.m
 &lt;/div&gt;
 </description>
 				<pubDate>2015-09-14T00:00:00-07:00</pubDate>
-				<link>https://facebook.github.io/react/blog/2015/09/14/community-roundup-27.html</link>
-				<guid isPermaLink="true">https://facebook.github.io/react/blog/2015/09/14/community-roundup-27.html</guid>
+				<link>https://facebook.github.io//blog/2015/09/14/community-roundup-27.html</link>
+				<guid isPermaLink="true">https://facebook.github.io//blog/2015/09/14/community-roundup-27.html</guid>
 			</item>
 		
 			<item>
@@ -685,8 +685,8 @@ Minified build for production: &lt;a href=&quot;https://fb.me/react-dom-0.14.0-r
 &lt;/ul&gt;
 </description>
 				<pubDate>2015-09-10T00:00:00-07:00</pubDate>
-				<link>https://facebook.github.io/react/blog/2015/09/10/react-v0.14-rc1.html</link>
-				<guid isPermaLink="true">https://facebook.github.io/react/blog/2015/09/10/react-v0.14-rc1.html</guid>
+				<link>https://facebook.github.io//blog/2015/09/10/react-v0.14-rc1.html</link>
+				<guid isPermaLink="true">https://facebook.github.io//blog/2015/09/10/react-v0.14-rc1.html</guid>
 			</item>
 		
 			<item>
@@ -714,8 +714,8 @@ Minified build for production: &lt;a href=&quot;https://fb.me/react-dom-0.14.0-r
 &lt;p&gt;If you run into any issues, please post them on our &lt;a href=&quot;https://github.com/facebook/react-devtools&quot;&gt;react-devtools GitHub repo&lt;/a&gt;.&lt;/p&gt;
 </description>
 				<pubDate>2015-09-02T00:00:00-07:00</pubDate>
-				<link>https://facebook.github.io/react/blog/2015/09/02/new-react-developer-tools.html</link>
-				<guid isPermaLink="true">https://facebook.github.io/react/blog/2015/09/02/new-react-developer-tools.html</guid>
+				<link>https://facebook.github.io//blog/2015/09/02/new-react-developer-tools.html</link>
+				<guid isPermaLink="true">https://facebook.github.io//blog/2015/09/02/new-react-developer-tools.html</guid>
 			</item>
 		
 			<item>
@@ -780,8 +780,8 @@ Minified build for production: &lt;a href=&quot;https://fb.me/react-dom-0.14.0-r
 &lt;p&gt;You can view the full list of talks on &lt;a href=&quot;https://www.youtube.com/channel/UCorlLn2oZfgOJ-FUcF2eZ1A&quot;&gt;the ReactEurope YouTube channel&lt;/a&gt;.&lt;/p&gt;
 </description>
 				<pubDate>2015-08-13T00:00:00-07:00</pubDate>
-				<link>https://facebook.github.io/react/blog/2015/08/13/reacteurope-roundup.html</link>
-				<guid isPermaLink="true">https://facebook.github.io/react/blog/2015/08/13/reacteurope-roundup.html</guid>
+				<link>https://facebook.github.io//blog/2015/08/13/reacteurope-roundup.html</link>
+				<guid isPermaLink="true">https://facebook.github.io//blog/2015/08/13/reacteurope-roundup.html</guid>
 			</item>
 		
 			<item>
@@ -813,8 +813,8 @@ Minified build for production: &lt;a href=&quot;https://fb.me/react-dom-0.14.0-r
 &lt;p&gt;Thanks!&lt;/p&gt;
 </description>
 				<pubDate>2015-08-11T00:00:00-07:00</pubDate>
-				<link>https://facebook.github.io/react/blog/2015/08/11/relay-technical-preview.html</link>
-				<guid isPermaLink="true">https://facebook.github.io/react/blog/2015/08/11/relay-technical-preview.html</guid>
+				<link>https://facebook.github.io//blog/2015/08/11/relay-technical-preview.html</link>
+				<guid isPermaLink="true">https://facebook.github.io//blog/2015/08/11/relay-technical-preview.html</guid>
 			</item>
 		
 	</channel>

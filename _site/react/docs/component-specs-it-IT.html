@@ -1,0 +1,119 @@
+<h2><a class="anchor" name="specifica-dei-componenti"></a>Specifica dei Componenti <a class="hash-link" href="#specifica-dei-componenti">#</a></h2>
+<p>Quando crei una classe di componente invocando <code>React.createClass()</code>, devi fornire un oggetto specifica che contiene un metodo <code>render</code> che può contenere opzionalmete altri metodi del ciclo di vita descritti di seguito.</p>
+
+<blockquote>
+<p>Nota:</p>
+
+<p>È anche possibile usare pure classi JavaScript come classi di componente. Queste classi possono implementare la maggior parte degli stessi metodi, sebbene vi siano delle differenze. Per maggiori informazioni su queste differenze, leggi la nostra documentazione sulle <a href="/react/docs/reusable-components.html#es6-classes">classi ES6</a>.</p>
+</blockquote>
+<h3><a class="anchor" name="render"></a>render <a class="hash-link" href="#render">#</a></h3><div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">ReactElement</span> <span class="nx">render</span><span class="p">()</span>
+</code></pre></div>
+<p>Il metodo <code>render()</code> è richiesto.</p>
+
+<p>Quando viene chiamato, dovrebbe esaminare <code>this.props</code> e <code>this.state</code> e restituire un singolo elemento figlio. Questo elemento figlio può essere sia una rappresentazione virtuale di un componente DOM nativo (come <code>&lt;div /&gt;</code> o <code>React.DOM.div()</code>) o un altro componente composito che hai definito tu stesso.</p>
+
+<p>Puoi anche restituire <code>null</code> o <code>false</code> per indicare che desideri che non venga visualizzato nulla. Dietro le quinte, React visualizza un tag <code>&lt;noscript&gt;</code> per lavorare con il nostro attuale algoritmo di differenza. Quando si restituisce <code>null</code> o <code>false</code>, <code>ReactDOM.findDOMNode(this)</code> restituirà <code>null</code>.</p>
+
+<p>La funzione <code>render()</code> dovrebbe essere <em>pura</em>, nel senso che non modifica lo stato del componente, restituisce lo stesso risultato ogni volta che viene invocato, e non legge o scrive il DOM o interagisce in altro modo con il browser (ad es. usando <code>setTimeout</code>). Se devi interagire con il browser, effettua le tue operazioni in <code>componentDidMount()</code> o negli altri metodi del ciclo di vita. Mantenere <code>render()</code> puro rende il rendering lato server più praticabile e rende i componenti più facili da comprendere.</p>
+<h3><a class="anchor" name="getinitialstate"></a>getInitialState <a class="hash-link" href="#getinitialstate">#</a></h3><div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">object</span> <span class="nx">getInitialState</span><span class="p">()</span>
+</code></pre></div>
+<p>Invocato una volta prima che il componente venga montato. Il valore di ritorno sarà usato come il valore iniziale di <code>this.state</code>.</p>
+<h3><a class="anchor" name="getdefaultprops"></a>getDefaultProps <a class="hash-link" href="#getdefaultprops">#</a></h3><div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">object</span> <span class="nx">getDefaultProps</span><span class="p">()</span>
+</code></pre></div>
+<p>Invocato una volta e conservato quando la classe è creata. I valori nella mappa saranno impostati in <code>this.props</code> se tale proprietà non è specificata dal componente genitore (ad es. usando un controllo <code>in</code>).</p>
+
+<p>Questo metodo è invocato prima che un&#39;istanza sia creata e quindi non può dipendere da <code>this.props</code>. Inoltre, tieni presente che ogni oggetto complesso restituito da <code>getDefaultProps()</code> sarà condiviso tra le diverse istanze, non copiato.</p>
+<h3><a class="anchor" name="proptypes"></a>propTypes <a class="hash-link" href="#proptypes">#</a></h3><div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">object</span> <span class="nx">propTypes</span>
+</code></pre></div>
+<p>L&#39;oggetto <code>propTypes</code> ti permette di validare le proprietà passate ai tuoi componenti. Per maggiori informazioni su <code>propTypes</code>, leggi <a href="/react/docs/reusable-components-it-IT.html">Componenti Riutilizzabili</a>.</p>
+<h3><a class="anchor" name="mixins"></a>mixins <a class="hash-link" href="#mixins">#</a></h3><div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">array</span> <span class="nx">mixins</span>
+</code></pre></div>
+<p>L&#39;array <code>mixins</code> ti permette di usare i mixin per condividere il comportamento tra componenti multipli. Per maggiori informazioni sui mixin, leggi <a href="/react/docs/reusable-components-it-IT.html">Componenti Riutilizzabili</a>.</p>
+<h3><a class="anchor" name="statics"></a>statics <a class="hash-link" href="#statics">#</a></h3><div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">object</span> <span class="nx">statics</span>
+</code></pre></div>
+<p>L&#39;oggetto <code>statics</code> ti permette di definire metodi statici che possono essere chiamati sulla classe del componente. Ad esempio:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">MyComponent</span> <span class="o">=</span> <span class="nx">React</span><span class="p">.</span><span class="nx">createClass</span><span class="p">({</span>
+  <span class="nx">statics</span><span class="o">:</span> <span class="p">{</span>
+    <span class="nx">customMethod</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">foo</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nx">foo</span> <span class="o">===</span> <span class="s1">&#39;bar&#39;</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
+  <span class="nx">render</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+
+<span class="nx">MyComponent</span><span class="p">.</span><span class="nx">customMethod</span><span class="p">(</span><span class="s1">&#39;bar&#39;</span><span class="p">);</span>  <span class="c1">// true</span>
+</code></pre></div>
+<p>I metodi definiti in questo blocco sono <em>statici</em>, ovvero puoi eseguirli prima che un&#39;istanza del componente venga creata, e i metodi non hanno accesso alle proprietà e lo stato dei tuoi componenti. Se desideri confrontare i valori delle proprietà in un metodo statico, devi farle passare dal chiamante al metodo statico tramite un argomento.</p>
+<h3><a class="anchor" name="displayname"></a>displayName <a class="hash-link" href="#displayname">#</a></h3><div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">string</span> <span class="nx">displayName</span>
+</code></pre></div>
+<p>La stringa <code>displayName</code> viene usata nei messaggi di debug. JSX imposta questo valore automaticamente; vedi <a href="/react/docs/jsx-in-depth-it-IT.html#the-transform">JSX in Profondità</a>.</p>
+<h2><a class="anchor" name="metodi-del-ciclo-di-vita"></a>Metodi del Ciclo di Vita <a class="hash-link" href="#metodi-del-ciclo-di-vita">#</a></h2>
+<p>Vari metodi vengono eseguiti durante precisi momenti del ciclo di vita di un componente.</p>
+<h3><a class="anchor" name="montaggio-componentwillmount"></a>Montaggio: componentWillMount <a class="hash-link" href="#montaggio-componentwillmount">#</a></h3><div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="k">void</span> <span class="nx">componentWillMount</span><span class="p">()</span>
+</code></pre></div>
+<p>Invocato una volta, sia sul client che sul server, immediatamente prima che il rendering iniziale abbia luogo. Se chiami <code>setState</code> all&#39;interno di questo metodo, <code>render()</code> vedrà lo stato aggiornato e sarà eseguito solo una volta nonostante il cambiamento di stato.</p>
+<h3><a class="anchor" name="montaggio-componentdidmount"></a>Montaggio: componentDidMount <a class="hash-link" href="#montaggio-componentdidmount">#</a></h3><div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="k">void</span> <span class="nx">componentDidMount</span><span class="p">()</span>
+</code></pre></div>
+<p>Invocato una volta, solo sul client (e non sul server), immediatamente dopo che il rendering iniziale ha avuto luogo. A questo punto del ciclo di vita, il componente ha una rappresentazione DOM che puoi accedere attraverso <code>ReactDOM.findDOMNode(this)</code>. Il metodo <code>componentDidMount()</code> dei componenti figli è invocato prima di quello dei componenti genitori.</p>
+
+<p>Se desideri integrare con altri framework JavaScript, impostare dei timer usando <code>setTimeout</code> o <code>setInterval</code>, oppure inviare richieste AJAX, effettua tali operazioni in questo metodo.</p>
+<h3><a class="anchor" name="aggiornamento-componentwillreceiveprops"></a>Aggiornamento: componentWillReceiveProps <a class="hash-link" href="#aggiornamento-componentwillreceiveprops">#</a></h3><div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="k">void</span> <span class="nx">componentWillReceiveProps</span><span class="p">(</span>
+  <span class="nx">object</span> <span class="nx">nextProps</span>
+<span class="p">)</span>
+</code></pre></div>
+<p>Invocato quando un componente sta ricevendo nuove proprietà. Questo metodo non viene chiamato durante il rendering iniziale.</p>
+
+<p>Usa questo metodo come opportunità per reagire a una transizione di proprietà prima che <code>render()</code> venga chiamato, aggiornando lo stato usando <code>this.setState()</code>. I vecchi valori delle proprietà possono essere letti tramite <code>this.props</code>. Chiamare <code>this.setState()</code> all&#39;interno di questa funzione non scatenerà un rendering addizionale.</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">componentWillReceiveProps</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">nextProps</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span>
+    <span class="nx">likesIncreasing</span><span class="o">:</span> <span class="nx">nextProps</span><span class="p">.</span><span class="nx">likeCount</span> <span class="o">&gt;</span> <span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">likeCount</span>
+  <span class="p">});</span>
+<span class="p">}</span>
+</code></pre></div>
+<blockquote>
+<p>Nota:</p>
+
+<p>Non esiste un metodo analogo <code>componentWillReceiveState</code>. Una imminente transizione delle proprietà potrebbe causare un cambiamento di stato, ma il contrario non è vero. Se devi effettuare delle operazioni in risposta a un cambiamento di stato, usa <code>componentWillUpdate</code>.</p>
+</blockquote>
+<h3><a class="anchor" name="aggiornamento-shouldcomponentupdate"></a>Aggiornamento: shouldComponentUpdate <a class="hash-link" href="#aggiornamento-shouldcomponentupdate">#</a></h3><div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">boolean</span> <span class="nx">shouldComponentUpdate</span><span class="p">(</span>
+  <span class="nx">object</span> <span class="nx">nextProps</span><span class="p">,</span> <span class="nx">object</span> <span class="nx">nextState</span>
+<span class="p">)</span>
+</code></pre></div>
+<p>Invocato prima del rendering quando vengono ricevuti nuove proprietà o un nuovo stato. Questo metodo non viene chiamato per il rendering iniziale o quando viene usato <code>forceUpdate</code>.</p>
+
+<p>Usa questo metodo come opportunità per restituire <code>false</code> quando si è certi che la transizione alle nuove proprietà e al nuovo stato non richieda un aggiornamento del componente.</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">shouldComponentUpdate</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">nextProps</span><span class="p">,</span> <span class="nx">nextState</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="nx">nextProps</span><span class="p">.</span><span class="nx">id</span> <span class="o">!==</span> <span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">id</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Se <code>shouldComponentUpdate</code> restituisce false, allora <code>render()</code> sarà saltato completamente fino al prossimo cambiamento di stato. Inoltre, <code>componentWillUpdate</code> e <code>componentDidUpdate</code> non verranno chiamati.</p>
+
+<p>In modo predefinito, <code>shouldComponentUpdate</code> restituisce sempre <code>true</code> per evitare bachi subdoli quando <code>state</code> viene modificato direttamente, ma se hai l&#39;accortezza di trattare sempre <code>state</code> come immutabile e accedere a <code>props</code> e <code>state</code> in sola lettura in <code>render()</code>, allora puoi tranquillamente ridefinire <code>shouldComponentUpdate</code> con un&#39;implementazione che confronta i vecchi valori di props e state con quelli nuovi.</p>
+
+<p>Se le prestazioni diventano un collo di bottiglia, specialmente in presenza di  decine o centinaia di componenti, usa <code>shouldComponentUpdate</code> per accelerare la tua applicazione.</p>
+<h3><a class="anchor" name="aggiornamento-componentwillupdate"></a>Aggiornamento: componentWillUpdate <a class="hash-link" href="#aggiornamento-componentwillupdate">#</a></h3><div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="k">void</span> <span class="nx">componentWillUpdate</span><span class="p">(</span>
+  <span class="nx">object</span> <span class="nx">nextProps</span><span class="p">,</span> <span class="nx">object</span> <span class="nx">nextState</span>
+<span class="p">)</span>
+</code></pre></div>
+<p>Invocato immediatamente prima del rendering quando nuove proprietà o un nuovo stato vengono ricevuti. Questo metodo non viene chiamato per il rendering iniziale.</p>
+
+<p>Usa questo metodo come opportunità per effettuare la preparazione prima che si verifichi un aggiornamento.</p>
+
+<blockquote>
+<p>Nota:</p>
+
+<p><em>Non puoi</em> usare <code>this.setState()</code> in questo metodo. Se devi aggiornare lo stato in risposta al cambiamento di una proprietà, usa <code>componentWillReceiveProps</code>.</p>
+</blockquote>
+<h3><a class="anchor" name="aggiornamento-componentdidupdate"></a>Aggiornamento: componentDidUpdate <a class="hash-link" href="#aggiornamento-componentdidupdate">#</a></h3><div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="k">void</span> <span class="nx">componentDidUpdate</span><span class="p">(</span>
+  <span class="nx">object</span> <span class="nx">prevProps</span><span class="p">,</span> <span class="nx">object</span> <span class="nx">prevState</span>
+<span class="p">)</span>
+</code></pre></div>
+<p>Invocato immediatamente dopo che gli aggiornamenti del componente sono stati trasmessi al DOM. Questo metodo non viene chiamato per il rendering iniziale.</p>
+
+<p>Usa questo metodo come opportunità per operare sul DOM quando il componente è stato  the component has been updated.</p>
+<h3><a class="anchor" name="smontaggio-componentwillunmount"></a>Smontaggio: componentWillUnmount <a class="hash-link" href="#smontaggio-componentwillunmount">#</a></h3><div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="k">void</span> <span class="nx">componentWillUnmount</span><span class="p">()</span>
+</code></pre></div>
+<p>Invocato immediatamente prima che un componente venga smontato dal DOM.</p>
+
+<p>Effettua la necessaria pulizia in questo metodo, come invalidare i timer o ripulire ciascun elemento DOM creato all&#39;interno di <code>componentDidMount</code>.</p>

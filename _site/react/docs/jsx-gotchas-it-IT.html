@@ -1,0 +1,34 @@
+<p>JSX somiglia all&#39;HTML ma ci sono delle differenze importanti da tenere in considerazione.</p>
+
+<blockquote>
+<p>Nota:</p>
+
+<p>Per le differenze del DOM, come l&#39;attributo <code>style</code> in linea, consulta <a href="/react/docs/dom-differences-it-IT.html">here</a>.</p>
+</blockquote>
+<h2><a class="anchor" name="entit-html"></a>Entità HTML <a class="hash-link" href="#entit-html">#</a></h2>
+<p>Puoi inserire entità HTML nel testo letterale in JSX:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span><span class="nx">Primo</span> <span class="o">&amp;</span><span class="nx">middot</span><span class="p">;</span> <span class="nx">Secondo</span><span class="o">&lt;</span><span class="err">/div&gt;</span>
+</code></pre></div>
+<p>Se desideri visualizzare un&#39;entità HTML all&#39;interno di un contenuto dinamico, avrai problemi con il doppio escape, poiché React effettua in maniera predefinita l&#39;escape di tutte le stringhe visualizzate per prevenire un&#39;ampia gamma di attacchi XSS.</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="c1">// Male: Mostra &quot;Primo &amp;middot; Secondo&quot;</span>
+<span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span><span class="p">{</span><span class="s1">&#39;Primo &amp;middot; Secondo&#39;</span><span class="p">}</span><span class="o">&lt;</span><span class="err">/div&gt;</span>
+</code></pre></div>
+<p>Esistono molte maniere di aggirare questo problema. La più facile è scrivere i caratteri Unicode direttamente in JavaScript. Dovrai assicurarti che il file sia salvato come UTF-8 e che le appropriate direttive UTF-8 siano impostate in modo che il browser li visualizzi correttamente.</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span><span class="p">{</span><span class="s1">&#39;Primo · Secondo&#39;</span><span class="p">}</span><span class="o">&lt;</span><span class="err">/div&gt;</span>
+</code></pre></div>
+<p>Un&#39;alternativa più sicura consiste nel trovare il <a href="http://www.fileformat.info/info/unicode/char/b7/index.htm">codice Unicode corrispondente all&#39;entità</a> e usarlo all&#39;interno di una stringa JavaScript.</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span><span class="p">{</span><span class="s1">&#39;Primo \u00b7 Secondo&#39;</span><span class="p">}</span><span class="o">&lt;</span><span class="err">/div&gt;</span>
+<span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span><span class="p">{</span><span class="s1">&#39;Primo &#39;</span> <span class="o">+</span> <span class="nb">String</span><span class="p">.</span><span class="nx">fromCharCode</span><span class="p">(</span><span class="mi">183</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39; Secondo&#39;</span><span class="p">}</span><span class="o">&lt;</span><span class="err">/div&gt;</span>
+</code></pre></div>
+<p>Puoi usare array misti con stringhe ed elementi JSX.</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span><span class="p">{[</span><span class="s1">&#39;Primo &#39;</span><span class="p">,</span> <span class="o">&lt;</span><span class="nx">span</span><span class="o">&gt;&amp;</span><span class="nx">middot</span><span class="p">;</span><span class="o">&lt;</span><span class="err">/span&gt;, &#39; Secondo&#39;]}&lt;/div&gt;</span>
+</code></pre></div>
+<p>Come ultima risorsa, puoi sempre <a href="/react/tips/dangerously-set-inner-html.html">inserire HTML nativo</a>.</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="o">&lt;</span><span class="nx">div</span> <span class="nx">dangerouslySetInnerHTML</span><span class="o">=</span><span class="p">{{</span><span class="nx">__html</span><span class="o">:</span> <span class="s1">&#39;Primo &amp;middot; Secondo&#39;</span><span class="p">}}</span> <span class="o">/&gt;</span>
+</code></pre></div><h2><a class="anchor" name="attributi-html-personalizzati"></a>Attributi HTML Personalizzati <a class="hash-link" href="#attributi-html-personalizzati">#</a></h2>
+<p>Se passi proprietà che non esistono nella specifica HTML ad elementi HTML nativi, React li ignorerà. Se vuoi usare un attributo personalizzato, devi prefiggerlo con <code>data-</code>.</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="o">&lt;</span><span class="nx">div</span> <span class="nx">data</span><span class="o">-</span><span class="nx">custom</span><span class="o">-</span><span class="nx">attribute</span><span class="o">=</span><span class="s2">&quot;foo&quot;</span> <span class="o">/&gt;</span>
+</code></pre></div>
+<p>Gli attributi per <a href="http://www.w3.org/WAI/intro/aria">l&#39;Accessibilità del Web</a> che iniziano per <code>aria-</code> saranno gestiti correttamente.</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="o">&lt;</span><span class="nx">div</span> <span class="nx">aria</span><span class="o">-</span><span class="nx">hidden</span><span class="o">=</span><span class="p">{</span><span class="kc">true</span><span class="p">}</span> <span class="o">/&gt;</span>
+</code></pre></div>

@@ -1,0 +1,21 @@
+<p><code>React.addons</code> è il luogo in cui parcheggiamo utili strumenti per costruire applicazioni React. <strong>Questi strumenti devono essere considerati sperimentali</strong> ma saranno eventualmente inclusi nel nucleo o una libreria ufficiale di utilities:</p>
+
+<ul>
+<li><a href="animation-it-IT.html"><code>TransitionGroup</code> e <code>CSSTransitionGroup</code></a>, per gestire animazioni e transizioni che sono solitamente difficili da implementare, come ad esempio prima della rimozione di un componente.</li>
+<li><a href="two-way-binding-helpers-it-IT.html"><code>LinkedStateMixin</code></a>, per semplificare la coordinazione tra lo stato del componente e l&#39;input dell&#39;utente in un modulo.</li>
+<li><a href="clone-with-props-it-IT.html"><code>cloneWithProps</code></a>, per eseguire una copia superficiale di componenti React e cambiare le loro proprietà.</li>
+<li><a href="create-fragment-it-IT.html"><code>createFragment</code></a>, per creare un insieme di figli con chiavi esterne.</li>
+<li><a href="update-it-IT.html"><code>update</code></a>, una funzione di utilità che semplifica la gestione di dati immutabili in JavaScript.</li>
+<li><a href="pure-render-mixin-it-IT.html"><code>PureRenderMixin</code></a>, un aiuto per incrementare le prestazioni in certe situazioni.</li>
+</ul>
+
+<p>Gli add-ons elencati di seguito si trovano esclusivamente nella versione di sviluppo (non minificata) di React:</p>
+
+<ul>
+<li><a href="test-utils-it-IT.html"><code>TestUtils</code></a>, semplici helper per scrivere dei test case (soltanto nella build non minificata).</li>
+<li><a href="perf-it-IT.html"><code>Perf</code></a>, per misurare le prestazioni e fornirti suggerimenti per l&#39;ottimizzazione.</li>
+</ul>
+
+<p>Per ottenere gli add-on, usa <code>react-with-addons.js</code> (e la sua controparte non minificata) anziché il solito <code>react.js</code>.</p>
+
+<p>Quandi si usa il pacchetto react di npm, richiedi semplicemente <code>require(&#39;react/addons&#39;)</code> anziché <code>require(&#39;react&#39;)</code> per ottenere React con tutti gli add-on.</p>

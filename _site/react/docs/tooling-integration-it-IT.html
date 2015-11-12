@@ -1,0 +1,48 @@
+<p>Ciascun progetto utilizza un sistema differente per la build e il deploy di JavaScript. Abbiamo provato a rendere React il più possibile  indipendente dall&#39;ambiente di sviluppo.</p>
+<h2><a class="anchor" name="react"></a>React <a class="hash-link" href="#react">#</a></h2><h3><a class="anchor" name="react-hosted-su-un-cdn"></a>React hosted su un CDN <a class="hash-link" href="#react-hosted-su-un-cdn">#</a></h3>
+<p>Offriamo versioni di React su CDN <a href="/react/downloads.html">nella nostra pagina dei download</a>. Questi file precompilati usano il formato dei moduli UMD. Inserirli con un semplice tag <code>&lt;script&gt;</code> inietterà una variabile globale <code>React</code> nel tuo ambiente. Questo approccio dovrebbe funzionare senza alcuna configurazione in ambienti CommonJS ed AMD.</p>
+<h3><a class="anchor" name="usare-il-ramo-master"></a>Usare il ramo master <a class="hash-link" href="#usare-il-ramo-master">#</a></h3>
+<p>Abbiamo istruzioni per compilare dal ramo <code>master</code> <a href="https://github.com/facebook/react">nel nostro repositorio GitHub</a>. Costruiamo un albero di moduli CommonJS sotto <code>build/modules</code> che puoi inserire in ogni ambiente o strumento di packaging che supporta CommonJS.</p>
+<h2><a class="anchor" name="jsx"></a>JSX <a class="hash-link" href="#jsx">#</a></h2><h3><a class="anchor" name="trasformazione-di-jsx-nel-browser"></a>Trasformazione di JSX nel browser <a class="hash-link" href="#trasformazione-di-jsx-nel-browser">#</a></h3>
+<p>Se preferisci usare JSX, Babel fornisce un <a href="http://babeljs.io/docs/usage/browser/">trasformatore ES6 e JSX nel browser per lo sviluppo</a> chiamato browser.js che può essere incluso da una release npm <code>babel-core</code> oppure da <a href="http://cdnjs.com/libraries/babel-core">CDNJS</a>. Includi un tag <code>&lt;script type=&quot;text/babel&quot;&gt;</code> per scatenare il trasformatore JSX.</p>
+
+<blockquote>
+<p>Nota:</p>
+
+<p>Il trasformatore JSX nel browser è piuttosto grande e risulta in calcoli aggiuntivi lato client che possono essere evitati. Non utilizzare in produzione — vedi la sezione successiva.</p>
+</blockquote>
+<h3><a class="anchor" name="in-produzione-jsx-precompilato"></a>In Produzione: JSX Precompilato <a class="hash-link" href="#in-produzione-jsx-precompilato">#</a></h3>
+<p>Se hai <a href="https://www.npmjs.com/">npm</a>, puoi eseguire <code>npm install -g babel</code>. Babel include il supporto per React v0.12 e v0.13. I tag sono automaticamente trasformati negli equivalenti <code>React.createElement(...)</code>, <code>displayName</code> è automaticamente desunto e aggiunto a tutte le classi React.createClass.</p>
+
+<p>Questo strumento tradurrà i file che usano la sintassi JSX a file in semplice JavaScript che possono essere eseguiti direttamente dal browser. Inoltre, osserverà le directory per te e trasformerà automaticamente i file quando vengono modificati; ad esempio: <code>babel --watch src/ --out-dir lib/</code>.</p>
+
+<p>In maniera predefinita, vengono trasformati i file JSX con un&#39;estensione <code>.js</code>. Esegui <code>babel --help</code> per maggiori informazioni su come usare Babel.</p>
+
+<p>Output di esempio:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ cat test.jsx
+var HelloMessage = React.createClass({
+  render: function() {
+    return &lt;div&gt;Ciao {this.props.name}&lt;/div&gt;;
+  }
+});
+
+ReactDOM.render(&lt;HelloMessage name=&quot;John&quot; /&gt;, mountNode);
+$ babel test.jsx
+&quot;use strict&quot;;
+
+var HelloMessage = React.createClass({
+  displayName: &quot;HelloMessage&quot;,
+
+  render: function render() {
+    return React.createElement(
+      &quot;div&quot;,
+      null,
+      &quot;Hello &quot;,
+      this.props.name
+    );
+  }
+});
+
+ReactDOM.render(React.createElement(HelloMessage, { name: &quot;John&quot; }), mountNode);
+</code></pre></div><h3><a class="anchor" name="progetti-open-source-utili"></a>Progetti Open Source Utili <a class="hash-link" href="#progetti-open-source-utili">#</a></h3>
+<p>La comunità open source ha creato strumenti che integrano JSX con diversi editor e sistemi di build. Consulta <a href="https://github.com/facebook/react/wiki/Complementary-Tools#jsx-integrations">integrazioni JSX </a> per una lista completa.</p>

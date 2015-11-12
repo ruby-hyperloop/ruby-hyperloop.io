@@ -1,0 +1,83 @@
+<h2><a class="anchor" name="jsfiddle"></a>JSFiddle <a class="hash-link" href="#jsfiddle">#</a></h2>
+<p>La maniera più semplice di cominciare ad hackerare con React è usare i seguenti esempi di Hello World su JSFiddle:</p>
+
+<ul>
+<li><strong><a href="https://jsfiddle.net/reactjs/69z2wepo/">React JSFiddle</a></strong></li>
+<li><a href="https://jsfiddle.net/reactjs/5vjqabv3/">React JSFiddle senza JSX</a></li>
+</ul>
+<h2><a class="anchor" name="starter-kit"></a>Starter Kit <a class="hash-link" href="#starter-kit">#</a></h2>
+<p>Scarica lo starter kit per cominciare.</p>
+
+<div class="buttons-unit downloads">
+  <a href="/react/downloads/react-0.14.2.zip" class="button">
+    Scarica lo Starter Kit 0.14.2
+  </a>
+</div>
+
+<p>Nella directory principale dello starter kit, crea <code>helloworld.html</code> con il seguente contenuto.</p>
+<div class="highlight"><pre><code class="language-html" data-lang="html"><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="nt">&lt;html&gt;</span>
+  <span class="nt">&lt;head&gt;</span>
+    <span class="nt">&lt;meta</span> <span class="na">charset=</span><span class="s">&quot;UTF-8&quot;</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;title&gt;</span>Ciao React!<span class="nt">&lt;/title&gt;</span>
+    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;build/react.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+  <span class="nt">&lt;/head&gt;</span>
+  <span class="nt">&lt;body&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;example&quot;</span><span class="nt">&gt;&lt;/div&gt;</span>
+    <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/babel&quot;</span><span class="nt">&gt;</span>
+      <span class="nx">ReactDOM</span><span class="p">.</span><span class="nx">render</span><span class="p">(</span>
+        <span class="o">&lt;</span><span class="nx">h1</span><span class="o">&gt;</span><span class="nx">Cial</span><span class="p">,</span> <span class="nx">mondo</span><span class="o">!&lt;</span><span class="err">/h1&gt;,</span>
+        <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;example&#39;</span><span class="p">)</span>
+      <span class="p">);</span>
+    <span class="nt">&lt;/script&gt;</span>
+  <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</code></pre></div>
+<p>La sintassi XML all&#39;interno di JavaScript è chiamata JSX; dài un&#39;occhiata alla <a href="/react/docs/jsx-in-depth.html">sintassi JSX</a> per saperne di più. Allo scopo di tradurla in puro JavaScript usiamo <code>&lt;script type=&quot;text/babel&quot;&gt;</code> e includiamo Babel per effettuare la trasformazione effettiva nel browser.</p>
+<h3><a class="anchor" name="file-separato"></a>File Separato <a class="hash-link" href="#file-separato">#</a></h3>
+<p>Il tuo codice React JSX può trovarsi in un file a parte. Crea il seguente <code>src/helloworld.js</code>.</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">ReactDOM</span><span class="p">.</span><span class="nx">render</span><span class="p">(</span>
+  <span class="o">&lt;</span><span class="nx">h1</span><span class="o">&gt;</span><span class="nx">Ciao</span><span class="p">,</span> <span class="nx">mondo</span><span class="o">!&lt;</span><span class="err">/h1&gt;,</span>
+  <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;example&#39;</span><span class="p">)</span>
+<span class="p">);</span>
+</code></pre></div>
+<p>Quindi fai riferimento ad esso da <code>helloworld.html</code>:</p>
+<div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/babel&quot;</span> <span class="na">src=</span><span class="s">&quot;src/helloworld.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+</code></pre></div>
+<p>Nota che in alcuni browsers (Chrome, ad esempio) falliranno nel caricamento del file a meno che non sia servito tramite HTTP.</p>
+<h3><a class="anchor" name="trasformazione-offline"></a>Trasformazione Offline <a class="hash-link" href="#trasformazione-offline">#</a></h3>
+<p>Anzitutto installa gli strumenti da riga di comando di <a href="http://babeljs.io/">Babel</a> (è richiesto <a href="https://www.npmjs.com/">npm</a>):</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">npm install --global babel
+</code></pre></div>
+<p>Quindi, traduci il tuo file <code>src/helloworld.js</code> a semplice JavaScript:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">babel src --watch --out-dir build
+</code></pre></div>
+<p>Il file <code>build/helloworld.js</code> è generato automaticamente ogni qualvolta effettui un cambiamento. Leggi la <a href="http://babeljs.io/docs/usage/cli/">documentazione di Babel CLI</a> per un uso più avanzato.</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">ReactDOM</span><span class="p">.</span><span class="nx">render</span><span class="p">(</span>
+  <span class="nx">React</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;h1&#39;</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="s1">&#39;Ciao, mondo!&#39;</span><span class="p">),</span>
+  <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;example&#39;</span><span class="p">)</span>
+<span class="p">);</span>
+</code></pre></div>
+<p>Aggiorna il tuo file HTML come segue:</p>
+<div class="highlight"><pre><code class="language-html" data-lang="html"><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="nt">&lt;html&gt;</span>
+  <span class="nt">&lt;head&gt;</span>
+    <span class="nt">&lt;meta</span> <span class="na">charset=</span><span class="s">&quot;UTF-8&quot;</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;title&gt;</span>Ciao React!<span class="nt">&lt;/title&gt;</span>
+    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;build/react.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+    <span class="c">&lt;!-- Non c&#39;è bisogno di Babel! --&gt;</span>
+  <span class="nt">&lt;/head&gt;</span>
+  <span class="nt">&lt;body&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;example&quot;</span><span class="nt">&gt;&lt;/div&gt;</span>
+    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;build/helloworld.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+  <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</code></pre></div><h2><a class="anchor" name="vuoi-commonjs"></a>Vuoi CommonJS? <a class="hash-link" href="#vuoi-commonjs">#</a></h2>
+<p>Se vuoi usare React con <a href="http://browserify.org/">browserify</a>, <a href="https://webpack.github.io/">webpack</a>, o un altro sistema modulare compatibile con CommonJS, usa il <a href="https://www.npmjs.com/package/react">pacchetto npm <code>react</code></a>. In aggiunta, lo strumento di build <code>jsx</code> può essere integrato in quasi tutti i sistemi di packaging (non soltanto CommonJS) assai facilmente.</p>
+<h2><a class="anchor" name="passi-successivi"></a>Passi Successivi <a class="hash-link" href="#passi-successivi">#</a></h2>
+<p>Dài un&#39;occhiata <a href="/react/docs/tutorial-it-IT.html">al tutorial</a> e agli altri esempi nella directory <code>examples</code> dello starter kit per saperne di più.</p>
+
+<p>Abbiamo anche un wiki al quale la comunità contribuisce con <a href="https://github.com/facebook/react/wiki/Complementary-Tools">flussi di lavoro, componenti UI, routing, gestione dati etc.</a></p>
+
+<p>In bocca al lupo, e benvenuto/a!</p>

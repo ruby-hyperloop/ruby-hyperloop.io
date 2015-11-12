@@ -1,0 +1,52 @@
+<p>Hai già <a href="/react/docs/displaying-data-it-IT.html">imparato a mostrare dati</a> con React. Adesso vediamo come rendere le nostre UI interattive.</p>
+<h2><a class="anchor" name="un-esempio-semplice"></a>Un Esempio Semplice <a class="hash-link" href="#un-esempio-semplice">#</a></h2><div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">LikeButton</span> <span class="o">=</span> <span class="nx">React</span><span class="p">.</span><span class="nx">createClass</span><span class="p">({</span>
+  <span class="nx">getInitialState</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">{</span><span class="nx">liked</span><span class="o">:</span> <span class="kc">false</span><span class="p">};</span>
+  <span class="p">},</span>
+  <span class="nx">handleClick</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span><span class="nx">liked</span><span class="o">:</span> <span class="o">!</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">liked</span><span class="p">});</span>
+  <span class="p">},</span>
+  <span class="nx">render</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">text</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">liked</span> <span class="o">?</span> <span class="s1">&#39;mi piace&#39;</span> <span class="o">:</span> <span class="s1">&#39;non mi piace&#39;</span><span class="p">;</span>
+    <span class="k">return</span> <span class="p">(</span>
+      <span class="o">&lt;</span><span class="nx">p</span> <span class="nx">onClick</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">handleClick</span><span class="p">}</span><span class="o">&gt;</span>
+        <span class="nx">You</span> <span class="p">{</span><span class="nx">text</span><span class="p">}</span> <span class="k">this</span><span class="p">.</span> <span class="nx">Click</span> <span class="nx">to</span> <span class="nx">toggle</span><span class="p">.</span>
+      <span class="o">&lt;</span><span class="err">/p&gt;</span>
+    <span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+
+<span class="nx">ReactDOM</span><span class="p">.</span><span class="nx">render</span><span class="p">(</span>
+  <span class="o">&lt;</span><span class="nx">LikeButton</span> <span class="o">/&gt;</span><span class="p">,</span>
+  <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;example&#39;</span><span class="p">)</span>
+<span class="p">);</span>
+</code></pre></div><h2><a class="anchor" name="gestione-degli-eventi-ed-eventi-sintetici"></a>Gestione degli Eventi ed Eventi Sintetici <a class="hash-link" href="#gestione-degli-eventi-ed-eventi-sintetici">#</a></h2>
+<p>Con React devi semplicemente passare il tuo gestore di eventi come una proprietà camelCased in modo simile a come faresti nel normale HTML. React si assicura che tutti gli eventi si comportano in maniera identica in IE8 e successivi implementando un sistema di eventi sintetici. Ovvero, React sa come propagare e catturare eventi secondo la specifica, e garantisce che gli eventi passati ai tuoi gestori di eventi siano consistenti con la <a href="http://www.w3.org/TR/DOM-Level-3-Events/">specifica W3C</a>, qualunque browser tu stia utilizzando.</p>
+<h2><a class="anchor" name="dietro-le-quinte-binding-automatico-e-delega-degli-eventi"></a>Dietro le Quinte: Binding Automatico e Delega degli Eventi <a class="hash-link" href="#dietro-le-quinte-binding-automatico-e-delega-degli-eventi">#</a></h2>
+<p>Dietro le quinte, React esegue alcune operazioni per mantenere il tuo codice ad alte prestazioni e facile da comprendere.</p>
+
+<p><strong>Binding automatico:</strong> Quando crei le callback in JavaScript, solitamente devi fare il binding esplicito del metodo alla sua istanza, in modo che il valore di <code>this</code> sia corretto. Con React, ogni metodo è automaticamente legato alla propria istanza del componente (eccetto quando si usa la sintassi delle classi ES6). React immagazzina il metodo legato in maniera tale da essere estremamente efficiente in termini di CPU e memoria. Ti permette anche di scrivere meno codice!</p>
+
+<p><strong>Delega degli eventi:</strong> React non associa realmente i gestori di eventi ai nodi stessi. Quando React si avvia, comincia ad ascoltare tutti gli eventi a livello globale usando un singolo event listener. Quando un componente viene montato o smontato, i gestori di eventi sono semplicemente aggiunti o rimossi da un mapping interno. Quando si verifica un evento, React sa come inoltrarlo utilizzando questo mapping. Quando non ci sono più gestori di eventi rimasti nel mapping, i gestori di eventi di React sono semplici operazioni fittizie. Per saperne di più sul perché questo approccio è veloce, leggi <a href="http://davidwalsh.name/event-delegate">l&#39;eccellente articolo sul blog di David Walsh</a>.</p>
+<h2><a class="anchor" name="i-componenti-sono-macchine-a-stati-finiti"></a>I Componenti Sono Macchine a Stati Finiti <a class="hash-link" href="#i-componenti-sono-macchine-a-stati-finiti">#</a></h2>
+<p>React considera le UI come semplici macchine a stati finiti. Pensando alla UI come in uno di tanti stati diversi e visualizzando questi stati, è facile mantenere la UI consistente.</p>
+
+<p>In React, aggiorni semplicemente lo stato di un componente, e quindi visualizzi una nuova UI basata su questo nuovo stato. React si occupa di aggiornare il DOM al tuo posto nella maniera più efficiente.</p>
+<h2><a class="anchor" name="come-funziona-lo-stato"></a>Come Funziona lo Stato <a class="hash-link" href="#come-funziona-lo-stato">#</a></h2>
+<p>Una maniera comune di informare React di un cambiamento nei dati è chiamare <code>setState(data, callback)</code>. Questo metodo effettua il merge di <code>data</code> in <code>this.state</code> e ridisegna il componente. Quando il componente ha terminato la fase di ri-rendering, la <code>callback</code> opzionale viene invocata. Nella maggior parte dei casi non avrai bisogno di fornire una <code>callback</code> dal momento che React si occuperà di mantenere la UI aggiornata per te.</p>
+<h2><a class="anchor" name="quali-componenti-devono-avere-uno-stato"></a>Quali Componenti Devono Avere uno Stato? <a class="hash-link" href="#quali-componenti-devono-avere-uno-stato">#</a></h2>
+<p>La maggior parte dei tuoi componenti dovrebbero semplicemente ricevere dei dati da <code>props</code> e visualizzarli. Tuttavia, a volte hai bisogno di reagire all&#39;input dell&#39;utente, una richiesta al server o il trascorrere del tempo. In questi casi utilizzi lo stato.</p>
+
+<p><strong>Prova a mantenere il maggior numero possibile dei tuoi componenti privi di stato.</strong> Facendo ciò, isolerai lo stato nel suo luogo logicamente corretto e minimizzerai la ridondanza, rendendo più semplice ragionare sulla tua applicazione.</p>
+
+<p>Un pattern comune è quello di creare diversi componenti privi di stato che mostrano semplicemente dati, e di avere un componente dotato di stato al di sopra di essi nella gerarchia, che passa il proprio stato ai suoi figli tramite le <code>props</code>. Il componente dotato di stato incapsula tutta la logica di interazione, mentre i componenti privi di stato si occupano della visualizzazione dei dati in maniera dichiarativa.</p>
+<h2><a class="anchor" name="cosa-dovrebbe-contenere-lo-stato"></a>Cosa <em>Dovrebbe</em> Contenere lo Stato? <a class="hash-link" href="#cosa-dovrebbe-contenere-lo-stato">#</a></h2>
+<p><strong>Lo stato dovrebbe contenere dati che i gestori di eventi del componente possono modificare per scatenare un aggiornamento della UI.</strong> In applicazioni reali, questi dati tendono ad essere molto limitati e serializzabili come JSON. Quando costruisci un componente dotato di stato, pensa alla minima rappresentazione possibile del suo stato, e conserva solo quelle proprietà in <code>this.state</code>. All&#39;interno di <code>render()</code> calcola quindi ogni altra informazione necessaria basandoti sullo stato. Ti accorgerai che pensare e scrivere applicazioni in questo modo porta alla scrittura dell&#39;applicazione più corretta, dal momento che aggiungere valori ridondanti o calcolati allo stato significherebbe doverli mantenere sincronizzati esplicitamente, anziché affidarti a React perché li calcoli al tuo posto.</p>
+<h2><a class="anchor" name="cosa-non-dovrebbe-contenere-lo-stato"></a>Cosa <em>Non Dovrebbe</em> Contenere lo Stato? <a class="hash-link" href="#cosa-non-dovrebbe-contenere-lo-stato">#</a></h2>
+<p><code>this.state</code> dovrebbe contenere soltanto la quantità minima di dati indispensabile a rappresentare lo stato della tua UI. In quanto tale, non dovrebbe contenere:</p>
+
+<ul>
+<li><strong>Dati calcolati:</strong> Non preoccuparti di precalcolare valori basati sullo stato — è più semplice assicurarti che la tua UI sia consistente se effettui tutti i calcoli all&#39;interno di <code>render()</code>. Per esempio, se lo stato contiene un array di elementi di una lista, e vuoi mostrare il numero di elementi come stringa, mostra semplicemente <code>this.state.listItems.length + &#39; elementi nella lista&#39;</code> nel tuo metodo <code>render()</code> anziché conservarlo nello stato.</li>
+<li><strong>Componenti React:</strong> Costruiscili in <code>render()</code> basandoti sulle proprietà e sullo stato del componente.</li>
+<li><strong>Dati duplicati dalle proprietà:</strong> Prova ad utilizzare le proprietà come fonte di verità ove possibile. Un uso valido dello stato per i valori delle proprietà è conservarne il valore precedente quando le proprietà cambiano nel tempo.</li>
+</ul>

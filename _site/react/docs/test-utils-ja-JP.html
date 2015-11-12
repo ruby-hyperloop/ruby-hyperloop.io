@@ -1,0 +1,79 @@
+<p><code>React.addons.TestUtils</code> は選んだテストフレームワーク（私たちは<a href="https://facebook.github.io/jest/">Jest</a>を使っています）において、Reactのコンポーネントをテストすることを簡単にします。</p>
+<h3><a class="anchor" name="simulate"></a>Simulate <a class="hash-link" href="#simulate">#</a></h3><div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">Simulate</span><span class="p">.{</span><span class="nx">eventName</span><span class="p">}(</span><span class="nx">DOMElement</span> <span class="nx">element</span><span class="p">,</span> <span class="nx">object</span> <span class="nx">eventData</span><span class="p">)</span>
+</code></pre></div>
+<p>オプションの <code>eventData</code> であるイベントデータと共に、DOMノードの上でイベントのディスパッチをシミュレートします。 <strong>これは <code>ReactTestUtils</code> の中で最も有用なユーティリティでしょう。</strong></p>
+
+<p>使用例:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">node</span> <span class="o">=</span> <span class="nx">ReactDOM</span><span class="p">.</span><span class="nx">findDOMNode</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">refs</span><span class="p">.</span><span class="nx">input</span><span class="p">);</span>
+<span class="nx">React</span><span class="p">.</span><span class="nx">addons</span><span class="p">.</span><span class="nx">TestUtils</span><span class="p">.</span><span class="nx">Simulate</span><span class="p">.</span><span class="nx">click</span><span class="p">(</span><span class="nx">node</span><span class="p">);</span>
+<span class="nx">React</span><span class="p">.</span><span class="nx">addons</span><span class="p">.</span><span class="nx">TestUtils</span><span class="p">.</span><span class="nx">Simulate</span><span class="p">.</span><span class="nx">change</span><span class="p">(</span><span class="nx">node</span><span class="p">,</span> <span class="p">{</span><span class="nx">target</span><span class="o">:</span> <span class="p">{</span><span class="nx">value</span><span class="o">:</span> <span class="s1">&#39;Hello, world&#39;</span><span class="p">}});</span>
+<span class="nx">React</span><span class="p">.</span><span class="nx">addons</span><span class="p">.</span><span class="nx">TestUtils</span><span class="p">.</span><span class="nx">Simulate</span><span class="p">.</span><span class="nx">keyDown</span><span class="p">(</span><span class="nx">node</span><span class="p">,</span> <span class="p">{</span><span class="nx">key</span><span class="o">:</span> <span class="s2">&quot;Enter&quot;</span><span class="p">});</span>
+</code></pre></div>
+<p><code>Simulate</code> はReactが理解出来る全てのイベントのためのメソッドを持っています。</p>
+<h3><a class="anchor" name="renderintodocument"></a>renderIntoDocument <a class="hash-link" href="#renderintodocument">#</a></h3><div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">ReactComponent</span> <span class="nx">renderIntoDocument</span><span class="p">(</span><span class="nx">ReactElement</span> <span class="nx">instance</span><span class="p">)</span>
+</code></pre></div>
+<p>コンポーネントをドキュメントの中で分離したDOMノードにレンダリングします。 <strong>この関数はDOMを必要とします。</strong></p>
+<h3><a class="anchor" name="mockcomponent"></a>mockComponent <a class="hash-link" href="#mockcomponent">#</a></h3><div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">object</span> <span class="nx">mockComponent</span><span class="p">(</span><span class="kd">function</span> <span class="nx">componentClass</span><span class="p">,</span> <span class="nx">string</span><span class="o">?</span> <span class="nx">mockTagName</span><span class="p">)</span>
+</code></pre></div>
+<p>有効なダミーのReactのコンポーネントとして使われることを許可するメソッドと共にこれを増強させるためにモックとなったコンポーネントモジュールをこのメソッドに渡してください。いつものようにレンダリングされる代わりに、コンポーネントは単純で、提供された子要素はどんなものでも含む <code>&lt;div&gt;</code> （<code>mockTagName</code> が提供されている場合はそのタグ）になるでしょう。</p>
+<h3><a class="anchor" name="iselement"></a>isElement <a class="hash-link" href="#iselement">#</a></h3><div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">boolean</span> <span class="nx">isElement</span><span class="p">(</span><span class="nx">ReactElement</span> <span class="nx">element</span><span class="p">)</span>
+</code></pre></div>
+<p><code>element</code> が何かしらのReactElementだった場合に <code>true</code> を返します。</p>
+<h3><a class="anchor" name="iselementoftype"></a>isElementOfType <a class="hash-link" href="#iselementoftype">#</a></h3><div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">boolean</span> <span class="nx">isElementOfType</span><span class="p">(</span><span class="nx">ReactElement</span> <span class="nx">element</span><span class="p">,</span> <span class="kd">function</span> <span class="nx">componentClass</span><span class="p">)</span>
+</code></pre></div>
+<p><code>element</code> がReactの <code>componentClass</code> 型であるReactElementだった場合に <code>true</code> を返します。</p>
+<h3><a class="anchor" name="isdomcomponent"></a>isDOMComponent <a class="hash-link" href="#isdomcomponent">#</a></h3><div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">boolean</span> <span class="nx">isDOMComponent</span><span class="p">(</span><span class="nx">ReactComponent</span> <span class="nx">instance</span><span class="p">)</span>
+</code></pre></div>
+<p><code>instance</code> がDOMのコンポーネントだった場合に <code>true</code> を返します( <code>&lt;div&gt;</code> や <code>&lt;span&gt;</code> のように)。</p>
+<h3><a class="anchor" name="iscompositecomponent"></a>isCompositeComponent <a class="hash-link" href="#iscompositecomponent">#</a></h3><div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">boolean</span> <span class="nx">isCompositeComponent</span><span class="p">(</span><span class="nx">ReactComponent</span> <span class="nx">instance</span><span class="p">)</span><span class="err">`</span>
+</code></pre></div>
+<p><code>instance</code> が複合的なコンポーネントだった場合に <code>true</code> を返します（<code>React.createClass()</code> で作成されるような）。</p>
+<h3><a class="anchor" name="iscompositecomponentwithtype"></a>isCompositeComponentWithType <a class="hash-link" href="#iscompositecomponentwithtype">#</a></h3><div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">boolean</span> <span class="nx">isCompositeComponentWithType</span><span class="p">(</span><span class="nx">ReactComponent</span> <span class="nx">instance</span><span class="p">,</span> <span class="kd">function</span> <span class="nx">componentClass</span><span class="p">)</span>
+</code></pre></div>
+<p><code>instance</code> が複合的なコンポーネントだった場合に <code>true</code> を返します（<code>React.createClass()</code> で作成され、型がReactの <code>componentClass</code> であるような）。</p>
+<h3><a class="anchor" name="findallinrenderedtree"></a>findAllInRenderedTree <a class="hash-link" href="#findallinrenderedtree">#</a></h3><div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">array</span> <span class="nx">findAllInRenderedTree</span><span class="p">(</span><span class="nx">ReactComponent</span> <span class="nx">tree</span><span class="p">,</span> <span class="kd">function</span> <span class="nx">test</span><span class="p">)</span>
+</code></pre></div>
+<p><code>tree</code> の中の全てのコンポーネントや <code>test(component)</code> が <code>true</code> となる蓄積された全てのコンポーネントを検討します。これはこれだけでは有用ではありませんが、他のテストユーティリティの根本として使われます。</p>
+<h3><a class="anchor" name="scryrendereddomcomponentswithclass"></a>scryRenderedDOMComponentsWithClass <a class="hash-link" href="#scryrendereddomcomponentswithclass">#</a></h3><div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">array</span> <span class="nx">scryRenderedDOMComponentsWithClass</span><span class="p">(</span><span class="nx">ReactComponent</span> <span class="nx">tree</span><span class="p">,</span> <span class="nx">string</span> <span class="nx">className</span><span class="p">)</span>
+</code></pre></div>
+<p>レンダリングされたツリーの中で、DOMコンポーネントであり、クラス名が <code>className</code> にマッチする、コンポーネントの全てのインスタンスを見つけます。</p>
+<h3><a class="anchor" name="findrendereddomcomponentwithclass"></a>findRenderedDOMComponentWithClass <a class="hash-link" href="#findrendereddomcomponentwithclass">#</a></h3><div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">ReactComponent</span> <span class="nx">findRenderedDOMComponentWithClass</span><span class="p">(</span><span class="nx">ReactComponent</span> <span class="nx">tree</span><span class="p">,</span> <span class="nx">string</span> <span class="nx">className</span><span class="p">)</span>
+</code></pre></div>
+<p><code>scryRenderedDOMComponentsWithClass()</code> に似ていますが、結果が1つであること、それを返すこと、またはマッチする個数が1個以外だった場合に例外を投げることを予期します。</p>
+<h3><a class="anchor" name="scryrendereddomcomponentswithtag"></a>scryRenderedDOMComponentsWithTag <a class="hash-link" href="#scryrendereddomcomponentswithtag">#</a></h3><div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">array</span> <span class="nx">scryRenderedDOMComponentsWithTag</span><span class="p">(</span><span class="nx">ReactComponent</span> <span class="nx">tree</span><span class="p">,</span> <span class="nx">string</span> <span class="nx">tagName</span><span class="p">)</span>
+</code></pre></div>
+<p>レンダリングされたツリーの中で、DOMコンポーネントであり、タグ名が <code>tagName</code> にマッチする、コンポーネントの全てのインスタンスを見つけます。</p>
+<h3><a class="anchor" name="findrendereddomcomponentwithtag"></a>findRenderedDOMComponentWithTag <a class="hash-link" href="#findrendereddomcomponentwithtag">#</a></h3><div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">ReactComponent</span> <span class="nx">findRenderedDOMComponentWithTag</span><span class="p">(</span><span class="nx">ReactComponent</span> <span class="nx">tree</span><span class="p">,</span> <span class="nx">string</span> <span class="nx">tagName</span><span class="p">)</span>
+</code></pre></div>
+<p><code>scryRenderedDOMComponentsWithTag()</code> に似ていますが、結果が1つであること、それを返すこと、またはマッチする個数が1個以外だった場合に例外を投げることを予期します。</p>
+<h3><a class="anchor" name="scryrenderedcomponentswithtype"></a>scryRenderedComponentsWithType <a class="hash-link" href="#scryrenderedcomponentswithtype">#</a></h3><div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">array</span> <span class="nx">scryRenderedComponentsWithType</span><span class="p">(</span><span class="nx">ReactComponent</span> <span class="nx">tree</span><span class="p">,</span> <span class="kd">function</span> <span class="nx">componentClass</span><span class="p">)</span>
+</code></pre></div>
+<p>型名が <code>componentClass</code> と同様である、コンポーネントの全てのインスタンスを見つけます。</p>
+<h3><a class="anchor" name="findrenderedcomponentwithtype"></a>findRenderedComponentWithType <a class="hash-link" href="#findrenderedcomponentwithtype">#</a></h3><div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">ReactComponent</span> <span class="nx">findRenderedComponentWithType</span><span class="p">(</span><span class="nx">ReactComponent</span> <span class="nx">tree</span><span class="p">,</span> <span class="kd">function</span> <span class="nx">componentClass</span><span class="p">)</span>
+</code></pre></div>
+<p><code>scryRenderedComponentsWithType()</code> と同じですが、結果が1つであること、それを返すこと、またはマッチする個数が1個以外だった場合に例外を投げることを予期します。</p>
+<h2><a class="anchor" name="shallow-rendering"></a>Shallow rendering <a class="hash-link" href="#shallow-rendering">#</a></h2>
+<p>シャローレンダリングは&quot;第一段階の深さ&quot;であるコンポーネントをレンダリングすることを強制し、レンダリングメソッドが返すものについての事実をアサートし、インスタンスを生成したり、レンダリングされたりしない子のコンポーネントの振る舞いについては関心しない実験的な特徴です。これはDOMを必要としません。</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">ReactShallowRenderer</span> <span class="nx">createRenderer</span><span class="p">()</span>
+</code></pre></div>
+<p>シャローレンダラーを作成するにはこれをテストの中で呼んでください。これをあなたがテストするコンポーネントをレンダリングする場所であると考えることができます。この場所はイベントに返答したり、これ自身を更新したりできます。</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">shallowRenderer</span><span class="p">.</span><span class="nx">render</span><span class="p">(</span><span class="nx">ReactElement</span> <span class="nx">element</span><span class="p">)</span>
+</code></pre></div>
+<p><code>ReactDOM.render</code> に同様。</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">ReactComponent</span> <span class="nx">shallowRenderer</span><span class="p">.</span><span class="nx">getRenderOutput</span><span class="p">()</span>
+</code></pre></div>
+<p><code>render</code> が呼ばれた後、浅くレンダリングされた出力を返します。その後、その出力に関しての事実をアサートすることができます。例えば、以下のように、コンポーネントのレンダリングメソッドが返してきた場合は、</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="nx">span</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;heading&quot;</span><span class="o">&gt;</span><span class="nx">Title</span><span class="o">&lt;</span><span class="err">/span&gt;</span>
+  <span class="o">&lt;</span><span class="nx">Subcomponent</span> <span class="nx">foo</span><span class="o">=</span><span class="s2">&quot;bar&quot;</span> <span class="o">/&gt;</span>
+<span class="o">&lt;</span><span class="err">/div&gt;</span>
+</code></pre></div>
+<p>以下のように、アサートできます。</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">result</span> <span class="o">=</span> <span class="nx">renderer</span><span class="p">.</span><span class="nx">getRenderOutput</span><span class="p">();</span>
+<span class="nx">expect</span><span class="p">(</span><span class="nx">result</span><span class="p">.</span><span class="nx">type</span><span class="p">).</span><span class="nx">toBe</span><span class="p">(</span><span class="s1">&#39;div&#39;</span><span class="p">);</span>
+<span class="nx">expect</span><span class="p">(</span><span class="nx">result</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">children</span><span class="p">).</span><span class="nx">toEqual</span><span class="p">([</span>
+  <span class="o">&lt;</span><span class="nx">span</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;heading&quot;</span><span class="o">&gt;</span><span class="nx">Title</span><span class="o">&lt;</span><span class="err">/span&gt;,</span>
+  <span class="o">&lt;</span><span class="nx">Subcomponent</span> <span class="nx">foo</span><span class="o">=</span><span class="s2">&quot;bar&quot;</span> <span class="o">/&gt;</span>
+<span class="p">]);</span>
+</code></pre></div>
+<p>シャローテスティングは現在、制限があります。はっきり言うと、参照をサポートしていません。私たちは、この特徴を早めにリリースし、これが、どのように進化していくか、Reactのコミュニティのフィードバックを評価するつもりです。</p>
