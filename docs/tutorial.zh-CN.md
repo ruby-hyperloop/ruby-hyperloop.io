@@ -156,7 +156,7 @@ var CommentForm = React.createClass({
 
 接着，更新 `CommentBox` 以使用这些新的组件：
 
-```javascript{6-8}
+```javascript
 // tutorial3.js
 var CommentBox = React.createClass({
   render: function() {
@@ -199,7 +199,7 @@ var Comment = React.createClass({
 
 既然我们已经定义了 `Comment` 组件，我们将要传递作者名和评论文字给它。这允许我们为每个评论重用相同的代码。现在让我们在我们的 `CommentList` 里添加一些评论。
 
-```javascript{6-7}
+```javascript
 // tutorial5.js
 var CommentList = React.createClass({
   render: function() {
@@ -236,7 +236,7 @@ Markdown 是一种简单的内联格式化你的文字的方法。例如，用�
 
 然后，让我们转换评论文本为 Markdown 并输出它：
 
-```javascript{9}
+```javascript
 // tutorial6.js
 var Comment = React.createClass({
   render: function() {
@@ -258,7 +258,7 @@ var Comment = React.createClass({
 
 那是 React 在保护你免受 [XSS 攻击](https://en.wikipedia.org/wiki/Cross-site_scripting)。有一个方法解决这个问题，但是框架会警告你别使用这种方法：
 
-```javascript{4,10}
+```javascript
 // tutorial7.js
 var Comment = React.createClass({
   rawMarkup: function() {
@@ -297,7 +297,7 @@ var data = [
 
 我们需要以一种模块化的方式将这个数据传入到 `CommentList`。修改 `CommentBox` 和 `React.render()` 方法，以通过 props 传入数据到 `CommentList`：
 
-```javascript{7,15}
+```javascript
 // tutorial9.js
 var CommentBox = React.createClass({
   render: function() {
@@ -319,7 +319,7 @@ React.render(
 
 既然现在数据在 `CommentList` 中可用了，让我们动态地渲染评论：
 
-```javascript{4-10,13}
+```javascript
 // tutorial10.js
 var CommentList = React.createClass({
   render: function() {
@@ -345,7 +345,7 @@ var CommentList = React.createClass({
 
 让我们用一些来自服务器的动态数据替换硬编码的数据。我们将移除数据的prop，用获取数据的URL来替换它：
 
-```javascript{3}
+```javascript
 // tutorial11.js
 React.render(
   <CommentBox url="/api/comments" />,
@@ -365,7 +365,7 @@ React.render(
 
 当服务器获取数据时，我们将会改变我们已有的评论数据。让我们给 `CommentBox` 组件添加一组评论数据作为它的状态：
 
-```javascript{3-5,10}
+```javascript
 // tutorial12.js
 var CommentBox = React.createClass({
   getInitialState: function() {
@@ -395,7 +395,7 @@ var CommentBox = React.createClass({
 ]
 ```
 
-```javascript{6-18}
+```javascript
 // tutorial13.js
 var CommentBox = React.createClass({
   getInitialState: function() {
@@ -428,7 +428,7 @@ var CommentBox = React.createClass({
 
 这里， `componentDidMount` 是一个当组件被渲染时被Ｒeact自动调用的方法。动态更新的关键是对 `this.setState()` 的调用。我们用新的从服务器来的替换掉旧的评论组，然后UI自动更新自己。因为这种反应性，仅是一个微小的变化就添加了实时更新。我们这里将用简单的轮询，但是你可以容易的使用 WebSockets 或者其他技术。
 
-```javascript{3,15,20-21,35}
+```javascript
 // tutorial14.js
 var CommentBox = React.createClass({
   loadCommentsFromServer: function() {
@@ -475,7 +475,7 @@ React.render(
 
 现在是时候建立表单了，我们的 `CommentForm` 组件应该询问用户他们的名字和评论文本然后发送一个请求到服务器来保存评论.
 
-```javascript{5-9}
+```javascript
 // tutorial15.js
 var CommentForm = React.createClass({
   render: function() {
@@ -492,7 +492,7 @@ var CommentForm = React.createClass({
 
 让我们做一个交互式的表单。当用户提交表单时，我们应该清空它，提交一个请求给服务器，和刷新评论列表。要开始，让我们监听表单的提交事件并清空它。
 
-```javascript{3-14,16-19}
+```javascript
 // tutorial16.js
 var CommentForm = React.createClass({
   handleSubmit: function(e) {
@@ -535,7 +535,7 @@ React使用驼峰命名规范(camelCase)给组件绑定事件处理器。我们�
 
 我们需要从子组件传回数据到它的父组件。我们在父组件的`render`方法中以传递一个新的回调函数（`handleCommentSubmit`）到子组件完成这件事，绑定它到子组件的 `onCommentSubmit` 事件上。无论事件什么时候触发，回调函数都将被调用：
 
-```javascript{16-18,31}
+```javascript
 // tutorial17.js
 var CommentBox = React.createClass({
   loadCommentsFromServer: function() {
@@ -575,7 +575,7 @@ var CommentBox = React.createClass({
 
 当用户提交表单时，让我们从 `CommentForm` 调用这个回调函数：
 
-```javascript{10}
+```javascript
 // tutorial18.js
 var CommentForm = React.createClass({
   handleSubmit: function(e) {
@@ -604,7 +604,7 @@ var CommentForm = React.createClass({
 
 既然现在回调函数已经就绪，我们所需要做的就是提交到服务器然后刷新列表：
 
-```javascript{17-28}
+```javascript
 // tutorial19.js
 var CommentBox = React.createClass({
   loadCommentsFromServer: function() {
@@ -657,7 +657,7 @@ var CommentBox = React.createClass({
 
 我们的应用现在已经功能完备，但是它感觉很慢，因为在评论出现在列表前必须等待请求完成。我们可以优化添加这条评论到列表以使应用感觉更快。
 
-```javascript{17-19}
+```javascript
 // tutorial20.js
 var CommentBox = React.createClass({
   loadCommentsFromServer: function() {

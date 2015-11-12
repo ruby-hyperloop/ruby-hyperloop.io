@@ -159,7 +159,7 @@ var CommentForm = React.createClass({
 
 다음은 `CommentBox` 컴포넌트가 새로 만든 컴포넌트들을 사용하도록 수정합니다.
 
-```javascript{6-8}
+```javascript
 // tutorial3.js
 var CommentBox = React.createClass({
   render: function() {
@@ -203,7 +203,7 @@ JSX 내부의 중괄호로 둘러싸인 JavaScript 표현식(어트리뷰트나 
 
 `Comment` 컴포넌트를 만들었으니, 여기에 글쓴이와 내용을 넘겨보도록 합시다. 이렇게 함으로써 각 고유한 comment에서 같은 코드를 재사용할 수 있습니다. 먼저 댓글 몇 개를 `CommentList`에 추가해 봅시다:
 
-```javascript{6-7}
+```javascript
 // tutorial5.js
 var CommentList = React.createClass({
   render: function() {
@@ -240,7 +240,7 @@ Markdown은 텍스트를 포맷팅하는 간단한 방식입니다. 예를 들�
 
 다음은, 댓글 텍스트를 Markdown으로 전환하고 출력해 봅시다.
 
-```javascript{9}
+```javascript
 // tutorial6.js
 var Comment = React.createClass({
   render: function() {
@@ -262,7 +262,7 @@ var Comment = React.createClass({
 
 React는 이런 식으로 [XSS 공격](https://en.wikipedia.org/wiki/Cross-site_scripting)을 예방합니다. 우회할 방법이 있긴 하지만 프레임워크는 사용하지 않도록 경고하고 있습니다:
 
-```javascript{4,14}
+```javascript
 // tutorial7.js
 var Comment = React.createClass({
   rawMarkup: function() {
@@ -301,7 +301,7 @@ var data = [
 
 이 데이터를 모듈화된 방식으로 `CommentList`에 넣어야 합니다. props을 이용해 데이터를 넘기도록 `CommentBox`와 `ReactDOM.render()` 호출 코드를 수정합시다.
 
-```javascript{7,15}
+```javascript
 // tutorial9.js
 var CommentBox = React.createClass({
   render: function() {
@@ -323,7 +323,7 @@ ReactDOM.render(
 
 이제 `CommentList`에서 데이터를 다룰 수 있습니다. 댓글을 동적으로 렌더해봅시다:
 
-```javascript{4-10,13}
+```javascript
 // tutorial10.js
 var CommentList = React.createClass({
   render: function() {
@@ -349,7 +349,7 @@ var CommentList = React.createClass({
 
 이제 데이터를 소스에 직접 넣는 방식에서 서버에서 동적으로 받아서 처리하는 방식으로 바꿔봅시다. 데이터 prop을 삭제하고 처리할 URL로 변경해 줍시다.
 
-```javascript{3}
+```javascript
 // tutorial11.js
 ReactDOM.render(
   <CommentBox url="/api/comments" />,
@@ -369,7 +369,7 @@ ReactDOM.render(
 
 서버가 데이터를 가져오면 댓글 데이터가 변경될 것입니다. 댓글 데이터의 배열을 `CommentBox`의 state로 추가해봅시다:
 
-```javascript{3-5,10}
+```javascript
 // tutorial12.js
 var CommentBox = React.createClass({
   getInitialState: function() {
@@ -400,7 +400,7 @@ var CommentBox = React.createClass({
 ]
 ```
 
-```javascript{6-18}
+```javascript
 // tutorial13.js
 var CommentBox = React.createClass({
   getInitialState: function() {
@@ -433,7 +433,7 @@ var CommentBox = React.createClass({
 
 여기서 `componentDidMount`는 컴포넌트가 렌더링 된 다음 React에 의해 자동으로 호출되는 메소드입니다. 동적 업데이트의 핵심은 `this.setState()`의 호출입니다. 우리가 이전의 댓글 목록을 서버에서 넘어온 새로운 목록으로 변경하면 자동으로 UI가 업데이트 될 것입니다. 이 반응성 덕분에 실시간 업데이트에 아주 작은 수정만 가해집니다. 우리는 여기선 간단한 폴링을 사용할 것이지만 웹소켓등의 다른 기술도 쉽게 사용할 수 있습니다.
 
-```javascript{3,15,20-21,35}
+```javascript
 // tutorial14.js
 var CommentBox = React.createClass({
   loadCommentsFromServer: function() {
@@ -480,7 +480,7 @@ ReactDOM.render(
 
 이제 폼을 만들어볼 시간입니다. 우리의 `CommentForm` 컴포넌트는 사용자에게 이름과 내용을 입력받고 댓글을 저장하기 위해 서버에 요청을 전송해야 합니다.
 
-```javascript{5-9}
+```javascript
 // tutorial15.js
 var CommentForm = React.createClass({
   render: function() {
@@ -497,7 +497,7 @@ var CommentForm = React.createClass({
 
 이제 폼의 상호작용을 만들어 보겠습니다. 사용자가 폼을 전송하는 시점에 우리는 폼을 초기화하고 서버에 요청을 전송하고 댓글목록을 업데이트해야 합니다. 폼의 submit 이벤트를 감시하고 초기화 해주는 부분부터 시작해 보죠.
 
-```javascript{3-13,16-19}
+```javascript
 // tutorial16.js
 var CommentForm = React.createClass({
   handleSubmit: function(e) {
@@ -540,7 +540,7 @@ React는 카멜케이스 네이밍 컨벤션으로 컴포넌트에 이벤트 핸
 
 자식 컴포넌트가 그의 부모에게 데이터를 넘겨줄 필요가 있습니다. 부모의 `render` 메소드에서 새로운 콜백(`handleCommentSubmit`)을 자식에게 넘겨주고, 자식의 `onCommentSubmit` 이벤트에 그것을 바인딩해주는 식으로 구현합니다. 이벤트가 작동될때(triggered)마다, 콜백이 호출됩니다:
 
-```javascript{16-18,31}
+```javascript
 // tutorial17.js
 var CommentBox = React.createClass({
   loadCommentsFromServer: function() {
@@ -580,7 +580,7 @@ var CommentBox = React.createClass({
 
 사용자가 폼을 전송할 때, `CommentForm`에서 콜백을 호출해 봅시다:
 
-```javascript{10}
+```javascript
 // tutorial18.js
 var CommentForm = React.createClass({
   handleSubmit: function(e) {
@@ -609,7 +609,7 @@ var CommentForm = React.createClass({
 
 이제 콜백이 제자리를 찾았습니다. 우리가 할 일은 서버에 요청을 날리고 목록을 업데이트하는 것 뿐입니다:
 
-```javascript{17-28}
+```javascript
 // tutorial19.js
 var CommentBox = React.createClass({
   loadCommentsFromServer: function() {
@@ -662,7 +662,7 @@ var CommentBox = React.createClass({
 
 우리의 애플리케이션은 이제 모든 기능을 갖추었습니다. 하지만 댓글이 목록에 업데이트되기 전에 완료요청을 기다리는 게 조금 느린듯한 느낌이 드네요. 우리는 낙관적 업데이트를 통해 댓글이 목록에 추가되도록 함으로써 앱이 좀 더 빨라진 것처럼 느껴지도록 할 수 있습니다.
 
-```javascript{17-19}
+```javascript
 // tutorial20.js
 var CommentBox = React.createClass({
   loadCommentsFromServer: function() {

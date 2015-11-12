@@ -57,7 +57,7 @@ var MessageList = React.createClass({
 
 In this example, we manually thread through a `color` prop in order to style the `Button` and `Message` components appropriately. Theming is a good example of when you might want an entire subtree to have access to some piece of information (a color). Using context, we can pass this through the tree automatically:
 
-```javascript{2-4,7,18,25-30,33}
+```javascript
 var Button = React.createClass({
   contextTypes: {
     color: React.PropTypes.string

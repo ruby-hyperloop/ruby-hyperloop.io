@@ -84,7 +84,7 @@ babel src --watch --out-dir build
 
 Il file `build/helloworld.js` è generato automaticamente ogni qualvolta effettui un cambiamento. Leggi la [documentazione di Babel CLI](http://babeljs.io/docs/usage/cli/) per un uso più avanzato.
 
-```javascript{2}
+```javascript
 ReactDOM.render(
   React.createElement('h1', null, 'Ciao, mondo!'),
   document.getElementById('example')

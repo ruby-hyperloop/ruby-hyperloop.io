@@ -112,7 +112,7 @@ babel src --watch --out-dir build
 `build/helloworld.js` 会在你对文件进行修改时自动生成。 阅读 [Babel CLI 文档](http://babeljs.io/docs/usage/cli/) 了解高级用法。
 
 
-```javascript{2}
+```javascript
 ReactDOM.render(
   React.createElement('h1', null, 'Hello, world!'),
   document.getElementById('example')

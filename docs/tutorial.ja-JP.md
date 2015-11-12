@@ -153,7 +153,7 @@ var CommentForm = React.createClass({
 
 さて、この新しいコンポーネントを使えるように `CommentBox` コンポーネントを書き直しましょう。
 
-```javascript{6-8}
+```javascript
 // tutorial3.js
 var CommentBox = React.createClass({
   render: function() {
@@ -196,7 +196,7 @@ JSX の内側で（属性値または子要素として）JavaScript の式を�
 
 さて、これまでに `Comment` コンポーネントを定義しました。これからこのコンポーネントに、コメントの著者名と内容を渡せるようにします。これを実装することで、それぞれ別のコメントに対して同じコードを使い回せるようになります。それでは早速 `CommentList` の中にコメントを追加していきましょう。
 
-```javascript{6-7}
+```javascript
 // tutorial5.js
 var CommentList = React.createClass({
   render: function() {
@@ -233,7 +233,7 @@ Markdown はインラインでテキストをフォーマットする簡単な�
 
 次に、Markdown で書かれたコメントを変換して出力してみましょう。
 
-```javascript{2,10}
+```javascript
 // tutorial6.js
 var Comment = React.createClass({
   render: function() {
@@ -255,7 +255,7 @@ var Comment = React.createClass({
 
 このような現象が起きるのは React が XSS 攻撃に対する防御を行っているからです。これを回避する方法はありますが、それを使うときにはフレームワークが警告をします。
 
-```javascript{5,11}
+```javascript
 // tutorial7.js
 var Comment = React.createClass({
   render: function() {
@@ -290,7 +290,7 @@ var data = [
 
 このデータはモジュールを使って `CommentList` に取り込む必要があります。`CommentBox` の `ReactDOM.render()` の部分を手直しして、props を通してデータが `CommentList` へ渡るようにしましょう。
 
-```javascript{7,15}
+```javascript
 // tutorial9.js
 var CommentBox = React.createClass({
   render: function() {
@@ -312,7 +312,7 @@ ReactDOM.render(
 
 こうして `CommentList` がデータを扱えるようになりました。それでは、コメントを動的にレンダリングしてみましょう。
 
-```javascript{4-10,13}
+```javascript
 // tutorial10.js
 var CommentList = React.createClass({
   render: function() {
@@ -338,7 +338,7 @@ var CommentList = React.createClass({
 
 続いて、ハードコーディングしていたデータを、サーバからの動的なデータに置き換えてみましょう。
 
-```javascript{3}
+```javascript
 // tutorial11.js
 ReactDOM.render(
   <CommentBox url="api/comments" />,
@@ -356,7 +356,7 @@ ReactDOM.render(
 
 サーバがデータを集めてくれば、今あるコメントのデータを更新することになるかもしれません。state を表すコメントのデータの配列を `CommentBox` コンポーネントに加えましょう。
 
-```javascript{3-5,10}
+```javascript
 // tutorial12.js
 var CommentBox = React.createClass({
   getInitialState: function() {
@@ -391,7 +391,7 @@ var CommentBox = React.createClass({
 
 注意: ここからは AJAX アプリケーションを作っていくので、自分のファイルシステム上ではなく Web サーバを使ってアプリを作る必要があります。残りのチュートリアルに必要な機能は [冒頭で紹介した](#running-a-server) サーバに含まれています。ソースコードは [GitHub に](https://github.com/reactjs/react-tutorial/)用意してあります。
 
-```javascript{6-18}
+```javascript
 // tutorial13.js
 var CommentBox = React.createClass({
   getInitialState: function() {
@@ -424,7 +424,7 @@ var CommentBox = React.createClass({
 
 さて、`componentDidMount` はコンポーネントがレンダリングされたときに React が自動的に呼び出すメソッドです。動的な更新の鍵となるのは `this.setState()` の呼び出し方です。ここでは、古いコメントの配列をサーバから取ってきた新しい配列に置き換え、UI を自動的に更新させてみましょう。このような reactivity（反応性・柔軟性）のおかげで、リアルタイム更新を最小限にすることが出来ます。次のコードではシンプルなポーリングをしていますが、WebSockets や他の方法でも簡単に実現できます。
 
-```javascript{3,15,20-21,35}
+```javascript
 // tutorial14.js
 var CommentBox = React.createClass({
   loadCommentsFromServer: function() {
@@ -471,7 +471,7 @@ ReactDOM.render(
 
 いよいよフォームを作る段階に来ました。ここで `CommentForm` コンポーネントは、ユーザに自分の名前とコメントの内容を入力させ、コメントを保存させるためにサーバへリクエストを送る役割を果たすことになります。
 
-```javascript{5-9}
+```javascript
 // tutorial15.js
 var CommentForm = React.createClass({
   render: function() {
@@ -488,7 +488,7 @@ var CommentForm = React.createClass({
 
 それでは、フォームを使ってデータをやり取りできるようにしましょう。ユーザがフォームから送信したら、フォームをクリアしてサーバにリクエストを送り、コメントリストをリフレッシュすることになります。まず手始めに、フォームからの送信イベントを受け取ってフォームをクリアできるようにしましょう。
 
-```javascript{3-13,16-19}
+```javascript
 // tutorial16.js
 var CommentForm = React.createClass({
   handleSubmit: function(e) {
@@ -531,7 +531,7 @@ React がコンポーネントにイベントハンドラを登録する際は c
 
 ここでは子のコンポーネントから親に向かって、いつもとは逆方向にデータを返す必要があります。まず、親のコンポーネントに新しいコールバック関数（`handleCommentSubmit`）を定義します。続いて `render` メソッド内にある子のコンポーネントにコールバックを渡すことで、`onCommentSubmit` イベントとコールバックを結び付けています。こうすることで、イベントが発生するたびにコールバックが呼び出されます。
 
-```javascript{16-18,31}
+```javascript
 // tutorial17.js
 var CommentBox = React.createClass({
   loadCommentsFromServer: function() {
@@ -571,7 +571,7 @@ var CommentBox = React.createClass({
 
 それでは、ユーザがフォームから送信したら `CommentForm` がコールバックを呼び出せるようにしましょう。
 
-```javascript{10}
+```javascript
 // tutorial18.js
 var CommentForm = React.createClass({
   handleSubmit: function(e) {
@@ -600,7 +600,7 @@ var CommentForm = React.createClass({
 
 こうしてコールバックが出来たので、あとはサーバにコメントを送信してリストをリフレッシュすれば完璧です。
 
-```javascript{17-28}
+```javascript
 // tutorial19.js
 var CommentBox = React.createClass({
   loadCommentsFromServer: function() {
@@ -653,7 +653,7 @@ var CommentBox = React.createClass({
 
 アプリケーションに必要な機能は一通り実装できました。しかし、フォームからコメントを送信しても、サーバからのレスポンスが来るまで自分のコメントはリストに載らないため、アプリの動作は遅く感じます。ここでは、送信したコメントをリストに先読みさせて、アプリの体感速度をアップさせましょう。
 
-```javascript{17-19}
+```javascript
 // tutorial20.js
 var CommentBox = React.createClass({
   loadCommentsFromServer: function() {

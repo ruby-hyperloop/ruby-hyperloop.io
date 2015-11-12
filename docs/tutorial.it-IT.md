@@ -156,7 +156,7 @@ var CommentForm = React.createClass({
 
 Successivamente, aggiorna il componente `CommentBox` per utilizzare questi due nuovi componenti:
 
-```javascript{6-8}
+```javascript
 // tutorial3.js
 var CommentBox = React.createClass({
   render: function() {
@@ -199,7 +199,7 @@ Racchiudendo un'espressione JavaScript dentro parentesi graffe all'interno di JS
 
 Adesso che abbiamo definito il componente `Comment`, vogliamo passargli il nome dell'autore e il testo del commento. Questo ci permette di riutilizzare lo stesso codice per ciascun commento individuale. Ora aggiungiamo dei commenti all'interno del nostro `CommentList`:
 
-```javascript{6-7}
+```javascript
 // tutorial5.js
 var CommentList = React.createClass({
   render: function() {
@@ -236,7 +236,7 @@ Per prima cosa, aggiungiamo la libreria di terze parti **marked** alla tua appli
 
 Successivamente, convertiamo il testo del commento da Markdown e scriviamolo:
 
-```javascript{9}
+```javascript
 // tutorial6.js
 var Comment = React.createClass({
   render: function() {
@@ -258,7 +258,7 @@ Ma c'è un problema! I nostri commenti visualizzati appaiono come segue nel brow
 
 Questo è il risultato della protezione di React da parte di un [attacco XSS](https://en.wikipedia.org/wiki/Cross-site_scripting). C'è una maniera di aggirare questo comportamento, ma il framework ti avvisa di non farlo:
 
-```javascript{4,10}
+```javascript
 // tutorial7.js
 var Comment = React.createClass({
   rawMarkup: function() {
@@ -297,7 +297,7 @@ var data = [
 
 Dobbiamo inserire questi dati in `CommentList` in maniera modulare. Modifica `CommentBox` e la chiamata a `ReactDOM.render()` per passare questi dati a `CommentList` tramite proprietà:
 
-```javascript{7,15}
+```javascript
 // tutorial9.js
 var CommentBox = React.createClass({
   render: function() {
@@ -319,7 +319,7 @@ ReactDOM.render(
 
 Adesso che i dati sono disponibili in `CommentList`, visualizziamo i commenti dinamicamente:
 
-```javascript{4-10,13}
+```javascript
 // tutorial10.js
 var CommentList = React.createClass({
   render: function() {
@@ -345,7 +345,7 @@ Tutto qui!
 
 Sostituiamo i dati scritti nel codice con dati dinamici ottenuti dal server. Rimuoveremo le proprietà dei dati e le sostituiremo con uno URL da richiedere:
 
-```javascript{3}
+```javascript
 // tutorial11.js
 ReactDOM.render(
   <CommentBox url="/api/comments" />,
@@ -365,7 +365,7 @@ I metodi `render()` sono scritti dichiarativamente come funzioni di `this.props`
 
 Quando il server ci fornisce i dati, dovremo cambiare i dati dei commenti in nostro possesso. Aggiungiamo un array di dati dei commenti al componente `CommentBox` come il suo stato:
 
-```javascript{3-5,10}
+```javascript
 // tutorial12.js
 var CommentBox = React.createClass({
   getInitialState: function() {
@@ -395,7 +395,7 @@ Quando il componente è creato per la prima volta, vogliamo richiedere tramite G
 ]
 ```
 
-```javascript{6-18}
+```javascript
 // tutorial13.js
 var CommentBox = React.createClass({
   getInitialState: function() {
@@ -428,7 +428,7 @@ var CommentBox = React.createClass({
 
 Qui, `componentDidMount` è un metodo chiamato automaticamente da React quando un componente viene visualizzato. La chiave agli aggiornamenti dinamici è la chiamata a `this.setState()`. Sostituiamo il vecchio array di commenti con il nuovo ottenuto dal server e la UI si aggiorna automaticamente. Per via di questa reattività, è richiesto soltanto un piccolo cambiamento per aggiungere gli aggiornamenti in tempo reale. Qui useremo un semplice polling, ma potrai facilmente usare WebSockets o altre tecnologie.
 
-```javascript{3,15,20-21,35}
+```javascript
 // tutorial14.js
 var CommentBox = React.createClass({
   loadCommentsFromServer: function() {
@@ -475,7 +475,7 @@ Tutto ciò che abbiamo fatto finora è spostare la chiamata AJAX in un metodo a 
 
 È giunto il momento di costruire il modulo. Il nostro componente `CommentForm` deve chiedere all'utente il nome e un testo del commento, e inviare una richiesta al server per salvare il commento.
 
-```javascript{5-9}
+```javascript
 // tutorial15.js
 var CommentForm = React.createClass({
   render: function() {
@@ -492,7 +492,7 @@ var CommentForm = React.createClass({
 
 Rendiamo il modulo interattivo. Quando l'utente invia il modulo, dobbiamo ripulirlo, inviare una richiesta al server, e aggiornare la lista dei commenti. Per cominciare, ascoltiamo l'evento `submit` del modulo e ripuliamolo.
 
-```javascript{3-14,16-19}
+```javascript
 // tutorial16.js
 var CommentForm = React.createClass({
   handleSubmit: function(e) {
@@ -535,7 +535,7 @@ Quando un utente invia un commento, dobbiamo aggiornare la lista dei commenti pe
 
 Dobbiamo passare i dati dal componente figlio su fino al suo genitore. Lo facciamo nel metodo `render` del nostro genitore passando una nuova callback  (`handleCommentSubmit`) al figlio, legandola all'evento `onCommentSubmit` del figlio. Quando questo evento viene emesso, la callback verrà eseguita:
 
-```javascript{16-18,31}
+```javascript
 // tutorial17.js
 var CommentBox = React.createClass({
   loadCommentsFromServer: function() {
@@ -575,7 +575,7 @@ var CommentBox = React.createClass({
 
 Chiamiamo la callback da `CommentForm` quando l'utente invia il modulo:
 
-```javascript{10}
+```javascript
 // tutorial18.js
 var CommentForm = React.createClass({
   handleSubmit: function(e) {
@@ -604,7 +604,7 @@ var CommentForm = React.createClass({
 
 Adesso che le callback sono al loro posto, non ci resta che inviare al server e aggiornare la lista:
 
-```javascript{17-28}
+```javascript
 // tutorial19.js
 var CommentBox = React.createClass({
   loadCommentsFromServer: function() {
@@ -657,7 +657,7 @@ var CommentBox = React.createClass({
 
 La nostra applicazione è adesso completa, ma aspettare che la richiesta completi prima di vedere il commento apparire nella lista la fa sembrare lenta. Possiamo aggiungere ottimisticamente questo commento alla lista per fare apparire l'applicazione più veloce.
 
-```javascript{17-19}
+```javascript
 // tutorial20.js
 var CommentBox = React.createClass({
   loadCommentsFromServer: function() {

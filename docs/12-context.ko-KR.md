@@ -58,7 +58,7 @@ var MessageList = React.createClass({
 
 이 예제에서, 우리는 스타일을 주기 위해 수동으로 적절하게 `Button`과 `Messages` 컴포넌트에 `color` 프로퍼티를 엮어서 전달했습니다. 테마는 서브트리가 정보 조각의 일부(여기선 color)에 접근하기 원하는 좋은 예제입니다. 컨텍스트를 사용하면 우리는 이를 자동으로 트리로 전달할 수 있습니다:
 
-```javascript{2-4,7,18,25-30,33}
+```javascript
 var Button = React.createClass({
   contextTypes: {
     color: React.PropTypes.string

@@ -82,7 +82,7 @@ jsx --watch src/ build/
 
 すると、`src/helloword.js` に変更を加えるごとに `build/helloworld.js` が自動で生成されるようになります。
 
-```javascript{2}
+```javascript
 ReactDOM.render(
   React.createElement('h1', null, 'Hello, world!'),
   document.getElementById('example')

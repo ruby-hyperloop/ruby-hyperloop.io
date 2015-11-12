@@ -115,7 +115,7 @@ babel --presets react src --watch --out-dir build
 
 수정할 때마다 `build/helloworld.js` 파일이 자동생성됩니다. 더 자세한 사용법은 [Babel CLI 문서](http://babeljs.io/docs/usage/cli/)를 읽어보세요.
 
-```javascript{2}
+```javascript
 ReactDOM.render(
   React.createElement('h1', null, 'Hello, world!'),
   document.getElementById('example')
