@@ -434,10 +434,10 @@
     <span class="k">return</span> <span class="p">(</span>
       <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
         <span class="o">&lt;</span><span class="nx">button</span> <span class="nx">onClick</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">handleAdd</span><span class="p">}</span><span class="o">&gt;</span><span class="nx">Add</span> <span class="nx">Item</span><span class="o">&lt;</span><span class="err">/button&gt;</span>
-<span class="hll">        <span class="o">&lt;</span><span class="nx">ReactCSSTransitionGroup</span> <span class="nx">transitionName</span><span class="o">=</span><span class="s2">&quot;example&quot;</span> <span class="nx">transitionEnterTimeout</span><span class="o">=</span><span class="p">{</span><span class="mi">500</span><span class="p">}</span> <span class="nx">transitionLeaveTimeout</span><span class="o">=</span><span class="p">{</span><span class="mi">300</span><span class="p">}</span><span class="o">&gt;</span>
-</span><span class="hll">          <span class="p">{</span><span class="nx">items</span><span class="p">}</span>
-</span><span class="hll">        <span class="o">&lt;</span><span class="err">/ReactCSSTransitionGroup&gt;</span>
-</span>      <span class="o">&lt;</span><span class="err">/div&gt;</span>
+        <span class="o">&lt;</span><span class="nx">ReactCSSTransitionGroup</span> <span class="nx">transitionName</span><span class="o">=</span><span class="s2">&quot;example&quot;</span> <span class="nx">transitionEnterTimeout</span><span class="o">=</span><span class="p">{</span><span class="mi">500</span><span class="p">}</span> <span class="nx">transitionLeaveTimeout</span><span class="o">=</span><span class="p">{</span><span class="mi">300</span><span class="p">}</span><span class="o">&gt;</span>
+          <span class="p">{</span><span class="nx">items</span><span class="p">}</span>
+        <span class="o">&lt;</span><span class="err">/ReactCSSTransitionGroup&gt;</span>
+      <span class="o">&lt;</span><span class="err">/div&gt;</span>
     <span class="p">);</span>
   <span class="p">}</span>
 <span class="p">});</span>
@@ -474,10 +474,10 @@
 <p><code>ReactCSSTransitionGroup</code> 提供了可选的prop <code>transitionAppear</code>，来为在组件初始挂载添加一个额外的过渡阶段。 通常在初始化挂载时没有过渡阶段因为<code>transitionAppear</code> 的默认值为<code>false</code>。下面是一个传递<code>transitionAppear</code> 为值<code>true</code>的例子。</p>
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript">  <span class="nx">render</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
     <span class="k">return</span> <span class="p">(</span>
-<span class="hll">      <span class="o">&lt;</span><span class="nx">ReactCSSTransitionGroup</span> <span class="nx">transitionName</span><span class="o">=</span><span class="s2">&quot;example&quot;</span> <span class="nx">transitionAppear</span><span class="o">=</span><span class="p">{</span><span class="kc">true</span><span class="p">}</span> <span class="nx">transitionAppearTimeout</span><span class="o">=</span><span class="p">{</span><span class="mi">500</span><span class="p">}</span><span class="o">&gt;</span>
-</span><span class="hll">        <span class="o">&lt;</span><span class="nx">h1</span><span class="o">&gt;</span><span class="nx">Fading</span> <span class="nx">at</span> <span class="nx">Initial</span> <span class="nx">Mount</span><span class="o">&lt;</span><span class="err">/h1&gt;</span>
-</span><span class="hll">      <span class="o">&lt;</span><span class="err">/ReactCSSTransitionGroup&gt;</span>
-</span>    <span class="p">);</span>
+      <span class="o">&lt;</span><span class="nx">ReactCSSTransitionGroup</span> <span class="nx">transitionName</span><span class="o">=</span><span class="s2">&quot;example&quot;</span> <span class="nx">transitionAppear</span><span class="o">=</span><span class="p">{</span><span class="kc">true</span><span class="p">}</span> <span class="nx">transitionAppearTimeout</span><span class="o">=</span><span class="p">{</span><span class="mi">500</span><span class="p">}</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">h1</span><span class="o">&gt;</span><span class="nx">Fading</span> <span class="nx">at</span> <span class="nx">Initial</span> <span class="nx">Mount</span><span class="o">&lt;</span><span class="err">/h1&gt;</span>
+      <span class="o">&lt;</span><span class="err">/ReactCSSTransitionGroup&gt;</span>
+    <span class="p">);</span>
   <span class="p">}</span>
 </code></pre></div>
 <p>在初始化挂载时 <code>ReactCSSTransitionGroup</code> 将获得<code>example-appear</code> CSS类 并且<code>example-appear-active</code> CSS 类在下一刻被添加。</p>
@@ -534,11 +534,11 @@
       <span class="p">);</span>
     <span class="p">},</span> <span class="k">this</span><span class="p">);</span>
     <span class="k">return</span> <span class="p">(</span>
-<span class="hll">      <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
-</span><span class="hll">        <span class="o">&lt;</span><span class="nx">button</span> <span class="nx">onClick</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">handleAdd</span><span class="p">}</span><span class="o">&gt;</span><span class="nx">Add</span> <span class="nx">Item</span><span class="o">&lt;</span><span class="err">/button&gt;</span>
-</span><span class="hll">        <span class="p">{</span><span class="nx">items</span><span class="p">}</span>
-</span><span class="hll">      <span class="o">&lt;</span><span class="err">/div&gt;</span>
-</span>    <span class="p">);</span>
+      <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">button</span> <span class="nx">onClick</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">handleAdd</span><span class="p">}</span><span class="o">&gt;</span><span class="nx">Add</span> <span class="nx">Item</span><span class="o">&lt;</span><span class="err">/button&gt;</span>
+        <span class="p">{</span><span class="nx">items</span><span class="p">}</span>
+      <span class="o">&lt;</span><span class="err">/div&gt;</span>
+    <span class="p">);</span>
   <span class="p">}</span>
 </code></pre></div><h3><a class="anchor" name="-animating-one-or-zero-items"></a>动画一个或者零个项目 Animating One or Zero Items <a class="hash-link" href="#-animating-one-or-zero-items">#</a></h3>
 <p>在上面的例子中，我们渲染了一系列的项目到<code>ReactCSSTransitionGroup</code>里。然而 <code>ReactCSSTransitionGroup</code> 的子级同样可以是一个或零个项目。这使它能够动画化单个元素的进入和离开。同样，你可以动画化一个新的元素替换当前元素。例如，我们可以像这样实现一个简单的图片轮播器：</p>
@@ -551,10 +551,10 @@
   <span class="nx">render</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
     <span class="k">return</span> <span class="p">(</span>
       <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
-<span class="hll">        <span class="o">&lt;</span><span class="nx">ReactCSSTransitionGroup</span> <span class="nx">transitionName</span><span class="o">=</span><span class="s2">&quot;carousel&quot;</span> <span class="nx">transitionEnterTimeout</span><span class="o">=</span><span class="p">{</span><span class="mi">300</span><span class="p">}</span> <span class="nx">transitionLeaveTimeout</span><span class="o">=</span><span class="p">{</span><span class="mi">300</span><span class="p">}</span><span class="o">&gt;</span>
-</span><span class="hll">          <span class="o">&lt;</span><span class="nx">img</span> <span class="nx">src</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">imageSrc</span><span class="p">}</span> <span class="nx">key</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">imageSrc</span><span class="p">}</span> <span class="o">/&gt;</span>
-</span><span class="hll">        <span class="o">&lt;</span><span class="err">/ReactCSSTransitionGroup&gt;</span>
-</span>      <span class="o">&lt;</span><span class="err">/div&gt;</span>
+        <span class="o">&lt;</span><span class="nx">ReactCSSTransitionGroup</span> <span class="nx">transitionName</span><span class="o">=</span><span class="s2">&quot;carousel&quot;</span> <span class="nx">transitionEnterTimeout</span><span class="o">=</span><span class="p">{</span><span class="mi">300</span><span class="p">}</span> <span class="nx">transitionLeaveTimeout</span><span class="o">=</span><span class="p">{</span><span class="mi">300</span><span class="p">}</span><span class="o">&gt;</span>
+          <span class="o">&lt;</span><span class="nx">img</span> <span class="nx">src</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">imageSrc</span><span class="p">}</span> <span class="nx">key</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">imageSrc</span><span class="p">}</span> <span class="o">/&gt;</span>
+        <span class="o">&lt;</span><span class="err">/ReactCSSTransitionGroup&gt;</span>
+      <span class="o">&lt;</span><span class="err">/div&gt;</span>
     <span class="p">);</span>
   <span class="p">}</span>
 <span class="p">});</span>
@@ -582,8 +582,8 @@
 <p>在<code>willLeave</code> <code>callback</code> 被调用的时候调用（与 <code>componentWillUnmount</code> 同一时间）。</p>
 <h3><a class="anchor" name=""></a>渲染一个不同的组件 <a class="hash-link" href="#">#</a></h3>
 <p>默认情况下 <code>ReactTransitionGroup</code> 渲染为一个 <code>span</code>。你可以通过提供一个 <code>component</code> prop 来改变这种行为。例如，下面是你将如何渲染一个<code>&lt;ul&gt;</code>：</p>
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="hll"><span class="o">&lt;</span><span class="nx">ReactTransitionGroup</span> <span class="nx">component</span><span class="o">=</span><span class="s2">&quot;ul&quot;</span><span class="o">&gt;</span>
-</span>  <span class="p">...</span>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="o">&lt;</span><span class="nx">ReactTransitionGroup</span> <span class="nx">component</span><span class="o">=</span><span class="s2">&quot;ul&quot;</span><span class="o">&gt;</span>
+  <span class="p">...</span>
 <span class="o">&lt;</span><span class="err">/ReactTransitionGroup&gt;</span>
 </code></pre></div>
 <p>每一个React能渲染的DOM组件都是可用的。然而，<code>组件</code>不需要是一个DOM组件。它可以是任何你想要的React组件；甚至是你自己已经写好的！</p>
@@ -595,8 +595,8 @@
 </blockquote>
 
 <p>任何额外的、用户定义的属性将会成为已渲染的组件的属性。例如，以下是你将如何渲染一个带有css类的 <code>&lt;ul&gt;</code>：</p>
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="hll"><span class="o">&lt;</span><span class="nx">ReactTransitionGroup</span> <span class="nx">component</span><span class="o">=</span><span class="s2">&quot;ul&quot;</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;animated-list&quot;</span><span class="o">&gt;</span>
-</span>  <span class="p">...</span>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="o">&lt;</span><span class="nx">ReactTransitionGroup</span> <span class="nx">component</span><span class="o">=</span><span class="s2">&quot;ul&quot;</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;animated-list&quot;</span><span class="o">&gt;</span>
+  <span class="p">...</span>
 <span class="o">&lt;</span><span class="err">/ReactTransitionGroup&gt;</span>
 </code></pre></div>
 

@@ -436,10 +436,10 @@
     <span class="k">return</span> <span class="p">(</span>
       <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
         <span class="o">&lt;</span><span class="nx">button</span> <span class="nx">onClick</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">handleAdd</span><span class="p">}</span><span class="o">&gt;</span><span class="nx">Add</span> <span class="nx">Item</span><span class="o">&lt;</span><span class="err">/button&gt;</span>
-<span class="hll">        <span class="o">&lt;</span><span class="nx">ReactCSSTransitionGroup</span> <span class="nx">transitionName</span><span class="o">=</span><span class="s2">&quot;example&quot;</span> <span class="nx">transitionEnterTimeout</span><span class="o">=</span><span class="p">{</span><span class="mi">500</span><span class="p">}</span> <span class="nx">transitionLeaveTimeout</span><span class="o">=</span><span class="p">{</span><span class="mi">300</span><span class="p">}</span><span class="o">&gt;</span>
-</span><span class="hll">          <span class="p">{</span><span class="nx">items</span><span class="p">}</span>
-</span><span class="hll">        <span class="o">&lt;</span><span class="err">/ReactCSSTransitionGroup&gt;</span>
-</span>      <span class="o">&lt;</span><span class="err">/div&gt;</span>
+        <span class="o">&lt;</span><span class="nx">ReactCSSTransitionGroup</span> <span class="nx">transitionName</span><span class="o">=</span><span class="s2">&quot;example&quot;</span> <span class="nx">transitionEnterTimeout</span><span class="o">=</span><span class="p">{</span><span class="mi">500</span><span class="p">}</span> <span class="nx">transitionLeaveTimeout</span><span class="o">=</span><span class="p">{</span><span class="mi">300</span><span class="p">}</span><span class="o">&gt;</span>
+          <span class="p">{</span><span class="nx">items</span><span class="p">}</span>
+        <span class="o">&lt;</span><span class="err">/ReactCSSTransitionGroup&gt;</span>
+      <span class="o">&lt;</span><span class="err">/div&gt;</span>
     <span class="p">);</span>
   <span class="p">}</span>
 <span class="p">});</span>
@@ -476,10 +476,10 @@
 <p><code>ReactCSSTransitionGroup</code>은 컴포넌트를 처음 마운트할 때 추가 트렌지션 단계를 추가하기 위해, 선택적인 prop <code>transitionAppear</code>를 제공합니다. 일반적으로 처음 마운트할 때 트렌지션 단계를 넣지 않기 때문에 <code>transitionAppear</code>의 기본 값은 <code>false</code>입니다. 뒤의 예제는 <code>transitionAppear</code> prop에 <code>true</code> 값을 넘기고 있습니다.</p>
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript">  <span class="nx">render</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
     <span class="k">return</span> <span class="p">(</span>
-<span class="hll">      <span class="o">&lt;</span><span class="nx">ReactCSSTransitionGroup</span> <span class="nx">transitionName</span><span class="o">=</span><span class="s2">&quot;example&quot;</span> <span class="nx">transitionAppear</span><span class="o">=</span><span class="p">{</span><span class="kc">true</span><span class="p">}</span> <span class="nx">transitionAppearTimeout</span><span class="o">=</span><span class="p">{</span><span class="mi">500</span><span class="p">}</span><span class="o">&gt;</span>
-</span><span class="hll">        <span class="o">&lt;</span><span class="nx">h1</span><span class="o">&gt;</span><span class="nx">Fading</span> <span class="nx">at</span> <span class="nx">Initial</span> <span class="nx">Mount</span><span class="o">&lt;</span><span class="err">/h1&gt;</span>
-</span><span class="hll">      <span class="o">&lt;</span><span class="err">/ReactCSSTransitionGroup&gt;</span>
-</span>    <span class="p">);</span>
+      <span class="o">&lt;</span><span class="nx">ReactCSSTransitionGroup</span> <span class="nx">transitionName</span><span class="o">=</span><span class="s2">&quot;example&quot;</span> <span class="nx">transitionAppear</span><span class="o">=</span><span class="p">{</span><span class="kc">true</span><span class="p">}</span> <span class="nx">transitionAppearTimeout</span><span class="o">=</span><span class="p">{</span><span class="mi">500</span><span class="p">}</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">h1</span><span class="o">&gt;</span><span class="nx">Fading</span> <span class="nx">at</span> <span class="nx">Initial</span> <span class="nx">Mount</span><span class="o">&lt;</span><span class="err">/h1&gt;</span>
+      <span class="o">&lt;</span><span class="err">/ReactCSSTransitionGroup&gt;</span>
+    <span class="p">);</span>
   <span class="p">}</span>
 </code></pre></div>
 <p>처음 마운트할 때 <code>ReactCSSTransitionGroup</code>은 <code>example-appear</code> CSS 클래스를 받고 그 다음에 <code>example-appear-active</code> CSS 클래스가 추가됩니다.</p>
@@ -536,11 +536,11 @@
       <span class="p">);</span>
     <span class="p">},</span> <span class="k">this</span><span class="p">);</span>
     <span class="k">return</span> <span class="p">(</span>
-<span class="hll">      <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
-</span><span class="hll">        <span class="o">&lt;</span><span class="nx">button</span> <span class="nx">onClick</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">handleAdd</span><span class="p">}</span><span class="o">&gt;</span><span class="nx">Add</span> <span class="nx">Item</span><span class="o">&lt;</span><span class="err">/button&gt;</span>
-</span><span class="hll">        <span class="p">{</span><span class="nx">items</span><span class="p">}</span>
-</span><span class="hll">      <span class="o">&lt;</span><span class="err">/div&gt;</span>
-</span>    <span class="p">);</span>
+      <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">button</span> <span class="nx">onClick</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">handleAdd</span><span class="p">}</span><span class="o">&gt;</span><span class="nx">Add</span> <span class="nx">Item</span><span class="o">&lt;</span><span class="err">/button&gt;</span>
+        <span class="p">{</span><span class="nx">items</span><span class="p">}</span>
+      <span class="o">&lt;</span><span class="err">/div&gt;</span>
+    <span class="p">);</span>
   <span class="p">}</span>
 </code></pre></div><h3><a class="anchor" name="----"></a>아이템 하나이거나 없을 때의 애니메이션 <a class="hash-link" href="#----">#</a></h3>
 <p>위의 예제에서 <code>ReactCSSTransitionGroup</code>에 아이템 목록을 렌더했지만, <code>ReactCSSTransitionGroup</code>의 자식은 하나이거나 없을 수도 있습니다. 이는 한 엘리먼트가 들어오고 나가는 것의 애니메이션을 가능하게 합니다. 비슷하게, 현재 엘리먼트가 나가는 동안 새 앨리먼트의 애니메이션을 하면, 새 엘리먼트가 현재 엘리먼트를 교체하는 애니메이션을 만들 수 있습니다. 예를 들어 이렇게 간단한 이미지 회전 베너(carousel)를 구현할 수 있습니다.</p>
@@ -553,10 +553,10 @@
   <span class="nx">render</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
     <span class="k">return</span> <span class="p">(</span>
       <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
-<span class="hll">        <span class="o">&lt;</span><span class="nx">ReactCSSTransitionGroup</span> <span class="nx">transitionName</span><span class="o">=</span><span class="s2">&quot;carousel&quot;</span> <span class="nx">transitionEnterTimeout</span><span class="o">=</span><span class="p">{</span><span class="mi">300</span><span class="p">}</span> <span class="nx">transitionLeaveTimeout</span><span class="o">=</span><span class="p">{</span><span class="mi">300</span><span class="p">}</span><span class="o">&gt;</span>
-</span><span class="hll">          <span class="o">&lt;</span><span class="nx">img</span> <span class="nx">src</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">imageSrc</span><span class="p">}</span> <span class="nx">key</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">imageSrc</span><span class="p">}</span> <span class="o">/&gt;</span>
-</span><span class="hll">        <span class="o">&lt;</span><span class="err">/ReactCSSTransitionGroup&gt;</span>
-</span>      <span class="o">&lt;</span><span class="err">/div&gt;</span>
+        <span class="o">&lt;</span><span class="nx">ReactCSSTransitionGroup</span> <span class="nx">transitionName</span><span class="o">=</span><span class="s2">&quot;carousel&quot;</span> <span class="nx">transitionEnterTimeout</span><span class="o">=</span><span class="p">{</span><span class="mi">300</span><span class="p">}</span> <span class="nx">transitionLeaveTimeout</span><span class="o">=</span><span class="p">{</span><span class="mi">300</span><span class="p">}</span><span class="o">&gt;</span>
+          <span class="o">&lt;</span><span class="nx">img</span> <span class="nx">src</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">imageSrc</span><span class="p">}</span> <span class="nx">key</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">imageSrc</span><span class="p">}</span> <span class="o">/&gt;</span>
+        <span class="o">&lt;</span><span class="err">/ReactCSSTransitionGroup&gt;</span>
+      <span class="o">&lt;</span><span class="err">/div&gt;</span>
     <span class="p">);</span>
   <span class="p">}</span>
 <span class="p">});</span>
@@ -584,15 +584,15 @@
 <p>이는 <code>willLeave</code> <code>callback</code>이 호출될 때 호출됩니다. (<code>componentWillUnmount</code>와 같은 타이밍)</p>
 <h3><a class="anchor" name="--"></a>다른 컴포넌트 렌더하기 <a class="hash-link" href="#--">#</a></h3>
 <p>기본적으로 <code>ReactTransitionGroup</code>은 <code>span</code>으로 렌더합니다. <code>component</code> prop으로 이 행동을 바꿀 수 있습니다. 예를 들어, <code>&lt;ul&gt;</code>을 렌더하고 싶다면 이렇게 하면 됩니다.</p>
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="hll"><span class="o">&lt;</span><span class="nx">ReactTransitionGroup</span> <span class="nx">component</span><span class="o">=</span><span class="s2">&quot;ul&quot;</span><span class="o">&gt;</span>
-</span>  <span class="p">...</span>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="o">&lt;</span><span class="nx">ReactTransitionGroup</span> <span class="nx">component</span><span class="o">=</span><span class="s2">&quot;ul&quot;</span><span class="o">&gt;</span>
+  <span class="p">...</span>
 <span class="o">&lt;</span><span class="err">/ReactTransitionGroup&gt;</span>
 </code></pre></div>
 <p>React가 렌더할 수 있는 DOM 컴포넌트는 전부 사용할 수 있습니다. 하지만 <code>component</code>가 DOM 컴포넌트일 필요는 없습니다. React 컴포넌트라면 무엇이든 넣을 수 있습니다. 직접 구현한 컴포넌트여도 됩니다! 그냥 <code>component={List}</code>를 적으면 컴포넌트는 <code>this.props.children</code>로 받을 수 있습니다.</p>
 
 <p>사용자 정의를 포함한 어떤 프로퍼티도 렌더된 컴포넌트의 프로퍼티가 됩니다. 예를 들어, <code>&lt;ul&gt;</code>에 CSS 클래스를 넣어서 렌더하려면 이렇게 하면 됩니다.</p>
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="hll"><span class="o">&lt;</span><span class="nx">ReactTransitionGroup</span> <span class="nx">component</span><span class="o">=</span><span class="s2">&quot;ul&quot;</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;animated-list&quot;</span><span class="o">&gt;</span>
-</span>  <span class="p">...</span>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="o">&lt;</span><span class="nx">ReactTransitionGroup</span> <span class="nx">component</span><span class="o">=</span><span class="s2">&quot;ul&quot;</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;animated-list&quot;</span><span class="o">&gt;</span>
+  <span class="p">...</span>
 <span class="o">&lt;</span><span class="err">/ReactTransitionGroup&gt;</span>
 </code></pre></div>
 

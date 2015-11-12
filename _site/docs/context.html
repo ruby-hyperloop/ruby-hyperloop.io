@@ -451,13 +451,13 @@
 </code></pre></div>
 <p>In this example, we manually thread through a <code>color</code> prop in order to style the <code>Button</code> and <code>Message</code> components appropriately. Theming is a good example of when you might want an entire subtree to have access to some piece of information (a color). Using context, we can pass this through the tree automatically:</p>
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">Button</span> <span class="o">=</span> <span class="nx">React</span><span class="p">.</span><span class="nx">createClass</span><span class="p">({</span>
-<span class="hll">  <span class="nx">contextTypes</span><span class="o">:</span> <span class="p">{</span>
-</span><span class="hll">    <span class="nx">color</span><span class="o">:</span> <span class="nx">React</span><span class="p">.</span><span class="nx">PropTypes</span><span class="p">.</span><span class="nx">string</span>
-</span><span class="hll">  <span class="p">},</span>
-</span>  <span class="nx">render</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="nx">contextTypes</span><span class="o">:</span> <span class="p">{</span>
+    <span class="nx">color</span><span class="o">:</span> <span class="nx">React</span><span class="p">.</span><span class="nx">PropTypes</span><span class="p">.</span><span class="nx">string</span>
+  <span class="p">},</span>
+  <span class="nx">render</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
     <span class="k">return</span> <span class="p">(</span>
-<span class="hll">      <span class="o">&lt;</span><span class="nx">button</span> <span class="nx">style</span><span class="o">=</span><span class="p">{{</span><span class="nx">background</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">context</span><span class="p">.</span><span class="nx">color</span><span class="p">}}</span><span class="o">&gt;</span>
-</span>        <span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">children</span><span class="p">}</span>
+      <span class="o">&lt;</span><span class="nx">button</span> <span class="nx">style</span><span class="o">=</span><span class="p">{{</span><span class="nx">background</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">context</span><span class="p">.</span><span class="nx">color</span><span class="p">}}</span><span class="o">&gt;</span>
+        <span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">children</span><span class="p">}</span>
       <span class="o">&lt;</span><span class="err">/button&gt;</span>
     <span class="p">);</span>
   <span class="p">}</span>
@@ -467,23 +467,23 @@
   <span class="nx">render</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
     <span class="k">return</span> <span class="p">(</span>
       <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
-<span class="hll">        <span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">text</span><span class="p">}</span> <span class="o">&lt;</span><span class="nx">Button</span><span class="o">&gt;</span><span class="nx">Delete</span><span class="o">&lt;</span><span class="err">/Button&gt;</span>
-</span>      <span class="o">&lt;</span><span class="err">/div&gt;</span>
+        <span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">text</span><span class="p">}</span> <span class="o">&lt;</span><span class="nx">Button</span><span class="o">&gt;</span><span class="nx">Delete</span><span class="o">&lt;</span><span class="err">/Button&gt;</span>
+      <span class="o">&lt;</span><span class="err">/div&gt;</span>
     <span class="p">);</span>
   <span class="p">}</span>
 <span class="p">});</span>
 
 <span class="kd">var</span> <span class="nx">MessageList</span> <span class="o">=</span> <span class="nx">React</span><span class="p">.</span><span class="nx">createClass</span><span class="p">({</span>
-<span class="hll">  <span class="nx">childContextTypes</span><span class="o">:</span> <span class="p">{</span>
-</span><span class="hll">    <span class="nx">color</span><span class="o">:</span> <span class="nx">React</span><span class="p">.</span><span class="nx">PropTypes</span><span class="p">.</span><span class="nx">string</span>
-</span><span class="hll">  <span class="p">},</span>
-</span><span class="hll">  <span class="nx">getChildContext</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-</span><span class="hll">    <span class="k">return</span> <span class="p">{</span><span class="nx">color</span><span class="o">:</span> <span class="s2">&quot;purple&quot;</span><span class="p">};</span>
-</span><span class="hll">  <span class="p">},</span>
-</span>  <span class="nx">render</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="nx">childContextTypes</span><span class="o">:</span> <span class="p">{</span>
+    <span class="nx">color</span><span class="o">:</span> <span class="nx">React</span><span class="p">.</span><span class="nx">PropTypes</span><span class="p">.</span><span class="nx">string</span>
+  <span class="p">},</span>
+  <span class="nx">getChildContext</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">{</span><span class="nx">color</span><span class="o">:</span> <span class="s2">&quot;purple&quot;</span><span class="p">};</span>
+  <span class="p">},</span>
+  <span class="nx">render</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
     <span class="kd">var</span> <span class="nx">children</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">messages</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">message</span><span class="p">)</span> <span class="p">{</span>
-<span class="hll">      <span class="k">return</span> <span class="o">&lt;</span><span class="nx">Message</span> <span class="nx">text</span><span class="o">=</span><span class="p">{</span><span class="nx">message</span><span class="p">.</span><span class="nx">text</span><span class="p">}</span> <span class="o">/&gt;</span><span class="p">;</span>
-</span>    <span class="p">});</span>
+      <span class="k">return</span> <span class="o">&lt;</span><span class="nx">Message</span> <span class="nx">text</span><span class="o">=</span><span class="p">{</span><span class="nx">message</span><span class="p">.</span><span class="nx">text</span><span class="p">}</span> <span class="o">/&gt;</span><span class="p">;</span>
+    <span class="p">});</span>
     <span class="k">return</span> <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span><span class="p">{</span><span class="nx">children</span><span class="p">}</span><span class="o">&lt;</span><span class="err">/div&gt;;</span>
   <span class="p">}</span>
 <span class="p">});</span>

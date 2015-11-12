@@ -487,8 +487,8 @@ npm install babel-preset-react
 
 <p>수정할 때마다 <code>build/helloworld.js</code> 파일이 자동생성됩니다. 더 자세한 사용법은 <a href="http://babeljs.io/docs/usage/cli/">Babel CLI 문서</a>를 읽어보세요.</p>
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">ReactDOM</span><span class="p">.</span><span class="nx">render</span><span class="p">(</span>
-<span class="hll">  <span class="nx">React</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;h1&#39;</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="s1">&#39;Hello, world!&#39;</span><span class="p">),</span>
-</span>  <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;example&#39;</span><span class="p">)</span>
+  <span class="nx">React</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;h1&#39;</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="s1">&#39;Hello, world!&#39;</span><span class="p">),</span>
+  <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;example&#39;</span><span class="p">)</span>
 <span class="p">);</span>
 </code></pre></div>
 <p>아래의 내용대로 HTML 파일을 업데이트합니다:</p>
@@ -499,12 +499,12 @@ npm install babel-preset-react
     <span class="nt">&lt;title&gt;</span>Hello React!<span class="nt">&lt;/title&gt;</span>
     <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;build/react.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
     <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;build/react-dom.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
-<span class="hll">    <span class="c">&lt;!-- Babel은 이제 불필요합니다! --&gt;</span>
-</span>  <span class="nt">&lt;/head&gt;</span>
+    <span class="c">&lt;!-- Babel은 이제 불필요합니다! --&gt;</span>
+  <span class="nt">&lt;/head&gt;</span>
   <span class="nt">&lt;body&gt;</span>
     <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;example&quot;</span><span class="nt">&gt;&lt;/div&gt;</span>
-<span class="hll">    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;build/helloworld.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
-</span>  <span class="nt">&lt;/body&gt;</span>
+    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;build/helloworld.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+  <span class="nt">&lt;/body&gt;</span>
 <span class="nt">&lt;/html&gt;</span>
 </code></pre></div><h2><a class="anchor" name="-"></a>다음 단계로 <a class="hash-link" href="#-">#</a></h2>
 <p>더 알아보려면 <a href="/react/docs/tutorial-ko-KR.html">튜토리얼</a>과 초심자용 키트의 <code>examples</code> 디렉터리에서 다른 예제들을 확인해 보세요.</p>

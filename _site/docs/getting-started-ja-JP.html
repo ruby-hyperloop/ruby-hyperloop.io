@@ -457,8 +457,8 @@
 </code></pre></div>
 <p>すると、<code>src/helloword.js</code> に変更を加えるごとに <code>build/helloworld.js</code> が自動で生成されるようになります。</p>
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">ReactDOM</span><span class="p">.</span><span class="nx">render</span><span class="p">(</span>
-<span class="hll">  <span class="nx">React</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;h1&#39;</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="s1">&#39;Hello, world!&#39;</span><span class="p">),</span>
-</span>  <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;example&#39;</span><span class="p">)</span>
+  <span class="nx">React</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;h1&#39;</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="s1">&#39;Hello, world!&#39;</span><span class="p">),</span>
+  <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;example&#39;</span><span class="p">)</span>
 <span class="p">);</span>
 </code></pre></div>
 <p>最後に HTML ファイルを以下のように書き換えましょう。</p>
@@ -468,12 +468,12 @@
     <span class="nt">&lt;meta</span> <span class="na">charset=</span><span class="s">&quot;UTF-8&quot;</span> <span class="nt">/&gt;</span>
     <span class="nt">&lt;title&gt;</span>Hello React!<span class="nt">&lt;/title&gt;</span>
     <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;build/react.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
-<span class="hll">    <span class="c">&lt;!-- Babel は必要ありません！ --&gt;</span>
-</span>  <span class="nt">&lt;/head&gt;</span>
+    <span class="c">&lt;!-- Babel は必要ありません！ --&gt;</span>
+  <span class="nt">&lt;/head&gt;</span>
   <span class="nt">&lt;body&gt;</span>
     <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;example&quot;</span><span class="nt">&gt;&lt;/div&gt;</span>
-<span class="hll">    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;build/helloworld.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
-</span>  <span class="nt">&lt;/body&gt;</span>
+    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;build/helloworld.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+  <span class="nt">&lt;/body&gt;</span>
 <span class="nt">&lt;/html&gt;</span>
 </code></pre></div><h2><a class="anchor" name="commonjs-"></a>CommonJS を使うには <a class="hash-link" href="#commonjs-">#</a></h2>
 <p>React を <a href="http://browserify.org/">browserify</a> や <a href="https://webpack.github.io/">webpack</a>、または CommonJS 準拠の他のモジュールシステムと一緒に使いたい場合、 <a href="https://www.npmjs.com/package/react"><code>react</code> npm package</a> を使ってみてください。また、<code>jsx</code> ビルドツールをパッケージングシステム（CommonJS に限らず）に導入することも非常に簡単です。</p>

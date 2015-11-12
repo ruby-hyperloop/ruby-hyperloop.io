@@ -459,8 +459,8 @@
 </code></pre></div>
 <p>Il file <code>build/helloworld.js</code> è generato automaticamente ogni qualvolta effettui un cambiamento. Leggi la <a href="http://babeljs.io/docs/usage/cli/">documentazione di Babel CLI</a> per un uso più avanzato.</p>
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">ReactDOM</span><span class="p">.</span><span class="nx">render</span><span class="p">(</span>
-<span class="hll">  <span class="nx">React</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;h1&#39;</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="s1">&#39;Ciao, mondo!&#39;</span><span class="p">),</span>
-</span>  <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;example&#39;</span><span class="p">)</span>
+  <span class="nx">React</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;h1&#39;</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="s1">&#39;Ciao, mondo!&#39;</span><span class="p">),</span>
+  <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;example&#39;</span><span class="p">)</span>
 <span class="p">);</span>
 </code></pre></div>
 <p>Aggiorna il tuo file HTML come segue:</p>
@@ -470,12 +470,12 @@
     <span class="nt">&lt;meta</span> <span class="na">charset=</span><span class="s">&quot;UTF-8&quot;</span> <span class="nt">/&gt;</span>
     <span class="nt">&lt;title&gt;</span>Ciao React!<span class="nt">&lt;/title&gt;</span>
     <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;build/react.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
-<span class="hll">    <span class="c">&lt;!-- Non c&#39;è bisogno di Babel! --&gt;</span>
-</span>  <span class="nt">&lt;/head&gt;</span>
+    <span class="c">&lt;!-- Non c&#39;è bisogno di Babel! --&gt;</span>
+  <span class="nt">&lt;/head&gt;</span>
   <span class="nt">&lt;body&gt;</span>
     <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;example&quot;</span><span class="nt">&gt;&lt;/div&gt;</span>
-<span class="hll">    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;build/helloworld.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
-</span>  <span class="nt">&lt;/body&gt;</span>
+    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;build/helloworld.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+  <span class="nt">&lt;/body&gt;</span>
 <span class="nt">&lt;/html&gt;</span>
 </code></pre></div><h2><a class="anchor" name="vuoi-commonjs"></a>Vuoi CommonJS? <a class="hash-link" href="#vuoi-commonjs">#</a></h2>
 <p>Se vuoi usare React con <a href="http://browserify.org/">browserify</a>, <a href="https://webpack.github.io/">webpack</a>, o un altro sistema modulare compatibile con CommonJS, usa il <a href="https://www.npmjs.com/package/react">pacchetto npm <code>react</code></a>. In aggiunta, lo strumento di build <code>jsx</code> può essere integrato in quasi tutti i sistemi di packaging (non soltanto CommonJS) assai facilmente.</p>
