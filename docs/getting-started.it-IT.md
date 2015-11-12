@@ -94,7 +94,7 @@ ReactDOM.render(
 
 Aggiorna il tuo file HTML come segue:
 
-```html{7,11}
+```html
 <!DOCTYPE html>
 <html>
   <head>

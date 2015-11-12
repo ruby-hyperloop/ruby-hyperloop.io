@@ -124,7 +124,7 @@ ReactDOM.render(
 
 아래의 내용대로 HTML 파일을 업데이트합니다:
 
-```html{8,12}
+```html
 <!DOCTYPE html>
 <html>
   <head>

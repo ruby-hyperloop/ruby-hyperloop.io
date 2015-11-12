@@ -5,7 +5,7 @@
 # be naive, and only allow line highlighting when a language is specified. If
 # you don't want any syntax highlighting but want to highlight lines, then you
 # need to specify text as your language, like:
-# ```text{4}
+# ```text
 
 
 module Jekyll

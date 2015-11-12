@@ -121,7 +121,7 @@ ReactDOM.render(
 
 对照下面更新你的 HTML 代码
 
-```html{7,11}
+```html
 <!DOCTYPE html>
 <html>
   <head>

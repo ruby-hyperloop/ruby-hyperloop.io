@@ -125,7 +125,7 @@ ReactDOM.render(
 
 Update your HTML file as below:
 
-```html{8,12}
+```html
 <!DOCTYPE html>
 <html>
   <head>
