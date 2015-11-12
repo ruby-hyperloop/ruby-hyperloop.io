@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
 	<channel>
 		<title>React</title>
-		<description>A JavaScript library for building user interfaces</description>
+		<description>Use Ruby to build Reactive User Interfaces</description>
 		<link>https://facebook.github.io/</link>
 		<atom:link href="https://facebook.github.io//feed.xml" rel="self" type="application/rss+xml" />
 		

@@ -1,6 +1,6 @@
 ---
 name: React
-description: A JavaScript library for building user interfaces
+description: Use Ruby to build Reactive User Interfaces
 url: https://facebook.github.io
 baseurl: "/"
 permalink: "/blog/:year/:month/:day/:title.html"

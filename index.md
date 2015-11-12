@@ -1,30 +1,29 @@
 ---
 layout: page
-title: A JavaScript library for building user interfaces
+title: Use Ruby to build Reactive User Interfaces
 id: home
 ---
 
 <section class="light home-section">
   <div class="marketing-row">
     <div class="marketing-col">
-      <h3>Just the UI</h3>
+      <h3>Pure Ruby</h3>
       <p>
-        Lots of people use React as the V in MVC.
-        Since React makes no assumptions about the rest of your technology stack,
-        it&apos;s easy to try it out on a small feature in an existing project.
+        React.rb lets you build beautiful interactive user interfaces using the same Ruby language running your server side code.  React.rb replaces JS code, HTML,
+        templating languages, and complex frameworks with one simple system.
       </p>
     </div>
     <div class="marketing-col">
-      <h3>Virtual DOM</h3>
+      <h3>React + Ruby</h3>
       <p>
-        React abstracts away the DOM from you, giving a simpler programming model and better performance. React can also render on the server using Node, and it can power native apps using <a href="https://facebook.github.io/react-native/">React Native</a>.
+        The power and simplicity of React with a great easy to use Ruby DSL.  React.rb frees you up to do what you do best - building great apps.
       </p>
     </div>
     <div class="marketing-col">
-      <h3>Data flow</h3>
+      <h3>Simplicity</h3>
       <p>
-        React implements one-way reactive data flow which reduces boilerplate and is
-        easier to reason about than traditional data binding.
+        One language.  One simple model.  Under the hood React.rb takes care of all the details for you.  The same ruby code runs on the server to deliver pages
+        fast, and then keeps running on the client to handle your user interactions.  
       </p>
     </div>
   </div>
