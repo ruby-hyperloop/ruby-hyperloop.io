@@ -116,7 +116,7 @@ ReactDOM.render(
 );
 ```
 
-JSX의 사용은 선택적이지만 JSX 문법이 일반 JavsScript보다 사용하기 쉽습니다. [JSX 문법 문서](/react/docs/jsx-in-depth.html)에서 더 알아보세요.
+JSX의 사용은 선택적이지만 JSX 문법이 일반 JavsScript보다 사용하기 쉽습니다. [JSX 문법 문서](/docs/jsx-in-depth.html)에서 더 알아보세요.
 
 #### 무슨 일이 일어나고 있는가
 
@@ -717,4 +717,4 @@ var CommentBox = React.createClass({
 
 ### 축하합니다!
 
-몇 단계를 거쳐 간단하게 댓글창을 만들어 보았습니다. [왜 React인가](/react/docs/why-react-ko-KR.html)에서 더 알아보거나, 혹은 [API 레퍼런스](/react/docs/top-level-api-ko-KR.html)에 뛰어들어 해킹을 시작하세요! 행운을 빕니다!
+몇 단계를 거쳐 간단하게 댓글창을 만들어 보았습니다. [왜 React인가](/docs/why-react-ko-KR.html)에서 더 알아보거나, 혹은 [API 레퍼런스](/docs/top-level-api-ko-KR.html)에 뛰어들어 해킹을 시작하세요! 행운을 빕니다!

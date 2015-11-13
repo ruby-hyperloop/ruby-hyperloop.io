@@ -130,7 +130,7 @@ Nomi degli eventi:
 onChange onInput onSubmit
 ```
 
-Per maggiori informazioni sull'evento onChange, leggi [Moduli](/react/docs/forms.html).
+Per maggiori informazioni sull'evento onChange, leggi [Moduli](/docs/forms.html).
 
 
 ### Eventi del Mouse

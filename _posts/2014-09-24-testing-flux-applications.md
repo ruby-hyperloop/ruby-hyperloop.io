@@ -315,7 +315,7 @@ render: function() {
 },
 ```
 
-To learn how to test React components themselves, check out the [Jest tutorial for React](https://facebook.github.io/jest/docs/tutorial-react.html) and the [ReactTestUtils documentation](/react/docs/test-utils.html).
+To learn how to test React components themselves, check out the [Jest tutorial for React](https://facebook.github.io/jest/docs/tutorial-react.html) and the [ReactTestUtils documentation](/docs/test-utils.html).
 
 
 Further Reading

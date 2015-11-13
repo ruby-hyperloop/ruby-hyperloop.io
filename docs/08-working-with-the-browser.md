@@ -18,7 +18,7 @@ Most of the time you should stay within React's "faked browser" world since it's
 
 ## Refs and findDOMNode()
 
-To interact with the browser, you'll need a reference to a DOM node. You can attach a `ref` to any element, which allows you to reference the **backing instance** of the component.  This is useful if you need to invoke imperative functions on the component, or want to access the underlying DOM nodes.  To learn more about refs, including ways to use them effectively, see our [refs to components](/react/docs/more-about-refs.html) documentation.
+To interact with the browser, you'll need a reference to a DOM node. You can attach a `ref` to any element, which allows you to reference the **backing instance** of the component.  This is useful if you need to invoke imperative functions on the component, or want to access the underlying DOM nodes.  To learn more about refs, including ways to use them effectively, see our [refs to components](/docs/more-about-refs.html) documentation.
 
 ## Component Lifecycle
 

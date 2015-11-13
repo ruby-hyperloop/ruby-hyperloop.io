@@ -92,9 +92,9 @@ Con JSX ciò diventa:
 
 Abbiamo scoperto che questo ha reso la costruzione di applicazioni React più semplice e i designer tendono a preferire la sintassi, ma ciascuno ha un diverso flusso di lavoro, quindi **JSX non è richiesto per utilizzare React.**
 
-JSX è di dimensioni contenute. Per maggiori informazioni, consulta [JSX in profondità](/react/docs/jsx-in-depth-it-IT.html). Oppure osserva la trasformazione in tempo reale sulla [REPL di Babel](https://babeljs.io/repl/).
+JSX è di dimensioni contenute. Per maggiori informazioni, consulta [JSX in profondità](/docs/jsx-in-depth-it-IT.html). Oppure osserva la trasformazione in tempo reale sulla [REPL di Babel](https://babeljs.io/repl/).
 
-JSX è simile all'HTML, ma non proprio identico. Consulta la guida [JSX gotchas](/react/docs/jsx-gotchas-it-IT.html) per alcune differenze fondamentali.
+JSX è simile all'HTML, ma non proprio identico. Consulta la guida [JSX gotchas](/docs/jsx-gotchas-it-IT.html) per alcune differenze fondamentali.
 
 [Babel offre una varietà di strumenti per cominciare a usare JSX](http://babeljs.io/docs/setup/), dagli strumenti a riga di comando alle integrazioni in Ruby on Rails. Scegli lo strumento che funziona meglio per te.
 

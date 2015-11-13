@@ -8,7 +8,7 @@ next: forms-it-IT.html
 
 Un pattern comune in React è l'uso di un'astrazione per esporre un componente. Il componente esterno espone una semplice proprietà per effettuare un'azione che può richiedere un'implementazione più complessa.
 
-Puoi usare gli [attributi spread di JSX](/react/docs/jsx-spread.html) per unire le vecchie props con valori aggiuntivi:
+Puoi usare gli [attributi spread di JSX](/docs/jsx-spread.html) per unire le vecchie props con valori aggiuntivi:
 
 ```javascript
 <Component {...this.props} more="values" />
@@ -51,7 +51,7 @@ E se aggiungessimo una proprietà `name`? O una proprietà `title`? O `onMouseOv
 
 > NOTA:
 >
-> La sintassi `...` fa parte della proposta Object Rest Spread. Questa proposta è in processo di diventare uno standard. Consulta la sezione [Proprietà Rest e Spread ...](/react/docs/transferring-props.html#rest-and-spread-properties-...) di seguito per maggiori dettagli.
+> La sintassi `...` fa parte della proposta Object Rest Spread. Questa proposta è in processo di diventare uno standard. Consulta la sezione [Proprietà Rest e Spread ...](/docs/transferring-props.html#rest-and-spread-properties-...) di seguito per maggiori dettagli.
 
 A volte passare manualmente ciascuna proprietà può essere noioso e fragile. In quei casi puoi usare l'[assegnamento destrutturante](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment) con le proprietà residue per estrarre un insieme di proprietà sconosciute.
 

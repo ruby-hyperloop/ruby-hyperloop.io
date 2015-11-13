@@ -68,7 +68,7 @@ Reactのコンポーネントのインスタンスを作成する時には、以
 <Parent><Child /></Parent>
 ```
 
-`Parent` は特別な  `this.props.children` というプロパティでアクセスすることで、子要素を読み取ることができます。 **`this.props.children` は不透明なデータ構造です。** 操作するには[React.Children utilities](/react/docs/top-level-api.html#react.children)を使用してください。
+`Parent` は特別な  `this.props.children` というプロパティでアクセスすることで、子要素を読み取ることができます。 **`this.props.children` は不透明なデータ構造です。** 操作するには[React.Children utilities](/docs/top-level-api.html#react.children)を使用してください。
 
 
 ### 子要素の調和
@@ -180,7 +180,7 @@ Reactの、 `props` を通した所有者から所有されるコンポーネン
 
 みなさんは所有者の下にたくさんのノードがあるときには、データの変更には多くのコストがかかると考えるでしょう。良いニュースとして、JavaScriptは早く、 `render()` メソッドはとても単純になりやすいので、多くのアプリケーションにおいて、こういったことは非常に早くなります。加えて、ボトルネックとなるものの多くは、JSの実行ではなく、DOMの変更です。Reactは変更の一括処理と検知を使うことによって、それを最適化しています。
 
-しかし、パフォーマンスについて、よりよい制御を持つことを求める時もあるでしょう。こういったケースで、Reactがサブツリーの処理をスキップすることを求めるなら、 `shouldComponentUpdate()` が単純にfalseを返すようにオーバーライドしてください。更に情報を得たい場合には、[Reactのリファレンス文書](/react/docs/component-specs.html)を読んでください。
+しかし、パフォーマンスについて、よりよい制御を持つことを求める時もあるでしょう。こういったケースで、Reactがサブツリーの処理をスキップすることを求めるなら、 `shouldComponentUpdate()` が単純にfalseを返すようにオーバーライドしてください。更に情報を得たい場合には、[Reactのリファレンス文書](/docs/component-specs.html)を読んでください。
 
 > 注意:
 > `shouldComponentUpdate()` がデータが実際に変わった時にfalseを返したならば、ReactはUIを同期的に保つことができません。このメソッドを使う際には、何を行っているか理解してください。そして、顕著なパフォーマンスの問題がある時にだけ、この関数を使ってください。DOMと比較して、JavaScriptが速いことを過小評価しないでください。

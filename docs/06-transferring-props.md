@@ -8,7 +8,7 @@ next: forms.html
 
 It's a common pattern in React to wrap a component in an abstraction. The outer component exposes a simple property to do something that might have more complex implementation details.
 
-You can use [JSX spread attributes](/react/docs/jsx-spread.html) to merge the old props with additional values:
+You can use [JSX spread attributes](/docs/jsx-spread.html) to merge the old props with additional values:
 
 ```javascript
 <Component {...this.props} more="values" />
@@ -51,7 +51,7 @@ But what about the `name` prop? Or the `title` prop? Or `onMouseOver`?
 
 > NOTE:
 >
-> The `...` syntax is part of the Object Rest Spread proposal. This proposal is on track to become a standard. See the [Rest and Spread Properties ...](/react/docs/transferring-props.html#rest-and-spread-properties-...) section below for more details.
+> The `...` syntax is part of the Object Rest Spread proposal. This proposal is on track to become a standard. See the [Rest and Spread Properties ...](/docs/transferring-props.html#rest-and-spread-properties-...) section below for more details.
 
 Sometimes it's fragile and tedious to pass every property along. In that case you can use [destructuring assignment](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment) with rest properties to extract a set of unknown properties.
 

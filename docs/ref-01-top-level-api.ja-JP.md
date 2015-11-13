@@ -17,7 +17,7 @@ redirect_from: "/docs/reference-ja-JP.html"
 class Component
 ```
 
-これは、ES6のクラスを使用して定義されている場合の、Reactコンポーネントに対する基底クラスです。ReactでES6のクラスを使用する方法については、[再利用可能なコンポーネント](/react/docs/reusable-components-ja-JP.html#es6-classes)をご覧ください。基底クラスからどのメソッドが実際に提供されるかについては、[コンポーネントAPI](/react/docs/component-api-ja-JP.html)をご覧ください。
+これは、ES6のクラスを使用して定義されている場合の、Reactコンポーネントに対する基底クラスです。ReactでES6のクラスを使用する方法については、[再利用可能なコンポーネント](/docs/reusable-components-ja-JP.html#es6-classes)をご覧ください。基底クラスからどのメソッドが実際に提供されるかについては、[コンポーネントAPI](/docs/component-api-ja-JP.html)をご覧ください。
 
 ### React.createClass
 
@@ -27,7 +27,7 @@ ReactClass createClass(object specification)
 
 与えられた仕様に基づいてコンポーネントクラスを作成します。コンポーネントは **ある単一の** 子要素を返す `render` メソッドを実行します。その子要素は勝手に深い子要素の構造を保持しています。コンポーネントが標準的なプロトタイプのクラスと異なっている部分は、newを呼ぶ必要がないということです。それらは内部で（newを行う）インスタンスを構築する便利なラッパーです。
 
-specificationオブジェクトについての情報は、[コンポーネントのスペックとライフサイクル](/react/docs/component-specs-ja-JP.html)をご覧ください。
+specificationオブジェクトについての情報は、[コンポーネントのスペックとライフサイクル](/docs/component-specs-ja-JP.html)をご覧ください。
 
 ### React.createElement
 
@@ -133,7 +133,7 @@ DOMElement findDOMNode(ReactComponent component)
 
 ### React.PropTypes
 
-`React.PropTypes` はコンポーネントに与えられたpropsをバリデーションするためにコンポーネントの `propTypes` と使用できる型を含んでいます。 `propTypes` についての更なる情報は、[再利用可能なコンポーネント](/react/docs/reusable-components-ja-JP.html)をご覧ください。
+`React.PropTypes` はコンポーネントに与えられたpropsをバリデーションするためにコンポーネントの `propTypes` と使用できる型を含んでいます。 `propTypes` についての更なる情報は、[再利用可能なコンポーネント](/docs/reusable-components-ja-JP.html)をご覧ください。
 
 ### React.Children
 

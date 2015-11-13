@@ -34,6 +34,7 @@
   <script src="/react/js/react-dom.js"></script>
   <script src="/react/js/babel-browser.min.js"></script>
   <script src="/react/js/live_editor.js"></script>
+  <script src="/react/js/playground.js"></script>
 </head>
 <body>
 
@@ -41,20 +42,19 @@
 
     <div class="nav-main">
       <div class="wrap">
-        <a class="nav-home" href="/react/index.html">
+        <a class="nav-home" href="/">
           <img class="nav-logo" src="/react/img/logo_svg.png" width="36" height="36">
-          React
+          React.rb
         </a>
         <ul class="nav-site nav-site-internal">
-          <li><a href="/react/docs/getting-started.html">Docs</a></li>
-          <li><a href="/react/support.html">Support</a></li>
-          <li><a href="/react/downloads.html">Download</a></li>
-          <li><a href="/react/blog/" class="active">Blog</a></li>
+          <li><a href="/docs/getting-started.html">Docs</a></li>
+          <li><a href="/support.html">Support</a></li>
+          <li><a href="/downloads.html">Download</a></li>
+          <li><a href="/blog/" class="active">Blog</a></li>
         </ul>
 
         <ul class="nav-site nav-site-external">
-          <li><a href="https://github.com/facebook/react">GitHub</a>
-          <li><a href="https://facebook.github.io/react-native/">React Native</a>
+          <li><a href="https://github.com/zetachang/react.rb">GitHub</a>
         </ul>
       </div>
     </div>
@@ -246,8 +246,8 @@ Minified build for production: <a href="https://fb.me/react-dom-0.14.0.min.js">h
 <p>These three breaking changes had a warning in 0.13, so you shouldn’t have to do anything if your code is already free of warnings:</p>
 
 <ul>
-<li>The <code>props</code> object is now frozen, so mutating props after creating a component element is no longer supported. In most cases, <a href="/react/docs/top-level-api.html#react.cloneelement"><code>React.cloneElement</code></a> should be used instead. This change makes your components easier to reason about and enables the compiler optimizations mentioned above.</li>
-<li>Plain objects are no longer supported as React children; arrays should be used instead. You can use the <a href="/react/docs/create-fragment.html"><code>createFragment</code></a> helper to migrate, which now returns an array.</li>
+<li>The <code>props</code> object is now frozen, so mutating props after creating a component element is no longer supported. In most cases, <a href="/docs/top-level-api.html#react.cloneelement"><code>React.cloneElement</code></a> should be used instead. This change makes your components easier to reason about and enables the compiler optimizations mentioned above.</li>
+<li>Plain objects are no longer supported as React children; arrays should be used instead. You can use the <a href="/docs/create-fragment.html"><code>createFragment</code></a> helper to migrate, which now returns an array.</li>
 <li>Add-Ons: <code>classSet</code> has been removed. Use <a href="https://github.com/JedWatson/classnames">classnames</a> instead.</li>
 </ul>
 <h3><a class="anchor" name="new-deprecations-introduced-with-a-warning"></a>New deprecations, introduced with a warning <a class="hash-link" href="#new-deprecations-introduced-with-a-warning">#</a></h3>
@@ -260,7 +260,7 @@ Minified build for production: <a href="https://fb.me/react-dom-0.14.0.min.js">h
 <li><p><code>setProps</code> and <code>replaceProps</code> are now deprecated. Instead, call ReactDOM.render again at the top level with the new props.</p></li>
 <li><p>ES6 component classes must now extend <code>React.Component</code> in order to enable stateless function components. The <a href="/react/blog/2015/01/27/react-v0.13.0-beta-1.html#other-languages">ES3 module pattern</a> will continue to work.</p></li>
 <li><p>Reusing and mutating a <code>style</code> object between renders has been deprecated. This mirrors our change to freeze the <code>props</code> object.</p></li>
-<li><p>Add-Ons: <code>cloneWithProps</code> is now deprecated. Use <a href="/react/docs/top-level-api.html#react.cloneelement"><code>React.cloneElement</code></a> instead (unlike <code>cloneWithProps</code>, <code>cloneElement</code> does not merge <code>className</code> or <code>style</code> automatically; you can merge them manually if needed).</p></li>
+<li><p>Add-Ons: <code>cloneWithProps</code> is now deprecated. Use <a href="/docs/top-level-api.html#react.cloneelement"><code>React.cloneElement</code></a> instead (unlike <code>cloneWithProps</code>, <code>cloneElement</code> does not merge <code>className</code> or <code>style</code> automatically; you can merge them manually if needed).</p></li>
 <li><p>Add-Ons: To improve reliability, <code>CSSTransitionGroup</code> will no longer listen to transition events. Instead, you should specify transition durations manually using props such as <code>transitionEnterTimeout={500}</code>.</p></li>
 </ul>
 <h3><a class="anchor" name="notable-enhancements"></a>Notable enhancements <a class="hash-link" href="#notable-enhancements">#</a></h3>
@@ -310,7 +310,7 @@ Minified build for production: <a href="https://fb.me/react-dom-0.14.0.min.js">h
     <footer class="wrap">
       <div class="left">
         Original site is a Facebook &amp; Instagram collaboration.<br>
-        <a href="/react/acknowledgements.html">Acknowledgements</a>
+        <a href="/acknowledgements.html">Acknowledgements</a>
       </div>
       <div class="right">
         Original site &copy; 2013&ndash;2015 Facebook Inc.<br>

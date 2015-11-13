@@ -8,7 +8,7 @@ next: working-with-the-browser-ja-JP.html
 
 `<input>` や `<textarea>` や `<option>` のようなフォームのコンポーネントはユーザの入力によって変化しうるので、他のネイティブのコンポーネントとは異なります。以下のコンポーネントは、ユーザの入力に返答することにおいて、フォームを操作することを簡単にするインターフェースを提供します。
 
-`<form>` のイベントについての情報は、[フォームのイベント](/react/docs/events.html#form-events)をご覧ください。
+`<form>` のイベントについての情報は、[フォームのイベント](/docs/events.html#form-events)をご覧ください。
 
 ## 双方向のprops
 

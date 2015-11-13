@@ -8,7 +8,7 @@ next: component-specs-it-IT.html
 
 ## React.Component
 
-Istanze di un React Component sono create internamente a React durante il rendering. Queste istanze sono riutilizzate in rendering successivi, e possono essere accedute dai metodi del tuo componente come `this`. L'unica maniera di ottenere un riferimento a una istanza di un React Component fuori da React è conservare il valore restituito da `ReactDOM.render`. All'interno di altri Component, puoi utilizzare [i ref](/react/docs/more-about-refs.html) per ottenere il medesimo risultato.
+Istanze di un React Component sono create internamente a React durante il rendering. Queste istanze sono riutilizzate in rendering successivi, e possono essere accedute dai metodi del tuo componente come `this`. L'unica maniera di ottenere un riferimento a una istanza di un React Component fuori da React è conservare il valore restituito da `ReactDOM.render`. All'interno di altri Component, puoi utilizzare [i ref](/docs/more-about-refs.html) per ottenere il medesimo risultato.
 
 
 ### setState
@@ -91,7 +91,7 @@ Se questo componente è stato montato nel DOM, restituisce il corrispondente ele
 
 > Nota:
 >
-> getDOMNode è deprecato ed è stato sostituito da [ReactDOM.findDOMNode()](/react/docs/top-level-api.html#reactdom.finddomnode).
+> getDOMNode è deprecato ed è stato sostituito da [ReactDOM.findDOMNode()](/docs/top-level-api.html#reactdom.finddomnode).
 >
 > Questo metodo non è disponibile il componenti `class` ES6 che estendono `React.Component`. Potrebbe essere eliminato del tutto in una versione futura di React.
 

@@ -8,7 +8,7 @@ next: component-specs.html
 
 ## React.Component
 
-Instances of a React Component are created internally in React when rendering. These instances are reused in subsequent renders, and can be accessed in your component methods as `this`. The only way to get a handle to a React Component instance outside of React is by storing the return value of `ReactDOM.render`. Inside other Components, you may use [refs](/react/docs/more-about-refs.html) to achieve the same result.
+Instances of a React Component are created internally in React when rendering. These instances are reused in subsequent renders, and can be accessed in your component methods as `this`. The only way to get a handle to a React Component instance outside of React is by storing the return value of `ReactDOM.render`. Inside other Components, you may use [refs](/docs/more-about-refs.html) to achieve the same result.
 
 
 ### setState
@@ -91,7 +91,7 @@ If this component has been mounted into the DOM, this returns the corresponding 
 
 > Note:
 >
-> getDOMNode is deprecated and has been replaced with [ReactDOM.findDOMNode()](/react/docs/top-level-api.html#reactdom.finddomnode).
+> getDOMNode is deprecated and has been replaced with [ReactDOM.findDOMNode()](/docs/top-level-api.html#reactdom.finddomnode).
 >
 > This method is not available on ES6 `class` components that extend `React.Component`. It may be removed entirely in a future version of React.
 

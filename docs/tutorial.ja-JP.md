@@ -112,7 +112,7 @@ ReactDOM.render(
 );
 ```
 
-どちらを採るかは自由ですが、生の JavaScript よりも JSX シンタックスのほうが扱いやすいと考えています。詳しくは [JSX シンタックスの記事](/react/docs/jsx-in-depth.html) を読んでみてください。
+どちらを採るかは自由ですが、生の JavaScript よりも JSX シンタックスのほうが扱いやすいと考えています。詳しくは [JSX シンタックスの記事](/docs/jsx-in-depth.html) を読んでみてください。
 
 #### 何をしているのか
 
@@ -708,4 +708,4 @@ var CommentBox = React.createClass({
 
 ### おめでとう！
 
-シンプルな手順を追ううちにコメントボックスを作ることが出来ました。さらに詳しいことは[なぜ React を使うのか](/react/docs/why-react.html)を読んだり、[API リファレンス](/react/docs/top-level-api.html)を開いたりしてハッキングを始めましょう！幸運を祈ります！
+シンプルな手順を追ううちにコメントボックスを作ることが出来ました。さらに詳しいことは[なぜ React を使うのか](/docs/why-react.html)を読んだり、[API リファレンス](/docs/top-level-api.html)を開いたりしてハッキングを始めましょう！幸運を祈ります！

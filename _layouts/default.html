@@ -34,6 +34,7 @@
   <script src="/react/js/react-dom.js"></script>
   <script src="/react/js/babel-browser.min.js"></script>
   <script src="/react/js/live_editor.js"></script>
+  <script src="/react/js/playground.js"></script>
 </head>
 <body>
 
@@ -41,20 +42,19 @@
 
     <div class="nav-main">
       <div class="wrap">
-        <a class="nav-home" href="/react/index.html">
+        <a class="nav-home" href="/">
           <img class="nav-logo" src="/react/img/logo_svg.png" width="36" height="36">
-          React
+          React.rb
         </a>
         <ul class="nav-site nav-site-internal">
-          <li><a href="/react/docs/getting-started.html"{% if page.sectionid == 'docs' or page.sectionid == 'tips' %} class="active"{% endif %}>Docs</a></li>
-          <li><a href="/react/support.html"{% if page.id == 'support' %} class="active"{% endif %}>Support</a></li>
-          <li><a href="/react/downloads.html"{% if page.id == 'downloads' %} class="active"{% endif %}>Download</a></li>
-          <li><a href="/react/blog/"{% if page.sectionid == 'blog' %} class="active"{% endif %}>Blog</a></li>
+          <li><a href="/docs/getting-started.html"{% if page.sectionid == 'docs' or page.sectionid == 'tips' %} class="active"{% endif %}>Docs</a></li>
+          <li><a href="/support.html"{% if page.id == 'support' %} class="active"{% endif %}>Support</a></li>
+          <li><a href="/downloads.html"{% if page.id == 'downloads' %} class="active"{% endif %}>Download</a></li>
+          <li><a href="/blog/"{% if page.sectionid == 'blog' %} class="active"{% endif %}>Blog</a></li>
         </ul>
 
         <ul class="nav-site nav-site-external">
-          <li><a href="https://github.com/facebook/react">GitHub</a>
-          <li><a href="https://facebook.github.io/react-native/">React Native</a>
+          <li><a href="https://github.com/zetachang/react.rb">GitHub</a>
         </ul>
       </div>
     </div>
@@ -62,7 +62,7 @@
     {% if page.id == 'home' %}
     <div class="hero">
       <div class="wrap">
-        <div class="text"><strong>React</strong></div>
+        <div class="text"><strong>React.rb</strong></div>
         <div class="minitext">
           <p>Use Ruby to build Reactive User Interfaces</p>
           <p>Site under construction.  We are reusing as much of the original react.js site and documentation, and we thank the great work at the facebook
@@ -71,7 +71,7 @@
         </div>
 
         <div class="buttons-unit">
-          <a href="/react/docs/getting-started.html" class="button">Get Started</a>
+          <a href="/docs/getting-started.html" class="button">Get Started</a>
           <a href="/react/downloads.html" class="button">Download React v{{site.react_version}}</a>
         </div>
       </div>
@@ -83,7 +83,7 @@
     <footer class="wrap">
       <div class="left">
         Original site is a Facebook &amp; Instagram collaboration.<br>
-        <a href="/react/acknowledgements.html">Acknowledgements</a>
+        <a href="/acknowledgements.html">Acknowledgements</a>
       </div>
       <div class="right">
         Original site &copy; 2013&ndash;{{ site.time | date: '%Y' }} Facebook Inc.<br>

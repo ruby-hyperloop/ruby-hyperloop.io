@@ -115,7 +115,7 @@ ReactDOM.render(
 );
 ```
 
-Il suo uso è opzionale ma abbiamo trovato la sintassi JSX più facile da usare del semplice JavaScript. Leggi maggiori dettagli sull'[articolo sulla sintassi JSX](/react/docs/jsx-in-depth.html).
+Il suo uso è opzionale ma abbiamo trovato la sintassi JSX più facile da usare del semplice JavaScript. Leggi maggiori dettagli sull'[articolo sulla sintassi JSX](/docs/jsx-in-depth.html).
 
 #### Cosa sta succedendo?
 
@@ -712,4 +712,4 @@ var CommentBox = React.createClass({
 
 ### Congratulazioni!
 
-Hai appena costruito una casella di commenti in pochi semplici passi. Leggi maggiori dettagli sul [perché usare React](/react/docs/why-react.html), o approfondisci [la guida di riferimento dell'API](/react/docs/top-level-api.html) e comincia ad hackerare! In bocca al lupo!
+Hai appena costruito una casella di commenti in pochi semplici passi. Leggi maggiori dettagli sul [perché usare React](/docs/why-react.html), o approfondisci [la guida di riferimento dell'API](/docs/top-level-api.html) e comincia ad hackerare! In bocca al lupo!

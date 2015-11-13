@@ -92,9 +92,9 @@ React 组件非常简单。你可以认为它们就是简单的函数，接受 `
 
 我们发现这会使搭建 React 应用更加简单，设计师也偏向用这用语法，但是每个人可以有它们自己的工作流，所以**JSX 不是必须用的。**
 
-JSX 非常小；上面“hello, world”的例子使用了 JSX 所有的特性。想要了解更多，请看 [深入理解 JSX](/react/docs/jsx-in-depth-zh-CN.html)。或者直接使用[在线 JSX 编译器](/react/jsx-compiler.html)观察变化过程。
+JSX 非常小；上面“hello, world”的例子使用了 JSX 所有的特性。想要了解更多，请看 [深入理解 JSX](/docs/jsx-in-depth-zh-CN.html)。或者直接使用[在线 JSX 编译器](/react/jsx-compiler.html)观察变化过程。
 
-JSX 类似于 HTML，但不是完全一样。参考 [JSX 陷阱](/react/docs/jsx-gotchas-zh-CN.html) 学习关键区别。
+JSX 类似于 HTML，但不是完全一样。参考 [JSX 陷阱](/docs/jsx-gotchas-zh-CN.html) 学习关键区别。
 
 [Babel 公开了一些使用 JSX 的方式],从命令行工具到 Ruby on Rails 集成。选择一个对你来说最合适的工具。
 

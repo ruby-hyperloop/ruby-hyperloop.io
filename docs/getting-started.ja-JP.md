@@ -46,7 +46,7 @@ React でのハッキングを始めるにあたり、一番簡単なものと�
 </html>
 ```
 
-JavaScript の中に書かれた XML シンタックスは JSX と呼ばれるものです（JSX の詳しいことについては [JSX syntax](/react/docs/jsx-in-depth.html) を読んでください）。ここでは JSX から vanilla JavaScript への変換をブラウザ内で行わせるため、先程のコードには `<script type="text/jsx">` と書いており、加えて `JSXTransformer.js` を読み込ませています。
+JavaScript の中に書かれた XML シンタックスは JSX と呼ばれるものです（JSX の詳しいことについては [JSX syntax](/docs/jsx-in-depth.html) を読んでください）。ここでは JSX から vanilla JavaScript への変換をブラウザ内で行わせるため、先程のコードには `<script type="text/jsx">` と書いており、加えて `JSXTransformer.js` を読み込ませています。
 
 ### ファイルの分割
 
@@ -114,7 +114,7 @@ React を [browserify](http://browserify.org/) や [webpack](https://webpack.git
 
 ## 次にすること
 
-[チュートリアル](/react/docs/tutorial-ja-JP.html) や、スターターキットの `examples` ディレクトリに入っている他の例を読んでみてください。
+[チュートリアル](/docs/tutorial-ja-JP.html) や、スターターキットの `examples` ディレクトリに入っている他の例を読んでみてください。
 
 また、[ワークフロー、UIコンポーネント、ルーティング、データマネジメントなど](https://github.com/facebook/react/wiki/Complementary-Tools)の方面で貢献しているコミュニティの wiki もあります。
 

@@ -9,7 +9,7 @@ Una tra le prime domande che la gente si pone quando considera React per un prog
 
 ## Evitare di riconciliare il DOM
 
-React fa uso di un *DOM virtuale*, che è un descrittore di un sottoalbero DOM visualizzato nel browser. Questa rappresentazione parallela permette a React di evitare di creare nodi DOM e accedere nodi esistenti, che è di gran lunga più lento di operazioni su oggetti JavaScript. Quando le proprietà di un componente o il suo stato cambiano, React decide se un'aggiornamento effettivo del DOM sia necessario costruendo un nuovo virtual DOM e confrontandolo con quello vecchio. Solo nel caso in cui non siano uguali, React [riconcilierà](/react/docs/reconciliation.html) il DOM, applicando il minor numero di mutamenti possibile.
+React fa uso di un *DOM virtuale*, che è un descrittore di un sottoalbero DOM visualizzato nel browser. Questa rappresentazione parallela permette a React di evitare di creare nodi DOM e accedere nodi esistenti, che è di gran lunga più lento di operazioni su oggetti JavaScript. Quando le proprietà di un componente o il suo stato cambiano, React decide se un'aggiornamento effettivo del DOM sia necessario costruendo un nuovo virtual DOM e confrontandolo con quello vecchio. Solo nel caso in cui non siano uguali, React [riconcilierà](/docs/reconciliation.html) il DOM, applicando il minor numero di mutamenti possibile.
 
 In aggiunta a questo, React offre una funzione per il ciclo di vita del componente, `shouldComponentUpdate`, che viene scatenata prima che il processo di ri-rendering cominci (il confronto del DOM virtuale e una possibile eventuale riconciliazione del DOM), dando allo sviluppatore la possibilità di cortocircuitare questo processo. L'implementazione predefinita di questa funzione restituisce `true`, lasciando che React effettui l'aggiornamento:
 
@@ -67,7 +67,7 @@ shouldComponentUpdate: function(nextProps, nextState) {
 }
 ```
 
-Finora tutto a posto, maneggiare queste semplici strutture proprietà e stato è molto facile. Potremmo anche generalizzare un'implementazione basata sull'uguaglianza superficiale e farne il mix dentro i componenti. Infatti, React fornisce già una tale implementazione: [PureRenderMixin](/react/docs/pure-render-mixin.html).
+Finora tutto a posto, maneggiare queste semplici strutture proprietà e stato è molto facile. Potremmo anche generalizzare un'implementazione basata sull'uguaglianza superficiale e farne il mix dentro i componenti. Infatti, React fornisce già una tale implementazione: [PureRenderMixin](/docs/pure-render-mixin.html).
 
 Ma che succede se le proprietà o lo stato del tuo componente sono strutture dati mutevoli? Supponiamo che la proprietà che il componente riceve sia, anziché una stringa come `'bar'`, un oggetto JavaScript che contiene una stringa, come `{ foo: 'bar' }`:
 

@@ -16,7 +16,7 @@ next: complementary-tools-it-IT.html
 
 ### Pensare in react - tagtree.tv
 
-Un video di [tagtree.tv](http://tagtree.tv/) che espone i principi di [Pensare in React](/react/docs/thinking-in-react.html) mentre costruisci una semplice applicazione
+Un video di [tagtree.tv](http://tagtree.tv/) che espone i principi di [Pensare in React](/docs/thinking-in-react.html) mentre costruisci una semplice applicazione
 <figure>[![](/react/img/docs/thinking-in-react-tagtree.png)](http://tagtree.tv/thinking-in-react)</figure>
 
 * * *

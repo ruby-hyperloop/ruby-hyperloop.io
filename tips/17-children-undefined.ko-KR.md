@@ -25,4 +25,4 @@ var App = React.createClass({
 ReactDOM.render(<App></App>, mountNode);
 ```
 
-서브 컴포넌트(`span`)에 억세스하려면, [refs](/react/docs/more-about-refs.html)를 넣으세요.
+서브 컴포넌트(`span`)에 억세스하려면, [refs](/docs/more-about-refs.html)를 넣으세요.

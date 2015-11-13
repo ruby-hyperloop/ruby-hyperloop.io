@@ -17,7 +17,7 @@ redirect_from: "/docs/reference.html"
 class Component
 ```
 
-This is the base class for React Components when they're defined using ES6 classes. See [Reusable Components](/react/docs/reusable-components.html#es6-classes) for how to use ES6 classes with React. For what methods are actually provided by the base class, see the [Component API](/react/docs/component-api.html).
+This is the base class for React Components when they're defined using ES6 classes. See [Reusable Components](/docs/reusable-components.html#es6-classes) for how to use ES6 classes with React. For what methods are actually provided by the base class, see the [Component API](/docs/component-api.html).
 
 
 ### React.createClass
@@ -28,7 +28,7 @@ ReactClass createClass(object specification)
 
 Create a component class, given a specification. A component implements a `render` method which returns **one single** child. That child may have an arbitrarily deep child structure. One thing that makes components different than standard prototypal classes is that you don't need to call new on them. They are convenience wrappers that construct backing instances (via new) for you.
 
-For more information about the specification object, see [Component Specs and Lifecycle](/react/docs/component-specs.html).
+For more information about the specification object, see [Component Specs and Lifecycle](/docs/component-specs.html).
 
 
 ### React.createElement
@@ -87,7 +87,7 @@ Verifies the object is a ReactElement.
 
 ### React.PropTypes
 
-`React.PropTypes` includes types that can be used with a component's `propTypes` object to validate props being passed to your components. For more information about `propTypes`, see [Reusable Components](/react/docs/reusable-components.html).
+`React.PropTypes` includes types that can be used with a component's `propTypes` object to validate props being passed to your components. For more information about `propTypes`, see [Reusable Components](/docs/reusable-components.html).
 
 
 ### React.Children
@@ -148,7 +148,7 @@ ReactComponent render(
 )
 ```
 
-Render a ReactElement into the DOM in the supplied `container` and return a [reference](/react/docs/more-about-refs.html) to the component (or returns `null` for [stateless components](/react/docs/reusable-components.html#stateless-functions)).
+Render a ReactElement into the DOM in the supplied `container` and return a [reference](/docs/more-about-refs.html) to the component (or returns `null` for [stateless components](/docs/reusable-components.html#stateless-functions)).
 
 If the ReactElement was previously rendered into `container`, this will perform an update on it and only mutate the DOM as necessary to reflect the latest React component.
 

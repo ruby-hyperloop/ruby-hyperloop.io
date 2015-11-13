@@ -70,7 +70,7 @@ Quando crei un'istanza di un componente React, puoi includere componenti React a
 <Parent><Child /></Parent>
 ```
 
-`Parent` può accedere ai propri figli leggendo la speciale proprietà `this.props.children`. **`this.props.children` è una struttura dati opaca:** usa le [utilità React.Children](/react/docs/top-level-api.html#react.children) per manipolare i figli.
+`Parent` può accedere ai propri figli leggendo la speciale proprietà `this.props.children`. **`this.props.children` è una struttura dati opaca:** usa le [utilità React.Children](/docs/top-level-api.html#react.children) per manipolare i figli.
 
 
 ### Riconciliazione dei Figli
@@ -183,7 +183,7 @@ In React, i dati fluiscono dal proprietario al componente posseduto attraverso l
 
 Ti starai chiedendo che cambiare i dati sia un'operazione costosa in presenza di un gran numero di nodi sotto un proprietario. La buona notizia è che JavaScript è veloce e i metodi `render()` tendono ad essere molto semplici, quindi in molte applicazioni questo è un processo estremamente veloce. Inoltre, il collo di bottiglia è quasi sempre la mutazione del DOM e non l'esecuzione di JS. React ottimizzerà tutto per te usando il raggruppamento e osservando i cambiamenti.
 
-Tuttavia, a volte vorrai avere un controllo più raffinato sulle tue prestazioni. In tal caso, ridefinisci il metodo `shouldComponentUpdate()` per restituire false quando vuoi che React salti il trattamento di un sottoalbero. Consulta [la documentazione di riferimento di React](/react/docs/component-specs.html) per maggiori informazioni.
+Tuttavia, a volte vorrai avere un controllo più raffinato sulle tue prestazioni. In tal caso, ridefinisci il metodo `shouldComponentUpdate()` per restituire false quando vuoi che React salti il trattamento di un sottoalbero. Consulta [la documentazione di riferimento di React](/docs/component-specs.html) per maggiori informazioni.
 
 > Nota:
 >

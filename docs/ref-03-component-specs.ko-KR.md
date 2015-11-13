@@ -12,7 +12,7 @@ next: tags-and-attributes-ko-KR.html
 
 > 주의:
 >
-> 그냥 JavaScript 클래스를 컴포넌트 클래스로 사용할 수도 있습니다. 이 클래스는 구현할 수 있는 메소드가 거의 같지만 약간의 차이가 있습니다. 차이에 관한 더 자세한 정보는 [ES6 클래스](/react/docs/reusable-components-ko-KR.html#es6-classes)를 읽어보세요.
+> 그냥 JavaScript 클래스를 컴포넌트 클래스로 사용할 수도 있습니다. 이 클래스는 구현할 수 있는 메소드가 거의 같지만 약간의 차이가 있습니다. 차이에 관한 더 자세한 정보는 [ES6 클래스](/docs/reusable-components-ko-KR.html#es6-classes)를 읽어보세요.
 
 ### render
 
@@ -55,7 +55,7 @@ object getDefaultProps()
 object propTypes
 ```
 
-`propTypes` 객체는 컴포넌트에 넘어오는 props가 올바른지 검사할 수 있게 해줍니다. `propTypes`에 대한 자세한 정보는 [재사용 가능한 컴포넌트](/react/docs/reusable-components-ko-KR.html)를 참고하세요.
+`propTypes` 객체는 컴포넌트에 넘어오는 props가 올바른지 검사할 수 있게 해줍니다. `propTypes`에 대한 자세한 정보는 [재사용 가능한 컴포넌트](/docs/reusable-components-ko-KR.html)를 참고하세요.
 
 
 ### mixins
@@ -64,7 +64,7 @@ object propTypes
 array mixins
 ```
 
-`mixins` 배열은 여러 컴포넌트 사이에 동작을 공유하는 믹스인을 사용할 수 있게 해줍니다. 믹스인에 대한 자세한 정보는 [재사용 가능한 컴포넌트](/react/docs/reusable-components-ko-KR.html)를 참고하세요.
+`mixins` 배열은 여러 컴포넌트 사이에 동작을 공유하는 믹스인을 사용할 수 있게 해줍니다. 믹스인에 대한 자세한 정보는 [재사용 가능한 컴포넌트](/docs/reusable-components-ko-KR.html)를 참고하세요.
 
 
 ### statics
@@ -98,7 +98,7 @@ MyComponent.customMethod('bar');  // true
 string displayName
 ```
 
-`displayName` 문자열은 디버그 메시지에 사용됩니다. JSX는 이 값을 자동으로 설정합니다. [JSX 깊이 알기](/react/docs/jsx-in-depth-ko-KR.html#the-transform)를 참고하세요.
+`displayName` 문자열은 디버그 메시지에 사용됩니다. JSX는 이 값을 자동으로 설정합니다. [JSX 깊이 알기](/docs/jsx-in-depth-ko-KR.html#the-transform)를 참고하세요.
 
 
 <a name="lifecycle-methods"></a>

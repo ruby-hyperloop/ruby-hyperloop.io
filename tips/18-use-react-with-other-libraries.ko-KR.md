@@ -7,7 +7,7 @@ prev: children-undefined-ko-KR.html
 next: dangerously-set-inner-html-ko-KR.html
 ---
 
-React만으로 만들 필요는 없습니다. 컴포넌트의 [생명주기 이벤트](/react/docs/component-specs-ko-KR.html#lifecycle-methods), 특히 `componentDidMount`와 `componentDidUpdate`는 다른 라이브러리들의 로직을 넣기에 좋은 장소입니다.
+React만으로 만들 필요는 없습니다. 컴포넌트의 [생명주기 이벤트](/docs/component-specs-ko-KR.html#lifecycle-methods), 특히 `componentDidMount`와 `componentDidUpdate`는 다른 라이브러리들의 로직을 넣기에 좋은 장소입니다.
 
 ```js
 var App = React.createClass({

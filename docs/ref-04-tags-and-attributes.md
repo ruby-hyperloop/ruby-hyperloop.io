@@ -45,7 +45,7 @@ React supports all `data-*` and `aria-*` attributes as well as every attribute i
 >
 > All attributes are camel-cased and the attributes `class` and `for` are `className` and `htmlFor`, respectively, to match the DOM API specification.
 
-For a list of events, see [Supported Events](/react/docs/events.html).
+For a list of events, see [Supported Events](/docs/events.html).
 
 ### HTML Attributes
 
@@ -74,7 +74,7 @@ In addition, the following non-standard attributes are supported:
 - `unselectable` for Internet Explorer.
 - `results autoSave` for WebKit/Blink input fields of type `search`.
 
-There is also the React-specific attribute `dangerouslySetInnerHTML` ([more here](/react/docs/special-non-dom-attributes.html)), used for directly inserting HTML strings into a component.
+There is also the React-specific attribute `dangerouslySetInnerHTML` ([more here](/docs/special-non-dom-attributes.html)), used for directly inserting HTML strings into a component.
 
 ### SVG Attributes
 

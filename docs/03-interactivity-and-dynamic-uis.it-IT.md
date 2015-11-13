@@ -6,7 +6,7 @@ prev: jsx-gotchas-it-IT.html
 next: multiple-components-it-IT.html
 ---
 
-Hai già [imparato a mostrare dati](/react/docs/displaying-data-it-IT.html) con React. Adesso vediamo come rendere le nostre UI interattive.
+Hai già [imparato a mostrare dati](/docs/displaying-data-it-IT.html) con React. Adesso vediamo come rendere le nostre UI interattive.
 
 
 ## Un Esempio Semplice

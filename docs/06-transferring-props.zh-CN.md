@@ -8,7 +8,7 @@ next: forms-zh-CN.html
 
 React 里有一个非常常用的模式就是对组件做一层抽象。组件对外公开一个简单的属性（Props）来实现功能，但内部细节可能有非常复杂的实现。
 
-可以使用 [JSX 展开属性](/react/docs/jsx-spread-zh-CN.html) 来合并现有的 props 和其它值：
+可以使用 [JSX 展开属性](/docs/jsx-spread-zh-CN.html) 来合并现有的 props 和其它值：
 
 ```javascript
 <Component {...this.props} more="values" />
@@ -51,7 +51,7 @@ ReactDOM.render(
 
 > 注意:
 >
-> 在下面的例子中，`--harmony ` 标志是必须的因为这个语法是ES7的实验性语法。如果用浏览器中的JSX转换器，以 `<script type="text/jsx;harmony=true">`简单的打开你脚本就行了。详见[Rest and Spread Properties ...](/react/docs/transferring-props.html#rest-and-spread-properties-...)
+> 在下面的例子中，`--harmony ` 标志是必须的因为这个语法是ES7的实验性语法。如果用浏览器中的JSX转换器，以 `<script type="text/jsx;harmony=true">`简单的打开你脚本就行了。详见[Rest and Spread Properties ...](/docs/transferring-props.html#rest-and-spread-properties-...)
 
 有时把所有属性都传下去是不安全或啰嗦的。这时可以使用 [解构赋值](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment) 中的剩余属性特性来把未知属性批量提取出来。
 

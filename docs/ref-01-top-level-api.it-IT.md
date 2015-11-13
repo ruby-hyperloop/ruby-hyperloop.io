@@ -17,7 +17,7 @@ redirect_from: "/docs/reference.html"
 class Component
 ```
 
-Questa è la classe base per i componenti React quando sono definiti usando le classi ES6. Vedi [Componenti Riutilizzabili](/react/docs/reusable-components.html#es6-classes) per usare le classi ES6 con React. Per i metodi forniti dalla classe base, vedi la [API dei Componenti](/react/docs/component-api.html).
+Questa è la classe base per i componenti React quando sono definiti usando le classi ES6. Vedi [Componenti Riutilizzabili](/docs/reusable-components.html#es6-classes) per usare le classi ES6 con React. Per i metodi forniti dalla classe base, vedi la [API dei Componenti](/docs/component-api.html).
 
 
 ### React.createClass
@@ -28,7 +28,7 @@ ReactClass createClass(object specification)
 
 Crea la classe di un componente, data una specifica. Un componente implementa un metodo `render` che restituisce **un singolo** figlio. Tale figlio può avere una struttura di fogli arbitrariamente profonda. Una cosa che rende i componenti diversi dalle classi prototipiche standard è che non hai bisogno di chiamare `new` su di esse. Sono delle convenienti astrazioni che costruiscono (attraverso `new`) istanze dietro le quinte per te.
 
-Per maggiori informazioni sull'oggetto specifica, vedi [Specifiche dei Componenti e Ciclo di Vita](/react/docs/component-specs.html).
+Per maggiori informazioni sull'oggetto specifica, vedi [Specifiche dei Componenti e Ciclo di Vita](/docs/component-specs.html).
 
 
 ### React.createElement
@@ -80,7 +80,7 @@ ReactComponent render(
 )
 ```
 
-Effettua il rendering di un ReactElement nel DOM all'interno dell'elemento `container` fornito e restituisce un [riferimento](/react/docs/more-about-refs-it-IT.html) al componente (oppure restituisce `null` per i [componenti privi di stato](/react/docs/reusable-components-it-IT.html#stateless-functions)).
+Effettua il rendering di un ReactElement nel DOM all'interno dell'elemento `container` fornito e restituisce un [riferimento](/docs/more-about-refs-it-IT.html) al componente (oppure restituisce `null` per i [componenti privi di stato](/docs/reusable-components-it-IT.html#stateless-functions)).
 
 Se il rendering del ReactElement è stato precedentemente effettuato all'interno di `container`, questa operazione effettuerà un aggiornamento su di esso e modificherà il DOM in modo necessario a riflettere il più recente componente React.
 
@@ -155,7 +155,7 @@ Se questo componente è stato montato nel DOM, restituisce il corrispondente ele
 
 ### React.PropTypes
 
-`React.PropTypes` include tipi che possono essere usati con l'oggetto `propTypes` di un componente per validare le proprietà passate ai tuoi componenti. Per maggiori informazioni su `propTypes`, vedi [Componenti Riutilizzabili](/react/docs/reusable-components.html).
+`React.PropTypes` include tipi che possono essere usati con l'oggetto `propTypes` di un componente per validare le proprietà passate ai tuoi componenti. Per maggiori informazioni su `propTypes`, vedi [Componenti Riutilizzabili](/docs/reusable-components.html).
 
 
 ### React.Children

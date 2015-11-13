@@ -66,7 +66,7 @@ When you create a React component instance, you can include additional React com
 <Parent><Child /></Parent>
 ```
 
-`Parent` can read its children by accessing the special `this.props.children` prop. **`this.props.children` is an opaque data structure:** use the [React.Children utilities](/react/docs/top-level-api.html#react.children) to manipulate them.
+`Parent` can read its children by accessing the special `this.props.children` prop. **`this.props.children` is an opaque data structure:** use the [React.Children utilities](/docs/top-level-api.html#react.children) to manipulate them.
 
 ### Child Reconciliation
 
@@ -175,7 +175,7 @@ In React, data flows from owner to owned component through `props` as discussed 
 
 You may be thinking that it's expensive to change data if there are a large number of nodes under an owner. The good news is that JavaScript is fast and `render()` methods tend to be quite simple, so in most applications this is extremely fast. Additionally, the bottleneck is almost always the DOM mutation and not JS execution. React will optimize this for you by using batching and change detection.
 
-However, sometimes you really want to have fine-grained control over your performance. In that case, simply override `shouldComponentUpdate()` to return false when you want React to skip processing of a subtree. See [the React reference docs](/react/docs/component-specs.html) for more information.
+However, sometimes you really want to have fine-grained control over your performance. In that case, simply override `shouldComponentUpdate()` to return false when you want React to skip processing of a subtree. See [the React reference docs](/docs/component-specs.html) for more information.
 
 > Note:
 >

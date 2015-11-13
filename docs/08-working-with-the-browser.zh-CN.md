@@ -59,7 +59,7 @@ ReactDOM.render(
 
 ## 更多关于Refs
 
-要学习更多有关refs，包括更有效使用它们的方法，请参见[more about refs](/react/docs/more-about-refs.html) 文档。
+要学习更多有关refs，包括更有效使用它们的方法，请参见[more about refs](/docs/more-about-refs.html) 文档。
 
 
 ## 组件的生命周期

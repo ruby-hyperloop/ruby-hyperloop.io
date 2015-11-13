@@ -71,11 +71,11 @@ Puoi costruire dall'alto in basso, o dal basso in alto. Ovvero, puoi cominciare 
 
 Alla fine di questo passo avrai una libreria di componenti riutilizzabili che visualizzano il tuo modello dati. I componenti avranno soltanto metodi `render()` dal momento che questa è una versione statica della tua applicazione. Il componente al vertice della gerarchia (`FilterableProductTable`) prenderà il tuo modello dati come una proprietà. Se apporti un cambiamento al tuo modello dati sottostante e chiami nuovamente `ReactDOM.render()`, la UI sarà aggiornata. È facile vedere come la tua UI viene aggiornata e dove applicare cambiamenti dal momento che non c'è nulla di complicato. Il **flusso dati unidirezionale** di React (detto anche *binding unidirezionale*) mantiene tutto modulare e veloce.
 
-Fai riferimento alla [documentazione React](/react/docs/) se hai bisogno di aiuto nell'eseguire questo passo.
+Fai riferimento alla [documentazione React](/docs/) se hai bisogno di aiuto nell'eseguire questo passo.
 
 ### Un breve intermezzo: proprietà oppure stato
 
-Esistono due tipi di dati "modello" in React: proprietà e stato. È importante capire la distinzione tra i due; scorri [la documentazione ufficiale di React](/react/docs/interactivity-and-dynamic-uis.html) se non hai ben chiara la differenza.
+Esistono due tipi di dati "modello" in React: proprietà e stato. È importante capire la distinzione tra i due; scorri [la documentazione ufficiale di React](/docs/interactivity-and-dynamic-uis.html) se non hai ben chiara la differenza.
 
 ## Passo 3: Identifica la rappresentazione minima (ma completa) dello stato della UI
 

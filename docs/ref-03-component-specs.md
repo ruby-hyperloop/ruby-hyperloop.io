@@ -12,7 +12,7 @@ When creating a component class by invoking `React.createClass()`, you should pr
 
 > Note:
 >
-> It is also possible to use plain JavaScript classes as component classes. These classes can implement most of the same methods, though there are some differences. For more information about these differences, please read our documentation about [ES6 classes](/react/docs/reusable-components.html#es6-classes).
+> It is also possible to use plain JavaScript classes as component classes. These classes can implement most of the same methods, though there are some differences. For more information about these differences, please read our documentation about [ES6 classes](/docs/reusable-components.html#es6-classes).
 
 ### render
 
@@ -55,7 +55,7 @@ This method is invoked before any instances are created and thus cannot rely on 
 object propTypes
 ```
 
-The `propTypes` object allows you to validate props being passed to your components. For more information about `propTypes`, see [Reusable Components](/react/docs/reusable-components.html).
+The `propTypes` object allows you to validate props being passed to your components. For more information about `propTypes`, see [Reusable Components](/docs/reusable-components.html).
 
 
 ### mixins
@@ -64,7 +64,7 @@ The `propTypes` object allows you to validate props being passed to your compone
 array mixins
 ```
 
-The `mixins` array allows you to use mixins to share behavior among multiple components. For more information about mixins, see [Reusable Components](/react/docs/reusable-components.html).
+The `mixins` array allows you to use mixins to share behavior among multiple components. For more information about mixins, see [Reusable Components](/docs/reusable-components.html).
 
 
 ### statics
@@ -98,7 +98,7 @@ Methods defined within this block are _static_, meaning that you can run them be
 string displayName
 ```
 
-The `displayName` string is used in debugging messages. JSX sets this value automatically; see [JSX in Depth](/react/docs/jsx-in-depth.html#the-transform).
+The `displayName` string is used in debugging messages. JSX sets this value automatically; see [JSX in Depth](/docs/jsx-in-depth.html#the-transform).
 
 
 ## Lifecycle Methods

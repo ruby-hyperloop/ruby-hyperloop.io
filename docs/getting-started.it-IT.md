@@ -46,7 +46,7 @@ Nella directory principale dello starter kit, crea `helloworld.html` con il segu
 </html>
 ```
 
-La sintassi XML all'interno di JavaScript è chiamata JSX; dài un'occhiata alla [sintassi JSX](/react/docs/jsx-in-depth.html) per saperne di più. Allo scopo di tradurla in puro JavaScript usiamo `<script type="text/babel">` e includiamo Babel per effettuare la trasformazione effettiva nel browser.
+La sintassi XML all'interno di JavaScript è chiamata JSX; dài un'occhiata alla [sintassi JSX](/docs/jsx-in-depth.html) per saperne di più. Allo scopo di tradurla in puro JavaScript usiamo `<script type="text/babel">` e includiamo Babel per effettuare la trasformazione effettiva nel browser.
 
 ### File Separato
 
@@ -116,7 +116,7 @@ Se vuoi usare React con [browserify](http://browserify.org/), [webpack](https://
 
 ## Passi Successivi
 
-Dài un'occhiata [al tutorial](/react/docs/tutorial-it-IT.html) e agli altri esempi nella directory `examples` dello starter kit per saperne di più.
+Dài un'occhiata [al tutorial](/docs/tutorial-it-IT.html) e agli altri esempi nella directory `examples` dello starter kit per saperne di più.
 
 Abbiamo anche un wiki al quale la comunità contribuisce con [flussi di lavoro, componenti UI, routing, gestione dati etc.](https://github.com/facebook/react/wiki/Complementary-Tools)
 

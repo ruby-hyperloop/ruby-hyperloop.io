@@ -45,7 +45,7 @@ React는 모든 `data-*`, `aria-*` 어트리뷰트와 밑에 있는 모든 어�
 >
 > 모든 어트리뷰트는 카멜케이스이고, `class` `for` 어트리뷰트는 각각  DOM API의 사양에 맞춰서 `className` `htmlFor` 가 됩니다.
 
-이벤트의 목록을 보시려면 [지원되는 이벤트](/react/docs/events-ko-KR.html)를 확인하세요.
+이벤트의 목록을 보시려면 [지원되는 이벤트](/docs/events-ko-KR.html)를 확인하세요.
 
 ### HTML 어트리뷰트
 
@@ -74,7 +74,7 @@ type useMap value width wmode wrap
 - 인터넷 익스플로어를 위한 `unselectable`.
 - WebKit/Blink의 `search` 타입 input 필드를 위한 `results autoSave` 
 
-컴포넌트에 직접 HTML 문자열을 넣을 때 사용하는, React 전용 어트리뷰트 `dangerouslySetInnerHTML`([자세한 정보는 여기](/react/docs/special-non-dom-attributes-ko-KR.html))도 있습니다.
+컴포넌트에 직접 HTML 문자열을 넣을 때 사용하는, React 전용 어트리뷰트 `dangerouslySetInnerHTML`([자세한 정보는 여기](/docs/special-non-dom-attributes-ko-KR.html))도 있습니다.
 
 ### SVG 어트리뷰트
 

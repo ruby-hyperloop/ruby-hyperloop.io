@@ -9,7 +9,7 @@ Reactをプロジェクトで使用しようとする際にまず最初に気に
 
 ## DOMを一致させることを防ぐこと
 
-ReactはブラウザでレンダリングされるDOMのサブツリーの記述語である *virtual DOM* を使用しています。この2つの表現によってReactは、JavaScriptのオブジェクトの操作よりも遅い、DOMノードを作成したり存在しているDOMノードにアクセスすることを防いでいます。コンポーネントの `props` や `state` が変更された時、Reactは新しいvirtual DOMを構成して、それを古いものと比較することによって、実際のDOMの更新が必要かどうか決定します。それらが同じものでなかった場合にのみ、ReactはDOMを[一致](/react/docs/reconciliation.html)させ、最小限の変更を適用します。
+ReactはブラウザでレンダリングされるDOMのサブツリーの記述語である *virtual DOM* を使用しています。この2つの表現によってReactは、JavaScriptのオブジェクトの操作よりも遅い、DOMノードを作成したり存在しているDOMノードにアクセスすることを防いでいます。コンポーネントの `props` や `state` が変更された時、Reactは新しいvirtual DOMを構成して、それを古いものと比較することによって、実際のDOMの更新が必要かどうか決定します。それらが同じものでなかった場合にのみ、ReactはDOMを[一致](/docs/reconciliation.html)させ、最小限の変更を適用します。
 この最上位で、Reactはコンポーネントライフサイクルファンクションである `shouldComponentUpdate` を提供します。これは、再度レンダリングを行うプロセス（virtual DOMの比較と起こり得る最終的なDOMの一致）が始まる前に誘発されます。そして、開発者にこのプロセスの循環を短くすることを可能にします。デフォルトのこの関数の実行時にはReactが更新を行って、以下のように `true` が返ります。
 
 ```javascript
@@ -65,7 +65,7 @@ shouldComponentUpdate: function(nextProps, nextState) {
 }
 ```
 
-これまでは順調でした。以上のような、単純なpropsやstateの構造を扱うことは簡単です。浅い同一性に基づいて実行したり、コンポーネントに組み込んだりもできます。実際、Reactはそのような実行のためのMixinを既に提供しています。[PureRenderMixin](/react/docs/pure-render-mixin-ja-JP.html)です。
+これまでは順調でした。以上のような、単純なpropsやstateの構造を扱うことは簡単です。浅い同一性に基づいて実行したり、コンポーネントに組み込んだりもできます。実際、Reactはそのような実行のためのMixinを既に提供しています。[PureRenderMixin](/docs/pure-render-mixin-ja-JP.html)です。
 
 しかし、コンポーネントのpropsやstateが変更される可能性がある場合はどうでしょうか？propが `bar` のような文字列ではなく、コンポーネント受け取ったものであると考えてみると、 `{ foo: 'bar' }` のような文字列を含んだJavaScriptのオブジェクトになります。
 

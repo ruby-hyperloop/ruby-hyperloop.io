@@ -144,7 +144,7 @@ var MyComponent = React.createClass({
 
 I componenti sono la maniera migliore di riutilizzare il codice in React, ma a volte componenti molto diversi possono condividere funzionalità comune. Questi sono a volte chiamate [responsabilità trasversali](https://en.wikipedia.org/wiki/Cross-cutting_concern). React fornisce i `mixin` per risolvere questo problema.
 
-Un caso d'uso comune è un componente che desidera aggiornarsi ad intervalli di tempo. È facile usare `setInterval()`, ma è anche importante cancellare la chiamata ripetuta quando non è più necessaria per liberare memoria. React fornisce dei [metodi del ciclo di vita](/react/docs/working-with-the-browser.html#component-lifecycle) che ti permettono di sapere quando un componente sta per essere creato o distrutto. Creiamo un semplice mixin che usa questi metodi per fornire una facile funzione `setInterval()` che sarà automaticamente rimossa quando il tuo componente viene distrutto.
+Un caso d'uso comune è un componente che desidera aggiornarsi ad intervalli di tempo. È facile usare `setInterval()`, ma è anche importante cancellare la chiamata ripetuta quando non è più necessaria per liberare memoria. React fornisce dei [metodi del ciclo di vita](/docs/working-with-the-browser.html#component-lifecycle) che ti permettono di sapere quando un componente sta per essere creato o distrutto. Creiamo un semplice mixin che usa questi metodi per fornire una facile funzione `setInterval()` che sarà automaticamente rimossa quando il tuo componente viene distrutto.
 
 ```javascript
 var SetIntervalMixin = {

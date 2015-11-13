@@ -6,7 +6,7 @@ prev: jsx-gotchas-ja-JP.html
 next: multiple-components-ja-JP.html
 ---
 
-Reactで[どうやってデータを表示するか](/react/docs/displaying-data-ja-JP.html)については既に学んでいます。これからは、どうやって相互に作用するUIを作成するかを見ていきましょう。
+Reactで[どうやってデータを表示するか](/docs/displaying-data-ja-JP.html)については既に学んでいます。これからは、どうやって相互に作用するUIを作成するかを見ていきましょう。
 
 
 ## 単純な例

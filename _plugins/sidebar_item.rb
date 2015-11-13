@@ -3,7 +3,7 @@ module Jekyll
     def sidebar_item_link(item)
       pageID = @context.registers[:page]["id"]
       itemID = item["id"]
-      href = item["href"] || "/react/docs/#{itemID}.html"
+      href = item["href"] || "/docs/#{itemID}.html"
       className = pageID == itemID ? ' class="active"' : ''
 
       return "<a href=\"#{href}\"#{className}>#{item["title"]}</a>"

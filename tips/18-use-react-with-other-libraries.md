@@ -7,7 +7,7 @@ prev: children-undefined.html
 next: dangerously-set-inner-html.html
 ---
 
-You don't have to go full React. The component [lifecycle events](/react/docs/component-specs.html#lifecycle-methods), especially `componentDidMount` and `componentDidUpdate`, are good places to put your other libraries' logic.
+You don't have to go full React. The component [lifecycle events](/docs/component-specs.html#lifecycle-methods), especially `componentDidMount` and `componentDidUpdate`, are good places to put your other libraries' logic.
 
 ```js
 var App = React.createClass({

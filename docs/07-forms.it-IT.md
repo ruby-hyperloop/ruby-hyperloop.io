@@ -8,7 +8,7 @@ next: working-with-the-browser-it-IT.html
 
 I componenti dei moduli come `<input>`, `<textarea>` e `<option>` differiscono dagli altri componenti nativi poiché possono essere alterati tramite interazione dell'utente. Questi componenti forniscono interfacce che rendono più semplice gestire i moduli in risposta all'interazione dell'utente.
 
-Per maggiori informazioni sugli eventi dell'elemento `<form>` consulta [Eventi dei Moduli](/react/docs/events.html#form-events).
+Per maggiori informazioni sugli eventi dell'elemento `<form>` consulta [Eventi dei Moduli](/docs/events.html#form-events).
 
 ## Proprietà Interattive
 

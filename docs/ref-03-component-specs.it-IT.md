@@ -12,7 +12,7 @@ Quando crei una classe di componente invocando `React.createClass()`, devi forni
 
 > Nota:
 >
-> È anche possibile usare pure classi JavaScript come classi di componente. Queste classi possono implementare la maggior parte degli stessi metodi, sebbene vi siano delle differenze. Per maggiori informazioni su queste differenze, leggi la nostra documentazione sulle [classi ES6](/react/docs/reusable-components.html#es6-classes).
+> È anche possibile usare pure classi JavaScript come classi di componente. Queste classi possono implementare la maggior parte degli stessi metodi, sebbene vi siano delle differenze. Per maggiori informazioni su queste differenze, leggi la nostra documentazione sulle [classi ES6](/docs/reusable-components.html#es6-classes).
 
 ### render
 
@@ -55,7 +55,7 @@ Questo metodo è invocato prima che un'istanza sia creata e quindi non può dipe
 object propTypes
 ```
 
-L'oggetto `propTypes` ti permette di validare le proprietà passate ai tuoi componenti. Per maggiori informazioni su `propTypes`, leggi [Componenti Riutilizzabili](/react/docs/reusable-components-it-IT.html).
+L'oggetto `propTypes` ti permette di validare le proprietà passate ai tuoi componenti. Per maggiori informazioni su `propTypes`, leggi [Componenti Riutilizzabili](/docs/reusable-components-it-IT.html).
 
 
 ### mixins
@@ -64,7 +64,7 @@ L'oggetto `propTypes` ti permette di validare le proprietà passate ai tuoi comp
 array mixins
 ```
 
-L'array `mixins` ti permette di usare i mixin per condividere il comportamento tra componenti multipli. Per maggiori informazioni sui mixin, leggi [Componenti Riutilizzabili](/react/docs/reusable-components-it-IT.html).
+L'array `mixins` ti permette di usare i mixin per condividere il comportamento tra componenti multipli. Per maggiori informazioni sui mixin, leggi [Componenti Riutilizzabili](/docs/reusable-components-it-IT.html).
 
 
 ### statics
@@ -98,7 +98,7 @@ I metodi definiti in questo blocco sono _statici_, ovvero puoi eseguirli prima c
 string displayName
 ```
 
-La stringa `displayName` viene usata nei messaggi di debug. JSX imposta questo valore automaticamente; vedi [JSX in Profondità](/react/docs/jsx-in-depth-it-IT.html#the-transform).
+La stringa `displayName` viene usata nei messaggi di debug. JSX imposta questo valore automaticamente; vedi [JSX in Profondità](/docs/jsx-in-depth-it-IT.html#the-transform).
 
 
 ## Metodi del Ciclo di Vita

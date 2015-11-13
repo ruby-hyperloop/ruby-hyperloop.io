@@ -20,7 +20,7 @@ Nella maggior parte dei casi è sufficiente rimanere nel mondo del "browser fitt
 
 ## I Ref e findDOMNode()
 
-Per interagire con il browser, avrai bisogno di un riferimento a un nodo DOM. Puoi assegnare un attributo `ref` a ciascun elemento, ciò ti permette di fare riferimento all'**istanza di supporto** del componente. Questo è utile se devi invocare funzioni imperative sul componente, oppure desideri accedere ai nodi DOM sottostanti. Per saperne di piu sui ref, incluso la maniera di usarli con efficacia, leggi la nostra documentazione [riferimenti a componenti](/react/docs/more-about-refs-it-IT.html).
+Per interagire con il browser, avrai bisogno di un riferimento a un nodo DOM. Puoi assegnare un attributo `ref` a ciascun elemento, ciò ti permette di fare riferimento all'**istanza di supporto** del componente. Questo è utile se devi invocare funzioni imperative sul componente, oppure desideri accedere ai nodi DOM sottostanti. Per saperne di piu sui ref, incluso la maniera di usarli con efficacia, leggi la nostra documentazione [riferimenti a componenti](/docs/more-about-refs-it-IT.html).
 
 
 ## Ciclo di Vita del Componente

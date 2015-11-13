@@ -34,6 +34,7 @@
   <script src="/react/js/react-dom.js"></script>
   <script src="/react/js/babel-browser.min.js"></script>
   <script src="/react/js/live_editor.js"></script>
+  <script src="/react/js/playground.js"></script>
 </head>
 <body>
 
@@ -41,20 +42,19 @@
 
     <div class="nav-main">
       <div class="wrap">
-        <a class="nav-home" href="/react/index.html">
+        <a class="nav-home" href="/">
           <img class="nav-logo" src="/react/img/logo_svg.png" width="36" height="36">
-          React
+          React.rb
         </a>
         <ul class="nav-site nav-site-internal">
-          <li><a href="/react/docs/getting-started.html">Docs</a></li>
-          <li><a href="/react/support.html">Support</a></li>
-          <li><a href="/react/downloads.html">Download</a></li>
-          <li><a href="/react/blog/" class="active">Blog</a></li>
+          <li><a href="/docs/getting-started.html">Docs</a></li>
+          <li><a href="/support.html">Support</a></li>
+          <li><a href="/downloads.html">Download</a></li>
+          <li><a href="/blog/" class="active">Blog</a></li>
         </ul>
 
         <ul class="nav-site nav-site-external">
-          <li><a href="https://github.com/facebook/react">GitHub</a>
-          <li><a href="https://facebook.github.io/react-native/">React Native</a>
+          <li><a href="https://github.com/zetachang/react.rb">GitHub</a>
         </ul>
       </div>
     </div>
@@ -115,9 +115,9 @@
 <hr>
 
 <div class="post">
-  <p>React got featured on the front-page of Hacker News thanks to the Om library. If you try it out for the first time, take a look at the <a href="/react/docs/getting-started.html">docs</a> and do not hesitate to ask questions on the <a href="https://groups.google.com/group/reactjs">Google Group</a>, <a href="irc://chat.freenode.net/reactjs">IRC</a> or <a href="http://stackoverflow.com/questions/tagged/reactjs">Stack Overflow</a>. We are trying our best to help you out!</p>
+  <p>React got featured on the front-page of Hacker News thanks to the Om library. If you try it out for the first time, take a look at the <a href="/docs/getting-started.html">docs</a> and do not hesitate to ask questions on the <a href="https://groups.google.com/group/reactjs">Google Group</a>, <a href="irc://chat.freenode.net/reactjs">IRC</a> or <a href="http://stackoverflow.com/questions/tagged/reactjs">Stack Overflow</a>. We are trying our best to help you out!</p>
 <h2><a class="anchor" name="the-future-of-javascript-mvc"></a>The Future of Javascript MVC <a class="hash-link" href="#the-future-of-javascript-mvc">#</a></h2>
-<p><a href="https://swannodette.github.io/">David Nolen</a> announced Om, a thin wrapper on-top of React in ClojureScript. It stands out by only using immutable data structures. This unlocks the ability to write a very efficient <a href="/react/docs/component-specs.html#updating-shouldcomponentupdate">shouldComponentUpdate</a> and get huge performance improvements on some tasks.</p>
+<p><a href="https://swannodette.github.io/">David Nolen</a> announced Om, a thin wrapper on-top of React in ClojureScript. It stands out by only using immutable data structures. This unlocks the ability to write a very efficient <a href="/docs/component-specs.html#updating-shouldcomponentupdate">shouldComponentUpdate</a> and get huge performance improvements on some tasks.</p>
 
 <blockquote>
 <p>We&#39;ve known this for some time over here in the ClojureScript corner of the world - all of our collections are immutable and modeled directly on the original Clojure versions written in Java. Modern JavaScript engines have now been tuned to the point that it&#39;s no longer uncommon to see collection performance within 2.5X of the Java Virtual Machine.</p>
@@ -130,7 +130,7 @@
 <p><a href="https://swannodette.github.io/2013/12/17/the-future-of-javascript-mvcs/">Read the full article...</a></p>
 </blockquote>
 <h2><a class="anchor" name="scroll-position-with-react"></a>Scroll Position with React <a class="hash-link" href="#scroll-position-with-react">#</a></h2>
-<p>Managing the scroll position when new content is inserted is usually very tricky to get right. <a href="http://blog.vjeux.com/">Vjeux</a> discovered that <a href="/react/docs/component-specs.html#updating-componentwillupdate">componentWillUpdate</a> and <a href="/react/docs/component-specs.html#updating-componentdidupdate">componentDidUpdate</a> were triggered exactly at the right time to manage the scroll position.</p>
+<p>Managing the scroll position when new content is inserted is usually very tricky to get right. <a href="http://blog.vjeux.com/">Vjeux</a> discovered that <a href="/docs/component-specs.html#updating-componentwillupdate">componentWillUpdate</a> and <a href="/docs/component-specs.html#updating-componentdidupdate">componentDidUpdate</a> were triggered exactly at the right time to manage the scroll position.</p>
 
 <blockquote>
 <p>We can check the scroll position before the component has updated with componentWillUpdate and scroll if necessary at componentDidUpdate</p>
@@ -149,7 +149,7 @@ componentDidUpdate: function() {
 <p><a href="http://blog.vjeux.com/2013/javascript/scroll-position-with-react.html">Check out the blog article...</a></p>
 </blockquote>
 <h2><a class="anchor" name="lights-out"></a>Lights Out <a class="hash-link" href="#lights-out">#</a></h2>
-<p>React declarative approach is well suited to write games. <a href="https://github.com/chenglou">Cheng Lou</a> wrote the famous Lights Out game in React. It&#39;s a good example of use of <a href="/react/docs/animation.html">TransitionGroup</a> to implement animations.
+<p>React declarative approach is well suited to write games. <a href="https://github.com/chenglou">Cheng Lou</a> wrote the famous Lights Out game in React. It&#39;s a good example of use of <a href="/docs/animation.html">TransitionGroup</a> to implement animations.
 <figure><a href="https://chenglou.github.io/react-lights-out/"><img src="/react/img/blog/lights-out.png" alt=""></a></figure></p>
 
 <p><a href="https://chenglou.github.io/react-lights-out/">Try it out!</a></p>
@@ -200,7 +200,7 @@ componentDidUpdate: function() {
     <footer class="wrap">
       <div class="left">
         Original site is a Facebook &amp; Instagram collaboration.<br>
-        <a href="/react/acknowledgements.html">Acknowledgements</a>
+        <a href="/acknowledgements.html">Acknowledgements</a>
       </div>
       <div class="right">
         Original site &copy; 2013&ndash;2015 Facebook Inc.<br>

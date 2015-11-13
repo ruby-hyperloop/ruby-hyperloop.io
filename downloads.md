@@ -4,7 +4,7 @@ title: Downloads
 layout: single
 ---
 Download the starter kit to get everything you need to
-[get started with React](/react/docs/getting-started.html). The starter kit includes React and some simple example apps.
+[get started with React](/docs/getting-started.html). The starter kit includes React and some simple example apps.
 
 <div class="buttons-unit downloads">
   <a href="/react/downloads/react-{{site.react_version}}.zip" class="button">
@@ -37,7 +37,7 @@ The compressed, production version of [react.js](https://fb.me/react-{{site.reac
 ```
 
 #### React with Add-Ons {{site.react_version}} (development)
-The uncompressed, development version of React with [optional add-ons](/react/docs/addons.html).
+The uncompressed, development version of React with [optional add-ons](/docs/addons.html).
 
 ```html
 <script src="https://fb.me/react-with-addons-{{site.react_version}}.js"></script>
@@ -45,7 +45,7 @@ The uncompressed, development version of React with [optional add-ons](/react/do
 ```
 
 #### React with Add-Ons {{site.react_version}} (production)
-The compressed, production version of React with [optional add-ons](/react/docs/addons.html).
+The compressed, production version of React with [optional add-ons](/docs/addons.html).
 
 ```html
 <script src="https://fb.me/react-with-addons-{{site.react_version}}.min.js"></script>
@@ -64,7 +64,7 @@ var ReactDOM = require('react-dom');
 ReactDOM.render(<App />, ...);
 ```
 
-Each of the [add-ons](/react/docs/addons.html) lives in its own package.
+Each of the [add-ons](/docs/addons.html) lives in its own package.
 
 **Note:** by default, React will be in development mode. To use React in production mode, set the environment variable `NODE_ENV` to `production` (using envify or webpack's DefinePlugin). A minifier that performs dead-code elimination such as [UglifyJS](https://github.com/mishoo/UglifyJS2) is recommended to completely remove the extra code present in development mode.
 

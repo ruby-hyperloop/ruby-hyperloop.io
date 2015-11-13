@@ -7,7 +7,7 @@ prev: false-in-jsx-ko-KR.html
 next: expose-component-functions-ko-KR.html
 ---
 
-부모-자식 통신을 위해서는, 간단히 [props를 넘기면 됩니다](/react/docs/multiple-components-ko-KR.html).
+부모-자식 통신을 위해서는, 간단히 [props를 넘기면 됩니다](/docs/multiple-components-ko-KR.html).
 
 자식-부모 통신을 위해서는:
 `GroceryList` 컴포넌트가 배열로 생성된 아이템 목록을 가지고 있다고 해봅시다. 목록의 아이템이 클릭되면 아이템의 이름이 보이길 원할 겁니다:

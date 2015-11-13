@@ -34,6 +34,7 @@
   <script src="/react/js/react-dom.js"></script>
   <script src="/react/js/babel-browser.min.js"></script>
   <script src="/react/js/live_editor.js"></script>
+  <script src="/react/js/playground.js"></script>
 </head>
 <body>
 
@@ -41,20 +42,19 @@
 
     <div class="nav-main">
       <div class="wrap">
-        <a class="nav-home" href="/react/index.html">
+        <a class="nav-home" href="/">
           <img class="nav-logo" src="/react/img/logo_svg.png" width="36" height="36">
-          React
+          React.rb
         </a>
         <ul class="nav-site nav-site-internal">
-          <li><a href="/react/docs/getting-started.html">Docs</a></li>
-          <li><a href="/react/support.html">Support</a></li>
-          <li><a href="/react/downloads.html">Download</a></li>
-          <li><a href="/react/blog/" class="active">Blog</a></li>
+          <li><a href="/docs/getting-started.html">Docs</a></li>
+          <li><a href="/support.html">Support</a></li>
+          <li><a href="/downloads.html">Download</a></li>
+          <li><a href="/blog/" class="active">Blog</a></li>
         </ul>
 
         <ul class="nav-site nav-site-external">
-          <li><a href="https://github.com/facebook/react">GitHub</a>
-          <li><a href="https://facebook.github.io/react-native/">React Native</a>
+          <li><a href="https://github.com/zetachang/react.rb">GitHub</a>
         </ul>
       </div>
     </div>
@@ -119,7 +119,7 @@
 
 <p>The biggest change you&#39;ll notice as a developer is that we no longer support <code>class</code> in JSX as a way to provide CSS classes. Since this prop was being converted to <code>className</code> at the transform step, it caused some confusion when trying to access it in composite components. As a result we decided to make our DOM properties mirror their counterparts in the JS DOM API. There are <a href="https://github.com/facebook/react/blob/master/src/dom/DefaultDOMPropertyConfig.js#L156">a few exceptions</a> where we deviate slightly in an attempt to be consistent internally.</p>
 
-<p>The other major change in v0.5 is that we&#39;ve added an additional build - <code>react-with-addons</code> - which adds support for some extras that we&#39;ve been working on including animations and two-way binding. <a href="/react/docs/addons.html">Read more about these addons in the docs</a>.</p>
+<p>The other major change in v0.5 is that we&#39;ve added an additional build - <code>react-with-addons</code> - which adds support for some extras that we&#39;ve been working on including animations and two-way binding. <a href="/docs/addons.html">Read more about these addons in the docs</a>.</p>
 <h2><a class="anchor" name="thanks-to-our-community"></a>Thanks to Our Community <a class="hash-link" href="#thanks-to-our-community">#</a></h2>
 <p>We added <em>22 new people</em> to the list of authors since we launched React v0.4.1 nearly 3 months ago. With a total of 48 names in our <code>AUTHORS</code> file, that means we&#39;ve nearly doubled the number of contributors in that time period. We&#39;ve seen the number of people contributing to discussion on IRC, mailing lists, Stack Overflow, and GitHub continue rising. We&#39;ve also had people tell us about talks they&#39;ve given in their local community about React.</p>
 
@@ -147,7 +147,7 @@
 </ul>
 <h3><a class="anchor" name="react-with-addons-new"></a>React with Addons (New!) <a class="hash-link" href="#react-with-addons-new">#</a></h3>
 <ul>
-<li>Introduced a separate build with several &quot;addons&quot; which we think can help improve the React experience. We plan to deprecate this in the long-term, instead shipping each as standalone pieces. <a href="/react/docs/addons.html">Read more in the docs</a>.</li>
+<li>Introduced a separate build with several &quot;addons&quot; which we think can help improve the React experience. We plan to deprecate this in the long-term, instead shipping each as standalone pieces. <a href="/docs/addons.html">Read more in the docs</a>.</li>
 </ul>
 <h3><a class="anchor" name="jsx"></a>JSX <a class="hash-link" href="#jsx">#</a></h3>
 <ul>
@@ -170,7 +170,7 @@
     <footer class="wrap">
       <div class="left">
         Original site is a Facebook &amp; Instagram collaboration.<br>
-        <a href="/react/acknowledgements.html">Acknowledgements</a>
+        <a href="/acknowledgements.html">Acknowledgements</a>
       </div>
       <div class="right">
         Original site &copy; 2013&ndash;2015 Facebook Inc.<br>

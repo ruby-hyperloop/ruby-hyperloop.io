@@ -90,9 +90,9 @@ JSXでは、以下のように変換されます。
 
 以上のようなことで、Reactのアプリを作成するのは簡単になりましたし、デザイナーはこのシンタックスを好むようになると発見しました。しかし、人は自分自身のワークフローを持っているものです。 **JSXはReactを使う際に必ずしも必要ではありません。**
 
-JSXはとても小さいです。さらに学ぶためには、[JSXの深層](/react/docs/jsx-in-depth-ja-JP.html)を参照ください。または、[ライブJSXコンパイラー](/react/jsx-compiler.html)で変換の動作を確認してください。
+JSXはとても小さいです。さらに学ぶためには、[JSXの深層](/docs/jsx-in-depth-ja-JP.html)を参照ください。または、[ライブJSXコンパイラー](/react/jsx-compiler.html)で変換の動作を確認してください。
 
-JSXはHTMLに似ていますが、正確に同じではありません。いくつかのキーの違いについては[JSXの理解](/react/docs/jsx-gotchas.html) をご覧ください。
+JSXはHTMLに似ていますが、正確に同じではありません。いくつかのキーの違いについては[JSXの理解](/docs/jsx-gotchas.html) をご覧ください。
 
 JSXを初めて使う際に最も簡単なのは、ブラウザで `JSXTransformer` を使う方法です。これはプロダクションでは使わないことを強くお勧めします。コードは、コマンドラインの[react-tools](https://www.npmjs.com/package/react-tools)パッケージを使うことでプリコンパイルできます。
 
