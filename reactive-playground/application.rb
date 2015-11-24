@@ -1,0 +1,6 @@
+require 'opal'
+require 'opal/compiler'
+require 'browser/interval'
+require 'browser/delay'
+require 'opal-jquery'
+require 'reactive-ruby'
