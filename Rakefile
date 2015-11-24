@@ -4,13 +4,13 @@ require('yaml')
 
 desc "generate js from jsx"
 task :js do
-  system "cp ../node_modules/babel/node_modules/babel-core/browser.min.js ./js/babel-browser.min.js"
-  system "../node_modules/.bin/babel _js --out-dir=js"
+  system "cp ../react/node_modules/babel/node_modules/babel-core/browser.min.js ./js/babel-browser.min.js"
+  system "../react/node_modules/.bin/babel _js --out-dir=react/js"
 end
 
 desc "watch js"
 task :watch do
-  Process.spawn "../node_modules/.bin/babel _js --out-dir=js --watch"
+  Process.spawn "../react/node_modules/.bin/babel _js --out-dir=react/js --watch"
   Process.waitall
 end
 

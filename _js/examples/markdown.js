@@ -12,7 +12,7 @@ var MarkdownEditor = React.createClass({
   render: function() {
     return (
       <div className="MarkdownEditor">
-        <h3>Input</h3>
+        <h3>Inputz</h3>
         <textarea
           onChange={this.handleChange}
           ref="textarea"

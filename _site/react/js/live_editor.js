@@ -103,9 +103,13 @@ var ReactPlayground = React.createClass({
   getDefaultProps: function getDefaultProps() {
     return {
       transformer: function transformer(code) {
-        return babel.transform(code).code;
+        compiled_code = Opal.Compiler.$new(code).$compile();
+        //result = `eval(#{compiled_code})`
+        //puts "result = #{result}"
+        return compiled_code;
+        //return babel.transform(code).code;
       },
-      editorTabTitle: 'Live JSX Editor',
+      editorTabTitle: 'Live Ruby Editor',
       showCompiledJSTab: true,
       showLineNumbers: false
     };
@@ -180,13 +184,12 @@ var ReactPlayground = React.createClass({
       React.createElement(
         'div',
         null,
-        JSXTab,
-        this.props.showCompiledJSTab && JSTab
+        JSXTab
       ),
       React.createElement(
         'div',
         { className: 'playgroundCode' },
-        isJS ? JSContent : JSXContent
+        JSContent
       ),
       React.createElement(
         'div',
