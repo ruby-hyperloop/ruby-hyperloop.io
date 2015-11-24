@@ -11,24 +11,24 @@ var IS_MOBILE = (
 var CodeMirrorEditor = React.createClass({
   propTypes: {
     lineNumbers: React.PropTypes.bool,
-    onChange: React.PropTypes.func,
+    onChange: React.PropTypes.func
   },
   getDefaultProps: function() {
     return {
-      lineNumbers: false,
+      lineNumbers: false
     };
   },
   componentDidMount: function() {
     if (IS_MOBILE) return;
 
-    this.editor = CodeMirror.fromTextArea(ReactDOM.findDOMNode(this.refs.editor), {
-      mode: 'javascript',
+    this.editor = CodeMirror.fromTextArea(React.findDOMNode(this.refs.editor), {
+      mode: 'ruby',
       lineNumbers: this.props.lineNumbers,
       lineWrapping: true,
-      smartIndent: false,  // javascript mode does bad things with jsx indents
+      smartIndent: true,  // javascript mode does bad things with jsx indents
       matchBrackets: true,
-      theme: 'solarized-light',
-      readOnly: this.props.readOnly,
+      theme: 'rubyblue',
+      readOnly: this.props.readOnly
     });
     this.editor.on('change', this.handleChange);
   },
@@ -60,7 +60,7 @@ var CodeMirrorEditor = React.createClass({
         {editor}
       </div>
     );
-  },
+  }
 });
 
 var selfCleaningTimeout = {
@@ -71,7 +71,7 @@ var selfCleaningTimeout = {
   setTimeout: function() {
     clearTimeout(this.timeoutID);
     this.timeoutID = setTimeout.apply(null, arguments);
-  },
+  }
 };
 
 var ReactPlayground = React.createClass({
@@ -81,17 +81,18 @@ var ReactPlayground = React.createClass({
 
   propTypes: {
     codeText: React.PropTypes.string.isRequired,
+    elementId: React.PropTypes.string.isRequired,
     transformer: React.PropTypes.func,
     renderCode: React.PropTypes.bool,
     showCompiledJSTab: React.PropTypes.bool,
     showLineNumbers: React.PropTypes.bool,
-    editorTabTitle: React.PropTypes.string,
+    editorTabTitle: React.PropTypes.string
   },
 
   getDefaultProps: function() {
     return {
       transformer: function(code) {
-        compiled_code = Opal.Compiler.$new(code).$compile()
+        var compiled_code = Opal.Opal.Compiler.$new(code).$compile();
         //result = `eval(#{compiled_code})`
         //puts "result = #{result}"
         return compiled_code;
@@ -99,7 +100,7 @@ var ReactPlayground = React.createClass({
       },
       editorTabTitle: 'Live Ruby Editor',
       showCompiledJSTab: true,
-      showLineNumbers: false,
+      showLineNumbers: false
     };
   },
 
@@ -172,12 +173,15 @@ var ReactPlayground = React.createClass({
       <div className="playground">
         <div>
           {JSXTab}
+          <div className="playground-tab playground-tab-active target-tab" >
+            <div>{this.props.elementId}</div>
+          </div>
         </div>
         <div className="playgroundCode">
-          {JSContent}
+          {JSXContent}
         </div>
         <div className="playgroundPreview">
-          <div ref="mount" />
+          <div ref="mount" id={this.props.elementId} />
         </div>
       </div>
     );
@@ -197,16 +201,16 @@ var ReactPlayground = React.createClass({
   },
 
   executeCode: function() {
-    var mountNode = ReactDOM.findDOMNode(this.refs.mount);
-
+    var mountNode = React.findDOMNode(this.refs.mount);
+    Opal.Object.$$proto.$mount_node = function() {return mountNode;}
     try {
-      ReactDOM.unmountComponentAtNode(mountNode);
+      React.unmountComponentAtNode(mountNode);
     } catch (e) { }
 
     try {
       var compiledCode = this.compileCode();
       if (this.props.renderCode) {
-        ReactDOM.render(
+        React.render(
           <CodeMirrorEditor codeText={compiledCode} readOnly={true} />,
           mountNode
         );
@@ -215,11 +219,11 @@ var ReactPlayground = React.createClass({
       }
     } catch (err) {
       this.setTimeout(function() {
-        ReactDOM.render(
+        React.render(
           <div className="playgroundError">{err.toString()}</div>,
           mountNode
         );
       }, 500);
     }
-  },
+  }
 });

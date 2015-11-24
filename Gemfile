@@ -17,3 +17,8 @@ gem 'rb-fsevent'
 
 # For markdown header cleanup
 gem 'sanitize', '~>2.0'
+
+gem 'opal'
+gem 'opal-browser'
+gem 'reactive-ruby'
+gem 'opal-jquery'

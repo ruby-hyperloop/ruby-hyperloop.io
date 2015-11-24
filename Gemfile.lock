@@ -14,6 +14,7 @@ GEM
     execjs (2.2.1)
     fast-stemmer (1.0.2)
     ffi (1.9.3)
+    hike (1.2.3)
     jekyll (2.2.0)
       classifier (~> 1.3)
       colorator (~> 0.1)
@@ -50,21 +51,43 @@ GEM
     mini_portile (0.6.0)
     nokogiri (1.6.3.1)
       mini_portile (= 0.6.0)
+    opal (0.8.1)
+      hike (~> 1.2)
+      sourcemap (~> 0.1.0)
+      sprockets (~> 3.1)
+      tilt (>= 1.4)
+    opal-activesupport (0.2.0)
+      opal (>= 0.5.0, < 1.0.0)
+    opal-browser (0.2.0)
+      opal
+      paggio
+    opal-jquery (0.4.1)
+      opal (>= 0.7.0, < 0.10.0)
+    paggio (0.2.5)
     parslet (1.5.0)
       blankslate (~> 2.0)
     posix-spawn (0.3.9)
     pygments.rb (0.6.0)
       posix-spawn (~> 0.3.6)
       yajl-ruby (~> 1.1.0)
+    rack (1.6.4)
     rake (10.3.2)
     rb-fsevent (0.9.4)
     rb-inotify (0.9.5)
       ffi (>= 0.5.0)
+    reactive-ruby (0.7.31)
+      opal
+      opal-activesupport (>= 0.2.0)
+      opal-browser
     redcarpet (3.1.2)
     safe_yaml (1.0.4)
     sanitize (2.0.6)
       nokogiri (>= 1.4.4)
     sass (3.3.14)
+    sourcemap (0.1.1)
+    sprockets (3.4.0)
+      rack (> 1, < 3)
+    tilt (2.0.1)
     timers (1.1.0)
     toml (0.1.1)
       parslet (~> 1.5.0)
@@ -77,9 +100,13 @@ DEPENDENCIES
   jekyll (~> 2.0)
   jekyll-redirect-from
   json
+  opal
+  opal-browser
+  opal-jquery
   rake
   rb-fsevent
+  reactive-ruby
   sanitize (~> 2.0)
 
 BUNDLED WITH
-   1.10.1
+   1.10.6

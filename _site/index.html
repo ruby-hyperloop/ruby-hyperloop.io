@@ -19,6 +19,7 @@
   <link rel="stylesheet" href="/react/css/syntax.css">
   <link rel="stylesheet" href="/react/css/codemirror.css">
   <link rel="stylesheet" href="/react/css/react.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.9.0/theme/rubyblue.css">
 
   <script src="//use.typekit.net/vqa1hcx.js"></script>
   <script>try{Typekit.load();}catch(e){}</script>
@@ -29,12 +30,16 @@
   <script src="/react/js/es5-sham.min.js"></script>
   <![endif]-->
   <script src="/react/js/codemirror.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.9.0/mode/ruby/ruby.min.js"></script>
   <script src="/react/js/javascript.js"></script>
-  <script src="/react/js/react.js"></script>
-  <script src="/react/js/react-dom.js"></script>
+  <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+  <script src="/reactive-playground.js"></script>
+  <!--<script src="/react/js/react.js"></script>
+  <script src="/react/js/react-dom.js"></script> -->
   <script src="/react/js/babel-browser.min.js"></script>
   <script src="/react/js/live_editor.js"></script>
   <script src="/react/js/playground.js"></script>
+
 </head>
 <body>
 
@@ -65,14 +70,14 @@
         <div class="text"><strong>React.rb</strong></div>
         <div class="minitext">
           <p>Use Ruby to build Reactive User Interfaces</p>
-          <p>Site under construction.  We are reusing as much of the original react.js site and documentation, and we thank the great work at the facebook
+          <p>Site under construction.  We are reusing much of the original react.js site and documentation, and we appreciate the great work by the React.js
             team.  To get started right now, go to <a href="https://github.com/zetachang/react.rb">our current github page.</a>
           </p>
         </div>
 
         <div class="buttons-unit">
           <a href="/docs/getting-started.html" class="button">Get Started</a>
-          <a href="/react/downloads.html" class="button">Download React v0.14.2</a>
+          <a href="https://github.com/zetachang/react.rb" class="button">Get React.rb</a>
         </div>
       </div>
     </div>
@@ -84,7 +89,7 @@
     <div class="marketing-col">
       <h3>Pure Ruby</h3>
       <p>
-        React.rb lets you build beautiful interactive user interfaces using the same Ruby language running your server side code.  React.rb replaces JS code, HTML,
+        React.rb lets you build beautiful interactive user interfaces using the same Ruby language running your server side code.  React.rb replaces JS code, JSX, HTML,
         templating languages, and complex frameworks with one simple system.
       </p>
     </div>
@@ -111,22 +116,7 @@
       <p>
         React components are Ruby classes that include the <code>React::Component</code> mixin.  The <code>render</code> method is called to generate the components HTML.
       </p>
-      <p><i>You may click any code component in this document to bring up a playground try out the code for yourself</i></p>
-<a onclick="playground(this)"  data-link="http://fkchang.github.io/opal-playground/?code:class%20HelloWorld%0A%0A%20%20include%20React%3A%3AComponent%0A%20%20required_param%20%3Avisitor%0A%0A%20%20def%20render%0A%20%20%20%20%22Hello%20there%20%23%7Bvisitor%7D%22%0A%20%20end%0Aend%0A%0AReact.render(%0A%20%20React.create_element(%0A%20%20%20%20HelloWorld%2C%20%7Bvisitor%3A%20%22world%22%7D)%2C%20%0A%20%20Element%5B'%23content'%5D)%0A%0A%0A&html_code=%3Cdiv%20id%3D'content'%3E%3C%2Fdiv%3E&css_code=body%20%7B%0A%20%20background%3A%20%23eeeeee%3B%0A%7D%0A"></p>
-
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">HelloWorld</span>
-
-  <span class="kp">include</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span>
-  <span class="n">required_param</span> <span class="ss">:visitor</span>
-
-  <span class="k">def</span> <span class="nf">render</span>
-    <span class="s2">&quot;Hello there </span><span class="si">#{</span><span class="n">visitor</span><span class="si">}</span><span class="s2">&quot;</span>
-  <span class="k">end</span>
-<span class="k">end</span>
-
-<span class="no">React</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="no">React</span><span class="o">.</span><span class="n">create_element</span><span class="p">(</span><span class="no">HelloWorld</span><span class="p">,</span> <span class="p">{</span><span class="ss">visitor</span><span class="p">:</span> <span class="s2">&quot;world&quot;</span><span class="p">}),</span> <span class="no">Element</span><span class="o">[</span><span class="s1">&#39;#content&#39;</span><span class="o">]</span><span class="p">)</span></code></pre></div>
-
-<p></a>
+      <div id="helloExample"></div>
     </div>
     <div class="example">
       <h3>A Stateful Component</h3>
@@ -136,80 +126,16 @@
         When a component&#39;s state data changes, the rendered markup will be
         updated by re-invoking the <code>render</code> method.
       </p>
-<a onclick="playground(this)" data-link="http://fkchang.github.io/opal-playground/?code:class%20Ticker%0A%20%20include%20React%3A%3AComponent%0A%0A%20%20define_state%20ticks%3A%200%0A%20%20%0A%20%20after_mount%20do%0A%20%20%20%20%40timer%20%3D%20every(1)%20%7Bticks!%20ticks%2B1%7D%0A%20%20end%0A%20%20%0A%20%20before_unmount%20do%0A%20%20%20%20%40timer.stop%0A%20%20end%0A%20%20%0A%20%20def%20render%0A%20%20%20%20div%20%7B%22Seconds%20Elapsed%3A%20%23%7Bticks%7D%22%7D%0A%20%20end%0A%20%20%0Aend%0A%0AReact.render(React.create_element(Ticker)%2CElement%5B%27%23content%27%5D)&html_code=%3Cdiv%20id%3D%27content%27%3E%3C%2Fdiv%3E&css_code=body%20%7B%0A%20%20background%3A%20%23eeeeee%3B%0A%7D%0A"></p>
-
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">Ticker</span>
-  <span class="kp">include</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span>
-
-  <span class="n">define_state</span> <span class="ss">ticks</span><span class="p">:</span> <span class="mi">0</span>
-
-  <span class="n">after_mount</span> <span class="k">do</span>
-    <span class="vi">@timer</span> <span class="o">=</span> <span class="n">every</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span><span class="n">ticks!</span> <span class="n">ticks</span><span class="o">+</span><span class="mi">1</span><span class="p">}</span>
-  <span class="k">end</span>
-
-  <span class="n">before_unmount</span> <span class="k">do</span>
-    <span class="vi">@timer</span><span class="o">.</span><span class="n">stop</span>
-  <span class="k">end</span>
-
-  <span class="k">def</span> <span class="nf">render</span>
-    <span class="n">div</span> <span class="p">{</span><span class="s2">&quot;Seconds Elapsed: </span><span class="si">#{</span><span class="n">ticks</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">}</span>
-  <span class="k">end</span>
-
-<span class="k">end</span>
-
-<span class="no">React</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="no">React</span><span class="o">.</span><span class="n">create_element</span><span class="p">(</span><span class="no">Ticker</span><span class="p">),</span><span class="no">Element</span><span class="o">[</span><span class="s1">&#39;#content&#39;</span><span class="o">]</span><span class="p">)</span></code></pre></div>
-
-<p></a>
+      <div id="timerExample"></div>
     </div>
     <div class="example">
       <h3>An Application</h3>
       <p>
         Using params and state, we can put together a small Todo application.
-        This example uses two states to track the current list of items as well as
+        This example uses two states to track the current list of items and
         the text that the user has entered.
       </p>
-<a onclick="playground(this)" data-link="http://fkchang.github.io/opal-playground/?code:class%20TodoList%0A%20%20%0A%20%20include%20React%3A%3AComponent%0A%20%20%0A%20%20required_param%20%3Aitems%2C%20type%3A%20%5BString%5D%0A%20%20%0A%20%20def%20render%0A%20%20%20%20ul%20do%0A%20%20%20%20%20%20items.each_with_index%20do%20%7Citem%2C%20index%7C%0A%20%20%20%20%20%20%20%20li(key%3A%20%22item%20-%20%23%7Bindex%7D%22)%20%7B%20item%20%7D%0A%20%20%20%20%20%20end%0A%20%20%20%20end%0A%20%20end%0Aend%0A%0Aclass%20TodoApp%20%0A%20%20%0A%20%20include%20React%3A%3AComponent%0A%20%20%0A%20%20define_state%20items%3A%20%5B%5D%2C%20text%3A%20%22%22%0A%0A%20%20def%20render%0A%20%20%20%20div%20do%0A%20%20%20%20%20%20h3%20%7B%20%22TODO%22%20%7D%0A%20%20%20%20%20%20TodoList%20items%3A%20items%0A%20%20%20%20%20%20div%20do%0A%20%20%20%20%20%20%20%20input(value%3A%20text).on(%3Achange)%20do%20%7Ce%7C%20%0A%20%20%20%20%20%20%20%20%20%20text!%20e.target.value%0A%20%20%20%20%20%20%20%20end%0A%20%20%20%20%20%20%20%20button%20%7B%20%22Add%20%23%23%7Bitems.length%2B1%7D%22%20%7D.on(%3Aclick)%20do%20%7Ce%7C%20%0A%20%20%20%20%20%20%20%20%20%20items!%20(items%20%2B%20%5Btext!(%22%22)%5D)%0A%20%20%20%20%20%20%20%20end%0A%20%20%20%20%20%20end%0A%20%20%20%20end%0A%20%20end%0Aend%0A%0AReact.render(React.create_element(TodoApp)%2CElement%5B'%23content'%5D)%0A&html_code=%3Cdiv%20id%3D%22content%22%3E%3C%2Fdiv%3E%0A&css_code=body%20%7B%0A%20%20background%3A%20%23eeeeee%3B%0A%7D%0A"></p>
-
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">TodoList</span>
-
-  <span class="kp">include</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span>
-
-  <span class="n">required_param</span> <span class="ss">:items</span><span class="p">,</span> <span class="ss">type</span><span class="p">:</span> <span class="o">[</span><span class="nb">String</span><span class="o">]</span>
-
-  <span class="k">def</span> <span class="nf">render</span>
-    <span class="n">ul</span> <span class="k">do</span>
-      <span class="n">items</span><span class="o">.</span><span class="n">each_with_index</span> <span class="k">do</span> <span class="o">|</span><span class="n">item</span><span class="p">,</span> <span class="n">index</span><span class="o">|</span>
-        <span class="n">li</span><span class="p">(</span><span class="ss">key</span><span class="p">:</span> <span class="s2">&quot;item - </span><span class="si">#{</span><span class="n">index</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">item</span> <span class="p">}</span>
-      <span class="k">end</span>
-    <span class="k">end</span>
-  <span class="k">end</span>
-<span class="k">end</span>
-
-<span class="k">class</span> <span class="nc">TodoApp</span>
-
-  <span class="kp">include</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span>
-
-  <span class="n">define_state</span> <span class="ss">items</span><span class="p">:</span> <span class="o">[]</span><span class="p">,</span> <span class="ss">text</span><span class="p">:</span> <span class="s2">&quot;&quot;</span>
-
-  <span class="k">def</span> <span class="nf">render</span>
-    <span class="n">div</span> <span class="k">do</span>
-      <span class="n">h3</span> <span class="p">{</span> <span class="s2">&quot;TODO&quot;</span> <span class="p">}</span>
-      <span class="no">TodoList</span> <span class="ss">items</span><span class="p">:</span> <span class="n">items</span>
-      <span class="n">div</span> <span class="k">do</span>
-        <span class="n">input</span><span class="p">(</span><span class="ss">value</span><span class="p">:</span> <span class="n">text</span><span class="p">)</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="ss">:change</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">e</span><span class="o">|</span>
-          <span class="n">text!</span> <span class="n">e</span><span class="o">.</span><span class="n">target</span><span class="o">.</span><span class="n">value</span>
-        <span class="k">end</span>
-        <span class="n">button</span> <span class="p">{</span> <span class="s2">&quot;Add #</span><span class="si">#{</span><span class="n">items</span><span class="o">.</span><span class="n">length</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">&quot;</span> <span class="p">}</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="ss">:click</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">e</span><span class="o">|</span>
-          <span class="n">items!</span> <span class="p">(</span><span class="n">items</span> <span class="o">+</span> <span class="o">[</span><span class="n">text!</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">]</span><span class="p">)</span>
-        <span class="k">end</span>
-      <span class="k">end</span>
-    <span class="k">end</span>
-  <span class="k">end</span>
-<span class="k">end</span>
-
-<span class="no">React</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="no">React</span><span class="o">.</span><span class="n">create_element</span><span class="p">(</span><span class="no">TodoApp</span><span class="p">),</span><span class="no">Element</span><span class="o">[</span><span class="s1">&#39;#content&#39;</span><span class="o">]</span><span class="p">)</span></code></pre></div>
-
-<p></a>
+      <div id="todoExample"></div>
     </div>
     <div class="example">
       <h3>A Component Using External Plugins</h3>
@@ -221,7 +147,7 @@
       <div id="markdownExample"></div>
     </div>
   </div>
-  <script src="/react/js/marked.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.5/marked.min.js"></script>
   <script src="/react/js/examples/hello.js"></script>
   <script src="/react/js/examples/timer.js"></script>
   <script src="/react/js/examples/todo.js"></script>
@@ -245,7 +171,7 @@
       </div>
       <div class="right">
         Original site &copy; 2013&ndash;2015 Facebook Inc.<br>
-        Documentation modified under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.
+        Documentation modified under <a href="https://creativecommons.org/licenses/by/4.0/">CC v. 4.0</a>.
       </div>
     </footer>
   </div>

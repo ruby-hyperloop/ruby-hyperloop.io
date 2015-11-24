@@ -1,28 +1,27 @@
 var TIMER_COMPONENT = `
-var Timer = React.createClass({
-  getInitialState: function() {
-    return {secondsElapsed: 0};
-  },
-  tick: function() {
-    this.setState({secondsElapsed: this.state.secondsElapsed + 1});
-  },
-  componentDidMount: function() {
-    this.interval = setInterval(this.tick, 1000);
-  },
-  componentWillUnmount: function() {
-    clearInterval(this.interval);
-  },
-  render: function() {
-    return (
-      <div>Seconds Elapsed: {this.state.secondsElapsed}</div>
-    );
-  }
-});
+class Ticker
+  include React::Component
 
-ReactDOM.render(<Timer />, mountNode);
+  define_state ticks: 0
+
+  after_mount do
+    @timer = every(1) {ticks! ticks+1}
+  end
+
+  before_unmount do
+    @timer.stop
+  end
+
+  def render
+    div {"Seconds Elapsed: #{ticks}"}
+  end
+
+end
+
+React.render(React.create_element(Ticker), Element['#timer-target'])
 `;
 
-ReactDOM.render(
-  <ReactPlayground codeText={TIMER_COMPONENT} />,
+React.render(
+  <ReactPlayground codeText={TIMER_COMPONENT} elementId="timer-target" />,
   document.getElementById('timerExample')
 );

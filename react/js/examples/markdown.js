@@ -1,5 +1,5 @@
-'use strict';
+"use strict";
 
-var MARKDOWN_COMPONENT = '\nvar MarkdownEditor = React.createClass({\n  getInitialState: function() {\n    return {value: \'Type some *markdown* here!\'};\n  },\n  handleChange: function() {\n    this.setState({value: this.refs.textarea.value});\n  },\n  rawMarkup: function() {\n    return { __html: marked(this.state.value, {sanitize: true}) };\n  },\n  render: function() {\n    return (\n      <div className="MarkdownEditor">\n        <h3>Inputz</h3>\n        <textarea\n          onChange={this.handleChange}\n          ref="textarea"\n          defaultValue={this.state.value} />\n        <h3>Output</h3>\n        <div\n          className="content"\n          dangerouslySetInnerHTML={this.rawMarkup()}\n        />\n      </div>\n    );\n  }\n});\n\nReactDOM.render(<MarkdownEditor />, mountNode);\n';
+var MARKDOWN_COMPONENT = "\nclass MarkdownEditor\n\n  include React::Component\n\n  define_state value: \"Type some *markdown* here\"\n\n  def raw_markup\n    { __html: %x{marked(#{value}, {sanitize: true})}}\n  end\n\n  def render\n    div.MarkdownEditor do\n      h3 { \"Input\" }\n      textarea(defaultValue: value).on(:change) do |e|\n        value! e.target.value\n      end\n      h3 { \"Output\" }\n      div.content(dangerously_set_inner_HTML: raw_markup)\n    end\n  end\nend\n\nReact.render(React.create_element(MarkdownEditor),Element[\"#markdown-target\"])\n";
 
-ReactDOM.render(React.createElement(ReactPlayground, { codeText: MARKDOWN_COMPONENT }), document.getElementById('markdownExample'));
+React.render(React.createElement(ReactPlayground, { codeText: MARKDOWN_COMPONENT, elementId: "markdown-target" }), document.getElementById('markdownExample'));

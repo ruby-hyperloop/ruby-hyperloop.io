@@ -1,36 +1,30 @@
 var MARKDOWN_COMPONENT = `
-var MarkdownEditor = React.createClass({
-  getInitialState: function() {
-    return {value: 'Type some *markdown* here!'};
-  },
-  handleChange: function() {
-    this.setState({value: this.refs.textarea.value});
-  },
-  rawMarkup: function() {
-    return { __html: marked(this.state.value, {sanitize: true}) };
-  },
-  render: function() {
-    return (
-      <div className="MarkdownEditor">
-        <h3>Inputz</h3>
-        <textarea
-          onChange={this.handleChange}
-          ref="textarea"
-          defaultValue={this.state.value} />
-        <h3>Output</h3>
-        <div
-          className="content"
-          dangerouslySetInnerHTML={this.rawMarkup()}
-        />
-      </div>
-    );
-  }
-});
+class MarkdownEditor
 
-ReactDOM.render(<MarkdownEditor />, mountNode);
+  include React::Component
+
+  define_state value: "Type some *markdown* here"
+
+  def raw_markup
+    { __html: %x{marked(#{value}, {sanitize: true})}}
+  end
+
+  def render
+    div.MarkdownEditor do
+      h3 { "Input" }
+      textarea(defaultValue: value).on(:change) do |e|
+        value! e.target.value
+      end
+      h3 { "Output" }
+      div.content(dangerously_set_inner_HTML: raw_markup)
+    end
+  end
+end
+
+React.render(React.create_element(MarkdownEditor),Element["#markdown-target"])
 `;
 
-ReactDOM.render(
-  <ReactPlayground codeText={MARKDOWN_COMPONENT} />,
+React.render(
+  <ReactPlayground codeText={MARKDOWN_COMPONENT} elementId="markdown-target"/>,
   document.getElementById('markdownExample')
 );

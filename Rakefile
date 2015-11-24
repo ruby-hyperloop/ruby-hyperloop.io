@@ -2,9 +2,20 @@ require('rubygems')
 require('json')
 require('yaml')
 
+require 'opal'
+require 'opal-browser'
+require 'reactive-ruby'
+require 'opal-jquery'
+
+desc "Build inline code editor support reactive-playground.js"
+task :build_reactive_playground do
+  Opal.append_path "reactive-playground"
+  File.binwrite "reactive-playground.js", Opal::Builder.build("application").to_s
+end
+
 desc "generate js from jsx"
 task :js do
-  system "cp ../react/node_modules/babel/node_modules/babel-core/browser.min.js ./js/babel-browser.min.js"
+  system "cp ../react/node_modules/babel/node_modules/babel-core/browser.min.js ./react/js/babel-browser.min.js"
   system "../react/node_modules/.bin/babel _js --out-dir=react/js"
 end
 

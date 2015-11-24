@@ -1,14 +1,20 @@
 var HELLO_COMPONENT = `
-var HelloMessage = React.createClass({
-  render: function() {
-    return <div>Hello {this.props.name}</div>;
-  }
-});
+class HelloWorld
 
-ReactDOM.render(<HelloMessage name="John" />, mountNode);
+  include React::Component
+
+  required_param :visitor
+
+  def render
+    "Hello there #{visitor}"
+  end
+
+end
+
+React.render(React.create_element(HelloWorld, {visitor: "world"}), Element['#hello-target'])
 `;
 
-ReactDOM.render(
-  <ReactPlayground codeText={HELLO_COMPONENT} />,
+React.render(
+  <ReactPlayground codeText={HELLO_COMPONENT} elementId="hello-target" />,
   document.getElementById('helloExample')
 );
