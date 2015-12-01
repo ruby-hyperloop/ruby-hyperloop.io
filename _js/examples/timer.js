@@ -1,11 +1,9 @@
 var TIMER_COMPONENT = `
-class Ticker
-  include React::Component
+class Ticker < React::Component::Base
 
-  define_state ticks: 0
-
-  after_mount do
-    @timer = every(1) {ticks! ticks+1}
+  before_mount do
+    state.ticks! 0
+    @timer = every(1) {state.ticks! state.ticks+1}
   end
 
   before_unmount do
@@ -13,12 +11,12 @@ class Ticker
   end
 
   def render
-    div {"Seconds Elapsed: #{ticks}"}
+    div {"Seconds Elapsed: #{state.ticks}"}
   end
 
 end
 
-React.render(React.create_element(Ticker), Element['#timer-target'])
+Element['#timer-target'].render { Ticker() }
 `;
 
 React.render(

@@ -1,17 +1,15 @@
 var HELLO_COMPONENT = `
-class HelloWorld
+class HelloWorld < React::Component::Base
 
-  include React::Component
-
-  required_param :visitor
+  param :visitor
 
   def render
-    "Hello there #{visitor}"
+    "Hello there #{params.visitor}"
   end
 
 end
 
-React.render(React.create_element(HelloWorld, {visitor: "world"}), Element['#hello-target'])
+Element['#hello-target'].render { HelloWorld(visitor: "world") }
 `;
 
 React.render(

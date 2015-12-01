@@ -5,16 +5,22 @@ next: tutorial.html
 redirect_from: "docs/index.html"
 ---
 
-## JSFiddle
+## Opal Playground
 
 The easiest way to start hacking on React is using the following JSFiddle Hello World examples:
 
  * **[React JSFiddle](https://jsfiddle.net/reactjs/69z2wepo/)**
  * [React JSFiddle without JSX](https://jsfiddle.net/reactjs/5vjqabv3/)
 
-## Using React from npm
+## Using Inline-Reactive-Ruby
 
 We recommend using React with a CommonJS module system like [browserify](http://browserify.org/) or [webpack](https://webpack.github.io/). Use the [`react`](https://www.npmjs.com/package/react) and [`react-dom`](https://www.npmjs.com/package/react-dom) npm packages.
+
+## With Rails
+
+## With Sinatra
+
+## Building With Rake
 
 ```js
 // main.js

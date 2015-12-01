@@ -1,9 +1,7 @@
 var TODO_COMPONENT = `
-class TodoList
+class TodoList < React::Component::Base
 
-  include React::Component
-
-  required_param :items, type: [String]
+  param :items, type: [String]
 
   def render
     ul do
@@ -14,29 +12,30 @@ class TodoList
   end
 end
 
-class TodoApp
+class TodoApp < React::Component::Base
 
-  include React::Component
-
-  define_state items: [], text: ""
+  before_mount do
+    state.items! []
+    state.text! ""
+  end
 
   def render
     div do
       h3 { "TODO" }
-      TodoList items: items
+      TodoList items: state.items
       div do
-        input(value: text).on(:change) do |e|
-          text! e.target.value
+        input(value: state.text).on(:change) do |e|
+          state.text! e.target.value
         end
-        button { "Add ##{items.length+1}" }.on(:click) do |e|
-          items! (items + [text!("")])
+        button { "Add ##{state.items.length+1}" }.on(:click) do |e|
+          state.items! (state.items + [state.text!("")])
         end
       end
     end
   end
 end
 
-React.render(React.create_element(TodoApp), Element["#todo-target"])
+Element["#todo-target"].render { TodoApp() }
 `;
 
 React.render(

@@ -75,7 +75,7 @@ GEM
     rb-fsevent (0.9.4)
     rb-inotify (0.9.5)
       ffi (>= 0.5.0)
-    reactive-ruby (0.7.31)
+    reactive-ruby (0.7.32)
       opal
       opal-activesupport (>= 0.2.0)
       opal-browser
@@ -85,7 +85,7 @@ GEM
       nokogiri (>= 1.4.4)
     sass (3.3.14)
     sourcemap (0.1.1)
-    sprockets (3.4.0)
+    sprockets (3.4.1)
       rack (> 1, < 3)
     tilt (2.0.1)
     timers (1.1.0)

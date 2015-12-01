@@ -24,6 +24,13 @@ $ bundle install # Might need sudo.
 $ npm install
 ```
 
+### Building the Playground
+
+```sh
+$ bundle update reactive-ruby # as needed
+$ bundle exec rake build_reactive_playground
+```
+
 ### Instructions
 
 The site requires React, so first make sure you've built the project (via `grunt`).
