@@ -7,148 +7,217 @@ redirect_from: "docs/index.html"
 
 ## Opal Playground
 
-The easiest way to start hacking on React is using the following JSFiddle Hello World examples:
+A great way to start learning React.rb is use OpalPlayground.
 
- * **[React JSFiddle](https://jsfiddle.net/reactjs/69z2wepo/)**
- * [React JSFiddle without JSX](https://jsfiddle.net/reactjs/5vjqabv3/)
+Here is a simple HelloWorld example to get you started.
+
+**[HelloWorld](http://fkchang.github.io/opal-playground/?code:class%20HelloWorld%0A%0A%20%20include%20React%3A%3AComponent%0A%20%20required_param%20%3Avisitor%0A%0A%20%20def%20render%0A%20%20%20%20%22Hello%20there%20%23%7Bvisitor%7D%22%0A%20%20end%0Aend%0A%0AReact.render%28%0A%20%20React.create_element%28%0A%20%20%20%20HelloWorld%2C%20%7Bvisitor%3A%20%22world%22%7D%29%2C%20%0A%20%20Element%5B'%23content'%5D%29%0A%0A%0A&html_code=%3Cdiv%20id%3D'content'%3E%3C%2Fdiv%3E&css_code=body%20%7B%0A%20%20background%3A%20%23eeeeee%3B%0A%7D%0A)**
 
 ## Using Inline-Reactive-Ruby
 
-We recommend using React with a CommonJS module system like [browserify](http://browserify.org/) or [webpack](https://webpack.github.io/). Use the [`react`](https://www.npmjs.com/package/react) and [`react-dom`](https://www.npmjs.com/package/react-dom) npm packages.
+For small static sites that don't need a server backend you can use the Inline-Reactive-Ruby javascript library.
+Simply include the inline-reactive-ruby.js file with your other javascript code, or access it directly via the CDN, and you are good to go.
+
+This is another great way to experiment with React.rb.  You don't need any setup or download to get started.
+
+[Inline-Reactive-Ruby](https://github.com/reactive-ruby/inline-reactive-ruby)
 
 ## With Rails
 
+React.rb works great with new or existing rails apps, and React.rb plays well with other frameworks, so
+its pain free to introduce React to your application.
+
+Within a Rails app React Components are treated as `Views`, and by convention you will place your components
+in the app/views/components directory.
+
+Your Rails controllers, and layouts access your top level components using the `render_component` method.
+
+During server-side-rendering your components will be called on to generate the resulting HTML just like ERB or
+HAML templates.  The resulting HTML is delivered to the client like any other rails view, but in addition all
+the code needed to keep the component dynamically updating is delivered as well.  So now as events occur on the
+client the code is re-rendered client side with no server action required.
+
+Because React plays well with others, you can start with a single aspect of a page or layout
+(a dynamic chat widget for example) and add a React component to implement that functionality.
+
+To start using React.rb within a new or existing rails 4.0 app, follow these steps:
+
+#### Add the gems
+
+In your Gemfile:
+
+```ruby
+gem 'reactive-ruby'
+gem 'react-rails'
+gem 'opal-rails'
+gem 'therubyracer', platforms: :ruby # Required for prerendering
+# optional gems
+gem 'opal-jquery'     # a clean interface to jQuery from your ruby code
+gem 'reactive-record' # access your active-record models on the client
+gem 'reactive-router' # a basic SPA router
+```
+
+Run `bundle install` and restart your rails server.
+
+#### Add the components directory and manifest
+
+Your react components will go into the `app/views/components/` directory of your
+rails app.
+
+Within your `app/views` directory you need to create a `components.rb` manifest.
+Files required in `app/views/components.rb` will be made available to the server
+side rendering system as well as the browser.
+
+```
+# app/views/components.rb
+require 'opal'
+require 'reactive-ruby'
+require 'reactive-record' # if you are using the reactive-record gem
+require 'reactive-router' # if you are using the reactive-router gem
+require_tree './components'
+```
+
+#### Client Side Assets
+
+Typically the client will need all the above assets, plus other files that are client only.
+Notably jQuery is a client only asset.
+
+You can update your existing application.js file, or convert it to ruby syntax and name
+it application.rb.  The below assumes you are using ruby syntax.
+
+In `assets/javascript/application.rb` require your components manifest as well
+as any additional browser only assets.
+
+```
+# assets/javascript/application.rb
+
+# Make components available by requiring your components.rb manifest.
+require 'components'
+
+# 'react_ujs' tells react in the browser to mount rendered components.
+require 'react_ujs'
+
+# Finally, require your other javascript assets. jQuery for example...
+require 'jquery'      # You need both these files to access jQuery from Opal.
+require 'opal-jquery' # They must be in this order.
+```
+
+#### Rendering Components
+
+Components may be rendered directly from a controller action by simply following
+a naming convention. To render a component from the `home#show` action, create a
+component class named `Show`.
+
+```ruby
+# app/views/components/home/show.rb
+module Components
+  module Home
+    class Show < React::Component::Base
+
+      param :say_hello_to
+
+      def render
+        puts "Rendering my first component!"
+        "hello #{say_hello_to if say_hello_to}"
+      end
+    end
+  end
+end
+```
+
+To render the component call `render_component` in the controller action passing along any params:
+
+```ruby
+# controllers/home_controller.rb
+class HomeController < ApplicationController
+  def show
+    # render_component uses the controller name to find the 'show' component.
+    render_component say_hello_to: params[:say_hello_to]
+  end
+end
+```
+
+Make sure your routes file has a route to your home#show action. Visit that
+route in your browser and you should see 'Hello' rendered.
+
+Open up the js console in the browser and you will see a log showing what went
+on during rendering.
+
+Have a look at the sources in the console, and notice your ruby code is there,
+and you can set break points etc.
+
 ## With Sinatra
+
+React.rb works fine with Sinatra.  Use this [Sinatra Example App](https://github.com/zetachang/react.rb/tree/master/example/sinatra-tutorial)
+to get started.
 
 ## Building With Rake
 
-```js
-// main.js
-var React = require('react');
-var ReactDOM = require('react-dom');
+If you have a larger static app (like this one) you will want to precompile your ruby code to a single js file. You will need
+a basic ruby setup (you can follow instructions for Jekyll for example.)
 
-ReactDOM.render(
-  <h1>Hello, world!</h1>,
-  document.getElementById('example')
-);
+The following assumes you are building a js file called application.js, and the code is stored in a directory
+called react_lib.
+
+Add the following gems, and run bundle install.
+
+```ruby
+# Gemfile
+gem 'opal'
+gem 'opal-browser' # optional
+gem 'reactive-ruby'
+gem 'opal-jquery'  # optional
 ```
 
-To install React DOM and build your bundle after installing browserify:
+Your rake file task will look like this:
 
-```sh
-$ npm install --save react react-dom babelify babel-preset-react
-$ browserify -t [ babelify --presets [ react ] ] main.js -o bundle.js
+```ruby
+#rake.rb
+desc "Build react.rb library"
+task :build_react_lib do
+  Opal.append_path "react_lib"
+  File.binwrite "react_lib.js", Opal::Builder.build("application").to_s
+end
 ```
 
-> Note:
->
-> If you are using ES2015, you will want to also use the `babel-preset-es2015` package.
+Your main application file will look like this:
 
+```ruby
+#react_lib/application.rb
 
-## Quick Start Without npm
+require 'opal'
+require 'browser/interval' # optional
+require 'browser/delay'    # optional
+# you can pull in the jQuery.js file here, or separately
+# but in must be loaded BEFORE opal-jquery
+require 'opal-jquery'      # optional
+require 'reactive-ruby'
+# here you can require other files, do a require_tree, or
+# just add some components inline right here...
+class Clock < React::Component::Base
 
-If you're not ready to use npm yet, you can download the starter kit which includes prebuilt copies of React and React DOM.
+  after_mount do
+    every(1) { force_update! }
+  end
 
-<div class="buttons-unit downloads">
-  <a href="/react/downloads/react-{{site.react_version}}.zip" class="button">
-    Download Starter Kit {{site.react_version}}
-  </a>
-</div>
+  def render
+    "Hello there - Its #{Time.now}"
+  end
+end
 
-In the root directory of the starter kit, create a `helloworld.html` with the following contents.
-
-```html
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8" />
-    <title>Hello React!</title>
-    <script src="build/react.js"></script>
-    <script src="build/react-dom.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
-  </head>
-  <body>
-    <div id="example"></div>
-    <script type="text/babel">
-      ReactDOM.render(
-        <h1>Hello, world!</h1>,
-        document.getElementById('example')
-      );
-    </script>
-  </body>
-</html>
+Document.ready? do
+  Element['#content'].render{ Clock() }
+end
 ```
 
-The XML syntax inside of JavaScript is called JSX; check out the [JSX syntax](/docs/jsx-in-depth.html) to learn more about it. In order to translate it to vanilla JavaScript we use `<script type="text/babel">` and include Babel to actually perform the transformation in the browser.
+Run `bundle exec rake build_react_app`
 
-### Separate File
+This should build `react_lib.js` which can be included in your main html file.
 
-Your React JSX code can live in a separate file. Create the following `src/helloworld.js`.
-
-```javascript
-ReactDOM.render(
-  <h1>Hello, world!</h1>,
-  document.getElementById('example')
-);
-```
-
-Then reference it from `helloworld.html`:
-
-```html
-<script type="text/babel" src="src/helloworld.js"></script>
-```
-
-Note that some browsers (Chrome, e.g.) will fail to load the file unless it's served via HTTP.
-
-### Offline Transform
-
-First install the [Babel](http://babeljs.io/) command-line tools (requires [npm](https://www.npmjs.com/)):
-
-```
-npm install --global babel-cli
-npm install babel-preset-react
-```
-
-Then, translate your `src/helloworld.js` file to plain JavaScript:
-
-```
-babel --presets react src --watch --out-dir build
-```
-
-> Note:
->
-> If you are using ES2015, you will want to also use the `babel-preset-es2015` package.
-
-The file `build/helloworld.js` is autogenerated whenever you make a change. Read the [Babel CLI documentation](http://babeljs.io/docs/usage/cli/) for more advanced usage.
-
-```javascript
-ReactDOM.render(
-  React.createElement('h1', null, 'Hello, world!'),
-  document.getElementById('example')
-);
-```
-
-
-Update your HTML file as below:
-
-```html
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8" />
-    <title>Hello React!</title>
-    <script src="build/react.js"></script>
-    <script src="build/react-dom.js"></script>
-    <!-- No need for Babel! -->
-  </head>
-  <body>
-    <div id="example"></div>
-    <script src="build/helloworld.js"></script>
-  </body>
-</html>
-```
 
 ## Next Steps
+
+TBD...
 
 Check out [the tutorial](/docs/tutorial.html) and the other examples in the starter kit's `examples` directory to learn more.
 

@@ -34,7 +34,7 @@ id: home
     <div class="example">
       <h3>A Simple Component</h3>
       <p>
-        React components are Ruby classes that include the `React::Component` mixin.  The `render` method is called to generate the components HTML.
+        React components can be defined by subclassing `React::Component::Base`.  The `render` method is called to generate the components HTML.
       </p>
       <div id="helloExample"></div>
     </div>
@@ -42,9 +42,9 @@ id: home
       <h3>A Stateful Component</h3>
       <p>
         In addition to taking input data (such as the `visitor` param), a
-        component can maintain internal state data, which are like <i>reactive</i> instance variables.
-        When a component's state data changes, the rendered markup will be
-        updated by re-invoking the `render` method.
+        component can have state variables, which are like <i>reactive</i> instance variables.
+        When a component's state changes, the markup will be
+        updated by automatically by re-invoking the `render` method.
       </p>
       <div id="timerExample"></div>
     </div>
@@ -52,7 +52,7 @@ id: home
       <h3>An Application</h3>
       <p>
         Using params and state, we can put together a small Todo application.
-        This example uses two states to track the current list of items and
+        This example uses two state variables to track the current list of items and
         the text that the user has entered.
       </p>
       <div id="todoExample"></div>

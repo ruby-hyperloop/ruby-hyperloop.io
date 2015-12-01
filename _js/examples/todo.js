@@ -5,7 +5,7 @@ class TodoList < React::Component::Base
 
   def render
     ul do
-      items.each_with_index do |item, index|
+      params.items.each_with_index do |item, index|
         li(key: "item - #{index}") { item }
       end
     end

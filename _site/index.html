@@ -21,9 +21,6 @@
   <link rel="stylesheet" href="/react/css/react.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.9.0/theme/rubyblue.css">
 
-  <script src="//use.typekit.net/vqa1hcx.js"></script>
-  <script>try{Typekit.load();}catch(e){}</script>
-
   <!--[if lte IE 8]>
   <script src="/react/js/html5shiv.min.js"></script>
   <script src="/react/js/es5-shim.min.js"></script>
@@ -114,7 +111,7 @@
     <div class="example">
       <h3>A Simple Component</h3>
       <p>
-        React components are Ruby classes that include the <code>React::Component</code> mixin.  The <code>render</code> method is called to generate the components HTML.
+        React components can be defined by subclassing <code>React::Component::Base</code>.  The <code>render</code> method is called to generate the components HTML.
       </p>
       <div id="helloExample"></div>
     </div>
@@ -122,9 +119,9 @@
       <h3>A Stateful Component</h3>
       <p>
         In addition to taking input data (such as the <code>visitor</code> param), a
-        component can maintain internal state data, which are like <i>reactive</i> instance variables.
-        When a component&#39;s state data changes, the rendered markup will be
-        updated by re-invoking the <code>render</code> method.
+        component can have state variables, which are like <i>reactive</i> instance variables.
+        When a component&#39;s state changes, the markup will be
+        updated by automatically by re-invoking the <code>render</code> method.
       </p>
       <div id="timerExample"></div>
     </div>
@@ -132,7 +129,7 @@
       <h3>An Application</h3>
       <p>
         Using params and state, we can put together a small Todo application.
-        This example uses two states to track the current list of items and
+        This example uses two state variables to track the current list of items and
         the text that the user has entered.
       </p>
       <div id="todoExample"></div>
