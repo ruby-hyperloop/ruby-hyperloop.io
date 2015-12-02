@@ -1,8 +1,7 @@
 ---
 title: "Reactive-Ruby v0.7.32"
-author: catmando
+author: <a href='https://github.com/catmando'>catmando</a>
 ---
-
 As we march towards the next official release of react.rb, we wanted to make some syntactic improvements to the component macros and methods.  The overall
 intent is to make react.rb more *ruby* like, and reduce syntactic noise, while maintaining ties to react.js.
 
