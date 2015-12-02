@@ -89,6 +89,7 @@
     title: Reconciliation
   - id: glossary (DELETE - or just reference facebook)
     title: React (Virtual) DOM Terminology
+    *** ADD section on interfacing to react.js components ***
 - title: Flux (DELETE - for now... we can add it back)
   items:
   - id: flux-overview
