@@ -1,6 +1,7 @@
 module Jekyll
   module SidebarItemFilter
     def sidebar_item_link(item)
+      return "Bhaaahhaa"
       pageID = @context.registers[:page]["id"]
       itemID = item["id"]
       href = item["href"] || "/docs/#{itemID}.html"

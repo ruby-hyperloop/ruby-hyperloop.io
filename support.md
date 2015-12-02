@@ -4,24 +4,24 @@ layout: single
 id: support
 ---
 
-**React** is worked on full-time by Facebook's product infrastructure and Instagram's user interface engineering teams. They're often around and available for questions.
+**React.rb** is worked on by a team of contributors. Many features and concepts are a result of early adopters like you.  Please get in touch, there is so much to do!
+
+## Gitter
+
+There is almost always someone available to ask a quick question or discuss a concept on [gitter.im](https://gitter.im/zetachang/react.rb)
 
 ## Stack Overflow
 
-Many members of the community use Stack Overflow to ask questions. Read through the [existing questions](http://stackoverflow.com/questions/tagged/reactjs) tagged with **reactjs** or [ask your own](http://stackoverflow.com/questions/ask?tags=reactjs)!
+Although its early days we encourage you to use stack overflow to ask specific questions. [existing questions](http://stackoverflow.com/questions/tagged/reactjs+opal) tagged with **reactjs+opal** or [ask your own](http://stackoverflow.com/questions/ask?tags=reactjs+opal)!
 
-## Discussion forum
+*we would dearly love to have a dedicated reactrb tag, so if any one with a 1500 or higher repuation on stackoverfow could volunteer to create one that would be great*
 
-For longer-form conversations about React, we've set up a [discussion forum at **discuss.reactjs.org**](https://discuss.reactjs.org/). This forum is a great place for discussion about best practices and application architecture as well as the future of React. If you have an answerable code-level question, please post it to Stack Overflow instead.
+## Github issues
 
-In the forum there's also a category for job posts and a category for discussion of our weekly meeting notes.
-
-## IRC
-
-Many developers and users idle on Freenode.net's IRC network in **[#reactjs on freenode](irc://chat.freenode.net/reactjs)**.
+If you think you found a bug, or want to suggest a new feature [github](https://github.com/zetachang/react.rb) is the place to go.
 
 ## Twitter
 
-For the latest news about React, [follow **@reactjs** on Twitter](https://twitter.com/reactjs). In addition, you can use the #reactjs hashtag to see what others are saying or add to the conversation.
+For the latest news about React, [follow **@reactrb** on Twitter](https://twitter.com/reactrb). In addition, you can use the #reactrb hashtag to see what others are saying or add to the conversation.
 
-<div><a class="twitter-timeline" data-dnt="true" data-chrome="nofooter noheader transparent" href="https://twitter.com/search?q=%23reactjs" data-widget-id="342522405270470656"></a></div>
+<div><a class="twitter-timeline" data-dnt="true" data-chrome="nofooter noheader transparent" href="https://twitter.com/search?q=reactrb" data-widget-id="671852842790055940"></a></div>

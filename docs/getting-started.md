@@ -11,7 +11,7 @@ A great way to start learning React.rb is use OpalPlayground.
 
 Here is a simple HelloWorld example to get you started.
 
-**[HelloWorld](http://fkchang.github.io/opal-playground/?code:class%20HelloWorld%0A%0A%20%20include%20React%3A%3AComponent%0A%20%20required_param%20%3Avisitor%0A%0A%20%20def%20render%0A%20%20%20%20%22Hello%20there%20%23%7Bvisitor%7D%22%0A%20%20end%0Aend%0A%0AReact.render%28%0A%20%20React.create_element%28%0A%20%20%20%20HelloWorld%2C%20%7Bvisitor%3A%20%22world%22%7D%29%2C%20%0A%20%20Element%5B'%23content'%5D%29%0A%0A%0A&html_code=%3Cdiv%20id%3D'content'%3E%3C%2Fdiv%3E&css_code=body%20%7B%0A%20%20background%3A%20%23eeeeee%3B%0A%7D%0A)**
+**[HelloWorld](http://fkchang.github.io/opal-playground/?code:class%20HelloWorld%20%3C%20React%3A%3AComponent%3A%3ABase%0A%20%20param%20%3Avisitor%0A%0A%20%20def%20render%0A%20%20%20%20%22Hello%20there%20%23%7Bparams.visitor%7D%22%0A%20%20end%0Aend%0A%0A%0AElement%5B%27%23content%27%5D.render%20do%0A%20%20HelloWorld%20visitor%3A%20%22world%22%0Aend%0A%0A%0A&html_code=%3Cdiv%20id%3D%27content%27%3E%3C%2Fdiv%3E&css_code=body%20%7B%0A%20%20background%3A%20%23eeeeee%3B%0A%7D%0A)**
 
 ## Using Inline-Reactive-Ruby
 
@@ -153,8 +153,8 @@ to get started.
 
 ## Building With Rake
 
-If you have a larger static app (like this one) you will want to precompile your ruby code to a single js file. You will need
-a basic ruby setup (you can follow instructions for Jekyll for example.)
+If you have a larger static app (like this one) you will want to precompile your ruby code to a single js file, instead of using inline-reactive-ruby. *You will need
+a basic ruby setup (you can follow instructions for Jekyll for example.)*
 
 The following assumes you are building a js file called application.js, and the code is stored in a directory
 called react_lib.

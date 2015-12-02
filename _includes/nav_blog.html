@@ -3,9 +3,9 @@
     <h3>Recent posts</h3>
     <ul>
       {% for post in site.posts limit:10 %}
-        <li><a href="/react{{ post.url }}"{% if page.title == post.title %} class="active"{% endif %}>{{ post.title }}</a></li>
+        <li><a href="{{ post.url }}"{% if page.title == post.title %} class="active"{% endif %}>{{ post.title }}</a></li>
       {% endfor %}
-      <li><a href="/react/blog/all.html">All posts ...</a></li>
+      <li><a href="blog/all.html">All posts ...</a></li>
     </ul>
   </div>
 </div>
