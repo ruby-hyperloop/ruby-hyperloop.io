@@ -50,13 +50,15 @@ Note that you should never redefine the `new` or `initialize` methods, or call t
 
 ### React.create_element
 
-`React.create_element` "instantiates" a component (called an element.)  It takes either the component class, or a string (representing a built in tag
+A React Element is a component class, a set of parameters, and a group of children.  When an element is rendered the parameters and used to initialize a new instance of the component.
+
+`React.create_element` creates a new element.  It takes either the component class, or a string (representing a built in tag
 such as div, or span), the parameters (properties) to be passed to the element, and optionally a block that will be evaluated to 
 build the enclosed children elements
 
 ```ruby
 React.create_element("div", prop1: "foo", prop2: 12) { para { "hello" }; para { "goodby" } )
-# generates <div prop1="foo" prop2="12"><p>hello</p><p>goodby</p></div>
+# when rendered will generates <div prop1="foo" prop2="12"><p>hello</p><p>goodby</p></div>
 ```
 
 You almost never need to directly call create_element, the DSL, Rails, and jQuery interfaces take care of this for you.
