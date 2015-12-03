@@ -59,27 +59,30 @@ React.create_element("div", prop1: "foo", prop2: 12) { para { "hello" }; para { 
 # generates <div prop1="foo" prop2="12"><p>hello</p><p>goodby</p></div>
 ```
 
-You almost never need to directly call create_element, the DSL, Rails, and jQuery interfaces take of this for you.
-
-
-### React.clone_element
-
-Currently you need to directly access this as like this:
+You almost never need to directly call create_element, the DSL, Rails, and jQuery interfaces take care of this for you.
 
 ```ruby
-`React.cloneElement(#{ele.to_n}, #{props.to_n})`
+# dsl - creates element and pushes it into the rendering buffer
+    MyComponent(...params...) { ...optional children... }
+# dsl - component will NOT be placed in the rendering buffer
+    MyComponent(...params...) { ... }.as_node
+# rails controller - renders component as the view
+    render_component("MyComponent", ...params...) 
+# rails view helper - renders component into the view (like a partial)
+    react_component("MyComponent", ...)
+# jQuery (Note Element is the Opal jQuery wrapper, not be confused with React::Element
+    Element['#container'].render { MyComponent(...params...) { ...optional children... } }  
 ```
-
-See the React.js documentation on details
 
 
 ### React.is_valid_element?
 
 ```ruby
-is_valid_element?(ele)
+is_valid_element?(object)
 ```
 
-Verifies the object is a valid react element.
+Verifies `object` is a valid react element.  Note that `React::Element` wraps the React.js native class, 
+`React.is_valid_element?` returns true for both classes unlike `object.is_a? React::Element`
 
 ### React.render
 
@@ -87,7 +90,7 @@ Verifies the object is a valid react element.
 React.render(element, container) { puts "element rendered" }
 ```
 
-Render a element into the DOM in the supplied `container` and return a [reference](/docs/more-about-refs.html) to the component (or returns `null` for [stateless components](/docs/reusable-components.html#stateless-functions)).
+Render an `element` into the DOM in the supplied `container` and return a [reference](/docs/more-about-refs.html) to the component.
 
 If the element was previously rendered into `container`, this will perform an update on it and only mutate the DOM as necessary to reflect the latest React component.
 
