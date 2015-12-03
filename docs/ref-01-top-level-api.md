@@ -8,76 +8,78 @@ redirect_from: "/docs/reference.html"
 
 ## React
 
-`React` is the entry point to the React library. If you're using one of the prebuilt packages it's available as a global; if you're using CommonJS modules you can `require()` it.
+The `React` module name spaces all the React classes and modules.  
 
+See the [Getting Started](/docs/getting-started.html) section for details on getting react loaded in your environment.
 
-### React.Component
+### React::Component and React::Component::Base
 
-```javascript
-class Component
+React components classes either include React::Component or are subclasses of React::Component::Base.  
+
+```ruby
+class Component < React::Component::Base
+end
+# or
+class AnotherComponent
+  include React::Component
+end
 ```
 
-This is the base class for React Components when they're defined using ES6 classes. See [Reusable Components](/docs/reusable-components.html#es6-classes) for how to use ES6 classes with React. For what methods are actually provided by the base class, see the [Component API](/docs/component-api.html).
+At a minimum every component class must define a `render` method which returns **one single** child element. That child may have an arbitrarily deep child structure. 
 
-
-### React.createClass
-
-```javascript
-ReactClass createClass(object specification)
+```ruby
+class Component < React::Component::Base
+  def render
+    div
+  end
+end
 ```
 
-Create a component class, given a specification. A component implements a `render` method which returns **one single** child. That child may have an arbitrarily deep child structure. One thing that makes components different than standard prototypal classes is that you don't need to call new on them. They are convenience wrappers that construct backing instances (via new) for you.
-
-For more information about the specification object, see [Component Specs and Lifecycle](/docs/component-specs.html).
-
-
-### React.createElement
-
-```javascript
-ReactElement createElement(
-  string/ReactClass type,
-  [object props],
-  [children ...]
-)
-```
-
-Create and return a new `ReactElement` of the given type. The type argument can be either an
-html tag name string (eg. 'div', 'span', etc), or a `ReactClass` (created via `React.createClass`).
-
-
-### React.cloneElement
+To render a component, you reference its class name in the DSL as a method call.  This creates a new instance, passes any parameters proceeds with the component lifecycle.  
 
 ```
-ReactElement cloneElement(
-  ReactElement element,
-  [object props],
-  [children ...]
-)
+class AnotherComponent < React::Component::Base
+  def render
+    Component() # ruby syntax requires either () or {} following the class name
+  end
+end
 ```
 
-Clone and return a new `ReactElement` using `element` as the starting point. The resulting element will have the original element's props with the new props merged in shallowly. New children will replace existing children. Unlike `React.addons.cloneWithProps`, `key` and `ref` from the original element will be preserved. There is no special behavior for merging any props (unlike `cloneWithProps`). See the [v0.13 RC2 blog post](/react/blog/2015/03/03/react-v0.13-rc2.html) for additional details.
+Note that you should never redefine the new or initialize methods, or call them directly.  The equivilent of `initialize` is the `before_mount` callback.  For more information see [Component Specs and Lifecycle](/docs/component-specs.html). 
 
 
-### React.createFactory
+### React.create_element
 
-```javascript
-factoryFunction createFactory(
-  string/ReactClass type
-)
+React.create_element "instantiates" a component (called an element.)  It takes either the component class, or a string (representing a built in tag
+such as div, or span), the parameters (properties) to be passed to the element, and optionally a block that will be evaluated to 
+build the enclosed children elements
+
+```ruby
+React.create_element("div", prop1: "foo", prop2: 12) { para { "hello" }; para { "goodby" } )
+# generates <div prop1="foo" prop2="12"><p>hello</p><p>goodby</p></div>
 ```
 
-Return a function that produces ReactElements of a given type. Like `React.createElement`,
-the type argument can be either an html tag name string (eg. 'div', 'span', etc), or a
-`ReactClass`.
+You almost never need to directly call create_element, the DSL, Rails, and jQuery interfaces take of this for you.
+
+
+### React.clone_element
+
+Currently you need to directly access this as like this:
+
+```ruby
+`React.cloneElement(#{ele.to_n}, #{props.to_n})`
+```
+
+See the React.js documentation on details
 
 
 ### React.isValidElement
 
-```javascript
-boolean isValidElement(* object)
+```ruby
+is_valid_element?(ele)
 ```
 
-Verifies the object is a ReactElement.
+Verifies the object is a valid react element.
 
 
 ### React.DOM
@@ -87,12 +89,12 @@ Verifies the object is a ReactElement.
 
 ### React.PropTypes
 
-`React.PropTypes` includes types that can be used with a component's `propTypes` object to validate props being passed to your components. For more information about `propTypes`, see [Reusable Components](/docs/reusable-components.html).
+Macro???
 
 
 ### React.Children
 
-`React.Children` provides utilities for dealing with the `this.props.children` opaque data structure.
+Move to Component API (i.e. self.children)
 
 #### React.Children.map
 
