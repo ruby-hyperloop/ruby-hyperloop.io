@@ -8,11 +8,24 @@ next: dom-differences.html
 
 ## SyntheticEvent
 
-Your event handlers will be passed instances of `SyntheticEvent`, a cross-browser wrapper around the browser's native event. It has the same interface as the browser's native event, including `stopPropagation()` and `preventDefault()`, except the events work identically across all browsers.
+Your event handlers will be passed instances of `React::Event`, a wrapper around react.js's SyntheticEvent which in turn is a cross browser wrapper around the browser's native event. It has the same interface as the browser's native event, including `stopPropagation()` and `preventDefault()`, except the events work identically across all browsers.
+
+The following section has **not** been updated from React.js, but you can apply the following rules:  method and event names are all snake cased, i.e. `defaultPrevented` becomes `default_prevented`.  Event names do not begin with `on`, thus `onKeyPress` becomes :key_press.
+
+For example:
+```ruby
+class InputBox < React::Component::Base
+  param :field, type: React::Observable
+  param :submit, type: Proc
+  def render 
+    input(value: params.field).on(:key_up) do |e|
+      param.submit(field) if e.key_code == 13 
+    end.on(:change) do |e|
+      
 
 If you find that you need the underlying browser event for some reason, simply use the `nativeEvent` attribute to get it. Every `SyntheticEvent` object has the following attributes:
 
-```javascript
+```ruby
 boolean bubbles
 boolean cancelable
 DOMEventTarget currentTarget
@@ -29,13 +42,9 @@ number timeStamp
 string type
 ```
 
-> Note:
->
-> As of v0.14, returning `false` from an event handler will no longer stop event propagation. Instead, `e.stopPropagation()` or `e.preventDefault()` should be triggered manually, as appropriate.
-
 ## Event pooling
 
-The `SyntheticEvent` is pooled. This means that the `SyntheticEvent` object will be reused and all properties will be nullified after the event callback has been invoked.
+The underlying React `SyntheticEvent` is pooled. This means that the `SyntheticEvent` object will be reused and all properties will be nullified after the event callback has been invoked.
 This is for performance reasons.
 As such, you cannot access the event in an asynchronous way.
 
@@ -54,10 +63,6 @@ function onClick(event) {
   this.setState({eventType: event.type}); // You can still export event properties.
 }
 ```
-
-> Note:
->
-> If you want to access the event properties in an asynchronous way, you should call `event.persist()` on the event, which will remove the synthetic event from the pool and allow references to the event to be retained by user code.
 
 ## Supported Events
 
