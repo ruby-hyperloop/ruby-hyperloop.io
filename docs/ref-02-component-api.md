@@ -90,7 +90,7 @@ call the proc when the param is accessed.
 class Alarm < React::Component::Base
   param :at, type: Time
   param :notify, type: Proc
-  before_mount do
+  after_mount do
     @clock = every(1) do
       if Time.now > params.at
         params.notify
