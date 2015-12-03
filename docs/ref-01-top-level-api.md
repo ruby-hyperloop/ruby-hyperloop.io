@@ -8,7 +8,7 @@ redirect_from: "/docs/reference.html"
 
 ## React
 
-The `React` module name spaces all the React classes and modules.  
+The `React` module is the name space for all the React classes and modules.  
 
 See the [Getting Started](/docs/getting-started.html) section for details on getting react loaded in your environment.
 
@@ -19,18 +19,18 @@ React components classes either include React::Component or are subclasses of Re
 ```ruby
 class Component < React::Component::Base
 end
-# or
+# or same as above 
 class AnotherComponent
   include React::Component
 end
 ```
 
-At a minimum every component class must define a `render` method which returns **one single** child element. That child may have an arbitrarily deep child structure. 
+At a minimum every component class must define a `render` method which returns **one single** child element. That child may in turn have an arbitrarily deep structure. 
 
 ```ruby
 class Component < React::Component::Base
   def render
-    div
+    div # render an empty div
   end
 end
 ```
