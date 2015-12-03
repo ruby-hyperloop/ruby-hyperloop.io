@@ -6,141 +6,175 @@ prev: top-level-api.html
 next: component-specs.html
 ---
 
-## React.Component
+## React::Component::Base
 
-Instances of a React Component are created internally in React when rendering. These instances are reused in subsequent renders, and can be accessed in your component methods as `this`. The only way to get a handle to a React Component instance outside of React is by storing the return value of `ReactDOM.render`. Inside other Components, you may use [refs](/docs/more-about-refs.html) to achieve the same result.
+Instances of a `React::Component::Base` are created internally by React when rendering. The instances exist through subsequent renders, and although coupled to React, act like normal ruby instances. The only way to get a reference to a React Component instance outside of React is by storing the return value of `React.render`.  Inside other Components, you may use [refs](/docs/more-about-refs.html) to achieve the same result.
 
+### Lifecycle Callbacks
 
-### setState
+A component may define callbacks for each phase of the components lifecycle:
 
-```javascript
-void setState(
-  function|object nextState,
-  [function callback]
-)
-```
-Performs a shallow merge of nextState into current state. This is the primary method you use to trigger UI updates from event handlers and server request callbacks.
+* `before_mount`
+* `after_mount`
+* `before_receive_props`
+* `before_update`
+* `after_update`
+* `before_unmount`
 
-The first argument can be an object (containing zero or more keys to update) or a function (of state and props) that returns an object containing keys to update.
+All the callback macros may take a block or the name of an instance method to be called.
 
-Here is the simple object usage:
-
-```javascript
-setState({mykey: 'my new value'});
-```
-
-It's also possible to pass a function with the signature `function(state, props)`. This can be useful in some cases when you want to enqueue an atomic update that consults the previous value of state+props before setting any values.  For instance, suppose we wanted to increment a value in state:
-
-```javascript
-setState(function(previousState, currentProps) {
-  return {myInteger: previousState.myInteger + 1};
-});
+```ruby
+class AComponent < React::Component::Base
+  before_mount do
+    # initialize stuff here
+  end
+  before_unmount :cleanup  # call the cleanup method before unmounting
+  ...
+end
 ```
 
-The second (optional) parameter is a callback function that will be executed once `setState` is completed and the component is re-rendered.
+Multiple callbacks may be defined for each lifecycle phase, and will be executed in the order defined, and from most deeply nested subclass outwards.
 
-> Notes:
->
-> *NEVER* mutate `this.state` directly, as calling `setState()` afterwards may replace the mutation you made. Treat `this.state` as if it were immutable.
->
-> `setState()` does not immediately mutate `this.state` but creates a pending state transition. Accessing `this.state` after calling this method can potentially return the existing value.
->
-> There is no guarantee of synchronous operation of calls to `setState` and calls may be batched for performance gains.
->
-> `setState()` will always trigger a re-render unless conditional rendering logic is implemented in `shouldComponentUpdate()`. If mutable objects are being used and the logic cannot be implemented in `shouldComponentUpdate()`, calling `setState()` only when the new state differs from the previous state will avoid unnecessary re-renders.
+Details on the component lifecycle is described [here](docs/component-specs.html)
 
+### The `param` macro
 
-### replaceState
+Within a React Component the `param` macro is used to define the parameter signature of the component.  You can think of params as 
+the values that would normally be sent to the instances `initialize` method, but with the difference that a React Component gets new parameters when it is rerendered.  
 
-```javascript
-void replaceState(
-  object nextState,
-  [function callback]
-)
+The param macro has the following syntax:
+
+```ruby
+param symbol*, options...* # or
+param symbol => *default value, options*
 ```
 
-Like `setState()` but deletes any pre-existing state keys that are not in nextState.
+Available options are `:default_value => *any value*` and `:type => *class spec*`
+where *`class_spec`* is either a class name, or `[]` (shorthand for Array), or `[ClassName]` (meaning array of `ClassName`.)
 
-> Note:
->
-> This method is not available on ES6 `class` components that extend `React.Component`. It may be removed entirely in a future version of React.
+Note that the default_value can be specied either as the hash value of the symbol, or explicitly using the `:default_value` key.
 
+Examples:
 
-### forceUpdate
-
-```javascript
-void forceUpdate(
-  [function callback]
-)
+```ruby
+param :foo # declares that we must be provided with a parameter foo when the component is instantiated or re-rerendered.
+param :foo => "some default"        # declares that foo is optional, and if not present the value "some default" will be used.
+param foo: "some default"           # same as above using ruby 1.9 JSON style syntax
+param :foo, default: "some default" # same as above but uses explicit default key
+param :foo, type: String            # foo is required and must be of type String
+param :foo, type: [String]          # foo is required and must be an array of Strings
+param foo: [], type: [String]       # foo must be an array of strings, and has a default value of the empty array.
 ```
 
-By default, when your component's state or props change, your component will re-render. However, if these change implicitly (eg: data deep within an object changes without changing the object itself) or if your `render()` method depends on some other data, you can tell React that it needs to re-run `render()` by calling `forceUpdate()`.
+#### Accessing param values
 
-Calling `forceUpdate()` will cause `render()` to be called on the component, skipping `shouldComponentUpdate()`. This will trigger the normal lifecycle methods for child components, including the `shouldComponentUpdate()` method of each child. React will still only update the DOM if the markup changes.
+The component instance method `params` gives access to all declared params.  So for example
 
-Normally you should try to avoid all uses of `forceUpdate()` and only read from `this.props` and `this.state` in `render()`. This makes your component "pure" and your application much simpler and more efficient.
-
-
-### getDOMNode
-
-```javascript
-DOMElement getDOMNode()
+```ruby
+class Hello < React::Component::Base
+  param visitor: "World", type: String
+  render
+    "Hello #{params.visitor}"
+  end
+end
 ```
 
-If this component has been mounted into the DOM, this returns the corresponding native browser DOM element. This method is useful for reading values out of the DOM, such as form field values and performing DOM measurements. When `render` returns `null` or `false`, `this.getDOMNode()` returns `null`.
+#### Params of type `Proc`
 
-> Note:
->
-> getDOMNode is deprecated and has been replaced with [ReactDOM.findDOMNode()](/docs/top-level-api.html#reactdom.finddomnode).
->
-> This method is not available on ES6 `class` components that extend `React.Component`. It may be removed entirely in a future version of React.
+A param of type proc (i.e. `param :update, type: Proc`) gets special treatment that will directly
+call the proc when the param is accessed.
 
-
-### isMounted
-
-```javascript
-boolean isMounted()
+```ruby
+class Alarm < React::Component::Base
+  param :at, type: Time
+  param :notify, type: Proc
+  before_mount do
+    @clock = every(1) do
+      if Time.now > params.at
+        params.notify
+        @clock.stop
+      end
+      force_update!
+    end
+  end
+  def render
+    "#{Time.now}"
+  end
+end
 ```
 
-`isMounted()` returns `true` if the component is rendered into the DOM, `false` otherwise. You can use this method to guard asynchronous calls to `setState()` or `forceUpdate()`.
+If for whatever reason you need to get the actual proc instead of calling it use `params.method(*symbol name of method*)`
 
-> Note:
->
-> This method is not available on ES6 `class` components that extend `React.Component`. It may be removed entirely in a future version of React.
+#### Params of type `React::Observable`
 
+Observables provide a two way binding mechanism, and are integrated with the underlying React.js state mechanism.
 
-### setProps
+Given `param :foo, type: React::Observable` then both the `params.foo` method and `params.foo!` methods will be defined, and
+the value of `foo` will have the same semantics as if foo were a state.  A detailed discussion can be found here *link to two way binding*
 
-```javascript
-void setProps(
-  object nextProps,
-  [function callback]
-)
+### The `state` instance method
+
+React state variables are *reactive* component instance variables that cause rerendering when they change.
+
+State variables are accessed via the `state` instance method which works like the `params` method. Like normal instance variables, state variables are created when they are first accessed, so there is no explicit declaration.  
+
+To access the value of a state variable `foo` you would say `state.foo`.  
+
+To initialize or update a state variable you use its name followed by `!`.  For example `state.foo! []` would initialize `foo` to an empty array.  Unlike the assignment operator, the update method returns the current value (before it is changed.)
+
+Often state variables have complex values with their own internal state, an array for example.  The problem is as you push new values onto the array you are not changing the object pointed to by the state variable, but its internal state.
+
+To handle this use the same "!" suffix with **no** parameter, and then apply any update methods to the resulting value.  The underlying value will be updated, **and** the underlying system will be notified that a state change has occurred. 
+
+For example
+```ruby
+  state.foo! []    # initialize foo (returns nil)
+  ...later...
+  state.foo! << 12  # push 12 onto foo's array
+  ...or...
+  state.foo! {}
+  state.foo![:house => :boat]
 ```
 
-When you're integrating with an external JavaScript application you may want to signal a change to a React component rendered with `ReactDOM.render()`.
+The rule is simple:  anytime you are updating a state variable follow it by the "!".
 
-Calling `setProps()` on a root-level component will change its properties and trigger a re-render. In addition, you can supply an optional callback function that is executed once `setProps` is completed and the component is re-rendered.
-
-> Note:
+> #### Tell Me How That Works???
+> 
+> A state variables update method (name followed by "!") can accept optionally accept one parameter.  If a parameter is passed, then the method will 1) save the current value, 2) update the value to the passed parameter, 3) update the underlying react.js state object, 4) return the saved value.
 >
-> When possible, the declarative approach of calling `ReactDOM.render()` again on the same node is preferred instead. It tends to make updates easier to reason about. (There's no significant performance difference between the two approaches.)
->
-> This method can only be called on a root-level component. That is, it's only available on the component passed directly to `ReactDOM.render()` and none of its children. If you're inclined to use `setProps()` on a child component, instead take advantage of reactive updates and pass the new prop to the child component when it's created in `render()`.
->
-> This method is not available on ES6 `class` components that extend `React.Component`. It may be removed entirely in a future version of React.
+> If no parameter is passed, then an object of class React::Observable is created.  React::Observables proxy all method calls to whatever value they are initialized with, and then when the method returns they call a notification callback.  In the case of state variables the callback will tell react.js that state has changed.
+ 
+### The `force_update!` method
 
-### replaceProps
+The force_update! instance method causes the component to re-render.  Usually this is not necessary as rendering will occur when state variables change, or new params are passed.  For a good example of using `force_update!` see the `Alarm` class above.  In this case there is no reason to track of the time separately, so we just call `force_update!` every second.
 
-```javascript
-void replaceProps(
-  object nextProps,
-  [function callback]
-)
+### The `dom_node` method
+
+Returns the dom_node of that this component instance is mounted to.  Typically used in the `after_mount` callback to setup linkages to external libraries.
+
+### The `children` method
+
+Along with params components may be passed a block which is used to build the components children.
+
+The instance method `children` returns an enumerable that is used to access the unrendered children of a component.
+
+```ruby
+class IndentEachLine < React::Component::Base
+  param by: 20, type: Integer
+  def render
+    div do
+      children.each_with_index do |child, i|
+        child.render(style: {"margin-left" => params.by*i})
+      end
+    end
+  end
+end
+
+Element['#container'].render do
+  IndentEachLine() do
+    div {"Line 1"}
+    div {"Line 2"}
+    div {"Line 3"}
+  end
+end
 ```
-
-Like `setProps()` but deletes any pre-existing props instead of merging the two objects.
-
-> Note:
->
-> This method is not available on ES6 `class` components that extend `React.Component`. It may be removed entirely in a future version of React.
