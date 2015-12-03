@@ -8,7 +8,9 @@ next: component-specs.html
 
 ## React::Component::Base
 
-Instances of a `React::Component::Base` are created internally by React when rendering. The instances exist through subsequent renders, and although coupled to React, act like normal ruby instances. The only way to get a reference to a React Component instance outside of React is by storing the return value of `React.render`.  Inside other Components, you may use [refs](/docs/more-about-refs.html) to achieve the same result.
+React.rb Components are ruby classes that either subclass React::Component::Base, or mixin React::Component.  Both mechanisms have the same effect.
+
+Instances of React Components are created internally by React when rendering. The instances exist through subsequent renders, and although coupled to React, act like normal ruby instances. The only way to get a valid reference to a React Component instance outside of React is by storing the return value of `React.render`.  Inside other Components, you may use [refs](/docs/more-about-refs.html) to achieve the same result.
 
 ### Lifecycle Callbacks
 
@@ -40,19 +42,19 @@ Details on the component lifecycle is described [here](docs/component-specs.html
 ### The `param` macro
 
 Within a React Component the `param` macro is used to define the parameter signature of the component.  You can think of params as 
-the values that would normally be sent to the instances `initialize` method, but with the difference that a React Component gets new parameters when it is rerendered.  
+the values that would normally be sent to the instance's `initialize` method, but with the difference that a React Component gets new parameters when it is rerendered.  
 
 The param macro has the following syntax:
 
 ```ruby
-param symbol*, options...* # or
-param symbol => *default value, options*
+param symbol, ...options... # or
+param symbol => default_value, ...options...
 ```
 
-Available options are `:default_value => *any value*` and `:type => *class spec*`
-where *`class_spec`* is either a class name, or `[]` (shorthand for Array), or `[ClassName]` (meaning array of `ClassName`.)
+Available options are `:default_value => ...any value...` and `:type => ...class_spec...`
+where class_spec is either a class name, or `[]` (shorthand for Array), or `[ClassName]` (meaning array of `ClassName`.)
 
-Note that the default_value can be specied either as the hash value of the symbol, or explicitly using the `:default_value` key.
+Note that the default value can be specied either as the hash value of the symbol, or explicitly using the `:default_value` key.
 
 Examples:
 
@@ -140,17 +142,17 @@ The rule is simple:  anytime you are updating a state variable follow it by the 
 
 > #### Tell Me How That Works???
 > 
-> A state variables update method (name followed by "!") can accept optionally accept one parameter.  If a parameter is passed, then the method will 1) save the current value, 2) update the value to the passed parameter, 3) update the underlying react.js state object, 4) return the saved value.
+> A state variables update method (name followed by "!") can optionally accept one parameter.  If a parameter is passed, then the method will 1) save the current value, 2) update the value to the passed parameter, 3) update the underlying react.js state object, 4) return the saved value.
 >
 > If no parameter is passed, then an object of class React::Observable is created.  React::Observables proxy all method calls to whatever value they are initialized with, and then when the method returns they call a notification callback.  In the case of state variables the callback will tell react.js that state has changed.
  
 ### The `force_update!` method
 
-The force_update! instance method causes the component to re-render.  Usually this is not necessary as rendering will occur when state variables change, or new params are passed.  For a good example of using `force_update!` see the `Alarm` class above.  In this case there is no reason to track of the time separately, so we just call `force_update!` every second.
+The `force_update!` instance method causes the component to re-render.  Usually this is not necessary as rendering will occur when state variables change, or new params are passed.  For a good example of using `force_update!` see the `Alarm` component above.  In this case there is no reason to have a state track of the time separately, so we just call `force_update!` every second.
 
 ### The `dom_node` method
 
-Returns the dom_node of that this component instance is mounted to.  Typically used in the `after_mount` callback to setup linkages to external libraries.
+Returns the dom_node that this component instance is mounted to.  Typically used in the `after_mount` callback to setup linkages to external libraries.
 
 ### The `children` method
 
@@ -171,7 +173,7 @@ class IndentEachLine < React::Component::Base
 end
 
 Element['#container'].render do
-  IndentEachLine() do
+  IndentEachLine(by: 100) do
     div {"Line 1"}
     div {"Line 2"}
     div {"Line 3"}
