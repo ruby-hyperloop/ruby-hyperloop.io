@@ -19,7 +19,7 @@ React components classes either include React::Component or are subclasses of Re
 ```ruby
 class Component < React::Component::Base
 end
-# or same as above 
+# if subclassing is inappropriate, you can mixin instead
 class AnotherComponent
   include React::Component
 end
@@ -37,7 +37,7 @@ end
 
 To render a component, you reference its class name in the DSL as a method call.  This creates a new instance, passes any parameters proceeds with the component lifecycle.  
 
-```
+```ruby
 class AnotherComponent < React::Component::Base
   def render
     Component() # ruby syntax requires either () or {} following the class name
@@ -45,12 +45,12 @@ class AnotherComponent < React::Component::Base
 end
 ```
 
-Note that you should never redefine the new or initialize methods, or call them directly.  The equivilent of `initialize` is the `before_mount` callback.  For more information see [Component Specs and Lifecycle](/docs/component-specs.html). 
+Note that you should never redefine the `new` or `initialize` methods, or call them directly.  The equivilent of `initialize` is the `before_mount` callback.  For more information see [Component Specs and Lifecycle](/docs/component-specs.html). 
 
 
 ### React.create_element
 
-React.create_element "instantiates" a component (called an element.)  It takes either the component class, or a string (representing a built in tag
+`React.create_element` "instantiates" a component (called an element.)  It takes either the component class, or a string (representing a built in tag
 such as div, or span), the parameters (properties) to be passed to the element, and optionally a block that will be evaluated to 
 build the enclosed children elements
 
@@ -66,14 +66,13 @@ You almost never need to directly call create_element, the DSL, Rails, and jQuer
     MyComponent(...params...) { ...optional children... }
 # dsl - component will NOT be placed in the rendering buffer
     MyComponent(...params...) { ... }.as_node
-# rails controller - renders component as the view
+# in a rails controller - renders component as the view
     render_component("MyComponent", ...params...) 
-# rails view helper - renders component into the view (like a partial)
+# in a rails view helper - renders component into the view (like a partial)
     react_component("MyComponent", ...)
-# jQuery (Note Element is the Opal jQuery wrapper, not be confused with React::Element
+# from jQuery (Note Element is the Opal jQuery wrapper, not be confused with React::Element)
     Element['#container'].render { MyComponent(...params...) { ...optional children... } }  
 ```
-
 
 ### React.is_valid_element?
 
@@ -91,6 +90,8 @@ React.render(element, container) { puts "element rendered" }
 ```
 
 Render an `element` into the DOM in the supplied `container` and return a [reference](/docs/more-about-refs.html) to the component.
+
+The container can either be a DOM node or a jQuery selector (i.e. Element['#container']) in which case the first element is the container.
 
 If the element was previously rendered into `container`, this will perform an update on it and only mutate the DOM as necessary to reflect the latest React component.
 
@@ -121,9 +122,11 @@ Remove a mounted React component from the DOM and clean up its event handlers an
 React.render_to_string(element)
 ```
 
-Render an element to its initial HTML. This is typically only be used on the server. React will return a string containing the HTML. You can use this method to generate HTML on the server and send the markup down on the initial request for faster page loads and to allow search engines to crawl your pages for SEO purposes.
+Render an element to its initial HTML. This is should only be used on the server for prerendering content. React will return a string containing the HTML. You can use this method to generate HTML on the server and send the markup down on the initial request for faster page loads and to allow search engines to crawl your pages for SEO purposes.
 
 If you call `React.render` on a node that already has this server-rendered markup, React will preserve it and only attach event handlers, allowing you to have a very performant first-load experience.
+
+If you are using rails, and have included the react-rails gem, then the prerendering functions are automatically performed.  Otherwise you can use `render_to_string` to build your own prerendering system.
 
 
 ### React.render_to_static_markup
