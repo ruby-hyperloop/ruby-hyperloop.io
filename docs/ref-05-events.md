@@ -28,7 +28,8 @@ end
 
 If you find that you need the underlying browser event for some reason use the `native_event`.  
 
-In the following responses shown as (native ...) indicate the value returned is a native object with an Opal wrapper.  In most cases you will want to convert the value using `.to_n` (to native) and then use it in a javascript code block.
+In the following responses shown as (native ...) indicate the value returned is a native object with an Opal wrapper.  In some cases there will be opal methods available (i.e. for native DOMNode values) and in other cases you will have to convert to the native value
+with `.to_n` and then use javascript directly.
 
 Every `React::Event` has the following methods:
 
@@ -242,7 +243,9 @@ delta_z    -> Integer
 Event names:
 
 ```ruby
-:abort, :can_play, :can_play_through, :duration_change,:emptied, :encrypted, :ended, :error, :loaded_data, :loaded_metadata, :load_start, :pause, :play, :playing, :progress, :rate_change, :seeked, :seeking, :stalled, on_suspend, :time_update, :volume_change, :waiting
+:abort, :can_play, :can_play_through, :duration_change,:emptied, :encrypted, :ended, :error, :loaded_data, 
+:loaded_metadata, :load_start, :pause, :play, :playing, :progress, :rate_change, :seeked, :seeking, :stalled, 
+:on_suspend, :time_update, :volume_change, :waiting
 ```
 
 ### Image Events
