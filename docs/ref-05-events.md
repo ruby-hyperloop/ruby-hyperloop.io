@@ -6,40 +6,48 @@ prev: tags-and-attributes.html
 next: dom-differences.html
 ---
 
-## SyntheticEvent
+## React::Event
 
 Your event handlers will be passed instances of `React::Event`, a wrapper around react.js's SyntheticEvent which in turn is a cross browser wrapper around the browser's native event. It has the same interface as the browser's native event, including `stopPropagation()` and `preventDefault()`, except the events work identically across all browsers.
 
 The following section has **not** been updated from React.js, but you can apply the following rules:  method and event names are all snake cased, i.e. `defaultPrevented` becomes `default_prevented`.  Event names do not begin with `on`, thus `onKeyPress` becomes :key_press.
 
 For example:
+
 ```ruby
-class InputBox < React::Component::Base
-  param :field, type: React::Observable
-  param :submit, type: Proc
+class YouSaid < React::Component::Base
   def render 
-    input(value: params.field).on(:key_up) do |e|
-      param.submit(field) if e.key_code == 13 
-    end.on(:change) do |e|
+    input(value: state.value).
+    on(:key_down) do |e|
+      alert "You said: #{state.value}" if e.key_code == 13 
+    end.
+    on(:change) do |e|
+      state.value! e.target.value
+    end
+  end
+end
+```
       
 
-If you find that you need the underlying browser event for some reason, simply use the `nativeEvent` attribute to get it. Every `SyntheticEvent` object has the following attributes:
+If you find that you need the underlying browser event for some reason use the `native_event`.
+
+Every `React::Event` has the following methods:
 
 ```ruby
-boolean bubbles
-boolean cancelable
-DOMEventTarget currentTarget
-boolean defaultPrevented
-number eventPhase
-boolean isTrusted
-DOMEvent nativeEvent
-void preventDefault()
-boolean isDefaultPrevented()
-void stopPropagation()
-boolean isPropagationStopped()
-DOMEventTarget target
-number timeStamp
-string type
+bubbles                -> Boolean
+cancelable             -> Boolean
+current_target         -> (native DOM node)
+default_prevented      -> Boolean
+event_phase            -> Integer
+is_trusted             -> Boolean
+native_event           -> (native Event)
+prevent_default        -> Proc
+is_default_prevented   -> Boolean
+stop_propagation       -> Proc
+is_propagation_stopped -> Boolean
+target                 -> (native DOMEventTarget)
+timestamp              -> Integer (use Time.at to convert to Time)
+type                   -> String
 ```
 
 ## Event pooling
@@ -48,84 +56,64 @@ The underlying React `SyntheticEvent` is pooled. This means that the `SyntheticE
 This is for performance reasons.
 As such, you cannot access the event in an asynchronous way.
 
-```javascript
-function onClick(event) {
-  console.log(event); // => nullified object.
-  console.log(event.type); // => "click"
-  var eventType = event.type; // => "click"
-
-  setTimeout(function() {
-    console.log(event.type); // => null
-    console.log(eventType); // => "click"
-  }, 0);
-
-  this.setState({clickEvent: event}); // Won't work. this.state.clickEvent will only contain null values.
-  this.setState({eventType: event.type}); // You can still export event properties.
-}
-```
-
 ## Supported Events
 
 React normalizes events so that they have consistent properties across
 different browsers.
-
-The event handlers below are triggered by an event in the bubbling phase. To register an event handler for the capture phase, append `Capture` to the event name; for example, instead of using `onClick`, you would use `onClickCapture` to handle the click event in the capture phase.
 
 
 ### Clipboard Events
 
 Event names:
 
-```
-onCopy onCut onPaste
-```
-
-Properties:
-
-```javascript
-DOMDataTransfer clipboardData
+```ruby
+:copy, :cut, :paste
 ```
 
+Available Methods:
 
-### Composition Events
+```ruby
+clipboard_data -> (native DOMDataTransfer)
+```
+
+
+### Composition Events (not tested)
 
 Event names:
 
 ```
-onCompositionEnd onCompositionStart onCompositionUpdate
+:composition_end, :composition_start, :composition_update
 ```
 
-Properties:
+Available Methods:
 
-```javascript
-string data
-
+```ruby
+data -> String
 ```
-
 
 ### Keyboard Events
 
 Event names:
 
-```
-onKeyDown onKeyPress onKeyUp
+```ruby
+:key_down, :key_press, :key_up
 ```
 
-Properties:
+Available Methods:
 
-```javascript
-boolean altKey
-number charCode
-boolean ctrlKey
-boolean getModifierState(key)
-string key
-number keyCode
-string locale
-number location
-boolean metaKey
-boolean repeat
-boolean shiftKey
-number which
+```ruby
+alt_key                 -> Boolean
+char_code               -> Integer
+ctrl_key                -> Boolean
+get_modifier_state(key) -> Boolean (i.e. get_modifier_key(:Shift)
+key                     -> String
+key_code                -> Integer
+locale                  -> String
+location                -> Integer
+meta_key                -> Boolean
+repeat                  -> Boolean
+shift_key               -> Boolean
+which                   -> Integer
 ```
 
 
@@ -134,13 +122,13 @@ number which
 Event names:
 
 ```
-onFocus onBlur
+:focus, :blur
 ```
 
 Properties:
 
-```javascript
-DOMEventTarget relatedTarget
+```ruby
+related_target -> (Native DOMEventTarget)
 ```
 
 These focus events work on all elements in the React DOM, not just form elements.
