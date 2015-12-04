@@ -8,9 +8,7 @@ next: dom-differences.html
 
 ## React::Event
 
-Your event handlers will be passed instances of `React::Event`, a wrapper around react.js's SyntheticEvent which in turn is a cross browser wrapper around the browser's native event. It has the same interface as the browser's native event, including `stopPropagation()` and `preventDefault()`, except the events work identically across all browsers.
-
-The following section has **not** been updated from React.js, but you can apply the following rules:  method and event names are all snake cased, i.e. `defaultPrevented` becomes `default_prevented`.  Event names do not begin with `on`, thus `onKeyPress` becomes :key_press.
+Your event handlers will be passed instances of `React::Event`, a wrapper around react.js's `SyntheticEvent` which in turn is a cross browser wrapper around the browser's native event. It has the same interface as the browser's native event, including `stopPropagation()` and `preventDefault()`, except the events work identically across all browsers.
 
 For example:
 
@@ -27,9 +25,10 @@ class YouSaid < React::Component::Base
   end
 end
 ```
-      
 
-If you find that you need the underlying browser event for some reason use the `native_event`.
+If you find that you need the underlying browser event for some reason use the `native_event`.  
+
+In the following responses shown as (native ...) indicate the value returned is a native object with an Opal wrapper.  In most cases you will want to convert the value using `.to_n` (to native) and then use it in a javascript code block.
 
 Every `React::Event` has the following methods:
 
@@ -81,7 +80,7 @@ clipboard_data -> (native DOMDataTransfer)
 
 Event names:
 
-```
+```ruby
 :composition_end, :composition_start, :composition_update
 ```
 
@@ -121,11 +120,11 @@ which                   -> Integer
 
 Event names:
 
-```
+```ruby
 :focus, :blur
 ```
 
-Properties:
+Available Methods:
 
 ```ruby
 related_target -> (Native DOMEventTarget)
@@ -137,50 +136,49 @@ These focus events work on all elements in the React DOM, not just form elements
 
 Event names:
 
-```
-onChange onInput onSubmit
+```ruby
+:change, :input, :submit
 ```
 
-For more information about the onChange event, see [Forms](/docs/forms.html).
+For more information about the :change event, see [Forms](/docs/forms.html).
 
 
 ### Mouse Events
 
 Event names:
 
-```
-onClick onContextMenu onDoubleClick onDrag onDragEnd onDragEnter onDragExit
-onDragLeave onDragOver onDragStart onDrop onMouseDown onMouseEnter onMouseLeave
-onMouseMove onMouseOut onMouseOver onMouseUp
-```
-
-The `onMouseEnter` and `onMouseLeave` events propagate from the element being left to the one being entered instead of ordinary bubbling and do not have a capture phase.
-
-Properties:
-
-```javascript
-boolean altKey
-number button
-number buttons
-number clientX
-number clientY
-boolean ctrlKey
-boolean getModifierState(key)
-boolean metaKey
-number pageX
-number pageY
-DOMEventTarget relatedTarget
-number screenX
-number screenY
-boolean shiftKey
+```ruby
+:click, :context_menu, :double_click, :drag, :drag_end, :drag_enter, :drag_exit
+:drag_leave, :drag_over, :drag_start, :drop, :mouse_down, :mouse_enter,
+:mouse_leave, :mouse_move, :mouse_out, :mouse_over, :mouse_up
 ```
 
+The `:mouse_enter` and `:mouse_leave` events propagate from the element being left to the one being entered instead of ordinary bubbling and do not have a capture phase.
+
+Available Methods:
+
+```ruby
+alt_key                 -> Boolean
+button                  -> Integer
+buttons                 -> Integer
+client_x                -> Integer
+number client_y         -> Integer
+ctrl_key                -> Boolean
+get_modifier_state(key) -> Boolean
+meta_key                -> Boolean
+page_x                  -> Integer
+page_y                  -> Integer
+related_target          -> (Native DOMEventTarget)
+screen_x                -> Integer
+screen_y                -> Integer
+shift_key               -> Boolean
+```
 
 ### Selection events
 
 Event names:
 
-```
+```ruby
 onSelect
 ```
 
@@ -189,37 +187,36 @@ onSelect
 
 Event names:
 
-```
-onTouchCancel onTouchEnd onTouchMove onTouchStart
-```
-
-Properties:
-
-```javascript
-boolean altKey
-DOMTouchList changedTouches
-boolean ctrlKey
-boolean getModifierState(key)
-boolean metaKey
-boolean shiftKey
-DOMTouchList targetTouches
-DOMTouchList touches
+```ruby
+:touch_cancel, :touch_end, :touch_move, :touch_start
 ```
 
+Available Methods:
+
+```ruby
+alt_key                 -> Boolean
+changed_touches         -> (Native DOMTouchList)
+ctrl_key                -> Boolean
+get_modifier_state(key) -> Boolean
+meta_key                -> Boolean
+shift_key               -> Boolean
+target_touches          -> (Native DOMTouchList)
+touches                 -> (Native DomTouchList)
+```
 
 ### UI Events
 
 Event names:
 
-```
-onScroll
+```ruby
+:scroll
 ```
 
-Properties:
+Available Methods:
 
-```javascript
-number detail
-DOMAbstractView view
+```ruby
+detail -> Integer
+view   -> (Native DOMAbstractView)
 ```
 
 
@@ -227,31 +224,31 @@ DOMAbstractView view
 
 Event names:
 
-```
-onWheel
+```ruby
+wheel
 ```
 
-Properties:
+Available Methods:
 
-```javascript
-number deltaMode
-number deltaX
-number deltaY
-number deltaZ
+```ruby
+delta_mode -> Integer
+delta_x    -> Integer
+delta_y    -> Integer
+delta_z    -> Integer
 ```
 
 ### Media Events
 
 Event names:
 
-```
-onAbort onCanPlay onCanPlayThrough onDurationChange onEmptied onEncrypted onEnded onError onLoadedData onLoadedMetadata onLoadStart onPause onPlay onPlaying onProgress onRateChange onSeeked onSeeking onStalled onSuspend onTimeUpdate onVolumeChange onWaiting
+```ruby
+:abort, :can_play, :can_play_through, :duration_change,:emptied, :encrypted, :ended, :error, :loaded_data, :loaded_metadata, :load_start, :pause, :play, :playing, :progress, :rate_change, :seeked, :seeking, :stalled, on_suspend, :time_update, :volume_change, :waiting
 ```
 
 ### Image Events
 
 Event names:
 
-```
-onLoad onError
+```ruby
+:load, :error
 ```
