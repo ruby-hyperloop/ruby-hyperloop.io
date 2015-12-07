@@ -43,7 +43,8 @@ React supports all `data-*` and `aria-*` attributes as well as every attribute i
 
 > Note:
 >
-> All attributes are camel-cased and the attributes `class` and `for` are `className` and `htmlFor`, respectively, to match the DOM API specification.
+> All attributes are camel-cased, to match the DOM API specification with the exception of `for`, which becomes `htmlFor`.
+> *For React.js users, `class` will work as an attribute in the dsl.*
 
 For a list of events, see [Supported Events](/docs/events.html).
 
