@@ -18,13 +18,12 @@ Let's look at a really simple example. Create a `hello-react.html` file with the
   <head>
     <meta charset="UTF-8" />
     <title>Hello React</title>
-    <script src="https://fb.me/react-{{site.react_version}}.js"></script>
-    <script src="https://fb.me/react-dom-{{site.react_version}}.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="https://rawgit.com/reactive-ruby/inline-reactive-ruby/master/inline-reactive-ruby.js"></script>
   </head>
   <body>
     <div id="example"></div>
-    <script type="text/babel">
+    <script type="text/ruby">
 
       // ** Your code goes here! **
 
@@ -33,26 +32,25 @@ Let's look at a really simple example. Create a `hello-react.html` file with the
 </html>
 ```
 
-For the rest of the documentation, we'll just focus on the JavaScript code and assume it's inserted into a template like the one above. Replace the placeholder comment above with the following JSX:
+For the rest of the documentation, we'll just focus on the ruby code and assume it's inserted into a template like the one above. Replace the placeholder comment above with the following JSX:
 
-```javascript
-var HelloWorld = React.createClass({
-  render: function() {
-    return (
-      <p>
-        Hello, <input type="text" placeholder="Your name here" />!
-        It is {this.props.date.toTimeString()}
-      </p>
-    );
-  }
-});
+```ruby
+class HelloWorld < React::Component::Base
+  param :time, type: Time
+  def render
+    para do
+      span { "Hello, " }
+      input(type: :text, placeholder: "Your Name Here")
+      span { "! It is #{params.time}"}
+    end
+  end
+end
 
-setInterval(function() {
-  ReactDOM.render(
-    <HelloWorld date={new Date()} />,
-    document.getElementById('example')
-  );
-}, 500);
+every(1) do
+  Element["#example"].render do
+    HelloWorld(time: Time.now)
+  end
+end
 ```
 
 ## Reactive Updates
@@ -61,64 +59,37 @@ Open `hello-react.html` in a web browser and type your name into the text field.
 
 The way we are able to figure this out is that React does not manipulate the DOM unless it needs to. **It uses a fast, internal mock DOM to perform diffs and computes the most efficient DOM mutation for you.**
 
-The inputs to this component are called `props` — short for "properties". They're passed as attributes in JSX syntax. You should think of these as immutable within the component, that is, **never write to `this.props`**.
+The inputs to this component are called `params` (react.js props). They are passed as key-value pairs to a component like a normal ruby method.
 
-## Components are Just Like Functions
+## Components are Classes with a `render` method.
 
-React components are very simple. You can think of them as simple functions that take in `props` and `state` (discussed later) and render HTML. With this in mind, components are easy to reason about.
+React components are very simple. They are classes that have a render method that generates HTML.  When an instance of a component class is initialized it is passed the initial param values and the render method is called.  When new params are provided the params will be updated, and the render method called again.  The underlying React.js system takes care of making this fast and effecient.
+
 
 > Note:
 >
 > **One limitation**: React components can only render a single root node. If you want to return multiple nodes they *must* be wrapped in a single root.
 
-## JSX Syntax
+## DSL (Domain Specific Language) Syntax
 
-We strongly believe that components are the right way to separate concerns rather than "templates" and "display logic." We think that markup and the code that generates it are intimately tied together. Additionally, display logic is often very complex and using template languages to express it becomes cumbersome.
+The React philosophy is that components are the right way to separate concerns rather than by "templates" and "display logic."  This is because the resulting markup and the code that generates it are intimately tied together.  Additionally, display logic is often very complex and using template languages to express it becomes cumbersome.
 
-We've found that the best solution for this problem is to generate HTML and component trees directly from the JavaScript code such that you can use all of the expressive power of a real programming language to build UIs.
+The React approach is to generate HTML and component trees directly right in the component class using Ruby so that you can use all of the expressive power of a real programming language to build UIs.
 
-In order to make this easier, we've added a very simple, **optional** HTML-like syntax to create these React tree nodes.
+To enable this every React.rb component class has access to set of class and instance methods that makes specifying the component, and build HTML and event handlers straightforward.  
 
-**JSX lets you create JavaScript objects using HTML syntax.** To generate a link in React using pure JavaScript you'd write:
+For example within the render method the `a` method generates an anchor tag like this:
 
-`React.createElement('a', {href: 'https://facebook.github.io/react/'}, 'Hello!')`
-
-With JSX this becomes:
-
-`<a href="https://facebook.github.io/react/">Hello!</a>`
-
-We've found this has made building React apps easier and designers tend to prefer the syntax, but everyone has their own workflow, so **JSX is not required to use React.**
-
-JSX is very small. To learn more about it, see [JSX in depth](/docs/jsx-in-depth.html). Or see the transform in action in [the Babel REPL](https://babeljs.io/repl/).
-
-JSX is similar to HTML, but not exactly the same. See [JSX gotchas](/docs/jsx-gotchas.html) for some key differences.
-
-[Babel exposes a number of ways to get started using JSX](http://babeljs.io/docs/setup/), ranging from command line tools to Ruby on Rails integrations. Choose the tool that works best for you.
-
-## React without JSX
-
-JSX is completely optional; you don't have to use JSX with React. You can create React elements in plain JavaScript using `React.createElement`, which takes a tag name or component, a properties object, and variable number of optional child arguments.
-
-```javascript
-var child1 = React.createElement('li', null, 'First Text Content');
-var child2 = React.createElement('li', null, 'Second Text Content');
-var root = React.createElement('ul', { className: 'my-list' }, child1, child2);
-ReactDOM.render(root, document.getElementById('example'));
+```ruby
+a(href: 'https://reactive-ruby.github.io') { 'Get Reactive' }
 ```
 
-For convenience, you can create short-hand factory functions to create elements from custom components.
+The following sections describe the syntax and features of the React.rb DSL.
 
-```javascript
-var Factory = React.createFactory(ComponentClass);
-...
-var root = Factory({ custom: 'prop' });
-ReactDOM.render(root, document.getElementById('example'));
-```
+> Note: 
+>
+> Under the hood everything maps to React.js function calls in a straight forward manner.  The React.rb DSL is roughly
+> analogous to the React.js JSX, but because its "just ruby" you don't have to learn a new language, and switch mental gears
+> while writing code.
 
-React already has built-in factories for common HTML tags:
 
-```javascript
-var root = React.DOM.ul({ className: 'my-list' },
-             React.DOM.li(null, 'Text Content')
-           );
-```
