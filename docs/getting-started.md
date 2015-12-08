@@ -116,7 +116,7 @@ module Components
 
       def render
         puts "Rendering my first component!"
-        "hello #{say_hello_to if say_hello_to}"
+        "hello #{params.say_hello_to if params.say_hello_to}"
       end
     end
   end
