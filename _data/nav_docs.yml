@@ -23,12 +23,10 @@
   - id: displaying-data
     title: Displaying Data
     subitems:
-    - id: jsx-in-depth
-      title: JSX in Depth
-    - id: jsx-spread
-      title: JSX Spread Attributes
-    - id: jsx-gotchas
-      title: JSX Gotchas
+    - id: dsl-overview
+      title: DSL Overview
+    - id: dsl-gotchas
+      title: DSL Gotchas
   - id: interactivity-and-dynamic-uis
     title: Interactivity and Dynamic UIs
   - id: multiple-components
