@@ -48,12 +48,11 @@ In your Gemfile:
 
 ```ruby
 gem 'reactive-ruby'
-gem 'react-rails'
+gem 'react-rails', '~> 1.3.0' 
 gem 'opal-rails'
 gem 'therubyracer', platforms: :ruby # Required for prerendering
 # optional gems
 gem 'opal-jquery'     # a clean interface to jQuery from your ruby code
-gem 'reactive-record' # access your active-record models on the client
 gem 'reactive-router' # a basic SPA router
 ```
 
@@ -72,7 +71,6 @@ side rendering system as well as the browser.
 # app/views/components.rb
 require 'opal'
 require 'reactive-ruby'
-require 'reactive-record' # if you are using the reactive-record gem
 require 'reactive-router' # if you are using the reactive-router gem
 require_tree './components'
 ```
@@ -118,7 +116,7 @@ module Components
 
       def render
         puts "Rendering my first component!"
-        "hello #{say_hello_to if say_hello_to}"
+        "hello #{params.say_hello_to if params.say_hello_to}"
       end
     end
   end
