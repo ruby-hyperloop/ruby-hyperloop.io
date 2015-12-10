@@ -19,17 +19,19 @@ It'll also have a few neat features:
 * **Live updates:** other users' comments are popped into the comment view in real time.
 * **Markdown formatting:** users can use Markdown to format their text.
 
-### Want to skip all this and just see the source?
+### Download the test server and the source
 
-[It's all on GitHub.](https://github.com/reactjs/react-tutorial)
+[It's all on GitHub.](https://github.com/reactive-ruby/react-tutorial)
 
-### Running a server
+Clone the repo, cd into it, and do a bundle install.
 
-In order to start this tutorial, we're going to require a running server. This will serve purely as an API endpoint which we'll use for getting and saving data. In order to make this as easy as possible, we've created a simple server in a number of scripting languages that does exactly what we need it to do. **You can [view the source](https://github.com/reactjs/react-tutorial/) or [download a zip file](https://github.com/reactjs/react-tutorial/archive/master.zip) containing everything needed to get started.**
+Do a `bundle exec rake` to start the server, and hit localhost:9292 to make sure the server is running.
 
-For sake of simplicity, the server we will run uses a `JSON` file as a database. You would not run this in production but it makes it easy to simulate what you might do when consuming an API. Once you start the server, it will support our API endpoint and it will also serve the static pages we need.
+If you just want to see it working copy or move the tutorial directory to the app directory and refresh, otherwise follow along.
 
-### Getting started
+At the end of the tutorial is an overview of how the server works in case you are interested.
+
+###
 
 For this tutorial, we're going to make it as easy as possible. Included in the server package discussed above is an HTML file which we'll work in. Open up `public/index.html` in your favorite editor. It should look something like this (with perhaps some minor differences, we'll add an additional `<script>` tag later):
 

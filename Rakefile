@@ -13,6 +13,12 @@ task :build_reactive_playground do
   File.binwrite "reactive-playground.js", Opal::Builder.build("application").to_s
 end
 
+desc "Build multi_chat.js"
+task :build_multi_chat do
+  Opal.append_path "multi_chat"
+  File.binwrite "multi_chat.js", Opal::Builder.build("application").to_s
+end
+
 desc "generate js from jsx"
 task :js do
   system "cp ../react/node_modules/babel/node_modules/babel-core/browser.min.js ./react/js/babel-browser.min.js"
