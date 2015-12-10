@@ -14,8 +14,7 @@
     <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.5/marked.min.js"></script>
     <script src="https://rawgit.com/reactive-ruby/inline-reactive-ruby/master/inline-reactive-ruby.js"></script>
-    <script src="https://reactive-ruby.github.io/react/js/multi_chat.js"></script>
-    <script src="https://reactive-ruby.github.io/react/js/peer.js"></script>
+    <script src="https://reactive-ruby.github.io/react/js/react/js/chat_service.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
@@ -57,51 +56,26 @@
   <body>
     <div id="app"></div>
     <script type="text/ruby">
-      class MultiChatz # rename to MultiChat to test locally
-
-        def initialize(key, chat_room, &block)
-          @block = block
-          time = Time.now
-          @messages = [
-              {from: "user1", time: (time-10.days).to_i,    message: "A 2 point message: \n+ point 1\n+ point 2\nGot it?"},
-              {from: "user2", time: (time-8.days).to_i,     message: "message sent 8 days ago, by user 2"},
-              {from: "user3", time: (time-5.days).to_i,     message: "message sent in the last week"},
-              {from: "user2", time: (time-4.days).to_i,     message: "message sent **also** in the last week"},
-              {from: "user1", time: (time-1.hour).to_i,     message: "Was sent within the last hour!"},
-              {from: "user2", time: (time-30.minutes).to_i, message: "Was sent 30 minutes ago"},
-              {from: "user3", time: (time-10.minutes).to_i, message: "Was just sent\n\n\n\n\n\n\n\n\nwith a lot of blanks"},
-              {from: "user1", time: Time.now.to_i,          message: "just now"}
-            ]
-          @block.call @messages
-        end
-
-        def id
-          "user2"
-        end
-
-        def send(data = {})
-          @messages << data
-          @block.call [data]
-        end
-
-      end
-    </script>
-    <script type="text/ruby">
 
       class App < React::Component::Base
 
         before_mount do
-          @multi_chat = MultiChat.new("7qxpwlx3g8s0dx6r", "ReactTutorialChatMaster") do | message |
+          @chat_service = ChatService.new do | message |
             state.messages! ((state.messages || []) + message)
           end
         end
 
+        def login(user_name)
+          state.messages! nil
+          @chat_service.login(user_name)
+        end
+
         def render
           div do
-            Nav(user_id: user_id)
+            Nav(login: method(:login))
             if online?
-              Messages messages: state.messages, multi_chat: @multi_chat
-              InputBox multi_chat: @multi_chat
+              Messages messages: state.messages, chat_service: @chat_service
+              InputBox chat_service: @chat_service
             end
           end
         end
@@ -111,14 +85,19 @@
         end
 
         def user_id
-          @multi_chat.id if online?
+          @chat_service.user_id
         end
 
       end
 
       class Nav < React::Component::Base
 
-        param :user_id, type: String, allow_nil: true
+        param :login, type: Proc
+
+        before_mount do
+          state.current_user_name! ""
+          state.user_name_input! ""
+        end
 
         def render
           nav.navbar.navbar_inverse.navbar_fixed_top do
@@ -128,23 +107,38 @@
                 a.navbar_brand(href: "#", style: {color: "#00d8ff"}) { "React.rb Chat Room " }
               end
               div.collapse.navbar_collapse(id: "navbar") do
-                ul.nav.navbar_nav do
-                  if params.user_id
-                    li.white { a(href: "#") {"Your Id: #{params.user_id}"} }
-                  else
-                    li { a(href: "#about") {"Logging In..."} }
+                form.navbar_form.navbar_left(role: :search) do
+                  div.form_group do
+                    input.form_control(type: :text, value: state.user_name_input, placeholder: "Enter Your Handle").on(:change) do |e|
+                      state.user_name_input! e.target.value
+                    end.on(:key_down) do |e|
+                      login! if valid_new_input? && e.key_code == 13
+                    end
+                    button.btn.btn_default(type: :button) { span.glyphicon.glyphicon_log_in }.on(:click) do
+                      login!
+                    end if valid_new_input?
                   end
-                end
+                end.on(:submit) { |e| e.prevent_default }
               end
             end
           end
         end
+
+        def valid_new_input?
+          state.user_name_input != state.current_user_name && state.user_name_input.strip != ""
+        end
+
+        def login!
+          state.current_user_name! state.user_name_input
+          params.login(state.user_name_input)
+        end
+
       end
 
       class Messages < React::Component::Base
 
         param :messages, type: [Hash]
-        param :multi_chat, type: MultiChat
+        param :chat_service, type: ChatService
 
         after_mount :scroll_to_bottom
         after_update :scroll_to_bottom
@@ -152,7 +146,7 @@
         def render
           div.container do
             params.messages.each do |message|
-              Message user_id: params.multi_chat.id, message: message
+              Message user_id: params.chat_service.id, message: message
             end
           end
         end
@@ -199,7 +193,7 @@
 
       class InputBox < React::Component::Base
 
-        param :multi_chat, type: MultiChat
+        param :chat_service, type: ChatService
 
         before_mount do
           state.composition! ""
@@ -231,7 +225,7 @@
         end
 
         def send_message
-          params.multi_chat.send(message: state.composition!(""), time: Time.now.to_i, from: params.multi_chat.id)
+          params.chat_service.send(message: state.composition!(""), time: Time.now.to_i, from: params.chat_service.id)
         end
 
       end
