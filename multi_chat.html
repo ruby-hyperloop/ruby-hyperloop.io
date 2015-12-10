@@ -193,16 +193,21 @@
 
         param :multi_chat, type: MultiChat
 
-        before_mount { state.composition! "" }
+        before_mount do
+          state.composition! ""
+          @mobile = `/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent)`
+        end
 
         def render
           div.row.form_group.input_box.navbar.navbar_inverse.navbar_fixed_bottom do
             div.col_sm_1.white {"Say Something: "}
             div.col_sm_5 do
               textarea(rows: rows, value: state.composition).on(:change) do |e|
-                state.composition! e.target.value
+                state.composition! e.target.value #unless is_send_key?(e)
               end.on(:key_down) do |e|
                 send_message if is_send_key?(e)
+              end.on(:key_press) do |e|
+                e.prevent_default if is_send_key?(e)
               end
             end
             FormattedDiv class: "col-sm-5 white", html: state.composition
@@ -210,10 +215,11 @@
         end
 
         def is_send_key?(e)
-          e.key_code == 13 && (e.meta_key || e.ctrl_key)
+          (e.char_code == 13 || e.key_code == 13) && (@mobile || e.meta_key || e.ctrl_key)
         end
 
         def rows
+          r = state.composition.count("\n")
           [state.composition.count("\n") + 1,20].min
         end
 
