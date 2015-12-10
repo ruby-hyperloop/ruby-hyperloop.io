@@ -3,6 +3,15 @@
   <head>
     <meta charset="UTF-8" />
     <title>Hello React</title>
+    <script language="JavaScript">
+      function redirectHttpsToHttp()
+        {
+        var httpsURL= window.location.hostname + window.location.pathname + window.location.search;
+        var httpURL= "http://" + httpsURL;
+        window.location = httpURL;
+        }
+      redirectHttpsToHttp();
+    </script>
     <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.5/marked.min.js"></script>
     <script src="https://rawgit.com/reactive-ruby/inline-reactive-ruby/master/inline-reactive-ruby.js"></script>
