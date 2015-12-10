@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Hello React</title>
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.5/marked.min.js"></script>
+    <script src="https://rawgit.com/reactive-ruby/inline-reactive-ruby/master/inline-reactive-ruby.js"></script>
+    <script src="https://reactive-ruby.github.io/multi_chat.js"></script>
+    <script src="http://cdn.peerjs.com/0.3/peer.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+    <style type="text/css">
+
+      body {
+        padding-top: 50px;
+        padding-bottom: 60px;
+      }
+      div.alternating:nth-of-type(odd) {
+        background-color: #ddd;
+      }
+      div.alternating:nth-of-type(even) {
+        background-color: #ccc;
+      }
+      .input-box {
+        padding: 10px;
+      }
+      .white {
+        color: white;
+      }
+      .message {
+        padding-top: 10px;
+      }
+      textarea {
+        width: 100%;;
+      }
+      div.reactrb-icon {
+        float: left;
+        width: 50px;
+        height: 50px;
+        margin-right: 8px;
+        background-size: contain;
+        background-image: url("http://reactive-ruby.github.io/react/img/logo_svg.png");
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="text/ruby">
+      class MultiChatz
+
+        def initialize(key, chat_room, &block)
+          @block = block
+          time = Time.now
+          @messages = [
+              {from: "user1", time: (time-10.days).to_i,    message: "A 2 point message: \n+ point 1\n+ point 2\nGot it?"},
+              {from: "user2", time: (time-8.days).to_i,     message: "message sent 8 days ago, by user 2"},
+              {from: "user3", time: (time-5.days).to_i,     message: "message sent in the last week"},
+              {from: "user2", time: (time-4.days).to_i,     message: "message sent **also** in the last week"},
+              {from: "user1", time: (time-1.hour).to_i,     message: "Was sent within the last hour!"},
+              {from: "user2", time: (time-30.minutes).to_i, message: "Was sent 30 minutes ago"},
+              {from: "user3", time: (time-10.minutes).to_i, message: "Was just sent\n\n\n\n\n\n\n\n\nwith a lot of blanks"},
+              {from: "user1", time: Time.now.to_i,          message: "just now"}
+            ]
+          @block.call @messages
+        end
+
+        def id
+          "user2"
+        end
+
+        def send(data = {})
+          @messages << data
+          @block.call [data]
+        end
+
+      end
+    </script>
+    <script type="text/ruby">
+
+      class App < React::Component::Base
+
+        before_mount do
+          @multi_chat = MultiChat.new("7qxpwlx3g8s0dx6r", "ReactTutorialChatMaster") do | message |
+            state.messages! ((state.messages || []) + message)
+          end
+        end
+
+        def render
+          div do
+            Nav(user_id: user_id)
+            if online?
+              Messages messages: state.messages, multi_chat: @multi_chat
+              InputBox multi_chat: @multi_chat
+            end
+          end
+        end
+
+        def online?
+          state.messages
+        end
+
+        def user_id
+          @multi_chat.id if online?
+        end
+
+      end
+
+      class Nav < React::Component::Base
+
+        param :user_id, type: String, allow_nil: true
+
+        def render
+          nav.navbar.navbar_inverse.navbar_fixed_top do
+            div.container do
+              div.navbar_header do
+                div.reactrb_icon
+                a.navbar_brand(href: "#", style: {color: "#00d8ff"}) { "React.rb Chat Room " }
+              end
+              div.collapse.navbar_collapse(id: "navbar") do
+                ul.nav.navbar_nav do
+                  if params.user_id
+                    li.white { a(href: "#") {"Your Id: #{params.user_id}"} }
+                  else
+                    li { a(href: "#about") {"Logging In..."} }
+                  end
+                end
+              end
+            end
+          end
+        end
+      end
+
+      class Messages < React::Component::Base
+
+        param :messages, type: [Hash]
+        param :multi_chat, type: MultiChat
+
+        after_mount :scroll_to_bottom
+        after_update :scroll_to_bottom
+
+        def render
+          div.container do
+            params.messages.each do |message|
+              Message user_id: params.multi_chat.id, message: message
+            end
+          end
+        end
+
+        def scroll_to_bottom
+          Element['html, body'].animate({scrollTop: Element[Document].height}, :slow)
+        end
+
+      end
+
+      class Message < React::Component::Base
+
+        param :message
+        param :user_id
+
+        def render
+          div.row.alternating.message do
+            div.col_sm_2 { sender }
+            FormattedDiv class: "col-sm-8", html: params.message[:message]
+            div.col_sm_2 { formatted_time }
+          end
+        end
+
+        def formatted_time
+          time = Time.at(params.message[:time])
+          if Time.now < time+1.day
+            time.strftime("%I:%M %p")
+          elsif Time.now < time+7.days
+            time.strftime("%A")
+          else
+            time.strftime("%D %I:%M %p")
+          end
+        end
+
+        def sender
+          if params.message[:from] == params.user_id
+            "you: "
+          else
+            "#{params.message[:from]}:"
+          end
+        end
+
+      end
+
+      class InputBox < React::Component::Base
+
+        param :multi_chat, type: MultiChat
+
+        before_mount { state.composition! "" }
+
+        def render
+          div.row.form_group.input_box.navbar.navbar_inverse.navbar_fixed_bottom do
+            div.col_sm_1.white {"Say Something: "}
+            div.col_sm_5 do
+              textarea(rows: rows, value: state.composition).on(:change) do |e|
+                state.composition! e.target.value
+              end.on(:key_down) do |e|
+                send_message if is_send_key?(e)
+              end
+            end
+            FormattedDiv class: "col-sm-5 white", html: state.composition
+          end
+        end
+
+        def is_send_key?(e)
+          e.key_code == 13 && (e.meta_key || e.ctrl_key)
+        end
+
+        def rows
+          [state.composition.count("\n") + 1,20].min
+        end
+
+        def send_message
+          params.multi_chat.send(message: state.composition!(""), time: Time.now.to_i, from: params.multi_chat.id)
+        end
+
+      end
+
+      class FormattedDiv < React::Component::Base
+
+        param :html, type: String
+        param className: "", type: String
+
+        def render
+          div(class: params.className) do
+            div({dangerously_set_inner_HTML: { __html: %x{marked(#{params.html}, {sanitize: true })} }})
+          end
+        end
+      end
+
+      Element['#app'].render do
+        App()
+      end
+
+    </script>
+  </body>
+</html>
