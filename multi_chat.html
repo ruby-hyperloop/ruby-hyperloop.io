@@ -4,12 +4,11 @@
     <meta charset="UTF-8" />
     <title>Hello React</title>
     <script language="JavaScript">
-      function redirectHttpsToHttp()
-        {
-        var httpsURL= window.location.hostname + window.location.pathname + window.location.search;
-        var httpURL= "http://" + httpsURL;
-        window.location = httpURL;
+      function redirectHttpsToHttp() {
+        if (window.location.protocol == "https:") {
+          window.location = "http://" + window.location.hostname + window.location.pathname + window.location.search;
         }
+      }
       redirectHttpsToHttp();
     </script>
     <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
