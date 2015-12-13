@@ -48,7 +48,7 @@ In your Gemfile:
 
 ```ruby
 gem 'reactive-ruby'
-gem 'react-rails', '~> 1.3.0' 
+gem 'react-rails', '~> 1.3.0'
 gem 'opal-rails'
 gem 'therubyracer', platforms: :ruby # Required for prerendering
 # optional gems
@@ -215,10 +215,6 @@ This should build `react_lib.js` which can be included in your main html file.
 
 ## Next Steps
 
-TBD...
-
-Check out [the tutorial](/docs/tutorial.html) and the other examples in the starter kit's `examples` directory to learn more.
-
-We also have a wiki where the community contributes with [workflows, UI-components, routing, data management etc.](https://github.com/facebook/react/wiki/Complementary-Tools)
+Check out [the tutorial](/docs/tutorial.html) to learn more.
 
 Good luck, and welcome!

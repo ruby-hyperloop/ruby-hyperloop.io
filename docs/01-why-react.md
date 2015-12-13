@@ -3,14 +3,17 @@ id: why-react
 title: Why React?
 permalink: why-react.html
 next: displaying-data.html
+prev: thinking-in-react.html
 ---
-React is a JavaScript library for creating user interfaces by Facebook and Instagram. Many people choose to think of React as the **V** in **[MVC](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller)**.
+React.rb is a wrapper for the React.js library for creating user interfaces.  React.rb provides all the goodness of React combined with the expressiveness of the Ruby language.   
 
-We built React to solve one problem: **building large applications with data that changes over time**.
+React.js was built to solve one problem: **building large applications with data that changes over time**.
+
+React.rb takes this one step further.  Because its uses Ruby, you can think in one language on the server and the client.  Because it uses React.js you get a simple, declarative, structured way to build your UI.
 
 ## Simple
 
-Simply express how your app should look at any given point in time, and React will automatically manage all UI updates when your underlying data changes.
+You express how your app should look at any given point in time, and React will automatically manage all UI updates when your underlying data changes.
 
 ## Declarative
 
@@ -20,10 +23,6 @@ When the data changes, React conceptually hits the "refresh" button, and knows t
 
 React is all about building reusable components. In fact, with React the *only* thing you do is build components. Since they're so encapsulated, components make code reuse, testing, and separation of concerns easy.
 
-## Give It Five Minutes
-
-React challenges a lot of conventional wisdom, and at first glance some of the ideas may seem crazy. [Give it five minutes](https://signalvnoise.com/posts/3124-give-it-five-minutes) while reading this guide; those crazy ideas have worked for building thousands of components both inside and outside of Facebook and Instagram.
-
 ## Learn More
 
-You can learn more about our motivations behind building React in [this blog post](/react/blog/2013/06/05/why-react.html).
+You can learn more about our motivations behind building React in [this blog post from the React.js site.](http://facebook.github.io/react/blog/2013/06/05/why-react.html).

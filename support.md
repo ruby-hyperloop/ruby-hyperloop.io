@@ -12,9 +12,7 @@ There is almost always someone available to ask a quick question or discuss a co
 
 ## Stack Overflow
 
-Although its early days we encourage you to use stack overflow to ask specific questions. [existing questions](http://stackoverflow.com/questions/tagged/reactjs+opal) tagged with **reactjs+opal** or [ask your own](http://stackoverflow.com/questions/ask?tags=reactjs+opal)!
-
-*we would dearly love to have a dedicated reactrb tag, so if any one with a 1500 or higher repuation on stackoverfow could volunteer to create one that would be great*
+Although its early days we encourage you to use stack overflow to ask specific questions. [existing questions](http://stackoverflow.com/questions/tagged/react.rb) tagged with **react.rb** or [ask your own](http://stackoverflow.com/questions/ask?tags=react.rb)!
 
 ## Github issues
 
