@@ -65,11 +65,6 @@
           end
         end
 
-        def login(user_name)
-          state.messages! nil
-          @chat_service.login(user_name)
-        end
-
         def render
           div do
             Nav(login: method(:login))
@@ -78,6 +73,11 @@
               InputBox chat_service: @chat_service
             end
           end
+        end
+
+        def login(user_name)
+          state.messages! nil
+          @chat_service.login(user_name)
         end
 
         def online?
@@ -125,7 +125,7 @@
         end
 
         def valid_new_input?
-          state.user_name_input != state.current_user_name && state.user_name_input.strip != ""
+          state.user_name_input.present? && state.user_name_input != state.current_user_name
         end
 
         def login!
