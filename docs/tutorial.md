@@ -1073,7 +1073,7 @@ While we are in there lets add the React.rb logo and a title to the nav bar.  Ad
   end
 ```
 
-inside the `container` `div`.
+inside the `container` `div`. 
 
 Finally lets use one of the standard bootstrap login icons instead of the words "Login!".
 
