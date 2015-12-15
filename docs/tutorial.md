@@ -856,9 +856,9 @@ Your Message render method should look like this:
   end
 ```
 
-Finally we need to update `FormattedDiv` to use the `class` param.  
+Finally we need to update `FormattedDiv` so that it accepts all the normal html attributes uses them in the outer div.  This will allow us to specify different style classes for the `FormattedDiv` in the message display and in the input box.
 
-We want whatever value of class is passed to `FormattedDiv` to become the class of the outer div.  This will allow us to specify different style classes for the `FormattedDiv` in the message display and in the input box.
+The `collect_other_params_as` macro is used to gather up any params not specified in param declarations and save them in a hash.  This can then be passed along to children components (in our case the outer div) as their attributes.
 
 Update the `FormattedDiv` `render` method so it looks like this:
 
@@ -866,17 +866,15 @@ Update the `FormattedDiv` `render` method so it looks like this:
 class FormattedDiv < React::Component::Base
 
   param :markdown, type: String
-  param :className, type: String # note class becomes className
+  collect_other_params_as :attributes
 
   def render
-    div(class: params.className) do # send whatever class is specified on to the outer div
+    div(attributes) do # send whatever class is specified on to the outer div
       div({dangerously_set_inner_HTML: { __html: `marked(#{params.markdown}, {sanitize: true })`}})
     end
   end
 end
 ```
-
-<sup><sub>Due to the way React.js deals with class names params, we have to declare our param name as `className` even though we will use `class` when sending the param.  *Expect this to be fixed in a future version*.</sub></sup>
 
 **Okay** refresh your browser, and login, and things should be looking pretty good.
 
@@ -1073,7 +1071,7 @@ While we are in there lets add the React.rb logo and a title to the nav bar.  Ad
   end
 ```
 
-inside the `container` `div`. 
+inside the `container` `div`.
 
 Finally lets use one of the standard bootstrap login icons instead of the words "Login!".
 

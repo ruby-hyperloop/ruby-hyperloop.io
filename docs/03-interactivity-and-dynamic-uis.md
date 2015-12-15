@@ -26,6 +26,8 @@ Element['#container'].render do
 end
 ```
 
+[Try It Out](http://goo.gl/fWUOOe)
+
 ## Event Handling and Synthetic Events
 
 With React you attach event handlers to elements using the `on` method. React ensures that all events behave identically in IE8 and above by implementing a synthetic event system. That is, React knows how to bubble and capture events according to the spec, and the events passed to your event handler are guaranteed to be consistent with [the W3C spec](http://www.w3.org/TR/DOM-Level-3-Events/), regardless of which browser you're using.
