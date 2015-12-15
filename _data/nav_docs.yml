@@ -6,6 +6,7 @@
     title: Tutorial
   - id: thinking-in-react
     title: Thinking in React
+    under_construction: true
 - title: Guides
   items:
   - id: why-react
@@ -23,40 +24,57 @@
     title: Multiple Components
   - id: reusable-components
     title: Reusable Components
+    under_construction: true
   - id: transferring-props
     title: Transferring Props
+    under_construction: true
   - id: forms
     title: Forms
+    under_construction: true
   - id: working-with-the-browser
     title: Working With the Browser
+    under_construction: true
     subitems:
     - id: more-about-refs
       title: Refs to Components
+      under_construction: true
   - id: tooling-integration
     title: Tooling Integration
+    under_construction: true
   - id: addons
     title: Add-Ons
+    under_construction: true
     subitems:
     - id: animation
+      under_construction: true
       title: Animation
     - id: two-way-binding-helpers
       title: Two-Way Binding Helpers
+      under_construction: true
     - id: test-utils
       title: Test Utilities
+      under_construction: true
     - id: clone-with-props
       title: Cloning Elements
+      under_construction: true
     - id: create-fragment
       title: Keyed Fragments
+      under_construction: true
     - id: update
       title: Immutability Helpers
+      under_construction: true
     - id: pure-render-mixin
       title: PureRenderMixin
+      under_construction: true
     - id: perf
       title: Performance Tools
+      under_construction: true
   - id: advanced-performance
     title: Advanced Performance
+    under_construction: true
   - id: context
     title: Context
+    under_construction: true
 - title: Reference
   items:
   - id: top-level-api
@@ -77,11 +95,14 @@
     title: Reconciliation
   - id: glossary
     title: React (Virtual) DOM Terminology
+    under_construction: true
 - title: Flux
   items:
   - id: flux-overview
     title: Flux Overview
     href: https://facebook.github.io/flux/docs/overview.html
+    under_construction: true
   - id: flux-todo-list
     title: Flux TodoMVC Tutorial
     href: https://facebook.github.io/flux/docs/todo-list.html
+    under_construction: true

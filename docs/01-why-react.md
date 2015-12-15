@@ -4,6 +4,7 @@ title: Why React?
 permalink: why-react.html
 next: displaying-data.html
 prev: thinking-in-react.html
+underconstruction: true
 ---
 React.rb is a wrapper for the React.js library for creating user interfaces.  React.rb provides all the goodness of React combined with the expressiveness of the Ruby language.   
 
