@@ -24,7 +24,6 @@
     title: Multiple Components
   - id: reusable-components
     title: Reusable Components
-    under_construction: true
   - id: transferring-props
     title: Transferring Props
     under_construction: true
