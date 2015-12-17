@@ -237,7 +237,7 @@
         collect_other_params_as :attributes
 
         def render
-          div(attributes) do
+          div(params.attributes) do
             div({dangerously_set_inner_HTML: { __html: %x{marked(#{params.html}, {sanitize: true })} }})
           end
         end
