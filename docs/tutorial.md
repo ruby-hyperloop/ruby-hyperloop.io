@@ -869,7 +869,7 @@ class FormattedDiv < React::Component::Base
   collect_other_params_as :attributes
 
   def render
-    div(attributes) do # send whatever class is specified on to the outer div
+    div(params.attributes) do # send whatever class is specified on to the outer div
       div({dangerously_set_inner_HTML: { __html: `marked(#{params.markdown}, {sanitize: true })`}})
     end
   end
