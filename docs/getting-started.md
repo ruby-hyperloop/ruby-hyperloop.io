@@ -87,7 +87,7 @@ and you can set break points etc.
 
 ### Manual Rails Install
 
-The following instructions have been superceeded by the [reactive_rails_generator](https://github.com/loicboutet/reactive-rails-generator) gem use them at your own risk!
+The following instructions have been superceeded by the [`reactive_rails_generator`](https://github.com/loicboutet/reactive-rails-generator) gem use them at your own risk!
 
 To start using React.rb within a new or existing rails 4.0 app, follow these steps:
 
