@@ -27,6 +27,8 @@ This is another great way to experiment with React.rb.  You don't need any setup
 React.rb works great with new or existing rails apps, and React.rb plays well with other frameworks, so
 its pain free to introduce React to your application.
 
+**We recommend you use the [reactive_rails_generator](https://goo.gl/505wxO) gem to do a transparent install of everything you need in a new or existing rails app.** 
+
 Within a Rails app React Components are treated as `Views`, and by convention you will place your components
 in the app/views/components directory.
 
@@ -39,8 +41,6 @@ client the code is re-rendered client side with no server action required.
 
 Because React plays well with others, you can start with a single aspect of a page or layout
 (a dynamic chat widget for example) and add a React component to implement that functionality.
-
-We recommend you use the [reactive_rails_generator](https://goo.gl/505wxO) gem to do a transparent install of everything you need in a new or existing rails app.  
 
 The following instructions have been superceeded by the [reactive_rails_generator](https://goo.gl/505wxO) gem use them at your own risk!
 
