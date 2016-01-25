@@ -42,6 +42,52 @@ client the code is re-rendered client side with no server action required.
 Because React plays well with others, you can start with a single aspect of a page or layout
 (a dynamic chat widget for example) and add a React component to implement that functionality.
 
+#### Rendering Components
+
+Once you are setup (i.e. `rails g reactrb:install --all`) components may be rendered directly from a controller action by simply following
+a naming convention. To render a component from the `home#show` action, create a
+component class named `Show`.  Note: You can use the `rails g reactrb:component Home::Show` command to generate a component template.
+
+```ruby
+# app/react/components/home/show.rb
+module Components
+  module Home
+    class Show < React::Component::Base
+
+      param :say_hello_to
+
+      def render
+        puts "Rendering my first component!"
+        "hello #{params.say_hello_to if params.say_hello_to}"
+      end
+    end
+  end
+end
+```
+
+To render the component call `render_component` in the controller action passing along any params:
+
+```ruby
+# controllers/home_controller.rb
+class HomeController < ApplicationController
+  def show
+    # render_component uses the controller name to find the 'show' component.
+    render_component say_hello_to: params[:say_hello_to]
+  end
+end
+```
+
+Make sure your routes file has a route to your home#show action. Visit that
+route in your browser and you should see 'Hello' rendered.
+
+Open up the js console in the browser and you will see a log showing what went
+on during rendering.
+
+Have a look at the sources in the console, and notice your ruby code is there,
+and you can set break points etc.
+
+### Manual Rails Install
+
 The following instructions have been superceeded by the [reactive_rails_generator](https://goo.gl/505wxO) gem use them at your own risk!
 
 To start using React.rb within a new or existing rails 4.0 app, follow these steps:
@@ -103,50 +149,6 @@ require 'react_ujs'
 require 'jquery'      # You need both these files to access jQuery from Opal.
 require 'opal-jquery' # They must be in this order.
 ```
-
-#### Rendering Components
-
-Components may be rendered directly from a controller action by simply following
-a naming convention. To render a component from the `home#show` action, create a
-component class named `Show`.
-
-```ruby
-# app/views/components/home/show.rb
-module Components
-  module Home
-    class Show < React::Component::Base
-
-      param :say_hello_to
-
-      def render
-        puts "Rendering my first component!"
-        "hello #{params.say_hello_to if params.say_hello_to}"
-      end
-    end
-  end
-end
-```
-
-To render the component call `render_component` in the controller action passing along any params:
-
-```ruby
-# controllers/home_controller.rb
-class HomeController < ApplicationController
-  def show
-    # render_component uses the controller name to find the 'show' component.
-    render_component say_hello_to: params[:say_hello_to]
-  end
-end
-```
-
-Make sure your routes file has a route to your home#show action. Visit that
-route in your browser and you should see 'Hello' rendered.
-
-Open up the js console in the browser and you will see a log showing what went
-on during rendering.
-
-Have a look at the sources in the console, and notice your ruby code is there,
-and you can set break points etc.
 
 ## With Sinatra
 
