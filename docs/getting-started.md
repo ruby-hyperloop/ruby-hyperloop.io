@@ -40,6 +40,10 @@ client the code is re-rendered client side with no server action required.
 Because React plays well with others, you can start with a single aspect of a page or layout
 (a dynamic chat widget for example) and add a React component to implement that functionality.
 
+We recommend you use the [reactive_rails_generator](https://goo.gl/505wxO) gem to do a transparent install of everything you need in a new or existing rails app.  
+
+The following instructions have been superceeded by the [reactive_rails_generator](https://goo.gl/505wxO) gem use them at your own risk!
+
 To start using React.rb within a new or existing rails 4.0 app, follow these steps:
 
 #### Add the gems
