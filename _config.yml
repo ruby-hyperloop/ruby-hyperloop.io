@@ -5,7 +5,6 @@ url: https://facebook.github.io
 baseurl: "/"
 permalink: "/blog/:year/:month/:day/:title.html"
 paginate_path: "/blog/page:num/"
-relative_permalinks: true
 paginate: 5
 timezone: America/Los_Angeles
 highlighter: pygments
