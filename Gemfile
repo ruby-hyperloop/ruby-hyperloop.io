@@ -4,10 +4,12 @@ gem 'rake'
 
 # jekyll, which builds it all
 # 2.0 includes sass processing
-gem 'jekyll', '~>2.0'
+gem 'jekyll', '~>3.0'
 
 # Auto redirect pages
 gem 'jekyll-redirect-from'
+
+gem 'jekyll-paginate'
 
 # JSON
 gem 'json'
