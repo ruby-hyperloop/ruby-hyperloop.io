@@ -10,7 +10,7 @@ gem 'jekyll', '~>3.0'
 gem 'jekyll-redirect-from'
 
 gem 'jekyll-paginate'
-
+gem 'redcarpet'
 # JSON
 gem 'json'
 

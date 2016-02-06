@@ -12,7 +12,7 @@
             {% if item.href %}
               <a href="{{ item.href }}"
             {% else %}
-              <a href="/docs/{{ item.id }}.html"
+              <a href="/{{ item.id }}.html"
             {% endif %}
             {% if page.id == item.id %} class="active"{% endif %}>
             {{ item.title }}
@@ -27,7 +27,7 @@
                     {% if subitem.href %}
                       <a href="{{ subitem.href }}"
                     {% else %}
-                      <a href="/docs/{{ subitem.id }}.html"
+                      <a href="/{{ subitem.id }}.html"
                     {% endif %}
                     {% if page.id == subitem.id %} class="active"{% endif %}>
                     {{ subitem.title }}
