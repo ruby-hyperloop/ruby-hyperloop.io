@@ -6,6 +6,7 @@ baseurl: "/"
 permalink: "/blog/:year/:month/:day/:title.html"
 paginate_path: "/blog/page:num/"
 paginate: 5
+include: [docs]
 timezone: America/Los_Angeles
 # highlighter: pygments
 defaults:
@@ -25,11 +26,11 @@ exclude:
 - README.md
 - Rakefile
 - vendor/bundle
-markdown: kramdown
-# redcarpet:
-#   extensions:
-#   - fenced_code_blocks
-#   - footnotes
+markdown: redcarpet
+redcarpet:
+   extensions:
+   - fenced_code_blocks
+   - footnotes
 sass:
   style: :compressed
   sass_dir: _css

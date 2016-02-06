@@ -1,10 +1,10 @@
 - title: Quick Start
   items:
-  - id: getting-started
+  - id: docs/getting-started
     title: Getting Started
-  - id: tutorial
+  - id: docs/tutorial
     title: Tutorial
-  - id: thinking-in-react
+  - id: docs/thinking-in-react
     title: Thinking in React
     under_construction: true
 - title: Guides

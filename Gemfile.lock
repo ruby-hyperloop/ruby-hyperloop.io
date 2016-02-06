@@ -53,6 +53,7 @@ GEM
       opal (= 0.8.0)
       opal-activesupport (>= 0.2.0)
       opal-browser (= 0.2.0)
+    redcarpet (3.1.2)
     rouge (1.10.1)
     safe_yaml (1.0.4)
     sanitize (2.1.0)
@@ -78,6 +79,7 @@ DEPENDENCIES
   rake
   rb-fsevent
   reactive-ruby
+  redcarpet
   sanitize (~> 2.0)
 
 BUNDLED WITH

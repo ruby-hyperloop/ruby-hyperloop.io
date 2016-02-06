@@ -1,10 +1,10 @@
-# require 'redcarpet'
+require 'redcarpet'
 require 'sanitize'
 
 # Simple converter that is probably better than RedCarpet's built in TOC id
 # generator (which ends up with things lik id="toc_1"... terrible).
-=begin
-class Kramdown::Render::HTML
+
+class Redcarpet::Render::HTML
   def header(title, level)
     clean_title = Sanitize.clean(title)
       .downcase
@@ -15,4 +15,4 @@ class Kramdown::Render::HTML
   end
 end
 
-=end
+
