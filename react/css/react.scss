@@ -637,6 +637,11 @@ div.CodeMirror-linenumber {
   visibility: hidden;
 }
 
+/* Fix rubyblue theme cursor color */
+.CodeMirror.cm-s-rubyblue div.CodeMirror-cursor {
+  border-left: 1px solid white;
+}
+
 small code,
 li code,
 p code {
