@@ -48,7 +48,7 @@ a naming convention. To render a component from the `home#show` action, create a
 component class named `Show`.  Note: You can use the `rails g reactrb:component Home::Show` command to generate a component template.
 
 ```ruby
-# app/react/components/home/show.rb
+# app/views/components/home/show.rb
 module Components
   module Home
     class Show < React::Component::Base
