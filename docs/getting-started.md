@@ -29,7 +29,7 @@ its pain free to introduce React to your application.
 
 **We recommend you use the [`reactive_rails_generator`](https://github.com/loicboutet/reactive-rails-generator) gem to do a transparent install of everything you need in a new or existing rails app.** 
 
-Within a Rails app React Components are by convention stored in the `app/react/components` directory.  
+Within a Rails app React Components are by convention stored in the `app/views/components` directory.  
 
 Your Rails controllers, and layouts access your top level components using the `render_component` method.
 
