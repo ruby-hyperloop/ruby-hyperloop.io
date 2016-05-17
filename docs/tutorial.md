@@ -320,7 +320,7 @@ class Nav < React::Component::Base
   end
 
   def valid_new_input?
-    state.user_name.present? && state.user_name_input != state.current_user_name
+    state.user_name_input.present? && state.user_name_input != state.current_user_name
   end
 
   def login!
@@ -415,7 +415,7 @@ Lets go ahead and add the callback to the `App` component.  Add the following me
 
 ```ruby
   def login(user_name)
-    puts "*** #{state.current_user_name} has logged in"
+    puts "*** #{user_name} has logged in"
   end
 ```
 
