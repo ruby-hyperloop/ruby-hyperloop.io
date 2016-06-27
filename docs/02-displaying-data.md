@@ -74,9 +74,9 @@ React components are very simple. They are classes that have a render method tha
 
 The React philosophy is that components are the right way to separate concerns rather than by "templates" and "display logic."  This is because the resulting markup and the code that generates it are intimately tied together.  Additionally, display logic is often very complex and using template languages to express it becomes cumbersome.
 
-The React.rb approach is to generate HTML and component trees directly right in the component class using Ruby so that you can use all of Ruby's expressive power when building your UI.
+The Reactrb approach is to generate HTML and component trees directly right in the component class using Ruby so that you can use all of Ruby's expressive power when building your UI.
 
-To enable this every React.rb component class has access to set of class and instance methods that makes specifying the component, and building HTML and event handlers straightforward.  
+To enable this every Reactrb component class has access to set of class and instance methods that makes specifying the component, and building HTML and event handlers straightforward.  
 
 For example within the render method the `a` method generates an anchor tag like this:
 
@@ -84,10 +84,10 @@ For example within the render method the `a` method generates an anchor tag like
 a(href: 'https://reactive-ruby.github.io') { 'Get Reactive' }
 ```
 
-The following sections describe the syntax and features of the React.rb DSL.
+The following sections describe the syntax and features of the Reactrb DSL.
 
 > Note:
 >
-> Under the hood everything maps to React.js function calls in a straight forward manner.  The React.rb DSL is roughly
+> Under the hood everything maps to React.js function calls in a straight forward manner.  The Reactrb DSL is roughly
 > analogous to the React.js JSX, but because its "just ruby" you don't have to learn a new language, and switch mental gears
 > while writing code.

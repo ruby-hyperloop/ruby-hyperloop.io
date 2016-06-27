@@ -8,7 +8,7 @@ next: component-specs.html
 
 ## React::Component::Base
 
-React.rb Components are ruby classes that either subclass React::Component::Base, or mixin React::Component.  Both mechanisms have the same effect.
+Reactrb Components are ruby classes that either subclass React::Component::Base, or mixin React::Component.  Both mechanisms have the same effect.
 
 Instances of React Components are created internally by React when rendering. The instances exist through subsequent renders, and although coupled to React, act like normal ruby instances. The only way to get a valid reference to a React Component instance outside of React is by storing the return value of `React.render`.  Inside other Components, you may use [refs](/docs/more-about-refs.html) to achieve the same result.
 
@@ -41,7 +41,7 @@ Details on the component lifecycle is described [here](docs/component-specs.html
 
 ### The `param` macro
 
-Within a React Component the `param` macro is used to define the parameter signature of the component.  You can think of params as 
+Within a React Component the `param` macro is used to define the parameter signature of the component.  You can think of params as
 the values that would normally be sent to the instance's `initialize` method, but with the difference that a React Component gets new parameters when it is rerendered.  
 
 The param macro has the following syntax:
@@ -126,7 +126,7 @@ To initialize or update a state variable you use its name followed by `!`.  For 
 
 Often state variables have complex values with their own internal state, an array for example.  The problem is as you push new values onto the array you are not changing the object pointed to by the state variable, but its internal state.
 
-To handle this use the same "!" suffix with **no** parameter, and then apply any update methods to the resulting value.  The underlying value will be updated, **and** the underlying system will be notified that a state change has occurred. 
+To handle this use the same "!" suffix with **no** parameter, and then apply any update methods to the resulting value.  The underlying value will be updated, **and** the underlying system will be notified that a state change has occurred.
 
 For example
 ```ruby
@@ -141,11 +141,11 @@ For example
 The rule is simple:  anytime you are updating a state variable follow it by the "!".
 
 > #### Tell Me How That Works???
-> 
+>
 > A state variables update method (name followed by "!") can optionally accept one parameter.  If a parameter is passed, then the method will 1) save the current value, 2) update the value to the passed parameter, 3) update the underlying react.js state object, 4) return the saved value.
 >
 > If no parameter is passed, then an object of class React::Observable is created.  React::Observables proxy all method calls to whatever value they are initialized with, and then when the method returns they call a notification callback.  In the case of state variables the callback will tell react.js that state has changed.
- 
+
 ### The `force_update!` method
 
 The `force_update!` instance method causes the component to re-render.  Usually this is not necessary as rendering will occur when state variables change, or new params are passed.  For a good example of using `force_update!` see the `Alarm` component above.  In this case there is no reason to have a state track of the time separately, so we just call `force_update!` every second.

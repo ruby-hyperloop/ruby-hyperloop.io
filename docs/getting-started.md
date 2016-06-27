@@ -7,27 +7,29 @@ redirect_from: "docs/index.html"
 
 ## Opal Playground
 
-A great way to start learning React.rb is use OpalPlayground.
+A great way to start learning Reactrb is use OpalPlayground.
 
 Here is a simple HelloWorld example to get you started.
 
 **[HelloWorld](http://fkchang.github.io/opal-playground/?code:class%20HelloWorld%20%3C%20React%3A%3AComponent%3A%3ABase%0A%20%20param%20%3Avisitor%0A%0A%20%20def%20render%0A%20%20%20%20%22Hello%20there%20%23%7Bparams.visitor%7D%22%0A%20%20end%0Aend%0A%0A%0AElement%5B%27%23content%27%5D.render%20do%0A%20%20HelloWorld%20visitor%3A%20%22world%22%0Aend%0A%0A%0A&html_code=%3Cdiv%20id%3D%27content%27%3E%3C%2Fdiv%3E&css_code=body%20%7B%0A%20%20background%3A%20%23eeeeee%3B%0A%7D%0A)**
 
-## Using Inline-Reactive-Ruby
+## Using Reactrb-Express
 
-For small static sites that don't need a server backend you can use the Inline-Reactive-Ruby javascript library.
-Simply include the inline-reactive-ruby.js file with your other javascript code, or access it directly via the CDN, and you are good to go.
+*formerly inline-reactive-ruby*
 
-This is another great way to experiment with React.rb.  You don't need any setup or download to get started.
+For small static sites that don't need a server backend you can use the reactrb-express javascript library.
+Simply include the reactrb-express.js file with your other javascript code, or access it directly via the CDN, and you are good to go.
 
-[Inline-Reactive-Ruby](https://github.com/reactive-ruby/inline-reactive-ruby)
+This is another great way to experiment with Reactrb.  You don't need any setup or download to get started.
+
+[Reactrb-Express](https://github.com/reactrb/reactrb-express)
 
 ## With Rails
 
-React.rb works great with new or existing rails apps, and React.rb plays well with other frameworks, so
+Reactrb works great with new or existing rails apps, and Reactrb plays well with other frameworks, so
 its pain free to introduce React to your application.
 
-**We recommend you use the [`reactive_rails_generator`](https://github.com/loicboutet/reactive-rails-generator) gem to do a transparent install of everything you need in a new or existing rails app.** 
+**We recommend you use the [`reactive_rails_generator`](https://github.com/loicboutet/reactive-rails-generator) gem to do a transparent install of everything you need in a new or existing rails app.**
 
 Within a Rails app React Components are by convention stored in the `app/views/components` directory.  
 
@@ -89,7 +91,7 @@ and you can set break points etc.
 
 The following instructions have been superceeded by the [`reactive_rails_generator`](https://github.com/loicboutet/reactive-rails-generator) gem use them at your own risk!
 
-To start using React.rb within a new or existing rails 4.0 app, follow these steps:
+To start using Reactrb within a new or existing rails 4.0 app, follow these steps:
 
 #### Add the gems
 
@@ -151,12 +153,12 @@ require 'opal-jquery' # They must be in this order.
 
 ## With Sinatra
 
-React.rb works fine with Sinatra.  Use this [Sinatra Example App](https://github.com/zetachang/react.rb/tree/master/example/sinatra-tutorial)
+Reactrb works fine with Sinatra.  Use this [Sinatra Example App](https://github.com/reactrb/reactrb/reactrb-examples)
 to get started.
 
 ## Building With Rake
 
-If you have a larger static app (like this one) you will want to precompile your ruby code to a single js file, instead of using inline-reactive-ruby. *You will need
+If you have a larger static app (like this one) you will want to precompile your ruby code to a single js file, instead of using Reactrb-Express. *You will need
 a basic ruby setup (you can follow instructions for Jekyll for example.)*
 
 The following assumes you are building a js file called application.js, and the code is stored in a directory
@@ -176,7 +178,7 @@ Your rake file task will look like this:
 
 ```ruby
 #rake.rb
-desc "Build react.rb library"
+desc "Build reactrb library"
 task :build_react_lib do
   Opal.append_path "react_lib"
   File.binwrite "react_lib.js", Opal::Builder.build("application").to_s

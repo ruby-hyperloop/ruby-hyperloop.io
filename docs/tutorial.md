@@ -72,7 +72,7 @@ It will also have a few neat features:
 
 ### Application Structure
 
-React is all about modular, composable components. For our chat app, we'll have the following structure which will be mirrored by 6 corresponding React.rb components:
+React is all about modular, composable components. For our chat app, we'll have the following structure which will be mirrored by 6 corresponding Reactrb components:
 
 ```
 App
@@ -150,7 +150,7 @@ go here plus a display of the formatted markdown
 convert and display markdown
 ```
 
-Before going on lets understand the basic features of the React.rb DSL
+Before going on lets understand the basic features of the Reactrb DSL
 
 - #### Every component has a `render` method
 
@@ -291,7 +291,7 @@ Things to notice:
 
 Our improved `Nav` component is still pretty dull, and having to directly access the DOM using `Element` is not a great idea either.
 
-To add some intelligence to our `Nav` component it needs *state*.  React.rb provides *state variables* that work like *reactive* instance variables.  When a state variable is updated, it will cause components to re-render.  
+To add some intelligence to our `Nav` component it needs *state*.  Reactrb provides *state variables* that work like *reactive* instance variables.  When a state variable is updated, it will cause components to re-render.  
 
 We are going to add two state variables to our component:  `current_user_name` and `user_name_input`.  
 
@@ -792,7 +792,7 @@ We will use **Bootstrap** styles, which has already been included.  We just need
 }
 ```
 
-In React.rb you can add classes to elements using css dot notation.
+In Reactrb you can add classes to elements using css dot notation.
 
 So instead of saying `div(class: "foo bar")` you can say `div.foo.bar`
 
@@ -1062,12 +1062,12 @@ and add this handler to the `form`.
   on(:submit) { |e| e.prevent_default }
 ```
 
-While we are in there lets add the React.rb logo and a title to the nav bar.  Add
+While we are in there lets add the Reactrb logo and a title to the nav bar.  Add
 
 ```Ruby
   div.navbar_header do
     div.reactrb_icon
-    a.navbar_brand(href: "#", style: {color: "#00d8ff"}) { "React.rb Chat Room " }
+    a.navbar_brand(href: "#", style: {color: "#00d8ff"}) { "Reactrb Chat Room " }
   end
 ```
 
@@ -1085,7 +1085,7 @@ Now the completed `Nav` `render` method will look like this:
       div.container do
         div.navbar_header do
           div.reactrb_icon
-          a.navbar_brand(href: "#", style: {color: "#00d8ff"}) { "React.rb Chat Room " }
+          a.navbar_brand(href: "#", style: {color: "#00d8ff"}) { "Reactrb Chat Room " }
         end
         div.collapse.navbar_collapse(id: "navbar") do
           form.navbar_form.navbar_left(role: :search) do

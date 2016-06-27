@@ -61,7 +61,7 @@
       title: Keyed Fragments
     - id: update (TBD)
       title: Immutability Helpers
-    - id: pure-render-mixin (THIS IS BUILTIN TO REACT.RB SHOULD LEAVE A NOTE HERE THOUGH)
+    - id: pure-render-mixin (THIS IS BUILTIN TO REACTRB SHOULD LEAVE A NOTE HERE THOUGH)
       title: PureRenderMixin
     - id: perf (TBD)
       title: Performance Tools
@@ -81,7 +81,7 @@
     title: Supported Tags and Attributes
   - id: events (PRIORITY)
     title: Event System
-  - id: dom-differences (PRIORITY) 
+  - id: dom-differences (PRIORITY)
     title: DOM Differences
   - id: special-non-dom-attributes (DELETE - ?? covered by the DSL I think)
     title: Special Non-DOM Attributes
