@@ -19,7 +19,7 @@ Let's look at a really simple example. Create a `hello-react.html` file with the
     <meta charset="UTF-8" />
     <title>Hello React</title>
     <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
-    <script src="https://rawgit.com/reactive-ruby/inline-reactive-ruby/master/inline-reactive-ruby.js"></script>
+    <script src="https://rawgit.com/reactrb/reactrb-express/master/reactrb-express.js"></script>
   </head>
   <body>
     <div id="example"></div>
@@ -81,7 +81,7 @@ To enable this every Reactrb component class has access to set of class and inst
 For example within the render method the `a` method generates an anchor tag like this:
 
 ```ruby
-a(href: 'https://reactive-ruby.github.io') { 'Get Reactive' }
+a(href: 'https://reactrb.github.io') { 'Get Reactive' }
 ```
 
 The following sections describe the syntax and features of the Reactrb DSL.

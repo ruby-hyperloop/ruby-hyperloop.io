@@ -1,7 +1,7 @@
 ---
 id: thinking-in-react
 title: Thinking in React
-prev: tutorial.html
+prev: docs/tutorial.html
 next: why-react.html
 redirect_from: 'blog/2013/11/05/thinking-in-react.html'
 ---

@@ -2,7 +2,7 @@ GEM
   remote: https://rubygems.org/
   specs:
     colorator (0.1)
-    concurrent-ruby (1.0.0)
+    concurrent-ruby (1.0.2)
     ffi (1.9.10)
     hike (1.2.3)
     jekyll (3.1.1)
@@ -31,7 +31,7 @@ GEM
     mini_portile2 (2.0.0)
     nokogiri (1.6.7.2)
       mini_portile2 (~> 2.0.0.rc2)
-    opal (0.8.0)
+    opal (0.9.4)
       hike (~> 1.2)
       sourcemap (~> 0.1.0)
       sprockets (~> 3.1)
@@ -49,8 +49,8 @@ GEM
     rb-fsevent (0.9.7)
     rb-inotify (0.9.5)
       ffi (>= 0.5.0)
-    reactive-ruby (0.7.40)
-      opal (= 0.8.0)
+    reactrb (0.8.3)
+      opal (>= 0.8.0)
       opal-activesupport (>= 0.2.0)
       opal-browser (= 0.2.0)
     redcarpet (3.1.2)
@@ -60,10 +60,10 @@ GEM
       nokogiri (>= 1.4.4)
     sass (3.4.21)
     sourcemap (0.1.1)
-    sprockets (3.5.2)
+    sprockets (3.6.2)
       concurrent-ruby (~> 1.0)
       rack (> 1, < 3)
-    tilt (2.0.2)
+    tilt (2.0.5)
 
 PLATFORMS
   ruby
@@ -78,7 +78,7 @@ DEPENDENCIES
   opal-jquery
   rake
   rb-fsevent
-  reactive-ruby
+  reactrb
   redcarpet
   sanitize (~> 2.0)
 

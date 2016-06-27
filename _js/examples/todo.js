@@ -38,7 +38,7 @@ end
 Element["#todo-target"].render { TodoApp() }
 `;
 
-React.render(
+ReactDOM.render(
   <ReactPlayground codeText={TODO_COMPONENT} elementId="todo-target" />,
   document.getElementById('todoExample')
 );

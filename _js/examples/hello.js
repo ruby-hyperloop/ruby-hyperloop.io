@@ -12,7 +12,7 @@ end
 Element['#hello-target'].render { HelloWorld(visitor: "world") }
 `;
 
-React.render(
+ReactDOM.render(
   <ReactPlayground codeText={HELLO_COMPONENT} elementId="hello-target" />,
   document.getElementById('helloExample')
 );

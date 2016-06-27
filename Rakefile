@@ -3,9 +3,11 @@ require('json')
 require('yaml')
 
 require 'opal'
-require 'opal-browser'
-require 'reactive-ruby'
+#require 'opal-browser'
+#require 'react-latest'
 require 'opal-jquery'
+
+require 'reactrb'
 
 desc "Build inline code editor support reactive-playground.js"
 task :build_reactive_playground do

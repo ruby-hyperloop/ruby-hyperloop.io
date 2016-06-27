@@ -22,5 +22,5 @@ gem 'sanitize', '~>2.0'
 
 gem 'opal'
 gem 'opal-browser'
-gem 'reactive-ruby'
+gem 'reactrb'
 gem 'opal-jquery'

@@ -22,7 +22,7 @@ end
 Element["#markdown-target"].render { MarkdownEditor() }
 `;
 
-React.render(
+ReactDOM.render(
   <ReactPlayground codeText={MARKDOWN_COMPONENT} elementId="markdown-target"/>,
   document.getElementById('markdownExample')
 );

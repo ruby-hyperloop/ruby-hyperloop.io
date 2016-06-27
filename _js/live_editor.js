@@ -21,7 +21,7 @@ var CodeMirrorEditor = React.createClass({
   componentDidMount: function() {
     if (IS_MOBILE) return;
 
-    this.editor = CodeMirror.fromTextArea(React.findDOMNode(this.refs.editor), {
+    this.editor = CodeMirror.fromTextArea(ReactDOM.findDOMNode(this.refs.editor), {
       mode: 'ruby',
       lineNumbers: this.props.lineNumbers,
       lineWrapping: true,
@@ -201,7 +201,7 @@ var ReactPlayground = React.createClass({
   },
 
   executeCode: function() {
-    var mountNode = React.findDOMNode(this.refs.mount);
+    var mountNode = ReactDOM.findDOMNode(this.refs.mount);
     Opal.Object.$$proto.$mount_node = function() {return mountNode;}
     try {
       React.unmountComponentAtNode(mountNode);

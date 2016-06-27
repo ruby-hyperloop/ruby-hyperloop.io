@@ -1,7 +1,7 @@
 ---
 id: getting-started
 title: Getting Started
-next: tutorial.html
+next: docs/tutorial.html
 redirect_from: "docs/index.html"
 ---
 
@@ -29,7 +29,7 @@ This is another great way to experiment with Reactrb.  You don't need any setup 
 Reactrb works great with new or existing rails apps, and Reactrb plays well with other frameworks, so
 its pain free to introduce React to your application.
 
-**We recommend you use the [`reactive_rails_generator`](https://github.com/loicboutet/reactive-rails-generator) gem to do a transparent install of everything you need in a new or existing rails app.**
+**We recommend you use the [`reactrb-rails-generator`](https://github.com/reactrb/reactrb-rails-generator) gem to do a transparent install of everything you need in a new or existing rails app.**
 
 Within a Rails app React Components are by convention stored in the `app/views/components` directory.  
 
@@ -89,7 +89,7 @@ and you can set break points etc.
 
 ### Manual Rails Install
 
-The following instructions have been superceeded by the [`reactive_rails_generator`](https://github.com/loicboutet/reactive-rails-generator) gem use them at your own risk!
+The following instructions have been superceeded by the [`reactrb-rails-generator`](https://github.com/reactrb/reactrb-rails-generator) gem use them at your own risk!
 
 To start using Reactrb within a new or existing rails 4.0 app, follow these steps:
 
@@ -98,13 +98,13 @@ To start using Reactrb within a new or existing rails 4.0 app, follow these step
 In your Gemfile:
 
 ```ruby
-gem 'reactive-ruby'
-gem 'react-rails', '~> 1.3.0'
+gem 'reactrb'
+gem 'react-rails'
 gem 'opal-rails'
 gem 'therubyracer', platforms: :ruby # Required for prerendering
 # optional gems
 gem 'opal-jquery'     # a clean interface to jQuery from your ruby code
-gem 'reactive-router' # a basic SPA router
+gem 'reactrb-router'  # a basic SPA router
 ```
 
 Run `bundle install` and restart your rails server.
@@ -121,8 +121,9 @@ side rendering system as well as the browser.
 ```
 # app/views/components.rb
 require 'opal'
-require 'reactive-ruby'
-require 'reactive-router' # if you are using the reactive-router gem
+require 'react-latest'    # or other version i.e. react-v14
+require 'reactrb'
+require 'reactrb-router' # if you are using the reactive-router gem
 require_tree './components'
 ```
 
@@ -170,7 +171,7 @@ Add the following gems, and run bundle install.
 # Gemfile
 gem 'opal'
 gem 'opal-browser' # optional
-gem 'reactive-ruby'
+gem 'reactrb'
 gem 'opal-jquery'  # optional
 ```
 
@@ -196,7 +197,8 @@ require 'browser/delay'    # optional
 # you can pull in the jQuery.js file here, or separately
 # but in must be loaded BEFORE opal-jquery
 require 'opal-jquery'      # optional
-require 'reactive-ruby'
+require 'react-latest'     # or other version i.e. react-v14
+require 'reactrb'
 # here you can require other files, do a require_tree, or
 # just add some components inline right here...
 class Clock < React::Component::Base

@@ -9,7 +9,7 @@ sectionid: docs
   <div class="inner-content">
     <h1>
       {{ page.title }}
-      <a class="edit-page-link" href="https://github.com/reactive-ruby/reactive-ruby.github.io/tree/master/{{ page.path }}" target="_blank">Edit on GitHub</a>
+      <a class="edit-page-link" href="https://github.com/reactrb/reactrb.github.io/tree/master/{{ page.path }}" target="_blank">Edit on GitHub</a>
     </h1>
     <div class="subHeader">{{ page.description }}</div>
 
@@ -17,10 +17,10 @@ sectionid: docs
 
     <div class="docs-prevnext">
       {% if page.prev %}
-        <a class="docs-prev" href="/docs/{{ page.prev }}">&larr; Prev</a>
+        <a class="docs-prev" href="/{{ page.prev }}">&larr; Prev</a>
       {% endif %}
       {% if page.next %}
-        <a class="docs-next" href="/docs/{{ page.next }}">Next &rarr;</a>
+        <a class="docs-next" href="/{{ page.next }}">Next &rarr;</a>
       {% endif %}
     </div>
   </div>

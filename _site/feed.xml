@@ -7,6 +7,417 @@
 		<atom:link href="https://facebook.github.io//feed.xml" rel="self" type="application/rss+xml" />
 		
 			<item>
+				<title>Getting started with Rails</title>
+				<description>&lt;h1&gt;&lt;a class=&quot;anchor&quot; name=&quot;getting-started-with-react.rb-and-rails&quot;&gt;&lt;/a&gt;Getting started with react.rb and Rails &lt;a class=&quot;hash-link&quot; href=&quot;#getting-started-with-react.rb-and-rails&quot;&gt;#&lt;/a&gt;&lt;/h1&gt;
+&lt;p&gt;&lt;a href=&quot;//facebook.github.io/react/&quot;&gt;React.js&lt;/a&gt; support for rails is provided
+&lt;a href=&quot;https://github.com/reactjs/react-rails&quot;&gt;react-rails&lt;/a&gt; gem.&lt;/p&gt;
+
+&lt;p&gt;From its project page, React-rails can:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;  Provide various react builds to your asset bundle&lt;/li&gt;
+&lt;li&gt;  Transform .jsx in the asset pipeline&lt;/li&gt;
+&lt;li&gt;  Render components into views and mount them via view helper &amp;amp; react_ujs&lt;/li&gt;
+&lt;li&gt;  Render components server-side with prerender: true&lt;/li&gt;
+&lt;li&gt;  Generate components with a Rails generator&lt;/li&gt;
+&lt;li&gt;  Be extended with custom renderers, transformers and view helpers&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;While &lt;code&gt;react-rails&lt;/code&gt; provides easy integration with Rails, a Rails
+developer cannot leverage the full benefits of React.js, particularly
+isomorphic/&lt;a href=&quot;https://medium.com/@mjackson/universal-javascript-4761051b7ae9#.rxrgqe5wb&quot;&gt;universal&lt;/a&gt;
+domain logic code and views since different languages are used on
+server and client
+sides. &lt;a href=&quot;https://github.com/zetachang/react.rb&quot;&gt;React.rb/reactive-ruby&lt;/a&gt;
+(&lt;strong&gt;react.rb&lt;/strong&gt; from here on) builds on top of &lt;code&gt;react-rails&lt;/code&gt; by allowing
+one to write React components in Ruby, courtesy of
+&lt;a href=&quot;http://opalrb.org&quot;&gt;Opal&lt;/a&gt;.  Now the Rails programmer can also enjoy
+universal domain logic and views written in Ruby via react.js.&lt;/p&gt;
+
+&lt;p&gt;The focus of this article will be limited to just getting &lt;code&gt;react.rb&lt;/code&gt;
+up and running on Rails from scratch.&lt;/p&gt;
+&lt;h1&gt;&lt;a class=&quot;anchor&quot; name=&quot;generate-a-rails-project-that-uses-opal&quot;&gt;&lt;/a&gt;Generate a rails project that uses Opal &lt;a class=&quot;hash-link&quot; href=&quot;#generate-a-rails-project-that-uses-opal&quot;&gt;#&lt;/a&gt;&lt;/h1&gt;
+&lt;p&gt;The easiest way to create a Rails project that uses &lt;a href=&quot;http://opalrb.org&quot;&gt;Opal&lt;/a&gt; is to use the
+&lt;code&gt;--javascript=opal&lt;/code&gt; option. Manual instructions on how add Opal
+support to an existing Rails project are given on the &lt;a href=&quot;https://github.com/opal/opal-rails&quot;&gt;opal-rails&lt;/a&gt;
+site. Create a new Rails project with the following command:&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-&quot; data-lang=&quot;&quot;&gt;% rails new getting-started-react-rails --javascript=opal
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h1&gt;&lt;a class=&quot;anchor&quot; name=&quot;add-react.rb-gems-to-gemfile&quot;&gt;&lt;/a&gt;Add react.rb gems to Gemfile &lt;a class=&quot;hash-link&quot; href=&quot;#add-react.rb-gems-to-gemfile&quot;&gt;#&lt;/a&gt;&lt;/h1&gt;
+&lt;p&gt;To use &lt;code&gt;react.rb&lt;/code&gt;, you need to add 3 gems to your Gemfile:
+reactive-ruby&lt;sup&gt;&lt;a id=&quot;fnr.1&quot; class=&quot;footref&quot; href=&quot;#fn.1&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;, react-rails and therubyracer&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;    &lt;span class=&quot;n&quot;&gt;gem&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;reactive-ruby&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;0.7.29&#39;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# nail down compatible version w/ pre 0.14 react-rails&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;gem&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;react-rails&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;1.3.2&#39;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# react.rb not compatible ith 1.4.* yet so use this one&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;gem&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;opal-rails&#39;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# already added w/the --javascript=opal option&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;gem&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;therubyracer&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;platforms: :ruby&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# Required for server side prerendering&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Run &lt;code&gt;bundle install&lt;/code&gt; after these have been added to your Gemfile.&lt;/p&gt;
+&lt;h3&gt;&lt;a class=&quot;anchor&quot; name=&quot;update&quot;&gt;&lt;/a&gt;Update &lt;a class=&quot;hash-link&quot; href=&quot;#update&quot;&gt;#&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;Since this article was written there has been Rails generator code
+that has been written as a
+&lt;a href=&quot;https://rubygems.org/gems/reactrb-rails-generator&quot;&gt;standalone gem&lt;/a&gt;
+that is pending integration with react.rb gem.  Some of conventions
+described in this article, which currently match that of existing
+documentation and sample Rails project in react.rb will likely be
+changing as part of that.&lt;/p&gt;
+&lt;h1&gt;&lt;a class=&quot;anchor&quot; name=&quot;convert-application.js-to-application.js.rb&quot;&gt;&lt;/a&gt;Convert application.js to application.js.rb &lt;a class=&quot;hash-link&quot; href=&quot;#convert-application.js-to-application.js.rb&quot;&gt;#&lt;/a&gt;&lt;/h1&gt;
+&lt;p&gt;When using opal-rails, it is recommented&lt;sup&gt;&lt;a id=&quot;fnr.2&quot; class=&quot;footref&quot; href=&quot;#fn.2&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;
+to convert the application.js file to application.js.rb.  Make yours look
+like this:&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;    &lt;span class=&quot;c1&quot;&gt;# app/assets/javascripts/application.js.rb&lt;/span&gt;
+    &lt;span class=&quot;nb&quot;&gt;require&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;opal&#39;&lt;/span&gt;
+    &lt;span class=&quot;nb&quot;&gt;require&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;opal_ujs&#39;&lt;/span&gt;
+    &lt;span class=&quot;nb&quot;&gt;require&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;turbolinks&#39;&lt;/span&gt;
+    &lt;span class=&quot;nb&quot;&gt;require&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;react&#39;&lt;/span&gt;
+    &lt;span class=&quot;nb&quot;&gt;require&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;react_ujs&#39;&lt;/span&gt;
+    &lt;span class=&quot;nb&quot;&gt;require&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;components&#39;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# to include isomorphic react components on the client&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;require_tree&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;.&#39;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h1&gt;&lt;a class=&quot;anchor&quot; name=&quot;setup-for-isomorphic3-react-components&quot;&gt;&lt;/a&gt;Setup for isomorphic&lt;sup&gt;&lt;a id=&quot;fnr.3&quot; class=&quot;footref&quot; href=&quot;#fn.3&quot;&gt;3&lt;/a&gt;&lt;/sup&gt; React components &lt;a class=&quot;hash-link&quot; href=&quot;#setup-for-isomorphic3-react-components&quot;&gt;#&lt;/a&gt;&lt;/h1&gt;
+&lt;p&gt;A big perk of react.js is isomorphic code (same code on server and
+client side), which leads to A united UI layer. As mentioned before
+&lt;a href=&quot;https://github.com/reactjs/react-rails&quot;&gt;react-rails&lt;/a&gt; provides server rendered react.js components, as well as
+other perks as detailed in this &lt;a href=&quot;http://bensmithett.com/server-rendered-react-components-in-rails/&quot;&gt;this article&lt;/a&gt;.  This quote from the
+aforementioned article gives one a sense of how big a perk this is.&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;The Holy Grail. The united UI layer. Serve up real HTML on first page load, then kick off a client side JS app. All without duplicating a single line of UI code.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Those who have struggled with duplicated views on front and back ends,
+in different languages should appreciate that sentiment. To support
+isomorphic react.rb components you need to setup a structure for these
+&lt;strong&gt;shared&lt;/strong&gt; components. The current convention is to make a
+&lt;code&gt;app/views/components&lt;/code&gt; directory containing the components and a
+&lt;code&gt;components.rb&lt;/code&gt; manifest file that will require all the &lt;code&gt;react.rb&lt;/code&gt;
+components, like so:&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;    &lt;span class=&quot;c1&quot;&gt;# app/views/components.rb&lt;/span&gt;
+    &lt;span class=&quot;nb&quot;&gt;require&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;opal&#39;&lt;/span&gt;
+    &lt;span class=&quot;nb&quot;&gt;require&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;reactive-ruby&#39;&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;require_tree&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;./components&#39;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;You may have noticed that, that the &lt;code&gt;application.js.rb&lt;/code&gt; we created
+&lt;code&gt;require&lt;/code&gt;s this components.rb file to compile these universal
+&lt;code&gt;react.rb&lt;/code&gt; components.&lt;/p&gt;
+&lt;h1&gt;&lt;a class=&quot;anchor&quot; name=&quot;make-a-controller-to-demonstrate-react-components&quot;&gt;&lt;/a&gt;Make a controller to demonstrate react components &lt;a class=&quot;hash-link&quot; href=&quot;#make-a-controller-to-demonstrate-react-components&quot;&gt;#&lt;/a&gt;&lt;/h1&gt;
+&lt;p&gt;We will be demonstrating several types of components as
+examples. Let&amp;#39;s make a dedicated controller to demo these components with
+dedicated actions for each case.&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;    % rails g controller home isomorphic iso_convention search_path client_only
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h1&gt;&lt;a class=&quot;anchor&quot; name=&quot;create-your-first-react-component&quot;&gt;&lt;/a&gt;Create your first React Component &lt;a class=&quot;hash-link&quot; href=&quot;#create-your-first-react-component&quot;&gt;#&lt;/a&gt;&lt;/h1&gt;
+&lt;p&gt;So now that we&amp;#39;re setup for isomorphic components, lets make our first
+react.rb component.  We&amp;#39;ll start with a simple &amp;quot;Hello World&amp;quot;
+component.  This component takes a single, required param message of
+type &lt;code&gt;String&lt;/code&gt;. Note, param in &lt;code&gt;react.rb&lt;/code&gt; corresonds to prop in
+react.js; &lt;code&gt;react.rb&lt;/code&gt; calls props &amp;quot;params&amp;quot; to provide a more Rails
+familiar API. The component renders this message param in an &lt;strong&gt;h1&lt;/strong&gt; element,
+and renders a button that, when clicked, calls &lt;code&gt;alert()&lt;/code&gt; with the same
+message.&lt;/p&gt;
+
+&lt;p&gt;Put the following into this file &lt;strong&gt;app/views/components/hello.rb&lt;/strong&gt;:&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;    &lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Hello&lt;/span&gt;
+      &lt;span class=&quot;kp&quot;&gt;include&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;React&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Component&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;required_param&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:what&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;type: &lt;/span&gt;&lt;span class=&quot;no&quot;&gt;String&lt;/span&gt;
+
+      &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;message&lt;/span&gt;
+        &lt;span class=&quot;s2&quot;&gt;&quot;Hello &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;#{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;what&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+
+      &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;render&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+          &lt;span class=&quot;n&quot;&gt;h1&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;message&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+          &lt;span class=&quot;n&quot;&gt;button&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Press me&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;on&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:click&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;alert&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;message&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;You can render the &lt;code&gt;Hello&lt;/code&gt; component directly without needing a
+template file in your controller with
+&lt;code&gt;render_component()&lt;/code&gt;. &lt;code&gt;render_component()&lt;/code&gt; takes an optional (more on
+this later) class name of the component and any parameters you wish to
+pass the component.  Implement the &lt;code&gt;isomorphic&lt;/code&gt; action in the
+&lt;code&gt;HomeController&lt;/code&gt; like so&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;    &lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;HomeController&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;ApplicationController&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;isomorphic&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;render_component&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;Hello&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;message: &lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;World&#39;&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Start the server, then visit &lt;a href=&quot;http://localhost:3000/home/isomorphic&quot;&gt;&lt;a href=&quot;http://localhost:3000/home/isomorphic&quot;&gt;http://localhost:3000/home/isomorphic&lt;/a&gt;&lt;/a&gt; to
+view the component.  By default, react.rb prerenders the component on
+the server (the reverse of react-rails&amp;#39; &lt;code&gt;react_component()&lt;/code&gt;, but you can force Rails to NOT prerender by appending
+?no_prerender=1 to the url, like so&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-&quot; data-lang=&quot;&quot;&gt;http://localhost:3000/home/isomorphic?no_prerender=1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Let&amp;#39;s take a quick look at the HTML returned by the server in both cases (formatted to be more human-readable)&lt;/p&gt;
+
+&lt;p&gt;For &lt;a href=&quot;http://localhost:3000/home/isomorphic&quot;&gt;&lt;a href=&quot;http://localhost:3000/home/isomorphic&quot;&gt;http://localhost:3000/home/isomorphic&lt;/a&gt;&lt;/a&gt;
+we see the &lt;strong&gt;h1&lt;/strong&gt; and button rendered from the server:&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;    &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;data-react-class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;React.TopLevelRailsComponent&quot;&lt;/span&gt;
+         &lt;span class=&quot;na&quot;&gt;data-react-props=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;{&amp;amp;quot;render_params&amp;amp;quot;:{&amp;amp;quot;message&amp;amp;quot;:&amp;amp;quot;World&amp;amp;quot;},&amp;amp;quot;component_name&amp;amp;quot;:&amp;amp;quot;Hello&amp;amp;quot;,&amp;amp;quot;controller&amp;amp;quot;:&amp;amp;quot;Home&amp;amp;quot;}&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+      &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;data-reactid=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;.3hx9dqn6rk&quot;&lt;/span&gt;
+           &lt;span class=&quot;na&quot;&gt;data-react-checksum=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;487927662&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;h1&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;data-reactid=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;.3hx9dqn6rk.0&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;Hello World&lt;span class=&quot;nt&quot;&gt;&amp;lt;/h1&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;button&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;data-reactid=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;.3hx9dqn6rk.1&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;Press me&lt;span class=&quot;nt&quot;&gt;&amp;lt;/button&amp;gt;&lt;/span&gt;
+      &lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;For &lt;a href=&quot;http://localhost:3000/home/isomorphic?no_prerender=1&quot;&gt;&lt;a href=&quot;http://localhost:3000/home/isomorphic?no_prerender=1&quot;&gt;http://localhost:3000/home/isomorphic?no_prerender=1&lt;/a&gt;&lt;/a&gt;
+there is no prerendering and the rendering is done by the client&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;    &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;data-react-class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;React.TopLevelRailsComponent&quot;&lt;/span&gt;
+         &lt;span class=&quot;na&quot;&gt;data-react-props=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;{&amp;amp;quot;render_params&amp;amp;quot;:{&amp;amp;quot;message&amp;amp;quot;:&amp;amp;quot;World&amp;amp;quot;},&amp;amp;quot;component_name&amp;amp;quot;:&amp;amp;quot;Hello&amp;amp;quot;,&amp;amp;quot;controller&amp;amp;quot;:&amp;amp;quot;Home&amp;amp;quot;}&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h1&gt;&lt;a class=&quot;anchor&quot; name=&quot;rails-conventions-isomorphic-i.e.-universal-components-and-the-default-component&quot;&gt;&lt;/a&gt;Rails conventions, isomorphic (i.e. universal) components and the &amp;quot;default&amp;quot; component &lt;a class=&quot;hash-link&quot; href=&quot;#rails-conventions-isomorphic-i.e.-universal-components-and-the-default-component&quot;&gt;#&lt;/a&gt;&lt;/h1&gt;
+&lt;p&gt;In the Rails tradition of convention over configuration, you can
+structure/name your components to match your controllers to support a
+&amp;quot;default&amp;quot; component, i.e. a component you do NOT need to specify, for
+a controller action. To make a default component for the
+&lt;code&gt;HomeController#iso_convention&lt;/code&gt; action, create the following file:&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;    &lt;span class=&quot;c1&quot;&gt;# app/views/components/home/iso_convention.rb&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;module&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;Components&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;module&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;Home&lt;/span&gt;
+          &lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;IsoConvention&lt;/span&gt;
+            &lt;span class=&quot;kp&quot;&gt;include&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;React&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Component&lt;/span&gt;
+
+            &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;render&lt;/span&gt;
+              &lt;span class=&quot;n&quot;&gt;h1&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;the message is: &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;#{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;params&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:message&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+          &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;We now call &lt;code&gt;render_component()&lt;/code&gt; in the action, passing only the
+desired params in the action.  &lt;code&gt;render_component()&lt;/code&gt; will instantiate
+the &lt;strong&gt;default&lt;/strong&gt; component.&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;    &lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;HomeController&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;ApplicationController&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;iso_convention&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;render_component&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;message: &lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;World&#39;&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Browsing &lt;a href=&quot;http://localhost:3000/home/iso_convention&quot;&gt;&lt;a href=&quot;http://localhost:3000/home/iso_convention&quot;&gt;http://localhost:3000/home/iso_convention&lt;/a&gt;&lt;/a&gt;
+will render the &lt;code&gt;Components::Home::IsoConvention&lt;/code&gt; component&lt;/p&gt;
+&lt;h1&gt;&lt;a class=&quot;anchor&quot; name=&quot;the-component-search-path&quot;&gt;&lt;/a&gt;The component search path &lt;a class=&quot;hash-link&quot; href=&quot;#the-component-search-path&quot;&gt;#&lt;/a&gt;&lt;/h1&gt;
+&lt;p&gt;For consistency, you should stick with the Rails directory and
+filename conventions. There is some flexibility in where you can
+place components. The search path for isomorphic components in
+react.rb is described here: &lt;a href=&quot;https://github.com/zetachang/react.rb#changing-the-top-level-component-name-and-search-path&quot;&gt;here&lt;/a&gt; which writes:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Changing the top level component name and search path&lt;/p&gt;
+
+&lt;p&gt;You can control the top level component name and search path.&lt;/p&gt;
+
+&lt;p&gt;You can specify the component name explicitly in the
+render_component method. render_component &amp;quot;Blatz will search the
+for a component class named Blatz regardless of the controller
+method.&lt;/p&gt;
+
+&lt;p&gt;Searching for components normally works like this: Given a
+controller named &amp;quot;Foo&amp;quot; then the component should be either in the
+Components::Foo module, the Components module (no controller -
+useful if you have just a couple of shared components) or just the
+outer scope (i.e. Module) which is useful for small apps.&lt;/p&gt;
+
+&lt;p&gt;Saying render_component &amp;quot;::Blatz&amp;quot; will only search the outer scope,
+while &amp;quot;::Foo::Blatz&amp;quot; will look only in the module Foo for a class
+named Blatz.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h1&gt;&lt;a class=&quot;anchor&quot; name=&quot;exploring-the-component-search-path&quot;&gt;&lt;/a&gt;Exploring the component search path &lt;a class=&quot;hash-link&quot; href=&quot;#exploring-the-component-search-path&quot;&gt;#&lt;/a&gt;&lt;/h1&gt;
+&lt;p&gt;Let&amp;#39;s play around with several components that have the same class name and
+see how the search path resolves which component to use.  Create the
+file below:&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;app/views/components/search_path.rb&lt;/code&gt;&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;      &lt;span class=&quot;c1&quot;&gt;# This class departs from 1 class/file and diretory&lt;/span&gt;
+      &lt;span class=&quot;c1&quot;&gt;# structure/convention, using this to test search path&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;SearchPath&lt;/span&gt;
+      &lt;span class=&quot;kp&quot;&gt;include&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;React&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Component&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;render&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;h1&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;::SearchPath&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;module&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;Home&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;SearchPath&lt;/span&gt;
+        &lt;span class=&quot;kp&quot;&gt;include&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;React&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Component&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;render&lt;/span&gt;
+          &lt;span class=&quot;n&quot;&gt;h1&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Home::SearchPath&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;module&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;Components&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;SearchPath&lt;/span&gt;
+        &lt;span class=&quot;kp&quot;&gt;include&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;React&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Component&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;render&lt;/span&gt;
+          &lt;span class=&quot;n&quot;&gt;h2&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;Components::SearchPath&#39;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;module&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;Components&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;module&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;Home&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;SearchPath&lt;/span&gt;
+          &lt;span class=&quot;kp&quot;&gt;include&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;React&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Component&lt;/span&gt;
+          &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;render&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;h2&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;Components::Home::SearchPath&#39;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+          &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;To render the &amp;quot;default&amp;quot; component, we can just call &lt;code&gt;render_component()&lt;/code&gt;:&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;    &lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;HomeController&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;ApplicationController&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;search_path&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;render_component&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Hitting &lt;a href=&quot;http://localhost:3000/home/search_path&quot;&gt;&lt;a href=&quot;http://localhost:3000/home/search_path&quot;&gt;http://localhost:3000/home/search_path&lt;/a&gt;&lt;/a&gt; the component rendered
+&lt;code&gt;Home::SearchPath&lt;/code&gt; as evidenced by the text in the H1 element.&lt;/p&gt;
+
+&lt;p&gt;Specifying the component by unqualified class name in &lt;code&gt;render_component()&lt;/code&gt;, yields the same result: &lt;code&gt;Home::SearchPath=&lt;/code&gt;&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;    &lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;HomeController&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;ApplicationController&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;search_path&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;render_component&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;SearchPath&quot;&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;We can explore what will be found next the search path by changing the
+found component&amp;#39;s name to &lt;code&gt;SearchPath1&lt;/code&gt;, and then refreshing
+&lt;a href=&quot;http://localhost:3000/home/search_path&quot;&gt;http://localhost:3000/home/search_path&lt;/a&gt; to see which component is
+found.  Doing this for each found component gets the following
+results:&lt;/p&gt;
+
+&lt;table style=&#39;border:2px black; borderspacing: 4px; &#39; cellspacing=&quot;0&quot; cellpadding=&quot;6&quot; rules=&quot;groups&quot; frame=&quot;hsides&quot;&gt;
+
+
+&lt;colgroup&gt;
+&lt;col  class=&quot;org-left&quot; /&gt;
+
+&lt;col  class=&quot;org-left&quot; /&gt;
+&lt;/colgroup&gt;
+&lt;thead&gt;
+&lt;tr style=&#39;border:2px solid black; padding: 4px; &#39;&gt;
+&lt;th style=&#39;border:2px solid black; padding: 4px; &#39;scope=&quot;col&quot; class=&quot;org-left&quot;&gt;Class name changed from SearchPath&lt;/th&gt;
+&lt;th style=&#39;border:2px solid black; padding: 4px; &#39;scope=&quot;col&quot; class=&quot;org-left&quot;&gt;Component Rendered by search path&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr style=&#39;border:2px solid black; padding: 4px; &#39;&gt;
+&lt;td style=&#39;border:2px solid black; padding: 4px; &#39;class=&quot;org-left&quot;&gt;none&lt;/td&gt;
+&lt;td style=&#39;border:2px solid black; padding: 4px; &#39;class=&quot;org-left&quot;&gt;Home::SearchPath&lt;/td&gt;
+&lt;/tr&gt;
+
+
+&lt;tr style=&#39;border:2px solid black; padding: 4px; &#39;&gt;
+&lt;td style=&#39;border:2px solid black; padding: 4px; &#39;class=&quot;org-left&quot;&gt;Home::SearchPath&lt;/td&gt;
+&lt;td style=&#39;border:2px solid black; padding: 4px; &#39;class=&quot;org-left&quot;&gt;Components::Home::SearchPath&lt;/td&gt;
+&lt;/tr&gt;
+
+
+&lt;tr style=&#39;border:2px solid black; padding: 4px; &#39;&gt;
+&lt;td style=&#39;border:2px solid black; padding: 4px; &#39;class=&quot;org-left&quot;&gt;Components::Home::SearchPath&lt;/td&gt;
+&lt;td style=&#39;border:2px solid black; padding: 4px; &#39;class=&quot;org-left&quot;&gt;::SearchPath&lt;/td&gt;
+&lt;/tr&gt;
+
+
+&lt;tr style=&#39;border:2px solid black; padding: 4px; &#39;&gt;
+&lt;td style=&#39;border:2px solid black; padding: 4px; &#39;class=&quot;org-left&quot;&gt;::SearchPath&lt;/td&gt;
+&lt;td style=&#39;border:2px solid black; padding: 4px; &#39;class=&quot;org-left&quot;&gt;Components::SearchPath&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;If we rename all the &lt;code&gt;SearchPath1&lt;/code&gt; classes back to &lt;code&gt;SearchPath&lt;/code&gt;, we
+can force the search path to find our desired component by specifying
+the full namespace in the &lt;code&gt;render_component()&lt;/code&gt; call&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;    &lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;HomeController&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;ApplicationController&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;search_path&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;render_component&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;SearchPath&quot;&lt;/span&gt;
+        &lt;span class=&quot;c1&quot;&gt;# render_component &quot;Components::SearchPath&quot;&lt;/span&gt;
+        &lt;span class=&quot;c1&quot;&gt;# render_component &quot;Components::Home::SearchPath&quot;&lt;/span&gt;
+        &lt;span class=&quot;c1&quot;&gt;# render_component &quot;Home::SearchPath&quot;&lt;/span&gt;
+        &lt;span class=&quot;c1&quot;&gt;# render_component &quot;::SearchPath&quot;&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h1&gt;&lt;a class=&quot;anchor&quot; name=&quot;directory-conventions-for-react-rails-opal-and-react.rb&quot;&gt;&lt;/a&gt;Directory conventions for react-rails, Opal and react.rb &lt;a class=&quot;hash-link&quot; href=&quot;#directory-conventions-for-react-rails-opal-and-react.rb&quot;&gt;#&lt;/a&gt;&lt;/h1&gt;
+&lt;p&gt;The &lt;strong&gt;react-rails&lt;/strong&gt; Javascript component generators create react.js
+components in the &lt;code&gt;app/assets/javascripts/components&lt;/code&gt; directory.  This
+makes sense, esp. since Rails out of the box does NOT support
+isomorphic code and views; hence this directoy is a logical and
+&amp;quot;Rails-like&amp;quot; place for Javascript to go.  Similarly, if you are just
+using opal-rails and not not react.rb, then by convention, your &lt;code&gt;Opal&lt;/code&gt;
+code will be placed under &lt;code&gt;app/assets/javascripts&lt;/code&gt; where the asset
+pipeline knows how to find and transpile the &lt;code&gt;Opal&lt;/code&gt; files to Javascript.
+React.rb challenges these directory conventions.  As react.js is often
+called the &lt;strong&gt;V&lt;/strong&gt; of &lt;strong&gt;MVC&lt;/strong&gt;, then it makes sense for react.rb components
+to live under the &lt;code&gt;app/views/components&lt;/code&gt; directory, esp. as they can
+also be rendered on the server.  React.rb is young, and conventions
+may change, but at the momemnt this is the prescribed convention.&lt;/p&gt;
+
+&lt;p&gt;You can create react.rb components more in line with react-rails and
+Opal conventions by placing them somewhere under the
+&lt;code&gt;app/assets/javascripts&lt;/code&gt; directory. The Opal files will be found by
+Rails anywhere that the asset pipeline is configured to find
+javascript files for both server and client rendering, but I would
+recommend a structure similar to how react-rails, i.e. in
+&lt;code&gt;app/assets/javascripts/components&lt;/code&gt; to make them easy to find.&lt;/p&gt;
+
+&lt;p&gt;Let&amp;#39;s put the &amp;quot;client side only&amp;quot; component into
+&lt;code&gt;app/assets/javascripts&lt;/code&gt;. Since Opal will find the file anywhere the
+asset pipeline knows to look, this would be more for organizational
+conventions rather than a configuration necessary to make it work.&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;    &lt;span class=&quot;c1&quot;&gt;# app/assets/javascripts/components/client_only.rb&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;ClientOnly&lt;/span&gt;
+      &lt;span class=&quot;kp&quot;&gt;include&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;React&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Component&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;required_param&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:message&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;type: &lt;/span&gt;&lt;span class=&quot;no&quot;&gt;String&lt;/span&gt;
+
+      &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;render&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;h1&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Client only: &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;#{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;params&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:message&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Then in the template for the &lt;code&gt;client_only&lt;/code&gt; action , you can render the
+component client side via the &lt;code&gt;react_component()&lt;/code&gt; view helper provided
+by react-rails. Since react.rb wraps calls to react.js, the components
+become react.js components.&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;    &lt;span class=&quot;nt&quot;&gt;&amp;lt;h1&amp;gt;&lt;/span&gt;Home#client_only&lt;span class=&quot;nt&quot;&gt;&amp;lt;/h1&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;p&amp;gt;&lt;/span&gt;Find me in app/views/home/client_only.html.erb&lt;span class=&quot;nt&quot;&gt;&amp;lt;/p&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;err&quot;&gt;&amp;lt;&lt;/span&gt;%= react_component &#39;ClientOnly&#39;, message: &#39;World&#39; %&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h1&gt;&lt;a class=&quot;anchor&quot; name=&quot;thats-all-for-now.&quot;&gt;&lt;/a&gt;That&amp;#39;s all for now. &lt;a class=&quot;hash-link&quot; href=&quot;#thats-all-for-now.&quot;&gt;#&lt;/a&gt;&lt;/h1&gt;
+&lt;p&gt;So now you have a Rails project with react.rb running with several
+examples of react.rb components. All of this code exists in a rails
+project
+&lt;a href=&quot;https://github.com/fkchang/getting-started-react-rails&quot;&gt;here.&lt;/a&gt; This
+should be enough to get one started.  Enjoy react.rb and Rails!&lt;/p&gt;
+
+&lt;h2 class=&quot;footnotes&quot;&gt;Footnotes: &lt;/h2&gt;
+
+&lt;div class=&quot;footdef&quot;&gt;&lt;sup&gt;&lt;a id=&quot;fn.1&quot; class=&quot;footnum&quot; href=&quot;#fnr.1&quot;&gt;1&lt;/a&gt;&lt;/sup&gt; &lt;div class=&quot;footpara&quot;&gt;reactive-ruby will fold back into react.rb with the 0.9.0 versions (currently at 0.7.36).  Plans are discussed in the react.rb [roadmap](https://github.com/zetachang/react.rb#road-map)&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class=&quot;footdef&quot;&gt;&lt;sup&gt;&lt;a id=&quot;fn.2&quot; class=&quot;footnum&quot; href=&quot;#fnr.2&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;
+    &lt;div class=&quot;footpara&quot;&gt;A change was made starting with Opal 0.8.\*, to support ordered
+requires. If one wishes to continue to use application.js instead
+application.rb, one needs to manually load each opal file in the
+application.js, as below.  Use of application.rb will automatically load the files in question
+&lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;c1&quot;&gt;// application.js&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;//= require opal&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;//= require greeter&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;//= require_self&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;Opal&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;load&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;greeter&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// you have to load the opal file&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// etc.&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div class=&quot;footdef&quot;&gt;&lt;sup&gt;&lt;a id=&quot;fn.3&quot; class=&quot;footnum&quot; href=&quot;#fnr.3&quot;&gt;3&lt;/a&gt;&lt;/sup&gt; &lt;div class=&quot;footpara&quot;&gt;While the pattern is that universal will be taking the place of isomorphic, I will use the term isomorphic here because the react.rb docs refer to it as isomorphic&lt;/div&gt;&lt;/div&gt;
+</description>
+				<pubDate>2016-01-26T00:00:00-08:00</pubDate>
+				<link>https://facebook.github.io//blog/2016/01/26/getting-started-with-rails.html</link>
+				<guid isPermaLink="true">https://facebook.github.io//blog/2016/01/26/getting-started-with-rails.html</guid>
+			</item>
+		
+			<item>
 				<title>Reactive-Ruby v0.7.32</title>
 				<description>&lt;p&gt;As we march towards the next official release of react.rb, we wanted to make some syntactic improvements to the component macros and methods.  The overall
 intent is to make react.rb more &lt;em&gt;ruby&lt;/em&gt; like, and reduce syntactic noise, while maintaining ties to react.js.&lt;/p&gt;
@@ -31,16 +442,16 @@ intent is to make react.rb more &lt;em&gt;ruby&lt;/em&gt; like, and reduce synta
 &lt;p&gt;To access state variables and params you must now prefix with the &lt;code&gt;state&lt;/code&gt;and &lt;code&gt;param&lt;/code&gt; methods.&lt;/p&gt;
 
 &lt;p&gt;While adding some typing it solves two problems:  First it avoids shadowing dsl methods such as &lt;code&gt;label&lt;/code&gt;, and secondly it makes the code more readable.&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;n&quot;&gt;state&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;items&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;# items without the state prefix is deprecated&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;state&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;items!&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# likewise for updating state&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;params&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;user&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;# user without the params prefix is deprecated&lt;/span&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;n&quot;&gt;state&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;items&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;# items without the state prefix is deprecated&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;state&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;items!&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# likewise for updating state&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;params&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;user&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;# user without the params prefix is deprecated&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
 &lt;li&gt;&lt;h4&gt;&lt;a class=&quot;anchor&quot; name=&quot;simplified-param-declarations&quot;&gt;&lt;/a&gt;Simplified Param Declarations &lt;a class=&quot;hash-link&quot; href=&quot;#simplified-param-declarations&quot;&gt;#&lt;/a&gt;&lt;/h4&gt;
 &lt;p&gt;Instead of &lt;code&gt;optional_param&lt;/code&gt;, and &lt;code&gt;required_param&lt;/code&gt;, both macros have been replaced by &lt;code&gt;param&lt;/code&gt;.&lt;/p&gt;
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;n&quot;&gt;param&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:foo&lt;/span&gt;             &lt;span class=&quot;c1&quot;&gt;# instead of required_param :foo&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;param&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;bar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;12&lt;/span&gt;          &lt;span class=&quot;c1&quot;&gt;# instead of optional_param :foo, default: 12&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;param&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:bar&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;default&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;12&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# slightly longer but more explicit&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;param&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:foo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;type&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Hash&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# type spec works the same&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;param&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;bar: &lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;12&lt;/span&gt;          &lt;span class=&quot;c1&quot;&gt;# instead of optional_param :foo, default: 12&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;param&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:bar&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;default: &lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;12&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# slightly longer but more explicit&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;param&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:foo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;type: &lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Hash&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# type spec works the same&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;Both &lt;code&gt;optional_param&lt;/code&gt; and &lt;code&gt;required_param&lt;/code&gt; (and the plural aliases) are deprecated.&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;h4&gt;&lt;a class=&quot;anchor&quot; name=&quot;implicit-state-variable-creation&quot;&gt;&lt;/a&gt;Implicit State Variable Creation &lt;a class=&quot;hash-link&quot; href=&quot;#implicit-state-variable-creation&quot;&gt;#&lt;/a&gt;&lt;/h4&gt;
@@ -49,7 +460,7 @@ intent is to make react.rb more &lt;em&gt;ruby&lt;/em&gt; like, and reduce synta
 &lt;p&gt;The rationale is to make state variables more like instance variables.  And like instance variables, good style would ask that all state variables be initialized in the &lt;code&gt;before_mount&lt;/code&gt; callback. At this time it has not been determined if define_state will be deprecated, but you are strongly encouraged not to use it, or provide feedback.&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;h4&gt;&lt;a class=&quot;anchor&quot; name=&quot;simplified-component-mounting-with-jquery&quot;&gt;&lt;/a&gt;Simplified Component Mounting with JQuery &lt;a class=&quot;hash-link&quot; href=&quot;#simplified-component-mounting-with-jquery&quot;&gt;#&lt;/a&gt;&lt;/h4&gt;
 &lt;p&gt;The jQuery wrapper class &lt;code&gt;Element&lt;/code&gt; now has a &lt;code&gt;render&lt;/code&gt; method.&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;no&quot;&gt;Element&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;#container&amp;#39;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;render&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;hello&amp;quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;no&quot;&gt;Element&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;#container&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;render&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;hello&quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;The &lt;code&gt;render&lt;/code&gt; method takes a block, and mounts the react element generated by the block into the first dom element in the jQuery result.&lt;/p&gt;
 

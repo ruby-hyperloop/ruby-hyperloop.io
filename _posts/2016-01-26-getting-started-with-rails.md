@@ -58,7 +58,7 @@ Run `bundle install` after these have been added to your Gemfile.
 
 Since this article was written there has been Rails generator code
 that has been written as a
-[standalone gem](https://rubygems.org/gems/reactive_rails_generator)
+[standalone gem](https://rubygems.org/gems/reactrb-rails-generator)
 that is pending integration with react.rb gem.  Some of conventions
 described in this article, which currently match that of existing
 documentation and sample Rails project in react.rb will likely be
@@ -137,11 +137,11 @@ Put the following into this file **app/views/components/hello.rb**:
     class Hello
       include React::Component
       required_param :what, type: String
-    
+
       def message
         "Hello #{what}"
       end
-    
+
       def render
         div {
           h1 { message }
@@ -165,7 +165,7 @@ pass the component.  Implement the `isomorphic` action in the
       end
     end
 ```
-    
+
 Start the server, then visit [<http://localhost:3000/home/isomorphic>](http://localhost:3000/home/isomorphic) to
 view the component.  By default, react.rb prerenders the component on
 the server (the reverse of react-rails' `react_component()`, but you can force Rails to NOT prerender by appending
@@ -210,7 +210,7 @@ a controller action. To make a default component for the
         module Home
           class IsoConvention
             include React::Component
-    
+
             def render
               h1 { "the message is: #{params[:message]}" }
             end
@@ -218,7 +218,7 @@ a controller action. To make a default component for the
         end
       end
 ```
-      
+
 We now call `render_component()` in the action, passing only the
 desired params in the action.  `render_component()` will instantiate
 the **default** component.
@@ -230,7 +230,7 @@ the **default** component.
       end
     end
 ```
-    
+
 Browsing [<http://localhost:3000/home/iso_convention>](http://localhost:3000/home/iso_convention)
 will render the `Components::Home::IsoConvention` component
 
@@ -242,20 +242,20 @@ place components. The search path for isomorphic components in
 react.rb is described here: [here](https://github.com/zetachang/react.rb#changing-the-top-level-component-name-and-search-path) which writes:
 
 > Changing the top level component name and search path
-> 
+>
 > You can control the top level component name and search path.
-> 
+>
 > You can specify the component name explicitly in the
 > render\_component method. render\_component "Blatz will search the
 > for a component class named Blatz regardless of the controller
 > method.
-> 
+>
 > Searching for components normally works like this: Given a
 > controller named "Foo" then the component should be either in the
 > Components::Foo module, the Components module (no controller -
 > useful if you have just a couple of shared components) or just the
 > outer scope (i.e. Module) which is useful for small apps.
-> 
+>
 > Saying render\_component "::Blatz" will only search the outer scope,
 > while "::Foo::Blatz" will look only in the module Foo for a class
 > named Blatz.
@@ -271,14 +271,14 @@ file below:
 ```ruby
       # This class departs from 1 class/file and diretory
       # structure/convention, using this to test search path
-    
+
     class SearchPath
       include React::Component
       def render
         h1 {"::SearchPath"}
       end
     end
-    
+
     module Home
       class SearchPath
         include React::Component
@@ -287,7 +287,7 @@ file below:
         end
       end
     end
-    
+
     module Components
       class SearchPath
         include React::Component
@@ -296,7 +296,7 @@ file below:
         end
       end
     end
-    
+
     module Components
       module Home
         class SearchPath
@@ -308,7 +308,7 @@ file below:
       end
     end
 ```
-    
+
 To render the "default" component, we can just call `render_component()`:
 
 ```ruby
@@ -318,7 +318,7 @@ To render the "default" component, we can just call `render_component()`:
       end
     end
 ```
-    
+
 Hitting [<http://localhost:3000/home/search_path>](http://localhost:3000/home/search_path) the component rendered
 `Home::SearchPath` as evidenced by the text in the H1 element.
 
@@ -337,7 +337,7 @@ found component's name to `SearchPath1`, and then refreshing
 <http://localhost:3000/home/search_path> to see which component is
 found.  Doing this for each found component gets the following
 results:
- 
+
 <table style='border:2px black; borderspacing: 4px; ' cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -394,7 +394,7 @@ the full namespace in the `render_component()` call
       end
     end
 ```
-    
+
 # Directory conventions for react-rails, Opal and react.rb
 
 The **react-rails** Javascript component generators create react.js
@@ -429,13 +429,13 @@ conventions rather than a configuration necessary to make it work.
     class ClientOnly
       include React::Component
       required_param :message, type: String
-    
+
       def render
         h1 { "Client only: #{params[:message]}" }
       end
     end
 ```
-    
+
 Then in the template for the `client_only` action , you can render the
 component client side via the `react_component()` view helper provided
 by react-rails. Since react.rb wraps calls to react.js, the components
@@ -474,8 +474,6 @@ application.js, as below.  Use of application.rb will automatically load the fil
 Opal.load('greeter'); // you have to load the opal file
 // etc.
 ```
-    
+
 
 <div class="footdef"><sup><a id="fn.3" class="footnum" href="#fnr.3">3</a></sup> <div class="footpara">While the pattern is that universal will be taking the place of isomorphic, I will use the term isomorphic here because the react.rb docs refer to it as isomorphic</div></div>
-
-

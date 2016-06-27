@@ -19,7 +19,7 @@ end
 Element['#timer-target'].render { Ticker() }
 `;
 
-React.render(
+ReactDOM.render(
   <ReactPlayground codeText={TIMER_COMPONENT} elementId="timer-target" />,
   document.getElementById('timerExample')
 );

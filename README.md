@@ -27,7 +27,7 @@ $ npm install
 ### Building the Playground
 
 ```sh
-$ bundle update reactive-ruby # as needed
+$ bundle update reactrb # as needed
 $ bundle exec rake build_reactive_playground
 ```
 

@@ -1,8 +1,8 @@
 ---
 id: tutorial
 title: Tutorial
-prev: getting-started.html
-next: thinking-in-react.html
+prev: docs/getting-started.html
+next: docs/thinking-in-react.html
 ---
 
 We'll be building a simple but realistic chat application, a basic version of a chat room offered by a service like gitter.im.  
@@ -40,7 +40,7 @@ It will also have a few neat features:
     <title>Hello React</title>
     <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.5/marked.min.js"></script>
-    <script src="https://rawgit.com/reactive-ruby/inline-reactive-ruby/master/inline-reactive-ruby.js"></script>
+    <script src="https://rawgit.com/reactrb/reactrb-express/master/reactrb-express.js"></script>
     <script src="https://reactrb.github.io/react/js/test_chat_service.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
@@ -788,7 +788,7 @@ We will use **Bootstrap** styles, which has already been included.  We just need
     height: 50px;
     margin-right: 8px;
     background-size: contain;
-    background-image: url("http://reactive-ruby.github.io/react/img/logo_svg.png");
+    background-image: url("http://reactrb.github.io/react/img/logo_svg.png");
 }
 ```
 
@@ -1112,13 +1112,13 @@ Now that you are all done make sure you change from the test fixture so your app
 Update this line in the html header
 
 ```HTML
-<script src="https://reactive-ruby.github.io/react/js/test_chat_service.js"></script>
+<script src="https://reactrb.github.io/react/js/test_chat_service.js"></script>
 ```
 
 to read
 
 ```HTML
-<script src="https://reactive-ruby.github.io/react/js/chat_service.js"></script>
+<script src="https://reactrb.github.io/react/js/chat_service.js"></script>
 ```
 
 and you will be sending and receiving messages from the chat server.  Try opening your a second browser window to get the full experience.
