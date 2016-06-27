@@ -3,7 +3,7 @@ id: why-react
 title: Why React?
 permalink: why-react.html
 next: displaying-data.html
-prev: thinking-in-react.html
+prev: docs/thinking-in-react.html
 underconstruction: true
 ---
 Reactrb is a wrapper for the React.js library for creating user interfaces.  Reactrb provides all the goodness of React combined with the expressiveness of the Ruby language.   
