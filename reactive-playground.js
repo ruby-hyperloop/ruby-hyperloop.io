@@ -56553,9 +56553,9 @@ Opal.modules["react/component/base"] = function(Opal) {
 Opal.modules["react/top_level"] = function(Opal) {
   Opal.dynamic_require_severity = "error";
   var OPAL_CONFIG = { method_missing: true, arity_check: false, freezing: true, tainting: true };
-  var $a, $b, TMP_7, self = Opal.top, $scope = Opal, nil = Opal.nil, $breaker = Opal.breaker, $slice = Opal.slice, $module = Opal.module, $hash2 = Opal.hash2, $klass = Opal.klass;
+  var $a, $b, TMP_7, self = Opal.top, $scope = Opal, nil = Opal.nil, $breaker = Opal.breaker, $slice = Opal.slice, $module = Opal.module, $hash2 = Opal.hash2;
 
-  Opal.add_stubs(['$require', '$create_element', '$to_proc', '$!', '$Native', '$to_n', '$raise', '$include', '$class', '$kind_of?', '$build', '$const_defined?', '$instance_eval', '$respond_to?', '$dom_node', '$find', '$define_method', '$render', '$new']);
+  Opal.add_stubs(['$require', '$create_element', '$to_proc', '$!', '$Native', '$to_n', '$raise', '$include', '$class', '$kind_of?', '$build', '$const_defined?', '$instance_eval', '$respond_to?', '$dom_node', '$find', '$define_method', '$new', '$class_eval', '$render']);
   self.$require("native");
   self.$require("active_support");
   self.$require("react/component/base");
@@ -56564,9 +56564,9 @@ Opal.modules["react/top_level"] = function(Opal) {
 
     var def = self.$$proto, $scope = self.$$scope, TMP_1, TMP_2;
 
-    Opal.cdecl($scope, 'HTML_TAGS', ["a", "abbr", "address", "area", "article", "aside", "audio", "b", "base", "bdi", "bdo", "big", "blockquote", "body", "br", "button", "canvas", "caption", "cite", "code", "col", "colgroup", "data", "datalist", "dd", "del", "details", "dfn", "dialog", "div", "dl", "dt", "em", "embed", "fieldset", "figcaption", "figure", "footer", "form", "h1", "h2", "h3", "h4", "h5", "h6", "head", "header", "hr", "html", "i", "iframe", "img", "input", "ins", "kbd", "keygen", "label", "legend", "li", "link", "main", "map", "mark", "menu", "menuitem", "meta", "meter", "nav", "noscript", "object", "ol", "optgroup", "option", "output", "p", "param", "picture", "pre", "progress", "q", "rp", "rt", "ruby", "s", "samp", "script", "section", "select", "small", "source", "span", "strong", "style", "sub", "summary", "sup", "table", "tbody", "td", "textarea", "tfoot", "th", "thead", "time", "title", "tr", "track", "u", "ul", "var", "video", "wbr"]);
-
     Opal.cdecl($scope, 'ATTRIBUTES', ["accept", "acceptCharset", "accessKey", "action", "allowFullScreen", "allowTransparency", "alt", "async", "autoComplete", "autoPlay", "cellPadding", "cellSpacing", "charSet", "checked", "classID", "className", "cols", "colSpan", "content", "contentEditable", "contextMenu", "controls", "coords", "crossOrigin", "data", "dateTime", "defer", "dir", "disabled", "download", "draggable", "encType", "form", "formAction", "formEncType", "formMethod", "formNoValidate", "formTarget", "frameBorder", "height", "hidden", "href", "hrefLang", "htmlFor", "httpEquiv", "icon", "id", "label", "lang", "list", "loop", "manifest", "marginHeight", "marginWidth", "max", "maxLength", "media", "mediaGroup", "method", "min", "multiple", "muted", "name", "noValidate", "open", "pattern", "placeholder", "poster", "preload", "radioGroup", "readOnly", "rel", "required", "role", "rows", "rowSpan", "sandbox", "scope", "scrolling", "seamless", "selected", "shape", "size", "sizes", "span", "spellCheck", "src", "srcDoc", "srcSet", "start", "step", "style", "tabIndex", "target", "title", "type", "useMap", "value", "width", "wmode", "dangerouslySetInnerHTML"]);
+
+    Opal.cdecl($scope, 'HASH_ATTRIBUTES', ["data", "aria"]);
 
     Opal.defs(self, '$create_element', TMP_1 = function(type, properties) {
       var $a, $b, self = this, $iter = TMP_1.$$p, block = $iter || nil;
@@ -56655,22 +56655,7 @@ Opal.modules["react/top_level"] = function(Opal) {
   if ((($a = $scope.get('Object')['$const_defined?']("Element")) !== nil && (!$a.$$is_boolean || $a == true))) {
     return ($a = ($b = $scope.get('Element')).$instance_eval, $a.$$p = (TMP_7 = function(){var self = TMP_7.$$s || this, $a, $b, TMP_8;
 
-    (function($base, $super) {
-        function $Element(){};
-        var self = $Element = $klass($base, $super, 'Element', $Element);
-
-        var def = self.$$proto, $scope = self.$$scope;
-
-        return (function($base, $super) {
-          function $DummyContext(){};
-          var self = $DummyContext = $klass($base, $super, 'DummyContext', $DummyContext);
-
-          var def = self.$$proto, $scope = self.$$scope;
-
-          return nil;
-        })($scope.base, (((($scope.get('React')).$$scope.get('Component'))).$$scope.get('Base')))
-      })($scope.base, null);
-      Opal.defs(self, '$find', function(selector) {
+    Opal.defs(self, '$find', function(selector) {
         var $a, self = this;
 
         if ((($a = selector['$respond_to?']("dom_node")) !== nil && (!$a.$$is_boolean || $a == true))) {
@@ -56691,12 +56676,14 @@ Opal.modules["react/top_level"] = function(Opal) {
 
         return self.$find(selector);
       });
-      return ($a = ($b = self).$define_method, $a.$$p = (TMP_8 = function(){var self = TMP_8.$$s || this, block, $a, $b, TMP_9;
-
+      return ($a = ($b = self).$define_method, $a.$$p = (TMP_8 = function(container, params){var self = TMP_8.$$s || this, block, $a, $b, TMP_9, klass = nil;
+if (container == null) container = nil;if (params == null) params = $hash2([], {});
         block = TMP_8.$$p || nil, TMP_8.$$p = null;
-      return $scope.get('React').$render(($a = ($b = (($scope.get('React')).$$scope.get('RenderingContext'))).$render, $a.$$p = (TMP_9 = function(){var self = TMP_9.$$s || this, $a, $b;
+      klass = $scope.get('Class').$new((((($scope.get('React')).$$scope.get('Component'))).$$scope.get('Base')));
+        ($a = ($b = klass).$class_eval, $a.$$p = (TMP_9 = function(){var self = TMP_9.$$s || this, $a, $b;
 
-        return ($a = ($b = ((Opal.get('Element')).$$scope.get('DummyContext')).$new()).$instance_eval, $a.$$p = block.$to_proc(), $a).call($b)}, TMP_9.$$s = self, TMP_9), $a).call($b, nil), self)}, TMP_8.$$s = self, TMP_8), $a).call($b, "render");}, TMP_7.$$s = self, TMP_7), $a).call($b)
+        return ($a = ($b = self).$render, $a.$$p = block.$to_proc(), $a).call($b, container, params)}, TMP_9.$$s = self, TMP_9), $a).call($b);
+        return $scope.get('React').$render($scope.get('React').$create_element(klass), self);}, TMP_8.$$s = self, TMP_8), $a).call($b, "render");}, TMP_7.$$s = self, TMP_7), $a).call($b)
     } else {
     return nil
   };
@@ -56924,7 +56911,7 @@ Opal.modules["react/rendering_context"] = function(Opal) {
   }
   var self = Opal.top, $scope = Opal, nil = Opal.nil, $breaker = Opal.breaker, $slice = Opal.slice, $module = Opal.module, $klass = Opal.klass;
 
-  Opal.add_stubs(['$attr_accessor', '$to_n', '$build', '$render', '$to_proc', '$remove_nodes_from_args', '$waiting_on_resources', '$waiting_on_resources=', '$call', '$!', '$>', '$count', '$==', '$!=', '$last', '$is_a?', '$respond_to?', '$acts_as_string?', '$raise', '$<<', '$to_s', '$dup', '$tap', '$detect', '$create_element', '$span', '$delete', '$alias_method', '$[]=', '$index', '$[]', '$each', '$as_node', '$define_method', '$unshift', '$method_missing']);
+  Opal.add_stubs(['$attr_accessor', '$deprecation_warning', '$to_n', '$build', '$render', '$to_proc', '$remove_nodes_from_args', '$waiting_on_resources', '$waiting_on_resources=', '$call', '$!', '$>', '$count', '$==', '$!=', '$last', '$is_a?', '$respond_to?', '$acts_as_string?', '$raise', '$<<', '$to_s', '$dup', '$tap', '$detect', '$create_element', '$span', '$delete', '$[]=', '$index', '$[]', '$each', '$as_node', '$define_method', '$unshift', '$send']);
   return (function($base) {
     var $React, self = $React = $module($base, 'React');
 
@@ -56942,23 +56929,20 @@ Opal.modules["react/rendering_context"] = function(Opal) {
         return self.$attr_accessor("waiting_on_resources")
       })(Opal.get_singleton_class(self));
 
-      Opal.defs(self, '$build_or_render', TMP_1 = function(node_only, name) {
-        var $a, $b, TMP_2, $c, self = this, $iter = TMP_1.$$p, block = $iter || nil, $splat_index = nil;
+      Opal.defs(self, '$build_only', TMP_1 = function(name) {
+        var $a, $b, TMP_2, self = this, $iter = TMP_1.$$p, block = $iter || nil, $splat_index = nil;
 
-        var array_size = arguments.length - 2;
+        var array_size = arguments.length - 1;
         if(array_size < 0) array_size = 0;
         var args = new Array(array_size);
         for($splat_index = 0; $splat_index < array_size; $splat_index++) {
-          args[$splat_index] = arguments[$splat_index + 2];
+          args[$splat_index] = arguments[$splat_index + 1];
         }
         TMP_1.$$p = null;
-        if (node_only !== false && node_only !== nil) {
-          return ($a = ($b = (($scope.get('React')).$$scope.get('RenderingContext'))).$build, $a.$$p = (TMP_2 = function(){var self = TMP_2.$$s || this, $a, $b;
+        (($scope.get('React')).$$scope.get('Component')).$deprecation_warning("..._as_node is deprecated.  Render component and then use the .node method instead");
+        return ($a = ($b = (($scope.get('React')).$$scope.get('RenderingContext'))).$build, $a.$$p = (TMP_2 = function(){var self = TMP_2.$$s || this, $a, $b;
 
-          return ($a = ($b = (($scope.get('React')).$$scope.get('RenderingContext'))).$render, $a.$$p = block.$to_proc(), $a).apply($b, [name].concat(Opal.to_a(args)))}, TMP_2.$$s = self, TMP_2), $a).call($b).$to_n()
-          } else {
-          return ($a = ($c = (($scope.get('React')).$$scope.get('RenderingContext'))).$render, $a.$$p = block.$to_proc(), $a).apply($c, [name].concat(Opal.to_a(args)))
-        };
+        return ($a = ($b = (($scope.get('React')).$$scope.get('RenderingContext'))).$render, $a.$$p = block.$to_proc(), $a).apply($b, [name].concat(Opal.to_a(args)))}, TMP_2.$$s = self, TMP_2), $a).call($b).$to_n();
       });
 
       Opal.defs(self, '$render', TMP_3 = function(name) {
@@ -57024,13 +57008,13 @@ if (element == null) element = nil;
       });
 
       Opal.defs(self, '$build', TMP_10 = function() {
-        var $a, self = this, $iter = TMP_10.$$p, block = $iter || nil, current = nil, return_val = nil;
+        var $a, self = this, $iter = TMP_10.$$p, $yield = $iter || nil, current = nil, return_val = nil;
         if (self.buffer == null) self.buffer = nil;
 
         TMP_10.$$p = null;
         current = self.buffer;
         self.buffer = [];
-        return_val = ((($a = Opal.yield1(block, self.buffer)) === $breaker) ? $breaker.$v : $a);
+        return_val = ((($a = Opal.yield1($yield, self.buffer)) === $breaker) ? $breaker.$v : $a);
         self.buffer = current;
         return return_val;
       });
@@ -57046,7 +57030,7 @@ if (element == null) element = nil;
       (function(self) {
         var $scope = self.$$scope, def = self.$$proto;
 
-        return self.$alias_method("delete", "as_node")
+        return Opal.alias(self, 'delete', 'as_node')
       })(Opal.get_singleton_class(self));
 
       Opal.defs(self, '$replace', function(e1, e2) {
@@ -57086,7 +57070,7 @@ args = $slice.call(arguments, 0);
           block = TMP_13.$$p || nil, TMP_13.$$p = null;
         args.$unshift(tag);
           if ((($a = self['$is_a?']((($scope.get('React')).$$scope.get('Component')))) !== nil && (!$a.$$is_boolean || $a == true))) {
-            return ($a = ($b = self).$method_missing, $a.$$p = block.$to_proc(), $a).apply($b, Opal.to_a(args))};
+            return ($a = ($b = self).$send, $a.$$p = block.$to_proc(), $a).apply($b, Opal.to_a(args))};
           return ($a = ($c = (($scope.get('React')).$$scope.get('RenderingContext'))).$render, $a.$$p = (TMP_14 = function(){var self = TMP_14.$$s || this;
 
           return self.$to_s()}, TMP_14.$$s = self, TMP_14), $a).apply($c, Opal.to_a(args));}, TMP_13.$$s = self, TMP_13), $a).call($b, tag)}, TMP_12.$$s = self, TMP_12), $a).call($b);
@@ -57103,21 +57087,21 @@ args = $slice.call(arguments, 0);
         TMP_15.$$p = null;
         args.$unshift("p");
         if ((($a = self['$is_a?']((($scope.get('React')).$$scope.get('Component')))) !== nil && (!$a.$$is_boolean || $a == true))) {
-          return ($a = ($b = self).$method_missing, $a.$$p = block.$to_proc(), $a).apply($b, Opal.to_a(args))};
+          return ($a = ($b = self).$send, $a.$$p = block.$to_proc(), $a).apply($b, Opal.to_a(args))};
         return ($a = ($c = (($scope.get('React')).$$scope.get('RenderingContext'))).$render, $a.$$p = (TMP_16 = function(){var self = TMP_16.$$s || this;
 
         return self.$to_s()}, TMP_16.$$s = self, TMP_16), $a).apply($c, Opal.to_a(args));
       });
 
       return (Opal.defn(self, '$br', function() {
-        var $a, $b, $c, TMP_17, self = this;
+        var $a, $b, TMP_17, self = this;
 
         if ((($a = self['$is_a?']((($scope.get('React')).$$scope.get('Component')))) !== nil && (!$a.$$is_boolean || $a == true))) {
-          return ($a = self).$method_missing.apply($a, Opal.to_a(["br"]))};
-        return ($b = ($c = (($scope.get('React')).$$scope.get('RenderingContext'))).$render, $b.$$p = (TMP_17 = function(){var self = TMP_17.$$s || this;
+          return self.$send("br")};
+        return ($a = ($b = (($scope.get('React')).$$scope.get('RenderingContext'))).$render, $a.$$p = (TMP_17 = function(){var self = TMP_17.$$s || this;
 
         (($scope.get('React')).$$scope.get('RenderingContext')).$render(self.$to_s());
-          return (($scope.get('React')).$$scope.get('RenderingContext')).$render("br");}, TMP_17.$$s = self, TMP_17), $b).call($c, "span");
+          return (($scope.get('React')).$$scope.get('RenderingContext')).$render("br");}, TMP_17.$$s = self, TMP_17), $a).call($b, "span");
       }), nil) && 'br';
     })(Opal.Object, null);
   })($scope.base)
@@ -57478,7 +57462,7 @@ Opal.modules["react/component/class_methods"] = function(Opal) {
   }
   var self = Opal.top, $scope = Opal, nil = Opal.nil, $breaker = Opal.breaker, $slice = Opal.slice, $module = Opal.module, $range = Opal.range, $hash2 = Opal.hash2, $hash = Opal.hash;
 
-  Opal.add_stubs(['$==', '$[]', '$backtrace', '$>', '$length', '$!', '$<<', '$+', '$collect', '$[]=', '$message', '$join', '$raise', '$name', '$include?', '$log', '$new', '$validator', '$validate', '$count', '$default_props', '$build', '$to_proc', '$define_param', '$props_wrapper', '$is_a?', '$first', '$delete', '$merge!', '$optional', '$requires', '$deprecation_warning', '$alias_method', '$allow_undefined_props=', '$define_method', '$undefined_props', '$class', '$props', '$arity', '$last', '$pop', '$each', '$initial_state', '$initial_state=', '$define_state_methods', '$initialize_states', '$singleton_class', '$nil?', '$get_state', '$!=', '$set_state', '$native_mixins', '$static_call_backs', '$split', '$Native', '$to_n', '$add_item_to_tree', '$create_native_react_class', '$reverse', '$inject']);
+  Opal.add_stubs(['$==', '$[]', '$backtrace', '$>', '$length', '$!', '$append_backtrace', '$[]=', '$+', '$message', '$join', '$raise', '$<<', '$each', '$define_method', '$render', '$instance_eval', '$to_proc', '$new', '$validator', '$validate', '$name', '$count', '$default_props', '$build', '$define_param', '$props_wrapper', '$is_a?', '$first', '$delete', '$merge!', '$optional', '$requires', '$deprecation_warning', '$alias_method', '$allow_undefined_props=', '$undefined_props', '$class', '$props', '$arity', '$last', '$pop', '$initial_state', '$initial_state=', '$define_state_methods', '$initialize_states', '$singleton_class', '$nil?', '$get_state', '$!=', '$set_state', '$native_mixins', '$static_call_backs', '$split', '$Native', '$to_n', '$add_item_to_tree', '$create_native_react_class', '$reverse', '$import_native_component', '$eval_native_react_component', '$inject']);
   return (function($base) {
     var $React, self = $React = $module($base, 'React');
 
@@ -57492,10 +57476,11 @@ Opal.modules["react/component/class_methods"] = function(Opal) {
       (function($base) {
         var $ClassMethods, self = $ClassMethods = $module($base, 'ClassMethods');
 
-        var def = self.$$proto, $scope = self.$$scope, TMP_2, TMP_5, TMP_8, TMP_11, TMP_16;
+        var def = self.$$proto, $scope = self.$$scope, TMP_2, TMP_5, TMP_8, TMP_11, TMP_14, TMP_19;
 
         Opal.defn(self, '$backtrace', function() {
-          var self = this, $splat_index = nil;
+          var $a, self = this, $splat_index = nil;
+          if (self.dont_catch_exceptions == null) self.dont_catch_exceptions = nil;
 
           var array_size = arguments.length - 0;
           if(array_size < 0) array_size = 0;
@@ -57503,46 +57488,64 @@ Opal.modules["react/component/class_methods"] = function(Opal) {
           for($splat_index = 0; $splat_index < array_size; $splat_index++) {
             args[$splat_index] = arguments[$splat_index + 0];
           }
-          return self.backtrace_off = (args['$[]'](0)['$==']("off"));
+          self.dont_catch_exceptions = (args['$[]'](0)['$==']("none"));
+          return self.backtrace_off = ((($a = self.dont_catch_exceptions) !== false && $a !== nil) ? $a : (args['$[]'](0)['$==']("off")));
         });
 
         Opal.defn(self, '$process_exception', function(e, component, reraise) {
-          var $a, $b, $c, TMP_1, self = this, message = nil;
+          var $a, $b, $c, self = this, message = nil;
           if (self.backtrace_off == null) self.backtrace_off = nil;
+          if (self.dont_catch_exceptions == null) self.dont_catch_exceptions = nil;
 
           if (reraise == null) {
             reraise = nil
           }
           message = ["Exception raised while rendering " + (component)];
           if ((($a = ($b = ($c = e.$backtrace(), $c !== false && $c !== nil ?$rb_gt(e.$backtrace().$length(), 1) : $c), $b !== false && $b !== nil ?self.backtrace_off['$!']() : $b)) !== nil && (!$a.$$is_boolean || $a == true))) {
-            message['$<<']("    " + (e.$backtrace()['$[]'](0)));
-            message = $rb_plus(message, ($a = ($b = e.$backtrace()['$[]']($range(1, -1, false))).$collect, $a.$$p = (TMP_1 = function(line){var self = TMP_1.$$s || this;
-if (line == null) line = nil;
-            return line}, TMP_1.$$s = self, TMP_1), $a).call($b));
+            self.$append_backtrace(message, e.$backtrace())
             } else {
-            ($a = 0, $c = message, $c['$[]=']($a, $rb_plus($c['$[]']($a), ": " + (e.$message()))))
+            ($a = 0, $b = message, $b['$[]=']($a, $rb_plus($b['$[]']($a), ": " + (e.$message()))))
           };
-          message = message.$join("\n");
-          console.error(message);
-          if (reraise !== false && reraise !== nil) {
+          console.error(message.$join("\n"));
+          if ((($a = ((($b = reraise) !== false && $b !== nil) ? $b : self.dont_catch_exceptions)) !== nil && (!$a.$$is_boolean || $a == true))) {
             return self.$raise(e)
             } else {
             return nil
           };
         });
 
-        Opal.defn(self, '$deprecation_warning', function(message) {
-          var $a, self = this;
-          if (self.deprecation_messages == null) self.deprecation_messages = nil;
+        Opal.defn(self, '$append_backtrace', function(message_array, backtrace) {
+          var $a, $b, TMP_1, self = this;
 
-          ((($a = self.deprecation_messages) !== false && $a !== nil) ? $a : self.deprecation_messages = []);
-          message = "Warning: Deprecated feature used in " + (self.$name()) + ". " + (message);
-          if ((($a = self.deprecation_messages['$include?'](message)) !== nil && (!$a.$$is_boolean || $a == true))) {
-            return nil
-            } else {
-            self.deprecation_messages['$<<'](message);
-            return $scope.get('IsomorphicHelpers').$log(message, "warning");
-          };
+          message_array['$<<']("    " + (backtrace['$[]'](0)));
+          return ($a = ($b = backtrace['$[]']($range(1, -1, false))).$each, $a.$$p = (TMP_1 = function(line){var self = TMP_1.$$s || this;
+if (line == null) line = nil;
+          return message_array['$<<'](line)}, TMP_1.$$s = self, TMP_1), $a).call($b);
+        });
+
+        Opal.defn(self, '$render', TMP_2 = function(container, params) {
+          var $a, $b, TMP_3, self = this, $iter = TMP_2.$$p, block = $iter || nil;
+
+          if (container == null) {
+            container = nil
+          }
+          if (params == null) {
+            params = $hash2([], {})
+          }
+          TMP_2.$$p = null;
+          return ($a = ($b = self).$define_method, $a.$$p = (TMP_3 = function(){var self = TMP_3.$$s || this, $a, $b, TMP_4, $c;
+
+          if (container !== false && container !== nil) {
+              return ($a = ($b = (($scope.get('React')).$$scope.get('RenderingContext'))).$render, $a.$$p = (TMP_4 = function(){var self = TMP_4.$$s || this, $a, $b;
+
+              if (block !== false && block !== nil) {
+                  return ($a = ($b = self).$instance_eval, $a.$$p = block.$to_proc(), $a).call($b)
+                  } else {
+                  return nil
+                }}, TMP_4.$$s = self, TMP_4), $a).call($b, container, params)
+              } else {
+              return ($a = ($c = self).$instance_eval, $a.$$p = block.$to_proc(), $a).call($c)
+            }}, TMP_3.$$s = self, TMP_3), $a).call($b, "render");
         });
 
         Opal.defn(self, '$validator', function() {
@@ -57578,10 +57581,10 @@ if (line == null) line = nil;
           return self.$validator().$default_props();
         });
 
-        Opal.defn(self, '$params', TMP_2 = function() {
-          var $a, $b, self = this, $iter = TMP_2.$$p, block = $iter || nil;
+        Opal.defn(self, '$params', TMP_5 = function() {
+          var $a, $b, self = this, $iter = TMP_5.$$p, block = $iter || nil;
 
-          TMP_2.$$p = null;
+          TMP_5.$$p = null;
           return ($a = ($b = self.$validator()).$build, $a.$$p = block.$to_proc(), $a).call($b);
         });
 
@@ -57630,7 +57633,7 @@ if (line == null) line = nil;
           if (options == null) {
             options = $hash2([], {})
           }
-          self.$deprecation_warning("`required_param` is deprecated, use `param` instead.");
+          (($scope.get('React')).$$scope.get('Component')).$deprecation_warning("`required_param` is deprecated, use `param` instead.");
           return self.$validator().$requires(name, options);
         });
 
@@ -57642,55 +57645,26 @@ if (line == null) line = nil;
           if (options == null) {
             options = $hash2([], {})
           }
-          self.$deprecation_warning("`optional_param` is deprecated, use `param param_name: default_value` instead.");
+          (($scope.get('React')).$$scope.get('Component')).$deprecation_warning("`optional_param` is deprecated, use `param param_name: default_value` instead.");
           return self.$validator().$optional(name, options);
         });
 
         Opal.defn(self, '$collect_other_params_as', function(name) {
-          var $a, $b, TMP_3, $c, TMP_4, self = this, validator_in_lexial_scope = nil;
+          var $a, $b, TMP_6, $c, TMP_7, self = this, validator_in_lexial_scope = nil;
 
           (($a = [true]), $b = self.$validator(), $b['$allow_undefined_props='].apply($b, $a), $a[$a.length-1]);
-          ($a = ($b = self).$define_method, $a.$$p = (TMP_3 = function(){var self = TMP_3.$$s || this, $a;
+          ($a = ($b = self).$define_method, $a.$$p = (TMP_6 = function(){var self = TMP_6.$$s || this, $a;
             if (self._all_others == null) self._all_others = nil;
 
-          return ((($a = self._all_others) !== false && $a !== nil) ? $a : self._all_others = self.$class().$validator().$undefined_props(self.$props()))}, TMP_3.$$s = self, TMP_3), $a).call($b, name);
+          return ((($a = self._all_others) !== false && $a !== nil) ? $a : self._all_others = self.$class().$validator().$undefined_props(self.$props()))}, TMP_6.$$s = self, TMP_6), $a).call($b, name);
           validator_in_lexial_scope = self.$validator();
-          return ($a = ($c = self.$props_wrapper()).$define_method, $a.$$p = (TMP_4 = function(){var self = TMP_4.$$s || this, $a;
+          return ($a = ($c = self.$props_wrapper()).$define_method, $a.$$p = (TMP_7 = function(){var self = TMP_7.$$s || this, $a;
             if (self._all_others == null) self._all_others = nil;
 
-          return ((($a = self._all_others) !== false && $a !== nil) ? $a : self._all_others = validator_in_lexial_scope.$undefined_props(self.$props()))}, TMP_4.$$s = self, TMP_4), $a).call($c, name);
+          return ((($a = self._all_others) !== false && $a !== nil) ? $a : self._all_others = validator_in_lexial_scope.$undefined_props(self.$props()))}, TMP_7.$$s = self, TMP_7), $a).call($c, name);
         });
 
-        Opal.defn(self, '$define_state', TMP_5 = function() {
-          var $a, $b, TMP_6, $c, TMP_7, self = this, $iter = TMP_5.$$p, block = $iter || nil, default_initial_value = nil, states_hash = nil, $splat_index = nil;
-
-          var array_size = arguments.length - 0;
-          if(array_size < 0) array_size = 0;
-          var states = new Array(array_size);
-          for($splat_index = 0; $splat_index < array_size; $splat_index++) {
-            states[$splat_index] = arguments[$splat_index + 0];
-          }
-          TMP_5.$$p = null;
-          default_initial_value = (function() {if ((($a = ((($b = block !== false && block !== nil) ? block.$arity()['$=='](0) : block))) !== nil && (!$a.$$is_boolean || $a == true))) {
-            return $a = Opal.yieldX(block, []), $a === $breaker ? $a : $a
-            } else {
-            return nil
-          }; return nil; })();
-          states_hash = (function() {if ((($a = (states.$last()['$is_a?']($scope.get('Hash')))) !== nil && (!$a.$$is_boolean || $a == true))) {
-            return states.$pop()
-            } else {
-            return $hash2([], {})
-          }; return nil; })();
-          ($a = ($b = states).$each, $a.$$p = (TMP_6 = function(name){var self = TMP_6.$$s || this;
-if (name == null) name = nil;
-          return states_hash['$[]='](name, default_initial_value)}, TMP_6.$$s = self, TMP_6), $a).call($b);
-          (($a = self, ((($c = $a.$initial_state()) !== false && $c !== nil) ? $c : $a['$initial_state=']($hash2([], {})))))['$merge!'](states_hash);
-          return ($a = ($c = states_hash).$each, $a.$$p = (TMP_7 = function(name, initial_value){var self = TMP_7.$$s || this, $a, $b;
-if (name == null) name = nil;if (initial_value == null) initial_value = nil;
-          return ($a = ($b = self).$define_state_methods, $a.$$p = block.$to_proc(), $a).call($b, self, name)}, TMP_7.$$s = self, TMP_7), $a).call($c);
-        });
-
-        Opal.defn(self, '$export_state', TMP_8 = function() {
+        Opal.defn(self, '$define_state', TMP_8 = function() {
           var $a, $b, TMP_9, $c, TMP_10, self = this, $iter = TMP_8.$$p, block = $iter || nil, default_initial_value = nil, states_hash = nil, $splat_index = nil;
 
           var array_size = arguments.length - 0;
@@ -57713,39 +57687,68 @@ if (name == null) name = nil;if (initial_value == null) initial_value = nil;
           ($a = ($b = states).$each, $a.$$p = (TMP_9 = function(name){var self = TMP_9.$$s || this;
 if (name == null) name = nil;
           return states_hash['$[]='](name, default_initial_value)}, TMP_9.$$s = self, TMP_9), $a).call($b);
-          $scope.get('State').$initialize_states(self, states_hash);
-          return ($a = ($c = states_hash).$each, $a.$$p = (TMP_10 = function(name, initial_value){var self = TMP_10.$$s || this, $a, $b, $c;
+          (($a = self, ((($c = $a.$initial_state()) !== false && $c !== nil) ? $c : $a['$initial_state=']($hash2([], {})))))['$merge!'](states_hash);
+          return ($a = ($c = states_hash).$each, $a.$$p = (TMP_10 = function(name, initial_value){var self = TMP_10.$$s || this, $a, $b;
 if (name == null) name = nil;if (initial_value == null) initial_value = nil;
-          ($a = ($b = self).$define_state_methods, $a.$$p = block.$to_proc(), $a).call($b, self, name, self);
-            return ($a = ($c = self).$define_state_methods, $a.$$p = block.$to_proc(), $a).call($c, self.$singleton_class(), name, self);}, TMP_10.$$s = self, TMP_10), $a).call($c);
+          return ($a = ($b = self).$define_state_methods, $a.$$p = block.$to_proc(), $a).call($b, self, name)}, TMP_10.$$s = self, TMP_10), $a).call($c);
         });
 
-        Opal.defn(self, '$define_state_methods', TMP_11 = function(this$, name, from) {
-          var $a, $b, TMP_12, $c, TMP_13, $d, TMP_14, self = this, $iter = TMP_11.$$p, block = $iter || nil;
+        Opal.defn(self, '$export_state', TMP_11 = function() {
+          var $a, $b, TMP_12, $c, TMP_13, self = this, $iter = TMP_11.$$p, block = $iter || nil, default_initial_value = nil, states_hash = nil, $splat_index = nil;
+
+          var array_size = arguments.length - 0;
+          if(array_size < 0) array_size = 0;
+          var states = new Array(array_size);
+          for($splat_index = 0; $splat_index < array_size; $splat_index++) {
+            states[$splat_index] = arguments[$splat_index + 0];
+          }
+          TMP_11.$$p = null;
+          default_initial_value = (function() {if ((($a = ((($b = block !== false && block !== nil) ? block.$arity()['$=='](0) : block))) !== nil && (!$a.$$is_boolean || $a == true))) {
+            return $a = Opal.yieldX(block, []), $a === $breaker ? $a : $a
+            } else {
+            return nil
+          }; return nil; })();
+          states_hash = (function() {if ((($a = (states.$last()['$is_a?']($scope.get('Hash')))) !== nil && (!$a.$$is_boolean || $a == true))) {
+            return states.$pop()
+            } else {
+            return $hash2([], {})
+          }; return nil; })();
+          ($a = ($b = states).$each, $a.$$p = (TMP_12 = function(name){var self = TMP_12.$$s || this;
+if (name == null) name = nil;
+          return states_hash['$[]='](name, default_initial_value)}, TMP_12.$$s = self, TMP_12), $a).call($b);
+          $scope.get('State').$initialize_states(self, states_hash);
+          return ($a = ($c = states_hash).$each, $a.$$p = (TMP_13 = function(name, initial_value){var self = TMP_13.$$s || this, $a, $b, $c;
+if (name == null) name = nil;if (initial_value == null) initial_value = nil;
+          ($a = ($b = self).$define_state_methods, $a.$$p = block.$to_proc(), $a).call($b, self, name, self);
+            return ($a = ($c = self).$define_state_methods, $a.$$p = block.$to_proc(), $a).call($c, self.$singleton_class(), name, self);}, TMP_13.$$s = self, TMP_13), $a).call($c);
+        });
+
+        Opal.defn(self, '$define_state_methods', TMP_14 = function(this$, name, from) {
+          var $a, $b, TMP_15, $c, TMP_16, $d, TMP_17, self = this, $iter = TMP_14.$$p, block = $iter || nil;
 
           if (from == null) {
             from = nil
           }
-          TMP_11.$$p = null;
-          ($a = ($b = this$).$define_method, $a.$$p = (TMP_12 = function(){var self = TMP_12.$$s || this, $a, $b;
+          TMP_14.$$p = null;
+          ($a = ($b = this$).$define_method, $a.$$p = (TMP_15 = function(){var self = TMP_15.$$s || this, $a, $b;
 
           if ((($a = ((($b = from['$nil?']()) !== false && $b !== nil) ? $b : from['$=='](this$))) !== nil && (!$a.$$is_boolean || $a == true))) {
-              self.$class().$deprecation_warning("Direct access to state `" + (name) + "`.  Use `state." + (name) + "` instead.")};
-            return $scope.get('State').$get_state(((($a = from) !== false && $a !== nil) ? $a : self), name);}, TMP_12.$$s = self, TMP_12), $a).call($b, "" + (name));
-          ($a = ($c = this$).$define_method, $a.$$p = (TMP_13 = function(new_state){var self = TMP_13.$$s || this, $a, $b;
+              (($scope.get('React')).$$scope.get('Component')).$deprecation_warning("Direct access to state `" + (name) + "`.  Use `state." + (name) + "` instead.")};
+            return $scope.get('State').$get_state(((($a = from) !== false && $a !== nil) ? $a : self), name);}, TMP_15.$$s = self, TMP_15), $a).call($b, "" + (name));
+          ($a = ($c = this$).$define_method, $a.$$p = (TMP_16 = function(new_state){var self = TMP_16.$$s || this, $a, $b;
 if (new_state == null) new_state = nil;
-          self.$class().$deprecation_warning("Direct assignment to state `" + (name) + "`.  Use `" + ((function() {if ((($a = ((($b = from !== false && from !== nil) ? from['$!='](this$) : from))) !== nil && (!$a.$$is_boolean || $a == true))) {
+          (($scope.get('React')).$$scope.get('Component')).$deprecation_warning("Direct assignment to state `" + (name) + "`.  Use `" + ((function() {if ((($a = ((($b = from !== false && from !== nil) ? from['$!='](this$) : from))) !== nil && (!$a.$$is_boolean || $a == true))) {
               return from
               } else {
               return "state"
             }; return nil; })()) + "." + (name) + "!` instead.");
             if ((($a = (($b = block !== false && block !== nil) ? $rb_gt(block.$arity(), 0) : block)) !== nil && (!$a.$$is_boolean || $a == true))) {
               if (Opal.yieldX(block, [name, $scope.get('State').$get_state(((($a = from) !== false && $a !== nil) ? $a : self), name), new_state]) === $breaker) return $breaker.$v};
-            return $scope.get('State').$set_state(((($a = from) !== false && $a !== nil) ? $a : self), name, new_state);}, TMP_13.$$s = self, TMP_13), $a).call($c, "" + (name) + "=");
-          return ($a = ($d = this$).$define_method, $a.$$p = (TMP_14 = function(args){var self = TMP_14.$$s || this, $a, $b, TMP_15, current_value = nil, current_state = nil;
+            return $scope.get('State').$set_state(((($a = from) !== false && $a !== nil) ? $a : self), name, new_state);}, TMP_16.$$s = self, TMP_16), $a).call($c, "" + (name) + "=");
+          return ($a = ($d = this$).$define_method, $a.$$p = (TMP_17 = function(args){var self = TMP_17.$$s || this, $a, $b, TMP_18, current_value = nil, current_state = nil;
 args = $slice.call(arguments, 0);
           if ((($a = ((($b = from['$nil?']()) !== false && $b !== nil) ? $b : from['$=='](this$))) !== nil && (!$a.$$is_boolean || $a == true))) {
-              self.$class().$deprecation_warning("Direct access to state `" + (name) + "`.  Use `state." + (name) + "` instead.")};
+              (($scope.get('React')).$$scope.get('Component')).$deprecation_warning("Direct access to state `" + (name) + "`.  Use `state." + (name) + "` instead.")};
             if ((($a = $rb_gt(args.$count(), 0)) !== nil && (!$a.$$is_boolean || $a == true))) {
               if ((($a = (($b = block !== false && block !== nil) ? $rb_gt(block.$arity(), 0) : block)) !== nil && (!$a.$$is_boolean || $a == true))) {
                 if (Opal.yieldX(block, [name, $scope.get('State').$get_state(((($a = from) !== false && $a !== nil) ? $a : self), name), args['$[]'](0)]) === $breaker) return $breaker.$v};
@@ -57757,12 +57760,12 @@ args = $slice.call(arguments, 0);
               if ((($a = (($b = block !== false && block !== nil) ? $rb_gt(block.$arity(), 0) : block)) !== nil && (!$a.$$is_boolean || $a == true))) {
                 if (Opal.yieldX(block, [name, $scope.get('State').$get_state(((($a = from) !== false && $a !== nil) ? $a : self), name), current_state]) === $breaker) return $breaker.$v};
               $scope.get('State').$set_state(((($a = from) !== false && $a !== nil) ? $a : self), name, current_state);
-              return ($a = ($b = $scope.get('Observable')).$new, $a.$$p = (TMP_15 = function(update){var self = TMP_15.$$s || this, $a, $b;
+              return ($a = ($b = $scope.get('Observable')).$new, $a.$$p = (TMP_18 = function(update){var self = TMP_18.$$s || this, $a, $b;
 if (update == null) update = nil;
               if ((($a = (($b = block !== false && block !== nil) ? $rb_gt(block.$arity(), 0) : block)) !== nil && (!$a.$$is_boolean || $a == true))) {
                   if (Opal.yieldX(block, [name, $scope.get('State').$get_state(((($a = from) !== false && $a !== nil) ? $a : self), name), update]) === $breaker) return $breaker.$v};
-                return $scope.get('State').$set_state(((($a = from) !== false && $a !== nil) ? $a : self), name, update);}, TMP_15.$$s = self, TMP_15), $a).call($b, current_state);
-            };}, TMP_14.$$s = self, TMP_14), $a).call($d, "" + (name) + "!");
+                return $scope.get('State').$set_state(((($a = from) !== false && $a !== nil) ? $a : self), name, update);}, TMP_18.$$s = self, TMP_18), $a).call($b, current_state);
+            };}, TMP_17.$$s = self, TMP_17), $a).call($d, "" + (name) + "!");
         });
 
         Opal.defn(self, '$native_mixin', function(item) {
@@ -57778,10 +57781,10 @@ if (update == null) update = nil;
           return ((($a = self.native_mixins) !== false && $a !== nil) ? $a : self.native_mixins = []);
         });
 
-        Opal.defn(self, '$static_call_back', TMP_16 = function(name) {
-          var self = this, $iter = TMP_16.$$p, block = $iter || nil;
+        Opal.defn(self, '$static_call_back', TMP_19 = function(name) {
+          var self = this, $iter = TMP_19.$$p, block = $iter || nil;
 
-          TMP_16.$$p = null;
+          TMP_19.$$p = null;
           return self.$static_call_backs()['$[]='](name, block);
         });
 
@@ -57803,13 +57806,35 @@ if (update == null) update = nil;
           return self.$Native(window)['$[]='](first_name, self.$add_item_to_tree(self.$Native(window)['$[]'](first_name), $rb_plus([(($scope.get('React')).$$scope.get('API')).$create_native_react_class(self)], export_name['$[]']($range(1, -1, false)).$reverse())).$to_n());
         });
 
+        Opal.defn(self, '$imports', function(component_name) {
+          var $a, $b, TMP_20, self = this, e = nil;
+
+          try {
+          try {
+          (($scope.get('React')).$$scope.get('API')).$import_native_component(self, (($scope.get('React')).$$scope.get('API')).$eval_native_react_component(component_name));
+            return ($a = ($b = self).$define_method, $a.$$p = (TMP_20 = function(){var self = TMP_20.$$s || this;
+
+            return nil}, TMP_20.$$s = self, TMP_20), $a).call($b, "render");
+          } catch ($err) {if (Opal.rescue($err, [$scope.get('Exception')])) {e = $err;
+            try {
+              return self.$raise("" + (self) + " cannot import '" + (component_name) + "': " + (e.$message()) + ".")
+            } finally {
+              Opal.gvars["!"] = Opal.exceptions.pop() || Opal.nil;
+            }
+            }else { throw $err; }
+          }
+          } finally {
+          self
+          };
+        });
+
         Opal.defn(self, '$add_item_to_tree', function(current_tree, new_item) {
-          var $a, $b, TMP_17, self = this;
+          var $a, $b, TMP_21, self = this;
 
           if ((($a = ((($b = self.$Native(current_tree).$class()['$!=']((($scope.get('Native')).$$scope.get('Object')))) !== false && $b !== nil) ? $b : new_item.$length()['$=='](1))) !== nil && (!$a.$$is_boolean || $a == true))) {
-            return ($a = ($b = new_item).$inject, $a.$$p = (TMP_17 = function(memo, sub_name){var self = TMP_17.$$s || this;
-if (memo == null) memo = nil;if (sub_name == null) sub_name = nil;
-            return $hash(sub_name, memo)}, TMP_17.$$s = self, TMP_17), $a).call($b)
+            return ($a = ($b = new_item).$inject, $a.$$p = (TMP_21 = function(a, e){var self = TMP_21.$$s || this;
+if (a == null) a = nil;if (e == null) e = nil;
+            return $hash(e, a)}, TMP_21.$$s = self, TMP_21), $a).call($b)
             } else {
             self.$Native(current_tree)['$[]='](new_item.$last(), self.$add_item_to_tree(self.$Native(current_tree)['$[]'](new_item.$last()), new_item['$[]']($range(0, -2, false))));
             return current_tree;
@@ -57829,7 +57854,7 @@ Opal.modules["react/component/props_wrapper"] = function(Opal) {
   }
   var self = Opal.top, $scope = Opal, nil = Opal.nil, $breaker = Opal.breaker, $slice = Opal.slice, $module = Opal.module, $klass = Opal.klass, $hash2 = Opal.hash2;
 
-  Opal.add_stubs(['$attr_reader', '$define_method', '$deprecated_params_method', '$to_proc', '$==', '$value_for', '$>', '$count', '$call', '$[]', '$props', '$has_key?', '$[]=', '$respond_to?', '$_react_param_conversion', '$is_a?', '$collect', '$flatten', '$compact', '$equal?', '$unchanged_processed_params', '$private', '$instance_variable_get']);
+  Opal.add_stubs(['$deprecation_warning', '$send', '$to_proc', '$params', '$attr_reader', '$define_method', '$deprecated_params_method', '$==', '$value_for', '$>', '$count', '$call', '$[]', '$props', '$has_key?', '$[]=', '$respond_to?', '$_react_param_conversion', '$is_a?', '$collect', '$flatten', '$compact', '$equal?', '$unchanged_processed_params', '$private', '$instance_variable_get']);
   return (function($base) {
     var $React, self = $React = $module($base, 'React');
 
@@ -57838,7 +57863,21 @@ Opal.modules["react/component/props_wrapper"] = function(Opal) {
     (function($base) {
       var $Component, self = $Component = $module($base, 'Component');
 
-      var def = self.$$proto, $scope = self.$$scope;
+      var def = self.$$proto, $scope = self.$$scope, TMP_1;
+
+      Opal.defn(self, '$deprecated_params_method', TMP_1 = function(name) {
+        var $a, $b, self = this, $iter = TMP_1.$$p, block = $iter || nil, $splat_index = nil;
+
+        var array_size = arguments.length - 1;
+        if(array_size < 0) array_size = 0;
+        var args = new Array(array_size);
+        for($splat_index = 0; $splat_index < array_size; $splat_index++) {
+          args[$splat_index] = arguments[$splat_index + 1];
+        }
+        TMP_1.$$p = null;
+        (($scope.get('React')).$$scope.get('Component')).$deprecation_warning("Direct access to param `" + (name) + "`.  Use `params." + (name) + "` instead.");
+        return ($a = ($b = self.$params()).$send, $a.$$p = block.$to_proc(), $a).apply($b, [name].concat(Opal.to_a(args)));
+      });
 
       (function($base, $super) {
         function $PropsWrapper(){};
@@ -57850,20 +57889,20 @@ Opal.modules["react/component/props_wrapper"] = function(Opal) {
         self.$attr_reader("props");
 
         Opal.defs(self, '$define_param', function(name, param_type, owner) {
-          var $a, $b, TMP_1, $c, TMP_2, $d, TMP_3, $e, TMP_4, $f, TMP_5, $g, TMP_6, self = this;
+          var $a, $b, TMP_2, $c, TMP_3, $d, TMP_4, $e, TMP_5, $f, TMP_6, $g, TMP_7, self = this;
 
-          ($a = ($b = owner).$define_method, $a.$$p = (TMP_1 = function(args){var self = TMP_1.$$s || this, block, $a, $b;
+          ($a = ($b = owner).$define_method, $a.$$p = (TMP_2 = function(args){var self = TMP_2.$$s || this, block, $a, $b;
 args = $slice.call(arguments, 0);
-            block = TMP_1.$$p || nil, TMP_1.$$p = null;
-          return ($a = ($b = self).$deprecated_params_method, $a.$$p = block.$to_proc(), $a).apply($b, ["" + (name)].concat(Opal.to_a(args)))}, TMP_1.$$s = self, TMP_1), $a).call($b, "" + (name));
+            block = TMP_2.$$p || nil, TMP_2.$$p = null;
+          return ($a = ($b = self).$deprecated_params_method, $a.$$p = block.$to_proc(), $a).apply($b, ["" + (name)].concat(Opal.to_a(args)))}, TMP_2.$$s = self, TMP_2), $a).call($b, "" + (name));
           if (param_type['$==']($scope.get('Observable'))) {
-            ($a = ($c = owner).$define_method, $a.$$p = (TMP_2 = function(args){var self = TMP_2.$$s || this, $a;
+            ($a = ($c = owner).$define_method, $a.$$p = (TMP_3 = function(args){var self = TMP_3.$$s || this, $a;
 args = $slice.call(arguments, 0);
-            return ($a = self).$deprecated_params_method.apply($a, ["" + (name) + "!"].concat(Opal.to_a(args)))}, TMP_2.$$s = self, TMP_2), $a).call($c, "" + (name) + "!");
-            ($a = ($d = self).$define_method, $a.$$p = (TMP_3 = function(){var self = TMP_3.$$s || this;
+            return ($a = self).$deprecated_params_method.apply($a, ["" + (name) + "!"].concat(Opal.to_a(args)))}, TMP_3.$$s = self, TMP_3), $a).call($c, "" + (name) + "!");
+            ($a = ($d = self).$define_method, $a.$$p = (TMP_4 = function(){var self = TMP_4.$$s || this;
 
-            return self.$value_for(name)}, TMP_3.$$s = self, TMP_3), $a).call($d, "" + (name));
-            return ($a = ($e = self).$define_method, $a.$$p = (TMP_4 = function(args){var self = TMP_4.$$s || this, $a, current_value = nil;
+            return self.$value_for(name)}, TMP_4.$$s = self, TMP_4), $a).call($d, "" + (name));
+            return ($a = ($e = self).$define_method, $a.$$p = (TMP_5 = function(args){var self = TMP_5.$$s || this, $a, current_value = nil;
               if (self.dont_update_state == null) self.dont_update_state = nil;
 args = $slice.call(arguments, 0);
             current_value = self.$value_for(name);
@@ -57877,18 +57916,18 @@ args = $slice.call(arguments, 0);
                   return self.$props()['$[]'](name).$call(current_value)
                 }; return nil; })() } catch ($err) { nil };
                 return self.$props()['$[]'](name);
-              };}, TMP_4.$$s = self, TMP_4), $a).call($e, "" + (name) + "!");
+              };}, TMP_5.$$s = self, TMP_5), $a).call($e, "" + (name) + "!");
           } else if (param_type['$==']($scope.get('Proc'))) {
-            return ($a = ($f = self).$define_method, $a.$$p = (TMP_5 = function(args){var self = TMP_5.$$s || this, block, $a, $b;
+            return ($a = ($f = self).$define_method, $a.$$p = (TMP_6 = function(args){var self = TMP_6.$$s || this, block, $a, $b;
 args = $slice.call(arguments, 0);
-              block = TMP_5.$$p || nil, TMP_5.$$p = null;
+              block = TMP_6.$$p || nil, TMP_6.$$p = null;
             if ((($a = self.$props()['$[]'](name)) !== nil && (!$a.$$is_boolean || $a == true))) {
                 return ($a = ($b = self.$props()['$[]'](name)).$call, $a.$$p = block.$to_proc(), $a).apply($b, Opal.to_a(args))
                 } else {
                 return nil
-              }}, TMP_5.$$s = self, TMP_5), $a).call($f, "" + (name))
+              }}, TMP_6.$$s = self, TMP_6), $a).call($f, "" + (name))
             } else {
-            return ($a = ($g = self).$define_method, $a.$$p = (TMP_6 = function(){var self = TMP_6.$$s || this, $a, $b, TMP_7;
+            return ($a = ($g = self).$define_method, $a.$$p = (TMP_7 = function(){var self = TMP_7.$$s || this, $a, $b, TMP_8;
               if (self.processed_params == null) self.processed_params = nil;
 
             if ((($a = self.processed_params['$has_key?'](name)) !== nil && (!$a.$$is_boolean || $a == true))) {
@@ -57897,27 +57936,27 @@ args = $slice.call(arguments, 0);
                 return self.processed_params['$[]='](name, (function() {if ((($a = param_type['$respond_to?']("_react_param_conversion")) !== nil && (!$a.$$is_boolean || $a == true))) {
                   return param_type.$_react_param_conversion(self.$props()['$[]'](name))
                 } else if ((($a = ($b = param_type['$is_a?']($scope.get('Array')), $b !== false && $b !== nil ?param_type['$[]'](0)['$respond_to?']("_react_param_conversion") : $b)) !== nil && (!$a.$$is_boolean || $a == true))) {
-                  return ($a = ($b = self.$props()['$[]'](name)).$collect, $a.$$p = (TMP_7 = function(param){var self = TMP_7.$$s || this;
+                  return ($a = ($b = self.$props()['$[]'](name)).$collect, $a.$$p = (TMP_8 = function(param){var self = TMP_8.$$s || this;
 if (param == null) param = nil;
-                  return param_type['$[]'](0).$_react_param_conversion(param)}, TMP_7.$$s = self, TMP_7), $a).call($b)
+                  return param_type['$[]'](0).$_react_param_conversion(param)}, TMP_8.$$s = self, TMP_8), $a).call($b)
                   } else {
                   return self.$props()['$[]'](name)
                 }; return nil; })())
-              }}, TMP_6.$$s = self, TMP_6), $a).call($g, "" + (name))
+              }}, TMP_7.$$s = self, TMP_7), $a).call($g, "" + (name))
           };
         });
 
         Opal.defn(self, '$unchanged_processed_params', function(new_props) {
-          var $a, $b, $c, TMP_8, self = this;
+          var $a, $b, $c, TMP_9, self = this;
 
-          return ($a = $scope.get('Hash'))['$[]'].apply($a, Opal.to_a(($b = ($c = self.processed_params).$collect, $b.$$p = (TMP_8 = function(key, value){var self = TMP_8.$$s || this, $a;
+          return ($a = $scope.get('Hash'))['$[]'].apply($a, Opal.to_a(($b = ($c = self.processed_params).$collect, $b.$$p = (TMP_9 = function(key, value){var self = TMP_9.$$s || this, $a;
             if (self.props == null) self.props = nil;
 if (key == null) key = nil;if (value == null) value = nil;
           if ((($a = self.props['$[]'](key)['$equal?'](new_props['$[]'](key))) !== nil && (!$a.$$is_boolean || $a == true))) {
               return [key, value]
               } else {
               return nil
-            }}, TMP_8.$$s = self, TMP_8), $b).call($c).$compact().$flatten(1)));
+            }}, TMP_9.$$s = self, TMP_9), $b).call($c).$compact().$flatten(1)));
         });
 
         Opal.defn(self, '$initialize', function(props, current_props_wrapper) {
@@ -57951,7 +57990,7 @@ if (key == null) key = nil;if (value == null) value = nil;
             return nil
           };
         }), nil) && 'value_for';
-      })($scope.base, null)
+      })($scope.base, null);
     })($scope.base)
   })($scope.base)
 };
@@ -57965,7 +58004,7 @@ Opal.modules["react/component"] = function(Opal) {
   }
   var self = Opal.top, $scope = Opal, nil = Opal.nil, $breaker = Opal.breaker, $slice = Opal.slice, $module = Opal.module, $hash = Opal.hash;
 
-  Opal.add_stubs(['$require', '$include', '$class_eval', '$class_attribute', '$define_callback', '$extend', '$name', '$[]', '$inject', '$+', '$const_get', '$last', '$split', '$=~', '$gsub', '$method_defined?', '$build_or_render', '$to_proc', '$raise', '$deprecation_warning', '$class', '$send', '$params', '$flatten', '$to_n', '$call', '$new', '$<<', '$set_state', '$to_f', '$now', '$==', '$to_s', '$event_camelize', '$on_opal_client?', '$load_context', '$props_wrapper', '$initial_state', '$set_state!', '$initialize_states', '$set_state_context_to', '$run_callback', '$process_exception', '$update_states_to_observe', '$sort', '$keys', '$props', '$detect', '$respond_to?', '$!', '$needs_update?', '$props_changed?', '$remove', '$count', '$is_a?', '$first', '$_p_tag', '$p', '$reverse', '$each', '$key?', '$include?', '$component?', '$shift', '$define_state', '$attr_reader', '$tap', '$waiting_on_resources', '$render']);
+  Opal.add_stubs(['$require', '$include', '$class_eval', '$class_attribute', '$define_callback', '$extend', '$name', '$include?', '$<<', '$log', '$method_defined?', '$raise', '$set_state', '$to_f', '$now', '$==', '$+', '$to_s', '$class', '$call', '$[]', '$params', '$event_camelize', '$on_opal_client?', '$load_context', '$new', '$props_wrapper', '$initial_state', '$set_state!', '$initialize_states', '$set_state_context_to', '$run_callback', '$process_exception', '$update_states_to_observe', '$sort', '$keys', '$props', '$detect', '$to_n', '$respond_to?', '$!', '$needs_update?', '$props_changed?', '$remove', '$attr_reader', '$tap', '$waiting_on_resources', '$render', '$define_state', '$to_proc']);
   self.$require("react/ext/string");
   self.$require("react/ext/hash");
   self.$require("active_support/core_ext/class/attribute");
@@ -57985,13 +58024,15 @@ Opal.modules["react/component"] = function(Opal) {
     (function($base) {
       var $Component, self = $Component = $module($base, 'Component');
 
-      var def = self.$$proto, $scope = self.$$scope, $a, TMP_4, TMP_15, TMP_19, TMP_20, TMP_21;
+      var def = self.$$proto, $scope = self.$$scope, $a, TMP_13, TMP_14;
 
       Opal.defs(self, '$included', function(base) {
-        var $a, $b, TMP_1, $c, TMP_2, self = this, parent = nil;
+        var $a, $b, TMP_1, self = this;
 
         base.$include($scope.get('API'));
         base.$include($scope.get('Callbacks'));
+        base.$include($scope.get('Tags'));
+        base.$include($scope.get('DslInstanceMethods'));
         ($a = ($b = base).$class_eval, $a.$$p = (TMP_1 = function(){var self = TMP_1.$$s || this;
 
         self.$class_attribute("initial_state");
@@ -58001,51 +58042,20 @@ Opal.modules["react/component"] = function(Opal) {
           self.$define_callback("before_update");
           self.$define_callback("after_update");
           return self.$define_callback("before_unmount");}, TMP_1.$$s = self, TMP_1), $a).call($b);
-        base.$extend($scope.get('ClassMethods'));
-        if ((($a = base.$name()) !== nil && (!$a.$$is_boolean || $a == true))) {
-          parent = ($a = ($c = base.$name().$split("::")).$inject, $a.$$p = (TMP_2 = function(nesting, next_const){var self = TMP_2.$$s || this;
-if (nesting == null) nesting = nil;if (next_const == null) next_const = nil;
-          return $rb_plus(nesting, [nesting.$last().$const_get(next_const)])}, TMP_2.$$s = self, TMP_2), $a).call($c, [$scope.get('Module')])['$[]'](-2);
-          return (function(self) {
-            var $scope = self.$$scope, def = self.$$proto, TMP_3;
+        return base.$extend($scope.get('ClassMethods'));
+      });
 
-            return (Opal.defn(self, '$method_missing', TMP_3 = function(n) {
-              var $a, $b, self = this, $iter = TMP_3.$$p, block = $iter || nil, name = nil, node_only = nil, $splat_index = nil, $zuper = nil, $zuper_index = nil;
+      Opal.defs(self, '$deprecation_warning', function(message) {
+        var $a, self = this;
+        if (self.deprecation_messages == null) self.deprecation_messages = nil;
 
-              var array_size = arguments.length - 1;
-              if(array_size < 0) array_size = 0;
-              var args = new Array(array_size);
-              for($splat_index = 0; $splat_index < array_size; $splat_index++) {
-                args[$splat_index] = arguments[$splat_index + 1];
-              }
-              TMP_3.$$p = null;
-              $zuper = [];
-              for($zuper_index = 0; $zuper_index < arguments.length; $zuper_index++) {
-                $zuper[$zuper_index] = arguments[$zuper_index];
-              }
-              name = n;
-              if ((($a = name['$=~'](/_as_node$/)) !== nil && (!$a.$$is_boolean || $a == true))) {
-                node_only = true;
-                name = name.$gsub(/_as_node$/, "");};
-              try {
-              name = self.$const_get(name)
-              } catch ($err) {if (Opal.rescue($err, [$scope.get('Exception')])) {
-                try {
-                  name = nil
-                } finally {
-                  Opal.gvars["!"] = Opal.exceptions.pop() || Opal.nil;
-                }
-                }else { throw $err; }
-              };
-              if ((($a = (($b = name !== false && name !== nil) ? name['$method_defined?']("render") : name)) !== nil && (!$a.$$is_boolean || $a == true))) {
-                } else {
-                return Opal.find_super_dispatcher(self, 'method_missing', TMP_3, $iter).apply(self, $zuper)
-              };
-              return ($a = ($b = (($scope.get('React')).$$scope.get('RenderingContext'))).$build_or_render, $a.$$p = block.$to_proc(), $a).apply($b, [node_only, name].concat(Opal.to_a(args)));
-            }), nil) && 'method_missing'
-          })(Opal.get_singleton_class(parent));
-          } else {
+        ((($a = self.deprecation_messages) !== false && $a !== nil) ? $a : self.deprecation_messages = []);
+        message = "Warning: Deprecated feature used in " + (self.$name()) + ". " + (message);
+        if ((($a = self.deprecation_messages['$include?'](message)) !== nil && (!$a.$$is_boolean || $a == true))) {
           return nil
+          } else {
+          self.deprecation_messages['$<<'](message);
+          return $scope.get('IsomorphicHelpers').$log(message, "warning");
         };
       });
 
@@ -58063,92 +58073,6 @@ if (nesting == null) nesting = nil;if (next_const == null) next_const = nil;
           return self.$raise("no render defined");
         })
       };
-
-      Opal.defn(self, '$deprecated_params_method', TMP_4 = function(name) {
-        var $a, $b, self = this, $iter = TMP_4.$$p, block = $iter || nil, $splat_index = nil;
-
-        var array_size = arguments.length - 1;
-        if(array_size < 0) array_size = 0;
-        var args = new Array(array_size);
-        for($splat_index = 0; $splat_index < array_size; $splat_index++) {
-          args[$splat_index] = arguments[$splat_index + 1];
-        }
-        TMP_4.$$p = null;
-        self.$class().$deprecation_warning("Direct access to param `" + (name) + "`.  Use `params." + (name) + "` instead.");
-        return ($a = ($b = self.$params()).$send, $a.$$p = block.$to_proc(), $a).apply($b, [name].concat(Opal.to_a(args)));
-      });
-
-      Opal.defn(self, '$children', function() {
-        var $a, self = this, nodes = nil;
-        if (self["native"] == null) self["native"] = nil;
-
-        nodes = (function() {if ((($a = self["native"].props.children==undefined) !== nil && (!$a.$$is_boolean || $a == true))) {
-          return []
-          } else {
-          return [self["native"].props.children].$flatten()
-        }; return nil; })();
-        (function(self) {
-          var $scope = self.$$scope, def = self.$$proto, TMP_5;
-
-          self.$include($scope.get('Enumerable'));
-          Opal.defn(self, '$to_n', function() {
-            var self = this;
-
-            return self;
-          });
-          return (Opal.defn(self, '$each', TMP_5 = function() {
-            var $a, $b, TMP_6, self = this, $iter = TMP_5.$$p, block = $iter || nil;
-
-            TMP_5.$$p = null;
-            if ((block !== nil)) {
-              
-                  React.Children.forEach(self.$to_n(), function(context){
-            block.$call((($scope.get('React')).$$scope.get('Element')).$new(context))
-                  })
-            ;
-              return nil;
-              } else {
-              return ($a = ($b = $scope.get('Enumerator')).$new, $a.$$p = (TMP_6 = function(y){var self = TMP_6.$$s || this;
-if (y == null) y = nil;
-              
-                    React.Children.forEach(self.$to_n(), function(context){
-              y['$<<']((($scope.get('React')).$$scope.get('Element')).$new(context))
-                    })
-              ;}, TMP_6.$$s = self, TMP_6), $a).call($b, React.Children.count(self.$to_n()))
-            };
-          }), nil) && 'each';
-        })(Opal.get_singleton_class(nodes));
-        return nodes;
-      });
-
-      Opal.defn(self, '$params', function() {
-        var self = this;
-        if (self.props_wrapper == null) self.props_wrapper = nil;
-
-        return self.props_wrapper;
-      });
-
-      Opal.defn(self, '$props', function() {
-        var self = this;
-        if (self["native"] == null) self["native"] = nil;
-
-        return $scope.get('Hash').$new(self["native"].props);
-      });
-
-      Opal.defn(self, '$refs', function() {
-        var self = this;
-        if (self["native"] == null) self["native"] = nil;
-
-        return $scope.get('Hash').$new(self["native"].refs);
-      });
-
-      Opal.defn(self, '$state', function() {
-        var $a, self = this;
-        if (self.state_wrapper == null) self.state_wrapper = nil;
-        if (self["native"] == null) self["native"] = nil;
-
-        return ((($a = self.state_wrapper) !== false && $a !== nil) ? $a : self.state_wrapper = $scope.get('StateWrapper').$new(self["native"], self));
-      });
 
       Opal.defn(self, '$update_react_js_state', function(object, name, value) {
         var self = this;
@@ -58177,7 +58101,7 @@ if (y == null) y = nil;
       });
 
       Opal.defn(self, '$component_will_mount', function() {
-        var $a, $b, TMP_7, self = this, e = nil;
+        var $a, $b, TMP_2, self = this, e = nil;
         if (self["native"] == null) self["native"] = nil;
 
         try {
@@ -58187,9 +58111,9 @@ if (y == null) y = nil;
           if ((($a = self.$initial_state()) !== nil && (!$a.$$is_boolean || $a == true))) {
             self['$set_state!'](self.$initial_state())};
           $scope.get('State').$initialize_states(self, self.$initial_state());
-          return ($a = ($b = $scope.get('State')).$set_state_context_to, $a.$$p = (TMP_7 = function(){var self = TMP_7.$$s || this;
+          return ($a = ($b = $scope.get('State')).$set_state_context_to, $a.$$p = (TMP_2 = function(){var self = TMP_2.$$s || this;
 
-          return self.$run_callback("before_mount")}, TMP_7.$$s = self, TMP_7), $a).call($b, self);
+          return self.$run_callback("before_mount")}, TMP_2.$$s = self, TMP_2), $a).call($b, self);
         } catch ($err) {if (Opal.rescue($err, [$scope.get('Exception')])) {e = $err;
           try {
             return self.$class().$process_exception(e, self)
@@ -58201,13 +58125,13 @@ if (y == null) y = nil;
       });
 
       Opal.defn(self, '$component_did_mount', function() {
-        var $a, $b, TMP_8, self = this, e = nil;
+        var $a, $b, TMP_3, self = this, e = nil;
 
         try {
-        return ($a = ($b = $scope.get('State')).$set_state_context_to, $a.$$p = (TMP_8 = function(){var self = TMP_8.$$s || this;
+        return ($a = ($b = $scope.get('State')).$set_state_context_to, $a.$$p = (TMP_3 = function(){var self = TMP_3.$$s || this;
 
           self.$run_callback("after_mount");
-            return $scope.get('State').$update_states_to_observe();}, TMP_8.$$s = self, TMP_8), $a).call($b, self)
+            return $scope.get('State').$update_states_to_observe();}, TMP_3.$$s = self, TMP_3), $a).call($b, self)
         } catch ($err) {if (Opal.rescue($err, [$scope.get('Exception')])) {e = $err;
           try {
             return self.$class().$process_exception(e, self)
@@ -58219,12 +58143,12 @@ if (y == null) y = nil;
       });
 
       Opal.defn(self, '$component_will_receive_props', function(next_props) {
-        var $a, $b, TMP_9, self = this, e = nil;
+        var $a, $b, TMP_4, self = this, e = nil;
 
         try {
-        return ($a = ($b = $scope.get('State')).$set_state_context_to, $a.$$p = (TMP_9 = function(){var self = TMP_9.$$s || this;
+        return ($a = ($b = $scope.get('State')).$set_state_context_to, $a.$$p = (TMP_4 = function(){var self = TMP_4.$$s || this;
 
-          return self.$run_callback("before_receive_props", $scope.get('Hash').$new(next_props))}, TMP_9.$$s = self, TMP_9), $a).call($b, self)
+          return self.$run_callback("before_receive_props", $scope.get('Hash').$new(next_props))}, TMP_4.$$s = self, TMP_4), $a).call($b, self)
         } catch ($err) {if (Opal.rescue($err, [$scope.get('Exception')])) {e = $err;
           try {
             return self.$class().$process_exception(e, self)
@@ -58236,21 +58160,21 @@ if (y == null) y = nil;
       });
 
       Opal.defn(self, '$props_changed?', function(next_props) {
-        var $a, $b, TMP_10, self = this;
+        var $a, $b, TMP_5, self = this;
 
         if (self.$props().$keys().$sort()['$=='](next_props.$keys().$sort())) {
           } else {
           return true
         };
-        return ($a = ($b = self.$props()).$detect, $a.$$p = (TMP_10 = function(k, v){var self = TMP_10.$$s || this;
+        return ($a = ($b = self.$props()).$detect, $a.$$p = (TMP_5 = function(k, v){var self = TMP_5.$$s || this;
 if (k == null) k = nil;if (v == null) v = nil;
-        return next_props['$[]'](k) != self.$params()['$[]'](k);}, TMP_10.$$s = self, TMP_10), $a).call($b);
+        return next_props['$[]'](k) != self.$params()['$[]'](k);}, TMP_5.$$s = self, TMP_5), $a).call($b);
       });
 
       Opal.defn(self, '$should_component_update?', function(next_props, next_state) {
-        var $a, $b, TMP_11, self = this;
+        var $a, $b, TMP_6, self = this;
 
-        return ($a = ($b = $scope.get('State')).$set_state_context_to, $a.$$p = (TMP_11 = function(){var self = TMP_11.$$s || this, $a;
+        return ($a = ($b = $scope.get('State')).$set_state_context_to, $a.$$p = (TMP_6 = function(){var self = TMP_6.$$s || this, $a;
           if (self["native"] == null) self["native"] = nil;
 
         next_props = $scope.get('Hash').$new(next_props);
@@ -58268,17 +58192,17 @@ if (k == null) k = nil;if (v == null) v = nil;
             return true
             } else {
             return false
-          }; return nil; })().$to_n();}, TMP_11.$$s = self, TMP_11), $a).call($b, self);
+          }; return nil; })().$to_n();}, TMP_6.$$s = self, TMP_6), $a).call($b, self);
       });
 
       Opal.defn(self, '$component_will_update', function(next_props, next_state) {
-        var $a, $b, TMP_12, self = this, e = nil;
+        var $a, $b, TMP_7, self = this, e = nil;
         if (self.props_wrapper == null) self.props_wrapper = nil;
 
         try {
-        ($a = ($b = $scope.get('State')).$set_state_context_to, $a.$$p = (TMP_12 = function(){var self = TMP_12.$$s || this;
+        ($a = ($b = $scope.get('State')).$set_state_context_to, $a.$$p = (TMP_7 = function(){var self = TMP_7.$$s || this;
 
-          return self.$run_callback("before_update", $scope.get('Hash').$new(next_props), $scope.get('Hash').$new(next_state))}, TMP_12.$$s = self, TMP_12), $a).call($b, self);
+          return self.$run_callback("before_update", $scope.get('Hash').$new(next_props), $scope.get('Hash').$new(next_state))}, TMP_7.$$s = self, TMP_7), $a).call($b, self);
           return self.props_wrapper = self.$class().$props_wrapper().$new($scope.get('Hash').$new(next_props), self.props_wrapper);
         } catch ($err) {if (Opal.rescue($err, [$scope.get('Exception')])) {e = $err;
           try {
@@ -58291,13 +58215,13 @@ if (k == null) k = nil;if (v == null) v = nil;
       });
 
       Opal.defn(self, '$component_did_update', function(prev_props, prev_state) {
-        var $a, $b, TMP_13, self = this, e = nil;
+        var $a, $b, TMP_8, self = this, e = nil;
 
         try {
-        return ($a = ($b = $scope.get('State')).$set_state_context_to, $a.$$p = (TMP_13 = function(){var self = TMP_13.$$s || this;
+        return ($a = ($b = $scope.get('State')).$set_state_context_to, $a.$$p = (TMP_8 = function(){var self = TMP_8.$$s || this;
 
           self.$run_callback("after_update", $scope.get('Hash').$new(prev_props), $scope.get('Hash').$new(prev_state));
-            return $scope.get('State').$update_states_to_observe();}, TMP_13.$$s = self, TMP_13), $a).call($b, self)
+            return $scope.get('State').$update_states_to_observe();}, TMP_8.$$s = self, TMP_8), $a).call($b, self)
         } catch ($err) {if (Opal.rescue($err, [$scope.get('Exception')])) {e = $err;
           try {
             return self.$class().$process_exception(e, self)
@@ -58309,13 +58233,13 @@ if (k == null) k = nil;if (v == null) v = nil;
       });
 
       Opal.defn(self, '$component_will_unmount', function() {
-        var $a, $b, TMP_14, self = this, e = nil;
+        var $a, $b, TMP_9, self = this, e = nil;
 
         try {
-        return ($a = ($b = $scope.get('State')).$set_state_context_to, $a.$$p = (TMP_14 = function(){var self = TMP_14.$$s || this;
+        return ($a = ($b = $scope.get('State')).$set_state_context_to, $a.$$p = (TMP_9 = function(){var self = TMP_9.$$s || this;
 
           self.$run_callback("before_unmount");
-            return $scope.get('State').$remove();}, TMP_14.$$s = self, TMP_14), $a).call($b, self)
+            return $scope.get('State').$remove();}, TMP_9.$$s = self, TMP_9), $a).call($b, self)
         } catch ($err) {if (Opal.rescue($err, [$scope.get('Exception')])) {e = $err;
           try {
             return self.$class().$process_exception(e, self)
@@ -58324,115 +58248,25 @@ if (k == null) k = nil;if (v == null) v = nil;
           }
           }else { throw $err; }
         };
-      });
-
-      Opal.defn(self, '$p', TMP_15 = function() {
-        var $a, $b, $c, self = this, $iter = TMP_15.$$p, block = $iter || nil, $splat_index = nil;
-
-        var array_size = arguments.length - 0;
-        if(array_size < 0) array_size = 0;
-        var args = new Array(array_size);
-        for($splat_index = 0; $splat_index < array_size; $splat_index++) {
-          args[$splat_index] = arguments[$splat_index + 0];
-        }
-        TMP_15.$$p = null;
-        if ((($a = ((($b = ((($c = block) !== false && $c !== nil) ? $c : args.$count()['$=='](0))) !== false && $b !== nil) ? $b : ((($c = args.$count()['$=='](1)) ? args.$first()['$is_a?']($scope.get('Hash')) : args.$count()['$=='](1))))) !== nil && (!$a.$$is_boolean || $a == true))) {
-          return ($a = ($b = self).$_p_tag, $a.$$p = block.$to_proc(), $a).apply($b, Opal.to_a(args))
-          } else {
-          return ($a = $scope.get('Kernel')).$p.apply($a, Opal.to_a(args))
-        };
-      });
-
-      Opal.defn(self, '$component?', function(name) {try {
-
-        var $a, $b, TMP_16, $c, TMP_17, self = this, name_list = nil, scope_list = nil;
-
-        name_list = name.$split("::");
-        scope_list = ($a = ($b = self.$class().$name().$split("::")).$inject, $a.$$p = (TMP_16 = function(nesting, next_const){var self = TMP_16.$$s || this;
-if (nesting == null) nesting = nil;if (next_const == null) next_const = nil;
-        return $rb_plus(nesting, [nesting.$last().$const_get(next_const)])}, TMP_16.$$s = self, TMP_16), $a).call($b, [$scope.get('Module')]).$reverse();
-        ($a = ($c = scope_list).$each, $a.$$p = (TMP_17 = function(scope){var self = TMP_17.$$s || this, $a, $b, TMP_18, $c, component = nil;
-if (scope == null) scope = nil;
-        component = (function() {try {return ($a = ($b = name_list).$inject, $a.$$p = (TMP_18 = function(scope, class_name){var self = TMP_18.$$s || this;
-if (scope == null) scope = nil;if (class_name == null) class_name = nil;
-          return scope.$const_get(class_name)}, TMP_18.$$s = self, TMP_18), $a).call($b, scope) } catch ($err) { return nil }})();
-          if ((($a = (($c = component !== false && component !== nil) ? component['$method_defined?']("render") : component)) !== nil && (!$a.$$is_boolean || $a == true))) {
-            Opal.ret(component)
-            } else {
-            return nil
-          };}, TMP_17.$$s = self, TMP_17), $a).call($c);
-        return nil;
-        } catch ($returner) { if ($returner === Opal.returner) { return $returner.$v } throw $returner; }
-      });
-
-      Opal.defn(self, '$method_missing', TMP_19 = function(n) {
-        var $a, $b, $c, $d, self = this, $iter = TMP_19.$$p, block = $iter || nil, name = nil, node_only = nil, $splat_index = nil, $zuper = nil, $zuper_index = nil;
-
-        var array_size = arguments.length - 1;
-        if(array_size < 0) array_size = 0;
-        var args = new Array(array_size);
-        for($splat_index = 0; $splat_index < array_size; $splat_index++) {
-          args[$splat_index] = arguments[$splat_index + 1];
-        }
-        TMP_19.$$p = null;
-        $zuper = [];
-        for($zuper_index = 0; $zuper_index < arguments.length; $zuper_index++) {
-          $zuper[$zuper_index] = arguments[$zuper_index];
-        }
-        if ((($a = self.$props()['$key?'](n)) !== nil && (!$a.$$is_boolean || $a == true))) {
-          return self.$props()['$[]'](n)};
-        name = n;
-        if ((($a = name['$=~'](/_as_node$/)) !== nil && (!$a.$$is_boolean || $a == true))) {
-          node_only = true;
-          name = name.$gsub(/_as_node$/, "");};
-        if ((($a = (((($b = ((($c = ((($d = $scope.get('HTML_TAGS')['$include?'](name)) !== false && $d !== nil) ? $d : name['$==']("present"))) !== false && $c !== nil) ? $c : name['$==']("_p_tag"))) !== false && $b !== nil) ? $b : (name = self['$component?'](name, self))))) !== nil && (!$a.$$is_boolean || $a == true))) {
-          } else {
-          return Opal.find_super_dispatcher(self, 'method_missing', TMP_19, $iter).apply(self, $zuper)
-        };
-        if (name['$==']("present")) {
-          name = args.$shift()};
-        if (name['$==']("_p_tag")) {
-          name = "p"};
-        return ($a = ($b = (($scope.get('React')).$$scope.get('RenderingContext'))).$build_or_render, $a.$$p = block.$to_proc(), $a).apply($b, [node_only, name].concat(Opal.to_a(args)));
-      });
-
-      Opal.defn(self, '$watch', TMP_20 = function(value) {
-        var self = this, $iter = TMP_20.$$p, on_change = $iter || nil;
-
-        TMP_20.$$p = null;
-        return $scope.get('Observable').$new(value, on_change);
-      });
-
-      Opal.defn(self, '$define_state', TMP_21 = function() {
-        var $a, $b, self = this, $iter = TMP_21.$$p, block = $iter || nil, $splat_index = nil;
-
-        var array_size = arguments.length - 0;
-        if(array_size < 0) array_size = 0;
-        var args = new Array(array_size);
-        for($splat_index = 0; $splat_index < array_size; $splat_index++) {
-          args[$splat_index] = arguments[$splat_index + 0];
-        }
-        TMP_21.$$p = null;
-        return $scope.get('State').$initialize_states(self, ($a = ($b = self.$class()).$define_state, $a.$$p = block.$to_proc(), $a).apply($b, Opal.to_a(args)));
       });
 
       self.$attr_reader("waiting_on_resources");
 
       Opal.defn(self, '$_render_wrapper', function() {
-        var $a, $b, TMP_22, self = this, e = nil;
+        var $a, $b, TMP_10, self = this, e = nil;
 
         try {
-        return ($a = ($b = $scope.get('State')).$set_state_context_to, $a.$$p = (TMP_22 = function(){var self = TMP_22.$$s || this, $a, $b, TMP_23, $c, $d, TMP_24;
+        return ($a = ($b = $scope.get('State')).$set_state_context_to, $a.$$p = (TMP_10 = function(){var self = TMP_10.$$s || this, $a, $b, TMP_11, $c, $d, TMP_12;
 
-          return ($a = ($b = ($c = ($d = (($scope.get('React')).$$scope.get('RenderingContext'))).$render, $c.$$p = (TMP_24 = function(){var self = TMP_24.$$s || this, $a;
+          return ($a = ($b = ($c = ($d = (($scope.get('React')).$$scope.get('RenderingContext'))).$render, $c.$$p = (TMP_12 = function(){var self = TMP_12.$$s || this, $a;
 
-            return ((($a = self.$render()) !== false && $a !== nil) ? $a : "")}, TMP_24.$$s = self, TMP_24), $c).call($d, nil)).$tap, $a.$$p = (TMP_23 = function(element){var self = TMP_23.$$s || this, $a;
+            return ((($a = self.$render()) !== false && $a !== nil) ? $a : "")}, TMP_12.$$s = self, TMP_12), $c).call($d, nil)).$tap, $a.$$p = (TMP_11 = function(element){var self = TMP_11.$$s || this, $a;
 if (element == null) element = nil;
             if ((($a = element['$respond_to?']("waiting_on_resources")) !== nil && (!$a.$$is_boolean || $a == true))) {
                 return self.waiting_on_resources = element.$waiting_on_resources()
                 } else {
                 return nil
-              }}, TMP_23.$$s = self, TMP_23), $a).call($b)}, TMP_22.$$s = self, TMP_22), $a).call($b, self)
+              }}, TMP_11.$$s = self, TMP_11), $a).call($b)}, TMP_10.$$s = self, TMP_10), $a).call($b, self)
         } catch ($err) {if (Opal.rescue($err, [$scope.get('Exception')])) {e = $err;
           try {
             return self.$class().$process_exception(e, self)
@@ -58442,8 +58276,275 @@ if (element == null) element = nil;
           }else { throw $err; }
         };
       });
+
+      Opal.defn(self, '$watch', TMP_13 = function(value) {
+        var self = this, $iter = TMP_13.$$p, on_change = $iter || nil;
+
+        TMP_13.$$p = null;
+        return $scope.get('Observable').$new(value, on_change);
+      });
+
+      Opal.defn(self, '$define_state', TMP_14 = function() {
+        var $a, $b, self = this, $iter = TMP_14.$$p, block = $iter || nil, $splat_index = nil;
+
+        var array_size = arguments.length - 0;
+        if(array_size < 0) array_size = 0;
+        var args = new Array(array_size);
+        for($splat_index = 0; $splat_index < array_size; $splat_index++) {
+          args[$splat_index] = arguments[$splat_index + 0];
+        }
+        TMP_14.$$p = null;
+        return $scope.get('State').$initialize_states(self, ($a = ($b = self.$class()).$define_state, $a.$$p = block.$to_proc(), $a).apply($b, Opal.to_a(args)));
+      });
     })($scope.base)
   })($scope.base);
+};
+
+/* Generated by Opal 0.9.4 */
+Opal.modules["react/component/dsl_instance_methods"] = function(Opal) {
+  Opal.dynamic_require_severity = "error";
+  var OPAL_CONFIG = { method_missing: true, arity_check: false, freezing: true, tainting: true };
+  var self = Opal.top, $scope = Opal, nil = Opal.nil, $breaker = Opal.breaker, $slice = Opal.slice, $module = Opal.module;
+
+  Opal.add_stubs(['$flatten', '$include', '$to_n', '$new', '$<<']);
+  return (function($base) {
+    var $React, self = $React = $module($base, 'React');
+
+    var def = self.$$proto, $scope = self.$$scope;
+
+    (function($base) {
+      var $Component, self = $Component = $module($base, 'Component');
+
+      var def = self.$$proto, $scope = self.$$scope;
+
+      (function($base) {
+        var $DslInstanceMethods, self = $DslInstanceMethods = $module($base, 'DslInstanceMethods');
+
+        var def = self.$$proto, $scope = self.$$scope;
+
+        Opal.defn(self, '$children', function() {
+          var $a, self = this, nodes = nil;
+          if (self["native"] == null) self["native"] = nil;
+
+          if ((($a = self["native"].props.children==undefined) !== nil && (!$a.$$is_boolean || $a == true))) {
+            nodes = []
+            } else {
+            nodes = [self["native"].props.children].$flatten()
+          };
+          (function(self) {
+            var $scope = self.$$scope, def = self.$$proto, TMP_1;
+
+            self.$include($scope.get('Enumerable'));
+            Opal.defn(self, '$to_n', function() {
+              var self = this;
+
+              return self;
+            });
+            return (Opal.defn(self, '$each', TMP_1 = function() {
+              var $a, $b, TMP_2, self = this, $iter = TMP_1.$$p, block = $iter || nil;
+
+              TMP_1.$$p = null;
+              if ((block !== nil)) {
+                
+                    React.Children.forEach(self.$to_n(), function(context){
+              ((($a = Opal.yield1(block, (($scope.get('React')).$$scope.get('Element')).$new(context))) === $breaker) ? $breaker.$v : $a)
+                    })
+              ;
+                return nil;
+                } else {
+                return ($a = ($b = $scope.get('Enumerator')).$new, $a.$$p = (TMP_2 = function(y){var self = TMP_2.$$s || this;
+if (y == null) y = nil;
+                
+                      React.Children.forEach(self.$to_n(), function(context){
+                y['$<<']($scope.get('Element').$new(context))
+                      })
+                ;}, TMP_2.$$s = self, TMP_2), $a).call($b, React.Children.count(self.$to_n()))
+              };
+            }), nil) && 'each';
+          })(Opal.get_singleton_class(nodes));
+          return nodes;
+        });
+
+        Opal.defn(self, '$params', function() {
+          var self = this;
+          if (self.props_wrapper == null) self.props_wrapper = nil;
+
+          return self.props_wrapper;
+        });
+
+        Opal.defn(self, '$props', function() {
+          var self = this;
+          if (self["native"] == null) self["native"] = nil;
+
+          return $scope.get('Hash').$new(self["native"].props);
+        });
+
+        Opal.defn(self, '$refs', function() {
+          var self = this;
+          if (self["native"] == null) self["native"] = nil;
+
+          return $scope.get('Hash').$new(self["native"].refs);
+        });
+
+        Opal.defn(self, '$state', function() {
+          var $a, self = this;
+          if (self.state_wrapper == null) self.state_wrapper = nil;
+          if (self["native"] == null) self["native"] = nil;
+
+          return ((($a = self.state_wrapper) !== false && $a !== nil) ? $a : self.state_wrapper = $scope.get('StateWrapper').$new(self["native"], self));
+        });
+      })($scope.base)
+    })($scope.base)
+  })($scope.base)
+};
+
+/* Generated by Opal 0.9.4 */
+Opal.modules["react/component/tags"] = function(Opal) {
+  Opal.dynamic_require_severity = "error";
+  var OPAL_CONFIG = { method_missing: true, arity_check: false, freezing: true, tainting: true };
+  function $rb_gt(lhs, rhs) {
+    return (typeof(lhs) === 'number' && typeof(rhs) === 'number') ? lhs > rhs : lhs['$>'](rhs);
+  }
+  function $rb_plus(lhs, rhs) {
+    return (typeof(lhs) === 'number' && typeof(rhs) === 'number') ? lhs + rhs : lhs['$+'](rhs);
+  }
+  var self = Opal.top, $scope = Opal, nil = Opal.nil, $breaker = Opal.breaker, $slice = Opal.slice, $module = Opal.module;
+
+  Opal.add_stubs(['$render', '$to_proc', '$build_only', '$each', '$define_method', '$alias_method', '$upcase', '$const_set', '$=~', '$find_component', '$gsub', '$method_missing', '$find_name_and_parent', '$private', '$name', '$split', '$>', '$length', '$last', '$[]', '$inject', '$+', '$const_get', '$reverse', '$class', '$detect', '$const_defined?', '$method_defined?', '$raise']);
+  return (function($base) {
+    var $React, self = $React = $module($base, 'React');
+
+    var def = self.$$proto, $scope = self.$$scope;
+
+    (function($base) {
+      var $Component, self = $Component = $module($base, 'Component');
+
+      var def = self.$$proto, $scope = self.$$scope;
+
+      (function($base) {
+        var $Tags, self = $Tags = $module($base, 'Tags');
+
+        var def = self.$$proto, $scope = self.$$scope, TMP_1, TMP_2, $a, $b, TMP_3, TMP_6;
+
+        Opal.cdecl($scope, 'HTML_TAGS', ["a", "abbr", "address", "area", "article", "aside", "audio", "b", "base", "bdi", "bdo", "big", "blockquote", "body", "br", "button", "canvas", "caption", "cite", "code", "col", "colgroup", "data", "datalist", "dd", "del", "details", "dfn", "dialog", "div", "dl", "dt", "em", "embed", "fieldset", "figcaption", "figure", "footer", "form", "h1", "h2", "h3", "h4", "h5", "h6", "head", "header", "hr", "html", "i", "iframe", "img", "input", "ins", "kbd", "keygen", "label", "legend", "li", "link", "main", "map", "mark", "menu", "menuitem", "meta", "meter", "nav", "noscript", "object", "ol", "optgroup", "option", "output", "p", "param", "picture", "pre", "progress", "q", "rp", "rt", "ruby", "s", "samp", "script", "section", "select", "small", "source", "span", "strong", "style", "sub", "summary", "sup", "table", "tbody", "td", "textarea", "tfoot", "th", "thead", "time", "title", "tr", "track", "u", "ul", "var", "video", "wbr"]);
+
+        Opal.defn(self, '$present', TMP_1 = function(component) {
+          var $a, $b, self = this, $iter = TMP_1.$$p, children = $iter || nil, $splat_index = nil;
+
+          var array_size = arguments.length - 1;
+          if(array_size < 0) array_size = 0;
+          var params = new Array(array_size);
+          for($splat_index = 0; $splat_index < array_size; $splat_index++) {
+            params[$splat_index] = arguments[$splat_index + 1];
+          }
+          TMP_1.$$p = null;
+          return ($a = ($b = (($scope.get('React')).$$scope.get('RenderingContext'))).$render, $a.$$p = children.$to_proc(), $a).apply($b, [component].concat(Opal.to_a(params)));
+        });
+
+        Opal.defn(self, '$present_as_node', TMP_2 = function(component) {
+          var $a, $b, self = this, $iter = TMP_2.$$p, children = $iter || nil, $splat_index = nil;
+
+          var array_size = arguments.length - 1;
+          if(array_size < 0) array_size = 0;
+          var params = new Array(array_size);
+          for($splat_index = 0; $splat_index < array_size; $splat_index++) {
+            params[$splat_index] = arguments[$splat_index + 1];
+          }
+          TMP_2.$$p = null;
+          return ($a = ($b = (($scope.get('React')).$$scope.get('RenderingContext'))).$build_only, $a.$$p = children.$to_proc(), $a).apply($b, [component].concat(Opal.to_a(params)));
+        });
+
+        ($a = ($b = $scope.get('HTML_TAGS')).$each, $a.$$p = (TMP_3 = function(tag){var self = TMP_3.$$s || this, $a, $b, TMP_4, $c, TMP_5;
+if (tag == null) tag = nil;
+        ($a = ($b = self).$define_method, $a.$$p = (TMP_4 = function(params){var self = TMP_4.$$s || this, children, $a, $b;
+params = $slice.call(arguments, 0);
+            children = TMP_4.$$p || nil, TMP_4.$$p = null;
+          return ($a = ($b = (($scope.get('React')).$$scope.get('RenderingContext'))).$render, $a.$$p = children.$to_proc(), $a).apply($b, [tag].concat(Opal.to_a(params)))}, TMP_4.$$s = self, TMP_4), $a).call($b, tag);
+          self.$alias_method(tag.$upcase(), tag);
+          self.$const_set(tag.$upcase(), tag);
+          return ($a = ($c = self).$define_method, $a.$$p = (TMP_5 = function(params){var self = TMP_5.$$s || this, children, $a, $b;
+params = $slice.call(arguments, 0);
+            children = TMP_5.$$p || nil, TMP_5.$$p = null;
+          return ($a = ($b = (($scope.get('React')).$$scope.get('RenderingContext'))).$build_only, $a.$$p = children.$to_proc(), $a).apply($b, [tag].concat(Opal.to_a(params)))}, TMP_5.$$s = self, TMP_5), $a).call($c, "" + (tag) + "_as_node");}, TMP_3.$$s = self, TMP_3), $a).call($b);
+
+        Opal.defn(self, '$method_missing', TMP_6 = function(name) {
+          var $a, $b, $c, $d, self = this, $iter = TMP_6.$$p, children = $iter || nil, component = nil, $splat_index = nil;
+
+          var array_size = arguments.length - 1;
+          if(array_size < 0) array_size = 0;
+          var params = new Array(array_size);
+          for($splat_index = 0; $splat_index < array_size; $splat_index++) {
+            params[$splat_index] = arguments[$splat_index + 1];
+          }
+          TMP_6.$$p = null;
+          if ((($a = name['$=~'](/_as_node$/)) !== nil && (!$a.$$is_boolean || $a == true))) {
+            component = self.$find_component(name.$gsub(/_as_node$/, ""));
+            if (component !== false && component !== nil) {
+              return ($a = ($b = (($scope.get('React')).$$scope.get('RenderingContext'))).$build_only, $a.$$p = children.$to_proc(), $a).apply($b, [component].concat(Opal.to_a(params)))};
+            } else {
+            component = self.$find_component(name);
+            if (component !== false && component !== nil) {
+              return ($a = ($c = (($scope.get('React')).$$scope.get('RenderingContext'))).$render, $a.$$p = children.$to_proc(), $a).apply($c, [component].concat(Opal.to_a(params)))};
+          };
+          return ($a = ($d = $scope.get('Object')).$method_missing, $a.$$p = children.$to_proc(), $a).apply($d, [name].concat(Opal.to_a(params)));
+        });
+
+        (function(self) {
+          var $scope = self.$$scope, def = self.$$proto;
+
+          Opal.defn(self, '$included', function(component) {
+            var $a, $b, self = this, _name = nil, parent = nil;
+
+            $b = self.$find_name_and_parent(component), $a = Opal.to_ary($b), _name = ($a[0] == null ? nil : $a[0]), parent = ($a[1] == null ? nil : $a[1]), $b;
+            return (function(self) {
+              var $scope = self.$$scope, def = self.$$proto, $a, $b, TMP_7, $c, TMP_8;
+
+              ($a = ($b = self).$define_method, $a.$$p = (TMP_7 = function(params){var self = TMP_7.$$s || this, children, $a, $b;
+params = $slice.call(arguments, 0);
+                children = TMP_7.$$p || nil, TMP_7.$$p = null;
+              return ($a = ($b = (($scope.get('React')).$$scope.get('RenderingContext'))).$render, $a.$$p = children.$to_proc(), $a).apply($b, [component].concat(Opal.to_a(params)))}, TMP_7.$$s = self, TMP_7), $a).call($b, _name);
+              return ($a = ($c = self).$define_method, $a.$$p = (TMP_8 = function(params){var self = TMP_8.$$s || this, children, $a, $b;
+params = $slice.call(arguments, 0);
+                children = TMP_8.$$p || nil, TMP_8.$$p = null;
+              return ($a = ($b = (($scope.get('React')).$$scope.get('RenderingContext'))).$build_only, $a.$$p = children.$to_proc(), $a).apply($b, [component].concat(Opal.to_a(params)))}, TMP_8.$$s = self, TMP_8), $a).call($c, "" + (_name) + "_as_node");
+            })(Opal.get_singleton_class(parent));
+          });
+          self.$private();
+          return (Opal.defn(self, '$find_name_and_parent', function(component) {
+            var $a, $b, TMP_9, self = this, split_name = nil;
+
+            split_name = ($a = component.$name(), $a !== false && $a !== nil ?component.$name().$split("::") : $a);
+            if ((($a = (($b = split_name !== false && split_name !== nil) ? $rb_gt(split_name.$length(), 1) : split_name)) !== nil && (!$a.$$is_boolean || $a == true))) {
+              return [split_name.$last(), ($a = ($b = split_name).$inject, $a.$$p = (TMP_9 = function(a, e){var self = TMP_9.$$s || this;
+if (a == null) a = nil;if (e == null) e = nil;
+              return $rb_plus(a, [a.$last().$const_get(e)])}, TMP_9.$$s = self, TMP_9), $a).call($b, [$scope.get('Module')])['$[]'](-2)]
+              } else {
+              return nil
+            };
+          }), nil) && 'find_name_and_parent';
+        })(Opal.get_singleton_class(self));
+
+        self.$private();
+
+        Opal.defn(self, '$find_component', function(name) {try {
+
+          var $a, $b, TMP_10, $c, $d, TMP_11, self = this, scopes = nil, scope = nil, component = nil;
+
+          scopes = ($a = ($b = (("") + (self.$class().$name())).$split("::")).$inject, $a.$$p = (TMP_10 = function(nesting, next_const){var self = TMP_10.$$s || this;
+if (nesting == null) nesting = nil;if (next_const == null) next_const = nil;
+          return $rb_plus(nesting, [nesting.$last().$const_get(next_const)])}, TMP_10.$$s = self, TMP_10), $a).call($b, [$scope.get('Module')]).$reverse();
+          scope = ((($a = ($c = ($d = scopes).$detect, $c.$$p = (TMP_11 = function(s){var self = TMP_11.$$s || this;
+if (s == null) s = nil;
+          return s['$const_defined?'](name)}, TMP_11.$$s = self, TMP_11), $c).call($d)) !== false && $a !== nil) ? $a : Opal.ret(nil));
+          component = scope.$const_get(name);
+          if ((($a = component['$method_defined?']("render")) !== nil && (!$a.$$is_boolean || $a == true))) {
+            return component};
+          return self.$raise("" + (name) + " does not appear to be a react component.");
+          } catch ($returner) { if ($returner === Opal.returner) { return $returner.$v } throw $returner; }
+        });
+      })($scope.base)
+    })($scope.base)
+  })($scope.base)
 };
 
 /* Generated by Opal 0.9.4 */
@@ -58705,9 +58806,12 @@ Opal.modules["react/event"] = function(Opal) {
 Opal.modules["react/native_library"] = function(Opal) {
   Opal.dynamic_require_severity = "error";
   var OPAL_CONFIG = { method_missing: true, arity_check: false, freezing: true, tainting: true };
-  var self = Opal.top, $scope = Opal, nil = Opal.nil, $breaker = Opal.breaker, $slice = Opal.slice, $module = Opal.module, $klass = Opal.klass, $hash2 = Opal.hash2;
+  function $rb_plus(lhs, rhs) {
+    return (typeof(lhs) === 'number' && typeof(rhs) === 'number') ? lhs + rhs : lhs['$+'](rhs);
+  }
+  var self = Opal.top, $scope = Opal, nil = Opal.nil, $breaker = Opal.breaker, $slice = Opal.slice, $module = Opal.module, $klass = Opal.klass, $range = Opal.range;
 
-  Opal.add_stubs(['$has_key?', '$renames_and_exclusions', '$[]', '$each', '$import_native_component', '$libraries', '$=~', '$gsub', '$const_get', '$build_or_render', '$to_proc', '$<<', '$merge!', '$invert', '$merge', '$map']);
+  Opal.add_stubs(['$each', '$lookup_native_name', '$create_component_wrapper', '$create_library_wrapper', '$raise', '$name', '$scope_native_name', '$+', '$downcase', '$[]', '$import_const_from_native', '$gsub', '$const_defined?', '$get_const', '$==', '$render', '$to_proc', '$build_only', '$private', '$native_react_component?', '$const_set', '$new', '$class_eval', '$include', '$imports']);
   return (function($base) {
     var $React, self = $React = $module($base, 'React');
 
@@ -58717,114 +58821,111 @@ Opal.modules["react/native_library"] = function(Opal) {
       function $NativeLibrary(){};
       var self = $NativeLibrary = $klass($base, $super, 'NativeLibrary', $NativeLibrary);
 
-      var def = self.$$proto, $scope = self.$$scope, TMP_1, TMP_3;
+      var def = self.$$proto, $scope = self.$$scope;
 
-      Opal.defs(self, '$renames_and_exclusions', function() {
-        var $a, self = this;
-        if (self.renames_and_exclusions == null) self.renames_and_exclusions = nil;
+      return (function(self) {
+        var $scope = self.$$scope, def = self.$$proto, TMP_2, TMP_3;
 
-        return ((($a = self.renames_and_exclusions) !== false && $a !== nil) ? $a : self.renames_and_exclusions = $hash2([], {}));
-      });
+        Opal.defn(self, '$imports', function(native_name) {
+          var self = this;
 
-      Opal.defs(self, '$libraries', function() {
-        var $a, self = this;
-        if (self.libraries == null) self.libraries = nil;
+          self.native_prefix = "" + (native_name) + ".";
+          return self;
+        });
+        Opal.defn(self, '$rename', function(rename_list) {
+          var $a, $b, TMP_1, self = this;
 
-        return ((($a = self.libraries) !== false && $a !== nil) ? $a : self.libraries = []);
-      });
-
-      Opal.defs(self, '$const_missing', TMP_1 = function(name) {try {
-
-        var $a, $b, TMP_2, self = this, $iter = TMP_1.$$p, $yield = $iter || nil, native_name = nil, $zuper = nil, $zuper_index = nil;
-
-        TMP_1.$$p = null;
-        $zuper = [];
-        for($zuper_index = 0; $zuper_index < arguments.length; $zuper_index++) {
-          $zuper[$zuper_index] = arguments[$zuper_index];
-        }
-        if ((($a = self.$renames_and_exclusions()['$has_key?'](name)) !== nil && (!$a.$$is_boolean || $a == true))) {
-          if ((($a = native_name = self.$renames_and_exclusions()['$[]'](name)) !== nil && (!$a.$$is_boolean || $a == true))) {
-            return native_name
-            } else {
-            return Opal.find_super_dispatcher(self, 'const_missing', TMP_1, $iter, $NativeLibrary).apply(self, $zuper)
-          }
-          } else {
-          ($a = ($b = self.$libraries()).$each, $a.$$p = (TMP_2 = function(library){var self = TMP_2.$$s || this, $a, $b, native_component = nil;
-if (library == null) library = nil;
-          native_name = "" + (library) + "." + (name);
-            native_component = (function() {try {return eval(native_name) } catch ($err) { return nil }})();
-            if ((($a = (($b = native_component !== false && native_component !== nil) ? native_component != undefined : native_component)) !== nil && (!$a.$$is_boolean || $a == true))) {
-              return ($a = (($scope.get('React')).$$scope.get('API')).$import_native_component(name, native_component), $a !== false && $a !== nil ?Opal.ret(name) : $a)
+          return ($a = ($b = rename_list).$each, $a.$$p = (TMP_1 = function(js_name, ruby_name){var self = TMP_1.$$s || this, $a, native_name = nil;
+if (js_name == null) js_name = nil;if (ruby_name == null) ruby_name = nil;
+          native_name = self.$lookup_native_name(js_name);
+            if ((($a = self.$lookup_native_name(js_name)) !== nil && (!$a.$$is_boolean || $a == true))) {
+              return ((($a = self.$create_component_wrapper(self, native_name, ruby_name)) !== false && $a !== nil) ? $a : self.$create_library_wrapper(self, native_name, ruby_name))
               } else {
-              return nil
-            };}, TMP_2.$$s = self, TMP_2), $a).call($b);
-          return name;
-        };
-        } catch ($returner) { if ($returner === Opal.returner) { return $returner.$v } throw $returner; }
-      });
+              return self.$raise("class " + (self.$name()) + " < React::NativeLibrary could not import " + (js_name) + ". " + ("Native value " + (self.$scope_native_name(js_name)) + " is undefined."))
+            };}, TMP_1.$$s = self, TMP_1), $a).call($b);
+        });
+        Opal.defn(self, '$import_const_from_native', function(klass, const_name, create_library) {
+          var $a, $b, $c, self = this, native_name = nil;
 
-      Opal.defs(self, '$method_missing', TMP_3 = function(n) {
-        var $a, $b, self = this, $iter = TMP_3.$$p, block = $iter || nil, name = nil, node_only = nil, $splat_index = nil, $zuper = nil, $zuper_index = nil;
+          native_name = ((($a = self.$lookup_native_name(const_name)) !== false && $a !== nil) ? $a : self.$lookup_native_name($rb_plus(const_name['$[]'](0).$downcase(), const_name['$[]']($range(1, -1, false)))));
+          return (($a = native_name !== false && native_name !== nil) ? (((($b = self.$create_component_wrapper(klass, native_name, const_name)) !== false && $b !== nil) ? $b : ((($c = create_library !== false && create_library !== nil) ? self.$create_library_wrapper(klass, native_name, const_name) : create_library)))) : native_name);
+        });
+        Opal.defn(self, '$const_missing', TMP_2 = function(const_name) {
+          var $a, self = this, $iter = TMP_2.$$p, $yield = $iter || nil, $zuper = nil, $zuper_index = nil;
 
-        var array_size = arguments.length - 1;
-        if(array_size < 0) array_size = 0;
-        var args = new Array(array_size);
-        for($splat_index = 0; $splat_index < array_size; $splat_index++) {
-          args[$splat_index] = arguments[$splat_index + 1];
-        }
-        TMP_3.$$p = null;
-        $zuper = [];
-        for($zuper_index = 0; $zuper_index < arguments.length; $zuper_index++) {
-          $zuper[$zuper_index] = arguments[$zuper_index];
-        }
-        try {
-        name = n;
-          if ((($a = name['$=~'](/_as_node$/)) !== nil && (!$a.$$is_boolean || $a == true))) {
-            node_only = true;
-            name = name.$gsub(/_as_node$/, "");};
-          if ((($a = name = self.$const_get(name)) !== nil && (!$a.$$is_boolean || $a == true))) {
-            } else {
-            return Opal.find_super_dispatcher(self, 'method_missing', TMP_3, $iter, $NativeLibrary).apply(self, $zuper)
-          };
-          return ($a = ($b = (($scope.get('React')).$$scope.get('RenderingContext'))).$build_or_render, $a.$$p = block.$to_proc(), $a).apply($b, [node_only, name].concat(Opal.to_a(args)));
-        } catch ($err) {if (true) {
-          try {
-            return nil
-          } finally {
-            Opal.gvars["!"] = Opal.exceptions.pop() || Opal.nil;
+          TMP_2.$$p = null;
+          $zuper = [];
+          for($zuper_index = 0; $zuper_index < arguments.length; $zuper_index++) {
+            $zuper[$zuper_index] = arguments[$zuper_index];
           }
-          }else { throw $err; }
-        };
-      });
+          return ((($a = self.$import_const_from_native(self, const_name, true)) !== false && $a !== nil) ? $a : Opal.find_super_dispatcher(self, 'const_missing', TMP_2, $iter).apply(self, $zuper));
+        });
+        Opal.defn(self, '$method_missing', TMP_3 = function(method_name) {
+          var $a, $b, $c, self = this, $iter = TMP_3.$$p, block = $iter || nil, method = nil, component_class = nil, $splat_index = nil;
 
-      Opal.defs(self, '$imports', function(library) {
-        var self = this;
+          var array_size = arguments.length - 1;
+          if(array_size < 0) array_size = 0;
+          var args = new Array(array_size);
+          for($splat_index = 0; $splat_index < array_size; $splat_index++) {
+            args[$splat_index] = arguments[$splat_index + 1];
+          }
+          TMP_3.$$p = null;
+          method = method_name.$gsub(/_as_node$/, "");
+          if ((($a = self['$const_defined?'](method)) !== nil && (!$a.$$is_boolean || $a == true))) {
+            component_class = self.$get_const(method)};
+          ((($a = component_class) !== false && $a !== nil) ? $a : component_class = self.$import_const_from_native(self, method, false));
+          if (component_class !== false && component_class !== nil) {
+            } else {
+            self.$raise("could not import a react component named: " + (self.$scope_native_name(method)))
+          };
+          if (method['$=='](method_name)) {
+            return ($a = ($b = (($scope.get('React')).$$scope.get('RenderingContext'))).$render, $a.$$p = block.$to_proc(), $a).apply($b, [component_class].concat(Opal.to_a(args)))
+            } else {
+            return ($a = ($c = (($scope.get('React')).$$scope.get('RenderingContext'))).$build_only, $a.$$p = block.$to_proc(), $a).apply($c, [component_class].concat(Opal.to_a(args)))
+          };
+        });
+        self.$private();
+        Opal.defn(self, '$lookup_native_name', function(js_name) {
+          var self = this, native_name = nil;
 
-        return self.$libraries()['$<<'](library);
-      });
+          try {
+          native_name = self.$scope_native_name(js_name);
+            return eval(native_name) !== undefined && native_name;
+          } catch ($err) {if (true) {
+            try {
+              return nil
+            } finally {
+              Opal.gvars["!"] = Opal.exceptions.pop() || Opal.nil;
+            }
+            }else { throw $err; }
+          };
+        });
+        Opal.defn(self, '$scope_native_name', function(js_name) {
+          var self = this;
+          if (self.native_prefix == null) self.native_prefix = nil;
 
-      Opal.defs(self, '$rename', function(rename_list) {
-        var self = this;
+          return "" + (self.native_prefix) + (js_name);
+        });
+        Opal.defn(self, '$create_component_wrapper', function(klass, native_name, ruby_name) {
+          var $a, $b, TMP_4, self = this, new_klass = nil;
 
-        if (rename_list == null) {
-          rename_list = $hash2([], {})
-        }
-        return self.$renames_and_exclusions()['$merge!'](rename_list.$invert());
-      });
+          if ((($a = (($scope.get('React')).$$scope.get('API'))['$native_react_component?'](native_name)) !== nil && (!$a.$$is_boolean || $a == true))) {
+            new_klass = klass.$const_set(ruby_name, $scope.get('Class').$new());
+            ($a = ($b = new_klass).$class_eval, $a.$$p = (TMP_4 = function(){var self = TMP_4.$$s || this;
 
-      return (Opal.defs(self, '$exclude', function() {
-        var $a, $b, TMP_4, self = this, $splat_index = nil;
+            self.$include((($scope.get('React')).$$scope.get('Component')));
+              return self.$imports(native_name);}, TMP_4.$$s = self, TMP_4), $a).call($b);
+            return new_klass;
+            } else {
+            return nil
+          };
+        });
+        return (Opal.defn(self, '$create_library_wrapper', function(klass, native_name, ruby_name) {
+          var self = this;
 
-        var array_size = arguments.length - 0;
-        if(array_size < 0) array_size = 0;
-        var exclude_list = new Array(array_size);
-        for($splat_index = 0; $splat_index < array_size; $splat_index++) {
-          exclude_list[$splat_index] = arguments[$splat_index + 0];
-        }
-        return self.$renames_and_exclusions().$merge($scope.get('Hash')['$[]'](($a = ($b = exclude_list).$map, $a.$$p = (TMP_4 = function(k){var self = TMP_4.$$s || this;
-if (k == null) k = nil;
-        return [k, nil]}, TMP_4.$$s = self, TMP_4), $a).call($b)));
-      }), nil) && 'exclude';
+          return klass.$const_set(ruby_name, $scope.get('Class').$new((($scope.get('React')).$$scope.get('NativeLibrary'))).$imports(native_name));
+        }), nil) && 'create_library_wrapper';
+      })(Opal.get_singleton_class(self))
     })($scope.base, null)
   })($scope.base)
 };
@@ -58838,7 +58939,7 @@ Opal.modules["react/api"] = function(Opal) {
   }
   var self = Opal.top, $scope = Opal, nil = Opal.nil, $breaker = Opal.breaker, $slice = Opal.slice, $module = Opal.module, $klass = Opal.klass, $hash2 = Opal.hash2, $range = Opal.range;
 
-  Opal.add_stubs(['$require', '$[]=', '$to_s', '$!', '$method_defined?', '$raise', '$[]', '$name', '$respond_to?', '$to_n', '$prop_types', '$default_props', '$native_mixins', '$static_call_backs', '$component_will_mount', '$component_did_mount', '$component_will_receive_props', '$should_component_update?', '$component_will_update', '$component_did_update', '$component_will_unmount', '$new', '$send', '$<<', '$kind_of?', '$create_native_react_class', '$include?', '$is_a?', '$convert_props', '$each', '$flatten', '$map', '$==', '$lower_camelize', '$shallow_to_n', '$private', '$split', '$first', '$concat', '$+', '$upcase', '$join']);
+  Opal.add_stubs(['$require', '$[]=', '$raise', '$eval_native_react_component', '$!', '$method_defined?', '$[]', '$name', '$respond_to?', '$to_n', '$prop_types', '$default_props', '$native_mixins', '$static_call_backs', '$component_will_mount', '$component_did_mount', '$component_will_receive_props', '$should_component_update?', '$component_will_update', '$component_did_update', '$component_will_unmount', '$new', '$send', '$<<', '$kind_of?', '$create_native_react_class', '$include?', '$is_a?', '$convert_props', '$each', '$flatten', '$map', '$==', '$lower_camelize', '$tr', '$shallow_to_n', '$private', '$split', '$first', '$concat', '$+', '$upcase', '$join']);
   self.$require("react/native_library");
   return (function($base) {
     var $React, self = $React = $module($base, 'React');
@@ -58856,7 +58957,35 @@ Opal.modules["react/api"] = function(Opal) {
       Opal.defs(self, '$import_native_component', function(opal_class, native_class) {
         var $a, self = this;
 
-        return (($a = Opal.cvars['@@component_classes']) == null ? nil : $a)['$[]='](opal_class.$to_s(), native_class);
+        return (($a = Opal.cvars['@@component_classes']) == null ? nil : $a)['$[]='](opal_class, native_class);
+      });
+
+      Opal.defs(self, '$eval_native_react_component', function(name) {
+        var $a, $b, $c, self = this, component = nil;
+
+        component = eval(name);
+        if ((($a = component === undefined) !== nil && (!$a.$$is_boolean || $a == true))) {
+          self.$raise("" + (name) + " is not defined")};
+        if ((($a = ($b = component.prototype !== undefined, $b !== false && $b !== nil ?(((($c = !!component.prototype.isReactComponent) !== false && $c !== nil) ? $c : !!component.prototype.render)) : $b)) !== nil && (!$a.$$is_boolean || $a == true))) {
+          } else {
+          self.$raise("does not appear to be a native react component")
+        };
+        return component;
+      });
+
+      Opal.defs(self, '$native_react_component?', function(name) {
+        var self = this;
+
+        try {
+        return self.$eval_native_react_component(name)
+        } catch ($err) {if (true) {
+          try {
+            return nil
+          } finally {
+            Opal.gvars["!"] = Opal.exceptions.pop() || Opal.nil;
+          }
+          }else { throw $err; }
+        };
       });
 
       Opal.defs(self, '$create_native_react_class', function(type) {
@@ -58979,7 +59108,7 @@ Opal.modules["react/api"] = function(Opal) {
           params['$<<']((($a = Opal.cvars['@@component_classes']) == null ? nil : $a)['$[]'](type))
         } else if ((($a = type['$kind_of?']($scope.get('Class'))) !== nil && (!$a.$$is_boolean || $a == true))) {
           params['$<<'](self.$create_native_react_class(type))
-        } else if ((($a = $scope.get('HTML_TAGS')['$include?'](type)) !== nil && (!$a.$$is_boolean || $a == true))) {
+        } else if ((($a = (((((($scope.get('React')).$$scope.get('Component'))).$$scope.get('Tags'))).$$scope.get('HTML_TAGS'))['$include?'](type)) !== nil && (!$a.$$is_boolean || $a == true))) {
           params['$<<'](type)
         } else if ((($a = type['$is_a?']($scope.get('String'))) !== nil && (!$a.$$is_boolean || $a == true))) {
           return (($scope.get('React')).$$scope.get('Element')).$new(type)
@@ -59008,7 +59137,7 @@ if (ele == null) ele = nil;
           self.$raise("Component parameters must be a hash. Instead you sent " + (properties))
         };
         props = $hash2([], {});
-        ($a = ($b = properties).$map, $a.$$p = (TMP_3 = function(key, value){var self = TMP_3.$$s || this, $a, $b;
+        ($a = ($b = properties).$map, $a.$$p = (TMP_3 = function(key, value){var self = TMP_3.$$s || this, $a, $b, TMP_4;
 if (key == null) key = nil;if (value == null) value = nil;
         if ((($a = (($b = key['$==']("class_name")) ? value['$is_a?']($scope.get('Hash')) : key['$==']("class_name"))) !== nil && (!$a.$$is_boolean || $a == true))) {
             return props['$[]='](self.$lower_camelize(key), React.addons.classSet(value.$to_n()))
@@ -59016,6 +59145,10 @@ if (key == null) key = nil;if (value == null) value = nil;
             return props['$[]=']("className", value)
           } else if ((($a = ["style", "dangerously_set_inner_HTML"]['$include?'](key)) !== nil && (!$a.$$is_boolean || $a == true))) {
             return props['$[]='](self.$lower_camelize(key), value.$to_n())
+          } else if ((($a = ($b = (($scope.get('React')).$$scope.get('HASH_ATTRIBUTES'))['$include?'](key), $b !== false && $b !== nil ?value['$is_a?']($scope.get('Hash')) : $b)) !== nil && (!$a.$$is_boolean || $a == true))) {
+            return ($a = ($b = value).$each, $a.$$p = (TMP_4 = function(k, v){var self = TMP_4.$$s || this;
+if (k == null) k = nil;if (v == null) v = nil;
+            return props['$[]=']("" + (key) + "-" + (k.$tr("_", "-")), v.$to_n())}, TMP_4.$$s = self, TMP_4), $a).call($b)
             } else {
             return props['$[]=']((function() {if ((($a = (($scope.get('React')).$$scope.get('ATTRIBUTES'))['$include?'](self.$lower_camelize(key))) !== nil && (!$a.$$is_boolean || $a == true))) {
               return self.$lower_camelize(key)
@@ -59029,13 +59162,13 @@ if (key == null) key = nil;if (value == null) value = nil;
       self.$private();
 
       return (Opal.defs(self, '$lower_camelize', function(snake_cased_word) {
-        var $a, $b, TMP_4, self = this, words = nil, result = nil;
+        var $a, $b, TMP_5, self = this, words = nil, result = nil;
 
         words = snake_cased_word.$split("_");
         result = [words.$first()];
-        result.$concat(($a = ($b = words['$[]']($range(1, -1, false))).$map, $a.$$p = (TMP_4 = function(word){var self = TMP_4.$$s || this;
+        result.$concat(($a = ($b = words['$[]']($range(1, -1, false))).$map, $a.$$p = (TMP_5 = function(word){var self = TMP_5.$$s || this;
 if (word == null) word = nil;
-        return $rb_plus(word['$[]'](0).$upcase(), word['$[]']($range(1, -1, false)))}, TMP_4.$$s = self, TMP_4), $a).call($b));
+        return $rb_plus(word['$[]'](0).$upcase(), word['$[]']($range(1, -1, false)))}, TMP_5.$$s = self, TMP_5), $a).call($b));
         return result.$join("");
       }), nil) && 'lower_camelize';
     })($scope.base, null)
@@ -59775,7 +59908,7 @@ Opal.modules["reactive-ruby/version"] = function(Opal) {
 
     var def = self.$$proto, $scope = self.$$scope;
 
-    Opal.cdecl($scope, 'VERSION', "0.8.3")
+    Opal.cdecl($scope, 'VERSION', "0.8.5")
   })($scope.base)
 };
 
@@ -59785,14 +59918,16 @@ Opal.modules["reactrb"] = function(Opal) {
   var OPAL_CONFIG = { method_missing: true, arity_check: false, freezing: true, tainting: true };
   var $a, self = Opal.top, $scope = Opal, nil = Opal.nil, $breaker = Opal.breaker, $slice = Opal.slice;
 
-  Opal.add_stubs(['$==', '$raise', '$join', '$require']);
+  Opal.add_stubs(['$==', '$raise', '$require']);
   if ($scope.get('RUBY_ENGINE')['$==']("opal")) {
     if ((($a = window.React === undefined || window.React.version === undefined) !== nil && (!$a.$$is_boolean || $a == true))) {
-      self.$raise(["No React.js Available", "", "React.js must be defined before requiring 'reactrb'", "'reactrb' has been tested with react v13, v14, and v15.", "", "IF USING 'react-rails':", "   add 'require \"react\"' immediately before the 'require \"reactive-ruby\" directive in 'views/components.rb'.", "IF USING WEBPACK:", "   add 'react' to your webpack manifest.", "OTHERWISE TO GET THE LATEST TESTED VERSION", "   add 'require \"react-latest\"' immediately before the require of 'reactrb',", "OR TO USE A SPECIFIC VERSION", "   add 'require \"react-v1x\"' immediately before the require of 'reactrb'."].$join("\n"))};
+      self.$raise("No React.js Available\n\n" + "React.js must be defined before requiring 'reactrb'\n" + "'reactrb' has been tested with react v13, v14, and v15.\n\n" + "IF USING 'react-rails':\n" + "   add 'require \"react\"' immediately before the 'require \"reactive-ruby\" " + "directive in 'views/components.rb'.\n" + "IF USING WEBPACK:\n" + "   add 'react' to your webpack manifest.\n" + "OTHERWISE TO GET THE LATEST TESTED VERSION\n" + "   add 'require \"react-latest\"' immediately before the require of 'reactrb',\n" + "OR TO USE A SPECIFIC VERSION\n" + "   add 'require \"react-v1x\"' immediately before the require of 'reactrb'.")};
     self.$require("react/hash");
     self.$require("react/top_level");
     self.$require("react/observable");
     self.$require("react/component");
+    self.$require("react/component/dsl_instance_methods");
+    self.$require("react/component/tags");
     self.$require("react/component/base");
     self.$require("react/element");
     self.$require("react/event");
@@ -59811,7 +59946,7 @@ Opal.modules["reactrb"] = function(Opal) {
   var OPAL_CONFIG = { method_missing: true, arity_check: false, freezing: true, tainting: true };
   var self = Opal.top, $scope = Opal, nil = Opal.nil, $breaker = Opal.breaker, $slice = Opal.slice, $module = Opal.module;
 
-  Opal.add_stubs(['$require', '$class_attribute', '$send', '$define_singleton_method', '$puts', '$concat', '$push']);
+  Opal.add_stubs(['$require', '$class_attribute', '$send', '$define_singleton_method', '$concat', '$push']);
   self.$require("opal");
   self.$require("opal/compiler");
   self.$require("browser/interval");
@@ -59844,8 +59979,7 @@ Opal.modules["reactrb"] = function(Opal) {
           return ($a = ($b = self).$define_singleton_method, $a.$$p = (TMP_1 = function(args){var self = TMP_1.$$s || this, block, callbacks = nil;
 args = $slice.call(arguments, 0);
             block = TMP_1.$$p || nil, TMP_1.$$p = null;
-          self.$puts("calling new and improved callbacks");
-            callbacks = [];
+          callbacks = [];
             callbacks.$concat(args);
             if ((block !== nil)) {
               callbacks.$push(block)};

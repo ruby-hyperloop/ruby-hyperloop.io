@@ -37,8 +37,8 @@ For the rest of the documentation, we'll just focus on the ruby code and assume 
 ```ruby
 class HelloWorld < React::Component::Base
   param :time, type: Time
-  def render
-    para do
+  render do
+    p do
       span { "Hello, " }
       input(type: :text, placeholder: "Your Name Here")
       span { "! It is #{params.time}"}
@@ -65,6 +65,7 @@ The inputs to this component are called `params` (*called props in react.js*). T
 
 React components are very simple. They are classes that have a render method that generates HTML.  When an instance of a component class is initialized it is passed the initial param values and the render method is called.  When new params are provided the params will be updated, and the render method called again.
 
+The render method may be defined simply by using `def render`, or by using the `render` call back.
 
 > Note:
 >

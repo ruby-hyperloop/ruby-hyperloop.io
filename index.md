@@ -34,7 +34,7 @@ id: home
     <div class="example">
       <h3>A Simple Component</h3>
       <p>
-        React components can be defined by subclassing `React::Component::Base`.  The `render` method is called to generate the components HTML.
+        React components can be defined by subclassing `React::Component::Base`.  The `render` callback defines the components HTML.
       </p>
       <div id="helloExample"></div>
     </div>
@@ -44,7 +44,7 @@ id: home
         In addition to taking input data (such as the `visitor` param), a
         component can have state variables, which are like <i>reactive</i> instance variables.
         When a component's state changes, the markup will be
-        updated by automatically by re-invoking the `render` method.
+        updated by automatically by re-invoking the `render` callback.
       </p>
       <div id="timerExample"></div>
     </div>

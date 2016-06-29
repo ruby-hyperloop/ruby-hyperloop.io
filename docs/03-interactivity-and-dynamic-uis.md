@@ -12,7 +12,7 @@ You've already [learned how to display data](/docs/displaying-data.html) with Re
 
 ```javascript
 class LikeButton < React::Component::Base
-  def render
+  render do
     para do
       "You #{state.liked ? 'like' : 'haven\'t liked'} this. Click to toggle."
     end.on(:click) do

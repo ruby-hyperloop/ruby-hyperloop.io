@@ -19,7 +19,7 @@ class TodoApp < React::Component::Base
     state.text! ""
   end
 
-  def render
+  render do
     div do
       h3 { "TODO" }
       TodoList items: state.items

@@ -3,7 +3,7 @@ class HelloWorld < React::Component::Base
 
   param :visitor
 
-  def render
+  render do
     "Hello there #{params.visitor}"
   end
 

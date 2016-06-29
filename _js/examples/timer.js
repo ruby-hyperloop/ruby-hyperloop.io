@@ -10,7 +10,7 @@ class Ticker < React::Component::Base
     @timer.stop
   end
 
-  def render
+  render do
     div {"Seconds Elapsed: #{state.ticks}"}
   end
 

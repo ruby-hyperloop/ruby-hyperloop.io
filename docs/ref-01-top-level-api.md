@@ -25,7 +25,7 @@ class AnotherComponent
 end
 ```
 
-At a minimum every component class must define a `render` method which returns **one single** child element. That child may in turn have an arbitrarily deep structure. 
+At a minimum every component class must define a `render` method which returns **one single** child element. That child may in turn have an arbitrarily deep structure.
 
 ```ruby
 class Component < React::Component::Base
@@ -34,6 +34,8 @@ class Component < React::Component::Base
   end
 end
 ```
+
+You may also use the `render` macro to define the render method, which has some styling advantages, but is functionally equivilent.
 
 To render a component, you reference its class name in the DSL as a method call.  This creates a new instance, passes any parameters proceeds with the component lifecycle.  
 
@@ -45,7 +47,7 @@ class AnotherComponent < React::Component::Base
 end
 ```
 
-Note that you should never redefine the `new` or `initialize` methods, or call them directly.  The equivilent of `initialize` is the `before_mount` callback.  For more information see [Component Specs and Lifecycle](/docs/component-specs.html). 
+Note that you should never redefine the `new` or `initialize` methods, or call them directly.  The equivilent of `initialize` is the `before_mount` callback.  For more information see [Component Specs and Lifecycle](/docs/component-specs.html).
 
 
 ### React.create_element
@@ -53,7 +55,7 @@ Note that you should never redefine the `new` or `initialize` methods, or call t
 A React Element is a component class, a set of parameters, and a group of children.  When an element is rendered the parameters and used to initialize a new instance of the component.
 
 `React.create_element` creates a new element.  It takes either the component class, or a string (representing a built in tag
-such as div, or span), the parameters (properties) to be passed to the element, and optionally a block that will be evaluated to 
+such as div, or span), the parameters (properties) to be passed to the element, and optionally a block that will be evaluated to
 build the enclosed children elements
 
 ```ruby
@@ -69,7 +71,7 @@ You almost never need to directly call create_element, the DSL, Rails, and jQuer
 # dsl - component will NOT be placed in the rendering buffer
     MyComponent(...params...) { ... }.as_node
 # in a rails controller - renders component as the view
-    render_component("MyComponent", ...params...) 
+    render_component("MyComponent", ...params...)
 # in a rails view helper - renders component into the view (like a partial)
     react_component("MyComponent", ...)
 # from jQuery (Note Element is the Opal jQuery wrapper, not be confused with React::Element)
@@ -82,7 +84,7 @@ You almost never need to directly call create_element, the DSL, Rails, and jQuer
 is_valid_element?(object)
 ```
 
-Verifies `object` is a valid react element.  Note that `React::Element` wraps the React.js native class, 
+Verifies `object` is a valid react element.  Note that `React::Element` wraps the React.js native class,
 `React.is_valid_element?` returns true for both classes unlike `object.is_a? React::Element`
 
 ### React.render

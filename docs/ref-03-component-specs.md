@@ -10,7 +10,37 @@ next: tags-and-attributes.html
 
 A component class may define callbacks for  specific points in a component's lifecycle.
 
-### Mounting: `before_mount`
+### Rendering
+
+The lifecycle revolves around rendering the component.  As the state or parameters of a component changes, its render method will be called to generate the new HTML.  The rest of the callbacks hook into the lifecycle before or after rendering.
+
+For reasons described below Reactrb provides a render callback to simplify defining the render method:
+
+```ruby
+render do ....
+end
+```
+
+The render callback will generate the components render method.  It may optionally take the container component and params:
+
+```ruby
+render(:div, class: 'my-class') do
+  ...
+end
+```
+
+which would be equivilent to:
+
+```ruby
+def render
+  div(class: 'my-class') do
+    ...
+  end
+```
+
+The purpose of the render callback is syntactic.  Many components consist of a static outer container with possibly some parameters, and most component's render method by necessity will be longer than the normal *10 line* ruby style guideline.  The render call back solves both these problems by allowing the outer container to be specified as part of the callback parameter (which reads very nicely) and because the render code is now specified as a block you avoid the 10 line limitation, while encouraging the rest of your methods to adhere to normal ruby style guides
+
+### Before Mounting (first render)
 
 ```ruby
 before_mount do ...
@@ -22,7 +52,7 @@ be initialized.
 
 This is the only life cycle method that is called during `render_to_string` used in server side pre-rendering.
 
-### Mounting: `after_mount`
+### After Mounting (first render)
 
 ```ruby
 after_mount do ...
@@ -34,7 +64,7 @@ Invoked once, only on the client (not on the server), immediately after the init
 If you want to integrate with other JavaScript frameworks, set timers using the `after` or `every` methods, or send AJAX requests, perform those operations in this method.  Attempting to perform such operations in before_mount will cause errors during prerendering because none of these operations are available in the server environment.
 
 
-### Updating: `before_receive_props`
+### Before Receiving New Params
 
 ```ruby
 before_receive_props do |new_params_hash| ...
@@ -57,7 +87,7 @@ end
 > There is no analogous method `before_receive_state`. An incoming param may cause a state change, but the opposite is not true. If you need to perform operations in response to a state change, use `before_update`.
 
 
-### Updating: the `should_component_update?` method
+### Controlling Updates
 
 Normally Reactrb will only update a component if some state variable or param has changed.  To override this behavior you can redefine the `should_component_update?` instance method.  For example, assume that we have a state called `funky` that for whatever reason, we
 cannot update using the normal `state.funky!` update method.  So what we can do is override `should_component_update?` call `super`, and then double check if the `funky` has changed by doing an explicit comparison.
@@ -79,7 +109,7 @@ Note that `should_component_update?` is not called for the initial render or whe
 > "pure" component without the possible performance penalties.
 > To achieve the standard react.js behavior add this line to your class `def should_component_update?; true; end`
 
-### Updating: `before_update`
+### Before Updating (re-rendering)
 
 ```ruby
 before_update do ...
@@ -89,7 +119,7 @@ end
 Invoked immediately before rendering when new params or state are being received.  
 
 
-### Updating: after_update
+### After Updating (re-rendering)
 
 ```ruby
 before_update do ...
@@ -101,7 +131,7 @@ Invoked immediately after the component's updates are flushed to the DOM. This m
 Use this as an opportunity to operate on the DOM when the component has been updated.
 
 
-### Unmounting: componentWillUnmount
+### Unmounting
 
 ```ruby
 before_unmount do ...

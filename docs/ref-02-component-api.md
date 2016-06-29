@@ -17,6 +17,7 @@ Instances of React Components are created internally by React when rendering. Th
 A component may define callbacks for each phase of the components lifecycle:
 
 * `before_mount`
+* `render`
 * `after_mount`
 * `before_receive_props`
 * `before_update`
@@ -35,7 +36,7 @@ class AComponent < React::Component::Base
 end
 ```
 
-Multiple callbacks may be defined for each lifecycle phase, and will be executed in the order defined, and from most deeply nested subclass outwards.
+Except for the render callback, multiple callbacks may be defined for each lifecycle phase, and will be executed in the order defined, and from most deeply nested subclass outwards.
 
 Details on the component lifecycle is described [here](docs/component-specs.html)
 

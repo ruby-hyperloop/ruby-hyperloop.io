@@ -7,7 +7,7 @@ class MarkdownEditor < React::Component::Base
     { __html: %x{marked(#{state.value}, {sanitize: true})}}
   end
 
-  def render
+  render do
     div.MarkdownEditor do
       h3 { "Input" }
       textarea(defaultValue: state.value).on(:change) do |e|
