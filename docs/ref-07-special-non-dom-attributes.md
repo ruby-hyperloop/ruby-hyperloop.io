@@ -3,7 +3,7 @@ id: special-non-dom-attributes
 title: Special Non-DOM Attributes
 permalink: special-non-dom-attributes.html
 prev: dom-differences.html
-next: reconciliation.html
+next: using-javascript-components.html
 ---
 
 Beside [DOM differences](/docs/dom-differences.html), React offers some attributes that simply don't exist in DOM.

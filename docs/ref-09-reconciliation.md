@@ -2,7 +2,7 @@
 id: reconciliation
 title: Reconciliation
 permalink: reconciliation.html
-prev: special-non-dom-attributes.html
+prev: using-javascript-components.html
 next: glossary.html
 ---
 
@@ -130,4 +130,3 @@ Because we rely on two heuristics, if the assumptions behind them are not met, p
 1. The algorithm will not try to match sub-trees of different components classes. If you see yourself alternating between two components classes with very similar output, you may want to make it the same class. In practice, we haven't found this to be an issue.
 
 2. Keys should be stable, predictable, and unique. Unstable keys (like those produced by Math.random()) will cause many nodes to be unnecessarily re-created, which can cause performance degradation and lost state in child components.
-
