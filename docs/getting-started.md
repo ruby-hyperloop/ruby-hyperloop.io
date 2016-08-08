@@ -154,7 +154,7 @@ require 'opal-jquery' # They must be in this order.
 
 ## With Sinatra
 
-Reactrb works fine with Sinatra.  Use this [Sinatra Example App](https://github.com/reactrb/reactrb/reactrb-examples)
+Reactrb works fine with Sinatra.  Use this [Sinatra Example App](https://github.com/reactrb/reactrb-examples)
 to get started.
 
 ## Building With Rake
