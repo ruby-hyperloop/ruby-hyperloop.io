@@ -12,3 +12,10 @@ $ middleman server
 ```text
 $ middleman article "Test Post"
 ```
+
+## Build and Publish
+Published pages are in `gh-pages` branch.
+```text
+$ rake build    # Compile all files into the build directory
+$ rake publish  # Build and publish to Github Pages
+```
