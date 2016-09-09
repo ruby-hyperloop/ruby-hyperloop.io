@@ -1,24 +1,35 @@
----
-pageable: true
-per_page: 10
----
-<% if paginate && num_pages > 1 %>
-  <p>Page <%= page_number %> of <%= num_pages %></p>
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Reactrb</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Reactrb</h1>
+      <h2 class="project-tagline">USE RUBY TO BUILD REACTIVE USER INTERFACES</h2>
+      <a href="https://github.com/barriehadfield/test-guilds" class="btn">View on GitHub</a>
+      <a href="https://github.com/barriehadfield/test-guilds/zipball/master" class="btn">Install Gem</a>
+      <a href="https://github.com/barriehadfield/test-guilds/tarball/master" class="btn">Chat on Gitter</a>
+    </section>
 
-  <% if prev_page %>
-    <p><%= link_to 'Previous page', prev_page %></p>
-  <% end %>
-<% end %>
+    <section class="main-content">
+      <h3>PURE RUBY</h3>
+        <p>Reactrb lets you build beautiful interactive user interfaces using the same Ruby language running your server side code. Reactrb replaces JS code, JSX, HTML, templating languages, and complex frameworks with one simple system.</p>
+      <h3>REACT + RUBY</h3>
+        <p>The power and simplicity of React with a great easy to use Ruby DSL. Reactrb frees you up to do what you do best - building great apps.</p>
+      <h3>SIMPLICITY</h3>
+        <p>One language. One simple model. Under the hood Reactrb takes care of all the details for you. The same ruby code runs on the server to deliver pages fast, and then keeps running on the client to handle your user interactions.</p>
+    </section>
 
-<% page_articles.each_with_index do |article, i| %>
-  <h2><%= link_to article.title, article %> <span><%= article.date.strftime('%b %e') %></span></h2>
-  <!-- use article.summary(250) if you have Nokogiri available to show just
-       the first 250 characters -->
-  <%= article.body %>
-<% end %>
+    <section class="main-content">
+      <h3>The missing Ruby frond end library</h3>
+    </section>
 
-<% if paginate %>
-  <% if next_page %>
-    <p><%= link_to 'Next page', next_page %></p>
-  <% end %>
-<% end %>
+  </body>
+</html>
