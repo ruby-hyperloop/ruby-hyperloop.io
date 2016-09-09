@@ -1,0 +1,13 @@
+---
+title: Test Post
+date: 2016-09-09 16:29 UTC
+tags:
+---
+
+```ruby
+class my_test
+  def do_it
+    puts "here we are"
+  end
+end
+```

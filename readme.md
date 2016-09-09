@@ -12,9 +12,3 @@ $ middleman server
 ```text
 $ middleman article "Test Post"
 ```
-
-## Deploy Middleman
-
-```text
-$ middleman deploy
-```
