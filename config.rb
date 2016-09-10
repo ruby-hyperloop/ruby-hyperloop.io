@@ -70,7 +70,10 @@ end
 # Reload the browser automatically whenever files change
 activate :livereload
 
+# Turn this on if you want to make your url's prettier, without the .html
+activate :directory_indexes
+
 # code highlighting in clogs
 activate :syntax, :line_numbers => false
 set :markdown_engine, :redcarpet
-set :markdown, :fenced_code_blocks => true, :smartypants => true
+set :markdown, :tables => true, :autolink => true, :gh_blockcode => true, :fenced_code_blocks => true, :smartypants => true
