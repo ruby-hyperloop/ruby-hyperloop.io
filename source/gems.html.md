@@ -1,6 +1,6 @@
 # Gems
 
-Reactrb is made up of a family of gems which all work together.
+Reactrb is made up of a family of gems which all work together. The collectively make up the missing Ruby front end library.
 
 ## [Reactrb](https://github.com/reactrb/reactrb)
 
