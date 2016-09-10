@@ -8,12 +8,12 @@
     <meta charset="UTF-8">
     <title>Reactrb</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
 
     <%= stylesheet_link_tag 'base' %>
+    <%= stylesheet_link_tag 'normalize' %>
+    <%= stylesheet_link_tag 'stylesheet' %>
+    <%= stylesheet_link_tag 'github-light' %>
 
     <title>Reactrb<%= ' ' + current_article.title unless current_article.nil? %></title>
     <%= feed_tag :atom, "#{blog.options.prefix.to_s}/feed.xml", title: "Atom Feed" %>
