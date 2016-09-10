@@ -68,6 +68,9 @@ configure :build do
 
   # Minify Javascript on build
   # activate :minify_javascript
+
+  activate :relative_assets
+  set :site_url, "/reactrb.org"
 end
 
 # Reload the browser automatically whenever files change
