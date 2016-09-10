@@ -70,7 +70,6 @@ configure :build do
   # activate :minify_javascript
 
   activate :relative_assets
-  # set :relative_links, true
 
   set :site_url, "/reactrb.org"
   set :http_prefix, '/reactrb.org'
