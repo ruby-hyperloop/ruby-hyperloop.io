@@ -10,10 +10,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
 
-    <%= stylesheet_link_tag '/stylesheets/base' %>
-    <%= stylesheet_link_tag '/stylesheets/normalize' %>
-    <%= stylesheet_link_tag '/stylesheets/stylesheet' %>
-    <%= stylesheet_link_tag '/stylesheets/github-light' %>
+    <%= stylesheet_link_tag 'base' %>
+    <%= stylesheet_link_tag 'normalize' %>
+    <%= stylesheet_link_tag 'stylesheet' %>
+    <%= stylesheet_link_tag 'github-light' %>
 
     <title>Reactrb<%= ' ' + current_article.title unless current_article.nil? %></title>
     <%= feed_tag :atom, "#{blog.options.prefix.to_s}/feed.xml", title: "Atom Feed" %>
