@@ -71,7 +71,7 @@ configure :build do
 
   activate :relative_assets
   set :site_url, "/reactrb.org"
-  set :http_prefix, '/reactrb.org'
+  # set :http_prefix, '/reactrb.org'
 end
 
 # Reload the browser automatically whenever files change
