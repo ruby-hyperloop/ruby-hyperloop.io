@@ -646,3 +646,859 @@ end
 [Try It Out](http://goo.gl/C4IJu0)
 
 Notice that TickTock effectively has two before_mount callbacks, one that is called to initialize the `@intervals` array and another to initialize `state.seconds`
+
+## Top level API
+
+The `React` module is the name space for all the React classes and modules.  
+
+See the [Getting Started](/docs/getting-started.html) section for details on getting react loaded in your environment.
+
+### React::Component and React::Component::Base
+
+React components classes either include React::Component or are subclasses of React::Component::Base.  
+
+```ruby
+class Component < React::Component::Base
+end
+  # if subclassing is inappropriate, you can mixin instead
+class AnotherComponent
+  include React::Component
+end
+```
+
+At a minimum every component class must define a `render` method which returns **one single** child element. That child may in turn have an arbitrarily deep structure.
+
+```ruby
+class Component < React::Component::Base
+  def render
+    div # render an empty div
+  end
+end
+```
+
+You may also use the `render` macro to define the render method, which has some styling advantages, but is functionally equivilent.
+
+To render a component, you reference its class name in the DSL as a method call.  This creates a new instance, passes any parameters proceeds with the component lifecycle.  
+
+```ruby
+class AnotherComponent < React::Component::Base
+  def render
+    Component() # ruby syntax requires either () or {} following the class name
+  end
+end
+```
+
+Note that you should never redefine the `new` or `initialize` methods, or call them directly.  The equivilent of `initialize` is the `before_mount` callback.  For more information see [Component Specs and Lifecycle](/docs/component-specs.html).
+
+
+### React.create_element
+
+A React Element is a component class, a set of parameters, and a group of children.  When an element is rendered the parameters and used to initialize a new instance of the component.
+
+`React.create_element` creates a new element.  It takes either the component class, or a string (representing a built in tag
+such as div, or span), the parameters (properties) to be passed to the element, and optionally a block that will be evaluated to
+build the enclosed children elements
+
+```ruby
+React.create_element("div", prop1: "foo", prop2: 12) { para { "hello" }; para { "goodby" } )
+# when rendered will generates <div prop1="foo" prop2="12"><p>hello</p><p>goodby</p></div>
+```
+
+You almost never need to directly call create_element, the DSL, Rails, and jQuery interfaces take care of this for you.
+
+```ruby
+# dsl - creates element and pushes it into the rendering buffer
+    MyComponent(...params...) { ...optional children... }
+# dsl - component will NOT be placed in the rendering buffer
+    MyComponent(...params...) { ... }.as_node
+# in a rails controller - renders component as the view
+    render_component("MyComponent", ...params...)
+# in a rails view helper - renders component into the view (like a partial)
+    react_component("MyComponent", ...)
+# from jQuery (Note Element is the Opal jQuery wrapper, not be confused with React::Element)
+    Element['#container'].render { MyComponent(...params...) { ...optional children... } }  
+```
+
+### React.is_valid_element?
+
+```ruby
+is_valid_element?(object)
+```
+
+Verifies `object` is a valid react element.  Note that `React::Element` wraps the React.js native class,
+`React.is_valid_element?` returns true for both classes unlike `object.is_a? React::Element`
+
+### React.render
+
+```ruby
+React.render(element, container) { puts "element rendered" }
+```
+
+Render an `element` into the DOM in the supplied `container` and return a [reference](/docs/more-about-refs.html) to the component.
+
+The container can either be a DOM node or a jQuery selector (i.e. Element['#container']) in which case the first element is the container.
+
+If the element was previously rendered into `container`, this will perform an update on it and only mutate the DOM as necessary to reflect the latest React component.
+
+If the optional block is provided, it will be executed after the component is rendered or updated.
+
+> Note:
+>
+> `React.render()` controls the contents of the container node you pass in. Any existing DOM elements
+> inside are replaced when first called. Later calls use React’s DOM diffing algorithm for efficient
+> updates.
+>
+> `React.render()` does not modify the container node (only modifies the children of the container). In
+> the future, it may be possible to insert a component to an existing DOM node without overwriting
+> the existing children.
+
+
+### React.unmount_component_at_node
+
+```ruby
+React.unmount_component_at_node(container)
+```
+
+Remove a mounted React component from the DOM and clean up its event handlers and state. If no component was mounted in the container, calling this function does nothing. Returns `true` if a component was unmounted and `false` if there was no component to unmount.
+
+### React.render_to_string
+
+```ruby
+React.render_to_string(element)
+```
+
+Render an element to its initial HTML. This is should only be used on the server for prerendering content. React will return a string containing the HTML. You can use this method to generate HTML on the server and send the markup down on the initial request for faster page loads and to allow search engines to crawl your pages for SEO purposes.
+
+If you call `React.render` on a node that already has this server-rendered markup, React will preserve it and only attach event handlers, allowing you to have a very performant first-load experience.
+
+If you are using rails, and have included the react-rails gem, then the prerendering functions are automatically performed.  Otherwise you can use `render_to_string` to build your own prerendering system.
+
+
+### React.render_to_static_markup
+
+```ruby
+React.render_to_static_markup(element)
+```
+
+Similar to `render_to_string`, except this doesn't create extra DOM attributes such as `data-react-id`, that React uses internally. This is useful if you want to use React as a simple static page generator, as stripping away the extra attributes can save lots of bytes.
+
+## React::Component::Base
+
+Reactrb Components are ruby classes that either subclass React::Component::Base, or mixin React::Component.  Both mechanisms have the same effect.
+
+Instances of React Components are created internally by React when rendering. The instances exist through subsequent renders, and although coupled to React, act like normal ruby instances. The only way to get a valid reference to a React Component instance outside of React is by storing the return value of `React.render`.  Inside other Components, you may use [refs](/docs/more-about-refs.html) to achieve the same result.
+
+### Lifecycle Callbacks
+
+A component may define callbacks for each phase of the components lifecycle:
+
+* `before_mount`
+* `render`
+* `after_mount`
+* `before_receive_props`
+* `before_update`
+* `after_update`
+* `before_unmount`
+
+All the callback macros may take a block or the name of an instance method to be called.
+
+```ruby
+class AComponent < React::Component::Base
+  before_mount do
+    # initialize stuff here
+  end
+  before_unmount :cleanup  # call the cleanup method before unmounting
+  ...
+end
+```
+
+Except for the render callback, multiple callbacks may be defined for each lifecycle phase, and will be executed in the order defined, and from most deeply nested subclass outwards.
+
+Details on the component lifecycle is described [here](docs/component-specs.html)
+
+### The `param` macro
+
+Within a React Component the `param` macro is used to define the parameter signature of the component.  You can think of params as
+the values that would normally be sent to the instance's `initialize` method, but with the difference that a React Component gets new parameters when it is rerendered.  
+
+The param macro has the following syntax:
+
+```ruby
+param symbol, ...options... # or
+param symbol => default_value, ...options...
+```
+
+Available options are `:default_value => ...any value...` and `:type => ...class_spec...`
+where class_spec is either a class name, or `[]` (shorthand for Array), or `[ClassName]` (meaning array of `ClassName`.)
+
+Note that the default value can be specied either as the hash value of the symbol, or explicitly using the `:default_value` key.
+
+Examples:
+
+```ruby
+param :foo # declares that we must be provided with a parameter foo when the component is instantiated or re-rerendered.
+param :foo => "some default"        # declares that foo is optional, and if not present the value "some default" will be used.
+param foo: "some default"           # same as above using ruby 1.9 JSON style syntax
+param :foo, default: "some default" # same as above but uses explicit default key
+param :foo, type: String            # foo is required and must be of type String
+param :foo, type: [String]          # foo is required and must be an array of Strings
+param foo: [], type: [String]       # foo must be an array of strings, and has a default value of the empty array.
+```
+
+#### Accessing param values
+
+The component instance method `params` gives access to all declared params.  So for example
+
+```ruby
+class Hello < React::Component::Base
+  param visitor: "World", type: String
+  render
+    "Hello #{params.visitor}"
+  end
+end
+```
+
+#### Params of type `Proc`
+
+A param of type proc (i.e. `param :update, type: Proc`) gets special treatment that will directly
+call the proc when the param is accessed.
+
+```ruby
+class Alarm < React::Component::Base
+  param :at, type: Time
+  param :notify, type: Proc
+  after_mount do
+    @clock = every(1) do
+      if Time.now > params.at
+        params.notify
+        @clock.stop
+      end
+      force_update!
+    end
+  end
+  def render
+    "#{Time.now}"
+  end
+end
+```
+
+If for whatever reason you need to get the actual proc instead of calling it use `params.method(*symbol name of method*)`
+
+#### Params of type `React::Observable`
+
+Observables provide a two way binding mechanism, and are integrated with the underlying React.js state mechanism.
+
+Given `param :foo, type: React::Observable` then both the `params.foo` method and `params.foo!` methods will be defined, and
+the value of `foo` will have the same semantics as if foo were a state.  A detailed discussion can be found here *link to two way binding*
+
+### The `state` instance method
+
+React state variables are *reactive* component instance variables that cause rerendering when they change.
+
+State variables are accessed via the `state` instance method which works like the `params` method. Like normal instance variables, state variables are created when they are first accessed, so there is no explicit declaration.  
+
+To access the value of a state variable `foo` you would say `state.foo`.  
+
+To initialize or update a state variable you use its name followed by `!`.  For example `state.foo! []` would initialize `foo` to an empty array.  Unlike the assignment operator, the update method returns the current value (before it is changed.)
+
+Often state variables have complex values with their own internal state, an array for example.  The problem is as you push new values onto the array you are not changing the object pointed to by the state variable, but its internal state.
+
+To handle this use the same "!" suffix with **no** parameter, and then apply any update methods to the resulting value.  The underlying value will be updated, **and** the underlying system will be notified that a state change has occurred.
+
+For example
+```ruby
+  state.foo! []    # initialize foo (returns nil)
+  ...later...
+  state.foo! << 12  # push 12 onto foo's array
+  ...or...
+  state.foo! {}
+  state.foo![:house => :boat]
+```
+
+The rule is simple:  anytime you are updating a state variable follow it by the "!".
+
+> #### Tell Me How That Works???
+>
+> A state variables update method (name followed by "!") can optionally accept one parameter.  If a parameter is passed, then the method will 1) save the current value, 2) update the value to the passed parameter, 3) update the underlying react.js state object, 4) return the saved value.
+>
+> If no parameter is passed, then an object of class React::Observable is created.  React::Observables proxy all method calls to whatever value they are initialized with, and then when the method returns they call a notification callback.  In the case of state variables the callback will tell react.js that state has changed.
+
+### The `force_update!` method
+
+The `force_update!` instance method causes the component to re-render.  Usually this is not necessary as rendering will occur when state variables change, or new params are passed.  For a good example of using `force_update!` see the `Alarm` component above.  In this case there is no reason to have a state track of the time separately, so we just call `force_update!` every second.
+
+### The `dom_node` method
+
+Returns the dom_node that this component instance is mounted to.  Typically used in the `after_mount` callback to setup linkages to external libraries.
+
+### The `children` method
+
+Along with params components may be passed a block which is used to build the components children.
+
+The instance method `children` returns an enumerable that is used to access the unrendered children of a component.
+
+```ruby
+class IndentEachLine < React::Component::Base
+  param by: 20, type: Integer
+  def render
+    div do
+      children.each_with_index do |child, i|
+        child.render(style: {"margin-left" => params.by*i})
+      end
+    end
+  end
+end
+
+Element['#container'].render do
+  IndentEachLine(by: 100) do
+    div {"Line 1"}
+    div {"Line 2"}
+    div {"Line 3"}
+  end
+end
+```
+
+## Lifecycle Methods
+
+A component class may define callbacks for  specific points in a component's lifecycle.
+
+### Rendering
+
+The lifecycle revolves around rendering the component.  As the state or parameters of a component changes, its render method will be called to generate the new HTML.  The rest of the callbacks hook into the lifecycle before or after rendering.
+
+For reasons described below Reactrb provides a render callback to simplify defining the render method:
+
+```ruby
+render do ....
+end
+```
+
+The render callback will generate the components render method.  It may optionally take the container component and params:
+
+```ruby
+render(:div, class: 'my-class') do
+  ...
+end
+```
+
+which would be equivilent to:
+
+```ruby
+def render
+  div(class: 'my-class') do
+    ...
+  end
+end
+```
+
+The purpose of the render callback is syntactic.  Many components consist of a static outer container with possibly some parameters, and most component's render method by necessity will be longer than the normal *10 line* ruby style guideline.  The render call back solves both these problems by allowing the outer container to be specified as part of the callback parameter (which reads very nicely) and because the render code is now specified as a block you avoid the 10 line limitation, while encouraging the rest of your methods to adhere to normal ruby style guides
+
+### Before Mounting (first render)
+
+```ruby
+before_mount do ...
+end
+```
+
+Invoked once when the component is first instantiated, immediately before the initial rendering occurs. This is where state variables should
+be initialized.
+
+This is the only life cycle method that is called during `render_to_string` used in server side pre-rendering.
+
+### After Mounting (first render)
+
+```ruby
+after_mount do ...
+end
+```
+
+Invoked once, only on the client (not on the server), immediately after the initial rendering occurs. At this point in the lifecycle, you can access any refs to your children (e.g., to access the underlying DOM representation). The `after_mount` callbacks of children components are invoked before that of parent components.
+
+If you want to integrate with other JavaScript frameworks, set timers using the `after` or `every` methods, or send AJAX requests, perform those operations in this method.  Attempting to perform such operations in before_mount will cause errors during prerendering because none of these operations are available in the server environment.
+
+
+### Before Receiving New Params
+
+```ruby
+before_receive_props do |new_params_hash| ...
+end
+```
+
+Invoked when a component is receiving *new* params (React.js props). This method is not called for the initial render.
+
+Use this as an opportunity to react to a prop transition before `render` is called by updating any instance or state variables. The
+new_props block parameter contains a hash of the new values.
+
+```ruby
+before_receive_props do |next_props|
+  state.likes_increasing! (next_props[:like_count] > params.like_count)
+end
+```
+
+> Note:
+>
+> There is no analogous method `before_receive_state`. An incoming param may cause a state change, but the opposite is not true. If you need to perform operations in response to a state change, use `before_update`.
+
+
+### Controlling Updates
+
+Normally Reactrb will only update a component if some state variable or param has changed.  To override this behavior you can redefine the `should_component_update?` instance method.  For example, assume that we have a state called `funky` that for whatever reason, we
+cannot update using the normal `state.funky!` update method.  So what we can do is override `should_component_update?` call `super`, and then double check if the `funky` has changed by doing an explicit comparison.
+
+```ruby
+class RerenderMore < React::Component::Base
+  def should_component_update?(new_params_hash, new_state_hash)
+    super || new_state_hash[:funky] != state.funky
+  end
+end
+```
+
+Why would this happen?  Most likey there is integration between new Reactrb components and other data structures being maintained outside of Reactrb, and so we have to do some explicit comparisions to detect the state change.
+
+Note that `should_component_update?` is not called for the initial render or when `force_update!` is used.
+
+> Note to react.js readers.  Essentially Reactrb assumes components are "well behaved" in the sense that all state changes
+> will be explicitly declared using the state update ("!") method when changing state.  This gives similar behavior to a
+> "pure" component without the possible performance penalties.
+> To achieve the standard react.js behavior add this line to your class `def should_component_update?; true; end`
+
+### Before Updating (re-rendering)
+
+```ruby
+before_update do ...
+end
+```
+
+Invoked immediately before rendering when new params or state are being received.  
+
+
+### After Updating (re-rendering)
+
+```ruby
+before_update do ...
+end
+```
+
+Invoked immediately after the component's updates are flushed to the DOM. This method is not called for the initial render.
+
+Use this as an opportunity to operate on the DOM when the component has been updated.
+
+
+### Unmounting
+
+```ruby
+before_unmount do ...
+end
+```
+
+Invoked immediately before a component is unmounted from the DOM.
+
+Perform any necessary cleanup in this method, such as invalidating timers or cleaning up any DOM elements that were created in the `after_mount` callback.
+
+## React::Event
+
+Your event handlers will be passed instances of `React::Event`, a wrapper around react.js's `SyntheticEvent` which in turn is a cross browser wrapper around the browser's native event. It has the same interface as the browser's native event, including `stopPropagation()` and `preventDefault()`, except the events work identically across all browsers.
+
+For example:
+
+```ruby
+class YouSaid < React::Component::Base
+  def render
+    input(value: state.value).
+    on(:key_down) do |e|
+      alert "You said: #{state.value}" if e.key_code == 13
+    end.
+    on(:change) do |e|
+      state.value! e.target.value
+    end
+  end
+end
+```
+
+If you find that you need the underlying browser event for some reason use the `native_event`.  
+
+In the following responses shown as (native ...) indicate the value returned is a native object with an Opal wrapper.  In some cases there will be opal methods available (i.e. for native DOMNode values) and in other cases you will have to convert to the native value
+with `.to_n` and then use javascript directly.
+
+Every `React::Event` has the following methods:
+
+```ruby
+bubbles                -> Boolean
+cancelable             -> Boolean
+current_target         -> (native DOM node)
+default_prevented      -> Boolean
+event_phase            -> Integer
+is_trusted             -> Boolean
+native_event           -> (native Event)
+prevent_default        -> Proc
+is_default_prevented   -> Boolean
+stop_propagation       -> Proc
+is_propagation_stopped -> Boolean
+target                 -> (native DOMEventTarget)
+timestamp              -> Integer (use Time.at to convert to Time)
+type                   -> String
+```
+
+## Event pooling
+
+The underlying React `SyntheticEvent` is pooled. This means that the `SyntheticEvent` object will be reused and all properties will be nullified after the event callback has been invoked.
+This is for performance reasons.
+As such, you cannot access the event in an asynchronous way.
+
+## Supported Events
+
+React normalizes events so that they have consistent properties across
+different browsers.
+
+
+### Clipboard Events
+
+Event names:
+
+```ruby
+:copy, :cut, :paste
+```
+
+Available Methods:
+
+```ruby
+clipboard_data -> (native DOMDataTransfer)
+```
+
+
+### Composition Events (not tested)
+
+Event names:
+
+```ruby
+:composition_end, :composition_start, :composition_update
+```
+
+Available Methods:
+
+```ruby
+data -> String
+```
+
+### Keyboard Events
+
+Event names:
+
+```ruby
+:key_down, :key_press, :key_up
+```
+
+Available Methods:
+
+```ruby
+alt_key                 -> Boolean
+char_code               -> Integer
+ctrl_key                -> Boolean
+get_modifier_state(key) -> Boolean (i.e. get_modifier_key(:Shift)
+key                     -> String
+key_code                -> Integer
+locale                  -> String
+location                -> Integer
+meta_key                -> Boolean
+repeat                  -> Boolean
+shift_key               -> Boolean
+which                   -> Integer
+```
+
+
+### Focus Events
+
+Event names:
+
+```ruby
+:focus, :blur
+```
+
+Available Methods:
+
+```ruby
+related_target -> (Native DOMEventTarget)
+```
+
+These focus events work on all elements in the React DOM, not just form elements.
+
+### Form Events
+
+Event names:
+
+```ruby
+:change, :input, :submit
+```
+
+For more information about the :change event, see [Forms](/docs/forms.html).
+
+
+### Mouse Events
+
+Event names:
+
+```ruby
+:click, :context_menu, :double_click, :drag, :drag_end, :drag_enter, :drag_exit
+:drag_leave, :drag_over, :drag_start, :drop, :mouse_down, :mouse_enter,
+:mouse_leave, :mouse_move, :mouse_out, :mouse_over, :mouse_up
+```
+
+The `:mouse_enter` and `:mouse_leave` events propagate from the element being left to the one being entered instead of ordinary bubbling and do not have a capture phase.
+
+Available Methods:
+
+```ruby
+alt_key                 -> Boolean
+button                  -> Integer
+buttons                 -> Integer
+client_x                -> Integer
+number client_y         -> Integer
+ctrl_key                -> Boolean
+get_modifier_state(key) -> Boolean
+meta_key                -> Boolean
+page_x                  -> Integer
+page_y                  -> Integer
+related_target          -> (Native DOMEventTarget)
+screen_x                -> Integer
+screen_y                -> Integer
+shift_key               -> Boolean
+```
+
+### Selection events
+
+Event names:
+
+```ruby
+onSelect
+```
+
+
+### Touch events
+
+Event names:
+
+```ruby
+:touch_cancel, :touch_end, :touch_move, :touch_start
+```
+
+Available Methods:
+
+```ruby
+alt_key                 -> Boolean
+changed_touches         -> (Native DOMTouchList)
+ctrl_key                -> Boolean
+get_modifier_state(key) -> Boolean
+meta_key                -> Boolean
+shift_key               -> Boolean
+target_touches          -> (Native DOMTouchList)
+touches                 -> (Native DomTouchList)
+```
+
+### UI Events
+
+Event names:
+
+```ruby
+:scroll
+```
+
+Available Methods:
+
+```ruby
+detail -> Integer
+view   -> (Native DOMAbstractView)
+```
+
+
+### Wheel Events
+
+Event names:
+
+```ruby
+wheel
+```
+
+Available Methods:
+
+```ruby
+delta_mode -> Integer
+delta_x    -> Integer
+delta_y    -> Integer
+delta_z    -> Integer
+```
+
+### Media Events
+
+Event names:
+
+```ruby
+:abort, :can_play, :can_play_through, :duration_change,:emptied, :encrypted, :ended, :error, :loaded_data,
+:loaded_metadata, :load_start, :pause, :play, :playing, :progress, :rate_change, :seeked, :seeking, :stalled,
+:on_suspend, :time_update, :volume_change, :waiting
+```
+
+### Image Events
+
+Event names:
+
+```ruby
+:load, :error
+```
+
+## Using Javascript Components
+
+While it is quite possible to develop large applications purely in Reactrb with a ruby back end like rails, you may eventually find you want to use some pre-existing React Javascript library.   Or you may be working with an existing React-JS application, and want to just start adding some Reactrb components.
+
+Either way you are going to need to import Javascript components into the Reactrb namespace.  Reactrb provides both manual and automatic mechanisms to do this depending on the level of control you need.
+
+- [Importing Components](#importing-components)
+- [Importing Libraries](#importing-libraries)
+- [Auto Importing](#auto-import)
+- [Including React Source](#including-react-source)
+- [Using Webpack](#using-webpack)
+
+## Importing Components
+
+Lets say you have an existing React Component written in javascript that you would like to access from Reactrb.  
+
+Here is a simple hello world component:
+
+```javascript
+window.SayHello = React.createClass({
+  displayName: "SayHello",
+  render: function render() {
+    return React.createElement("div", null, "Hello ", this.props.name);
+  }
+})
+```
+
+Assuming that this component is loaded some place in your assets, you can then access this from Reactrb by creating a wrapper component:
+
+```ruby
+class SayHello < React::Component::Base
+  imports 'SayHello'
+end
+
+class MyBigApp < React::Component::Base
+  def render
+    # SayHello will now act like any other Reactrb component
+    SayHello name: 'Matz'
+  end
+end
+```
+
+The `imports` directive takes a string (or a symbol) and will simply evaluate it and check to make sure that the value looks like a React component, and then set the underlying native component to point to the imported component.
+
+
+## Importing Libraries
+
+Many React components come in libraries.  The `ReactBootstrap` library is one example.  You can import the whole library at once using the `React::NativeLibrary` class.  Assuming that you have initialized `ReactBootstrap` elsewhere, this is how you would bring it into Reactrb.
+
+```ruby
+class RBS < React::NativeLibrary
+  imports 'ReactBootstrap'
+end
+```
+
+We can now access our bootstrap components as components defined within the RBS scope:
+
+```ruby
+# taken  from Barrie Hadfield's excellent guide: http://tutorials.pluralsight.com/ruby-ruby-on-rails/reactrb-showcase
+module Components
+  module Home
+    class Show < React::Component::Base
+
+      def say_hello(i)
+        alert "Hello from number #{i}"
+      end
+
+      render RBS::Navbar, bsStyle: :inverse do
+        RBS::Nav() do
+          RBS::NavbarBrand() do
+            a(href: '#') { 'Reactrb Showcase' }
+          end
+          RBS::NavDropdown(eventKey: 1, title: 'Things', id: :drop_down) do
+            (1..5).each do |n|
+              RBS::MenuItem(href: '#', key: n, eventKey: "1.#{n}") do
+                "Number #{n}"
+              end.on(:click) { say_hello(n) }
+            end
+          end
+        end
+      end
+    end
+  end
+end
+```
+
+Besides the `imports` directive, `React::NativeLibrary` also provides a rename directive that takes pairs in the form `oldname => newname`.  For example:
+
+```ruby
+  rename 'NavDropdown' => 'NavDD', 'Navbar' => 'NavBar', 'NavbarBrand' => 'NavBarBrand'
+```
+
+`React::NativeLibrary` will import components that may be deeply nested in the library.  For example consider a component was defined as `MyLibrary.MySubLibrary.MyComponent`:
+
+```ruby
+class MyLib < React::NativeLibrary
+  imports 'MyLibrary'
+end
+
+class App < React::NativeLibrary
+  def render  
+    ...
+    MyLib::MySubLibrary::MyComponent ...
+    ...
+  end
+end
+```
+
+Note that the `rename` directive can be used to rename both components and sublibraries, giving you full control over the ruby names of the components and libraries.
+
+## Auto Import
+
+If you use a lot of libraries and are using a Javascript tool chain with Webpack, having to import the libraries in both Reactrb and Webpack is redundant and just hard work.
+
+Instead you can opt-in for *auto importing* Javascript components into Reactrb as you need them.  Simply `require react/auto-import` immediately after you `require reactrb`.  
+
+For example typically you might have this:
+
+```ruby
+# app/views/components.rb
+require 'opal'
+require 'reactrb'
+require 'reactrb/auto-import' # this opts into auto-importing javascript components
+if React::IsomorphicHelpers.on_opal_client?
+  require 'opal-jquery'
+  require 'browser'
+  require 'browser/interval'
+  require 'browser/delay'
+end
+require_tree './components'
+```
+
+Now you do not have to use component `imports` directive or `React::NativeLibrary` unless you need to rename a component.
+
+In Ruby all module and class names normally begin with an uppercase letter.  However in Javascript this is not always the case, so the auto import will first try the Javascript name that exactly matches the Ruby name, and if that fails it will try the same name with the first character downcased.  For example
+
+`MyComponent` will first try `MyComponent` in the Javascript name space, then `myComponent`.
+
+Likewise MyLib::MyComponent would match any of the following in the Javascript namespace: `MyLib.MyComponent`, `myLib.MyComponent`, `MyLib.myComponent`, `myLib.myComponent`
+
+*How it works:  The first time Ruby hits a native library or component name, the constant value will not be defined.  This will trigger a lookup in the javascript name space for the matching component or library name.  This will generate either a new subclass of React::Component::Base or React::NativeLibrary that imports the javascript object, and no further lookups will be needed.*
+
+## Including React Source  
+
+If you are in the business of importing components with a tool like Webpack, then you will need to let Webpack (or whatever dependency manager you are using) take care of including the React source code.  Just make sure that you are *not* including it on the ruby side of things.  Reactrb is currently tested with React versions 13, 14, and 15, so its not sensitive to the version you use.
+
+However it gets a little tricky if you are using the react-rails gem.  Each version of this gem depends on a specific version of React, and so you will need to manually declare this dependency in your Javascript dependency manager.  Consult this [table](https://github.com/reactjs/react-rails/blob/master/VERSIONS.md) to determine which version of React you need. For example assuming you are using `npm` to install modules and you are using version 1.7.2 of react-rails you would say something like this:
+
+```bash
+npm install react@15.0.2 react-dom@15.0.2 --save
+```  
+
+## Using Webpack
+
+Just a word on Webpack: If you a Ruby developer who is new to using Javascript libraries then we recommend using Webpack to manage javascript component dependencies.  Webpack is essentially bundler for Javascript.   Barrie Hadfield has put together a very nice [tutorial](http://tutorials.pluralsight.com/ruby-ruby-on-rails/reactrb-showcase) to get you started here.  
+
+There are also good tutorials on integrating Webpack with existing rails apps a google search away.
