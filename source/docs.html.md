@@ -1,4 +1,9 @@
-# Docs
+---
+title: Docs
+layout: layout_with_toc
+---
+
+ToDo: In above, in specifying the layout here the TOC rerender includes the text above.
 
 ## DSL Overview
 
@@ -57,7 +62,7 @@ end
 
 [Try It Out](http://goo.gl/zN8i9B)
 
-### React::Component::Base
+###React::Component::Base
 
 Component classes can be be created by inheriting from `React::Component::Base`.
 
@@ -171,7 +176,7 @@ Any tag or component name can be followed by `.class_name` HAML style.
 
 ```ruby
 div.class1.class2
-# short for
+  # short for
 div(class: "class1 class2")
 ```
 
@@ -263,8 +268,8 @@ Todo: check links below
 If you want to display an HTML entity within dynamic content, you will run into double escaping issues as React.js escapes all the strings you are displaying in order to prevent a wide range of XSS attacks by default.
 
 ```ruby
-# Bad: It displays "First &middot; Second"
 div {'First &middot; Second' }
+  # Bad: It displays "First &middot; Second"
 ```
 
 To workaround this you have to insert raw HTML.
@@ -478,7 +483,7 @@ When React reconciles the keyed children, it will ensure that any child with `ke
 The `key` should *always* be supplied directly to the components in the array, not to the container HTML child of each component in the array:
 
 ```ruby
-# WRONG!
+  # WRONG!
 class ListItemWrapper < React::Component::Base
   param :data
   def render
@@ -497,7 +502,7 @@ class MyComponent < React::Component::Base
 end
 ```
 ```ruby
-# correct
+  # correct
 class ListItemWrapper < React::Component::Base
   param :data
   def render
@@ -565,7 +570,7 @@ A Ruby `Proc` can be passed to a component like any other object.  The `param` m
 ```ruby
 param :all_done, type: Proc
 ...
-# typically in an event handler
+  # typically in an event handler
 params.all_done(data) # instead of params.all_done.call(data)
 ```
 

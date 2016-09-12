@@ -1,0 +1,42 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv='X-UA-Compatible' content='IE=edge;chrome=1' />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta charset="UTF-8">
+    <title>Reactrb</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+
+    <%= stylesheet_link_tag 'base' %>
+    <%= stylesheet_link_tag 'normalize' %>
+    <%= stylesheet_link_tag 'stylesheet' %>
+    <%= stylesheet_link_tag 'github-light' %>
+
+    <title>Reactrb<%= ' ' + current_article.title unless current_article.nil? %></title>
+    <%= feed_tag :atom, "#{blog.options.prefix.to_s}/feed.xml", title: "Atom Feed" %>
+  </head>
+
+  <body>
+      <section class="page-header">
+        <h1 class="project-name">Reactrb</h1>
+        <h2 class="project-tagline">USE RUBY TO BUILD REACTIVE USER INTERFACES</h2>
+        <%= link_to "Get Started", "/reactrb.org/get_started", class: "btn"%>
+        <%= link_to "Installation", "/reactrb.org/installation", class: "btn"%>
+        <%= link_to "Tutorial", "/reactrb.org/tutorial", class: "btn"%>
+        <%= link_to "Gems", "/reactrb.org/gems", class: "btn"%>
+        <%= link_to "Tools", "/reactrb.org/tools", class: "btn"%>
+        <%= link_to "Docs", "/reactrb.org/docs", class: "btn"%>
+        <%= link_to "Support", "/reactrb.org/support", class: "btn"%>
+        <%= link_to "Blog", "/reactrb.org/blog", class: "btn"%>
+      </section>
+
+      <section class="main-content">
+        <h3>Table of Contents</h3>
+        <%= table_of_contents(current_page) %>
+        <%= yield %>
+      </section>
+  </body>
+</html>

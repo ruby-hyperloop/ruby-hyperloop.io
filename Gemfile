@@ -15,7 +15,8 @@ gem "middleman-livereload"
 gem 'middleman-gh-pages'
 gem "middleman-syntax"
 
-gem 'redcarpet', '~> 3.3', '>= 3.3.3'
+# gem 'redcarpet', '~> 3.3', '>= 3.3.3'
+gem 'redcarpet', git: "https://github.com/vmg/redcarpet.git"
 
 # For feed.xml.builder
 gem "builder", "~> 3.0"
