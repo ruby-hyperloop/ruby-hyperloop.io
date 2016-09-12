@@ -3,8 +3,6 @@ title: Docs
 layout: layout_with_toc
 ---
 
-ToDo: In above, in specifying the layout here the TOC rerender includes the text above.
-
 ## DSL Overview
 
 The Reactrb DSL (Domain Specific Language) is a set of class and instance methods that are used to describe your React components.
