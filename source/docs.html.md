@@ -653,7 +653,7 @@ The `React` module is the name space for all the React classes and modules.
 
 See the [Getting Started](/docs/getting-started.html) section for details on getting react loaded in your environment.
 
-### React::Component and React::Component::Base
+### `React::Component` and `React::Component::Base`
 
 React components classes either include React::Component or are subclasses of React::Component::Base.  
 
@@ -691,7 +691,7 @@ end
 Note that you should never redefine the `new` or `initialize` methods, or call them directly.  The equivilent of `initialize` is the `before_mount` callback.  For more information see [Component Specs and Lifecycle](/docs/component-specs.html).
 
 
-### React.create_element
+### `React.create_element`
 
 A React Element is a component class, a set of parameters, and a group of children.  When an element is rendered the parameters and used to initialize a new instance of the component.
 
@@ -701,25 +701,25 @@ build the enclosed children elements
 
 ```ruby
 React.create_element("div", prop1: "foo", prop2: 12) { para { "hello" }; para { "goodby" } )
-# when rendered will generates <div prop1="foo" prop2="12"><p>hello</p><p>goodby</p></div>
+  # when rendered will generates <div prop1="foo" prop2="12"><p>hello</p><p>goodby</p></div>
 ```
 
 You almost never need to directly call create_element, the DSL, Rails, and jQuery interfaces take care of this for you.
 
 ```ruby
-# dsl - creates element and pushes it into the rendering buffer
+    # dsl - creates element and pushes it into the rendering buffer
     MyComponent(...params...) { ...optional children... }
-# dsl - component will NOT be placed in the rendering buffer
+    # dsl - component will NOT be placed in the rendering buffer
     MyComponent(...params...) { ... }.as_node
-# in a rails controller - renders component as the view
+    # in a rails controller - renders component as the view
     render_component("MyComponent", ...params...)
-# in a rails view helper - renders component into the view (like a partial)
+    # in a rails view helper - renders component into the view (like a partial)
     react_component("MyComponent", ...)
-# from jQuery (Note Element is the Opal jQuery wrapper, not be confused with React::Element)
+    # from jQuery (Note Element is the Opal jQuery wrapper, not be confused with React::Element)
     Element['#container'].render { MyComponent(...params...) { ...optional children... } }  
 ```
 
-### React.is_valid_element?
+### `React.is_valid_element?`
 
 ```ruby
 is_valid_element?(object)
@@ -728,7 +728,7 @@ is_valid_element?(object)
 Verifies `object` is a valid react element.  Note that `React::Element` wraps the React.js native class,
 `React.is_valid_element?` returns true for both classes unlike `object.is_a? React::Element`
 
-### React.render
+### `React.render`
 
 ```ruby
 React.render(element, container) { puts "element rendered" }
@@ -744,16 +744,12 @@ If the optional block is provided, it will be executed after the component is re
 
 > Note:
 >
-> `React.render()` controls the contents of the container node you pass in. Any existing DOM elements
-> inside are replaced when first called. Later calls use React’s DOM diffing algorithm for efficient
-> updates.
+> `React.render()` controls the contents of the container node you pass in. Any existing DOM elements inside are replaced when first called. Later calls use React’s DOM diffing algorithm for efficient updates.
 >
-> `React.render()` does not modify the container node (only modifies the children of the container). In
-> the future, it may be possible to insert a component to an existing DOM node without overwriting
-> the existing children.
+> `React.render()` does not modify the container node (only modifies the children of the container). In the future, it may be possible to insert a component to an existing DOM node without overwriting the existing children.
 
 
-### React.unmount_component_at_node
+### `React.unmount_component_at_node`
 
 ```ruby
 React.unmount_component_at_node(container)
@@ -761,7 +757,7 @@ React.unmount_component_at_node(container)
 
 Remove a mounted React component from the DOM and clean up its event handlers and state. If no component was mounted in the container, calling this function does nothing. Returns `true` if a component was unmounted and `false` if there was no component to unmount.
 
-### React.render_to_string
+### `React.render_to_string`
 
 ```ruby
 React.render_to_string(element)
@@ -774,7 +770,7 @@ If you call `React.render` on a node that already has this server-rendered marku
 If you are using rails, and have included the react-rails gem, then the prerendering functions are automatically performed.  Otherwise you can use `render_to_string` to build your own prerendering system.
 
 
-### React.render_to_static_markup
+### `React.render_to_static_markup`
 
 ```ruby
 React.render_to_static_markup(element)
@@ -1403,7 +1399,7 @@ end
 We can now access our bootstrap components as components defined within the RBS scope:
 
 ```ruby
-# taken  from Barrie Hadfield's excellent guide: http://tutorials.pluralsight.com/ruby-ruby-on-rails/reactrb-showcase
+  # taken  from Barrie Hadfield's excellent guide: http://tutorials.pluralsight.com/ruby-ruby-on-rails/reactrb-showcase
 module Components
   module Home
     class Show < React::Component::Base
@@ -1464,7 +1460,7 @@ Instead you can opt-in for *auto importing* Javascript components into Reactrb a
 For example typically you might have this:
 
 ```ruby
-# app/views/components.rb
+  # app/views/components.rb
 require 'opal'
 require 'reactrb'
 require 'reactrb/auto-import' # this opts into auto-importing javascript components
