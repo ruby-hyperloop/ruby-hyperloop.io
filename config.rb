@@ -24,7 +24,7 @@ page '/*.txt', layout: false
 helpers do
   def table_of_contents(resource)
     content = File.read(resource.source_file)
-    toc_renderer = Redcarpet::Render::HTML_TOC.new(with_toc_data: true)
+    toc_renderer = Redcarpet::Render::HTML_TOC.new(nesting_level: 2)
     markdown = Redcarpet::Markdown.new(toc_renderer)
     markdown.render(content)
     #  problem with this version is that the TOC is there
