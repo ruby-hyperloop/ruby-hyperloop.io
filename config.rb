@@ -8,7 +8,6 @@
 page '/*.xml', layout: false
 page '/*.json', layout: false
 page '/*.txt', layout: false
-# page '/index.html', :layout => false
 
 page "/docs.html", :layout => "layout_with_toc"
 
@@ -59,7 +58,7 @@ activate :blog do |blog|
   # blog.page_link = "page/{num}"
 end
 
-set :relative_links, true
+# set :relative_links, true # this does not work!
 
 page "/feed.xml", layout: false
 # Reload the browser automatically whenever files change
