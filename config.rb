@@ -83,7 +83,7 @@ configure :build do
   # activate :relative_assets
   # set :relative_links, true
   # set :site_url, "/reactrb.org"
-  set :http_prefix, '/reactrb.org' # enableing this stops sytlesheets working
+  set :http_prefix, '/reactrb.org' 
 
 end
 
