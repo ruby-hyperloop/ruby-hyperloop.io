@@ -117,7 +117,7 @@ In our example we see
 
 `params.mode` will return the value of the `mode` parameter passed to this instance, and `state.mode!` initializes (or updates) the `mode` state variable.  State variables are like *reactive* instance variables.  They can only be changed using the "!" method, and when they change they will cause a rerender.  
 
-More on the details of these methods can be found in the [Component API](/component-api.html) section.
+More on the details of these methods can be found in the [Component API](#top-level-api) section.
 
 ### Tag and Component Rendering
 
@@ -248,13 +248,11 @@ There are few gotchas with the DSL you should be aware of:
 
 React has implemented a browser-independent events and DOM system for performance and cross-browser compatibility reasons. We took the opportunity to clean up a few rough edges in browser DOM implementations.
 
-Todo: check links below
-
 * All DOM properties and attributes (including event handlers) should be snake_cased to be consistent with standard Ruby style. We intentionally break with the spec here since the spec is inconsistent. **However**, `data-*` and `aria-*` attributes [conform to the specs](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes#data-*) and should be lower-cased only.
 * The `style` attribute accepts a Hash with camelCased properties rather than a CSS string. This  is more efficient, and prevents XSS security holes.
-* All event objects conform to the W3C spec, and all events (including submit) bubble correctly per the W3C spec. See [Event System](/docs/events.html) for more details.
-* The `onChange` event (`on(:change)`) behaves as you would expect it to: whenever a form field is changed this event is fired rather than inconsistently on blur. We intentionally break from existing browser behavior because `onChange` is a misnomer for its behavior and React relies on this event to react to user input in real time. See [Forms](/docs/forms.html) for more details.
-* Form input attributes such as `value` and `checked`, as well as `textarea`. [More here](/docs/forms.html).
+* All event objects conform to the W3C spec, and all events (including submit) bubble correctly per the W3C spec. See [Event System](#event-handling-and-synthetic-events) for more details.
+* The `onChange` event (`on(:change)`) behaves as you would expect it to: whenever a form field is changed this event is fired rather than inconsistently on blur. We intentionally break from existing browser behavior because `onChange` is a misnomer for its behavior and React relies on this event to react to user input in real time.
+* Form input attributes such as `value` and `checked`, as well as `textarea`.
 
 ### HTML Entities
 
@@ -337,9 +335,7 @@ In React, you simply update a component's state, and then the new UI will be ren
 
 ### How State Works
 
-ToDo: check link below
-
-Whenever a state variable changes you invoke the corresponding state variable name followed by a "!" method.  For example `state.liked! !state.like` *gets* the current value of like, toggles it, and then *updates* it.  This in turn causes the component to be rerendered. For more details on how this works, and the full syntax of the update method see [the component API reference]( docs/component-api.html#the-state-instance-method)
+Whenever a state variable changes you invoke the corresponding state variable name followed by a "!" method.  For example `state.liked! !state.like` *gets* the current value of like, toggles it, and then *updates* it.  This in turn causes the component to be rerendered. For more details on how this works, and the full syntax of the update method see [the component API reference](#top-level-api)
 
 ### What Components Should Have State?
 
@@ -556,8 +552,6 @@ If no value is provided for `:an_optional_param` it will be given the value `"he
 
 `React::Observable` objects work very similar to state variables.  Any render method that accesses an observable value will be re-rendered if that value changes, and you can update the value (causing a rerender) using the param name followed by a "!".
 
-Observable's are used to set up two (or even n) way linkages between components.  See the [React::Observable](tbd) section for details.
-
 ## Params of type Proc
 
 A Ruby `Proc` can be passed to a component like any other object.  The `param` macro treats params declared as type `Proc` specially, and will automatically call the proc when the param name is used on the params method.
@@ -591,6 +585,8 @@ Element['#container'].render { CheckLink(href: "/checked.html") { "Click here!" 
 [Try It Out](http://goo.gl/ZG4ZJg)
 
 Note: `collect_other_params_as` builds a hash, so you can merge other data in or even delete elements out as needed.
+
+
 
 ## Mixins and Inheritance
 
@@ -646,7 +642,7 @@ Notice that TickTock effectively has two before_mount callbacks, one that is cal
 
 The `React` module is the name space for all the React classes and modules.  
 
-See the [Getting Started](/docs/getting-started.html) section for details on getting react loaded in your environment.
+See the [Getting Started](/getting-started) section for details on getting react loaded in your environment.
 
 ### `React::Component` and `React::Component::Base`
 
@@ -683,7 +679,7 @@ class AnotherComponent < React::Component::Base
 end
 ```
 
-Note that you should never redefine the `new` or `initialize` methods, or call them directly.  The equivilent of `initialize` is the `before_mount` callback.  For more information see [Component Specs and Lifecycle](/docs/component-specs.html).
+Note that you should never redefine the `new` or `initialize` methods, or call them directly.  The equivilent of `initialize` is the `before_mount` callback.  
 
 
 ### `React.create_element`
@@ -1220,9 +1216,6 @@ Event names:
 ```ruby
 :change, :input, :submit
 ```
-
-For more information about the :change event, see [Forms](/docs/forms.html).
-
 
 ### Mouse Events
 
