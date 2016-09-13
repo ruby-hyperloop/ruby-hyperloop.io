@@ -3,7 +3,7 @@
 We'll be building a simple but realistic chat application, a basic version of a chat room offered by a service like gitter.im.  
 
 <div class="buttons-unit downloads">
-  <a href="/chatrb.html" class="button">
+  <a href="/chatrb" >
     ChatRB Demo App
   </a>
 </div>

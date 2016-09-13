@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Hello React</title>
+    <script language="JavaScript">
+      function redirectHttpsToHttp() {
+        if (window.location.protocol == "https:") {
+          window.location = "http://" + window.location.hostname + window.location.pathname + window.location.search;
+        }
+      }
+      redirectHttpsToHttp();
+    </script>
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.5/marked.min.js"></script>
+    <script src="https://rawgit.com/reactrb/reactrb-express/master/reactrb-express.js"></script>
+    <script src="http://reactrb.github.io/react/js/chat_service.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+    <style type="text/css">
+
+      body {
+        padding-top: 50px;
+        padding-bottom: 60px;
+      }
+      div.alternating:nth-of-type(odd) {
+        background-color: #ddd;
+      }
+      div.alternating:nth-of-type(even) {
+        background-color: #ccc;
+      }
+      .input-box {
+        padding: 10px;
+      }
+      .white {
+        color: white;
+      }
+      .message {
+        padding-top: 10px;
+      }
+      textarea {
+        width: 100%;;
+      }
+      div.reactrb-icon {
+        float: left;
+        width: 50px;
+        height: 50px;
+        margin-right: 8px;
+        background-size: contain;
+        background-image: url("http://reactrb.github.io/react/img/logo_svg.png");
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="text/ruby">
+
+      class App < React::Component::Base
+
+        before_mount do
+          @chat_service = ChatService.new do | message |
+            state.messages! ((state.messages || []) + message)
+          end
+        end
+
+        def render
+          div do
+            Nav(login: method(:login))
+            if online?
+              Messages messages: state.messages, chat_service: @chat_service
+              InputBox chat_service: @chat_service
+            end
+          end
+        end
+
+        def login(user_name)
+          state.messages! nil
+          @chat_service.login(user_name)
+        end
+
+        def online?
+          state.messages
+        end
+
+        def user_id
+          @chat_service.user_id
+        end
+
+      end
+
+      class Nav < React::Component::Base
+
+        param :login, type: Proc
+
+        before_mount do
+          state.current_user_name! ""
+          state.user_name_input! ""
+        end
+
+        def render
+          div.navbar.navbar_inverse.navbar_fixed_top do
+            div.container do
+              div.navbar_header do
+                div.reactrb_icon
+                a.navbar_brand(href: "#", style: {color: "#00d8ff"}) { "Reactrb Chat Room " }
+              end
+              div.collapse.navbar_collapse(id: "navbar") do
+                form.navbar_form.navbar_left(role: :search) do
+                  div.form_group do
+                    input.form_control(type: :text, value: state.user_name_input, placeholder: "Enter Your Handle").on(:change) do |e|
+                      state.user_name_input! e.target.value
+                    end.on(:key_down) do |e|
+                      login! if valid_new_input? && e.key_code == 13
+                    end
+                    button.btn.btn_default(type: :button) { span.glyphicon.glyphicon_log_in }.on(:click) do
+                      login!
+                    end if valid_new_input?
+                  end
+                end.on(:submit) { |e| e.prevent_default }
+              end
+            end
+          end
+        end
+
+        def valid_new_input?
+          state.user_name_input.present? && state.user_name_input != state.current_user_name
+        end
+
+        def login!
+          state.current_user_name! state.user_name_input
+          params.login(state.user_name_input)
+        end
+
+      end
+
+      class Messages < React::Component::Base
+
+        param :messages, type: [Hash]
+        param :chat_service, type: ChatService
+
+        after_mount :scroll_to_bottom
+        after_update :scroll_to_bottom
+
+        def render
+          div.container do
+            params.messages.each do |message|
+              Message user_id: params.chat_service.id, message: message
+            end
+          end
+        end
+
+        def scroll_to_bottom
+          Element['html, body'].animate({scrollTop: Element[Document].height}, :slow)
+        end
+
+      end
+
+      class Message < React::Component::Base
+
+        param :message
+        param :user_id
+
+        def render
+          div.row.alternating.message do
+            div.col_sm_2 { sender }
+            FormattedDiv class: "col-sm-8", html: params.message[:message]
+            div.col_sm_2 { formatted_time }
+          end
+        end
+
+        def formatted_time
+          time = Time.at(params.message[:time])
+          if Time.now < time+1.day
+            time.strftime("%I:%M %p")
+          elsif Time.now < time+7.days
+            time.strftime("%A")
+          else
+            time.strftime("%D %I:%M %p")
+          end
+        end
+
+        def sender
+          if params.message[:from] == params.user_id
+            "you: "
+          else
+            "#{params.message[:from]}:"
+          end
+        end
+
+      end
+
+      class InputBox < React::Component::Base
+
+        param :chat_service, type: ChatService
+
+        before_mount do
+          state.composition! ""
+          @mobile = `/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent)`
+        end
+
+        def render
+          div.row.form_group.input_box.navbar.navbar_inverse.navbar_fixed_bottom do
+            div.col_sm_1.white {"Say Something: "}
+            div.col_sm_5 do
+              textarea(rows: rows, value: state.composition).on(:change) do |e|
+                state.composition! e.target.value #unless is_send_key?(e)
+              end.on(:key_down) do |e|
+                send_message if is_send_key?(e)
+              end.on(:key_press) do |e|
+                e.prevent_default if is_send_key?(e)
+              end
+            end
+            FormattedDiv class: "col-sm-5 white", html: state.composition
+          end
+        end
+
+        def is_send_key?(e)
+          (e.char_code == 13 || e.key_code == 13) && (@mobile || e.meta_key || e.ctrl_key)
+        end
+
+        def rows
+          [state.composition.count("\n") + 1,20].min
+        end
+
+        def send_message
+          params.chat_service.send(message: state.composition!(""), time: Time.now.to_i, from: params.chat_service.id)
+        end
+
+      end
+
+      class FormattedDiv < React::Component::Base
+
+        param :html, type: String
+        #param className: "", type: String
+        collect_other_params_as :attributes
+
+        def render
+          div(params.attributes) do
+            div({dangerously_set_inner_HTML: { __html: %x{marked(#{params.html}, {sanitize: true })} }})
+          end
+        end
+      end
+
+      Element['#app'].render do
+        App()
+      end
+
+    </script>
+  </body>
+</html>

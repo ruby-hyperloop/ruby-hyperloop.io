@@ -10,6 +10,7 @@ page '/*.json', layout: false
 page '/*.txt', layout: false
 
 page "/docs.html", :layout => "layout_with_toc"
+page "/chatrb.html", :layout => false
 
 # With alternative layout
 # page "/path/to/file.html", layout: :otherlayout

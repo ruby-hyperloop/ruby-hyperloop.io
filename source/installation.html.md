@@ -210,6 +210,6 @@ This should build `react_lib.js` which can be included in your main html file.
 
 ## Next Steps
 
-Check out [the tutorial](/docs/tutorial.html) to learn more.
+Check out [the tutorial](/tutorial) to learn more.
 
 Good luck, and welcome!
