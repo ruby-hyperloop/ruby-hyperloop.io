@@ -1,2 +1,13 @@
 <h1>Blog</h1>
-<p>All of it...</p>
+
+<% blog.articles[0...5].each do |article| %>
+  <article>
+    <h2>
+      <a href="<%= article.url %>"><%= article.title %></a>
+      <time><%= article.date.strftime('%b %e %Y') %></time>
+    </h2>
+
+    <%= article.summary %>
+
+  </article>
+<% end %>

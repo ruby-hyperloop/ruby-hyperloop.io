@@ -14,6 +14,7 @@ gem "middleman-blog"
 gem "middleman-livereload"
 gem 'middleman-gh-pages'
 gem "middleman-syntax"
+gem "nokogiri"
 
 
 # gem 'redcarpet', '~> 3.3', '>= 3.3.3'
