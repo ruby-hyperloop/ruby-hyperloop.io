@@ -29,23 +29,8 @@ helpers do
     toc_renderer = Redcarpet::Render::HTML_TOC.new(nesting_level: 2)
     markdown = Redcarpet::Markdown.new(toc_renderer)
     markdown.render(content)
-    #  problem with this version is that the TOC is there
-    #  but there are no anchor links
-    #  Example: <h2>DSL Overview</h2>
   end
 end
-
-# helpers do
-#   def table_of_contents(resource)
-#     content = File.read(resource.source_file)
-#     toc_renderer = Redcarpet::Render::HTML.new
-#     markdown = Redcarpet::Markdown.new(toc_renderer)
-#     markdown.render(content)
-      # problem with this version is that there is NO TOC
-      # but the anchor links are there!!
-      # Example: <h2 id='dsl_overview'>DSL Overview</h2>
-#   end
-# end
 
 
 activate :blog do |blog|
@@ -112,4 +97,4 @@ activate :syntax, :line_numbers => false
 set :markdown_engine, :redcarpet
 set :markdown, :tables => true, :autolink => true,
   :gh_blockcode => true, :fenced_code_blocks => true,
-  :smartypants => true,  toc_data: true
+  :smartypants => true,  with_toc_data: true
