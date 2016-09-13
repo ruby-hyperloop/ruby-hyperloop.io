@@ -32,9 +32,6 @@ helpers do
   end
 end
 
-
-set :relative_links, true
-
 activate :blog do |blog|
   # This will add a prefix to all links, template references and source paths
   # blog.prefix = "blog"
@@ -83,10 +80,10 @@ configure :build do
   # Minify Javascript on build
   # activate :minify_javascript
 
-  activate :relative_assets
-  set :relative_links, true
-  set :site_url, "/reactrb.org"
-  # set :http_prefix, '/reactrb.org' # enableing this stops sytlesheets working
+  # activate :relative_assets
+  # set :relative_links, true
+  # set :site_url, "/reactrb.org"
+  set :http_prefix, '/reactrb.org' # enableing this stops sytlesheets working
 
 end
 
