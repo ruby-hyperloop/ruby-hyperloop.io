@@ -33,6 +33,8 @@ helpers do
 end
 
 
+set :relative_links, true
+
 activate :blog do |blog|
   # This will add a prefix to all links, template references and source paths
   # blog.prefix = "blog"
@@ -96,7 +98,9 @@ activate :directory_indexes
 
 # code highlighting in clogs
 activate :syntax, :line_numbers => false
+
 set :markdown_engine, :redcarpet
+
 set :markdown, :tables => true, :autolink => true,
   :gh_blockcode => true, :fenced_code_blocks => true,
   :smartypants => true,  with_toc_data: true
