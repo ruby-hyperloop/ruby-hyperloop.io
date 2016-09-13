@@ -1,9 +1,4 @@
----
-title: Docs
-layout: layout_with_toc
----
-
-## DSL Overview
+# DSL Overview
 
 The Reactrb DSL (Domain Specific Language) is a set of class and instance methods that are used to describe your React components.
 
@@ -302,7 +297,9 @@ MyCustomComponent    # breaks
 br                   # okay
 ```
 
-## State and Event Handelers
+# State, Components and Event Handelers
+
+## Using State
 
 ### A Simple Example
 
@@ -645,7 +642,7 @@ end
 
 Notice that TickTock effectively has two before_mount callbacks, one that is called to initialize the `@intervals` array and another to initialize `state.seconds`
 
-## Top level API
+# Top level API
 
 The `React` module is the name space for all the React classes and modules.  
 
@@ -1339,7 +1336,7 @@ Event names:
 :load, :error
 ```
 
-## Using Javascript Components
+# Using Javascript Components
 
 While it is quite possible to develop large applications purely in Reactrb with a ruby back end like rails, you may eventually find you want to use some pre-existing React Javascript library.   Or you may be working with an existing React-JS application, and want to just start adding some Reactrb components.
 
