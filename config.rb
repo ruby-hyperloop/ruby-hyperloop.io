@@ -59,6 +59,8 @@ activate :blog do |blog|
   # blog.page_link = "page/{num}"
 end
 
+set :relative_links, true
+
 page "/feed.xml", layout: false
 # Reload the browser automatically whenever files change
 # configure :development do
@@ -83,7 +85,7 @@ configure :build do
   # activate :relative_assets
   # set :relative_links, true
   # set :site_url, "/reactrb.org"
-  set :http_prefix, '/reactrb.org' 
+  set :http_prefix, '/reactrb.org'
 
 end
 
