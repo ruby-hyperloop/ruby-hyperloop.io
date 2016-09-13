@@ -7,14 +7,13 @@ pageable: true
   <article>
     <h2>
       <a href="<%= article.url %>"><%= article.title %></a>
-      <br>
       <small>
         <time><%= article.date.strftime('%b %e %Y') %></time>
-        by catmando
       </small>
     </h2>
 
     <%= article.summary %>
 
   </article>
+  <br>
 <% end %>
