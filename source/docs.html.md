@@ -2,6 +2,17 @@
 
 The Reactrb DSL (Domain Specific Language) is a set of class and instance methods that are used to describe your React components.
 
+- [React::Component::Base](#react-component-base)
+- [Macros (Class Methods)](#macros-class-methods)
+- [Data Accessor Methods](#data-accessor-methods)
+- [Tag and Component Rendering](#tag-and-component-rendering)
+- [Using Strings](#using-strings)
+- [HAML style class names](#haml-style-class-names)
+- [Event Handlers](#event-handlers)
+- [Miscellaneous Methods](#miscellaneous-methods)
+- [Ruby and Reactrb](#ruby-and-reactrb)
+- [DSL Gotchas](#dsl-gotchas)
+
 The DSL has the following major areas:  
 
 + The `React::Component::Base` class and the equivilent `React::Component` mixin.
@@ -146,7 +157,7 @@ The same rules apply for application defined components, except that the class c
 Clock(mode: 12)
 ```
 
-**Using Strings**
+### Using Strings
 
 Strings are treated specially as follows:  
 
@@ -163,7 +174,7 @@ Time.now.strftime(FORMATS[state.mode]).span  # generates <span>...current time f
   option(value: 12) { "12 Hour Clock" }      # generates <option value=12><span>12 Hour Clock</span></option>
 ```
 
-**HAML style class names**
+### HAML style class names
 
 Any tag or component name can be followed by `.class_name` HAML style.
 
@@ -242,7 +253,7 @@ Component classes can be organized like any other class into a logical module hi
 
 Likewise the render method can invoke other methods to compute values or even internally build tags.
 
-## DSL Gotchas
+### DSL Gotchas
 
 There are few gotchas with the DSL you should be aware of:
 
@@ -254,7 +265,7 @@ React has implemented a browser-independent events and DOM system for performanc
 * The `onChange` event (`on(:change)`) behaves as you would expect it to: whenever a form field is changed this event is fired rather than inconsistently on blur. We intentionally break from existing browser behavior because `onChange` is a misnomer for its behavior and React relies on this event to react to user input in real time.
 * Form input attributes such as `value` and `checked`, as well as `textarea`.
 
-### HTML Entities
+#### HTML Entities
 
 If you want to display an HTML entity within dynamic content, you will run into double escaping issues as React.js escapes all the strings you are displaying in order to prevent a wide range of XSS attacks by default.
 
@@ -269,7 +280,7 @@ To workaround this you have to insert raw HTML.
 div(dangerously_set_inner_HTML: { __html: "First &middot; Second"})
 ```
 
-### Custom HTML Attributes
+#### Custom HTML Attributes
 
 If you pass properties to native HTML elements that do not exist in the HTML specification, React will not render them. If you want to use a custom attribute, you should prefix it with `data-`.
 
@@ -283,7 +294,7 @@ div("data-custom-attribute" => "foo")
 div("aria-hidden" => true)
 ```
 
-### Invoking Application Components
+#### Invoking Application Components
 
 When invoking a custom component you must have a (possibly empty) parameter list or (possibly empty) block.  This is not necessary
 with standard html tags.
@@ -296,6 +307,16 @@ br                   # okay
 ```
 
 # State, Components and Event Handelers
+
+- [Using State](#using-state)
+- [Multiple Components](#multiple-components)
+- [Reusable Components](#reusable-components)
+- [Param Validation](#param-validation)
+- [Default Param Values](#default-param-values)
+- [Params of type React::Observable](#params-of-type-react-observable)
+- [Params of type Proc](#params-of-type-proc)
+- [Other Params](#other-params)
+- [Mixins and Inheritance](#mixins-and-inheritance)
 
 ## Using State
 
@@ -602,7 +623,7 @@ component by including `React::Component` which allows a class to inherit from s
 
 One common use case is a component wanting to update itself on a time interval. It's easy to use the kernel method `every`, but it's important to cancel your interval when you don't need it anymore to save memory. React provides [lifecycle methods](/docs/working-with-the-browser.html#component-lifecycle) that let you know when a component is about to be created or destroyed. Let's create a simple mixin that uses these methods to provide a React friendly `every` function that will automatically get cleaned up when your component is destroyed.
 
-```Ruby
+```ruby
 module ReactInterval
 
   def self.included(base)
@@ -642,11 +663,16 @@ Notice that TickTock effectively has two before_mount callbacks, one that is cal
 
 The `React` module is the name space for all the React classes and modules.  
 
-See the [Getting Started](/getting-started) section for details on getting react loaded in your environment.
+See the [Getting Started](/get-started) section for details on getting react loaded in your environment.
 
-### `React::Component` and `React::Component::Base`
+- [React::Component and React::Component::Base](#react-component-and-react-component-base)
+- [Lifecycle Callbacks](#lifecycle-callbacks)
+- [Lifecycle Methods](#lifecycle-methods)
+- [React::Event](#react-event)
 
-React components classes either include React::Component or are subclasses of React::Component::Base.  
+## React::Component and React::Component::Base
+
+React components classes either include `React::Component` or are subclasses of `React::Component::Base`.  
 
 ```ruby
 class Component < React::Component::Base
@@ -669,6 +695,15 @@ end
 
 You may also use the `render` macro to define the render method, which has some styling advantages, but is functionally equivilent.
 
+```ruby
+class Component < React::Component::Base
+  render do
+    div # render an empty div
+  end
+end
+```
+
+
 To render a component, you reference its class name in the DSL as a method call.  This creates a new instance, passes any parameters proceeds with the component lifecycle.  
 
 ```ruby
@@ -682,35 +717,37 @@ end
 Note that you should never redefine the `new` or `initialize` methods, or call them directly.  The equivilent of `initialize` is the `before_mount` callback.  
 
 
-### `React.create_element`
+**`React.create_element`**
 
 A React Element is a component class, a set of parameters, and a group of children.  When an element is rendered the parameters and used to initialize a new instance of the component.
 
-`React.create_element` creates a new element.  It takes either the component class, or a string (representing a built in tag
-such as div, or span), the parameters (properties) to be passed to the element, and optionally a block that will be evaluated to
-build the enclosed children elements
+`React.create_element` creates a new element.  It takes either the component class, or a string (representing a built in tag such as div, or span), the parameters (properties) to be passed to the element, and optionally a block that will be evaluated to build the enclosed children elements
 
 ```ruby
 React.create_element("div", prop1: "foo", prop2: 12) { para { "hello" }; para { "goodby" } )
   # when rendered will generates <div prop1="foo" prop2="12"><p>hello</p><p>goodby</p></div>
 ```
 
-You almost never need to directly call create_element, the DSL, Rails, and jQuery interfaces take care of this for you.
+**You almost never need to directly call `create_element`, the DSL, Rails, and jQuery interfaces take care of this for you.**
 
 ```ruby
     # dsl - creates element and pushes it into the rendering buffer
     MyComponent(...params...) { ...optional children... }
+
     # dsl - component will NOT be placed in the rendering buffer
     MyComponent(...params...) { ... }.as_node
+
     # in a rails controller - renders component as the view
     render_component("MyComponent", ...params...)
+
     # in a rails view helper - renders component into the view (like a partial)
     react_component("MyComponent", ...)
+
     # from jQuery (Note Element is the Opal jQuery wrapper, not be confused with React::Element)
     Element['#container'].render { MyComponent(...params...) { ...optional children... } }  
 ```
 
-### `React.is_valid_element?`
+**`React.is_valid_element?`**
 
 ```ruby
 is_valid_element?(object)
@@ -719,7 +756,7 @@ is_valid_element?(object)
 Verifies `object` is a valid react element.  Note that `React::Element` wraps the React.js native class,
 `React.is_valid_element?` returns true for both classes unlike `object.is_a? React::Element`
 
-### `React.render`
+**`React.render`**
 
 ```ruby
 React.render(element, container) { puts "element rendered" }
@@ -740,7 +777,7 @@ If the optional block is provided, it will be executed after the component is re
 > `React.render()` does not modify the container node (only modifies the children of the container). In the future, it may be possible to insert a component to an existing DOM node without overwriting the existing children.
 
 
-### `React.unmount_component_at_node`
+**`React.unmount_component_at_node`**
 
 ```ruby
 React.unmount_component_at_node(container)
@@ -748,7 +785,7 @@ React.unmount_component_at_node(container)
 
 Remove a mounted React component from the DOM and clean up its event handlers and state. If no component was mounted in the container, calling this function does nothing. Returns `true` if a component was unmounted and `false` if there was no component to unmount.
 
-### `React.render_to_string`
+**`React.render_to_string`**
 
 ```ruby
 React.render_to_string(element)
@@ -761,7 +798,7 @@ If you call `React.render` on a node that already has this server-rendered marku
 If you are using rails, and have included the react-rails gem, then the prerendering functions are automatically performed.  Otherwise you can use `render_to_string` to build your own prerendering system.
 
 
-### `React.render_to_static_markup`
+**`React.render_to_static_markup`**
 
 ```ruby
 React.render_to_static_markup(element)
@@ -769,13 +806,13 @@ React.render_to_static_markup(element)
 
 Similar to `render_to_string`, except this doesn't create extra DOM attributes such as `data-react-id`, that React uses internally. This is useful if you want to use React as a simple static page generator, as stripping away the extra attributes can save lots of bytes.
 
-## React::Component::Base
+**`React::Component::Base`**
 
-Reactrb Components are ruby classes that either subclass React::Component::Base, or mixin React::Component.  Both mechanisms have the same effect.
+Reactrb Components are ruby classes that either subclass `React::Component::Base`, or mixin `React::Component`.  Both mechanisms have the same effect.
 
-Instances of React Components are created internally by React when rendering. The instances exist through subsequent renders, and although coupled to React, act like normal ruby instances. The only way to get a valid reference to a React Component instance outside of React is by storing the return value of `React.render`.  Inside other Components, you may use [refs](/docs/more-about-refs.html) to achieve the same result.
+Instances of React Components are created internally by React when rendering. The instances exist through subsequent renders, and although coupled to React, act like normal ruby instances. The only way to get a valid reference to a React Component instance outside of React is by storing the return value of `React.render`.  Inside other Components, you may use refs to achieve the same result.
 
-### Lifecycle Callbacks
+## Lifecycle Callbacks
 
 A component may define callbacks for each phase of the components lifecycle:
 
@@ -1056,13 +1093,13 @@ before_update do ...
 end
 ```
 
-Invoked immediately before rendering when new params or state are being received.  
+Invoked immediately before rendering when new params or state are bein#g received.  
 
 
 ### After Updating (re-rendering)
 
 ```ruby
-before_update do ...
+after_update do ...
 end
 ```
 
@@ -1126,19 +1163,17 @@ timestamp              -> Integer (use Time.at to convert to Time)
 type                   -> String
 ```
 
-## Event pooling
+### Event pooling
 
-The underlying React `SyntheticEvent` is pooled. This means that the `SyntheticEvent` object will be reused and all properties will be nullified after the event callback has been invoked.
-This is for performance reasons.
-As such, you cannot access the event in an asynchronous way.
+The underlying React `SyntheticEvent` is pooled. This means that the `SyntheticEvent` object will be reused and all properties will be nullified after the event callback has been invoked. This is for performance reasons. As such, you cannot access the event in an asynchronous way.
 
-## Supported Events
+### Supported Events
 
 React normalizes events so that they have consistent properties across
 different browsers.
 
 
-### Clipboard Events
+#### Clipboard Events
 
 Event names:
 
@@ -1153,7 +1188,7 @@ clipboard_data -> (native DOMDataTransfer)
 ```
 
 
-### Composition Events (not tested)
+#### Composition Events (not tested)
 
 Event names:
 
@@ -1167,7 +1202,7 @@ Available Methods:
 data -> String
 ```
 
-### Keyboard Events
+#### Keyboard Events
 
 Event names:
 
@@ -1193,7 +1228,7 @@ which                   -> Integer
 ```
 
 
-### Focus Events
+#### Focus Events
 
 Event names:
 
@@ -1209,7 +1244,7 @@ related_target -> (Native DOMEventTarget)
 
 These focus events work on all elements in the React DOM, not just form elements.
 
-### Form Events
+#### Form Events
 
 Event names:
 
@@ -1217,7 +1252,7 @@ Event names:
 :change, :input, :submit
 ```
 
-### Mouse Events
+#### Mouse Events
 
 Event names:
 
@@ -1248,7 +1283,7 @@ screen_y                -> Integer
 shift_key               -> Boolean
 ```
 
-### Selection events
+#### Selection events
 
 Event names:
 
@@ -1257,7 +1292,7 @@ onSelect
 ```
 
 
-### Touch events
+#### Touch events
 
 Event names:
 
@@ -1278,7 +1313,7 @@ target_touches          -> (Native DOMTouchList)
 touches                 -> (Native DomTouchList)
 ```
 
-### UI Events
+#### UI Events
 
 Event names:
 
@@ -1294,7 +1329,7 @@ view   -> (Native DOMAbstractView)
 ```
 
 
-### Wheel Events
+#### Wheel Events
 
 Event names:
 
@@ -1311,7 +1346,7 @@ delta_y    -> Integer
 delta_z    -> Integer
 ```
 
-### Media Events
+#### Media Events
 
 Event names:
 
@@ -1321,7 +1356,7 @@ Event names:
 :on_suspend, :time_update, :volume_change, :waiting
 ```
 
-### Image Events
+#### Image Events
 
 Event names:
 
