@@ -13,16 +13,10 @@ $ middleman server
 $ middleman article "Test Post"
 ```
 
-## Layouts
-
-There are two layouts used in this site: `source/layout` and `source/layouts/layout_with_toc`. Most pages use the default layout and do not need any special consideration. Pages with an automatic Table Of Content (TOC) should use the 2nd layout (which need to be specified in `config.rb`). The TOC generator is set to only generatea TOC for h1 tags.
-
-**Any stylistic changes must be made to both layouts.**
-
 ## Build and Publish to Github Pages
 Published pages are in `gh-pages` branch. Publishing to Github pages handled by [Middleman Github Pages Gem](https://github.com/edgecase/middleman-gh-pages).
 
-**The following rake tasks will not run with uncommited changes.**
+**If there are Git errors from the final step try deleting the gh-pages branch.**
 
 ### Rake Tasks
 ```text
