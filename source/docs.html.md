@@ -320,7 +320,6 @@ br                   # okay
 - [Reusable Components](#reusable-components)
 - [Param Validation](#param-validation)
 - [Default Param Values](#default-param-values)
-- [Params of type React::Observable](#params-of-type-react-observable)
 - [Params of type Proc](#params-of-type-proc)
 - [Other Params](#other-params)
 - [Mixins and Inheritance](#mixins-and-inheritance)
@@ -575,10 +574,6 @@ class ManyParams < React::Component::Base
 ```
 
 If no value is provided for `:an_optional_param` it will be given the value `"hello"`
-
-## Params of type React::Observable
-
-`React::Observable` objects work very similar to state variables.  Any render method that accesses an observable value will be re-rendered if that value changes, and you can update the value (causing a rerender) using the param name followed by a "!".
 
 ## Params of type Proc
 
@@ -915,13 +910,6 @@ end
 
 If for whatever reason you need to get the actual proc instead of calling it use `params.method(*symbol name of method*)`
 
-#### Params of type `React::Observable`
-
-Observables provide a two way binding mechanism, and are integrated with the underlying React.js state mechanism.
-
-Given `param :foo, type: React::Observable` then both the `params.foo` method and `params.foo!` methods will be defined, and
-the value of `foo` will have the same semantics as if foo were a state.  A detailed discussion can be found here *link to two way binding*
-
 ### The `state` instance method
 
 React state variables are *reactive* component instance variables that cause rerendering when they change.
@@ -951,8 +939,6 @@ The rule is simple:  anytime you are updating a state variable follow it by the 
 > #### Tell Me How That Works???
 >
 > A state variables update method (name followed by "!") can optionally accept one parameter.  If a parameter is passed, then the method will 1) save the current value, 2) update the value to the passed parameter, 3) update the underlying react.js state object, 4) return the saved value.
->
-> If no parameter is passed, then an object of class React::Observable is created.  React::Observables proxy all method calls to whatever value they are initialized with, and then when the method returns they call a notification callback.  In the case of state variables the callback will tell react.js that state has changed.
 
 ### The `force_update!` method
 
