@@ -1,0 +1,134 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv='X-UA-Compatible' content='IE=edge;chrome=1' />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta charset="UTF-8">
+    <title>Reactrb</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+
+    <link href="/reactrb.org/stylesheets/base.css" rel="stylesheet" />
+    <link href="/reactrb.org/stylesheets/normalize.css" rel="stylesheet" />
+    <link href="/reactrb.org/stylesheets/stylesheet.css" rel="stylesheet" />
+    <link href="/reactrb.org/stylesheets/github-light.css" rel="stylesheet" />
+
+    <title>Reactrb Reactrb v0.8.5</title>
+    <link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/feed.xml" />
+  </head>
+
+  <body>
+      <section class="page-header">
+        <a href="/"><img src="/reactrb.org/images/reactrb-logo_white.svg" width="200" alt="Reactrb logo white" /></a>
+        <!-- <h1 class="project-name">
+          <a href="/" class="btn-logo">Reactrb</a>
+        </h1> -->
+        <h2 class="project-tagline">THE MISSING RUBY FRONT-END LIBRARY</h2>
+        <a href="/get_started" class="btn">Get Started</a>
+        <a href="/installation" class="btn">Installation</a>
+        <a href="/tutorial" class="btn">Tutorial</a>
+        <a href="/gems" class="btn">Gems</a>
+        <a href="/tools" class="btn">Tools</a>
+        <a href="/docs" class="btn">Docs</a>
+        <a href="/support" class="btn">Support</a>
+        <a href="/blog" class="btn">Blog</a>
+      </section>
+
+      <section class="main-content">
+        <p>Wow - its already been a hot sweaty summer around here in Reactrb land.  First off after a lot of discussion and thinking we have decided to consistently rename everything <strong>Reactrb</strong>.  We are sad to see the &ldquo;dot&rdquo; go, but this way the name is consistent everywhere, twitter handle, domain name, github org name, etc.</p>
+
+<p>Within the <a href="https://github.com/reactrb">github org</a> we will use the reactb prefix for all gems and repos unless it really doesn&rsquo;t make sense.  So you will find in the repo:</p>
+
+<ul>
+<li>reactrb-express (formerly inline-reactive-ruby)</li>
+<li>reactrb-examples (looking help here to clean these up&hellip;)</li>
+<li>reactrb-router (formerly reactive-router)</li>
+<li>reactrb-rails-generator (formerly reactive<em>rails</em>generator)</li>
+</ul>
+
+<p>For the moment reactive-record is going to keep its name, just because its so much fun.  There is a concept to make a gem called reactrb-model that would be the base for reactive-record, but would be agnostic to the persistence mechanism.</p>
+
+<p>This name change and reorganization should help make finding out about Reactrb easier, but its not going to help anybody write code faster or better.  So we wanted to at least get in a few improvements as well:</p>
+
+<ul>
+<li><a href="#you-pick-your-react-version">You Pick Your React Version</a></li>
+<li><a href="#better-native-imports">Better Native Imports</a></li>
+<li><a href="#render-call-back">Render Call Back</a></li>
+<li><a href="#caps-tag-names">CAPS Tag Names</a></li>
+</ul>
+
+<h2 id="you-pick-your-react-version">You Pick Your React Version</h2>
+
+<p>We really needed this one&hellip; With every gem and javascript component bundle pulling for a different version of react, Reactrb needed to step out of the way!</p>
+
+<p>Reactrb is now tested with React V13-V15, and by default does <em>not</em> include any version when you <code>require &#39;reactrb&#39;</code>.  </p>
+
+<p>This gives you at least three ways to include React source into your assets:</p>
+
+<ol>
+<li><p>If you are using Webpack or another Javascript dependency manager, then let the Javascript tool chain work out which version to use.  </p>
+
+<p>Just make sure that you include both <code>react</code> and <code>react-dom</code> as Reactrb needs both.</p></li>
+<li><p>If you are using the react-rails gem then do a <code>require &#39;react&#39;</code> just before you do a <code>require &#39;reactrb&#39;</code> in your <code>components.rb</code> file.  </p>
+
+<p>This will load the version compatible with react-rails.</p></li>
+<li><p>If you are using react-rails <em>and</em> a Javascript dependency manager, then check <a href="https://github.com/reactjs/react-rails/blob/master/VERSIONS.md">here</a> for the version that react-rails wants, and include that version explicitly with <code>npm</code> or whatever tool you are using on the JS side.</p>
+
+<p>This will let the JS tool chain manage the dependencies, but insure you have a compatible version for react-rails.</p></li>
+<li><p>Otherwise Reactrb includes (but does not require) several versions of react source.   Just add <code>require &#39;react-latest&#39;</code> right above wherever you do a <code>require &#39;reactrb&#39;</code>.  </p>
+
+<p>If you want another version do <code>require &#39;react-v14&#39;</code> or <code>require &#39;react-v13&#39;</code></p></li>
+</ol>
+
+<h2 id="better-native-imports">Better Native Imports</h2>
+
+<p>Previously you could not import single javascript components into the Reactrb namespace.  They had to be wrapped is some kind of library structure for the <code>NativeLibrary</code> class to work.  </p>
+
+<p>We wanted to keep <code>NativeLibrary</code> as strictly the mechanism that imports libraries of components, and so we added the <code>imports</code> directive to <code>React::Component</code>.</p>
+
+<p>So now you can say:</p>
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">Griddle</span> <span class="o">&lt;&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
+  <span class="n">imports</span> <span class="s1">'Griddle'</span>
+<span class="k">end</span>
+</code></pre>
+<p>Now once you install the the <a href="http://griddlegriddle.github.io/Griddle/">Griddle</a> Javascript component you can use <code>Griddle</code> like any other Reactrb component.</p>
+
+<p><em>But wait there&rsquo;s more&hellip;</em></p>
+
+<p>Importing a ton of libraries this way could get tedious especially if you are using something like Webpack anyway to manage which components to include.</p>
+
+<p>To keep things easy, you can opt in to <em>auto-import</em> by simply adding <code>require &#39;reactrb/auto-import&#39;</code> after you require reactrb.</p>
+
+<p>With auto-importing enabled a component like <code>Griddle</code> or a library like <code>ReactBootstrap</code> will automatically be available to your Reactrb components.</p>
+
+<p>See <a href="/using-javascript-components.html">Using Javascript Components</a> for more details.</p>
+
+<h2 id="render-call-back">Render Call back</h2>
+
+<p>Up till now we have been defining the render method as just that <em>an instance method in your component class.</em>  That&rsquo;s cool, and that still works, however for a couple of reasons we felt having a call back to define the render method would be handy.  </p>
+
+<ol>
+<li><p><strong>Render methods are too large:</strong> Even using helper methods to keep things small, render methods often exceed the normal 10 line ruby style guide recommendation.  </p>
+
+<p>That is not a problem in itself - after all recommendations are just that.  However if you are using tools like RuboCop, then it&rsquo;s sad when every single one of your components has a warning flag.  You can turn off that cop of course, but then lose a very valuable check that most of the times should be followed.  </p>
+
+<p>By allowing render to be defined as a call back, you get rid of this problem.</p></li>
+<li><p><strong>Get Rid of Boiler Plate:</strong> All components must have a single outer container, and for many components this container and its parameters are static.  So the new render call back lets you specify the container component and its parameters as params to the callback.  This eliminates two unnecessary lines per component, plus an unneeded level of indentation, and I think when used properly it makes things clearer.</p></li>
+<li><p><strong>Consistency:</strong> All the other lifecycle methods are defined as callbacks, so its nice to have render fit in.</p></li>
+</ol>
+
+<p>Meanwhile the <code>Element[...].render</code> method which can be used to mount a top level component to a DOM element, has been updated to follow the same syntax as well.  So for example to mount a component you can just say <code>Element[&#39;#top-level&#39;].render App</code>.</p>
+
+<p>This is not a big deal but I think you should try it out, and see if it doesn&rsquo;t lead to more readable components.</p>
+
+<h2 id="caps-tag-names">CAPS Tag Names</h2>
+
+<p>Its been suggested that especially for beginners its a little hard to parse the DSL.  You don&rsquo;t know which method is what, and its hard to tell the difference between tags like <code>select</code> and other helper methods.  One way to solve this is to write the built-in tag names in all caps, which the DSL now supports.</p>
+
+<p>It was a small thing, so we went ahead and added it.  Tell us what you think!</p>
+
+      </section>
+  </body>
+</html>

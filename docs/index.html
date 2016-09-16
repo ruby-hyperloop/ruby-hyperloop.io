@@ -1,0 +1,1335 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv='X-UA-Compatible' content='IE=edge;chrome=1' />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta charset="UTF-8">
+    <title>Reactrb</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+
+    <link href="/reactrb.org/stylesheets/base.css" rel="stylesheet" />
+    <link href="/reactrb.org/stylesheets/normalize.css" rel="stylesheet" />
+    <link href="/reactrb.org/stylesheets/stylesheet.css" rel="stylesheet" />
+    <link href="/reactrb.org/stylesheets/github-light.css" rel="stylesheet" />
+
+    <title>Reactrb</title>
+    <link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/feed.xml" />
+  </head>
+
+  <body>
+      <section class="page-header">
+        <a href="/"><img src="/reactrb.org/images/reactrb-logo_white.svg" width="200" alt="Reactrb logo white" /></a>
+        <!-- <h1 class="project-name">
+          <a href="/" class="btn-logo">Reactrb</a>
+        </h1> -->
+        <h2 class="project-tagline">THE MISSING RUBY FRONT-END LIBRARY</h2>
+        <a href="/get_started" class="btn">Get Started</a>
+        <a href="/installation" class="btn">Installation</a>
+        <a href="/tutorial" class="btn">Tutorial</a>
+        <a href="/gems" class="btn">Gems</a>
+        <a href="/tools" class="btn">Tools</a>
+        <a href="/docs" class="btn">Docs</a>
+        <a href="/support" class="btn">Support</a>
+        <a href="/blog" class="btn">Blog</a>
+      </section>
+
+      <section class="main-content">
+        <h1 id="reactrb-docs">Reactrb Docs</h1>
+
+<ul>
+<li><a href="#dsl-overview">DSL Overview</a></li>
+<li><a href="#state-components-and-event-handelers">State, Components and Event Handelers</a></li>
+<li><a href="#top-level-api">Top level API</a></li>
+<li><a href="#using-javascript-components">Using Javascript Components</a></li>
+<li><a href="#further-reading">Further Reading</a></li>
+</ul>
+
+<h2 id="dsl-overview">DSL Overview</h2>
+
+<p>The Reactrb DSL (Domain Specific Language) is a set of class and instance methods that are used to describe your React components.</p>
+
+<ul>
+<li><a href="#react-component-base">React::Component::Base</a></li>
+<li><a href="#macros-class-methods">Macros (Class Methods)</a></li>
+<li><a href="#data-accessor-methods">Data Accessor Methods</a></li>
+<li><a href="#tag-and-component-rendering">Tag and Component Rendering</a></li>
+<li><a href="#using-strings">Using Strings</a></li>
+<li><a href="#haml-style-class-names">HAML style class names</a></li>
+<li><a href="#event-handlers">Event Handlers</a></li>
+<li><a href="#miscellaneous-methods">Miscellaneous Methods</a></li>
+<li><a href="#ruby-and-reactrb">Ruby and Reactrb</a></li>
+<li><a href="#dsl-gotchas">DSL Gotchas</a></li>
+</ul>
+
+<p>The DSL has the following major areas:  </p>
+
+<ul>
+<li>The <code>React::Component::Base</code> class and the equivilent <code>React::Component</code> mixin.</li>
+<li>Class methods or <em>macros</em> that describe component class level behaviors.</li>
+<li>The three data accessors methods: <code>params</code>, <code>state</code>, and <code>children</code>.</li>
+<li>The tag and component rendering methods.</li>
+<li>Event handlers.</li>
+<li>Miscellaneous methods.</li>
+</ul>
+
+<p>To understand the DSL we will walk through an example that will cover each of these areas in detail.</p>
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">Clock</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
+
+  <span class="n">param</span> <span class="ss">initial_mode: </span><span class="mi">12</span>
+
+  <span class="n">before_mount</span> <span class="k">do</span>
+    <span class="n">state</span><span class="p">.</span><span class="nf">mode!</span> <span class="n">params</span><span class="p">.</span><span class="nf">initial_mode</span>
+  <span class="k">end</span>
+
+  <span class="n">after_mount</span> <span class="k">do</span>
+    <span class="vi">@timer</span> <span class="o">=</span> <span class="n">every</span><span class="p">(</span><span class="mi">60</span><span class="p">)</span> <span class="p">{</span> <span class="n">force_update!</span> <span class="p">}</span>
+  <span class="k">end</span>
+
+  <span class="n">before_unmount</span> <span class="k">do</span>
+    <span class="vi">@timer</span><span class="p">.</span><span class="nf">stop</span>
+  <span class="k">end</span>
+
+  <span class="no">FORMATS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="mi">12</span> <span class="o">=&gt;</span> <span class="s2">"%a, %e %b %Y %I:%M %p"</span><span class="p">,</span>
+    <span class="mi">24</span> <span class="o">=&gt;</span> <span class="s2">"%a, %e %b %Y %H:%M"</span>
+    <span class="p">}</span>
+
+  <span class="n">render</span> <span class="k">do</span>
+    <span class="n">div</span><span class="p">(</span><span class="ss">class: :time</span><span class="p">)</span> <span class="k">do</span>
+      <span class="no">Time</span><span class="p">.</span><span class="nf">now</span><span class="p">.</span><span class="nf">strftime</span><span class="p">(</span><span class="no">FORMATS</span><span class="p">[</span><span class="n">state</span><span class="p">.</span><span class="nf">mode</span><span class="p">]).</span><span class="nf">span</span>
+      <span class="nb">select</span><span class="p">(</span><span class="ss">style: </span><span class="p">{</span><span class="s2">"margin-left"</span> <span class="o">=&gt;</span> <span class="mi">20</span><span class="p">},</span> <span class="ss">value: </span><span class="n">state</span><span class="p">.</span><span class="nf">mode</span><span class="p">)</span>  <span class="k">do</span>
+        <span class="n">option</span><span class="p">(</span><span class="ss">value: </span><span class="mi">12</span><span class="p">)</span> <span class="p">{</span> <span class="s2">"12 Hour Clock"</span> <span class="p">}</span>
+        <span class="n">option</span><span class="p">(</span><span class="ss">value: </span><span class="mi">24</span><span class="p">)</span> <span class="p">{</span> <span class="s2">"24 Hour Clock"</span> <span class="p">}</span>
+      <span class="k">end</span><span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:change</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">e</span><span class="o">|</span>
+        <span class="n">state</span><span class="p">.</span><span class="nf">mode!</span><span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="nf">target</span><span class="p">.</span><span class="nf">value</span><span class="p">.</span><span class="nf">to_i</span><span class="p">)</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="no">Element</span><span class="p">[</span><span class="s1">'#container'</span><span class="p">].</span><span class="nf">render</span> <span class="k">do</span>
+  <span class="no">Clock</span><span class="p">(</span><span class="ss">initial_mode: </span><span class="mi">12</span><span class="p">)</span>
+<span class="k">end</span>
+</code></pre>
+<p><a href="http://goo.gl/zN8i9B">Try It Out</a></p>
+
+<h3 id="react-component-base">React::Component::Base</h3>
+
+<p>Component classes can be be created by inheriting from <code>React::Component::Base</code>.</p>
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">Clock</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
+<span class="p">.</span><span class="nf">.</span><span class="p">.</span>
+<span class="nf">end</span>
+</code></pre>
+<p>You may also create a component class by mixing in the <code>React::Component</code> module:</p>
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">Clock2</span>
+  <span class="kp">include</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span>
+  <span class="p">.</span><span class="nf">.</span><span class="p">.</span>
+<span class="nf">end</span>
+</code></pre>
+<h3 id="macros-class-methods">Macros (Class Methods)</h3>
+
+<p>Macros specify class wide behaviors.  In our example we use the five most common macros.</p>
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">Clock</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
+  <span class="n">param</span> <span class="p">.</span><span class="nf">.</span><span class="p">.</span>
+  <span class="nf">before_mount</span> <span class="p">.</span><span class="nf">.</span><span class="p">.</span>
+  <span class="nf">after_mount</span> <span class="p">.</span><span class="nf">.</span><span class="p">.</span>
+  <span class="nf">before_unmount</span> <span class="p">.</span><span class="nf">.</span><span class="p">.</span>
+  <span class="nf">render</span> <span class="p">.</span><span class="nf">.</span><span class="p">.</span>
+  <span class="nf">.</span><span class="p">.</span><span class="nf">.</span>
+<span class="k">end</span>
+</code></pre>
+<p>The <code>param</code> macro describes the parameters the component expects.</p>
+
+<p>The <code>before_mount</code> macro defines code to be run (a callback) when a component instance is first initialized.</p>
+
+<p>The <code>after_mount</code> macro likewise runs after the instance has completed initialization, and is visible in the DOM.</p>
+
+<p>The <code>before_unmount</code> macro provides any cleanup actions before the instance is destroyed.</p>
+
+<p>The <code>render</code> macro defines the render method.</p>
+
+<p>The available macros are: <code>render, param, export_state, before_mount, after_mount, before_receive_props, before_update, after_update, before_unmount</code></p>
+
+<h3 id="data-accessor-methods">Data Accessor Methods</h3>
+
+<p>The three data accessor methods - <code>params, state, and children</code> are instance methods that give access to a component&rsquo;s React specific instance data.</p>
+
+<p>The <code>params</code> method gives (read only) access to each of the params passed to this instance, the <code>state</code> method allows state variables to be read and written, and <code>children</code> returns an enumerator of a component&rsquo;s children.</p>
+
+<p>In our example we see</p>
+<pre class="highlight ruby"><code>  <span class="n">before_mount</span> <span class="k">do</span>
+    <span class="n">state</span><span class="p">.</span><span class="nf">mode!</span> <span class="n">params</span><span class="p">.</span><span class="nf">mode</span>
+  <span class="k">end</span>
+</code></pre>
+<p><code>params.mode</code> will return the value of the <code>mode</code> parameter passed to this instance, and <code>state.mode!</code> initializes (or updates) the <code>mode</code> state variable.  State variables are like <em>reactive</em> instance variables.  They can only be changed using the &ldquo;!&rdquo; method, and when they change they will cause a rerender.  </p>
+
+<p>More on the details of these methods can be found in the <a href="#top-level-api">Component API</a> section.</p>
+
+<h3 id="tag-and-component-rendering">Tag and Component Rendering</h3>
+<pre class="highlight ruby"><code>  <span class="p">.</span><span class="nf">.</span><span class="p">.</span>
+    <span class="nf">div</span><span class="p">(</span><span class="ss">class: :time</span><span class="p">)</span> <span class="k">do</span>
+      <span class="p">.</span><span class="nf">.</span><span class="p">.</span>
+    <span class="nf">end</span>
+  <span class="p">.</span><span class="nf">.</span><span class="o">.</span>
+</code></pre>
+<p>HTML such as <code>div, a, select, option</code> etc. each have a corresponding instance method that will render that tag.  For all the tags the
+method call looks like this:</p>
+<pre class="highlight ruby"><code><span class="n">tag_name</span><span class="p">(</span><span class="n">attribute1</span> <span class="o">=&gt;</span> <span class="n">value1</span><span class="p">,</span> <span class="n">attribute2</span> <span class="o">=&gt;</span> <span class="n">value2</span> <span class="p">.</span><span class="nf">.</span><span class="o">.</span><span class="p">)</span> <span class="k">do</span>
+  <span class="p">.</span><span class="nf">.</span><span class="p">.</span><span class="nf">nested</span> <span class="n">tags</span><span class="p">.</span><span class="nf">.</span><span class="p">.</span>
+<span class="nf">end</span>
+</code></pre>
+<p>Each key-value pair in the parameter block is passed down as an attribute to the tag as you would expect, with the exception of the <code>style</code> attribute, which takes a hash that is translated to the corresponding style string.</p>
+
+<p>The same rules apply for application defined components, except that the class constant is used to reference the component.</p>
+<pre class="highlight ruby"><code><span class="no">Clock</span><span class="p">(</span><span class="ss">mode: </span><span class="mi">12</span><span class="p">)</span>
+</code></pre>
+<h3 id="using-strings">Using Strings</h3>
+
+<p>Strings are treated specially as follows:  </p>
+
+<p>If a render method or a nested tag block returns a string, the string is automatically wrapped in a <code>&lt;span&gt;</code> tag.</p>
+
+<p>The code <code>span { &quot;hello&quot; }</code> can be shortened to <code>&quot;hello&quot;.span</code>, likewise for <code>td, para, td, th</code> tags.</p>
+
+<p><code>&quot;some string&quot;.br</code> generates <code>&lt;span&gt;some string&lt;span&gt;&lt;br/&gt;</code></p>
+<pre class="highlight ruby"><code><span class="no">Time</span><span class="p">.</span><span class="nf">now</span><span class="p">.</span><span class="nf">strftime</span><span class="p">(</span><span class="no">FORMATS</span><span class="p">[</span><span class="n">state</span><span class="p">.</span><span class="nf">mode</span><span class="p">]).</span><span class="nf">span</span>  <span class="c1"># generates &lt;span&gt;...current time formatted...&lt;/span&gt;</span>
+<span class="p">.</span><span class="nf">.</span><span class="p">.</span>
+  <span class="nf">option</span><span class="p">(</span><span class="ss">value: </span><span class="mi">12</span><span class="p">)</span> <span class="p">{</span> <span class="s2">"12 Hour Clock"</span> <span class="p">}</span>      <span class="c1"># generates &lt;option value=12&gt;&lt;span&gt;12 Hour Clock&lt;/span&gt;&lt;/option&gt;</span>
+</code></pre>
+<h3 id="haml-style-class-names">HAML style class names</h3>
+
+<p>Any tag or component name can be followed by <code>.class_name</code> HAML style.</p>
+<pre class="highlight ruby"><code><span class="n">div</span><span class="p">.</span><span class="nf">class1</span><span class="p">.</span><span class="nf">class2</span>
+  <span class="c1"># short for</span>
+<span class="n">div</span><span class="p">(</span><span class="ss">class: </span><span class="s2">"class1 class2"</span><span class="p">)</span>
+</code></pre>
+<p>Note that underscores are translated to dashes.  So <code>.foo_bar</code> will add the <code>foo-bar</code> class to the tag.  If you need to use an underscore in a class name use a double underscore which will be translated to a single underscore in the class name.</p>
+
+<h3 id="event-handlers">Event Handlers</h3>
+
+<p>Event Handlers are attached to tags and components using the <code>on</code> method.</p>
+<pre class="highlight ruby"><code><span class="nb">select</span> <span class="p">.</span><span class="nf">.</span><span class="p">.</span> <span class="nf">do</span>
+  <span class="p">.</span><span class="nf">.</span><span class="p">.</span>
+<span class="nf">end</span><span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:change</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">e</span><span class="o">|</span>
+  <span class="n">state</span><span class="p">.</span><span class="nf">mode!</span><span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="nf">target</span><span class="p">.</span><span class="nf">value</span><span class="p">.</span><span class="nf">to_i</span><span class="p">)</span>
+<span class="k">end</span>
+</code></pre>
+<p>The <code>on</code> method takes the event name symbol (note that <code>onClick</code> becomes <code>:click</code>) and the block is passed the React.js event object.</p>
+
+<p>Event handlers can be chained like so</p>
+<pre class="highlight ruby"><code><span class="n">input</span> <span class="p">.</span><span class="nf">.</span><span class="p">.</span> <span class="nf">do</span>
+  <span class="p">.</span><span class="nf">.</span><span class="p">.</span>
+  <span class="nf">end</span><span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:key_up</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">e</span><span class="o">|</span>
+  <span class="p">.</span><span class="nf">.</span><span class="p">.</span>
+  <span class="nf">end</span><span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:change</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">e</span><span class="o">|</span>
+  <span class="p">.</span><span class="nf">.</span><span class="p">.</span>
+<span class="nf">end</span>
+</code></pre>
+<h3 id="miscellaneous-methods">Miscellaneous Methods</h3>
+
+<p><code>force_update!</code> is a component instance method that causes the component to re-rerender.</p>
+
+<p><code>as_node</code> can be attached to a component or tag, and removes the element from the rendering buffer and returns it.   This is useful when you need store an element in some data structure, or passing to a native JS component.  When passing an element to another reactrb component <code>.as_node</code> will be automatically applied so you normally don&rsquo;t need it.  </p>
+
+<p><code>render</code> can be applied to the objects returned by <code>as_node</code> and <code>children</code> to actually render the node.</p>
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">Test</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
+  <span class="n">param</span> <span class="ss">:node</span>
+  <span class="n">render</span> <span class="k">do</span>
+    <span class="n">div</span> <span class="k">do</span>
+      <span class="n">children</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">child</span><span class="o">|</span>
+        <span class="n">params</span><span class="p">.</span><span class="nf">node</span><span class="p">.</span><span class="nf">render</span>
+        <span class="n">child</span><span class="p">.</span><span class="nf">render</span>
+      <span class="k">end</span>
+      <span class="n">params</span><span class="p">.</span><span class="nf">node</span><span class="p">.</span><span class="nf">render</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="no">Element</span><span class="p">[</span><span class="s1">'#container'</span><span class="p">].</span><span class="nf">render</span> <span class="k">do</span>
+  <span class="no">Test</span><span class="p">(</span><span class="ss">node: </span><span class="s2">"foo"</span><span class="p">.</span><span class="nf">span</span><span class="p">)</span> <span class="k">do</span>
+  <span class="c1"># equivilent to Test(node: "foo".span.as_node)...</span>
+    <span class="n">div</span> <span class="p">{</span> <span class="s2">"hello"</span><span class="p">}</span>
+    <span class="n">div</span> <span class="p">{</span> <span class="s2">"goodby"</span> <span class="p">}</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<p><a href="http://goo.gl/J6m0PN">Try It Out</a></p>
+
+<h3 id="ruby-and-reactrb">Ruby and Reactrb</h3>
+
+<p>A key design goal of the DSL is to make it work seamlessly with the rest of Ruby.  Notice in the above example, the use of constant declaration (<code>FORMATS</code>), regular instance variables (<code>@timer</code>), and other non-react methods like <code>every</code> (an Opal Browser method).  </p>
+
+<p>Component classes can be organized like any other class into a logical module hierarchy or even subclassed.</p>
+
+<p>Likewise the render method can invoke other methods to compute values or even internally build tags.</p>
+
+<h3 id="dsl-gotchas">DSL Gotchas</h3>
+
+<p>There are few gotchas with the DSL you should be aware of:</p>
+
+<p>React has implemented a browser-independent events and DOM system for performance and cross-browser compatibility reasons. We took the opportunity to clean up a few rough edges in browser DOM implementations.</p>
+
+<ul>
+<li>All DOM properties and attributes (including event handlers) should be snake_cased to be consistent with standard Ruby style. We intentionally break with the spec here since the spec is inconsistent. <strong>However</strong>, <code>data-*</code> and <code>aria-*</code> attributes <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes#data-*">conform to the specs</a> and should be lower-cased only.</li>
+<li>The <code>style</code> attribute accepts a Hash with camelCased properties rather than a CSS string. This  is more efficient, and prevents XSS security holes.</li>
+<li>All event objects conform to the W3C spec, and all events (including submit) bubble correctly per the W3C spec. See <a href="#event-handling-and-synthetic-events">Event System</a> for more details.</li>
+<li>The <code>onChange</code> event (<code>on(:change)</code>) behaves as you would expect it to: whenever a form field is changed this event is fired rather than inconsistently on blur. We intentionally break from existing browser behavior because <code>onChange</code> is a misnomer for its behavior and React relies on this event to react to user input in real time.</li>
+<li>Form input attributes such as <code>value</code> and <code>checked</code>, as well as <code>textarea</code>.</li>
+</ul>
+
+<h4 id="html-entities">HTML Entities</h4>
+
+<p>If you want to display an HTML entity within dynamic content, you will run into double escaping issues as React.js escapes all the strings you are displaying in order to prevent a wide range of XSS attacks by default.</p>
+<pre class="highlight ruby"><code><span class="n">div</span> <span class="p">{</span><span class="s1">'First &amp;middot; Second'</span> <span class="p">}</span>
+  <span class="c1"># Bad: It displays "First &amp;middot; Second"</span>
+</code></pre>
+<p>To workaround this you have to insert raw HTML.</p>
+<pre class="highlight ruby"><code><span class="n">div</span><span class="p">(</span><span class="ss">dangerously_set_inner_HTML: </span><span class="p">{</span> <span class="ss">__html: </span><span class="s2">"First &amp;middot; Second"</span><span class="p">})</span>
+</code></pre>
+<h4 id="custom-html-attributes">Custom HTML Attributes</h4>
+
+<p>If you pass properties to native HTML elements that do not exist in the HTML specification, React will not render them. If you want to use a custom attribute, you should prefix it with <code>data-</code>.</p>
+<pre class="highlight ruby"><code><span class="n">div</span><span class="p">(</span><span class="s2">"data-custom-attribute"</span> <span class="o">=&gt;</span> <span class="s2">"foo"</span><span class="p">)</span>
+</code></pre>
+<p><a href="http://www.w3.org/WAI/intro/aria">Web Accessibility</a> attributes starting with <code>aria-</code> will be rendered properly.</p>
+<pre class="highlight ruby"><code><span class="n">div</span><span class="p">(</span><span class="s2">"aria-hidden"</span> <span class="o">=&gt;</span> <span class="kp">true</span><span class="p">)</span>
+</code></pre>
+<h4 id="invoking-application-components">Invoking Application Components</h4>
+
+<p>When invoking a custom component you must have a (possibly empty) parameter list or (possibly empty) block.  This is not necessary
+with standard html tags.</p>
+<pre class="highlight ruby"><code><span class="no">MyCustomComponent</span><span class="p">()</span>  <span class="c1"># okay</span>
+<span class="no">MyCustomComponent</span> <span class="p">{}</span> <span class="c1"># okay</span>
+<span class="no">MyCustomComponent</span>    <span class="c1"># breaks</span>
+<span class="n">br</span>                   <span class="c1"># okay</span>
+</code></pre>
+<h2 id="state-components-and-event-handelers">State, Components and Event Handelers</h2>
+
+<ul>
+<li><a href="#using-state">Using State</a></li>
+<li><a href="#multiple-components">Multiple Components</a></li>
+<li><a href="#reusable-components">Reusable Components</a></li>
+<li><a href="#param-validation">Param Validation</a></li>
+<li><a href="#default-param-values">Default Param Values</a></li>
+<li><a href="#params-of-type-proc">Params of type Proc</a></li>
+<li><a href="#other-params">Other Params</a></li>
+<li><a href="#mixins-and-inheritance">Mixins and Inheritance</a></li>
+</ul>
+
+<h3 id="using-state">Using State</h3>
+
+<h4 id="a-simple-example">A Simple Example</h4>
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">LikeButton</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
+  <span class="n">render</span> <span class="k">do</span>
+    <span class="n">para</span> <span class="k">do</span>
+      <span class="s2">"You </span><span class="si">#{</span><span class="n">state</span><span class="p">.</span><span class="nf">liked</span> <span class="p">?</span> <span class="s1">'like'</span> <span class="p">:</span> <span class="s1">'haven\'t liked'</span><span class="si">}</span><span class="s2"> this. Click to toggle."</span>
+    <span class="k">end</span><span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:click</span><span class="p">)</span> <span class="k">do</span>
+      <span class="n">state</span><span class="p">.</span><span class="nf">liked!</span> <span class="o">!</span><span class="n">state</span><span class="p">.</span><span class="nf">liked</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="no">Element</span><span class="p">[</span><span class="s1">'#container'</span><span class="p">].</span><span class="nf">render</span> <span class="k">do</span>
+  <span class="no">LikeButton</span><span class="p">()</span>
+<span class="k">end</span>
+</code></pre>
+<p><a href="http://goo.gl/fWUOOe">Try It Out</a></p>
+
+<h3 id="event-handling-and-synthetic-events">Event Handling and Synthetic Events</h3>
+
+<p>With React you attach event handlers to elements using the <code>on</code> method. React ensures that all events behave identically in IE8 and above by implementing a synthetic event system. That is, React knows how to bubble and capture events according to the spec, and the events passed to your event handler are guaranteed to be consistent with <a href="http://www.w3.org/TR/DOM-Level-3-Events/">the W3C spec</a>, regardless of which browser you&rsquo;re using.</p>
+
+<h3 id="under-the-hood-event-delegation">Under the Hood: Event Delegation</h3>
+
+<p>React doesn&rsquo;t actually attach event handlers to the nodes themselves. When React starts up, it starts listening for all events at the top level using a single event listener. When a component is mounted or unmounted, the event handlers are simply added or removed from an internal mapping. When an event occurs, React knows how to dispatch it using this mapping. When there are no event handlers left in the mapping, React&rsquo;s event handlers are simple no-ops. To learn more about why this is fast, see <a href="http://davidwalsh.name/event-delegate">David Walsh&rsquo;s excellent blog post</a>.</p>
+
+<h3 id="components-are-just-state-machines">Components are Just State Machines</h3>
+
+<p>React thinks of UIs as simple state machines. By thinking of a UI as being in various states and rendering those states, it&rsquo;s easy to keep your UI consistent.</p>
+
+<p>In React, you simply update a component&rsquo;s state, and then the new UI will be rendered on this new state. React takes care of updating the DOM for you in the most efficient way.</p>
+
+<h3 id="how-state-works">How State Works</h3>
+
+<p>Whenever a state variable changes you invoke the corresponding state variable name followed by a &ldquo;!&rdquo; method.  For example <code>state.liked! !state.like</code> <em>gets</em> the current value of like, toggles it, and then <em>updates</em> it.  This in turn causes the component to be rerendered. For more details on how this works, and the full syntax of the update method see <a href="#top-level-api">the component API reference</a></p>
+
+<h3 id="what-components-should-have-state">What Components Should Have State?</h3>
+
+<p>Most of your components should simply take some params and render based on their value. However, sometimes you need to respond to user input, a server request or the passage of time. For this you use state.</p>
+
+<p><strong>Try to keep as many of your components as possible stateless.</strong> By doing this you&rsquo;ll isolate the state to its most logical place and minimize redundancy, making it easier to reason about your application.</p>
+
+<p>A common pattern is to create several stateless components that just render data, and have a stateful component above them in the hierarchy that passes its state to its children via <code>params</code>. The stateful component encapsulates all of the interaction logic, while the stateless components take care of rendering data in a declarative way.</p>
+
+<h3 id="what-should-go-in-state">What <em>Should</em> Go in State?</h3>
+
+<p><strong>State should contain data that a component&rsquo;s event handlers, timers, or http requests may change and trigger a UI update.</strong></p>
+
+<p>When building a stateful component, think about the minimal possible representation of its state, and only store those properties in <code>state</code>.  Add to your class methods to compute higher level values from your state variables.  Avoid adding redundant or computed values as state variables as
+these values must then be kept in sync whenever state changes.</p>
+
+<h3 id="what-shouldnt-go-in-state">What <em>Shouldn&rsquo;t</em> Go in State?</h3>
+
+<p><code>state</code> should only contain the minimal amount of data needed to represent your UI&rsquo;s state. As such, it should not contain:</p>
+
+<ul>
+<li><strong>Computed data:</strong> Don&rsquo;t worry about precomputing values based on state — it&rsquo;s easier to ensure that your UI is consistent if you do all computation during rendering.  For example, if you have an array of list items in state and you want to render the count as a string, simply render <code>&quot;#{state.list_items.length} list items&#39;</code> in your <code>render</code> method rather than storing the count as another state.</li>
+<li><strong>Data that does not effect rendering:</strong> For example handles on timers, that need to be cleaned up when a component unmounts should go
+in plain old instance variables.</li>
+</ul>
+
+<h2 id="multiple-components">Multiple Components</h2>
+
+<p>So far, we&rsquo;ve looked at how to write a single component to display data and handle user input. Next let&rsquo;s examine one of React&rsquo;s finest features: composability.</p>
+
+<h3 id="motivation-separation-of-concerns">Motivation: Separation of Concerns</h3>
+
+<p>By building modular components that reuse other components with well-defined interfaces, you get much of the same benefits that you get by using functions or classes. Specifically you can <em>separate the different concerns</em> of your app however you please simply by building new components. By building a custom component library for your application, you are expressing your UI in a way that best fits your domain.</p>
+
+<h3 id="composition-example">Composition Example</h3>
+
+<p>Let&rsquo;s create a simple Avatar component which shows a profile picture and username using the Facebook Graph API.</p>
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">Avatar</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
+  <span class="n">param</span> <span class="ss">:user_name</span>
+  <span class="k">def</span> <span class="nf">render</span>
+    <span class="n">div</span> <span class="k">do</span>
+      <span class="no">ProfilePic</span>  <span class="ss">user_name: </span><span class="n">params</span><span class="p">.</span><span class="nf">user_name</span>
+      <span class="no">ProfileLink</span> <span class="ss">user_name: </span><span class="n">params</span><span class="p">.</span><span class="nf">user_name</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nc">ProfilePic</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
+  <span class="n">param</span> <span class="ss">:user_name</span>
+  <span class="k">def</span> <span class="nf">render</span>
+    <span class="n">img</span> <span class="ss">src: </span><span class="s2">"https://graph.facebook.com/</span><span class="si">#{</span><span class="n">params</span><span class="p">.</span><span class="nf">user_name</span><span class="si">}</span><span class="s2">/picture"</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nc">ProfileLink</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
+  <span class="n">param</span> <span class="ss">:user_name</span>
+  <span class="k">def</span> <span class="nf">render</span>
+    <span class="n">a</span> <span class="ss">href: </span><span class="s2">"https://www.facebook.com/</span><span class="si">#{</span><span class="n">params</span><span class="p">.</span><span class="nf">user_name</span><span class="si">}</span><span class="s2">"</span> <span class="k">do</span>
+      <span class="n">params</span><span class="p">.</span><span class="nf">user_name</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="no">Element</span><span class="p">[</span><span class="s1">'#container'</span><span class="p">].</span><span class="nf">render</span> <span class="k">do</span>
+  <span class="no">Avatar</span> <span class="ss">user_name: </span><span class="s2">"pwh"</span>
+<span class="k">end</span>
+</code></pre>
+<h3 id="ownership">Ownership</h3>
+
+<p>In the above example, instances of <code>Avatar</code> <em>own</em> instances of <code>ProfilePic</code> and <code>ProfileLink</code>. In React, <strong>an owner is the component that sets the <code>params</code> of other components</strong>. More formally, if a component <code>X</code> is created in component <code>Y</code>&lsquo;s <code>render</code> method, it is said that <code>X</code> is <em>owned by</em> <code>Y</code>. As discussed earlier, a component cannot mutate its <code>params</code> — they are always consistent with what its owner sets them to. This fundamental invariant leads to UIs that are guaranteed to be consistent.</p>
+
+<p>It&rsquo;s important to draw a distinction between the owner-ownee relationship and the parent-child relationship. The owner-ownee relationship is specific to React, while the parent-child relationship is simply the one you know and love from the DOM. In the example above, <code>Avatar</code> owns the <code>div</code>, <code>ProfilePic</code> and <code>ProfileLink</code> instances, and <code>div</code> is the <strong>parent</strong> (but not owner) of the <code>ProfilePic</code> and <code>ProfileLink</code> instances.</p>
+
+<h3 id="children">Children</h3>
+
+<p>When you create a React component instance, you can include additional React components or JavaScript expressions between the opening and closing tags like this:</p>
+<pre class="highlight ruby"><code><span class="no">Parent</span> <span class="p">{</span> <span class="no">Child</span><span class="p">()</span> <span class="p">}</span>
+</code></pre>
+<p><code>Parent</code> can iterate over its children by accessing its <code>children</code> method.</p>
+
+<h3 id="child-reconciliation">Child Reconciliation</h3>
+
+<p><strong>Reconciliation is the process by which React updates the DOM with each new render pass.</strong> In general, children are reconciled according to the order in which they are rendered. For example, suppose we have the following render method displaying a list of items.  On each pass
+the items will be completely rerendered:</p>
+<pre class="highlight ruby"><code><span class="k">def</span> <span class="nf">render</span>
+  <span class="n">params</span><span class="p">.</span><span class="nf">items</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">item</span><span class="o">|</span>
+    <span class="n">para</span> <span class="k">do</span>
+      <span class="n">item</span><span class="p">[</span><span class="ss">:text</span><span class="p">]</span>
+    <span class="n">endt</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<p>What if the first time items was <code>[{text: &quot;foo&quot;}, {text: &quot;bar&quot;}]</code>, and the second time items was <code>[{text: &quot;bar&quot;}]</code>?
+Intuitively, the paragraph <code>&lt;p&gt;foo&lt;/p&gt;</code> was removed. Instead, React will reconcile the DOM by changing the text content of the first child and destroying the last child. React reconciles according to the <em>order</em> of the children.</p>
+
+<h3 id="stateful-children">Stateful Children</h3>
+
+<p>For most components, this is not a big deal. However, for stateful components that maintain data in <code>state</code> across render passes, this can be very problematic.</p>
+
+<p>In most cases, this can be sidestepped by hiding elements based on some property change:</p>
+<pre class="highlight ruby"><code><span class="k">def</span> <span class="nf">render</span>
+  <span class="n">state</span><span class="p">.</span><span class="nf">items</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">item</span><span class="o">|</span>
+    <span class="n">para</span><span class="p">(</span><span class="ss">style: </span><span class="p">{</span><span class="ss">display: </span><span class="n">item</span><span class="p">[</span><span class="ss">:some_property</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"some state"</span> <span class="p">?</span> <span class="p">:</span><span class="n">block</span> <span class="p">:</span> <span class="ss">:none</span><span class="p">})</span> <span class="k">do</span>
+      <span class="n">item</span><span class="p">[</span><span class="ss">:text</span><span class="p">]</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<h3 id="dynamic-children">Dynamic Children</h3>
+
+<p>The situation gets more complicated when the children are shuffled around (as in search results) or if new components are added onto the front of the list (as in streams). In these cases where the identity and state of each child must be maintained across render passes, you can uniquely identify each child by assigning it a <code>key</code>:</p>
+<pre class="highlight ruby"><code>  <span class="n">param</span> <span class="ss">:results</span><span class="p">,</span> <span class="ss">type: </span><span class="p">[</span><span class="no">Hash</span><span class="p">]</span> <span class="c1"># each result is a hash of the form {id: ..., text: ....}</span>
+  <span class="k">def</span> <span class="nf">render</span>
+    <span class="n">ol</span> <span class="k">do</span>
+      <span class="n">params</span><span class="p">.</span><span class="nf">results</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">result</span><span class="o">|</span>
+        <span class="n">li</span><span class="p">(</span><span class="ss">key: </span><span class="n">result</span><span class="p">[</span><span class="ss">:id</span><span class="p">])</span> <span class="p">{</span> <span class="n">result</span><span class="p">[</span><span class="ss">:text</span><span class="p">]</span> <span class="p">}</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+</code></pre>
+<p>When React reconciles the keyed children, it will ensure that any child with <code>key</code> will be reordered (instead of clobbered) or destroyed (instead of reused).</p>
+
+<p>The <code>key</code> should <em>always</em> be supplied directly to the components in the array, not to the container HTML child of each component in the array:</p>
+<pre class="highlight ruby"><code>  <span class="c1"># WRONG!</span>
+<span class="k">class</span> <span class="nc">ListItemWrapper</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
+  <span class="n">param</span> <span class="ss">:data</span>
+  <span class="k">def</span> <span class="nf">render</span>
+    <span class="n">li</span><span class="p">(</span><span class="ss">key: </span><span class="n">params</span><span class="p">.</span><span class="nf">data</span><span class="p">[</span><span class="ss">:id</span><span class="p">])</span> <span class="p">{</span> <span class="n">params</span><span class="p">.</span><span class="nf">data</span><span class="p">[</span><span class="ss">:text</span><span class="p">]</span> <span class="p">}</span>
+  <span class="k">end</span>
+<span class="k">end</span>    
+<span class="k">class</span> <span class="nc">MyComponent</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
+  <span class="n">param</span> <span class="ss">:results</span>
+  <span class="k">def</span> <span class="nf">render</span>
+    <span class="n">ul</span> <span class="k">do</span>
+      <span class="n">params</span><span class="p">.</span><span class="nf">result</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">result</span><span class="o">|</span>
+        <span class="no">ListItemWrapper</span> <span class="ss">data: </span><span class="n">result</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre><pre class="highlight ruby"><code>  <span class="c1"># correct</span>
+<span class="k">class</span> <span class="nc">ListItemWrapper</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
+  <span class="n">param</span> <span class="ss">:data</span>
+  <span class="k">def</span> <span class="nf">render</span>
+    <span class="n">li</span><span class="p">{</span> <span class="n">params</span><span class="p">.</span><span class="nf">data</span><span class="p">[</span><span class="ss">:text</span><span class="p">]</span> <span class="p">}</span>
+  <span class="k">end</span>
+<span class="k">end</span>    
+<span class="k">class</span> <span class="nc">MyComponent</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
+  <span class="n">param</span> <span class="ss">:results</span>
+  <span class="k">def</span> <span class="nf">render</span>
+    <span class="n">ul</span> <span class="k">do</span>
+      <span class="n">params</span><span class="p">.</span><span class="nf">result</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">result</span><span class="o">|</span>
+        <span class="no">ListItemWrapper</span> <span class="ss">key: </span><span class="n">result</span><span class="p">[</span><span class="ss">:id</span><span class="p">],</span> <span class="ss">data: </span><span class="n">result</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<h3 id="data-flow">Data Flow</h3>
+
+<p>In React, data flows from owner to owned component through the params as discussed above. This is effectively one-way data binding: owners bind their owned component&rsquo;s param to some value the owner has computed based on its <code>params</code> or <code>state</code>. Since this process happens recursively, data changes are automatically reflected everywhere they are used.</p>
+
+<h2 id="reusable-components">Reusable Components</h2>
+
+<p>When designing interfaces, break down the common design elements (buttons, form fields, layout components, etc.) into reusable components with well-defined interfaces. That way, the next time you need to build some UI, you can write much less code. This means faster development time, fewer bugs, and fewer bytes down the wire.</p>
+
+<h2 id="param-validation">Param Validation</h2>
+
+<p>As your app grows it&rsquo;s helpful to ensure that your components are used correctly. We do this by allowing you to specify the expected ruby class of your parameters. When an invalid value is provided for a param, a warning will be shown in the JavaScript console. Note that for performance reasons type checking is only done in development mode. Here is an example showing typical type specifications:</p>
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">ManyParams</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
+  <span class="n">param</span> <span class="ss">:an_array</span><span class="p">,</span>         <span class="ss">type: </span><span class="p">[]</span> <span class="c1"># or type: Array</span>
+  <span class="n">param</span> <span class="ss">:a_string</span><span class="p">,</span>         <span class="ss">type: </span><span class="no">String</span>
+  <span class="n">param</span> <span class="ss">:array_of_strings</span><span class="p">,</span> <span class="ss">type: </span><span class="p">[</span><span class="no">String</span><span class="p">]</span>
+  <span class="n">param</span> <span class="ss">:a_hash</span><span class="p">,</span>           <span class="ss">type: </span><span class="no">Hash</span>
+  <span class="n">param</span> <span class="ss">:some_class</span><span class="p">,</span>       <span class="ss">type: </span><span class="no">SomeClass</span> <span class="c1"># works with any class</span>
+  <span class="n">param</span> <span class="ss">:a_string_or_nil</span><span class="p">,</span>  <span class="ss">type: </span><span class="no">String</span><span class="p">,</span> <span class="ss">allow_nil: </span><span class="kp">true</span>
+<span class="k">end</span>
+</code></pre>
+<p>Note that if the param can be nil, add <code>allow_nil: true</code> to the specification.</p>
+
+<h2 id="default-param-values">Default Param Values</h2>
+
+<p>React lets you define default values for your <code>params</code>:</p>
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">ManyParams</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
+  <span class="n">param</span> <span class="ss">:an_optional_param</span><span class="p">,</span> <span class="ss">default: </span><span class="s2">"hello"</span><span class="p">,</span> <span class="ss">type: </span><span class="no">String</span><span class="p">,</span> <span class="ss">allow_nil: </span><span class="kp">true</span>
+</code></pre>
+<p>If no value is provided for <code>:an_optional_param</code> it will be given the value <code>&quot;hello&quot;</code></p>
+
+<h2 id="params-of-type-proc">Params of type Proc</h2>
+
+<p>A Ruby <code>Proc</code> can be passed to a component like any other object.  The <code>param</code> macro treats params declared as type <code>Proc</code> specially, and will automatically call the proc when the param name is used on the params method.</p>
+<pre class="highlight ruby"><code><span class="n">param</span> <span class="ss">:all_done</span><span class="p">,</span> <span class="ss">type: </span><span class="no">Proc</span>
+<span class="p">.</span><span class="nf">.</span><span class="o">.</span>
+  <span class="c1"># typically in an event handler</span>
+<span class="n">params</span><span class="p">.</span><span class="nf">all_done</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="c1"># instead of params.all_done.call(data)</span>
+</code></pre>
+<p>Proc params can be optional, using the <code>default: nil</code> and <code>allow_nil: true</code> options.  Invoking a nil proc param will do nothing.  This is handy for allowing optional callbacks.</p>
+
+<h2 id="other-params">Other Params</h2>
+
+<p>A common type of React component is one that extends a basic HTML element in a simple way. Often you&rsquo;ll want to copy any HTML attributes passed to your component to the underlying HTML element.</p>
+
+<p>To do this use the <code>collect_other_params_as</code> macro which will gather all the params you did not declare into a hash. Then you can pass this hash on to the child component</p>
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">CheckLink</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
+  <span class="n">collect_other_params_as</span> <span class="ss">:attributes</span>
+  <span class="k">def</span> <span class="nf">render</span>
+    <span class="c1"># we just pass along any incoming attributes</span>
+    <span class="n">a</span><span class="p">(</span><span class="n">attributes</span><span class="p">)</span> <span class="p">{</span> <span class="s1">'√ '</span><span class="p">.</span><span class="nf">span</span><span class="p">;</span> <span class="n">children</span><span class="p">.</span><span class="nf">each</span> <span class="o">&amp;</span><span class="ss">:render</span> <span class="p">}</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="no">Element</span><span class="p">[</span><span class="s1">'#container'</span><span class="p">].</span><span class="nf">render</span> <span class="p">{</span> <span class="no">CheckLink</span><span class="p">(</span><span class="ss">href: </span><span class="s2">"/checked.html"</span><span class="p">)</span> <span class="p">{</span> <span class="s2">"Click here!"</span> <span class="p">}}</span>
+</code></pre>
+<p><a href="http://goo.gl/ZG4ZJg">Try It Out</a></p>
+
+<p>Note: <code>collect_other_params_as</code> builds a hash, so you can merge other data in or even delete elements out as needed.</p>
+
+<h2 id="mixins-and-inheritance">Mixins and Inheritance</h2>
+
+<p>Ruby has a rich set of mechanisms enabling code reuse, and Reactrb is intended to be a team player in your Ruby application.  Components can be subclassed, and they can include (or mixin) other modules.  You can also create a
+component by including <code>React::Component</code> which allows a class to inherit from some other non-react class, and then mixin the React DSL.</p>
+<pre class="highlight ruby"><code>  <span class="c1"># make a SuperFoo react component class</span>
+  <span class="k">class</span> <span class="nc">Foo</span> <span class="o">&lt;</span> <span class="no">SuperFoo</span>
+    <span class="kp">include</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span>
+  <span class="k">end</span>
+</code></pre>
+<p>One common use case is a component wanting to update itself on a time interval. It&rsquo;s easy to use the kernel method <code>every</code>, but it&rsquo;s important to cancel your interval when you don&rsquo;t need it anymore to save memory. React provides <a href="/docs/working-with-the-browser.html#component-lifecycle">lifecycle methods</a> that let you know when a component is about to be created or destroyed. Let&rsquo;s create a simple mixin that uses these methods to provide a React friendly <code>every</code> function that will automatically get cleaned up when your component is destroyed.</p>
+<pre class="highlight ruby"><code><span class="k">module</span> <span class="nn">ReactInterval</span>
+
+  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">included</span><span class="p">(</span><span class="n">base</span><span class="p">)</span>
+    <span class="n">base</span><span class="p">.</span><span class="nf">before_mount</span> <span class="k">do</span>
+      <span class="vi">@intervals</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">end</span>
+
+    <span class="n">base</span><span class="p">.</span><span class="nf">before_unmount</span> <span class="k">do</span>
+      <span class="vi">@intervals</span><span class="p">.</span><span class="nf">each</span><span class="p">(</span><span class="o">&amp;</span><span class="ss">:stop</span><span class="p">)</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">every</span><span class="p">(</span><span class="n">seconds</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">block</span><span class="p">)</span>
+    <span class="no">Kernel</span><span class="p">.</span><span class="nf">every</span><span class="p">(</span><span class="n">seconds</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">block</span><span class="p">).</span><span class="nf">tap</span> <span class="p">{</span> <span class="o">|</span><span class="n">i</span><span class="o">|</span> <span class="vi">@intervals</span> <span class="o">&lt;&lt;</span> <span class="n">i</span> <span class="p">}</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nc">TickTock</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
+  <span class="kp">include</span> <span class="no">ReactInterval</span>
+  <span class="n">before_mount</span> <span class="k">do</span>
+    <span class="n">state</span><span class="p">.</span><span class="nf">seconds!</span> <span class="mi">0</span>
+  <span class="k">end</span>
+  <span class="n">after_mount</span> <span class="k">do</span>
+    <span class="n">every</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span> <span class="n">state</span><span class="p">.</span><span class="nf">seconds!</span> <span class="n">state</span><span class="p">.</span><span class="nf">seconds</span><span class="o">+</span><span class="mi">1</span><span class="p">}</span>
+  <span class="k">end</span>
+  <span class="k">def</span> <span class="nf">render</span>
+    <span class="s2">"React has been running for </span><span class="si">#{</span><span class="n">state</span><span class="p">.</span><span class="nf">seconds</span><span class="si">}</span><span class="s2"> seconds"</span><span class="p">.</span><span class="nf">para</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<p><a href="http://goo.gl/C4IJu0">Try It Out</a></p>
+
+<p>Notice that TickTock effectively has two before_mount callbacks, one that is called to initialize the <code>@intervals</code> array and another to initialize <code>state.seconds</code></p>
+
+<h2 id="top-level-api">Top level API</h2>
+
+<p>The <code>React</code> module is the name space for all the React classes and modules.  </p>
+
+<p>See the <a href="/get-started">Getting Started</a> section for details on getting react loaded in your environment.</p>
+
+<ul>
+<li><a href="#react-component-and-react-component-base">React::Component and React::Component::Base</a></li>
+<li><a href="#lifecycle-callbacks">Lifecycle Callbacks</a></li>
+<li><a href="#lifecycle-methods">Lifecycle Methods</a></li>
+<li><a href="#react-event">React::Event</a></li>
+</ul>
+
+<h2 id="react-component-and-react-component-base">React::Component and React::Component::Base</h2>
+
+<p>React components classes either include <code>React::Component</code> or are subclasses of <code>React::Component::Base</code>.  </p>
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">Component</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
+<span class="k">end</span>
+  <span class="c1"># if subclassing is inappropriate, you can mixin instead</span>
+<span class="k">class</span> <span class="nc">AnotherComponent</span>
+  <span class="kp">include</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span>
+<span class="k">end</span>
+</code></pre>
+<p>At a minimum every component class must define a <code>render</code> method which returns <strong>one single</strong> child element. That child may in turn have an arbitrarily deep structure.</p>
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">Component</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
+  <span class="k">def</span> <span class="nf">render</span>
+    <span class="n">div</span> <span class="c1"># render an empty div</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<p>You may also use the <code>render</code> macro to define the render method, which has some styling advantages, but is functionally equivilent.</p>
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">Component</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
+  <span class="n">render</span> <span class="k">do</span>
+    <span class="n">div</span> <span class="c1"># render an empty div</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<p>To render a component, you reference its class name in the DSL as a method call.  This creates a new instance, passes any parameters proceeds with the component lifecycle.  </p>
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">AnotherComponent</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
+  <span class="k">def</span> <span class="nf">render</span>
+    <span class="no">Component</span><span class="p">()</span> <span class="c1"># ruby syntax requires either () or {} following the class name</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<p>Note that you should never redefine the <code>new</code> or <code>initialize</code> methods, or call them directly.  The equivilent of <code>initialize</code> is the <code>before_mount</code> callback.  </p>
+
+<p><strong><code>React.create_element</code></strong></p>
+
+<p>A React Element is a component class, a set of parameters, and a group of children.  When an element is rendered the parameters and used to initialize a new instance of the component.</p>
+
+<p><code>React.create_element</code> creates a new element.  It takes either the component class, or a string (representing a built in tag such as div, or span), the parameters (properties) to be passed to the element, and optionally a block that will be evaluated to build the enclosed children elements</p>
+<pre class="highlight ruby"><code><span class="no">React</span><span class="p">.</span><span class="nf">create_element</span><span class="p">(</span><span class="s2">"div"</span><span class="p">,</span> <span class="ss">prop1: </span><span class="s2">"foo"</span><span class="p">,</span> <span class="ss">prop2: </span><span class="mi">12</span><span class="p">)</span> <span class="p">{</span> <span class="n">para</span> <span class="p">{</span> <span class="s2">"hello"</span> <span class="p">};</span> <span class="n">para</span> <span class="p">{</span> <span class="s2">"goodby"</span> <span class="p">}</span> <span class="p">)</span>
+  <span class="c1"># when rendered will generates &lt;div prop1="foo" prop2="12"&gt;&lt;p&gt;hello&lt;/p&gt;&lt;p&gt;goodby&lt;/p&gt;&lt;/div&gt;</span>
+</code></pre>
+<p><strong>You almost never need to directly call <code>create_element</code>, the DSL, Rails, and jQuery interfaces take care of this for you.</strong></p>
+<pre class="highlight ruby"><code>    <span class="c1"># dsl - creates element and pushes it into the rendering buffer</span>
+    <span class="no">MyComponent</span><span class="p">(.</span><span class="nf">.</span><span class="p">.</span><span class="nf">params</span><span class="p">.</span><span class="nf">.</span><span class="o">.</span><span class="p">)</span> <span class="p">{</span> <span class="p">.</span><span class="nf">.</span><span class="p">.</span><span class="nf">optional</span> <span class="n">children</span><span class="p">.</span><span class="nf">.</span><span class="o">.</span> <span class="p">}</span>
+
+    <span class="c1"># dsl - component will NOT be placed in the rendering buffer</span>
+    <span class="no">MyComponent</span><span class="p">(.</span><span class="nf">.</span><span class="p">.</span><span class="nf">params</span><span class="p">.</span><span class="nf">.</span><span class="o">.</span><span class="p">)</span> <span class="p">{</span> <span class="p">.</span><span class="nf">.</span><span class="o">.</span> <span class="p">}.</span><span class="nf">as_node</span>
+
+    <span class="c1"># in a rails controller - renders component as the view</span>
+    <span class="n">render_component</span><span class="p">(</span><span class="s2">"MyComponent"</span><span class="p">,</span> <span class="p">.</span><span class="nf">.</span><span class="p">.</span><span class="nf">params</span><span class="p">.</span><span class="nf">.</span><span class="o">.</span><span class="p">)</span>
+
+    <span class="c1"># in a rails view helper - renders component into the view (like a partial)</span>
+    <span class="n">react_component</span><span class="p">(</span><span class="s2">"MyComponent"</span><span class="p">,</span> <span class="p">.</span><span class="nf">.</span><span class="o">.</span><span class="p">)</span>
+
+    <span class="c1"># from jQuery (Note Element is the Opal jQuery wrapper, not be confused with React::Element)</span>
+    <span class="no">Element</span><span class="p">[</span><span class="s1">'#container'</span><span class="p">].</span><span class="nf">render</span> <span class="p">{</span> <span class="no">MyComponent</span><span class="p">(.</span><span class="nf">.</span><span class="p">.</span><span class="nf">params</span><span class="p">.</span><span class="nf">.</span><span class="o">.</span><span class="p">)</span> <span class="p">{</span> <span class="p">.</span><span class="nf">.</span><span class="p">.</span><span class="nf">optional</span> <span class="n">children</span><span class="p">.</span><span class="nf">.</span><span class="o">.</span> <span class="p">}</span> <span class="p">}</span>  
+</code></pre>
+<p><strong><code>React.is_valid_element?</code></strong></p>
+<pre class="highlight ruby"><code><span class="n">is_valid_element?</span><span class="p">(</span><span class="n">object</span><span class="p">)</span>
+</code></pre>
+<p>Verifies <code>object</code> is a valid react element.  Note that <code>React::Element</code> wraps the React.js native class,
+<code>React.is_valid_element?</code> returns true for both classes unlike <code>object.is_a? React::Element</code></p>
+
+<p><strong><code>React.render</code></strong></p>
+<pre class="highlight ruby"><code><span class="no">React</span><span class="p">.</span><span class="nf">render</span><span class="p">(</span><span class="n">element</span><span class="p">,</span> <span class="n">container</span><span class="p">)</span> <span class="p">{</span> <span class="nb">puts</span> <span class="s2">"element rendered"</span> <span class="p">}</span>
+</code></pre>
+<p>Render an <code>element</code> into the DOM in the supplied <code>container</code> and return a <a href="/docs/more-about-refs.html">reference</a> to the component.</p>
+
+<p>The container can either be a DOM node or a jQuery selector (i.e. Element[&rsquo;#container&rsquo;]) in which case the first element is the container.</p>
+
+<p>If the element was previously rendered into <code>container</code>, this will perform an update on it and only mutate the DOM as necessary to reflect the latest React component.</p>
+
+<p>If the optional block is provided, it will be executed after the component is rendered or updated.</p>
+
+<blockquote>
+<p>Note:</p>
+
+<p><code>React.render()</code> controls the contents of the container node you pass in. Any existing DOM elements inside are replaced when first called. Later calls use React’s DOM diffing algorithm for efficient updates.</p>
+
+<p><code>React.render()</code> does not modify the container node (only modifies the children of the container). In the future, it may be possible to insert a component to an existing DOM node without overwriting the existing children.</p>
+</blockquote>
+
+<p><strong><code>React.unmount_component_at_node</code></strong></p>
+<pre class="highlight ruby"><code><span class="no">React</span><span class="p">.</span><span class="nf">unmount_component_at_node</span><span class="p">(</span><span class="n">container</span><span class="p">)</span>
+</code></pre>
+<p>Remove a mounted React component from the DOM and clean up its event handlers and state. If no component was mounted in the container, calling this function does nothing. Returns <code>true</code> if a component was unmounted and <code>false</code> if there was no component to unmount.</p>
+
+<p><strong><code>React.render_to_string</code></strong></p>
+<pre class="highlight ruby"><code><span class="no">React</span><span class="p">.</span><span class="nf">render_to_string</span><span class="p">(</span><span class="n">element</span><span class="p">)</span>
+</code></pre>
+<p>Render an element to its initial HTML. This is should only be used on the server for prerendering content. React will return a string containing the HTML. You can use this method to generate HTML on the server and send the markup down on the initial request for faster page loads and to allow search engines to crawl your pages for SEO purposes.</p>
+
+<p>If you call <code>React.render</code> on a node that already has this server-rendered markup, React will preserve it and only attach event handlers, allowing you to have a very performant first-load experience.</p>
+
+<p>If you are using rails, and have included the react-rails gem, then the prerendering functions are automatically performed.  Otherwise you can use <code>render_to_string</code> to build your own prerendering system.</p>
+
+<p><strong><code>React.render_to_static_markup</code></strong></p>
+<pre class="highlight ruby"><code><span class="no">React</span><span class="p">.</span><span class="nf">render_to_static_markup</span><span class="p">(</span><span class="n">element</span><span class="p">)</span>
+</code></pre>
+<p>Similar to <code>render_to_string</code>, except this doesn&rsquo;t create extra DOM attributes such as <code>data-react-id</code>, that React uses internally. This is useful if you want to use React as a simple static page generator, as stripping away the extra attributes can save lots of bytes.</p>
+
+<p><strong><code>React::Component::Base</code></strong></p>
+
+<p>Reactrb Components are ruby classes that either subclass <code>React::Component::Base</code>, or mixin <code>React::Component</code>.  Both mechanisms have the same effect.</p>
+
+<p>Instances of React Components are created internally by React when rendering. The instances exist through subsequent renders, and although coupled to React, act like normal ruby instances. The only way to get a valid reference to a React Component instance outside of React is by storing the return value of <code>React.render</code>.  Inside other Components, you may use refs to achieve the same result.</p>
+
+<h2 id="lifecycle-callbacks">Lifecycle Callbacks</h2>
+
+<p>A component may define callbacks for each phase of the components lifecycle:</p>
+
+<ul>
+<li><code>before_mount</code></li>
+<li><code>render</code></li>
+<li><code>after_mount</code></li>
+<li><code>before_receive_props</code></li>
+<li><code>before_update</code></li>
+<li><code>after_update</code></li>
+<li><code>before_unmount</code></li>
+</ul>
+
+<p>All the callback macros may take a block or the name of an instance method to be called.</p>
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">AComponent</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
+  <span class="n">before_mount</span> <span class="k">do</span>
+    <span class="c1"># initialize stuff here</span>
+  <span class="k">end</span>
+  <span class="n">before_unmount</span> <span class="ss">:cleanup</span>  <span class="c1"># call the cleanup method before unmounting</span>
+  <span class="p">.</span><span class="nf">.</span><span class="p">.</span>
+<span class="nf">end</span>
+</code></pre>
+<p>Except for the render callback, multiple callbacks may be defined for each lifecycle phase, and will be executed in the order defined, and from most deeply nested subclass outwards.</p>
+
+<p>Details on the component lifecycle is described <a href="docs/component-specs.html">here</a></p>
+
+<h3 id="the-param-macro">The <code>param</code> macro</h3>
+
+<p>Within a React Component the <code>param</code> macro is used to define the parameter signature of the component.  You can think of params as
+the values that would normally be sent to the instance&rsquo;s <code>initialize</code> method, but with the difference that a React Component gets new parameters when it is rerendered.  </p>
+
+<p>The param macro has the following syntax:</p>
+<pre class="highlight ruby"><code><span class="n">param</span> <span class="n">symbol</span><span class="p">,</span> <span class="p">.</span><span class="nf">.</span><span class="p">.</span><span class="nf">options</span><span class="p">.</span><span class="nf">.</span><span class="o">.</span> <span class="c1"># or</span>
+<span class="n">param</span> <span class="n">symbol</span> <span class="o">=&gt;</span> <span class="n">default_value</span><span class="p">,</span> <span class="p">.</span><span class="nf">.</span><span class="p">.</span><span class="nf">options</span><span class="p">.</span><span class="nf">.</span><span class="o">.</span>
+</code></pre>
+<p>Available options are <code>:default_value =&gt; ...any value...</code> and <code>:type =&gt; ...class_spec...</code>
+where class_spec is either a class name, or <code>[]</code> (shorthand for Array), or <code>[ClassName]</code> (meaning array of <code>ClassName</code>.)</p>
+
+<p>Note that the default value can be specied either as the hash value of the symbol, or explicitly using the <code>:default_value</code> key.</p>
+
+<p>Examples:</p>
+<pre class="highlight ruby"><code><span class="n">param</span> <span class="ss">:foo</span> <span class="c1"># declares that we must be provided with a parameter foo when the component is instantiated or re-rerendered.</span>
+<span class="n">param</span> <span class="ss">:foo</span> <span class="o">=&gt;</span> <span class="s2">"some default"</span>        <span class="c1"># declares that foo is optional, and if not present the value "some default" will be used.</span>
+<span class="n">param</span> <span class="ss">foo: </span><span class="s2">"some default"</span>           <span class="c1"># same as above using ruby 1.9 JSON style syntax</span>
+<span class="n">param</span> <span class="ss">:foo</span><span class="p">,</span> <span class="ss">default: </span><span class="s2">"some default"</span> <span class="c1"># same as above but uses explicit default key</span>
+<span class="n">param</span> <span class="ss">:foo</span><span class="p">,</span> <span class="ss">type: </span><span class="no">String</span>            <span class="c1"># foo is required and must be of type String</span>
+<span class="n">param</span> <span class="ss">:foo</span><span class="p">,</span> <span class="ss">type: </span><span class="p">[</span><span class="no">String</span><span class="p">]</span>          <span class="c1"># foo is required and must be an array of Strings</span>
+<span class="n">param</span> <span class="ss">foo: </span><span class="p">[],</span> <span class="ss">type: </span><span class="p">[</span><span class="no">String</span><span class="p">]</span>       <span class="c1"># foo must be an array of strings, and has a default value of the empty array.</span>
+</code></pre>
+<h4 id="accessing-param-values">Accessing param values</h4>
+
+<p>The component instance method <code>params</code> gives access to all declared params.  So for example</p>
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">Hello</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
+  <span class="n">param</span> <span class="ss">visitor: </span><span class="s2">"World"</span><span class="p">,</span> <span class="ss">type: </span><span class="no">String</span>
+  <span class="n">render</span>
+    <span class="s2">"Hello </span><span class="si">#{</span><span class="n">params</span><span class="p">.</span><span class="nf">visitor</span><span class="si">}</span><span class="s2">"</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<h4 id="params-of-type-proc">Params of type <code>Proc</code></h4>
+
+<p>A param of type proc (i.e. <code>param :update, type: Proc</code>) gets special treatment that will directly
+call the proc when the param is accessed.</p>
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">Alarm</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
+  <span class="n">param</span> <span class="ss">:at</span><span class="p">,</span> <span class="ss">type: </span><span class="no">Time</span>
+  <span class="n">param</span> <span class="ss">:notify</span><span class="p">,</span> <span class="ss">type: </span><span class="no">Proc</span>
+  <span class="n">after_mount</span> <span class="k">do</span>
+    <span class="vi">@clock</span> <span class="o">=</span> <span class="n">every</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="k">do</span>
+      <span class="k">if</span> <span class="no">Time</span><span class="p">.</span><span class="nf">now</span> <span class="o">&gt;</span> <span class="n">params</span><span class="p">.</span><span class="nf">at</span>
+        <span class="n">params</span><span class="p">.</span><span class="nf">notify</span>
+        <span class="vi">@clock</span><span class="p">.</span><span class="nf">stop</span>
+      <span class="k">end</span>
+      <span class="n">force_update!</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+  <span class="k">def</span> <span class="nf">render</span>
+    <span class="s2">"</span><span class="si">#{</span><span class="no">Time</span><span class="p">.</span><span class="nf">now</span><span class="si">}</span><span class="s2">"</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<p>If for whatever reason you need to get the actual proc instead of calling it use <code>params.method(*symbol name of method*)</code></p>
+
+<h3 id="the-state-instance-method">The <code>state</code> instance method</h3>
+
+<p>React state variables are <em>reactive</em> component instance variables that cause rerendering when they change.</p>
+
+<p>State variables are accessed via the <code>state</code> instance method which works like the <code>params</code> method. Like normal instance variables, state variables are created when they are first accessed, so there is no explicit declaration.  </p>
+
+<p>To access the value of a state variable <code>foo</code> you would say <code>state.foo</code>.  </p>
+
+<p>To initialize or update a state variable you use its name followed by <code>!</code>.  For example <code>state.foo! []</code> would initialize <code>foo</code> to an empty array.  Unlike the assignment operator, the update method returns the current value (before it is changed.)</p>
+
+<p>Often state variables have complex values with their own internal state, an array for example.  The problem is as you push new values onto the array you are not changing the object pointed to by the state variable, but its internal state.</p>
+
+<p>To handle this use the same &ldquo;!&rdquo; suffix with <strong>no</strong> parameter, and then apply any update methods to the resulting value.  The underlying value will be updated, <strong>and</strong> the underlying system will be notified that a state change has occurred.</p>
+
+<p>For example
+<code>ruby
+  state.foo! []    # initialize foo (returns nil)
+  ...later...
+  state.foo! &lt;&lt; 12  # push 12 onto foo&#39;s array
+  ...or...
+  state.foo! {}
+  state.foo![:house =&gt; :boat]
+</code></p>
+
+<p>The rule is simple:  anytime you are updating a state variable follow it by the &ldquo;!&rdquo;.</p>
+
+<blockquote>
+<h4 id="tell-me-how-that-works">Tell Me How That Works???</h4>
+
+<p>A state variables update method (name followed by &ldquo;!&rdquo;) can optionally accept one parameter.  If a parameter is passed, then the method will 1) save the current value, 2) update the value to the passed parameter, 3) update the underlying react.js state object, 4) return the saved value.</p>
+</blockquote>
+
+<h3 id="the-force_update-method">The <code>force_update!</code> method</h3>
+
+<p>The <code>force_update!</code> instance method causes the component to re-render.  Usually this is not necessary as rendering will occur when state variables change, or new params are passed.  For a good example of using <code>force_update!</code> see the <code>Alarm</code> component above.  In this case there is no reason to have a state track of the time separately, so we just call <code>force_update!</code> every second.</p>
+
+<h3 id="the-dom_node-method">The <code>dom_node</code> method</h3>
+
+<p>Returns the dom<em>node that this component instance is mounted to.  Typically used in the `after</em>mount` callback to setup linkages to external libraries.</p>
+
+<h3 id="the-children-method">The <code>children</code> method</h3>
+
+<p>Along with params components may be passed a block which is used to build the components children.</p>
+
+<p>The instance method <code>children</code> returns an enumerable that is used to access the unrendered children of a component.</p>
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">IndentEachLine</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
+  <span class="n">param</span> <span class="ss">by: </span><span class="mi">20</span><span class="p">,</span> <span class="ss">type: </span><span class="no">Integer</span>
+  <span class="k">def</span> <span class="nf">render</span>
+    <span class="n">div</span> <span class="k">do</span>
+      <span class="n">children</span><span class="p">.</span><span class="nf">each_with_index</span> <span class="k">do</span> <span class="o">|</span><span class="n">child</span><span class="p">,</span> <span class="n">i</span><span class="o">|</span>
+        <span class="n">child</span><span class="p">.</span><span class="nf">render</span><span class="p">(</span><span class="ss">style: </span><span class="p">{</span><span class="s2">"margin-left"</span> <span class="o">=&gt;</span> <span class="n">params</span><span class="p">.</span><span class="nf">by</span><span class="o">*</span><span class="n">i</span><span class="p">})</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="no">Element</span><span class="p">[</span><span class="s1">'#container'</span><span class="p">].</span><span class="nf">render</span> <span class="k">do</span>
+  <span class="no">IndentEachLine</span><span class="p">(</span><span class="ss">by: </span><span class="mi">100</span><span class="p">)</span> <span class="k">do</span>
+    <span class="n">div</span> <span class="p">{</span><span class="s2">"Line 1"</span><span class="p">}</span>
+    <span class="n">div</span> <span class="p">{</span><span class="s2">"Line 2"</span><span class="p">}</span>
+    <span class="n">div</span> <span class="p">{</span><span class="s2">"Line 3"</span><span class="p">}</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<h2 id="lifecycle-methods">Lifecycle Methods</h2>
+
+<p>A component class may define callbacks for  specific points in a component&rsquo;s lifecycle.</p>
+
+<h3 id="rendering">Rendering</h3>
+
+<p>The lifecycle revolves around rendering the component.  As the state or parameters of a component changes, its render method will be called to generate the new HTML.  The rest of the callbacks hook into the lifecycle before or after rendering.</p>
+
+<p>For reasons described below Reactrb provides a render callback to simplify defining the render method:</p>
+<pre class="highlight ruby"><code><span class="n">render</span> <span class="k">do</span> <span class="p">.</span><span class="nf">.</span><span class="p">.</span><span class="nf">.</span>
+<span class="k">end</span>
+</code></pre>
+<p>The render callback will generate the components render method.  It may optionally take the container component and params:</p>
+<pre class="highlight ruby"><code><span class="n">render</span><span class="p">(</span><span class="ss">:div</span><span class="p">,</span> <span class="ss">class: </span><span class="s1">'my-class'</span><span class="p">)</span> <span class="k">do</span>
+  <span class="p">.</span><span class="nf">.</span><span class="p">.</span>
+<span class="nf">end</span>
+</code></pre>
+<p>which would be equivilent to:</p>
+<pre class="highlight ruby"><code><span class="k">def</span> <span class="nf">render</span>
+  <span class="n">div</span><span class="p">(</span><span class="ss">class: </span><span class="s1">'my-class'</span><span class="p">)</span> <span class="k">do</span>
+    <span class="p">.</span><span class="nf">.</span><span class="p">.</span>
+  <span class="nf">end</span>
+<span class="k">end</span>
+</code></pre>
+<p>The purpose of the render callback is syntactic.  Many components consist of a static outer container with possibly some parameters, and most component&rsquo;s render method by necessity will be longer than the normal <em>10 line</em> ruby style guideline.  The render call back solves both these problems by allowing the outer container to be specified as part of the callback parameter (which reads very nicely) and because the render code is now specified as a block you avoid the 10 line limitation, while encouraging the rest of your methods to adhere to normal ruby style guides</p>
+
+<h3 id="before-mounting-first-render">Before Mounting (first render)</h3>
+<pre class="highlight ruby"><code><span class="n">before_mount</span> <span class="k">do</span> <span class="p">.</span><span class="nf">.</span><span class="p">.</span>
+<span class="nf">end</span>
+</code></pre>
+<p>Invoked once when the component is first instantiated, immediately before the initial rendering occurs. This is where state variables should
+be initialized.</p>
+
+<p>This is the only life cycle method that is called during <code>render_to_string</code> used in server side pre-rendering.</p>
+
+<h3 id="after-mounting-first-render">After Mounting (first render)</h3>
+<pre class="highlight ruby"><code><span class="n">after_mount</span> <span class="k">do</span> <span class="p">.</span><span class="nf">.</span><span class="p">.</span>
+<span class="nf">end</span>
+</code></pre>
+<p>Invoked once, only on the client (not on the server), immediately after the initial rendering occurs. At this point in the lifecycle, you can access any refs to your children (e.g., to access the underlying DOM representation). The <code>after_mount</code> callbacks of children components are invoked before that of parent components.</p>
+
+<p>If you want to integrate with other JavaScript frameworks, set timers using the <code>after</code> or <code>every</code> methods, or send AJAX requests, perform those operations in this method.  Attempting to perform such operations in before_mount will cause errors during prerendering because none of these operations are available in the server environment.</p>
+
+<h3 id="before-receiving-new-params">Before Receiving New Params</h3>
+<pre class="highlight ruby"><code><span class="n">before_receive_props</span> <span class="k">do</span> <span class="o">|</span><span class="n">new_params_hash</span><span class="o">|</span> <span class="p">.</span><span class="nf">.</span><span class="p">.</span>
+<span class="nf">end</span>
+</code></pre>
+<p>Invoked when a component is receiving <em>new</em> params (React.js props). This method is not called for the initial render.</p>
+
+<p>Use this as an opportunity to react to a prop transition before <code>render</code> is called by updating any instance or state variables. The
+new_props block parameter contains a hash of the new values.</p>
+<pre class="highlight ruby"><code><span class="n">before_receive_props</span> <span class="k">do</span> <span class="o">|</span><span class="n">next_props</span><span class="o">|</span>
+  <span class="n">state</span><span class="p">.</span><span class="nf">likes_increasing!</span> <span class="p">(</span><span class="n">next_props</span><span class="p">[</span><span class="ss">:like_count</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">params</span><span class="p">.</span><span class="nf">like_count</span><span class="p">)</span>
+<span class="k">end</span>
+</code></pre>
+<blockquote>
+<p>Note:</p>
+
+<p>There is no analogous method <code>before_receive_state</code>. An incoming param may cause a state change, but the opposite is not true. If you need to perform operations in response to a state change, use <code>before_update</code>.</p>
+</blockquote>
+
+<h3 id="controlling-updates">Controlling Updates</h3>
+
+<p>Normally Reactrb will only update a component if some state variable or param has changed.  To override this behavior you can redefine the <code>should_component_update?</code> instance method.  For example, assume that we have a state called <code>funky</code> that for whatever reason, we
+cannot update using the normal <code>state.funky!</code> update method.  So what we can do is override <code>should_component_update?</code> call <code>super</code>, and then double check if the <code>funky</code> has changed by doing an explicit comparison.</p>
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">RerenderMore</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
+  <span class="k">def</span> <span class="nf">should_component_update?</span><span class="p">(</span><span class="n">new_params_hash</span><span class="p">,</span> <span class="n">new_state_hash</span><span class="p">)</span>
+    <span class="k">super</span> <span class="o">||</span> <span class="n">new_state_hash</span><span class="p">[</span><span class="ss">:funky</span><span class="p">]</span> <span class="o">!=</span> <span class="n">state</span><span class="p">.</span><span class="nf">funky</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<p>Why would this happen?  Most likey there is integration between new Reactrb components and other data structures being maintained outside of Reactrb, and so we have to do some explicit comparisions to detect the state change.</p>
+
+<p>Note that <code>should_component_update?</code> is not called for the initial render or when <code>force_update!</code> is used.</p>
+
+<blockquote>
+<p>Note to react.js readers.  Essentially Reactrb assumes components are &ldquo;well behaved&rdquo; in the sense that all state changes
+will be explicitly declared using the state update (&ldquo;!&rdquo;) method when changing state.  This gives similar behavior to a
+&ldquo;pure&rdquo; component without the possible performance penalties.
+To achieve the standard react.js behavior add this line to your class <code>def should_component_update?; true; end</code></p>
+</blockquote>
+
+<h3 id="before-updating-re-rendering">Before Updating (re-rendering)</h3>
+<pre class="highlight ruby"><code><span class="n">before_update</span> <span class="k">do</span> <span class="p">.</span><span class="nf">.</span><span class="p">.</span>
+<span class="nf">end</span>
+</code></pre>
+<p>Invoked immediately before rendering when new params or state are bein#g received.  </p>
+
+<h3 id="after-updating-re-rendering">After Updating (re-rendering)</h3>
+<pre class="highlight ruby"><code><span class="n">after_update</span> <span class="k">do</span> <span class="p">.</span><span class="nf">.</span><span class="p">.</span>
+<span class="nf">end</span>
+</code></pre>
+<p>Invoked immediately after the component&rsquo;s updates are flushed to the DOM. This method is not called for the initial render.</p>
+
+<p>Use this as an opportunity to operate on the DOM when the component has been updated.</p>
+
+<h3 id="unmounting">Unmounting</h3>
+<pre class="highlight ruby"><code><span class="n">before_unmount</span> <span class="k">do</span> <span class="p">.</span><span class="nf">.</span><span class="p">.</span>
+<span class="nf">end</span>
+</code></pre>
+<p>Invoked immediately before a component is unmounted from the DOM.</p>
+
+<p>Perform any necessary cleanup in this method, such as invalidating timers or cleaning up any DOM elements that were created in the <code>after_mount</code> callback.</p>
+
+<h2 id="react-event">React::Event</h2>
+
+<p>Your event handlers will be passed instances of <code>React::Event</code>, a wrapper around react.js&rsquo;s <code>SyntheticEvent</code> which in turn is a cross browser wrapper around the browser&rsquo;s native event. It has the same interface as the browser&rsquo;s native event, including <code>stopPropagation()</code> and <code>preventDefault()</code>, except the events work identically across all browsers.</p>
+
+<p>For example:</p>
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">YouSaid</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
+  <span class="k">def</span> <span class="nf">render</span>
+    <span class="n">input</span><span class="p">(</span><span class="ss">value: </span><span class="n">state</span><span class="p">.</span><span class="nf">value</span><span class="p">).</span>
+    <span class="nf">on</span><span class="p">(</span><span class="ss">:key_down</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">e</span><span class="o">|</span>
+      <span class="n">alert</span> <span class="s2">"You said: </span><span class="si">#{</span><span class="n">state</span><span class="p">.</span><span class="nf">value</span><span class="si">}</span><span class="s2">"</span> <span class="k">if</span> <span class="n">e</span><span class="p">.</span><span class="nf">key_code</span> <span class="o">==</span> <span class="mi">13</span>
+    <span class="k">end</span><span class="p">.</span>
+    <span class="nf">on</span><span class="p">(</span><span class="ss">:change</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">e</span><span class="o">|</span>
+      <span class="n">state</span><span class="p">.</span><span class="nf">value!</span> <span class="n">e</span><span class="p">.</span><span class="nf">target</span><span class="p">.</span><span class="nf">value</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<p>If you find that you need the underlying browser event for some reason use the <code>native_event</code>.  </p>
+
+<p>In the following responses shown as (native &hellip;) indicate the value returned is a native object with an Opal wrapper.  In some cases there will be opal methods available (i.e. for native DOMNode values) and in other cases you will have to convert to the native value
+with <code>.to_n</code> and then use javascript directly.</p>
+
+<p>Every <code>React::Event</code> has the following methods:</p>
+<pre class="highlight ruby"><code><span class="n">bubbles</span>                <span class="o">-&gt;</span> <span class="no">Boolean</span>
+<span class="n">cancelable</span>             <span class="o">-&gt;</span> <span class="no">Boolean</span>
+<span class="n">current_target</span>         <span class="o">-&gt;</span> <span class="p">(</span><span class="n">native</span> <span class="no">DOM</span> <span class="n">node</span><span class="p">)</span>
+<span class="n">default_prevented</span>      <span class="o">-&gt;</span> <span class="no">Boolean</span>
+<span class="n">event_phase</span>            <span class="o">-&gt;</span> <span class="no">Integer</span>
+<span class="n">is_trusted</span>             <span class="o">-&gt;</span> <span class="no">Boolean</span>
+<span class="n">native_event</span>           <span class="o">-&gt;</span> <span class="p">(</span><span class="n">native</span> <span class="no">Event</span><span class="p">)</span>
+<span class="n">prevent_default</span>        <span class="o">-&gt;</span> <span class="no">Proc</span>
+<span class="n">is_default_prevented</span>   <span class="o">-&gt;</span> <span class="no">Boolean</span>
+<span class="n">stop_propagation</span>       <span class="o">-&gt;</span> <span class="no">Proc</span>
+<span class="n">is_propagation_stopped</span> <span class="o">-&gt;</span> <span class="no">Boolean</span>
+<span class="n">target</span>                 <span class="o">-&gt;</span> <span class="p">(</span><span class="n">native</span> <span class="no">DOMEventTarget</span><span class="p">)</span>
+<span class="n">timestamp</span>              <span class="o">-&gt;</span> <span class="no">Integer</span> <span class="p">(</span><span class="n">use</span> <span class="no">Time</span><span class="p">.</span><span class="nf">at</span> <span class="n">to</span> <span class="n">convert</span> <span class="n">to</span> <span class="no">Time</span><span class="p">)</span>
+<span class="n">type</span>                   <span class="o">-&gt;</span> <span class="no">String</span>
+</code></pre>
+<h3 id="event-pooling">Event pooling</h3>
+
+<p>The underlying React <code>SyntheticEvent</code> is pooled. This means that the <code>SyntheticEvent</code> object will be reused and all properties will be nullified after the event callback has been invoked. This is for performance reasons. As such, you cannot access the event in an asynchronous way.</p>
+
+<h3 id="supported-events">Supported Events</h3>
+
+<p>React normalizes events so that they have consistent properties across
+different browsers.</p>
+
+<h4 id="clipboard-events">Clipboard Events</h4>
+
+<p>Event names:</p>
+<pre class="highlight ruby"><code><span class="ss">:copy</span><span class="p">,</span> <span class="ss">:cut</span><span class="p">,</span> <span class="ss">:paste</span>
+</code></pre>
+<p>Available Methods:</p>
+<pre class="highlight ruby"><code><span class="n">clipboard_data</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="n">native</span> <span class="no">DOMDataTransfer</span><span class="p">)</span>
+</code></pre>
+<h4 id="composition-events-not-tested">Composition Events (not tested)</h4>
+
+<p>Event names:</p>
+<pre class="highlight ruby"><code><span class="ss">:composition_end</span><span class="p">,</span> <span class="ss">:composition_start</span><span class="p">,</span> <span class="ss">:composition_update</span>
+</code></pre>
+<p>Available Methods:</p>
+<pre class="highlight ruby"><code><span class="n">data</span> <span class="o">-&gt;</span> <span class="no">String</span>
+</code></pre>
+<h4 id="keyboard-events">Keyboard Events</h4>
+
+<p>Event names:</p>
+<pre class="highlight ruby"><code><span class="ss">:key_down</span><span class="p">,</span> <span class="ss">:key_press</span><span class="p">,</span> <span class="ss">:key_up</span>
+</code></pre>
+<p>Available Methods:</p>
+<pre class="highlight ruby"><code><span class="n">alt_key</span>                 <span class="o">-&gt;</span> <span class="no">Boolean</span>
+<span class="n">char_code</span>               <span class="o">-&gt;</span> <span class="no">Integer</span>
+<span class="n">ctrl_key</span>                <span class="o">-&gt;</span> <span class="no">Boolean</span>
+<span class="n">get_modifier_state</span><span class="p">(</span><span class="n">key</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="no">Boolean</span> <span class="p">(</span><span class="n">i</span><span class="p">.</span><span class="nf">e</span><span class="p">.</span> <span class="nf">get_modifier_key</span><span class="p">(</span><span class="ss">:Shift</span><span class="p">)</span>
+<span class="n">key</span>                     <span class="o">-&gt;</span> <span class="no">String</span>
+<span class="n">key_code</span>                <span class="o">-&gt;</span> <span class="no">Integer</span>
+<span class="n">locale</span>                  <span class="o">-&gt;</span> <span class="no">String</span>
+<span class="n">location</span>                <span class="o">-&gt;</span> <span class="no">Integer</span>
+<span class="n">meta_key</span>                <span class="o">-&gt;</span> <span class="no">Boolean</span>
+<span class="n">repeat</span>                  <span class="o">-&gt;</span> <span class="no">Boolean</span>
+<span class="n">shift_key</span>               <span class="o">-&gt;</span> <span class="no">Boolean</span>
+<span class="n">which</span>                   <span class="o">-&gt;</span> <span class="no">Integer</span>
+</code></pre>
+<h4 id="focus-events">Focus Events</h4>
+
+<p>Event names:</p>
+<pre class="highlight ruby"><code><span class="ss">:focus</span><span class="p">,</span> <span class="ss">:blur</span>
+</code></pre>
+<p>Available Methods:</p>
+<pre class="highlight ruby"><code><span class="n">related_target</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="no">Native</span> <span class="no">DOMEventTarget</span><span class="p">)</span>
+</code></pre>
+<p>These focus events work on all elements in the React DOM, not just form elements.</p>
+
+<h4 id="form-events">Form Events</h4>
+
+<p>Event names:</p>
+<pre class="highlight ruby"><code><span class="ss">:change</span><span class="p">,</span> <span class="ss">:input</span><span class="p">,</span> <span class="ss">:submit</span>
+</code></pre>
+<h4 id="mouse-events">Mouse Events</h4>
+
+<p>Event names:</p>
+<pre class="highlight ruby"><code><span class="ss">:click</span><span class="p">,</span> <span class="ss">:context_menu</span><span class="p">,</span> <span class="ss">:double_click</span><span class="p">,</span> <span class="ss">:drag</span><span class="p">,</span> <span class="ss">:drag_end</span><span class="p">,</span> <span class="ss">:drag_enter</span><span class="p">,</span> <span class="ss">:drag_exit</span>
+<span class="ss">:drag_leave</span><span class="p">,</span> <span class="ss">:drag_over</span><span class="p">,</span> <span class="ss">:drag_start</span><span class="p">,</span> <span class="ss">:drop</span><span class="p">,</span> <span class="ss">:mouse_down</span><span class="p">,</span> <span class="ss">:mouse_enter</span><span class="p">,</span>
+<span class="ss">:mouse_leave</span><span class="p">,</span> <span class="ss">:mouse_move</span><span class="p">,</span> <span class="ss">:mouse_out</span><span class="p">,</span> <span class="ss">:mouse_over</span><span class="p">,</span> <span class="ss">:mouse_up</span>
+</code></pre>
+<p>The <code>:mouse_enter</code> and <code>:mouse_leave</code> events propagate from the element being left to the one being entered instead of ordinary bubbling and do not have a capture phase.</p>
+
+<p>Available Methods:</p>
+<pre class="highlight ruby"><code><span class="n">alt_key</span>                 <span class="o">-&gt;</span> <span class="no">Boolean</span>
+<span class="n">button</span>                  <span class="o">-&gt;</span> <span class="no">Integer</span>
+<span class="n">buttons</span>                 <span class="o">-&gt;</span> <span class="no">Integer</span>
+<span class="n">client_x</span>                <span class="o">-&gt;</span> <span class="no">Integer</span>
+<span class="n">number</span> <span class="n">client_y</span>         <span class="o">-&gt;</span> <span class="no">Integer</span>
+<span class="n">ctrl_key</span>                <span class="o">-&gt;</span> <span class="no">Boolean</span>
+<span class="n">get_modifier_state</span><span class="p">(</span><span class="n">key</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="no">Boolean</span>
+<span class="n">meta_key</span>                <span class="o">-&gt;</span> <span class="no">Boolean</span>
+<span class="n">page_x</span>                  <span class="o">-&gt;</span> <span class="no">Integer</span>
+<span class="n">page_y</span>                  <span class="o">-&gt;</span> <span class="no">Integer</span>
+<span class="n">related_target</span>          <span class="o">-&gt;</span> <span class="p">(</span><span class="no">Native</span> <span class="no">DOMEventTarget</span><span class="p">)</span>
+<span class="n">screen_x</span>                <span class="o">-&gt;</span> <span class="no">Integer</span>
+<span class="n">screen_y</span>                <span class="o">-&gt;</span> <span class="no">Integer</span>
+<span class="n">shift_key</span>               <span class="o">-&gt;</span> <span class="no">Boolean</span>
+</code></pre>
+<h4 id="selection-events">Selection events</h4>
+
+<p>Event names:</p>
+<pre class="highlight ruby"><code><span class="n">onSelect</span>
+</code></pre>
+<h4 id="touch-events">Touch events</h4>
+
+<p>Event names:</p>
+<pre class="highlight ruby"><code><span class="ss">:touch_cancel</span><span class="p">,</span> <span class="ss">:touch_end</span><span class="p">,</span> <span class="ss">:touch_move</span><span class="p">,</span> <span class="ss">:touch_start</span>
+</code></pre>
+<p>Available Methods:</p>
+<pre class="highlight ruby"><code><span class="n">alt_key</span>                 <span class="o">-&gt;</span> <span class="no">Boolean</span>
+<span class="n">changed_touches</span>         <span class="o">-&gt;</span> <span class="p">(</span><span class="no">Native</span> <span class="no">DOMTouchList</span><span class="p">)</span>
+<span class="n">ctrl_key</span>                <span class="o">-&gt;</span> <span class="no">Boolean</span>
+<span class="n">get_modifier_state</span><span class="p">(</span><span class="n">key</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="no">Boolean</span>
+<span class="n">meta_key</span>                <span class="o">-&gt;</span> <span class="no">Boolean</span>
+<span class="n">shift_key</span>               <span class="o">-&gt;</span> <span class="no">Boolean</span>
+<span class="n">target_touches</span>          <span class="o">-&gt;</span> <span class="p">(</span><span class="no">Native</span> <span class="no">DOMTouchList</span><span class="p">)</span>
+<span class="n">touches</span>                 <span class="o">-&gt;</span> <span class="p">(</span><span class="no">Native</span> <span class="no">DomTouchList</span><span class="p">)</span>
+</code></pre>
+<h4 id="ui-events">UI Events</h4>
+
+<p>Event names:</p>
+<pre class="highlight ruby"><code><span class="ss">:scroll</span>
+</code></pre>
+<p>Available Methods:</p>
+<pre class="highlight ruby"><code><span class="n">detail</span> <span class="o">-&gt;</span> <span class="no">Integer</span>
+<span class="n">view</span>   <span class="o">-&gt;</span> <span class="p">(</span><span class="no">Native</span> <span class="no">DOMAbstractView</span><span class="p">)</span>
+</code></pre>
+<h4 id="wheel-events">Wheel Events</h4>
+
+<p>Event names:</p>
+<pre class="highlight ruby"><code><span class="n">wheel</span>
+</code></pre>
+<p>Available Methods:</p>
+<pre class="highlight ruby"><code><span class="n">delta_mode</span> <span class="o">-&gt;</span> <span class="no">Integer</span>
+<span class="n">delta_x</span>    <span class="o">-&gt;</span> <span class="no">Integer</span>
+<span class="n">delta_y</span>    <span class="o">-&gt;</span> <span class="no">Integer</span>
+<span class="n">delta_z</span>    <span class="o">-&gt;</span> <span class="no">Integer</span>
+</code></pre>
+<h4 id="media-events">Media Events</h4>
+
+<p>Event names:</p>
+<pre class="highlight ruby"><code><span class="ss">:abort</span><span class="p">,</span> <span class="ss">:can_play</span><span class="p">,</span> <span class="ss">:can_play_through</span><span class="p">,</span> <span class="ss">:duration_change</span><span class="p">,</span><span class="ss">:emptied</span><span class="p">,</span> <span class="ss">:encrypted</span><span class="p">,</span> <span class="ss">:ended</span><span class="p">,</span> <span class="ss">:error</span><span class="p">,</span> <span class="ss">:loaded_data</span><span class="p">,</span>
+<span class="ss">:loaded_metadata</span><span class="p">,</span> <span class="ss">:load_start</span><span class="p">,</span> <span class="ss">:pause</span><span class="p">,</span> <span class="ss">:play</span><span class="p">,</span> <span class="ss">:playing</span><span class="p">,</span> <span class="ss">:progress</span><span class="p">,</span> <span class="ss">:rate_change</span><span class="p">,</span> <span class="ss">:seeked</span><span class="p">,</span> <span class="ss">:seeking</span><span class="p">,</span> <span class="ss">:stalled</span><span class="p">,</span>
+<span class="ss">:on_suspend</span><span class="p">,</span> <span class="ss">:time_update</span><span class="p">,</span> <span class="ss">:volume_change</span><span class="p">,</span> <span class="ss">:waiting</span>
+</code></pre>
+<h4 id="image-events">Image Events</h4>
+
+<p>Event names:</p>
+<pre class="highlight ruby"><code><span class="ss">:load</span><span class="p">,</span> <span class="ss">:error</span>
+</code></pre>
+<h2 id="using-javascript-components">Using Javascript Components</h2>
+
+<p>While it is quite possible to develop large applications purely in Reactrb with a ruby back end like rails, you may eventually find you want to use some pre-existing React Javascript library.   Or you may be working with an existing React-JS application, and want to just start adding some Reactrb components.</p>
+
+<p>Either way you are going to need to import Javascript components into the Reactrb namespace.  Reactrb provides both manual and automatic mechanisms to do this depending on the level of control you need.</p>
+
+<ul>
+<li><a href="#importing-components">Importing Components</a></li>
+<li><a href="#importing-libraries">Importing Libraries</a></li>
+<li><a href="#auto-import">Auto Importing</a></li>
+<li><a href="#including-react-source">Including React Source</a></li>
+<li><a href="#using-webpack">Using Webpack</a></li>
+</ul>
+
+<h2 id="importing-components">Importing Components</h2>
+
+<p>Lets say you have an existing React Component written in javascript that you would like to access from Reactrb.  </p>
+
+<p>Here is a simple hello world component:</p>
+<pre class="highlight javascript"><code><span class="nb">window</span><span class="p">.</span><span class="nx">SayHello</span> <span class="o">=</span> <span class="nx">React</span><span class="p">.</span><span class="nx">createClass</span><span class="p">({</span>
+  <span class="na">displayName</span><span class="p">:</span> <span class="s2">"SayHello"</span><span class="p">,</span>
+  <span class="na">render</span><span class="p">:</span> <span class="kd">function</span> <span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">React</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s2">"div"</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="s2">"Hello "</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">name</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">})</span>
+</code></pre>
+<p>Assuming that this component is loaded some place in your assets, you can then access this from Reactrb by creating a wrapper component:</p>
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">SayHello</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
+  <span class="n">imports</span> <span class="s1">'SayHello'</span>
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nc">MyBigApp</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
+  <span class="k">def</span> <span class="nf">render</span>
+    <span class="c1"># SayHello will now act like any other Reactrb component</span>
+    <span class="no">SayHello</span> <span class="ss">name: </span><span class="s1">'Matz'</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<p>The <code>imports</code> directive takes a string (or a symbol) and will simply evaluate it and check to make sure that the value looks like a React component, and then set the underlying native component to point to the imported component.</p>
+
+<h2 id="importing-libraries">Importing Libraries</h2>
+
+<p>Many React components come in libraries.  The <code>ReactBootstrap</code> library is one example.  You can import the whole library at once using the <code>React::NativeLibrary</code> class.  Assuming that you have initialized <code>ReactBootstrap</code> elsewhere, this is how you would bring it into Reactrb.</p>
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">RBS</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">NativeLibrary</span>
+  <span class="n">imports</span> <span class="s1">'ReactBootstrap'</span>
+<span class="k">end</span>
+</code></pre>
+<p>We can now access our bootstrap components as components defined within the RBS scope:</p>
+<pre class="highlight ruby"><code>  <span class="c1"># taken  from Barrie Hadfield's excellent guide: http://tutorials.pluralsight.com/ruby-ruby-on-rails/reactrb-showcase</span>
+<span class="k">module</span> <span class="nn">Components</span>
+  <span class="k">module</span> <span class="nn">Home</span>
+    <span class="k">class</span> <span class="nc">Show</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
+
+      <span class="k">def</span> <span class="nf">say_hello</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+        <span class="n">alert</span> <span class="s2">"Hello from number </span><span class="si">#{</span><span class="n">i</span><span class="si">}</span><span class="s2">"</span>
+      <span class="k">end</span>
+
+      <span class="n">render</span> <span class="no">RBS</span><span class="o">::</span><span class="no">Navbar</span><span class="p">,</span> <span class="ss">bsStyle: :inverse</span> <span class="k">do</span>
+        <span class="no">RBS</span><span class="o">::</span><span class="no">Nav</span><span class="p">()</span> <span class="k">do</span>
+          <span class="no">RBS</span><span class="o">::</span><span class="no">NavbarBrand</span><span class="p">()</span> <span class="k">do</span>
+            <span class="n">a</span><span class="p">(</span><span class="ss">href: </span><span class="s1">'#'</span><span class="p">)</span> <span class="p">{</span> <span class="s1">'Reactrb Showcase'</span> <span class="p">}</span>
+          <span class="k">end</span>
+          <span class="no">RBS</span><span class="o">::</span><span class="no">NavDropdown</span><span class="p">(</span><span class="ss">eventKey: </span><span class="mi">1</span><span class="p">,</span> <span class="ss">title: </span><span class="s1">'Things'</span><span class="p">,</span> <span class="ss">id: :drop_down</span><span class="p">)</span> <span class="k">do</span>
+            <span class="p">(</span><span class="mi">1</span><span class="p">.</span><span class="nf">.</span><span class="mi">5</span><span class="p">).</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">n</span><span class="o">|</span>
+              <span class="no">RBS</span><span class="o">::</span><span class="no">MenuItem</span><span class="p">(</span><span class="ss">href: </span><span class="s1">'#'</span><span class="p">,</span> <span class="ss">key: </span><span class="n">n</span><span class="p">,</span> <span class="ss">eventKey: </span><span class="s2">"1.</span><span class="si">#{</span><span class="n">n</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span> <span class="k">do</span>
+                <span class="s2">"Number </span><span class="si">#{</span><span class="n">n</span><span class="si">}</span><span class="s2">"</span>
+              <span class="k">end</span><span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:click</span><span class="p">)</span> <span class="p">{</span> <span class="n">say_hello</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="p">}</span>
+            <span class="k">end</span>
+          <span class="k">end</span>
+        <span class="k">end</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<p>Besides the <code>imports</code> directive, <code>React::NativeLibrary</code> also provides a rename directive that takes pairs in the form <code>oldname =&gt; newname</code>.  For example:</p>
+<pre class="highlight ruby"><code>  <span class="n">rename</span> <span class="s1">'NavDropdown'</span> <span class="o">=&gt;</span> <span class="s1">'NavDD'</span><span class="p">,</span> <span class="s1">'Navbar'</span> <span class="o">=&gt;</span> <span class="s1">'NavBar'</span><span class="p">,</span> <span class="s1">'NavbarBrand'</span> <span class="o">=&gt;</span> <span class="s1">'NavBarBrand'</span>
+</code></pre>
+<p><code>React::NativeLibrary</code> will import components that may be deeply nested in the library.  For example consider a component was defined as <code>MyLibrary.MySubLibrary.MyComponent</code>:</p>
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">MyLib</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">NativeLibrary</span>
+  <span class="n">imports</span> <span class="s1">'MyLibrary'</span>
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nc">App</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">NativeLibrary</span>
+  <span class="k">def</span> <span class="nf">render</span>  
+    <span class="p">.</span><span class="nf">.</span><span class="o">.</span>
+    <span class="no">MyLib</span><span class="o">::</span><span class="no">MySubLibrary</span><span class="o">::</span><span class="no">MyComponent</span> <span class="p">.</span><span class="nf">.</span><span class="p">.</span>
+    <span class="nf">.</span><span class="p">.</span><span class="nf">.</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<p>Note that the <code>rename</code> directive can be used to rename both components and sublibraries, giving you full control over the ruby names of the components and libraries.</p>
+
+<h2 id="auto-import">Auto Import</h2>
+
+<p>If you use a lot of libraries and are using a Javascript tool chain with Webpack, having to import the libraries in both Reactrb and Webpack is redundant and just hard work.</p>
+
+<p>Instead you can opt-in for <em>auto importing</em> Javascript components into Reactrb as you need them.  Simply <code>require react/auto-import</code> immediately after you <code>require reactrb</code>.  </p>
+
+<p>For example typically you might have this:</p>
+<pre class="highlight ruby"><code>  <span class="c1"># app/views/components.rb</span>
+<span class="nb">require</span> <span class="s1">'opal'</span>
+<span class="nb">require</span> <span class="s1">'reactrb'</span>
+<span class="nb">require</span> <span class="s1">'reactrb/auto-import'</span> <span class="c1"># this opts into auto-importing javascript components</span>
+<span class="k">if</span> <span class="no">React</span><span class="o">::</span><span class="no">IsomorphicHelpers</span><span class="p">.</span><span class="nf">on_opal_client?</span>
+  <span class="nb">require</span> <span class="s1">'opal-jquery'</span>
+  <span class="nb">require</span> <span class="s1">'browser'</span>
+  <span class="nb">require</span> <span class="s1">'browser/interval'</span>
+  <span class="nb">require</span> <span class="s1">'browser/delay'</span>
+<span class="k">end</span>
+<span class="n">require_tree</span> <span class="s1">'./components'</span>
+</code></pre>
+<p>Now you do not have to use component <code>imports</code> directive or <code>React::NativeLibrary</code> unless you need to rename a component.</p>
+
+<p>In Ruby all module and class names normally begin with an uppercase letter.  However in Javascript this is not always the case, so the auto import will first try the Javascript name that exactly matches the Ruby name, and if that fails it will try the same name with the first character downcased.  For example</p>
+
+<p><code>MyComponent</code> will first try <code>MyComponent</code> in the Javascript name space, then <code>myComponent</code>.</p>
+
+<p>Likewise MyLib::MyComponent would match any of the following in the Javascript namespace: <code>MyLib.MyComponent</code>, <code>myLib.MyComponent</code>, <code>MyLib.myComponent</code>, <code>myLib.myComponent</code></p>
+
+<p><em>How it works:  The first time Ruby hits a native library or component name, the constant value will not be defined.  This will trigger a lookup in the javascript name space for the matching component or library name.  This will generate either a new subclass of React::Component::Base or React::NativeLibrary that imports the javascript object, and no further lookups will be needed.</em></p>
+
+<h2 id="including-react-source">Including React Source</h2>
+
+<p>If you are in the business of importing components with a tool like Webpack, then you will need to let Webpack (or whatever dependency manager you are using) take care of including the React source code.  Just make sure that you are <em>not</em> including it on the ruby side of things.  Reactrb is currently tested with React versions 13, 14, and 15, so its not sensitive to the version you use.</p>
+
+<p>However it gets a little tricky if you are using the react-rails gem.  Each version of this gem depends on a specific version of React, and so you will need to manually declare this dependency in your Javascript dependency manager.  Consult this <a href="https://github.com/reactjs/react-rails/blob/master/VERSIONS.md">table</a> to determine which version of React you need. For example assuming you are using <code>npm</code> to install modules and you are using version 1.7.2 of react-rails you would say something like this:</p>
+<pre class="highlight shell"><code>npm install react@15.0.2 react-dom@15.0.2 --save
+</code></pre>
+<h2 id="using-webpack">Using Webpack</h2>
+
+<p>Just a word on Webpack: If you a Ruby developer who is new to using Javascript libraries then we recommend using Webpack to manage javascript component dependencies.  Webpack is essentially bundler for Javascript.   Barrie Hadfield has put together a very nice <a href="http://tutorials.pluralsight.com/ruby-ruby-on-rails/reactrb-showcase">tutorial</a> to get you started here.  </p>
+
+<p>There are also good tutorials on integrating Webpack with existing rails apps a google search away.</p>
+
+<h2 id="further-reading">Further Reading</h2>
+
+<h3 id="other-reactrb-tutorials-and-examples">Other Reactrb tutorials and examples</h3>
+
+<ul>
+<li><a href="https://github.com/loicboutet/reactrb_tutorial">Getting started with Reactrb and Rails</a></li>
+<li><a href="https://github.com/reactrb/reactrb.github.io/blob/master/docs/tutorial.md">ChatRB Demo App</a></li>
+<li><a href="#https://github.com/barriehadfield/reactrb-showcase">Reactrb Technology Showcase</a></li>
+<li><a href="https://github.com/loicboutet/reactivetodo">Reactive Record sample ToDo app</a></li>
+<li><a href="https://github.com/reactrb/reactrb.github.io/wiki/Sending-data-from-deeply-nested-components">Flux pattern in Reactrb</a></li>
+<li><a href="https://github.com/fkchang/getting-started-reactrb-webpack">Getting started with Reactrb, React Bootstrap and Webpack</a></li>
+</ul>
+
+<h3 id="reactrb-is-powered-by-react">Reactrb is powered by React</h3>
+
+<p>Reactrb and friends are in most cases simple DSL Ruby wrappers to the underlying native JavaScript libraries and React Components. It is really important to have a solid grip on how these technologies work to complement your understanding of Reactrb. Most searches for help on Google will take you to examples written in JSX or ES6 JavaScript but you will learn over time to transalte this to Reactrb equivalents. To make headway with Reactrb you do need a solid understanding of the underlying philosophy of React and its component based architecture. The &lsquo;Thinking in React&rsquo; tutorial below is an excellent place to start. (Make sure you see the Flux pattern in Reactrb above for an example of how to communicate between grandparent and child components).   </p>
+
+<ul>
+<li><a href="https://facebook.github.io/react/docs/thinking-in-react.html">Thinking in React</a></li>
+<li><a href="https://facebook.github.io/react/docs/getting-started.html">React</a></li>
+<li><a href="https://github.com/reactjs/react-router">React Router</a></li>
+<li><a href="https://react-bootstrap.github.io/">React Bootstrap</a></li>
+</ul>
+
+<h3 id="opal-under-the-covers">Opal under the covers</h3>
+
+<p>Reactrb is a DSL wrapper of React which uses Opal to compile Ruby code to ES5 native JavaScript. If you have not used Opal before then you should at a minimum read the excellent guides as they will teach you enough Opal to get you started with Reactrb.</p>
+
+<ul>
+<li><a href="http://opalrb.org/">Opal</a></li>
+<li><a href="http://opalrb.org/docs/guides/v0.9.2/index.html">Opal Guides</a></li>
+<li><a href="https://www.youtube.com/watch?v=vhIrrlcWphU">To see the full power of Opal in action watch this video</a></li>
+</ul>
+
+      </section>
+  </body>
+</html>

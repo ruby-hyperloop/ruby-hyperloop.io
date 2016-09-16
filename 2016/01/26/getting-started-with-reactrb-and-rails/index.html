@@ -1,0 +1,469 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv='X-UA-Compatible' content='IE=edge;chrome=1' />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta charset="UTF-8">
+    <title>Reactrb</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+
+    <link href="/reactrb.org/stylesheets/base.css" rel="stylesheet" />
+    <link href="/reactrb.org/stylesheets/normalize.css" rel="stylesheet" />
+    <link href="/reactrb.org/stylesheets/stylesheet.css" rel="stylesheet" />
+    <link href="/reactrb.org/stylesheets/github-light.css" rel="stylesheet" />
+
+    <title>Reactrb Getting Started with Reactrb and Rails</title>
+    <link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/feed.xml" />
+  </head>
+
+  <body>
+      <section class="page-header">
+        <a href="/"><img src="/reactrb.org/images/reactrb-logo_white.svg" width="200" alt="Reactrb logo white" /></a>
+        <!-- <h1 class="project-name">
+          <a href="/" class="btn-logo">Reactrb</a>
+        </h1> -->
+        <h2 class="project-tagline">THE MISSING RUBY FRONT-END LIBRARY</h2>
+        <a href="/get_started" class="btn">Get Started</a>
+        <a href="/installation" class="btn">Installation</a>
+        <a href="/tutorial" class="btn">Tutorial</a>
+        <a href="/gems" class="btn">Gems</a>
+        <a href="/tools" class="btn">Tools</a>
+        <a href="/docs" class="btn">Docs</a>
+        <a href="/support" class="btn">Support</a>
+        <a href="/blog" class="btn">Blog</a>
+      </section>
+
+      <section class="main-content">
+        <p><a href="//facebook.github.io/react/">React.js</a> support for rails is provided
+<a href="https://github.com/reactjs/react-rails">react-rails</a> gem.</p>
+
+<p>From its project page, React-rails can:</p>
+
+<ul>
+<li>  Provide various react builds to your asset bundle</li>
+<li>  Transform .jsx in the asset pipeline</li>
+<li>  Render components into views and mount them via view helper &amp; react_ujs</li>
+<li>  Render components server-side with prerender: true</li>
+<li>  Generate components with a Rails generator</li>
+<li>  Be extended with custom renderers, transformers and view helpers</li>
+</ul>
+
+<p>While <code>react-rails</code> provides easy integration with Rails, a Rails
+developer cannot leverage the full benefits of React.js, particularly
+isomorphic/<a href="https://medium.com/@mjackson/universal-javascript-4761051b7ae9#.rxrgqe5wb">universal</a>
+domain logic code and views since different languages are used on
+server and client
+sides. <a href="https://github.com/zetachang/react.rb">React.rb/reactive-ruby</a>
+(<strong>react.rb</strong> from here on) builds on top of <code>react-rails</code> by allowing
+one to write React components in Ruby, courtesy of
+<a href="http://opalrb.org">Opal</a>.  Now the Rails programmer can also enjoy
+universal domain logic and views written in Ruby via react.js.</p>
+
+<p>The focus of this article will be limited to just getting <code>react.rb</code>
+up and running on Rails from scratch.</p>
+
+<h1 id="generate-a-rails-project-that-uses-opal">Generate a rails project that uses Opal</h1>
+
+<p>The easiest way to create a Rails project that uses <a href="http://opalrb.org">Opal</a> is to use the
+<code>--javascript=opal</code> option. Manual instructions on how add Opal
+support to an existing Rails project are given on the <a href="https://github.com/opal/opal-rails">opal-rails</a>
+site. Create a new Rails project with the following command:</p>
+<pre class="highlight plaintext"><code>% rails new getting-started-react-rails --javascript=opal
+</code></pre>
+<h1 id="add-react-rb-gems-to-gemfile">Add react.rb gems to Gemfile</h1>
+
+<p>To use <code>react.rb</code>, you need to add 3 gems to your Gemfile:
+reactive-ruby<sup><a id="fnr.1" class="footref" href="#fn.1">1</a></sup>, react-rails and therubyracer</p>
+<pre class="highlight ruby"><code>    <span class="n">gem</span> <span class="s1">'reactive-ruby'</span><span class="p">,</span> <span class="s1">'0.7.29'</span> <span class="c1"># nail down compatible version w/ pre 0.14 react-rails</span>
+    <span class="n">gem</span> <span class="s1">'react-rails'</span><span class="p">,</span> <span class="s1">'1.3.2'</span> <span class="c1"># react.rb not compatible ith 1.4.* yet so use this one</span>
+    <span class="n">gem</span> <span class="s1">'opal-rails'</span> <span class="c1"># already added w/the --javascript=opal option</span>
+    <span class="n">gem</span> <span class="s1">'therubyracer'</span><span class="p">,</span> <span class="ss">platforms: :ruby</span> <span class="c1"># Required for server side prerendering</span>
+</code></pre>
+<p>Run <code>bundle install</code> after these have been added to your Gemfile.</p>
+
+<h3 id="update">Update</h3>
+
+<p>Since this article was written there has been Rails generator code
+that has been written as a
+<a href="https://rubygems.org/gems/reactrb-rails-generator">standalone gem</a>
+that is pending integration with react.rb gem.  Some of conventions
+described in this article, which currently match that of existing
+documentation and sample Rails project in react.rb will likely be
+changing as part of that.</p>
+
+<h1 id="convert-application-js-to-application-js-rb">Convert application.js to application.js.rb</h1>
+
+<p>When using opal-rails, it is recommented<sup><a id="fnr.2" class="footref" href="#fn.2">2</a></sup>
+to convert the application.js file to application.js.rb.  Make yours look
+like this:</p>
+<pre class="highlight ruby"><code>    <span class="c1"># app/assets/javascripts/application.js.rb</span>
+    <span class="nb">require</span> <span class="s1">'opal'</span>
+    <span class="nb">require</span> <span class="s1">'opal_ujs'</span>
+    <span class="nb">require</span> <span class="s1">'turbolinks'</span>
+    <span class="nb">require</span> <span class="s1">'react'</span>
+    <span class="nb">require</span> <span class="s1">'react_ujs'</span>
+    <span class="nb">require</span> <span class="s1">'components'</span> <span class="c1"># to include isomorphic react components on the client</span>
+    <span class="n">require_tree</span> <span class="s1">'.'</span>
+</code></pre>
+<h1 id="setup-for-isomorphic3-react-components">Setup for isomorphic<sup><a id="fnr.3" class="footref" href="#fn.3">3</a></sup> React components</h1>
+
+<p>A big perk of react.js is isomorphic code (same code on server and
+client side), which leads to A united UI layer. As mentioned before
+<a href="https://github.com/reactjs/react-rails">react-rails</a> provides server rendered react.js components, as well as
+other perks as detailed in this <a href="http://bensmithett.com/server-rendered-react-components-in-rails/">this article</a>.  This quote from the
+aforementioned article gives one a sense of how big a perk this is.</p>
+
+<blockquote>
+<p>The Holy Grail. The united UI layer. Serve up real HTML on first page load, then kick off a client side JS app. All without duplicating a single line of UI code.</p>
+</blockquote>
+
+<p>Those who have struggled with duplicated views on front and back ends,
+in different languages should appreciate that sentiment. To support
+isomorphic react.rb components you need to setup a structure for these
+<strong>shared</strong> components. The current convention is to make a
+<code>app/views/components</code> directory containing the components and a
+<code>components.rb</code> manifest file that will require all the <code>react.rb</code>
+components, like so:</p>
+<pre class="highlight ruby"><code>    <span class="c1"># app/views/components.rb</span>
+    <span class="nb">require</span> <span class="s1">'opal'</span>
+    <span class="nb">require</span> <span class="s1">'reactive-ruby'</span>
+    <span class="n">require_tree</span> <span class="s1">'./components'</span>
+</code></pre>
+<p>You may have noticed that, that the <code>application.js.rb</code> we created
+<code>require</code>s this components.rb file to compile these universal
+<code>react.rb</code> components.</p>
+
+<h1 id="make-a-controller-to-demonstrate-react-components">Make a controller to demonstrate react components</h1>
+
+<p>We will be demonstrating several types of components as
+examples. Let&rsquo;s make a dedicated controller to demo these components with
+dedicated actions for each case.</p>
+<pre class="highlight shell"><code>    % rails g controller home isomorphic iso_convention search_path client_only
+</code></pre>
+<h1 id="create-your-first-react-component">Create your first React Component</h1>
+
+<p>So now that we&rsquo;re setup for isomorphic components, lets make our first
+react.rb component.  We&rsquo;ll start with a simple &ldquo;Hello World&rdquo;
+component.  This component takes a single, required param message of
+type <code>String</code>. Note, param in <code>react.rb</code> corresonds to prop in
+react.js; <code>react.rb</code> calls props &ldquo;params&rdquo; to provide a more Rails
+familiar API. The component renders this message param in an <strong>h1</strong> element,
+and renders a button that, when clicked, calls <code>alert()</code> with the same
+message.</p>
+
+<p>Put the following into this file <strong>app/views/components/hello.rb</strong>:</p>
+<pre class="highlight ruby"><code>    <span class="k">class</span> <span class="nc">Hello</span>
+      <span class="kp">include</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span>
+      <span class="n">required_param</span> <span class="ss">:what</span><span class="p">,</span> <span class="ss">type: </span><span class="no">String</span>
+
+      <span class="k">def</span> <span class="nf">message</span>
+        <span class="s2">"Hello </span><span class="si">#{</span><span class="n">what</span><span class="si">}</span><span class="s2">"</span>
+      <span class="k">end</span>
+
+      <span class="k">def</span> <span class="nf">render</span>
+        <span class="n">div</span> <span class="p">{</span>
+          <span class="n">h1</span> <span class="p">{</span> <span class="n">message</span> <span class="p">}</span>
+          <span class="n">button</span> <span class="p">{</span><span class="s2">"Press me"</span><span class="p">}.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:click</span><span class="p">)</span> <span class="p">{</span><span class="n">alert</span> <span class="n">message</span><span class="p">}</span>
+        <span class="p">}</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+</code></pre>
+<p>You can render the <code>Hello</code> component directly without needing a
+template file in your controller with
+<code>render_component()</code>. <code>render_component()</code> takes an optional (more on
+this later) class name of the component and any parameters you wish to
+pass the component.  Implement the <code>isomorphic</code> action in the
+<code>HomeController</code> like so</p>
+<pre class="highlight ruby"><code>    <span class="k">class</span> <span class="nc">HomeController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+      <span class="k">def</span> <span class="nf">isomorphic</span>
+        <span class="n">render_component</span> <span class="s1">'Hello'</span><span class="p">,</span> <span class="ss">message: </span><span class="s1">'World'</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+</code></pre>
+<p>Start the server, then visit <a href="http://localhost:3000/home/isomorphic"><a href="http://localhost:3000/home/isomorphic">http://localhost:3000/home/isomorphic</a></a> to
+view the component.  By default, react.rb prerenders the component on
+the server (the reverse of react-rails&rsquo; <code>react_component()</code>, but you can force Rails to NOT prerender by appending
+?no_prerender=1 to the url, like so</p>
+<pre class="highlight plaintext"><code>http://localhost:3000/home/isomorphic?no_prerender=1
+</code></pre>
+<p>Let&rsquo;s take a quick look at the HTML returned by the server in both cases (formatted to be more human-readable)</p>
+
+<p>For <a href="http://localhost:3000/home/isomorphic"><a href="http://localhost:3000/home/isomorphic">http://localhost:3000/home/isomorphic</a></a>
+we see the <strong>h1</strong> and button rendered from the server:</p>
+<pre class="highlight html"><code>    <span class="nt">&lt;div</span> <span class="na">data-react-class=</span><span class="s">"React.TopLevelRailsComponent"</span>
+         <span class="na">data-react-props=</span><span class="s">"{&amp;quot;render_params&amp;quot;:{&amp;quot;message&amp;quot;:&amp;quot;World&amp;quot;},&amp;quot;component_name&amp;quot;:&amp;quot;Hello&amp;quot;,&amp;quot;controller&amp;quot;:&amp;quot;Home&amp;quot;}"</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;div</span> <span class="na">data-reactid=</span><span class="s">".3hx9dqn6rk"</span>
+           <span class="na">data-react-checksum=</span><span class="s">"487927662"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;h1</span> <span class="na">data-reactid=</span><span class="s">".3hx9dqn6rk.0"</span><span class="nt">&gt;</span>Hello World<span class="nt">&lt;/h1&gt;</span>
+        <span class="nt">&lt;button</span> <span class="na">data-reactid=</span><span class="s">".3hx9dqn6rk.1"</span><span class="nt">&gt;</span>Press me<span class="nt">&lt;/button&gt;</span>
+      <span class="nt">&lt;/div&gt;</span>
+    <span class="nt">&lt;/div&gt;</span>
+</code></pre>
+<p>For <a href="http://localhost:3000/home/isomorphic?no_prerender=1"><a href="http://localhost:3000/home/isomorphic?no_prerender=1">http://localhost:3000/home/isomorphic?no_prerender=1</a></a>
+there is no prerendering and the rendering is done by the client</p>
+<pre class="highlight html"><code>    <span class="nt">&lt;div</span> <span class="na">data-react-class=</span><span class="s">"React.TopLevelRailsComponent"</span>
+         <span class="na">data-react-props=</span><span class="s">"{&amp;quot;render_params&amp;quot;:{&amp;quot;message&amp;quot;:&amp;quot;World&amp;quot;},&amp;quot;component_name&amp;quot;:&amp;quot;Hello&amp;quot;,&amp;quot;controller&amp;quot;:&amp;quot;Home&amp;quot;}"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;/div&gt;</span>
+</code></pre>
+<h1 id="rails-conventions-isomorphic-i-e-universal-components-and-the-default-component">Rails conventions, isomorphic (i.e. universal) components and the &ldquo;default&rdquo; component</h1>
+
+<p>In the Rails tradition of convention over configuration, you can
+structure/name your components to match your controllers to support a
+&ldquo;default&rdquo; component, i.e. a component you do NOT need to specify, for
+a controller action. To make a default component for the
+<code>HomeController#iso_convention</code> action, create the following file:</p>
+<pre class="highlight ruby"><code>    <span class="c1"># app/views/components/home/iso_convention.rb</span>
+      <span class="k">module</span> <span class="nn">Components</span>
+        <span class="k">module</span> <span class="nn">Home</span>
+          <span class="k">class</span> <span class="nc">IsoConvention</span>
+            <span class="kp">include</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span>
+
+            <span class="k">def</span> <span class="nf">render</span>
+              <span class="n">h1</span> <span class="p">{</span> <span class="s2">"the message is: </span><span class="si">#{</span><span class="n">params</span><span class="p">[</span><span class="ss">:message</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span> <span class="p">}</span>
+            <span class="k">end</span>
+          <span class="k">end</span>
+        <span class="k">end</span>
+      <span class="k">end</span>
+</code></pre>
+<p>We now call <code>render_component()</code> in the action, passing only the
+desired params in the action.  <code>render_component()</code> will instantiate
+the <strong>default</strong> component.</p>
+<pre class="highlight ruby"><code>    <span class="k">class</span> <span class="nc">HomeController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+      <span class="k">def</span> <span class="nf">iso_convention</span>
+        <span class="n">render_component</span> <span class="ss">message: </span><span class="s1">'World'</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+</code></pre>
+<p>Browsing <a href="http://localhost:3000/home/iso_convention"><a href="http://localhost:3000/home/iso_convention">http://localhost:3000/home/iso_convention</a></a>
+will render the <code>Components::Home::IsoConvention</code> component</p>
+
+<h1 id="the-component-search-path">The component search path</h1>
+
+<p>For consistency, you should stick with the Rails directory and
+filename conventions. There is some flexibility in where you can
+place components. The search path for isomorphic components in
+react.rb is described here: <a href="https://github.com/zetachang/react.rb#changing-the-top-level-component-name-and-search-path">here</a> which writes:</p>
+
+<blockquote>
+<p>Changing the top level component name and search path</p>
+
+<p>You can control the top level component name and search path.</p>
+
+<p>You can specify the component name explicitly in the
+render_component method. render_component &ldquo;Blatz will search the
+for a component class named Blatz regardless of the controller
+method.</p>
+
+<p>Searching for components normally works like this: Given a
+controller named &quot;Foo&rdquo; then the component should be either in the
+Components::Foo module, the Components module (no controller -
+useful if you have just a couple of shared components) or just the
+outer scope (i.e. Module) which is useful for small apps.</p>
+
+<p>Saying render_component &ldquo;::Blatz&rdquo; will only search the outer scope,
+while &ldquo;::Foo::Blatz&rdquo; will look only in the module Foo for a class
+named Blatz.</p>
+</blockquote>
+
+<h1 id="exploring-the-component-search-path">Exploring the component search path</h1>
+
+<p>Let&rsquo;s play around with several components that have the same class name and
+see how the search path resolves which component to use.  Create the
+file below:</p>
+
+<p><code>app/views/components/search_path.rb</code></p>
+<pre class="highlight ruby"><code>      <span class="c1"># This class departs from 1 class/file and diretory</span>
+      <span class="c1"># structure/convention, using this to test search path</span>
+
+    <span class="k">class</span> <span class="nc">SearchPath</span>
+      <span class="kp">include</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span>
+      <span class="k">def</span> <span class="nf">render</span>
+        <span class="n">h1</span> <span class="p">{</span><span class="s2">"::SearchPath"</span><span class="p">}</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+
+    <span class="k">module</span> <span class="nn">Home</span>
+      <span class="k">class</span> <span class="nc">SearchPath</span>
+        <span class="kp">include</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span>
+        <span class="k">def</span> <span class="nf">render</span>
+          <span class="n">h1</span> <span class="p">{</span><span class="s2">"Home::SearchPath"</span><span class="p">}</span>
+        <span class="k">end</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+
+    <span class="k">module</span> <span class="nn">Components</span>
+      <span class="k">class</span> <span class="nc">SearchPath</span>
+        <span class="kp">include</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span>
+        <span class="k">def</span> <span class="nf">render</span>
+          <span class="n">h2</span> <span class="p">{</span> <span class="s1">'Components::SearchPath'</span> <span class="p">}</span>
+        <span class="k">end</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+
+    <span class="k">module</span> <span class="nn">Components</span>
+      <span class="k">module</span> <span class="nn">Home</span>
+        <span class="k">class</span> <span class="nc">SearchPath</span>
+          <span class="kp">include</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span>
+          <span class="k">def</span> <span class="nf">render</span>
+            <span class="n">h2</span> <span class="p">{</span> <span class="s1">'Components::Home::SearchPath'</span> <span class="p">}</span>
+          <span class="k">end</span>
+        <span class="k">end</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+</code></pre>
+<p>To render the &ldquo;default&rdquo; component, we can just call <code>render_component()</code>:</p>
+<pre class="highlight ruby"><code>    <span class="k">class</span> <span class="nc">HomeController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+      <span class="k">def</span> <span class="nf">search_path</span>
+        <span class="n">render_component</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+</code></pre>
+<p>Hitting <a href="http://localhost:3000/home/search_path"><a href="http://localhost:3000/home/search_path">http://localhost:3000/home/search_path</a></a> the component rendered
+<code>Home::SearchPath</code> as evidenced by the text in the H1 element.</p>
+
+<p>Specifying the component by unqualified class name in <code>render_component()</code>, yields the same result: <code>Home::SearchPath=</code></p>
+<pre class="highlight ruby"><code>    <span class="k">class</span> <span class="nc">HomeController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+      <span class="k">def</span> <span class="nf">search_path</span>
+        <span class="n">render_component</span> <span class="s2">"SearchPath"</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+</code></pre>
+<p>We can explore what will be found next the search path by changing the
+found component&rsquo;s name to <code>SearchPath1</code>, and then refreshing
+<a href="http://localhost:3000/home/search_path">http://localhost:3000/home/search_path</a> to see which component is
+found.  Doing this for each found component gets the following
+results:</p>
+
+<table style='border:2px black; borderspacing: 4px; ' cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr style='border:2px solid black; padding: 4px; '>
+<th style='border:2px solid black; padding: 4px; 'scope="col" class="org-left">Class name changed from SearchPath</th>
+<th style='border:2px solid black; padding: 4px; 'scope="col" class="org-left">Component Rendered by search path</th>
+</tr>
+</thead>
+
+<tbody>
+<tr style='border:2px solid black; padding: 4px; '>
+<td style='border:2px solid black; padding: 4px; 'class="org-left">none</td>
+<td style='border:2px solid black; padding: 4px; 'class="org-left">Home::SearchPath</td>
+</tr>
+
+
+<tr style='border:2px solid black; padding: 4px; '>
+<td style='border:2px solid black; padding: 4px; 'class="org-left">Home::SearchPath</td>
+<td style='border:2px solid black; padding: 4px; 'class="org-left">Components::Home::SearchPath</td>
+</tr>
+
+
+<tr style='border:2px solid black; padding: 4px; '>
+<td style='border:2px solid black; padding: 4px; 'class="org-left">Components::Home::SearchPath</td>
+<td style='border:2px solid black; padding: 4px; 'class="org-left">::SearchPath</td>
+</tr>
+
+
+<tr style='border:2px solid black; padding: 4px; '>
+<td style='border:2px solid black; padding: 4px; 'class="org-left">::SearchPath</td>
+<td style='border:2px solid black; padding: 4px; 'class="org-left">Components::SearchPath</td>
+</tr>
+</tbody>
+</table>
+
+<p>If we rename all the <code>SearchPath1</code> classes back to <code>SearchPath</code>, we
+can force the search path to find our desired component by specifying
+the full namespace in the <code>render_component()</code> call</p>
+<pre class="highlight ruby"><code>    <span class="k">class</span> <span class="nc">HomeController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+      <span class="k">def</span> <span class="nf">search_path</span>
+        <span class="n">render_component</span> <span class="s2">"SearchPath"</span>
+        <span class="c1"># render_component "Components::SearchPath"</span>
+        <span class="c1"># render_component "Components::Home::SearchPath"</span>
+        <span class="c1"># render_component "Home::SearchPath"</span>
+        <span class="c1"># render_component "::SearchPath"</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+</code></pre>
+<h1 id="directory-conventions-for-react-rails-opal-and-react-rb">Directory conventions for react-rails, Opal and react.rb</h1>
+
+<p>The <strong>react-rails</strong> Javascript component generators create react.js
+components in the <code>app/assets/javascripts/components</code> directory.  This
+makes sense, esp. since Rails out of the box does NOT support
+isomorphic code and views; hence this directoy is a logical and
+&ldquo;Rails-like&rdquo; place for Javascript to go.  Similarly, if you are just
+using opal-rails and not not react.rb, then by convention, your <code>Opal</code>
+code will be placed under <code>app/assets/javascripts</code> where the asset
+pipeline knows how to find and transpile the <code>Opal</code> files to Javascript.
+React.rb challenges these directory conventions.  As react.js is often
+called the <strong>V</strong> of <strong>MVC</strong>, then it makes sense for react.rb components
+to live under the <code>app/views/components</code> directory, esp. as they can
+also be rendered on the server.  React.rb is young, and conventions
+may change, but at the momemnt this is the prescribed convention.</p>
+
+<p>You can create react.rb components more in line with react-rails and
+Opal conventions by placing them somewhere under the
+<code>app/assets/javascripts</code> directory. The Opal files will be found by
+Rails anywhere that the asset pipeline is configured to find
+javascript files for both server and client rendering, but I would
+recommend a structure similar to how react-rails, i.e. in
+<code>app/assets/javascripts/components</code> to make them easy to find.</p>
+
+<p>Let&rsquo;s put the &ldquo;client side only&rdquo; component into
+<code>app/assets/javascripts</code>. Since Opal will find the file anywhere the
+asset pipeline knows to look, this would be more for organizational
+conventions rather than a configuration necessary to make it work.</p>
+<pre class="highlight ruby"><code>    <span class="c1"># app/assets/javascripts/components/client_only.rb</span>
+    <span class="k">class</span> <span class="nc">ClientOnly</span>
+      <span class="kp">include</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span>
+      <span class="n">required_param</span> <span class="ss">:message</span><span class="p">,</span> <span class="ss">type: </span><span class="no">String</span>
+
+      <span class="k">def</span> <span class="nf">render</span>
+        <span class="n">h1</span> <span class="p">{</span> <span class="s2">"Client only: </span><span class="si">#{</span><span class="n">params</span><span class="p">[</span><span class="ss">:message</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span> <span class="p">}</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+</code></pre>
+<p>Then in the template for the <code>client_only</code> action , you can render the
+component client side via the <code>react_component()</code> view helper provided
+by react-rails. Since react.rb wraps calls to react.js, the components
+become react.js components.</p>
+<pre class="highlight html"><code>    <span class="nt">&lt;h1&gt;</span>Home#client_only<span class="nt">&lt;/h1&gt;</span>
+    <span class="nt">&lt;p&gt;</span>Find me in app/views/home/client_only.html.erb<span class="nt">&lt;/p&gt;</span>
+    <span class="err">&lt;</span>%= react_component 'ClientOnly', message: 'World' %&gt;
+</code></pre>
+<h1 id="thats-all-for-now">That&rsquo;s all for now.</h1>
+
+<p>So now you have a Rails project with react.rb running with several
+examples of react.rb components. All of this code exists in a rails
+project
+<a href="https://github.com/fkchang/getting-started-react-rails">here.</a> This
+should be enough to get one started.  Enjoy react.rb and Rails!</p>
+
+<h2 class="footnotes">Footnotes: </h2>
+
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1">1</a></sup> <div class="footpara">reactive-ruby will fold back into react.rb with the 0.9.0 versions (currently at 0.7.36).  Plans are discussed in the react.rb [roadmap](https://github.com/zetachang/react.rb#road-map)</div></div>
+
+<div class="footdef"><sup><a id="fn.2" class="footnum" href="#fnr.2">2</a></sup>
+    <div class="footpara">A change was made starting with Opal 0.8.\*, to support ordered
+requires. If one wishes to continue to use application.js instead
+application.rb, one needs to manually load each opal file in the
+application.js, as below.  Use of application.rb will automatically load the files in question
+</div></div>
+<pre class="highlight javascript"><code><span class="c1">// application.js</span>
+<span class="c1">//= require opal</span>
+<span class="c1">//= require greeter</span>
+<span class="c1">//= require_self</span>
+<span class="nx">Opal</span><span class="p">.</span><span class="nx">load</span><span class="p">(</span><span class="s1">'greeter'</span><span class="p">);</span> <span class="c1">// you have to load the opal file</span>
+<span class="c1">// etc.</span>
+</code></pre>
+<div class="footdef"><sup><a id="fn.3" class="footnum" href="#fnr.3">3</a></sup> <div class="footpara">While the pattern is that universal will be taking the place of isomorphic, I will use the term isomorphic here because the react.rb docs refer to it as isomorphic</div></div>
+
+      </section>
+  </body>
+</html>

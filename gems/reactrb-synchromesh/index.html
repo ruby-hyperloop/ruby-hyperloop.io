@@ -1,0 +1,244 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv='X-UA-Compatible' content='IE=edge;chrome=1' />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta charset="UTF-8">
+    <title>Reactrb</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+
+    <link href="/reactrb.org/stylesheets/base.css" rel="stylesheet" />
+    <link href="/reactrb.org/stylesheets/normalize.css" rel="stylesheet" />
+    <link href="/reactrb.org/stylesheets/stylesheet.css" rel="stylesheet" />
+    <link href="/reactrb.org/stylesheets/github-light.css" rel="stylesheet" />
+
+    <title>Reactrb</title>
+    <link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/feed.xml" />
+  </head>
+
+  <body>
+      <section class="page-header">
+        <a href="/"><img src="/reactrb.org/images/reactrb-logo_white.svg" width="200" alt="Reactrb logo white" /></a>
+        <!-- <h1 class="project-name">
+          <a href="/" class="btn-logo">Reactrb</a>
+        </h1> -->
+        <h2 class="project-tagline">THE MISSING RUBY FRONT-END LIBRARY</h2>
+        <a href="/get_started" class="btn">Get Started</a>
+        <a href="/installation" class="btn">Installation</a>
+        <a href="/tutorial" class="btn">Tutorial</a>
+        <a href="/gems" class="btn">Gems</a>
+        <a href="/tools" class="btn">Tools</a>
+        <a href="/docs" class="btn">Docs</a>
+        <a href="/support" class="btn">Support</a>
+        <a href="/blog" class="btn">Blog</a>
+      </section>
+
+      <section class="main-content">
+        <h1 id="reactrb-synchromesh">Reactrb Synchromesh</h1>
+
+<p>Github: <a href="https://github.com/reactrb/synchromesh">Reactrb Synchromesh</a></p>
+
+<p>Synchromesh provides multi-client synchronization for <a href="https://github.com/catprintlabs/reactive-record">reactive-record.</a></p>
+
+<p>In other words browser 1 creates, updates, or destroys a model, and the changes are broadcast to all other clients.</p>
+
+<p>Add the gem, setup your configuration, and synchromesh does the rest.</p>
+
+<h2 id="transports">Transports</h2>
+
+<p>Currently there are two transport mechanisms:  </p>
+
+<ul>
+<li><a href="http://pusher.com">Pusher</a> which gives you zero config websockets.<br></li>
+<li>Short cycle polling (for development)</li>
+</ul>
+
+<p>As soon as Opal is working on Rails 5, we will add ActionCable.   </p>
+
+<p>Also near term we will have a simple mechanism to plug in your own transport.</p>
+
+<h2 id="security-not-implemented-yet">Security [NOT IMPLEMENTED YET]</h2>
+
+<p>Synchromesh will build on top of ReactiveRecord&rsquo;s model-based permission mechanism:</p>
+
+<p>Each <em>user</em> or <em>user group</em> will get a private transport channel.  Before broadcasting an update to a user&rsquo;s channel Synchromesh will filter the data based on that user&rsquo;s permissions.</p>
+
+<h2 id="installation">Installation</h2>
+
+<p>Add this line to your application&rsquo;s Gemfile:</p>
+<pre class="highlight ruby"><code><span class="n">gem</span> <span class="s1">'synchromesh'</span>
+</code></pre>
+<p>And then execute:</p>
+<pre class="highlight plaintext"><code>$ bundle install
+</code></pre>
+<p>Also you must <code>require &#39;synchromesh&#39;</code> from your client side code.  The easiest way is to
+find the <code>require &#39;reactive-record&#39;</code> line (typically in <code>components.rb</code>) and add <code>require &#39;synchromesh&#39;</code> directly below it.  </p>
+
+<h2 id="configuration">Configuration</h2>
+
+<p>Add an initializer like this:</p>
+<pre class="highlight ruby"><code><span class="c1"># for rails this would go in: config/initializers/synchromesh.rb</span>
+<span class="no">Synchromesh</span><span class="p">.</span><span class="nf">configuration</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
+
+  <span class="n">config</span><span class="p">.</span><span class="nf">transport</span> <span class="o">=</span> <span class="ss">:pusher</span> <span class="c1"># set to :none to turn off, or to :simple_poller (see below)</span>
+  <span class="n">config</span><span class="p">.</span><span class="nf">opts</span> <span class="o">=</span> <span class="p">{</span> <span class="p">.</span><span class="nf">.</span><span class="p">.</span> <span class="nf">transport</span> <span class="n">specific</span> <span class="n">options</span> <span class="p">.</span><span class="nf">.</span><span class="o">.</span><span class="p">}</span>
+  <span class="n">config</span><span class="p">.</span><span class="nf">channel_prefix</span> <span class="o">=</span> <span class="s1">'synchromesh'</span>
+  <span class="c1"># config.client_logging = false                         # default is true</span>
+<span class="k">end</span>
+</code></pre>
+<h3 id="pusher-configuration-specifics">Pusher Configuration Specifics</h3>
+
+<p>Add <code>gem &#39;pusher&#39;</code> to your gem file, and add <code>require synchromesh/pusher</code> to the client only portion of your components manifest.</p>
+<pre class="highlight ruby"><code><span class="c1"># typically config/initializers/synchromesh.rb</span>
+<span class="no">Synchromesh</span><span class="p">.</span><span class="nf">configuration</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
+  <span class="n">config</span><span class="p">.</span><span class="nf">transport</span> <span class="o">=</span> <span class="ss">:pusher</span>
+  <span class="n">config</span><span class="p">.</span><span class="nf">opts</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="ss">app_id: </span><span class="s1">'2xxxx2'</span><span class="p">,</span>
+    <span class="ss">key:    </span><span class="s1">'dxxxxxxxxxxxxxxxxxx9'</span><span class="p">,</span>
+    <span class="ss">secret: </span><span class="s1">'2xxxxxxxxxxxxxxxxxx2'</span><span class="p">,</span>
+    <span class="ss">encrypted: </span><span class="kp">false</span> <span class="c1"># optional defaults to true</span>
+  <span class="p">}</span>
+  <span class="n">config</span><span class="p">.</span><span class="nf">channel_prefix</span> <span class="o">=</span> <span class="s1">'syncromesh'</span> <span class="c1"># or any other string you want</span>
+<span class="k">end</span>
+</code></pre>
+<h3 id="pusher-fake">Pusher-Fake</h3>
+
+<p>You can also use the <a href="https://github.com/tristandunn/pusher-fake">Pusher-Fake</a> gem while in development.  Setup is a little tricky.  First
+add <code>gem &#39;pusher-fake&#39;</code> to the development and/or test section of your gem file. Then setup your config file:</p>
+<pre class="highlight ruby"><code><span class="c1"># typically config/initializers/synchromesh.rb</span>
+<span class="c1"># or you can do a similar setup in your tests (see this gem's specs)</span>
+<span class="nb">require</span> <span class="s1">'pusher'</span>
+<span class="nb">require</span> <span class="s1">'pusher-fake'</span>
+<span class="c1"># The app_id, key, and secret need to be assigned directly to Pusher</span>
+<span class="c1"># so PusherFake will work.</span>
+<span class="no">Pusher</span><span class="p">.</span><span class="nf">app_id</span> <span class="o">=</span> <span class="s2">"MY_TEST_ID"</span>      <span class="c1"># you use the real or fake values</span>
+<span class="no">Pusher</span><span class="p">.</span><span class="nf">key</span> <span class="o">=</span>    <span class="s2">"MY_TEST_KEY"</span>
+<span class="no">Pusher</span><span class="p">.</span><span class="nf">secret</span> <span class="o">=</span> <span class="s2">"MY_TEST_SECRET"</span>
+<span class="c1"># The next line actually starts the pusher-fake server (see the Pusher-Fake readme for details.)</span>
+<span class="nb">require</span> <span class="s1">'pusher-fake/support/rspec'</span>
+<span class="c1"># now copy over the credentials, and merge with PusherFake's config details</span>
+<span class="no">Synchromesh</span><span class="p">.</span><span class="nf">configuration</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
+  <span class="n">config</span><span class="p">.</span><span class="nf">transport</span> <span class="o">=</span> <span class="ss">:pusher</span>
+  <span class="n">config</span><span class="p">.</span><span class="nf">channel_prefix</span> <span class="o">=</span> <span class="s2">"synchromesh"</span>
+  <span class="n">config</span><span class="p">.</span><span class="nf">opts</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="ss">app_id: </span><span class="no">Pusher</span><span class="p">.</span><span class="nf">app_id</span><span class="p">,</span>
+    <span class="ss">key: </span><span class="no">Pusher</span><span class="p">.</span><span class="nf">key</span><span class="p">,</span>
+    <span class="ss">secret: </span><span class="no">Pusher</span><span class="p">.</span><span class="nf">secret</span>
+  <span class="p">}.</span><span class="nf">merge</span><span class="p">(</span><span class="no">PusherFake</span><span class="p">.</span><span class="nf">configuration</span><span class="p">.</span><span class="nf">web_options</span><span class="p">)</span>
+<span class="k">end</span>
+</code></pre>
+<h3 id="simple-poller">Simple Poller</h3>
+
+<p>Setup your config like this:
+<code>ruby
+Synchromesh.configuration do |config|
+  config.transport = :simple_poller
+  config.channel_prefix = &quot;synchromesh&quot;
+  config.opts = {
+    seconds_between_poll = 5, # default is 0.5 you may need to increase if testing with Selenium
+    seconds_polled_data_will_be_retained = 1.hour  # clears channel data after this time, default is 5 minutes
+  }
+end
+</code></p>
+
+<h2 id="activerecord-scope-enhancement">ActiveRecord Scope Enhancement</h2>
+
+<p>When the client receives notification that a record has changed Synchromesh finds the set of currently rendered scopes that might be effected, and requests them to be updated from the server.  </p>
+
+<p>To give you control over this process Synchromesh adds some features to the ActiveRecord scope macro.  Note you must use the <code>scope</code> macro (and not class methods) for things to work with Synchromesh.</p>
+
+<p>The <code>scope</code> macro now takes an optional third parameter and an optional block:</p>
+<pre class="highlight ruby"><code>
+<span class="k">class</span> <span class="nc">Todo</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+
+  <span class="c1"># Standard ActiveRecord form:</span>
+  <span class="c1"># the proc will be evaluated as normal on the server, and as needed updates</span>
+  <span class="c1"># will be requested from the clients</span>
+  <span class="n">scope</span> <span class="ss">:active</span><span class="p">,</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="p">{</span> <span class="n">where</span><span class="p">(</span><span class="ss">completed: </span><span class="kp">true</span><span class="p">)</span> <span class="p">}</span>
+  <span class="c1"># In the simple form the scope will be reevaluated if the model that is</span>
+  <span class="c1"># being scoped changes, and if the scope is currently being used to render data.</span>
+
+  <span class="c1"># If the scope joins with other data you will need to specify this by</span>
+  <span class="c1"># passing an array of the joined models:</span>
+  <span class="n">scope</span> <span class="ss">:with_recent_comments</span><span class="p">,</span>
+        <span class="o">-&gt;</span> <span class="p">()</span> <span class="p">{</span> <span class="n">joins</span><span class="p">(</span><span class="ss">:comments</span><span class="p">).</span><span class="nf">where</span><span class="p">(</span><span class="s1">'created_at &gt;= ?'</span><span class="p">,</span> <span class="no">Time</span><span class="p">.</span><span class="nf">now</span><span class="o">-</span><span class="mi">1</span><span class="p">.</span><span class="nf">week</span><span class="p">)</span> <span class="p">},</span>
+        <span class="p">[</span><span class="no">Comments</span><span class="p">]</span>
+  <span class="c1"># Now with_recent_comments will be re-evaluated whenever Comments or Todo records</span>
+  <span class="c1"># change.  The array can be the second or third parameter.</span>
+
+  <span class="c1"># It is possible to optimize when the scope is re-evaluated by attaching a block to</span>
+  <span class="c1"># the scope.  If the block returns true, then the scope will be re-evaluated.</span>
+  <span class="n">scope</span> <span class="ss">:active</span><span class="p">,</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="p">{</span> <span class="n">where</span><span class="p">(</span><span class="ss">completed: </span><span class="kp">true</span><span class="p">)</span> <span class="p">}</span> <span class="k">do</span> <span class="o">|</span><span class="n">record</span><span class="o">|</span>
+    <span class="p">(</span><span class="n">record</span><span class="p">.</span><span class="nf">completed</span><span class="p">.</span><span class="nf">nil?</span> <span class="o">&amp;&amp;</span> <span class="n">record</span><span class="p">.</span><span class="nf">destroyed?</span><span class="p">)</span> <span class="o">||</span> <span class="n">record</span><span class="p">.</span><span class="nf">previous_changes</span><span class="p">[</span><span class="ss">:completed</span><span class="p">]</span>
+  <span class="k">end</span>
+  <span class="c1"># In other words only reevaluate if an "uncompleted" record was destroyed or if</span>
+  <span class="c1"># the completed attribute has changed.  Note the use of the ActiveRecord</span>
+  <span class="c1"># previous_changes method.  Also note that the attributes in record are "after"</span>
+  <span class="c1"># changes are made unless the record is destroyed.</span>
+
+  <span class="c1"># For heavily used scopes you can even update the scope manually on the client</span>
+  <span class="c1"># using the second parameter passed to the block:</span>
+  <span class="n">scope</span> <span class="ss">:active</span><span class="p">,</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="p">{</span> <span class="n">where</span><span class="p">(</span><span class="ss">completed: </span><span class="kp">true</span><span class="p">)</span> <span class="p">}</span> <span class="k">do</span> <span class="o">|</span><span class="n">record</span><span class="p">,</span> <span class="n">collection</span><span class="o">|</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">record</span><span class="p">.</span><span class="nf">completed</span><span class="p">.</span><span class="nf">nil?</span> <span class="o">&amp;&amp;</span> <span class="n">record</span><span class="p">.</span><span class="nf">destroyed?</span><span class="p">)</span> <span class="o">||</span>
+       <span class="p">(</span><span class="n">record</span><span class="p">.</span><span class="nf">completed</span> <span class="o">&amp;&amp;</span> <span class="n">record</span><span class="p">.</span><span class="nf">previous_changes</span><span class="p">[</span><span class="ss">:completed</span><span class="p">])</span>
+      <span class="n">collection</span><span class="p">.</span><span class="nf">delete</span><span class="p">(</span><span class="n">record</span><span class="p">)</span>
+    <span class="k">elsif</span> <span class="n">record</span><span class="p">.</span><span class="nf">completed</span> <span class="o">&amp;&amp;</span> <span class="n">record</span><span class="p">.</span><span class="nf">previous_changes</span><span class="p">[</span><span class="ss">:completed</span><span class="p">]</span>
+      <span class="n">collection</span> <span class="o">&lt;&lt;</span> <span class="n">record</span>
+    <span class="k">end</span>
+    <span class="kp">nil</span> <span class="c1"># return nil so we don't resync the scope from the server</span>
+  <span class="k">end</span>
+
+  <span class="c1"># The 'joins-array' applies to the block as well.  in other words if no joins</span>
+  <span class="c1"># array is provided the block will only be called if records for scoped model</span>
+  <span class="c1"># change.  If an array is provided, then the additional models will be added</span>
+  <span class="c1"># to the join filter.  However if any empty array is provided all changes will</span>
+  <span class="c1"># passed.</span>
+  <span class="n">scope</span> <span class="ss">:scope1</span><span class="p">,</span> <span class="p">[</span><span class="no">AnotherModel</span><span class="p">],</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="p">{.</span><span class="nf">.</span><span class="o">.</span><span class="p">}</span> <span class="k">do</span> <span class="o">|</span><span class="n">record</span><span class="o">|</span>
+    <span class="c1"># record will be either a Todo, or AnotherModel</span>
+  <span class="k">end</span>
+
+  <span class="n">scope</span> <span class="ss">:scope2</span><span class="p">,</span> <span class="p">[],</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="p">{</span> <span class="p">.</span><span class="nf">.</span><span class="o">.</span> <span class="p">}</span> <span class="k">do</span> <span class="o">|</span><span class="n">record</span><span class="o">|</span>
+    <span class="c1"># any change to any model will be passed to the block</span>
+  <span class="k">end</span>
+
+  <span class="c1"># The empty join array can also be used to prevent a scope from ever being</span>
+  <span class="c1"># updated:</span>
+  <span class="n">scope</span> <span class="ss">:never_synced_scope</span><span class="p">,</span> <span class="p">[],</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="p">{</span> <span class="p">.</span><span class="nf">.</span><span class="o">.</span> <span class="p">}</span>
+
+  <span class="c1"># Or if you prefer just pass any non-array value of your choice:</span>
+  <span class="n">scope</span> <span class="ss">:never_synced_scope</span><span class="p">,</span> <span class="ss">:no_sync</span><span class="p">,</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="p">{.</span><span class="nf">.</span><span class="o">.</span><span class="p">}</span>
+
+<span class="k">end</span>
+</code></pre>
+<h2 id="development">Development</h2>
+
+<p>Specs run in rspec/capybara/selenium. To run do:</p>
+<pre class="highlight plaintext"><code>bundle exec rspec
+</code></pre>
+<p>You can run the specs in firefox by adding <code>DRIVER=ff</code> (best for debugging.)  You can add <code>SHOW_LOGS=true</code> if running in poltergeist (the default) to see what is going on, but ff is a lot better.</p>
+
+<h2 id="how-it-works">How it works</h2>
+
+<p>The design goal is to push as much work onto the client side as possible.</p>
+
+<ul>
+<li><code>ActiveRecord</code> after_commit hooks are used to broadcast changes and deletions to all participating clients.</li>
+<li>Each client then searches for any scopes currently being rendered that will need to be
+updated.</li>
+<li><code>Reactive-Record</code> then updates scopes, and notifies <code>React</code> of the state changes as it would for any other change.</li>
+</ul>
+
+<h2 id="contributing">Contributing</h2>
+
+<p>Bug reports and pull requests are welcome on GitHub at <a href="https://github.com/reactive-ruby/synchromesh">https://github.com/reactive-ruby/synchromesh</a>. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the <a href="contributor-covenant.org">Contributor Covenant</a> code of conduct.</p>
+
+<h2 id="license">License</h2>
+
+<p>The gem is available as open source under the terms of the <a href="http://opensource.org/licenses/MIT">MIT License</a>.</p>
+
+      </section>
+  </body>
+</html>

@@ -1,0 +1,163 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv='X-UA-Compatible' content='IE=edge;chrome=1' />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta charset="UTF-8">
+    <title>Reactrb</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+
+    <link href="/reactrb.org/stylesheets/base.css" rel="stylesheet" />
+    <link href="/reactrb.org/stylesheets/normalize.css" rel="stylesheet" />
+    <link href="/reactrb.org/stylesheets/stylesheet.css" rel="stylesheet" />
+    <link href="/reactrb.org/stylesheets/github-light.css" rel="stylesheet" />
+
+    <title>Reactrb</title>
+    <link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/feed.xml" />
+  </head>
+
+  <body>
+      <section class="page-header">
+        <a href="/"><img src="/reactrb.org/images/reactrb-logo_white.svg" width="200" alt="Reactrb logo white" /></a>
+        <!-- <h1 class="project-name">
+          <a href="/" class="btn-logo">Reactrb</a>
+        </h1> -->
+        <h2 class="project-tagline">THE MISSING RUBY FRONT-END LIBRARY</h2>
+        <a href="/get_started" class="btn">Get Started</a>
+        <a href="/installation" class="btn">Installation</a>
+        <a href="/tutorial" class="btn">Tutorial</a>
+        <a href="/gems" class="btn">Gems</a>
+        <a href="/tools" class="btn">Tools</a>
+        <a href="/docs" class="btn">Docs</a>
+        <a href="/support" class="btn">Support</a>
+        <a href="/blog" class="btn">Blog</a>
+      </section>
+
+      <section class="main-content">
+        <h1 id="reactrb-express">Reactrb Express</h1>
+
+<p>Github: <a href="https://github.com/reactrb/reactrb-express">Reactrb Express</a></p>
+
+<p>React.rb for static sites, with no build process needed</p>
+
+<h2 id="how-to">How To</h2>
+
+<ol>
+<li>Include reactrb-express.js in with your js files, or link to it from here: <a href="https://rawgit.com/reactrb/reactrb-express/master/reactrb-express.js">https://rawgit.com/reactrb/reactrb-express/master/reactrb-express.js</a></li>
+<li>Link to a version of jQuery</li>
+<li>Specify your ruby code inside of <code>&lt;script type=&quot;text/ruby&quot;&gt;...&lt;/script&gt;</code> tags<br>
+or link to your ruby code using the src attribute <code>&lt;script type=&quot;text/ruby&quot; src=.../&gt;</code></li>
+</ol>
+
+<h2 id="what-is-included">What is included</h2>
+
+<ul>
+<li>Opal (Ruby to Javascript Transpiler) - currently version 0.9</li>
+<li>Reactrb (Ruby React.js wrapper)</li>
+<li>React - currently version 15</li>
+<li>Opal-Jquery (Ruby Jquery wrapper, including HTTP, timers, and of course DOM queries)</li>
+</ul>
+
+<h2 id="how-it-works">How it works</h2>
+
+<p>Your ruby code will be compiled by the browser into javascript, and executed.  Any compilation or runtime errors
+will be briefly reported to the console.</p>
+
+<p>Ruby classes can subclass React::Component::Base to become React components, and then use the Reactrb
+DSL to dynamically generate reactive DOM nodes.</p>
+
+<h2 id="example">Example</h2>
+
+<p>See this example in action here: <a href="http://reactrb.github.io/reactrb-express/">http://reactrb.github.io/reactrb-express/</a></p>
+
+<p>index.html:
+&ldquo;` html
+&lt;!DOCTYPE html&gt;
+&lt;!&ndash;[if IE]&gt;&lt;![endif]&ndash;&gt;
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Reactrb-Express Demo</title>
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="https://rawgit.com/reactrb/reactrb-express/master/reactrb-express.js"></script></p>
+<pre class="highlight plaintext"><code>&lt;!-- ruby scripts can be fetched from the server or other remote source --&gt;
+&lt;script type="text/ruby" src="clock.rb"&gt;&lt;/script&gt;
+
+&lt;!-- or the ruby code can specified directly inline --&gt;
+&lt;script type="text/ruby"&gt;
+Element['#clock'].render do
+  Clock format: 'The time is: %a, %e %b %Y %H:%M:%S %z'
+end
+&lt;/script&gt;
+</code></pre>
+<p></head>
+  <body>
+    <div id="clock"></div>
+    &lt;!&ndash;</p>
+<pre class="highlight plaintext"><code>instead of using Element[...].render to attach a top level component, you
+can specify the react component and parameters using data- tags:
+
+&lt;div data-reactrb-mount="Clock"
+     data-format="The time is: %a, %e %b %Y %H:%M:%S %z"&gt;
+&lt;/div&gt;
+
+--&gt;
+</code></pre>
+<p></body>
+</html>
+&rdquo;`</p>
+<pre class="highlight ruby"><code><span class="c1"># clock.rb:  Displays the current time</span>
+<span class="k">class</span> <span class="nc">Clock</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
+  <span class="n">param</span> <span class="ss">format: </span><span class="s1">'%a, %e %b %Y %H:%M'</span>
+  <span class="n">before_mount</span> <span class="k">do</span>
+    <span class="n">state</span><span class="p">.</span><span class="nf">time!</span> <span class="no">Time</span><span class="p">.</span><span class="nf">now</span><span class="p">.</span><span class="nf">strftime</span><span class="p">(</span><span class="n">params</span><span class="p">.</span><span class="nf">format</span><span class="p">)</span>
+    <span class="n">every</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span> <span class="n">state</span><span class="p">.</span><span class="nf">time!</span> <span class="no">Time</span><span class="p">.</span><span class="nf">now</span><span class="p">.</span><span class="nf">strftime</span><span class="p">(</span><span class="n">params</span><span class="p">.</span><span class="nf">format</span><span class="p">)</span> <span class="p">}</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">render</span>
+    <span class="n">state</span><span class="p">.</span><span class="nf">time</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<h1 id="want-a-larger-example">Want a larger example?</h1>
+
+<p>The <a href="http://reactrb.github.io/docs/tutorial.html">Reactrb ChatRoom application and tutorial</a> uses Reactrb-Express.</p>
+
+<h1 id="trying-it-out-using-github">Trying it out using github</h1>
+
+<p>Github makes a great sandbox to try out small Reactrb online with nothing but your browser.</p>
+
+<p>Have a look at the instructions here: <a href="https://pages.github.com/">https://pages.github.com/</a></p>
+
+<p>but rather than &ldquo;cloning&rdquo; the repo, and editing your files on your computer
+you can just create and edit files right on the github site.</p>
+
+<h1 id="mounting-components">Mounting Components</h1>
+
+<p>In addition to the standard ways to mount top level components reactrb-express will directly mount components onto DOM elements that have the <code>data-reactrb-mount</code> attribute.  The attribute value should be the fully qualified name of the component.  For example &ldquo;Clock&rdquo;.  Any additional data attributes will be passed as params to the component.  The attribute names will be snake cased (i.e. <code>data-foo-bar</code> becomes the <code>foo_bar</code> key)</p>
+
+<h1 id="building-and-contributing">Building and Contributing</h1>
+
+<p>To build, clone the repo, run <code>bundle install</code> and then <code>bundle exec rake</code></p>
+
+<p>This will combine all the pieces and build the <code>reactrb-express.js</code> file.</p>
+
+<p>To be sure we have no ruby dependencies we use this server for smoke testing:</p>
+
+<p><code>python -m SimpleHTTPServer 4000</code></p>
+
+<p>Contributions are welcome - things we need:</p>
+
+<ul>
+<li>Examples</li>
+<li>Some test cases</li>
+<li>Minimization</li>
+</ul>
+
+      </section>
+  </body>
+</html>

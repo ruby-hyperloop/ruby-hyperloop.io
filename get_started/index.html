@@ -1,0 +1,114 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv='X-UA-Compatible' content='IE=edge;chrome=1' />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta charset="UTF-8">
+    <title>Reactrb</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+
+    <link href="/reactrb.org/stylesheets/base.css" rel="stylesheet" />
+    <link href="/reactrb.org/stylesheets/normalize.css" rel="stylesheet" />
+    <link href="/reactrb.org/stylesheets/stylesheet.css" rel="stylesheet" />
+    <link href="/reactrb.org/stylesheets/github-light.css" rel="stylesheet" />
+
+    <title>Reactrb</title>
+    <link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/feed.xml" />
+  </head>
+
+  <body>
+      <section class="page-header">
+        <a href="/"><img src="/reactrb.org/images/reactrb-logo_white.svg" width="200" alt="Reactrb logo white" /></a>
+        <!-- <h1 class="project-name">
+          <a href="/" class="btn-logo">Reactrb</a>
+        </h1> -->
+        <h2 class="project-tagline">THE MISSING RUBY FRONT-END LIBRARY</h2>
+        <a href="/get_started" class="btn">Get Started</a>
+        <a href="/installation" class="btn">Installation</a>
+        <a href="/tutorial" class="btn">Tutorial</a>
+        <a href="/gems" class="btn">Gems</a>
+        <a href="/tools" class="btn">Tools</a>
+        <a href="/docs" class="btn">Docs</a>
+        <a href="/support" class="btn">Support</a>
+        <a href="/blog" class="btn">Blog</a>
+      </section>
+
+      <section class="main-content">
+        <h2 id="getting-started">Getting Started</h2>
+
+<p>Let&rsquo;s look at a really simple example. Create a <code>hello-react.html</code> file with the following code:</p>
+<pre class="highlight html"><code><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="nt">&lt;html&gt;</span>
+  <span class="nt">&lt;head&gt;</span>
+    <span class="nt">&lt;meta</span> <span class="na">charset=</span><span class="s">"UTF-8"</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;title&gt;</span>Hello React<span class="nt">&lt;/title&gt;</span>
+    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"https://code.jquery.com/jquery-2.1.4.min.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"https://rawgit.com/reactrb/reactrb-express/master/reactrb-express.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+  <span class="nt">&lt;/head&gt;</span>
+  <span class="nt">&lt;body&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"example"</span><span class="nt">&gt;&lt;/div&gt;</span>
+    <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">"text/ruby"</span><span class="nt">&gt;</span>
+
+      <span class="c1">// ** Your code goes here! **</span>
+
+    <span class="nt">&lt;/script&gt;</span>
+  <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</code></pre>
+<p>For the rest of the documentation, we&rsquo;ll just focus on the ruby code and assume it&rsquo;s inserted into a template like the one above. Replace the placeholder comment above with the following ruby code:</p>
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">HelloWorld</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
+  <span class="n">param</span> <span class="ss">:time</span><span class="p">,</span> <span class="ss">type: </span><span class="no">Time</span>
+  <span class="n">render</span> <span class="k">do</span>
+    <span class="nb">p</span> <span class="k">do</span>
+      <span class="n">span</span> <span class="p">{</span> <span class="s2">"Hello, "</span> <span class="p">}</span>
+      <span class="n">input</span><span class="p">(</span><span class="ss">type: :text</span><span class="p">,</span> <span class="ss">placeholder: </span><span class="s2">"Your Name Here"</span><span class="p">)</span>
+      <span class="n">span</span> <span class="p">{</span> <span class="s2">"! It is </span><span class="si">#{</span><span class="n">params</span><span class="p">.</span><span class="nf">time</span><span class="si">}</span><span class="s2">"</span><span class="p">}</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="n">every</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="k">do</span>
+  <span class="no">Element</span><span class="p">[</span><span class="s2">"#example"</span><span class="p">].</span><span class="nf">render</span> <span class="k">do</span>
+    <span class="no">HelloWorld</span><span class="p">(</span><span class="ss">time: </span><span class="no">Time</span><span class="p">.</span><span class="nf">now</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<h2 id="reactive-updates">Reactive Updates</h2>
+
+<p>Open <code>hello-react.html</code> in a web browser and type your name into the text field. Notice that React is only changing the time string in the UI — any input you put in the text field remains, even though you haven&rsquo;t written any code to manage this behavior. React figures it out for you and does the right thing.</p>
+
+<p>The way React figures this out is that it does not manipulate the DOM unless it needs to. <strong>It uses a fast, internal mock DOM to perform diffs and computes the most efficient DOM mutation for you.</strong></p>
+
+<p>The inputs to this component are called <code>params</code> (<em>called props in react.js</em>). They are passed as a hash to the component.</p>
+
+<h2 id="components-are-ruby-classes">Components are Ruby Classes</h2>
+
+<p>React components are very simple. They are classes that have a render method that generates HTML.  When an instance of a component class is initialized it is passed the initial param values and the render method is called.  When new params are provided the params will be updated, and the render method called again.</p>
+
+<p>The render method may be defined simply by using <code>def render</code>, or by using the <code>render</code> call back.</p>
+
+<blockquote>
+<p>Note:</p>
+
+<p><strong>One limitation</strong>: React components can only render a single root node. If you want to return multiple nodes they <em>must</em> be wrapped in a single root.</p>
+</blockquote>
+
+<h2 id="dsl-domain-specific-language-syntax">DSL (Domain Specific Language) Syntax</h2>
+
+<p>The React philosophy is that components are the right way to separate concerns rather than by &ldquo;templates&rdquo; and &ldquo;display logic.&rdquo;  This is because the resulting markup and the code that generates it are intimately tied together.  Additionally, display logic is often very complex and using template languages to express it becomes cumbersome.</p>
+
+<p>The Reactrb approach is to generate HTML and component trees directly right in the component class using Ruby so that you can use all of Ruby&rsquo;s expressive power when building your UI.</p>
+
+<p>To enable this every Reactrb component class has access to set of class and instance methods that makes specifying the component, and building HTML and event handlers straightforward.  </p>
+
+<p>For example within the render method the <code>a</code> method generates an anchor tag like this:</p>
+<pre class="highlight ruby"><code><span class="n">a</span><span class="p">(</span><span class="ss">href: </span><span class="s1">'https://reactrb.github.io'</span><span class="p">)</span> <span class="p">{</span> <span class="s1">'Get Reactive'</span> <span class="p">}</span>
+</code></pre>
+<p>Under the hood everything maps to React.js function calls in a straight forward manner.  The Reactrb DSL is roughly analogous to the React.js JSX, but because its &ldquo;just ruby&rdquo; you don&rsquo;t have to learn a new language, and switch mental gears while writing code.</p>
+
+      </section>
+  </body>
+</html>

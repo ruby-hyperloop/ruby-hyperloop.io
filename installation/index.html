@@ -1,0 +1,233 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv='X-UA-Compatible' content='IE=edge;chrome=1' />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta charset="UTF-8">
+    <title>Reactrb</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+
+    <link href="/reactrb.org/stylesheets/base.css" rel="stylesheet" />
+    <link href="/reactrb.org/stylesheets/normalize.css" rel="stylesheet" />
+    <link href="/reactrb.org/stylesheets/stylesheet.css" rel="stylesheet" />
+    <link href="/reactrb.org/stylesheets/github-light.css" rel="stylesheet" />
+
+    <title>Reactrb</title>
+    <link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/feed.xml" />
+  </head>
+
+  <body>
+      <section class="page-header">
+        <a href="/"><img src="/reactrb.org/images/reactrb-logo_white.svg" width="200" alt="Reactrb logo white" /></a>
+        <!-- <h1 class="project-name">
+          <a href="/" class="btn-logo">Reactrb</a>
+        </h1> -->
+        <h2 class="project-tagline">THE MISSING RUBY FRONT-END LIBRARY</h2>
+        <a href="/get_started" class="btn">Get Started</a>
+        <a href="/installation" class="btn">Installation</a>
+        <a href="/tutorial" class="btn">Tutorial</a>
+        <a href="/gems" class="btn">Gems</a>
+        <a href="/tools" class="btn">Tools</a>
+        <a href="/docs" class="btn">Docs</a>
+        <a href="/support" class="btn">Support</a>
+        <a href="/blog" class="btn">Blog</a>
+      </section>
+
+      <section class="main-content">
+        <h1 id="installation">Installation</h1>
+
+<h2 id="opal-playground">Opal Playground</h2>
+
+<p>A great way to start learning Reactrb is use OpalPlayground.</p>
+
+<p>Here is a simple HelloWorld example to get you started.</p>
+
+<p><strong><a href="http://fkchang.github.io/opal-playground/?code:class%20HelloWorld%20%3C%20React%3A%3AComponent%3A%3ABase%0A%20%20param%20%3Avisitor%0A%0A%20%20def%20render%0A%20%20%20%20%22Hello%20there%20%23%7Bparams.visitor%7D%22%0A%20%20end%0Aend%0A%0A%0AElement%5B%27%23content%27%5D.render%20do%0A%20%20HelloWorld%20visitor%3A%20%22world%22%0Aend%0A%0A%0A&amp;html_code=%3Cdiv%20id%3D%27content%27%3E%3C%2Fdiv%3E&amp;css_code=body%20%7B%0A%20%20background%3A%20%23eeeeee%3B%0A%7D%0A">HelloWorld</a></strong></p>
+
+<h2 id="using-reactrb-express">Using Reactrb-Express</h2>
+
+<p><em>formerly inline-reactive-ruby</em></p>
+
+<p>For small static sites that don&rsquo;t need a server backend you can use the reactrb-express javascript library.
+Simply include the reactrb-express.js file with your other javascript code, or access it directly via the CDN, and you are good to go.</p>
+
+<p>This is another great way to experiment with Reactrb.  You don&rsquo;t need any setup or download to get started.</p>
+
+<p><a href="https://github.com/reactrb/reactrb-express">Reactrb-Express</a></p>
+
+<h2 id="with-rails">With Rails</h2>
+
+<p>Reactrb works great with new or existing rails apps, and Reactrb plays well with other frameworks, so
+its pain free to introduce React to your application.</p>
+
+<p><strong>We recommend you use the <a href="https://github.com/reactrb/reactrb-rails-generator"><code>reactrb-rails-generator</code></a> gem to do a transparent install of everything you need in a new or existing rails app.</strong></p>
+
+<p>Within a Rails app React Components are by convention stored in the <code>app/views/components</code> directory.  </p>
+
+<p>Your Rails controllers, and layouts access your top level components using the <code>render_component</code> method.</p>
+
+<p>During server-side-rendering your components will be called on to generate the resulting HTML just like ERB or HAML templates.  The resulting HTML is delivered to the client like any other rails view, but in addition all the code needed to keep the component dynamically updating is delivered as well.  So now as events occur on the client the code is re-rendered client side with no server action required.</p>
+
+<p>Because React plays well with others, you can start with a single aspect of a page or layout (a dynamic chat widget for example) and add a React component to implement that functionality.</p>
+
+<h4 id="rendering-components">Rendering Components</h4>
+
+<p>Once you are setup (i.e. <code>rails g reactrb:install --all</code>) components may be rendered directly from a controller action by simply following a naming convention. To render a component from the <code>home#show</code> action, create a component class named <code>Show</code>.  Note: You can use the <code>rails g reactrb:component Home::Show</code> command to generate a component template.</p>
+<pre class="highlight ruby"><code><span class="c1"># app/views/components/home/show.rb</span>
+<span class="k">module</span> <span class="nn">Components</span>
+  <span class="k">module</span> <span class="nn">Home</span>
+    <span class="k">class</span> <span class="nc">Show</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
+
+      <span class="n">param</span> <span class="ss">:say_hello_to</span>
+
+      <span class="k">def</span> <span class="nf">render</span>
+        <span class="nb">puts</span> <span class="s2">"Rendering my first component!"</span>
+        <span class="s2">"hello </span><span class="si">#{</span><span class="n">params</span><span class="p">.</span><span class="nf">say_hello_to</span> <span class="k">if</span> <span class="n">params</span><span class="p">.</span><span class="nf">say_hello_to</span><span class="si">}</span><span class="s2">"</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<p>To render the component call <code>render_component</code> in the controller action passing along any params:</p>
+<pre class="highlight ruby"><code><span class="c1"># controllers/home_controller.rb</span>
+<span class="k">class</span> <span class="nc">HomeController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+  <span class="k">def</span> <span class="nf">show</span>
+    <span class="c1"># render_component uses the controller name to find the 'show' component.</span>
+    <span class="n">render_component</span> <span class="ss">say_hello_to: </span><span class="n">params</span><span class="p">[</span><span class="ss">:say_hello_to</span><span class="p">]</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<p>Make sure your routes file has a route to your home#show action. Visit that route in your browser and you should see &lsquo;Hello&rsquo; rendered.</p>
+
+<p>Open up the js console in the browser and you will see a log showing what went on during rendering.</p>
+
+<p>Have a look at the sources in the console, and notice your ruby code is there, and you can set break points etc.</p>
+
+<h3 id="manual-rails-install">Manual Rails Install</h3>
+
+<p>The following instructions have been superceeded by the <a href="https://github.com/reactrb/reactrb-rails-generator"><code>reactrb-rails-generator</code></a> gem use them at your own risk!</p>
+
+<p>To start using Reactrb within a new or existing rails 4.0 app, follow these steps:</p>
+
+<h4 id="add-the-gems">Add the gems</h4>
+
+<p>In your Gemfile:</p>
+<pre class="highlight ruby"><code><span class="n">gem</span> <span class="s1">'reactrb'</span>
+<span class="n">gem</span> <span class="s1">'react-rails'</span>
+<span class="n">gem</span> <span class="s1">'opal-rails'</span>
+<span class="n">gem</span> <span class="s1">'therubyracer'</span><span class="p">,</span> <span class="ss">platforms: :ruby</span> <span class="c1"># Required for prerendering</span>
+<span class="c1"># optional gems</span>
+<span class="n">gem</span> <span class="s1">'opal-jquery'</span>     <span class="c1"># a clean interface to jQuery from your ruby code</span>
+<span class="n">gem</span> <span class="s1">'reactrb-router'</span>  <span class="c1"># a basic SPA router</span>
+</code></pre>
+<p>Run <code>bundle install</code> and restart your rails server.</p>
+
+<h4 id="add-the-components-directory-and-manifest">Add the components directory and manifest</h4>
+
+<p>Your react components will go into the <code>app/views/components/</code> directory of your
+rails app.</p>
+
+<p>Within your <code>app/views</code> directory you need to create a <code>components.rb</code> manifest.
+Files required in <code>app/views/components.rb</code> will be made available to the server
+side rendering system as well as the browser.</p>
+<pre class="highlight plaintext"><code># app/views/components.rb
+require 'opal'
+require 'react-latest'    # or other version i.e. react-v14
+require 'reactrb'
+require 'reactrb-router' # if you are using the reactive-router gem
+require_tree './components'
+</code></pre>
+<h4 id="client-side-assets">Client Side Assets</h4>
+
+<p>Typically the client will need all the above assets, plus other files that are client only.
+Notably jQuery is a client only asset.</p>
+
+<p>You can update your existing application.js file, or convert it to ruby syntax and name
+it application.rb.  The below assumes you are using ruby syntax.</p>
+
+<p>In <code>assets/javascript/application.rb</code> require your components manifest as well
+as any additional browser only assets.</p>
+<pre class="highlight plaintext"><code># assets/javascript/application.rb
+
+# Make components available by requiring your components.rb manifest.
+require 'components'
+
+# 'react_ujs' tells react in the browser to mount rendered components.
+require 'react_ujs'
+
+# Finally, require your other javascript assets. jQuery for example...
+require 'jquery'      # You need both these files to access jQuery from Opal.
+require 'opal-jquery' # They must be in this order.
+</code></pre>
+<h2 id="with-sinatra">With Sinatra</h2>
+
+<p>Reactrb works fine with Sinatra.  Use this <a href="https://github.com/reactrb/reactrb-examples">Sinatra Example App</a>
+to get started.</p>
+
+<h2 id="building-with-rake">Building With Rake</h2>
+
+<p>If you have a larger static app (like this one) you will want to precompile your ruby code to a single js file, instead of using Reactrb-Express. <em>You will need
+a basic ruby setup (you can follow instructions for Jekyll for example.)</em></p>
+
+<p>The following assumes you are building a js file called application.js, and the code is stored in a directory
+called react_lib.</p>
+
+<p>Add the following gems, and run bundle install.</p>
+<pre class="highlight ruby"><code><span class="c1"># Gemfile</span>
+<span class="n">gem</span> <span class="s1">'opal'</span>
+<span class="n">gem</span> <span class="s1">'opal-browser'</span> <span class="c1"># optional</span>
+<span class="n">gem</span> <span class="s1">'reactrb'</span>
+<span class="n">gem</span> <span class="s1">'opal-jquery'</span>  <span class="c1"># optional</span>
+</code></pre>
+<p>Your rake file task will look like this:</p>
+<pre class="highlight ruby"><code><span class="c1">#rake.rb</span>
+<span class="n">desc</span> <span class="s2">"Build reactrb library"</span>
+<span class="n">task</span> <span class="ss">:build_react_lib</span> <span class="k">do</span>
+  <span class="no">Opal</span><span class="p">.</span><span class="nf">append_path</span> <span class="s2">"react_lib"</span>
+  <span class="no">File</span><span class="p">.</span><span class="nf">binwrite</span> <span class="s2">"react_lib.js"</span><span class="p">,</span> <span class="no">Opal</span><span class="o">::</span><span class="no">Builder</span><span class="p">.</span><span class="nf">build</span><span class="p">(</span><span class="s2">"application"</span><span class="p">).</span><span class="nf">to_s</span>
+<span class="k">end</span>
+</code></pre>
+<p>Your main application file will look like this:</p>
+<pre class="highlight ruby"><code><span class="c1">#react_lib/application.rb</span>
+
+<span class="nb">require</span> <span class="s1">'opal'</span>
+<span class="nb">require</span> <span class="s1">'browser/interval'</span> <span class="c1"># optional</span>
+<span class="nb">require</span> <span class="s1">'browser/delay'</span>    <span class="c1"># optional</span>
+<span class="c1"># you can pull in the jQuery.js file here, or separately</span>
+<span class="c1"># but in must be loaded BEFORE opal-jquery</span>
+<span class="nb">require</span> <span class="s1">'opal-jquery'</span>      <span class="c1"># optional</span>
+<span class="nb">require</span> <span class="s1">'react-latest'</span>     <span class="c1"># or other version i.e. react-v14</span>
+<span class="nb">require</span> <span class="s1">'reactrb'</span>
+<span class="c1"># here you can require other files, do a require_tree, or</span>
+<span class="c1"># just add some components inline right here...</span>
+<span class="k">class</span> <span class="nc">Clock</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
+
+  <span class="n">after_mount</span> <span class="k">do</span>
+    <span class="n">every</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span> <span class="n">force_update!</span> <span class="p">}</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">render</span>
+    <span class="s2">"Hello there - Its </span><span class="si">#{</span><span class="no">Time</span><span class="p">.</span><span class="nf">now</span><span class="si">}</span><span class="s2">"</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="no">Document</span><span class="p">.</span><span class="nf">ready?</span> <span class="k">do</span>
+  <span class="no">Element</span><span class="p">[</span><span class="s1">'#content'</span><span class="p">].</span><span class="nf">render</span><span class="p">{</span> <span class="no">Clock</span><span class="p">()</span> <span class="p">}</span>
+<span class="k">end</span>
+</code></pre>
+<p>Run <code>bundle exec rake build_react_app</code></p>
+
+<p>This should build <code>react_lib.js</code> which can be included in your main html file.</p>
+
+<h2 id="next-steps">Next Steps</h2>
+
+<p>Check out <a href="/tutorial">the tutorial</a> to learn more.</p>
+
+<p>Good luck, and welcome!</p>
+
+      </section>
+  </body>
+</html>

@@ -1,0 +1,95 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv='X-UA-Compatible' content='IE=edge;chrome=1' />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta charset="UTF-8">
+    <title>Reactrb</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+
+    <link href="/reactrb.org/stylesheets/base.css" rel="stylesheet" />
+    <link href="/reactrb.org/stylesheets/normalize.css" rel="stylesheet" />
+    <link href="/reactrb.org/stylesheets/stylesheet.css" rel="stylesheet" />
+    <link href="/reactrb.org/stylesheets/github-light.css" rel="stylesheet" />
+
+    <title>Reactrb Reactive-Ruby v0.7.32</title>
+    <link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/feed.xml" />
+  </head>
+
+  <body>
+      <section class="page-header">
+        <a href="/"><img src="/reactrb.org/images/reactrb-logo_white.svg" width="200" alt="Reactrb logo white" /></a>
+        <!-- <h1 class="project-name">
+          <a href="/" class="btn-logo">Reactrb</a>
+        </h1> -->
+        <h2 class="project-tagline">THE MISSING RUBY FRONT-END LIBRARY</h2>
+        <a href="/get_started" class="btn">Get Started</a>
+        <a href="/installation" class="btn">Installation</a>
+        <a href="/tutorial" class="btn">Tutorial</a>
+        <a href="/gems" class="btn">Gems</a>
+        <a href="/tools" class="btn">Tools</a>
+        <a href="/docs" class="btn">Docs</a>
+        <a href="/support" class="btn">Support</a>
+        <a href="/blog" class="btn">Blog</a>
+      </section>
+
+      <section class="main-content">
+        <p>As we march towards the next official release of react.rb, we wanted to make some syntactic improvements to the component macros and methods.  The overall
+intent is to make react.rb more <em>ruby</em> like, and reduce syntactic noise, while maintaining ties to react.js.</p>
+
+<p>While we are very close to being ready to make an official react.rb release we are still maintaining these changes as the master branch of react.rb, and distributing the changes via the reactive-ruby gem.  </p>
+
+<p>Here is a summary of the changes in v0.7.32</p>
+
+<ul>
+<li><h4 id="inheriting-from-react-component-base">Inheriting from <code>React::Component::Base</code></h4>
+
+<p>You can now define components by inheriting from <code>React::Component::Base</code>.</p>
+
+<p>For example:</p>
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">Widget</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>  
+  <span class="c1"># etc</span>
+<span class="k">end</span>
+</code></pre>
+<p>Note you can still use <code>include React::Component</code> to define components as well.</p>
+
+<p>As part of this change you can also subclass any component.  Any lifecycle macros in child classes will execute before the parent class.</p></li>
+<li><h4 id="state-and-params-component-methods"><code>state</code> and <code>params</code> component methods</h4>
+
+<p>To access state variables and params you must now prefix with the <code>state</code>and <code>param</code> methods.</p>
+
+<p>While adding some typing it solves two problems:  First it avoids shadowing dsl methods such as <code>label</code>, and secondly it makes the code more readable.</p>
+<pre class="highlight ruby"><code><span class="n">state</span><span class="p">.</span><span class="nf">items</span>  <span class="c1"># items without the state prefix is deprecated</span>
+<span class="n">state</span><span class="p">.</span><span class="nf">items!</span> <span class="c1"># likewise for updating state</span>
+<span class="n">params</span><span class="p">.</span><span class="nf">user</span>  <span class="c1"># user without the params prefix is deprecated</span>
+</code></pre></li>
+<li><h4 id="simplified-param-declarations">Simplified Param Declarations</h4>
+
+<p>Instead of <code>optional_param</code>, and <code>required_param</code>, both macros have been replaced by <code>param</code>.</p>
+<pre class="highlight ruby"><code><span class="n">param</span> <span class="ss">:foo</span>             <span class="c1"># instead of required_param :foo</span>
+<span class="n">param</span> <span class="ss">bar: </span><span class="mi">12</span>          <span class="c1"># instead of optional_param :foo, default: 12</span>
+<span class="n">param</span> <span class="ss">:bar</span> <span class="ss">default: </span><span class="mi">12</span> <span class="c1"># slightly longer but more explicit</span>
+<span class="n">param</span> <span class="ss">:foo</span><span class="p">,</span> <span class="ss">type: </span><span class="no">Hash</span> <span class="c1"># type spec works the same</span>
+</code></pre>
+<p>Both <code>optional_param</code> and <code>required_param</code> (and the plural aliases) are deprecated.</p></li>
+<li><h4 id="implicit-state-variable-creation">Implicit State Variable Creation</h4>
+
+<p>When you reference a state variable (via the <code>state</code> method described above) the state will be automatically created.  </p>
+
+<p>The rationale is to make state variables more like instance variables.  And like instance variables, good style would ask that all state variables be initialized in the <code>before_mount</code> callback. At this time it has not been determined if define_state will be deprecated, but you are strongly encouraged not to use it, or provide feedback.</p></li>
+<li><h4 id="simplified-component-mounting-with-jquery">Simplified Component Mounting with JQuery</h4>
+
+<p>The jQuery wrapper class <code>Element</code> now has a <code>render</code> method.</p>
+<pre class="highlight ruby"><code><span class="no">Element</span><span class="p">[</span><span class="s1">'#container'</span><span class="p">].</span><span class="nf">render</span> <span class="p">{</span> <span class="n">div</span> <span class="p">{</span> <span class="s2">"hello"</span> <span class="p">}</span> <span class="p">}</span>
+</code></pre>
+<p>The <code>render</code> method takes a block, and mounts the react element generated by the block into the first dom element in the jQuery result.</p>
+
+<p>React does not depend on opal-jquery and so opal-jquery must be required before the reactive-ruby gem, for the <code>render</code> method to be added to the <code>Element</code> class.</p></li>
+</ul>
+
+      </section>
+  </body>
+</html>

@@ -1,0 +1,378 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv='X-UA-Compatible' content='IE=edge;chrome=1' />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta charset="UTF-8">
+    <title>Reactrb</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+
+    <link href="/reactrb.org/stylesheets/base.css" rel="stylesheet" />
+    <link href="/reactrb.org/stylesheets/normalize.css" rel="stylesheet" />
+    <link href="/reactrb.org/stylesheets/stylesheet.css" rel="stylesheet" />
+    <link href="/reactrb.org/stylesheets/github-light.css" rel="stylesheet" />
+
+    <title>Reactrb</title>
+    <link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/feed.xml" />
+  </head>
+
+  <body>
+      <section class="page-header">
+        <a href="/"><img src="/reactrb.org/images/reactrb-logo_white.svg" width="200" alt="Reactrb logo white" /></a>
+        <!-- <h1 class="project-name">
+          <a href="/" class="btn-logo">Reactrb</a>
+        </h1> -->
+        <h2 class="project-tagline">THE MISSING RUBY FRONT-END LIBRARY</h2>
+        <a href="/get_started" class="btn">Get Started</a>
+        <a href="/installation" class="btn">Installation</a>
+        <a href="/tutorial" class="btn">Tutorial</a>
+        <a href="/gems" class="btn">Gems</a>
+        <a href="/tools" class="btn">Tools</a>
+        <a href="/docs" class="btn">Docs</a>
+        <a href="/support" class="btn">Support</a>
+        <a href="/blog" class="btn">Blog</a>
+      </section>
+
+      <section class="main-content">
+        <h1 id="reactrb-router">Reactrb Router</h1>
+
+<p>Github: <a href="https://github.com/reactrb/reactrb-router">Reactrb Router</a></p>
+
+<p>ReactrbRouter allows you write and use the React Router in Ruby through Opal.</p>
+
+<h2 id="installation">Installation</h2>
+
+<p>Add this line to your application&rsquo;s Gemfile:</p>
+<pre class="highlight ruby"><code><span class="n">gem</span> <span class="s1">'reactrb-router'</span><span class="p">,</span> <span class="ss">git: </span><span class="s1">'https://github.com/reactrb/reactrb-router.git'</span><span class="p">,</span> <span class="ss">branch: </span><span class="s1">'v2-4-0'</span>
+</code></pre>
+<p>And then execute:</p>
+<pre class="highlight plaintext"><code>$ bundle
+</code></pre>
+<h2 id="usage">Usage</h2>
+
+<p>This is simply a DSL wrapper on <a href="....">react-router</a></p>
+
+<h3 id="dsl">DSL</h3>
+
+<p>The following DSL:</p>
+<pre class="highlight ruby"><code><span class="n">route</span><span class="p">(</span><span class="s2">"/"</span><span class="p">,</span> <span class="ss">mounts: </span><span class="no">App</span><span class="p">,</span> <span class="ss">index: </span><span class="no">Home</span><span class="p">)</span> <span class="k">do</span>
+  <span class="n">route</span><span class="p">(</span><span class="s2">"about"</span><span class="p">)</span>
+  <span class="n">route</span><span class="p">(</span><span class="s2">"inbox"</span><span class="p">)</span> <span class="k">do</span>
+    <span class="n">redirect</span><span class="p">(</span><span class="s1">'messages/:id'</span><span class="p">).</span><span class="nf">to</span> <span class="p">{</span> <span class="o">|</span> <span class="n">params</span> <span class="o">|</span> <span class="s2">"/messages/</span><span class="si">#{</span><span class="n">params</span><span class="p">[</span><span class="ss">:id</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span> <span class="p">}</span>
+  <span class="k">end</span>
+  <span class="n">route</span><span class="p">(</span><span class="ss">mounts: </span><span class="no">Inbox</span><span class="p">)</span> <span class="k">do</span>
+    <span class="n">route</span><span class="p">(</span><span class="s2">"messages/:id"</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<p>Is equivalent to this route configuration:</p>
+<pre class="highlight javascript"><code><span class="kr">const</span> <span class="nx">routes</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">path</span><span class="p">:</span> <span class="s1">'/'</span><span class="p">,</span>
+  <span class="na">component</span><span class="p">:</span> <span class="nx">App</span><span class="p">,</span>
+  <span class="na">indexRoute</span><span class="p">:</span> <span class="p">{</span> <span class="na">component</span><span class="p">:</span> <span class="nx">Dashboard</span> <span class="p">},</span>
+  <span class="na">childRoutes</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span> <span class="na">path</span><span class="p">:</span> <span class="s1">'about'</span><span class="p">,</span> <span class="na">component</span><span class="p">:</span> <span class="nx">About</span> <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="na">path</span><span class="p">:</span> <span class="s1">'inbox'</span><span class="p">,</span>
+      <span class="na">component</span><span class="p">:</span> <span class="nx">Inbox</span><span class="p">,</span>
+      <span class="na">childRoutes</span><span class="p">:</span> <span class="p">[{</span>
+        <span class="na">path</span><span class="p">:</span> <span class="s1">'messages/:id'</span><span class="p">,</span>
+        <span class="na">onEnter</span><span class="p">:</span> <span class="p">({</span> <span class="nx">params</span> <span class="p">},</span> <span class="nx">replace</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">replace</span><span class="p">(</span><span class="s2">`/messages/</span><span class="p">${</span><span class="nx">params</span><span class="p">.</span><span class="nx">id</span><span class="p">}</span><span class="s2">`</span><span class="p">)</span>
+      <span class="p">}]</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="na">component</span><span class="p">:</span> <span class="nx">Inbox</span><span class="p">,</span>
+      <span class="na">childRoutes</span><span class="p">:</span> <span class="p">[{</span>
+        <span class="na">path</span><span class="p">:</span> <span class="s1">'messages/:id'</span><span class="p">,</span> <span class="na">component</span><span class="p">:</span> <span class="nx">Message</span>
+      <span class="p">}]</span>
+    <span class="p">}</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</code></pre>
+<p>The basic dsl syntax is designed with the following in mind:</p>
+
+<ol>
+<li>Most routes have a path so that is the assumed first argument.</li>
+<li>Use <code>mounts</code> rather than component (reads better?)</li>
+<li>Convention over configuration, given a path, the component name can be derived.</li>
+<li>Redirect takes the path, and a block (similar to the JSX DSL)</li>
+<li>The first param to route can be skipped per the documentation</li>
+<li>Use standard ruby lower case method names instead of caps (reserve those for components)</li>
+</ol>
+
+<p>The above example does not cover all the possible syntax, here are the other methods and options:</p>
+
+<h4 id="enter-leave-change-transition-hooks">enter / leave / change transition hooks</h4>
+
+<p>for adding an onEnter or onLeave hook you would say:</p>
+<pre class="highlight ruby"><code><span class="n">route</span><span class="p">(</span><span class="s2">"foo"</span><span class="p">).</span><span class="nf">on</span><span class="p">(</span><span class="ss">:leave</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span> <span class="n">t</span> <span class="o">|</span> <span class="p">.</span><span class="nf">.</span><span class="o">.</span> <span class="p">}.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:enter</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span> <span class="n">t</span> <span class="o">|</span><span class="p">.</span><span class="nf">.</span><span class="p">.</span><span class="nf">.</span> <span class="p">}</span>
+</code></pre>
+<p>which follows the react.rb event handler convention.</p>
+
+<p>A <code>TransitionContext</code> object will be passed to the handler, which has the following methods:</p>
+
+<table><thead>
+<tr>
+<th>method</th>
+<th>available on</th>
+<th>description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>next_state</code></td>
+<td><code>:change</code>, <code>:enter</code></td>
+<td>returns the next state object</td>
+</tr>
+<tr>
+<td><code>prev_state</code></td>
+<td><code>:change</code></td>
+<td>returns the previous state object</td>
+</tr>
+<tr>
+<td><code>replace</code></td>
+<td><code>:change</code>, <code>:enter</code></td>
+<td>pass <code>replace</code> a new path</td>
+</tr>
+<tr>
+<td><code>promise</code></td>
+<td><code>:change</code>, <code>:enter</code></td>
+<td>returns a new promise.  multiple calls returns the same promise</td>
+</tr>
+</tbody></table>
+
+<p>If you return a promise from the <code>:change</code> or <code>:enter</code> hooks, the transition will wait till the promise is resolved before proceeding.  For simplicity you can call the promise method, but you can also use some other method to define the promise.</p>
+
+<p>The hooks can also be specified as proc values to the <code>:on_leave</code>, <code>:on_enter</code>, <code>:on_change</code> options.</p>
+
+<h4 id="multiple-component-mounting">multiple component mounting</h4>
+
+<p>The <code>mounts</code> option can accept a single component, or a hash which will generate a <code>components</code> (plural) react-router prop, as in:</p>
+
+<p><code>route(&quot;groups&quot;, mounts: {main: Groups, sidebar: GroupsSidebar})</code> which is equivalent to:</p>
+
+<p><code>{path: &quot;groups&quot;, components: {main: Groups, sidebar: GroupsSidebar}}</code> (json) or</p>
+
+<p><code>&lt;Route path=&quot;groups&quot; components={{main: Groups, sidebar: GroupsSidebar}} /&gt;</code> JSX</p>
+
+<h4 id="the-mounts-option-can-also-take-a-proc-or-be-specified-as-a-block">The <code>mounts</code> option can also take a <code>Proc</code> or be specified as a block</h4>
+
+<p>The proc is passed a TransitionContext (see <strong>Hooks</strong> above) and may either return a react component to be mounted, or return a promise.  If a promise is returned the transition will wait till the promise is either resolved with a component, or rejected.</p>
+
+<p><code>route(&quot;courses/:courseId&quot;, mounts: -&gt; () { Course }</code></p>
+
+<p>is the same as:</p>
+<pre class="highlight jsx"><code><span class="o">&lt;</span><span class="nx">Route</span> <span class="nx">path</span><span class="o">=</span><span class="s2">"courses/:courseId"</span> <span class="nx">getComponent</span><span class="o">=</span><span class="p">{(</span><span class="nx">nextState</span><span class="p">,</span> <span class="nx">cb</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span><span class="nx">cb</span><span class="p">(</span><span class="kc">null</span><span class="p">,</span> <span class="nx">Course</span><span class="p">)}}</span> <span class="sr">/</span><span class="err">&gt;
+</span></code></pre>
+<p>Also instead of a proc, a block can be specified with the <code>mounts</code> method:</p>
+
+<p><code>route(&quot;courses/:courseId&quot;).mounts { Course }</code></p>
+
+<p>Which generates the same route as the above.</p>
+
+<p>More interesting would be something like this:</p>
+<pre class="highlight ruby"><code><span class="n">route</span><span class="p">(</span><span class="s2">"courses/:id"</span><span class="p">).</span><span class="nf">mounts</span> <span class="k">do</span> <span class="o">|</span> <span class="n">ct</span> <span class="o">|</span>
+  <span class="no">HTTP</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="s2">"validate-user-access/courses/</span><span class="si">#{</span><span class="n">ct</span><span class="p">.</span><span class="nf">next_state</span><span class="p">[</span><span class="ss">:id</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">).</span><span class="nf">then</span> <span class="p">{</span>  <span class="no">Course</span> <span class="p">}</span>
+<span class="k">end</span>
+</code></pre>
+<p><em>Note that the above works because of promise chaining.</em></p>
+
+<p>You can use the <code>mount</code> method multiple times with different arguments as an alternative to passing the the <code>mount</code> option a hash:</p>
+
+<p><code>route(&quot;foo&quot;).mount(:baz) { Comp1 }.mount(:bar) { Comp2 }.mount(:bomb)</code></p>
+
+<p>Note that if no block is given (as in <code>:bomb</code> above) the component name will be inferred from the argument (<code>Bomb</code> in this case.)</p>
+
+<h4 id="the-index-component-can-be-specified-as-a-proc">The index component can be specified as a proc</h4>
+
+<p>Same deal as mount&hellip;</p>
+
+<p><code>route(&quot;foo&quot;, index: -&gt; { MyIndex })</code></p>
+
+<h4 id="the-index-method">The index method</h4>
+
+<p>Instead of specifying the index component as a param to the parent route, it can be specified as a child using the
+index method:</p>
+<pre class="highlight ruby"><code><span class="n">route</span><span class="p">(</span><span class="s2">"/"</span><span class="p">,</span> <span class="ss">mounts: </span><span class="no">About</span><span class="p">,</span> <span class="ss">index: </span><span class="no">Home</span><span class="p">)</span> <span class="k">do</span>
+  <span class="n">index</span><span class="p">(</span><span class="ss">mounts: </span><span class="no">MyIndex</span><span class="p">)</span>
+  <span class="n">route</span><span class="p">(</span><span class="s2">"about"</span><span class="p">)</span>
+  <span class="n">route</span><span class="p">(</span><span class="s2">"privacy-policy"</span><span class="p">)</span>
+<span class="k">end</span>
+</code></pre>
+<p>This is useful because the index method has all the features of a route except that it does not take a path or children.</p>
+
+<h4 id="the-redirect-options">The <code>redirect</code> options</h4>
+
+<p>with static arguments:</p>
+
+<p><code>redirect(&quot;/from/path/spec&quot;, to: &quot;/to/path/spec&quot;, query: {q1: 123, q2: :abc})</code></p>
+
+<p>the <code>:to</code> and <code>:query</code> options can be Procs which will receive the current state.</p>
+
+<p>Or you can specify the <code>:to</code> an <code>:query</code> options with blocks:</p>
+
+<p><code>redirect(&quot;/from/path/spec/:id&quot;).to { |curr_state| &quot;/to/path/spec/#{current_state[:id]}&quot;}.query { {q1: 12} }</code></p>
+
+<h4 id="the-index_redirect-method">The <code>index_redirect</code> method</h4>
+
+<p>just like <code>redirect</code> without the first arg: <code>index_redirect(to: ... query: ...)</code></p>
+
+<h3 id="the-router-component">The Router Component</h3>
+
+<p>A router is defined as a subclass of <code>React::Router</code> which is itself a <code>React::Component::Base</code>.</p>
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">Router</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Router</span>
+
+  <span class="k">def</span> <span class="nf">routes</span> <span class="c1"># define your routes (there is no render method)</span>
+    <span class="n">route</span><span class="p">(</span><span class="s2">"/"</span><span class="p">,</span> <span class="ss">mounts: </span><span class="no">About</span><span class="p">,</span> <span class="ss">index: </span><span class="no">Home</span><span class="p">)</span> <span class="k">do</span>
+      <span class="n">route</span><span class="p">(</span><span class="s2">"about"</span><span class="p">)</span>
+      <span class="n">route</span><span class="p">(</span><span class="s2">"inbox"</span><span class="p">)</span> <span class="k">do</span>
+        <span class="n">redirect</span><span class="p">(</span><span class="s1">'messages/:id'</span><span class="p">).</span><span class="nf">to</span> <span class="p">{</span> <span class="o">|</span> <span class="n">params</span> <span class="o">|</span> <span class="s2">"/messages/</span><span class="si">#{</span><span class="n">params</span><span class="p">[</span><span class="ss">:id</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span> <span class="p">}</span>
+      <span class="k">end</span>
+      <span class="n">route</span><span class="p">(</span><span class="ss">mounts: </span><span class="no">Inbox</span><span class="p">)</span> <span class="k">do</span>
+        <span class="n">route</span><span class="p">(</span><span class="s2">"messages/:id"</span><span class="p">)</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+
+<span class="k">end</span>
+</code></pre>
+<p>You will mount this component the usual way (i.e. via <code>render_component</code>, <code>Element#render</code>, <code>react_render</code>, etc) or even by mounting it within a higher level application component.</p>
+
+<h4 id="other-router-hooks">Other router hooks:</h4>
+
+<p>There are several other methods that can be redefined to modify the routers behavior</p>
+
+<h4 id="history">history</h4>
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">Router</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Router</span>
+  <span class="k">def</span> <span class="nf">history</span>
+  <span class="p">.</span><span class="nf">.</span><span class="p">.</span> <span class="nf">return</span> <span class="n">a</span> <span class="n">history</span> <span class="n">object</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<p>The two standard history objects are predefined as <code>browser_history</code> and <code>hash_history</code> so you can say:</p>
+<pre class="highlight ruby"><code><span class="p">.</span><span class="nf">.</span><span class="p">.</span>
+  <span class="nf">def</span> <span class="n">history</span>
+    <span class="n">browser_history</span>
+  <span class="k">end</span>
+</code></pre>
+<p>or just</p>
+<pre class="highlight ruby"><code><span class="p">.</span><span class="nf">.</span><span class="p">.</span>
+  <span class="nf">alias_method</span> <span class="ss">:history</span> <span class="ss">:browser_history</span>
+</code></pre>
+<h4 id="create_element">create_element</h4>
+
+<p><code>create_element</code> (if defined) is passed the component that the router will render, and its params.  Use it to intercept, inspect and/or modify the component behavior.</p>
+
+<p><code>create_element</code> can return any of these values:</p>
+
+<ul>
+<li>Any falsy value: indicating that rendering should continue with no modification to behavior.</li>
+<li>A <code>React::Element</code>, or a native <code>React.Element</code> which will be used for rendering.</li>
+<li>Any truthy value: indicating that a new Element should be created using the (probably modified) params</li>
+</ul>
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">Router</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Router</span>
+  <span class="k">def</span> <span class="nf">create_element</span><span class="p">(</span><span class="n">component</span><span class="p">,</span> <span class="n">component_params</span><span class="p">)</span>
+    <span class="c1"># add the param :time_stamp to each element as its rendered</span>
+    <span class="no">React</span><span class="p">.</span><span class="nf">create_element</span><span class="p">(</span><span class="n">component</span><span class="p">,</span> <span class="n">component_params</span><span class="p">.</span><span class="nf">merge</span><span class="p">(</span><span class="ss">time_stamp: </span><span class="no">Time</span><span class="p">.</span><span class="nf">now</span><span class="p">))</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<p>The above could be simplified to:</p>
+<pre class="highlight ruby"><code><span class="p">.</span><span class="nf">.</span><span class="p">.</span>
+  <span class="nf">def</span> <span class="n">create_element</span><span class="p">(</span><span class="n">component</span><span class="p">,</span> <span class="n">component_params</span><span class="p">)</span>
+    <span class="n">component_params</span><span class="p">[</span><span class="ss">:time_stamp</span><span class="p">]</span> <span class="o">=</span> <span class="no">Time</span><span class="p">.</span><span class="nf">now</span>
+  <span class="k">end</span>
+</code></pre>
+<p>Just make sure that you return a truthy value otherwise it will ignore any changes to component or params.</p>
+
+<p>Or if you just wanted some kind of logging:</p>
+<pre class="highlight ruby"><code><span class="p">.</span><span class="nf">.</span><span class="p">.</span>
+  <span class="nf">def</span> <span class="n">create_element</span><span class="p">(</span><span class="n">component</span><span class="p">,</span> <span class="n">component_params</span><span class="p">)</span>
+    <span class="nb">puts</span> <span class="s2">"[</span><span class="si">#{</span><span class="no">Time</span><span class="p">.</span><span class="nf">now</span><span class="si">}</span><span class="s2">] Rendering: </span><span class="si">#{</span><span class="n">component</span><span class="p">.</span><span class="nf">name</span><span class="si">}</span><span class="s2">"</span> <span class="c1"># puts returns nil, so we are jake mate</span>
+  <span class="k">end</span>
+</code></pre>
+<p>The component_params will always contain the following keys as native js objects, and they must stay native js objects:</p>
+
+<ul>
+<li><code>children</code></li>
+<li><code>history</code></li>
+<li><code>location</code></li>
+<li><code>params</code></li>
+<li><code>route</code></li>
+<li><code>route_params</code></li>
+<li><code>routes</code></li>
+</ul>
+
+<p>We will try to get more fancy with a later version of reactrb-router ;-)</p>
+
+<h4 id="stringify_query-params_hash-needs-work"><code>stringify_query(params_hash)</code> &lt;- needs work</h4>
+
+<p>The method used to convert an object from <Link>s or calls to transitionTo to a URL query string.</p>
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">Router</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Router</span>
+  <span class="k">def</span> <span class="nf">stringify_query</span><span class="p">(</span><span class="n">params_hash</span><span class="p">)</span>
+    <span class="c1"># who knows doc is a little unclear on this one...is it being passed the full params_hash or just</span>
+    <span class="c1"># the query portion.... we shall see...</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<h4 id="parse_query_string-string-needs-work"><code>parse_query_string(string)</code> &lt;- needs work</h4>
+
+<p>The method used to convert a query string into the route components&rsquo;s param hash</p>
+
+<h4 id="on_error-data"><code>on_error(data)</code></h4>
+
+<p>While the router is matching, errors may bubble up, here is your opportunity to catch and deal with them. Typically these will come when promises are rejected (see the DSL above for returning promises to handle async behaviors.)</p>
+
+<h4 id="on_update"><code>on_update</code></h4>
+
+<p>Called whenever the router updates its state in response to URL changes.</p>
+
+<h4 id="render"><code>render</code></h4>
+
+<p>A <code>Router</code> default <code>render</code> looks like this:</p>
+<pre class="highlight ruby"><code>  <span class="k">def</span> <span class="nf">render</span>
+    <span class="c1"># Router.router renders the native router component</span>
+    <span class="no">Router</span><span class="p">.</span><span class="nf">router</span><span class="p">(</span><span class="n">build_params</span><span class="p">)</span>
+  <span class="k">end</span>
+</code></pre>
+<p>This is primarily for integrating with other libraries that need to participate in rendering before the route components are rendered. It defaults to render={(props) =&gt; <RouterContext {...props} />}.</p>
+
+<p>Ensure that you render a <RouterContext> at the end of the line, passing all the props passed to render.</p>
+
+<h3 id="react-router-component">React::Router::Component</h3>
+
+<p>The class React::Router::Component is a subclass of React::Component::Base that predefines the params that the router will be passing in to your component.  This includes</p>
+
+<p><code>params.location</code></p>
+
+<p>The current location.</p>
+
+<p><code>params.params</code></p>
+
+<p>The dynamic segments of the URL.</p>
+
+<p><code>params.route</code></p>
+
+<p>The route that rendered this component.</p>
+
+<p><code>params.route_params</code></p>
+
+<p>The subset of <code>params.params</code> that were directly specified in this component&rsquo;s route. For example, if the route&rsquo;s path is <code>users/:user_id</code> and the URL is /users/123/portfolios/345 then <code>params.route_params</code> will be <code>{user_id: &#39;123&#39;}</code>, and <code>params.params</code> will be <code>{user_id: &#39;123&#39;, portfolio_id: 345}</code>.</p>
+
+<h2 id="development">Development</h2>
+
+<h2 id="contributing">Contributing</h2>
+
+<ol>
+<li>Fork it ( <a href="https://github.com/catprintlabs/reactor-router/fork">https://github.com/catprintlabs/reactor-router/fork</a> )</li>
+<li>Create your feature branch (<code>git checkout -b my-new-feature</code>)</li>
+<li>Commit your changes (<code>git commit -am &#39;Add some feature&#39;</code>)</li>
+<li>Push to the branch (<code>git push origin my-new-feature</code>)</li>
+<li>Create a new Pull Request</li>
+</ol>
+
+      </section>
+  </body>
+</html>
