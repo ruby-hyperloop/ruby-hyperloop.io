@@ -11,8 +11,8 @@
   </author>
   <entry>
     <title>Reactrb v0.8.5</title>
-    <link rel="alternate" href="http://blog.url.com/reactrb.org/2016/06/29/reactrb-v0-8-5/"/>
-    <id>http://blog.url.com/reactrb.org/2016/06/29/reactrb-v0-8-5/</id>
+    <link rel="alternate" href="http://blog.url.com/2016/06/29/reactrb-v0-8-5/"/>
+    <id>http://blog.url.com/2016/06/29/reactrb-v0-8-5/</id>
     <published>2016-06-29T01:00:00+01:00</published>
     <updated>2016-09-16T07:29:45+01:00</updated>
     <author>
@@ -113,8 +113,8 @@
   </entry>
   <entry>
     <title>Getting Started with Reactrb and Rails</title>
-    <link rel="alternate" href="http://blog.url.com/reactrb.org/2016/01/26/getting-started-with-reactrb-and-rails/"/>
-    <id>http://blog.url.com/reactrb.org/2016/01/26/getting-started-with-reactrb-and-rails/</id>
+    <link rel="alternate" href="http://blog.url.com/2016/01/26/getting-started-with-reactrb-and-rails/"/>
+    <id>http://blog.url.com/2016/01/26/getting-started-with-reactrb-and-rails/</id>
     <published>2016-01-26T16:29:00+00:00</published>
     <updated>2016-09-16T07:29:45+01:00</updated>
     <author>
@@ -550,8 +550,8 @@ application.js, as below.  Use of application.rb will automatically load the fil
   </entry>
   <entry>
     <title>Reactive-Ruby v0.7.32</title>
-    <link rel="alternate" href="http://blog.url.com/reactrb.org/2015/12/01/reactive-ruby/"/>
-    <id>http://blog.url.com/reactrb.org/2015/12/01/reactive-ruby/</id>
+    <link rel="alternate" href="http://blog.url.com/2015/12/01/reactive-ruby/"/>
+    <id>http://blog.url.com/2015/12/01/reactive-ruby/</id>
     <published>2015-12-01T00:00:00+00:00</published>
     <updated>2016-09-16T07:29:45+01:00</updated>
     <author>
