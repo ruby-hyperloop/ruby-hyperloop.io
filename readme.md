@@ -14,13 +14,14 @@ $ middleman article "Test Post"
 ```
 
 ## Build and Publish to Github Pages
-Published pages are in `gh-pages` branch. Publishing to Github pages handled by [Middleman Github Pages Gem](https://github.com/edgecase/middleman-gh-pages).
+Published pages are in `master` branch.
 
-**If there are Git errors from the final step try deleting the gh-pages branch.**
+Publishing to Github pages handled by [Middleman Github Pages Gem](https://github.com/edgecase/middleman-gh-pages).
+
+The rake tasks below will build and deploy to `master`
 
 ### Rake Tasks
 ```text
 $ rake build    # Compile all files into the build directory
-bundle exec rake publish REMOTE_NAME=reactrb BRANCH_NAME=master
-
+$ rake publish REMOTE_NAME=reactrb BRANCH_NAME=master
 ```
