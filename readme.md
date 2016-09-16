@@ -1,4 +1,4 @@
-# Reactrb.org Static Website
+# Ruby-Hyperloop Static Website
 
 The static site is built with [Middleman](https://middlemanapp.com/).
 
@@ -26,4 +26,4 @@ $ rake build    # Compile all files into the build directory
 $ rake publish REMOTE_NAME=reactrb BRANCH_NAME=master
 ```
 
-**Important:** After each deploy you will have to reset the Custom Domain on the repro Settings to: `reactrb.org`
+**Important:** After each deploy you will have to reset the Custom Domain on the repro Settings to: `ruby-hyperloop.io`
