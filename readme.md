@@ -21,5 +21,6 @@ Published pages are in `gh-pages` branch. Publishing to Github pages handled by 
 ### Rake Tasks
 ```text
 $ rake build    # Compile all files into the build directory
-$ rake publish  # Build and publish to Github Pages
+bundle exec rake publish REMOTE_NAME=reactrb BRANCH_NAME=master
+
 ```
