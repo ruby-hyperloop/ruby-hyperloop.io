@@ -4,7 +4,7 @@
 
 ## Gitter
 
-There is almost always someone available to ask a quick question or discuss a concept on [gitter.im](https://gitter.im/zetachang/react.rb)
+There is almost always someone available to ask a quick question or discuss a concept on [gitter.im](https://gitter.im/reactrb/chat)
 
 ## Stack Overflow
 
@@ -12,7 +12,7 @@ Although its early days we encourage you to use stack overflow to ask specific q
 
 ## Github issues
 
-If you think you found a bug, or want to suggest a new feature [github](https://github.com/zetachang/react.rb) is the place to go.
+If you think you found a bug, or want to suggest a new feature [github](https://github.com/reactrb/reactrb) is the place to go.
 
 ## Twitter
 

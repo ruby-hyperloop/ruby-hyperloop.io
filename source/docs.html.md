@@ -1,4 +1,4 @@
-# Reactrb Docs
+# Hyperloop Reactrb Docs
 
 - [DSL Overview](#dsl-overview)
 - [State, Components and Event Handelers](#state-components-and-event-handelers)
@@ -1520,8 +1520,8 @@ There are also good tutorials on integrating Webpack with existing rails apps a 
 
 ### Other Reactrb tutorials and examples
 + [Getting started with Reactrb and Rails](https://github.com/loicboutet/reactrb_tutorial)
-+ [ChatRB Demo App](https://github.com/reactrb/reactrb.github.io/blob/master/docs/tutorial.md)
-+ [Reactrb Technology Showcase](#https://github.com/barriehadfield/reactrb-showcase)
++ [Todo Tutorial and App](https://github.com/reactrb/todo-tutorial)
++ [Reactrb Technology Showcase](https://github.com/barriehadfield/reactrb-showcase)
 + [Reactive Record sample ToDo app](https://github.com/loicboutet/reactivetodo)
 + [Flux pattern in Reactrb](https://github.com/reactrb/reactrb.github.io/wiki/Sending-data-from-deeply-nested-components)
 + [Getting started with Reactrb, React Bootstrap and Webpack](https://github.com/fkchang/getting-started-reactrb-webpack)
