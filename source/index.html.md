@@ -5,7 +5,7 @@ Hyperloop lets you build beautiful interactive user interfaces using the same Ru
 One language. One simple model. Under the hood the Hperloop Gems takes care of all the details for you. The same Ruby code runs on the server to deliver pages fast, and then keeps running on the client to handle your user interactions.
 
 ## REACT + RUBY
-The power and simplicity of React with a great easy to use Ruby DSL. Reactrb frees you up to do what you do best - building great apps.
+The power and simplicity of React with a great easy to use Ruby DSL. Hyperloop frees you up to do what you do best - building great apps.
 
 Hyperloop's Reactrb is a wrapper for the React.js library for creating user interfaces.  Reactrb provides all the goodness of React combined with the expressiveness of the Ruby language.   
 
