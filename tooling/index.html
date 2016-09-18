@@ -1,0 +1,124 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv='X-UA-Compatible' content='IE=edge;chrome=1' />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta charset="UTF-8">
+    <title>Hyperloop</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+
+    <link href="/stylesheets/base.css" rel="stylesheet" />
+    <link href="/stylesheets/normalize.css" rel="stylesheet" />
+    <link href="/stylesheets/stylesheet.css" rel="stylesheet" />
+    <link href="/stylesheets/github-light.css" rel="stylesheet" />
+
+    <title>Reactrb</title>
+    <link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/feed.xml" />
+
+    <!-- Favicons -->
+    <link rel="apple-touch-icon" sizes="57x57" href="/images/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/images/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/images/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/images/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/images/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/images/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/images/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/images/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192"  href="/images/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/images/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/images/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+
+  </head>
+
+  <body>
+      <section class="page-header">
+        <img src="/images/hyperloop_white.svg" width="200" alt="Hyperloop white" />
+        <h1 class="project-name">
+          <a href="/" class="btn-logo">Hyperloop</a>
+        </h1>
+        <h2 class="project-tagline">THE MISSING RUBY FRONT-END LIBRARY</h2>
+        <a href="/get_started" class="btn">Get Started</a>
+        <a href="/installation" class="btn">Installation</a>
+        <a href="/tutorial" class="btn">Tutorial</a>
+        <a href="/gems" class="btn">Gems</a>
+        <a href="https://github.com/reactrb" class="btn">Github</a>
+        <a href="/tooling" class="btn">Tooling</a>
+        <a href="/docs" class="btn">Docs</a>
+        <a href="/support" class="btn">Support</a>
+        <a href="/blog" class="btn">Blog</a>
+      </section>
+
+      <section class="main-content">
+        <h1 id="tools-debugging-and-testing">Tools, Debugging and Testing</h1>
+
+<h2 id="tools">Tools</h2>
+
+<p>As most of the Hyperloop gems use <a href="http://opalrb.org/">Opal</a>, you have the whole Opal universe of tools available to you. The following two have been designed to work with Reactrb:</p>
+
+<h3 id="opal-hot-reloader"><a href="https://github.com/fkchang/opal-hot-reloader">Opal Hot Reloader</a></h3>
+
+<p>For pure programmer joy, no more page refreshes.</p>
+
+<h3 id="opal-console"><a href="https://github.com/fkchang/opal-console">Opal Console</a></h3>
+
+<p>Opal in your browser. Great for testing.</p>
+
+<h2 id="debugging">Debugging</h2>
+
+<p>There are a few simple debugging techniques:</p>
+
+<h3 id="puts-is-your-friend">Puts is your friend</h3>
+
+<p>Anywhere in your Reactrb code you can simply <code>puts any_value</code> which will display the contents of the value in the browser console. This can help you understand React program flow as well as how data changes over time.</p>
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">Thing</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
+  <span class="n">param</span> <span class="ss">initial_mode: </span><span class="mi">12</span>
+
+  <span class="n">before_mount</span> <span class="k">do</span>
+    <span class="n">state</span><span class="p">.</span><span class="nf">mode!</span> <span class="n">params</span><span class="p">.</span><span class="nf">initial_mode</span>
+    <span class="nb">puts</span> <span class="s2">"before_mount params.initial_mode=</span><span class="si">#{</span><span class="n">params</span><span class="p">.</span><span class="nf">initial_mode</span><span class="si">}</span><span class="s2">"</span>
+  <span class="k">end</span>
+
+  <span class="n">after_mount</span> <span class="k">do</span>
+    <span class="vi">@timer</span> <span class="o">=</span> <span class="n">every</span><span class="p">(</span><span class="mi">60</span><span class="p">)</span> <span class="p">{</span> <span class="n">force_update!</span> <span class="p">}</span>
+    <span class="nb">puts</span> <span class="s2">"after_mount params.initial_mode=</span><span class="si">#{</span><span class="n">params</span><span class="p">.</span><span class="nf">initial_mode</span><span class="si">}</span><span class="s2">"</span>
+  <span class="k">end</span>
+
+  <span class="n">render</span> <span class="k">do</span>
+    <span class="n">div</span><span class="p">(</span><span class="ss">class: :time</span><span class="p">)</span> <span class="k">do</span>
+      <span class="nb">puts</span> <span class="s2">"render params.initial_mode=</span><span class="si">#{</span><span class="n">params</span><span class="p">.</span><span class="nf">initial_mode</span><span class="si">}</span><span class="s2">"</span>
+      <span class="nb">puts</span> <span class="s2">"render state.mode=</span><span class="si">#{</span><span class="n">state</span><span class="p">.</span><span class="nf">mode</span><span class="si">}</span><span class="s2">"</span>
+      <span class="p">.</span><span class="nf">.</span><span class="p">.</span>
+      <span class="nf">end</span><span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:change</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">e</span><span class="o">|</span>
+        <span class="n">state</span><span class="p">.</span><span class="nf">mode!</span><span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="nf">target</span><span class="p">.</span><span class="nf">value</span><span class="p">.</span><span class="nf">to_i</span><span class="p">)</span>
+        <span class="nb">puts</span> <span class="s2">"on:change e.target.value.to_i=</span><span class="si">#{</span><span class="n">e</span><span class="p">.</span><span class="nf">target</span><span class="p">.</span><span class="nf">value</span><span class="p">.</span><span class="nf">to_i</span><span class="si">}</span><span class="s2">"</span>
+        <span class="nb">puts</span> <span class="s2">"on:change state.mode=</span><span class="si">#{</span><span class="n">state</span><span class="p">.</span><span class="nf">mode</span><span class="si">}</span><span class="s2">"</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<h3 id="javascript-console">JavaScript Console</h3>
+
+<p>At any time during program execution you can breakout into the JavaScript console by simply adding a line of back-ticked JavaScript to your ruby code:</p>
+<pre class="highlight ruby"><code><span class="sb">`debugger;`</span>
+</code></pre>
+<p>If you have source maps turned on you will then be able to see your ruby code (and the compiled JavaScript code) and set browser breakpoints, examine values and continue execution. See <a href="http://opalrb.org/docs/guides/v0.10.1/source_maps.html">Opal Source Maps</a> if you are not seeing source maps.</p>
+
+<p>You can also inspect ruby objects from the JavaScript console. <a href="http://dev.mikamai.com/post/103047475349/3-tricks-to-debug-opal-code-from-your-browser">Here are three tricks</a>.</p>
+
+<h2 id="testing">Testing</h2>
+
+<p>&hellip; need help here please &hellip;</p>
+
+      </section>
+  </body>
+</html>
