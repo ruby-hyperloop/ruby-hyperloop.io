@@ -42,7 +42,7 @@ class Thing < React::Component::Base
       end.on(:change) do |e|
         state.mode!(e.target.value.to_i)
         puts "on:change e.target.value.to_i=#{e.target.value.to_i}"
-        puts "on:change state.mode=#{state.mode}"
+        puts "on:change (too high) state.mode=#{state.mode}" if state.mode > 100
       end
     end
   end
