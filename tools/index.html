@@ -100,7 +100,7 @@
       <span class="nf">end</span><span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:change</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">e</span><span class="o">|</span>
         <span class="n">state</span><span class="p">.</span><span class="nf">mode!</span><span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="nf">target</span><span class="p">.</span><span class="nf">value</span><span class="p">.</span><span class="nf">to_i</span><span class="p">)</span>
         <span class="nb">puts</span> <span class="s2">"on:change e.target.value.to_i=</span><span class="si">#{</span><span class="n">e</span><span class="p">.</span><span class="nf">target</span><span class="p">.</span><span class="nf">value</span><span class="p">.</span><span class="nf">to_i</span><span class="si">}</span><span class="s2">"</span>
-        <span class="nb">puts</span> <span class="s2">"on:change state.mode=</span><span class="si">#{</span><span class="n">state</span><span class="p">.</span><span class="nf">mode</span><span class="si">}</span><span class="s2">"</span>
+        <span class="nb">puts</span> <span class="s2">"on:change (too high) state.mode=</span><span class="si">#{</span><span class="n">state</span><span class="p">.</span><span class="nf">mode</span><span class="si">}</span><span class="s2">"</span> <span class="k">if</span> <span class="n">state</span><span class="p">.</span><span class="nf">mode</span> <span class="o">&gt;</span> <span class="mi">100</span>
       <span class="k">end</span>
     <span class="k">end</span>
   <span class="k">end</span>
