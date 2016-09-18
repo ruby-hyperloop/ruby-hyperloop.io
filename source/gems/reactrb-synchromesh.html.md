@@ -1,6 +1,6 @@
-# Reactrb Synchromesh
+# Hyperloop Synchromesh
 
-Github: [Reactrb Synchromesh](https://github.com/reactrb/synchromesh)
+Github: [Synchromesh](https://github.com/reactrb/synchromesh)
 
 Synchromesh provides multi-client synchronization for [reactive-record.](https://github.com/catprintlabs/reactive-record)
 

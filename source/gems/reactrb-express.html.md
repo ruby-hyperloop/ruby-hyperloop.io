@@ -1,8 +1,8 @@
-# Reactrb Express
+# Hyperloop Reactrb Express
 
 Github: [Reactrb Express](https://github.com/reactrb/reactrb-express)
 
-React.rb for static sites, with no build process needed
+React.rb for static sites, with no build process needed.
 
 ## How To
 

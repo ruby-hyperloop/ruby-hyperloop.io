@@ -9,7 +9,7 @@ page '/*.xml', layout: false
 page '/*.json', layout: false
 page '/*.txt', layout: false
 
-#page "/docs.html", :layout => "layout_with_toc"
+page "/gems/*.*", :layout => "layout_for_gems"
 page "/chatrb.html", :layout => false
 
 # With alternative layout

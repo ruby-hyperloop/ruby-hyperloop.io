@@ -1,5 +1,5 @@
-# Reactrb Router
-Github: [Reactrb Router](https://github.com/reactrb/reactrb-router)
+# Hyperloop Router
+Github: [Router](https://github.com/reactrb/reactrb-router)
 
 ReactrbRouter allows you write and use the React Router in Ruby through Opal.
 

@@ -1,8 +1,6 @@
-# Reactrb gem
+# Hyperloop Reactrb
 
 Github: [Reactrb](https://github.com/reactrb/reactrb)
-
-# Reactrb / Reactive-Ruby
 
 [![Join the chat at https://gitter.im/reactrb/chat](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/reactrb/chat?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Build Status](https://travis-ci.org/reactrb/reactrb.svg?branch=master)](https://travis-ci.org/reactrb/reactrb)
@@ -14,8 +12,6 @@ Github: [Reactrb](https://github.com/reactrb/reactrb)
 
 It lets you write reactive UI components, with Ruby's elegance using the tried
 and true React.js engine. :heart:
-
-[**Visit reactrb.org For The Full Story**](http://reactrb.org)
 
 ### Important: `react.rb` and `reactive-ruby` gems are **deprecated.** Please [read this!](#upgrading-to-reactrb)
 

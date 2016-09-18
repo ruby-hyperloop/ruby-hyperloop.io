@@ -1,8 +1,6 @@
-# Reactive Record
+# Hyperloop Reactive Record
 
-Github: [Reactrb Reactive Record](https://github.com/reactrb/reactive-record)
-
-# Reactive Record
+Github: [Reactive Record](https://github.com/reactrb/reactive-record)
 
 Reactive Record is a client-side representation of your Active Record models fully integrated with Reactrb. Reactive Record works perfectly with Synchromesh to magically synchronise server side data changes with any connected client. Writing simple code, without worrying about how data moves between one machine and another, and then seeing live updates in action is magical.
 
