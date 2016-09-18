@@ -1,4 +1,4 @@
-# Reactrb Gem
+# Reactrb gem
 
 Github: [Reactrb](https://github.com/reactrb/reactrb)
 

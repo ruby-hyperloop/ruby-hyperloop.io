@@ -1,10 +1,10 @@
-# Hyperloop Gems
+# Hyperloop gems
 
 Hyperloop is made up of a family of gems which all work together which collectively make up the missing Ruby front end library.
 
 ## [Hyperloop Reactrb](/gems/reactrb)
 
-This is the master Gem. You will always need this as a base. Reactrb provides a Ruby DSL to Facebook's React.
+This is the master gem. You will always need this as a base. Reactrb provides a Ruby DSL to Facebook's React.
 
 ## [Hyperloop Reactive Record](/gems/reactrb-reactive-record)
 

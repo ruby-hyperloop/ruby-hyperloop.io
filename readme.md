@@ -16,7 +16,7 @@ $ middleman article "Test Post"
 ## Build and Publish to Github Pages
 Published pages are in `master` branch.
 
-Publishing to Github pages handled by [Middleman Github Pages Gem](https://github.com/edgecase/middleman-gh-pages).
+Publishing to Github pages handled by [Middleman Github Pages gem](https://github.com/edgecase/middleman-gh-pages).
 
 The rake tasks below will build and deploy to `master`
 
