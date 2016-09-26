@@ -24,7 +24,5 @@ The rake tasks below will build and deploy to `master`
 ```text
 $ rake build    # Compile all files into the build directory
 $ rake publish # Publish to master branch
-# rake publish REMOTE_NAME=reactrb BRANCH_NAME=master
 ```
-
-**Important:** After each deploy you will have to reset the Custom Domain on the repro Settings to: `ruby-hyperloop.io`
+**Note `rake publish` uses REMOTE_NAME=reactrb BRANCH_NAME=master (see Rakefile)**
