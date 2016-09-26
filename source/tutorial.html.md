@@ -412,18 +412,12 @@ and pass the `login` method to the `Nav` component like so
 
 ```ruby
   def render
-    Nav(login: method(:login))
+    Nav(login: method(:login).to_proc)
     ...
   end
 ```
 
 Reload your browser, and login, and the warning will be gone, and the login message will be back.
-
-*Note: There will still be this warning:*
-```console
-Failed propType: You provided a `value` prop to a form field without an `onChange` handler.
-```
-*which you may ignore.*
 
 Lets review these changes:
 
@@ -488,7 +482,7 @@ When our App starts (**mounts** in React terms) we need to initialize the chat s
 
 Add this code to the beginning of the `App` component:
 
-```Ruby
+```ruby
   before_mount do
     ChatService.new do | messages |
       if state.messages
@@ -558,10 +552,10 @@ Hopefully by this time you've got a rough idea how we are going to do this!
 
 First update the `App` render method like this:
 
-```Ruby
+```ruby
   def render
     div do
-      Nav login: method(:login)
+      Nav login: method(:login).to_proc
       Messages messages: state.messages
       InputBox()
     end
@@ -570,13 +564,13 @@ First update the `App` render method like this:
 
 Then add the corresponding `messages` parameter to the `Messages` component:
 
-```Ruby
+```ruby
   param :messages, type: [Hash]
 ```
 
 And update the `Messages` render method to iterate through all the messages displaying `Message` for each one:
 
-```Ruby
+```ruby
   def render
     div do
       params.messages.each do |message|
@@ -588,7 +582,7 @@ And update the `Messages` render method to iterate through all the messages disp
 
 Likewise the `Message` component needs to receive and display a message.  Replace the whole component with the following:
 
-```Ruby
+```ruby
 class Message < React::Component::Base
 
   param :message, type: Hash
@@ -634,10 +628,10 @@ For our simple App we are going to figure that we are logged in **if** `state.me
 
 Now update the `App`s `render` method so that we don't display the `Messages` or the `InputBox` unless we are logged in.
 
-```Ruby
+```ruby
   def render
     div do
-      Nav login: method(:login)
+      Nav login: method(:login).to_proc
       if online?
         Messages messages: state.messages
         InputBox()
@@ -721,11 +715,11 @@ We will also use Opal-Ruby's native escape mechanism to insert raw javascript co
 Replace `FormattedDiv`'s `render` method with the following:
 
 ```ruby
-  def render
-    div do
-      div({dangerously_set_inner_HTML: { __html: `marked(#{params.markdown}, {sanitize: true})`}})
-    end
+def render
+  div do
+    div({dangerously_set_inner_HTML: { __html: `marked(#{params.markdown}, {sanitize: true})`}})
   end
+end
 ```
 
 Save your file, refresh, and login, and you should see the test messages as formatted html.
@@ -748,7 +742,7 @@ We have a few more features to add, and if you have been observant you have noti
 
 We will use **Bootstrap** styles, which has already been included.  We just need a few additional styles so lets add those now to the inline style sheet at the top of your HTML file:
 
-```CSS
+```css
   body {
     padding-top: 50px;
     padding-bottom: 60px;
@@ -791,26 +785,26 @@ Any dashes in class names should be translated to underscores.  For example:
 
 With this we are ready to beautify our `Nav` component.  Replace the render method with the following code.
 
-```Ruby
-  def render
-    div.navbar.navbar_inverse.navbar_fixed_top do
-      div.container do
-        div.collapse.navbar_collapse(id: "navbar") do
-          form.navbar_form.navbar_left(role: :search) do
-            div.form_group do
-              input.form_control(type: :text, value: state.user_name_input, placeholder: "Enter Your Handle"
-              ).on(:change) do |e|
-                state.user_name_input! e.target.value
-              end
-              button.btn.btn_default(type: :button) { "login!" }.on(:click) do
-                login!
-              end if valid_new_input?
+```ruby
+def render
+  div.navbar.navbar_inverse.navbar_fixed_top do
+    div.container do
+      div.collapse.navbar_collapse(id: "navbar") do
+        form.navbar_form.navbar_left(role: :search) do
+          div.form_group do
+            input.form_control(type: :text, value: state.user_name_input, placeholder: "Enter Your Handle"
+            ).on(:change) do |e|
+              state.user_name_input! e.target.value
             end
+            button.btn.btn_default(type: :button) { "login!" }.on(:click) do
+              login!
+            end if valid_new_input?
           end
         end
       end
     end
   end
+end
 ```
 
 While this looks complicated notice that in the middle is our original input tag.  We have just added wrappers around it, and added the `form_control` class to the input, and the `btn` and `btn-default` classes to the login button.
@@ -819,30 +813,30 @@ Refresh you browser and things should start looking better already.
 
 Lets move on to the `Message` and `Messages` components.  First add the class `container` to the `Messages` div.  The `Messages` render method should now look like this:
 
-```Ruby
-  def render
-    div.container do # add the bootstrap .container class here.
-      params.messages.each do |message|
-        Message user_id: params.chat_service.id, message: message
-      end
+```ruby
+def render
+  div.container do # add the bootstrap .container class here.
+    params.messages.each do |message|
+      Message message: message
     end
   end
+end
 ```
 
 Now add the `row, alternating` and `message` classes to the outer div of the Message component, and the `col-sm-2` class to the sender and time divs.  (Remember to change dashes to underscores.)
 
 Now add the `class: "col-sm-8"` to the `FormattedDiv` element.  Notice that you can not use the short hand syntax with application defined components.  
 
-Your Message render method should look like this:
+Your `Message` render method should look like this:
 
-```Ruby
-  def render
-    div.row.alternating.message do
-      div.col_sm_2 { params.message[:from] }
-      FormattedDiv class: "col-sm-8", markdown: params.message[:message]
-      div.col_sm_2 { Time.at(params.message[:time]).to_s }
-    end
+```ruby
+def render
+  div.row.alternating.message do
+    div.col_sm_2 { params.message[:from] }
+    FormattedDiv class: "col-sm-8", markdown: params.message[:message]
+    div.col_sm_2 { Time.at(params.message[:time]).to_s }
   end
+end
 ```
 
 Finally we need to update `FormattedDiv` so that it accepts all the normal html attributes uses them in the outer div.  This will allow us to specify different style classes for the `FormattedDiv` in the message display and in the input box.
@@ -851,7 +845,7 @@ The `collect_other_params_as` macro is used to gather up any params not specifie
 
 Update the `FormattedDiv` `render` method so it looks like this:
 
-```Ruby
+```ruby
 class FormattedDiv < React::Component::Base
 
   param :markdown, type: String
@@ -879,18 +873,18 @@ Finally add `class: "col-sm-5 white"` to the `FormattedDiv` element.
 
 Your updated render method should look like this:
 
-```Ruby
-  def render
-    div.row.form_group.input_box.navbar.navbar_inverse.navbar_fixed_bottom do
-      div.col_sm_1.white {"Say Something: "}
-      input.col_sm_5(value: state.composition).on(:change) do |e|
-        state.composition! e.target.value
-      end.on(:key_down) do |e|
-        send_message if is_send_key?(e)
-      end
-      FormattedDiv class: "col-sm-5 white", markdown: state.composition
+```ruby
+def render
+  div.row.form_group.input_box.navbar.navbar_inverse.navbar_fixed_bottom do
+    div.col_sm_1.white {"Say: "}
+    input.col_sm_5(value: state.composition).on(:change) do |e|
+      state.composition! e.target.value
+    end.on(:key_down) do |e|
+      send_message if is_send_key?(e)
     end
+    FormattedDiv class: "col-sm-5 white", markdown: state.composition
   end
+end
 ```
 
 ### Multiline Inputs
@@ -901,10 +895,12 @@ First change the `input` element to a `textarea` element which will allow us to 
 
 Now go back and change the expression in the `is_send_key?`` method to also check for a ctrl or meta key.  
 
-```Ruby
-  def is_send_key?(e)
-    (e.char_code == 13 || e.key_code == 13) && (e.meta_key || e.ctrl_key)
-  end
+**Note:** You will need to press Ctrl-Enter to submit.
+
+```ruby
+def is_send_key?(e)
+  (e.char_code == 13 || e.key_code == 13) && (e.meta_key || e.ctrl_key)
+end
 ```
 
 Try it out in your browser.  You should now be able to enter multiple line inputs.
@@ -916,9 +912,9 @@ All we need to do is add the `rows` attribute to the `textarea` and calculate th
 Add this method right after the `render` method:
 
 ```ruby
-  def rows
-    [state.composition.count("\n") + 1,20].min
-  end
+def rows
+  [state.composition.count("\n") + 1,20].min
+end
 ```
 
 and pass the value of our new `rows` method to the `rows` attribute of the `textarea`:
@@ -931,13 +927,13 @@ Refresh and you should be see the textarea dynamically grow as you type more tex
 
 This brings up a very important point about states:
 
-- #### Where possible compute values rather than adding state
++ Where possible compute values rather than adding state
 
-    You might be tempted to create a state variable called rows that is updated whenever the text area changes.  
++ You might be tempted to create a state variable called rows that is updated whenever the text area changes.  
 
-    This may (or may not) be slightly more effecient, but it introduces a lot of complexity.  
++ This may (or may not) be slightly more effecient, but it introduces a lot of complexity.  
 
-    Instead where ever possible compute values from existing state.
++ Instead where ever possible compute values from existing state.
 
 
 ### Automatic Scroll Position
@@ -949,18 +945,18 @@ Displaying the messages is the responsibility of the `Messages` component so tha
 First add this method to the bottom of the `Messages` component:
 
 ```ruby
-  def scroll_to_bottom
-    Element['html, body'].animate({scrollTop: Element[Document].height}, :slow)
-  end
+def scroll_to_bottom
+  Element['html, body'].animate({scrollTop: Element[Document].height}, :slow)
+end
 ```
 
 Now all we need to do is call `scroll_to_bottom` whenever our message data changes.  What we need to do is hook into the `after_mount`, and `after_update` callbacks.  `after_mount` runs after the initial rendering of a component, and likewise `after_update` runs after every subsequent update.
 
-Add these two lines right after the param declaration in the Message component:
+Add these two lines right after the param declaration in the `Message` component:
 
-```Ruby
-  after_mount :scroll_to_bottom
-  after_update :scroll_to_bottom
+```ruby
+after_mount :scroll_to_bottom
+after_update :scroll_to_bottom
 ```
 
 Notice that instead of providing a block to the callbacks we are providing the name of a method to call, which is handy in this case since we want to use the same method twice.
@@ -975,7 +971,7 @@ Lets fix this.
 
 Add this method to the bottom of the `Message` component:
 
-```Ruby
+```ruby
 def sender
   if params.message[:from] == params.user_id
     "you: "
@@ -1023,10 +1019,10 @@ What we need to do is clear the messages during the login process.
 
 Add this line at the beginning of the `App` login method:
 
-```Ruby
-  ...
-  state.messages! nil
-  ...
+```ruby
+...
+state.messages! nil
+...
 ```
 
 Make sure you do this before sending the credentials to the chat service.
@@ -1040,24 +1036,24 @@ To fix this the `Nav` component will need to two additional event handlers, one 
 Add this handler to the `input` element:
 
 ```ruby
-  on(:key_down) do |e|
-    login! if valid_new_input? && e.key_code == 13
-  end
+on(:key_down) do |e|
+  login! if valid_new_input? && e.key_code == 13
+end
 ```
 
 and add this handler to the `form`.
 
-```Ruby
-  on(:submit) { |e| e.prevent_default }
+```ruby
+on(:submit) { |e| e.prevent_default }
 ```
 
 While we are in there lets add the Reactrb logo and a title to the nav bar.  Add
 
-```Ruby
-  div.navbar_header do
-    div.reactrb_icon
-    a.navbar_brand(href: "#", style: {color: "#00d8ff"}) { "Reactrb Chat Room " }
-  end
+```ruby
+div.navbar_header do
+  div.reactrb_icon
+  a.navbar_brand(href: "#", style: {color: "#00d8ff"}) { "Reactrb Chat Room " }
+end
 ```
 
 inside the `container` `div`.
@@ -1068,32 +1064,32 @@ Replace `{ "Login!" }` with `{ span.glyphicon.glyphicon_log_in }`
 
 Now the completed `Nav` `render` method will look like this:
 
-```Ruby
-  def render
-    div.navbar.navbar_inverse.navbar_fixed_top do
-      div.container do
-        div.navbar_header do
-          div.reactrb_icon
-          a.navbar_brand(href: "#", style: {color: "#00d8ff"}) { "Reactrb Chat Room " }
-        end
-        div.collapse.navbar_collapse(id: "navbar") do
-          form.navbar_form.navbar_left(role: :search) do
-            div.form_group do
-              input.form_control(type: :text, value: state.user_name_input, placeholder: "Enter Your Handle"
-              ).on(:change) do |e|
-                state.user_name_input! e.target.value
-              end.on(:key_down) do |e|
-                login! if valid_new_input? && e.key_code == 13
-              end
-              button.btn.btn_default(type: :button) { span.glyphicon.glyphicon_log_in }.on(:click) do
-                login!
-              end if valid_new_input?
+```ruby
+def render
+  div.navbar.navbar_inverse.navbar_fixed_top do
+    div.container do
+      div.navbar_header do
+        div.reactrb_icon
+        a.navbar_brand(href: "#", style: {color: "#00d8ff"}) { "Reactrb Chat Room " }
+      end
+      div.collapse.navbar_collapse(id: "navbar") do
+        form.navbar_form.navbar_left(role: :search) do
+          div.form_group do
+            input.form_control(type: :text, value: state.user_name_input, placeholder: "Enter Your Handle"
+            ).on(:change) do |e|
+              state.user_name_input! e.target.value
+            end.on(:key_down) do |e|
+              login! if valid_new_input? && e.key_code == 13
             end
-          end.on(:submit) { |e| e.prevent_default }
-        end
+            button.btn.btn_default(type: :button) { span.glyphicon.glyphicon_log_in }.on(:click) do
+              login!
+            end if valid_new_input?
+          end
+        end.on(:submit) { |e| e.prevent_default }
       end
     end
   end
+end
 ```
 
 Now that you are all done make sure you change from the test fixture so your app interacts with the webservice.
@@ -1112,6 +1108,155 @@ to read
 
 and you will be sending and receiving messages from the chat server.  Try opening your a second browser window to get the full experience.
 
-*Congratulations*
+**Congratulations**
 
 You have built a very nice functional application.   We hope you have enjoyed the process.  Happy Coding!
+
+#### Source code of the steps up until 'Detecting loged in user'
+
+```ruby
+<script type="text/ruby">
+class App < React::Component::Base
+
+  before_mount do
+   @chat_service = ChatService.new do | messages |
+     state.messages! ((state.messages || []) + messages)
+     puts "state messages updated.  state.messages: #{state.messages}"
+   end
+  end
+
+  def render
+    div do
+      Nav login: method(:login).to_proc
+      if online?
+        Messages messages: state.messages
+        InputBox chat_service: @chat_service
+      end
+    end
+  end
+
+  def login(user_name)
+    @chat_service.login(user_name)
+  end
+
+  def online?
+    state.messages
+  end
+end
+
+class Nav < React::Component::Base
+  param :login, type: Proc
+
+  before_mount do
+    state.current_user_name! nil
+    state.user_name_input! ""
+  end
+
+  def render
+    div.navbar.navbar_inverse.navbar_fixed_top do
+      div.container do
+        div.collapse.navbar_collapse(id: "navbar") do
+          form.navbar_form.navbar_left(role: :search) do
+            div.form_group do
+              input.form_control(type: :text, value: state.user_name_input, placeholder: "Enter Your Handle"
+              ).on(:change) do |e|
+                state.user_name_input! e.target.value
+              end
+              button.btn.btn_default(type: :button) { "login!" }.on(:click) do
+                login!
+              end if valid_new_input?
+            end
+          end
+        end
+      end
+    end
+  end
+
+  def valid_new_input?
+    state.user_name_input.present? && state.user_name_input != state.current_user_name
+  end
+
+  def login!
+     state.current_user_name! state.user_name_input
+     params.login(state.user_name_input)
+  end
+end
+
+class Messages < React::Component::Base
+  param :messages, type: [Hash]
+
+  def render
+    div.container do # add the bootstrap .container class here.
+      params.messages.each do |message|
+        Message message: message
+      end
+    end
+  end
+end
+
+class Message < React::Component::Base
+  param :message, type: Hash
+
+  after_mount :scroll_to_bottom
+  after_update :scroll_to_bottom
+
+  def render
+   div.row.alternating.message do
+     div.col_sm_2 { params.message[:from] }
+     FormattedDiv class: "col-sm-8", markdown: params.message[:message]
+     div.col_sm_2 { Time.at(params.message[:time]).to_s }
+   end
+  end
+
+  def scroll_to_bottom
+    Element['html, body'].animate({scrollTop: Element[Document].height}, :slow)
+  end
+end
+
+class InputBox < React::Component::Base
+  param :chat_service, type: ChatService
+
+  before_mount { state.composition! "" }
+
+  def render
+    div.row.form_group.input_box.navbar.navbar_inverse.navbar_fixed_bottom do
+      div.col_sm_1.white {"Say: "}
+      textarea.col_sm_5(rows: rows, value: state.composition).on(:change) do |e|
+        state.composition! e.target.value
+      end.on(:key_down) do |e|
+        send_message if is_send_key?(e)
+      end
+      FormattedDiv class: "col-sm-5 white", markdown: state.composition
+    end
+  end
+
+  def rows
+    [state.composition.count("\n") + 1,20].min
+  end
+
+  def is_send_key?(e)
+    #(e.char_code == 13 || e.key_code == 13)
+    (e.char_code == 13 || e.key_code == 13) && (e.meta_key || e.ctrl_key)
+  end
+
+  def send_message
+    params.chat_service.send(
+      message: state.composition!(""),
+      time: Time.now.to_i,
+      from: params.chat_service.id
+    )
+  end
+end
+
+class FormattedDiv < React::Component::Base
+  param :markdown, type: String
+  collect_other_params_as :attributes
+
+  def render
+    div(params.attributes) do # send whatever class is specified on to the outer div
+      div({dangerously_set_inner_HTML: { __html: `marked(#{params.markdown}, {sanitize: true })`}})
+    end
+  end
+end
+</script>
+```
