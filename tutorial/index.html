@@ -437,17 +437,11 @@ Required prop `login` was not specified Check the render method of `App`.
 </code></pre>
 <p>and pass the <code>login</code> method to the <code>Nav</code> component like so</p>
 <pre class="highlight ruby"><code>  <span class="k">def</span> <span class="nf">render</span>
-    <span class="no">Nav</span><span class="p">(</span><span class="ss">login: </span><span class="nb">method</span><span class="p">(</span><span class="ss">:login</span><span class="p">))</span>
+    <span class="no">Nav</span><span class="p">(</span><span class="ss">login: </span><span class="nb">method</span><span class="p">(</span><span class="ss">:login</span><span class="p">).</span><span class="nf">to_proc</span><span class="p">)</span>
     <span class="p">.</span><span class="nf">.</span><span class="p">.</span>
   <span class="nf">end</span>
 </code></pre>
 <p>Reload your browser, and login, and the warning will be gone, and the login message will be back.</p>
-
-<p><em>Note: There will still be this warning:</em>
-<code>console
-Failed propType: You provided a `value` prop to a form field without an `onChange` handler.
-</code>
-<em>which you may ignore.</em></p>
 
 <p>Lets review these changes:</p>
 
@@ -503,16 +497,16 @@ the message string, and the time that the message was sent:</p>
 <p>When our App starts (<strong>mounts</strong> in React terms) we need to initialize the chat service.</p>
 
 <p>Add this code to the beginning of the <code>App</code> component:</p>
-<pre class="highlight plaintext"><code>  before_mount do
-    ChatService.new do | messages |
-      if state.messages
-        state.messages! state.messages + messages
-      else
-        state.messages! messages
-      end
-      puts "state messages updated.  state.messages: #{state.messages}"
-    end
-  end
+<pre class="highlight ruby"><code>  <span class="n">before_mount</span> <span class="k">do</span>
+    <span class="no">ChatService</span><span class="p">.</span><span class="nf">new</span> <span class="k">do</span> <span class="o">|</span> <span class="n">messages</span> <span class="o">|</span>
+      <span class="k">if</span> <span class="n">state</span><span class="p">.</span><span class="nf">messages</span>
+        <span class="n">state</span><span class="p">.</span><span class="nf">messages!</span> <span class="n">state</span><span class="p">.</span><span class="nf">messages</span> <span class="o">+</span> <span class="n">messages</span>
+      <span class="k">else</span>
+        <span class="n">state</span><span class="p">.</span><span class="nf">messages!</span> <span class="n">messages</span>
+      <span class="k">end</span>
+      <span class="nb">puts</span> <span class="s2">"state messages updated.  state.messages: </span><span class="si">#{</span><span class="n">state</span><span class="p">.</span><span class="nf">messages</span><span class="si">}</span><span class="s2">"</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
 </code></pre>
 <p>Before the component mounts our callback will execute and it creates a new <code>ChatService</code> instance.  </p>
 
@@ -563,39 +557,39 @@ the message string, and the time that the message was sent:</p>
 <p>Hopefully by this time you&rsquo;ve got a rough idea how we are going to do this!</p>
 
 <p>First update the <code>App</code> render method like this:</p>
-<pre class="highlight plaintext"><code>  def render
-    div do
-      Nav login: method(:login)
-      Messages messages: state.messages
-      InputBox()
-    end
-  end
+<pre class="highlight ruby"><code>  <span class="k">def</span> <span class="nf">render</span>
+    <span class="n">div</span> <span class="k">do</span>
+      <span class="no">Nav</span> <span class="ss">login: </span><span class="nb">method</span><span class="p">(</span><span class="ss">:login</span><span class="p">).</span><span class="nf">to_proc</span>
+      <span class="no">Messages</span> <span class="ss">messages: </span><span class="n">state</span><span class="p">.</span><span class="nf">messages</span>
+      <span class="no">InputBox</span><span class="p">()</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
 </code></pre>
 <p>Then add the corresponding <code>messages</code> parameter to the <code>Messages</code> component:</p>
-<pre class="highlight plaintext"><code>  param :messages, type: [Hash]
+<pre class="highlight ruby"><code>  <span class="n">param</span> <span class="ss">:messages</span><span class="p">,</span> <span class="ss">type: </span><span class="p">[</span><span class="no">Hash</span><span class="p">]</span>
 </code></pre>
 <p>And update the <code>Messages</code> render method to iterate through all the messages displaying <code>Message</code> for each one:</p>
-<pre class="highlight plaintext"><code>  def render
-    div do
-      params.messages.each do |message|
-        Message message: message
-      end
-    end
-  end
+<pre class="highlight ruby"><code>  <span class="k">def</span> <span class="nf">render</span>
+    <span class="n">div</span> <span class="k">do</span>
+      <span class="n">params</span><span class="p">.</span><span class="nf">messages</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">message</span><span class="o">|</span>
+        <span class="no">Message</span> <span class="ss">message: </span><span class="n">message</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
 </code></pre>
 <p>Likewise the <code>Message</code> component needs to receive and display a message.  Replace the whole component with the following:</p>
-<pre class="highlight plaintext"><code>class Message &lt; React::Component::Base
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">Message</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
 
-  param :message, type: Hash
+  <span class="n">param</span> <span class="ss">:message</span><span class="p">,</span> <span class="ss">type: </span><span class="no">Hash</span>
 
-  def render
-    div do
-      div { params.message[:from] }
-      FormattedDiv markdown: params.message[:message]
-      div { Time.at(params.message[:time]).to_s }
-    end
-  end
-end
+  <span class="k">def</span> <span class="nf">render</span>
+    <span class="n">div</span> <span class="k">do</span>
+      <span class="n">div</span> <span class="p">{</span> <span class="n">params</span><span class="p">.</span><span class="nf">message</span><span class="p">[</span><span class="ss">:from</span><span class="p">]</span> <span class="p">}</span>
+      <span class="no">FormattedDiv</span> <span class="ss">markdown: </span><span class="n">params</span><span class="p">.</span><span class="nf">message</span><span class="p">[</span><span class="ss">:message</span><span class="p">]</span>
+      <span class="n">div</span> <span class="p">{</span> <span class="no">Time</span><span class="p">.</span><span class="nf">at</span><span class="p">(</span><span class="n">params</span><span class="p">.</span><span class="nf">message</span><span class="p">[</span><span class="ss">:time</span><span class="p">]).</span><span class="nf">to_s</span> <span class="p">}</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
 </code></pre>
 <p>Save everything, and refresh your browser.  Login and you should see a very rough but functional display of your messages!</p>
 
@@ -626,15 +620,15 @@ end
 <p>For our simple App we are going to figure that we are logged in <strong>if</strong> <code>state.messages</code> is not <code>nil</code>.  </p>
 
 <p>Now update the <code>App</code>s <code>render</code> method so that we don&rsquo;t display the <code>Messages</code> or the <code>InputBox</code> unless we are logged in.</p>
-<pre class="highlight plaintext"><code>  def render
-    div do
-      Nav login: method(:login)
-      if online?
-        Messages messages: state.messages
-        InputBox()
-      end
-    end
-  end
+<pre class="highlight ruby"><code>  <span class="k">def</span> <span class="nf">render</span>
+    <span class="n">div</span> <span class="k">do</span>
+      <span class="no">Nav</span> <span class="ss">login: </span><span class="nb">method</span><span class="p">(</span><span class="ss">:login</span><span class="p">).</span><span class="nf">to_proc</span>
+      <span class="k">if</span> <span class="n">online?</span>
+        <span class="no">Messages</span> <span class="ss">messages: </span><span class="n">state</span><span class="p">.</span><span class="nf">messages</span>
+        <span class="no">InputBox</span><span class="p">()</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
 </code></pre>
 <p>Refresh the page and the error should be gone.</p>
 
@@ -705,11 +699,11 @@ end
 <p>We will also use Opal-Ruby&rsquo;s native escape mechanism to insert raw javascript code so we can call the <code>marked</code> function.</p>
 
 <p>Replace <code>FormattedDiv</code>&lsquo;s <code>render</code> method with the following:</p>
-<pre class="highlight ruby"><code>  <span class="k">def</span> <span class="nf">render</span>
-    <span class="n">div</span> <span class="k">do</span>
-      <span class="n">div</span><span class="p">({</span><span class="ss">dangerously_set_inner_HTML: </span><span class="p">{</span> <span class="ss">__html: </span><span class="sb">`marked(</span><span class="si">#{</span><span class="n">params</span><span class="p">.</span><span class="nf">markdown</span><span class="si">}</span><span class="sb">, {sanitize: true})`</span><span class="p">}})</span>
-    <span class="k">end</span>
+<pre class="highlight ruby"><code><span class="k">def</span> <span class="nf">render</span>
+  <span class="n">div</span> <span class="k">do</span>
+    <span class="n">div</span><span class="p">({</span><span class="ss">dangerously_set_inner_HTML: </span><span class="p">{</span> <span class="ss">__html: </span><span class="sb">`marked(</span><span class="si">#{</span><span class="n">params</span><span class="p">.</span><span class="nf">markdown</span><span class="si">}</span><span class="sb">, {sanitize: true})`</span><span class="p">}})</span>
   <span class="k">end</span>
+<span class="k">end</span>
 </code></pre>
 <p>Save your file, refresh, and login, and you should see the test messages as formatted html.</p>
 
@@ -731,36 +725,36 @@ end
 <p>We have a few more features to add, and if you have been observant you have noticed some bugs, but lets take a break and add some styling to our application.</p>
 
 <p>We will use <strong>Bootstrap</strong> styles, which has already been included.  We just need a few additional styles so lets add those now to the inline style sheet at the top of your HTML file:</p>
-<pre class="highlight plaintext"><code>  body {
-    padding-top: 50px;
-    padding-bottom: 60px;
-  }
-  div.alternating:nth-of-type(odd) {
-    background-color: #ddd;
-  }
-  div.alternating:nth-of-type(even) {
-    background-color: #ccc;
-  }
-  .input-box {
-    padding: 10px;
-  }
-  .white {
-    color: white;
-  }
-  .message {
-    padding-top: 10px;
-  }
-  textarea {
-    width: 100%;;
-  }
-  div.reactrb-icon {
-    float: left;
-    width: 50px;
-    height: 50px;
-    margin-right: 8px;
-    background-size: contain;
-    background-image: url("http://ruby-hyperloop.io/images/hyperloop_white.svg");
-}
+<pre class="highlight css"><code>  <span class="nt">body</span> <span class="p">{</span>
+    <span class="nl">padding-top</span><span class="p">:</span> <span class="m">50px</span><span class="p">;</span>
+    <span class="nl">padding-bottom</span><span class="p">:</span> <span class="m">60px</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="nt">div</span><span class="nc">.alternating</span><span class="nd">:nth-of-type</span><span class="o">(</span><span class="nt">odd</span><span class="o">)</span> <span class="p">{</span>
+    <span class="nl">background-color</span><span class="p">:</span> <span class="m">#ddd</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="nt">div</span><span class="nc">.alternating</span><span class="nd">:nth-of-type</span><span class="o">(</span><span class="nt">even</span><span class="o">)</span> <span class="p">{</span>
+    <span class="nl">background-color</span><span class="p">:</span> <span class="m">#ccc</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="nc">.input-box</span> <span class="p">{</span>
+    <span class="nl">padding</span><span class="p">:</span> <span class="m">10px</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="nc">.white</span> <span class="p">{</span>
+    <span class="nl">color</span><span class="p">:</span> <span class="no">white</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="nc">.message</span> <span class="p">{</span>
+    <span class="nl">padding-top</span><span class="p">:</span> <span class="m">10px</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="nt">textarea</span> <span class="p">{</span>
+    <span class="nl">width</span><span class="p">:</span> <span class="m">100%</span><span class="p">;</span><span class="err">;</span>
+  <span class="p">}</span>
+  <span class="nt">div</span><span class="nc">.reactrb-icon</span> <span class="p">{</span>
+    <span class="nl">float</span><span class="p">:</span> <span class="nb">left</span><span class="p">;</span>
+    <span class="nl">width</span><span class="p">:</span> <span class="m">50px</span><span class="p">;</span>
+    <span class="nl">height</span><span class="p">:</span> <span class="m">50px</span><span class="p">;</span>
+    <span class="nl">margin-right</span><span class="p">:</span> <span class="m">8px</span><span class="p">;</span>
+    <span class="nl">background-size</span><span class="p">:</span> <span class="n">contain</span><span class="p">;</span>
+    <span class="nl">background-image</span><span class="p">:</span> <span class="sx">url("http://ruby-hyperloop.io/images/hyperloop_white.svg")</span><span class="p">;</span>
+<span class="p">}</span>
 </code></pre>
 <p>In Reactrb you can add classes to elements using css dot notation.</p>
 
@@ -771,68 +765,68 @@ end
 <p><code>div.navbar.navbar_inverse.navbar_fixed_top</code> is the same as <code>div(class: &quot;navbar navbar-inverse navbar-fixed-top&quot;)</code></p>
 
 <p>With this we are ready to beautify our <code>Nav</code> component.  Replace the render method with the following code.</p>
-<pre class="highlight plaintext"><code>  def render
-    div.navbar.navbar_inverse.navbar_fixed_top do
-      div.container do
-        div.collapse.navbar_collapse(id: "navbar") do
-          form.navbar_form.navbar_left(role: :search) do
-            div.form_group do
-              input.form_control(type: :text, value: state.user_name_input, placeholder: "Enter Your Handle"
-              ).on(:change) do |e|
-                state.user_name_input! e.target.value
-              end
-              button.btn.btn_default(type: :button) { "login!" }.on(:click) do
-                login!
-              end if valid_new_input?
-            end
-          end
-        end
-      end
-    end
-  end
+<pre class="highlight ruby"><code><span class="k">def</span> <span class="nf">render</span>
+  <span class="n">div</span><span class="p">.</span><span class="nf">navbar</span><span class="p">.</span><span class="nf">navbar_inverse</span><span class="p">.</span><span class="nf">navbar_fixed_top</span> <span class="k">do</span>
+    <span class="n">div</span><span class="p">.</span><span class="nf">container</span> <span class="k">do</span>
+      <span class="n">div</span><span class="p">.</span><span class="nf">collapse</span><span class="p">.</span><span class="nf">navbar_collapse</span><span class="p">(</span><span class="ss">id: </span><span class="s2">"navbar"</span><span class="p">)</span> <span class="k">do</span>
+        <span class="n">form</span><span class="p">.</span><span class="nf">navbar_form</span><span class="p">.</span><span class="nf">navbar_left</span><span class="p">(</span><span class="ss">role: :search</span><span class="p">)</span> <span class="k">do</span>
+          <span class="n">div</span><span class="p">.</span><span class="nf">form_group</span> <span class="k">do</span>
+            <span class="n">input</span><span class="p">.</span><span class="nf">form_control</span><span class="p">(</span><span class="ss">type: :text</span><span class="p">,</span> <span class="ss">value: </span><span class="n">state</span><span class="p">.</span><span class="nf">user_name_input</span><span class="p">,</span> <span class="ss">placeholder: </span><span class="s2">"Enter Your Handle"</span>
+            <span class="p">).</span><span class="nf">on</span><span class="p">(</span><span class="ss">:change</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">e</span><span class="o">|</span>
+              <span class="n">state</span><span class="p">.</span><span class="nf">user_name_input!</span> <span class="n">e</span><span class="p">.</span><span class="nf">target</span><span class="p">.</span><span class="nf">value</span>
+            <span class="k">end</span>
+            <span class="n">button</span><span class="p">.</span><span class="nf">btn</span><span class="p">.</span><span class="nf">btn_default</span><span class="p">(</span><span class="ss">type: :button</span><span class="p">)</span> <span class="p">{</span> <span class="s2">"login!"</span> <span class="p">}.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:click</span><span class="p">)</span> <span class="k">do</span>
+              <span class="n">login!</span>
+            <span class="k">end</span> <span class="k">if</span> <span class="n">valid_new_input?</span>
+          <span class="k">end</span>
+        <span class="k">end</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
 </code></pre>
 <p>While this looks complicated notice that in the middle is our original input tag.  We have just added wrappers around it, and added the <code>form_control</code> class to the input, and the <code>btn</code> and <code>btn-default</code> classes to the login button.</p>
 
 <p>Refresh you browser and things should start looking better already.</p>
 
 <p>Lets move on to the <code>Message</code> and <code>Messages</code> components.  First add the class <code>container</code> to the <code>Messages</code> div.  The <code>Messages</code> render method should now look like this:</p>
-<pre class="highlight plaintext"><code>  def render
-    div.container do # add the bootstrap .container class here.
-      params.messages.each do |message|
-        Message user_id: params.chat_service.id, message: message
-      end
-    end
-  end
+<pre class="highlight ruby"><code><span class="k">def</span> <span class="nf">render</span>
+  <span class="n">div</span><span class="p">.</span><span class="nf">container</span> <span class="k">do</span> <span class="c1"># add the bootstrap .container class here.</span>
+    <span class="n">params</span><span class="p">.</span><span class="nf">messages</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">message</span><span class="o">|</span>
+      <span class="no">Message</span> <span class="ss">message: </span><span class="n">message</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
 </code></pre>
 <p>Now add the <code>row, alternating</code> and <code>message</code> classes to the outer div of the Message component, and the <code>col-sm-2</code> class to the sender and time divs.  (Remember to change dashes to underscores.)</p>
 
 <p>Now add the <code>class: &quot;col-sm-8&quot;</code> to the <code>FormattedDiv</code> element.  Notice that you can not use the short hand syntax with application defined components.  </p>
 
-<p>Your Message render method should look like this:</p>
-<pre class="highlight plaintext"><code>  def render
-    div.row.alternating.message do
-      div.col_sm_2 { params.message[:from] }
-      FormattedDiv class: "col-sm-8", markdown: params.message[:message]
-      div.col_sm_2 { Time.at(params.message[:time]).to_s }
-    end
-  end
+<p>Your <code>Message</code> render method should look like this:</p>
+<pre class="highlight ruby"><code><span class="k">def</span> <span class="nf">render</span>
+  <span class="n">div</span><span class="p">.</span><span class="nf">row</span><span class="p">.</span><span class="nf">alternating</span><span class="p">.</span><span class="nf">message</span> <span class="k">do</span>
+    <span class="n">div</span><span class="p">.</span><span class="nf">col_sm_2</span> <span class="p">{</span> <span class="n">params</span><span class="p">.</span><span class="nf">message</span><span class="p">[</span><span class="ss">:from</span><span class="p">]</span> <span class="p">}</span>
+    <span class="no">FormattedDiv</span> <span class="ss">class: </span><span class="s2">"col-sm-8"</span><span class="p">,</span> <span class="ss">markdown: </span><span class="n">params</span><span class="p">.</span><span class="nf">message</span><span class="p">[</span><span class="ss">:message</span><span class="p">]</span>
+    <span class="n">div</span><span class="p">.</span><span class="nf">col_sm_2</span> <span class="p">{</span> <span class="no">Time</span><span class="p">.</span><span class="nf">at</span><span class="p">(</span><span class="n">params</span><span class="p">.</span><span class="nf">message</span><span class="p">[</span><span class="ss">:time</span><span class="p">]).</span><span class="nf">to_s</span> <span class="p">}</span>
+  <span class="k">end</span>
+<span class="k">end</span>
 </code></pre>
 <p>Finally we need to update <code>FormattedDiv</code> so that it accepts all the normal html attributes uses them in the outer div.  This will allow us to specify different style classes for the <code>FormattedDiv</code> in the message display and in the input box.</p>
 
 <p>The <code>collect_other_params_as</code> macro is used to gather up any params not specified in param declarations and save them in a hash.  This can then be passed along to children components (in our case the outer div) as their attributes.</p>
 
 <p>Update the <code>FormattedDiv</code> <code>render</code> method so it looks like this:</p>
-<pre class="highlight plaintext"><code>class FormattedDiv &lt; React::Component::Base
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">FormattedDiv</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
 
-  param :markdown, type: String
-  collect_other_params_as :attributes
+  <span class="n">param</span> <span class="ss">:markdown</span><span class="p">,</span> <span class="ss">type: </span><span class="no">String</span>
+  <span class="n">collect_other_params_as</span> <span class="ss">:attributes</span>
 
-  def render
-    div(params.attributes) do # send whatever class is specified on to the outer div
-      div({dangerously_set_inner_HTML: { __html: `marked(#{params.markdown}, {sanitize: true })`}})
-    end
-  end
-end
+  <span class="k">def</span> <span class="nf">render</span>
+    <span class="n">div</span><span class="p">(</span><span class="n">params</span><span class="p">.</span><span class="nf">attributes</span><span class="p">)</span> <span class="k">do</span> <span class="c1"># send whatever class is specified on to the outer div</span>
+      <span class="n">div</span><span class="p">({</span><span class="ss">dangerously_set_inner_HTML: </span><span class="p">{</span> <span class="ss">__html: </span><span class="sb">`marked(</span><span class="si">#{</span><span class="n">params</span><span class="p">.</span><span class="nf">markdown</span><span class="si">}</span><span class="sb">, {sanitize: true })`</span><span class="p">}})</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
 </code></pre>
 <p><strong>Okay</strong> refresh your browser, and login, and things should be looking pretty good.</p>
 
@@ -847,17 +841,17 @@ end
 <p>Finally add <code>class: &quot;col-sm-5 white&quot;</code> to the <code>FormattedDiv</code> element.</p>
 
 <p>Your updated render method should look like this:</p>
-<pre class="highlight plaintext"><code>  def render
-    div.row.form_group.input_box.navbar.navbar_inverse.navbar_fixed_bottom do
-      div.col_sm_1.white {"Say Something: "}
-      input.col_sm_5(value: state.composition).on(:change) do |e|
-        state.composition! e.target.value
-      end.on(:key_down) do |e|
-        send_message if is_send_key?(e)
-      end
-      FormattedDiv class: "col-sm-5 white", markdown: state.composition
-    end
-  end
+<pre class="highlight ruby"><code><span class="k">def</span> <span class="nf">render</span>
+  <span class="n">div</span><span class="p">.</span><span class="nf">row</span><span class="p">.</span><span class="nf">form_group</span><span class="p">.</span><span class="nf">input_box</span><span class="p">.</span><span class="nf">navbar</span><span class="p">.</span><span class="nf">navbar_inverse</span><span class="p">.</span><span class="nf">navbar_fixed_bottom</span> <span class="k">do</span>
+    <span class="n">div</span><span class="p">.</span><span class="nf">col_sm_1</span><span class="p">.</span><span class="nf">white</span> <span class="p">{</span><span class="s2">"Say: "</span><span class="p">}</span>
+    <span class="n">input</span><span class="p">.</span><span class="nf">col_sm_5</span><span class="p">(</span><span class="ss">value: </span><span class="n">state</span><span class="p">.</span><span class="nf">composition</span><span class="p">).</span><span class="nf">on</span><span class="p">(</span><span class="ss">:change</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">e</span><span class="o">|</span>
+      <span class="n">state</span><span class="p">.</span><span class="nf">composition!</span> <span class="n">e</span><span class="p">.</span><span class="nf">target</span><span class="p">.</span><span class="nf">value</span>
+    <span class="k">end</span><span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:key_down</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">e</span><span class="o">|</span>
+      <span class="n">send_message</span> <span class="k">if</span> <span class="n">is_send_key?</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+    <span class="k">end</span>
+    <span class="no">FormattedDiv</span> <span class="ss">class: </span><span class="s2">"col-sm-5 white"</span><span class="p">,</span> <span class="ss">markdown: </span><span class="n">state</span><span class="p">.</span><span class="nf">composition</span>
+  <span class="k">end</span>
+<span class="k">end</span>
 </code></pre>
 <h3 id="multiline-inputs">Multiline Inputs</h3>
 
@@ -866,9 +860,11 @@ end
 <p>First change the <code>input</code> element to a <code>textarea</code> element which will allow us to display multiple lines.</p>
 
 <p>Now go back and change the expression in the <code>is_send_key?</code>` method to also check for a ctrl or meta key.  </p>
-<pre class="highlight plaintext"><code>  def is_send_key?(e)
-    (e.char_code == 13 || e.key_code == 13) &amp;&amp; (e.meta_key || e.ctrl_key)
-  end
+
+<p><strong>Note:</strong> You will need to press Ctrl-Enter to submit.</p>
+<pre class="highlight ruby"><code><span class="k">def</span> <span class="nf">is_send_key?</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="nf">char_code</span> <span class="o">==</span> <span class="mi">13</span> <span class="o">||</span> <span class="n">e</span><span class="p">.</span><span class="nf">key_code</span> <span class="o">==</span> <span class="mi">13</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="nf">meta_key</span> <span class="o">||</span> <span class="n">e</span><span class="p">.</span><span class="nf">ctrl_key</span><span class="p">)</span>
+<span class="k">end</span>
 </code></pre>
 <p>Try it out in your browser.  You should now be able to enter multiple line inputs.</p>
 
@@ -877,9 +873,9 @@ end
 <p>All we need to do is add the <code>rows</code> attribute to the <code>textarea</code> and calculate the rows based on the current number of lines in the text area box.</p>
 
 <p>Add this method right after the <code>render</code> method:</p>
-<pre class="highlight ruby"><code>  <span class="k">def</span> <span class="nf">rows</span>
-    <span class="p">[</span><span class="n">state</span><span class="p">.</span><span class="nf">composition</span><span class="p">.</span><span class="nf">count</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span><span class="mi">20</span><span class="p">].</span><span class="nf">min</span>
-  <span class="k">end</span>
+<pre class="highlight ruby"><code><span class="k">def</span> <span class="nf">rows</span>
+  <span class="p">[</span><span class="n">state</span><span class="p">.</span><span class="nf">composition</span><span class="p">.</span><span class="nf">count</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span><span class="mi">20</span><span class="p">].</span><span class="nf">min</span>
+<span class="k">end</span>
 </code></pre>
 <p>and pass the value of our new <code>rows</code> method to the <code>rows</code> attribute of the <code>textarea</code>:</p>
 <pre class="highlight ruby"><code>  <span class="n">textarea</span><span class="p">.</span><span class="nf">col_sm_5</span><span class="p">(</span><span class="ss">rows: </span><span class="n">rows</span><span class="p">,</span> <span class="ss">value: </span><span class="n">state</span><span class="p">.</span><span class="nf">composition</span><span class="p">).</span><span class="nf">.</span><span class="o">.</span>
@@ -889,13 +885,10 @@ end
 <p>This brings up a very important point about states:</p>
 
 <ul>
-<li><h4 id="where-possible-compute-values-rather-than-adding-state">Where possible compute values rather than adding state</h4>
-
-<p>You might be tempted to create a state variable called rows that is updated whenever the text area changes.  </p>
-
-<p>This may (or may not) be slightly more effecient, but it introduces a lot of complexity.  </p>
-
-<p>Instead where ever possible compute values from existing state.</p></li>
+<li><p>Where possible compute values rather than adding state</p></li>
+<li><p>You might be tempted to create a state variable called rows that is updated whenever the text area changes.  </p></li>
+<li><p>This may (or may not) be slightly more effecient, but it introduces a lot of complexity.  </p></li>
+<li><p>Instead where ever possible compute values from existing state.</p></li>
 </ul>
 
 <h3 id="automatic-scroll-position">Automatic Scroll Position</h3>
@@ -905,15 +898,15 @@ end
 <p>Displaying the messages is the responsibility of the <code>Messages</code> component so that is where this fix will go.</p>
 
 <p>First add this method to the bottom of the <code>Messages</code> component:</p>
-<pre class="highlight ruby"><code>  <span class="k">def</span> <span class="nf">scroll_to_bottom</span>
-    <span class="no">Element</span><span class="p">[</span><span class="s1">'html, body'</span><span class="p">].</span><span class="nf">animate</span><span class="p">({</span><span class="ss">scrollTop: </span><span class="no">Element</span><span class="p">[</span><span class="no">Document</span><span class="p">].</span><span class="nf">height</span><span class="p">},</span> <span class="ss">:slow</span><span class="p">)</span>
-  <span class="k">end</span>
+<pre class="highlight ruby"><code><span class="k">def</span> <span class="nf">scroll_to_bottom</span>
+  <span class="no">Element</span><span class="p">[</span><span class="s1">'html, body'</span><span class="p">].</span><span class="nf">animate</span><span class="p">({</span><span class="ss">scrollTop: </span><span class="no">Element</span><span class="p">[</span><span class="no">Document</span><span class="p">].</span><span class="nf">height</span><span class="p">},</span> <span class="ss">:slow</span><span class="p">)</span>
+<span class="k">end</span>
 </code></pre>
 <p>Now all we need to do is call <code>scroll_to_bottom</code> whenever our message data changes.  What we need to do is hook into the <code>after_mount</code>, and <code>after_update</code> callbacks.  <code>after_mount</code> runs after the initial rendering of a component, and likewise <code>after_update</code> runs after every subsequent update.</p>
 
-<p>Add these two lines right after the param declaration in the Message component:</p>
-<pre class="highlight plaintext"><code>  after_mount :scroll_to_bottom
-  after_update :scroll_to_bottom
+<p>Add these two lines right after the param declaration in the <code>Message</code> component:</p>
+<pre class="highlight ruby"><code><span class="n">after_mount</span> <span class="ss">:scroll_to_bottom</span>
+<span class="n">after_update</span> <span class="ss">:scroll_to_bottom</span>
 </code></pre>
 <p>Notice that instead of providing a block to the callbacks we are providing the name of a method to call, which is handy in this case since we want to use the same method twice.</p>
 
@@ -926,13 +919,13 @@ end
 <p>Lets fix this.</p>
 
 <p>Add this method to the bottom of the <code>Message</code> component:</p>
-<pre class="highlight plaintext"><code>def sender
-  if params.message[:from] == params.user_id
-    "you: "
-  else
-    "#{params.message[:from]}:"
-  end
-end
+<pre class="highlight ruby"><code><span class="k">def</span> <span class="nf">sender</span>
+  <span class="k">if</span> <span class="n">params</span><span class="p">.</span><span class="nf">message</span><span class="p">[</span><span class="ss">:from</span><span class="p">]</span> <span class="o">==</span> <span class="n">params</span><span class="p">.</span><span class="nf">user_id</span>
+    <span class="s2">"you: "</span>
+  <span class="k">else</span>
+    <span class="s2">"</span><span class="si">#{</span><span class="n">params</span><span class="p">.</span><span class="nf">message</span><span class="p">[</span><span class="ss">:from</span><span class="p">]</span><span class="si">}</span><span class="s2">:"</span>
+  <span class="k">end</span>
+<span class="k">end</span>
 </code></pre>
 <p>and replace <code>params.message[:from]</code> in the <code>render</code> method with <code>sender</code>.</p>
 
@@ -968,9 +961,9 @@ from <code>Messages</code> to <code>Message</code>.  Once you have added the par
 <p>What we need to do is clear the messages during the login process.</p>
 
 <p>Add this line at the beginning of the <code>App</code> login method:</p>
-<pre class="highlight plaintext"><code>  ...
-  state.messages! nil
-  ...
+<pre class="highlight ruby"><code><span class="p">.</span><span class="nf">.</span><span class="p">.</span>
+<span class="nf">state</span><span class="p">.</span><span class="nf">messages!</span> <span class="kp">nil</span>
+<span class="p">.</span><span class="nf">.</span><span class="o">.</span>
 </code></pre>
 <p>Make sure you do this before sending the credentials to the chat service.</p>
 
@@ -981,18 +974,18 @@ from <code>Messages</code> to <code>Message</code>.  Once you have added the par
 <p>To fix this the <code>Nav</code> component will need to two additional event handlers, one to track the <code>key_down</code> event, and the other to clear the <code>submit</code> event for the form.</p>
 
 <p>Add this handler to the <code>input</code> element:</p>
-<pre class="highlight ruby"><code>  <span class="n">on</span><span class="p">(</span><span class="ss">:key_down</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">e</span><span class="o">|</span>
-    <span class="n">login!</span> <span class="k">if</span> <span class="n">valid_new_input?</span> <span class="o">&amp;&amp;</span> <span class="n">e</span><span class="p">.</span><span class="nf">key_code</span> <span class="o">==</span> <span class="mi">13</span>
-  <span class="k">end</span>
+<pre class="highlight ruby"><code><span class="n">on</span><span class="p">(</span><span class="ss">:key_down</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">e</span><span class="o">|</span>
+  <span class="n">login!</span> <span class="k">if</span> <span class="n">valid_new_input?</span> <span class="o">&amp;&amp;</span> <span class="n">e</span><span class="p">.</span><span class="nf">key_code</span> <span class="o">==</span> <span class="mi">13</span>
+<span class="k">end</span>
 </code></pre>
 <p>and add this handler to the <code>form</code>.</p>
-<pre class="highlight plaintext"><code>  on(:submit) { |e| e.prevent_default }
+<pre class="highlight ruby"><code><span class="n">on</span><span class="p">(</span><span class="ss">:submit</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span><span class="n">e</span><span class="o">|</span> <span class="n">e</span><span class="p">.</span><span class="nf">prevent_default</span> <span class="p">}</span>
 </code></pre>
 <p>While we are in there lets add the Reactrb logo and a title to the nav bar.  Add</p>
-<pre class="highlight plaintext"><code>  div.navbar_header do
-    div.reactrb_icon
-    a.navbar_brand(href: "#", style: {color: "#00d8ff"}) { "Reactrb Chat Room " }
-  end
+<pre class="highlight ruby"><code><span class="n">div</span><span class="p">.</span><span class="nf">navbar_header</span> <span class="k">do</span>
+  <span class="n">div</span><span class="p">.</span><span class="nf">reactrb_icon</span>
+  <span class="n">a</span><span class="p">.</span><span class="nf">navbar_brand</span><span class="p">(</span><span class="ss">href: </span><span class="s2">"#"</span><span class="p">,</span> <span class="ss">style: </span><span class="p">{</span><span class="ss">color: </span><span class="s2">"#00d8ff"</span><span class="p">})</span> <span class="p">{</span> <span class="s2">"Reactrb Chat Room "</span> <span class="p">}</span>
+<span class="k">end</span>
 </code></pre>
 <p>inside the <code>container</code> <code>div</code>.</p>
 
@@ -1001,31 +994,31 @@ from <code>Messages</code> to <code>Message</code>.  Once you have added the par
 <p>Replace <code>{ &quot;Login!&quot; }</code> with <code>{ span.glyphicon.glyphicon_log_in }</code></p>
 
 <p>Now the completed <code>Nav</code> <code>render</code> method will look like this:</p>
-<pre class="highlight plaintext"><code>  def render
-    div.navbar.navbar_inverse.navbar_fixed_top do
-      div.container do
-        div.navbar_header do
-          div.reactrb_icon
-          a.navbar_brand(href: "#", style: {color: "#00d8ff"}) { "Reactrb Chat Room " }
-        end
-        div.collapse.navbar_collapse(id: "navbar") do
-          form.navbar_form.navbar_left(role: :search) do
-            div.form_group do
-              input.form_control(type: :text, value: state.user_name_input, placeholder: "Enter Your Handle"
-              ).on(:change) do |e|
-                state.user_name_input! e.target.value
-              end.on(:key_down) do |e|
-                login! if valid_new_input? &amp;&amp; e.key_code == 13
-              end
-              button.btn.btn_default(type: :button) { span.glyphicon.glyphicon_log_in }.on(:click) do
-                login!
-              end if valid_new_input?
-            end
-          end.on(:submit) { |e| e.prevent_default }
-        end
-      end
-    end
-  end
+<pre class="highlight ruby"><code><span class="k">def</span> <span class="nf">render</span>
+  <span class="n">div</span><span class="p">.</span><span class="nf">navbar</span><span class="p">.</span><span class="nf">navbar_inverse</span><span class="p">.</span><span class="nf">navbar_fixed_top</span> <span class="k">do</span>
+    <span class="n">div</span><span class="p">.</span><span class="nf">container</span> <span class="k">do</span>
+      <span class="n">div</span><span class="p">.</span><span class="nf">navbar_header</span> <span class="k">do</span>
+        <span class="n">div</span><span class="p">.</span><span class="nf">reactrb_icon</span>
+        <span class="n">a</span><span class="p">.</span><span class="nf">navbar_brand</span><span class="p">(</span><span class="ss">href: </span><span class="s2">"#"</span><span class="p">,</span> <span class="ss">style: </span><span class="p">{</span><span class="ss">color: </span><span class="s2">"#00d8ff"</span><span class="p">})</span> <span class="p">{</span> <span class="s2">"Reactrb Chat Room "</span> <span class="p">}</span>
+      <span class="k">end</span>
+      <span class="n">div</span><span class="p">.</span><span class="nf">collapse</span><span class="p">.</span><span class="nf">navbar_collapse</span><span class="p">(</span><span class="ss">id: </span><span class="s2">"navbar"</span><span class="p">)</span> <span class="k">do</span>
+        <span class="n">form</span><span class="p">.</span><span class="nf">navbar_form</span><span class="p">.</span><span class="nf">navbar_left</span><span class="p">(</span><span class="ss">role: :search</span><span class="p">)</span> <span class="k">do</span>
+          <span class="n">div</span><span class="p">.</span><span class="nf">form_group</span> <span class="k">do</span>
+            <span class="n">input</span><span class="p">.</span><span class="nf">form_control</span><span class="p">(</span><span class="ss">type: :text</span><span class="p">,</span> <span class="ss">value: </span><span class="n">state</span><span class="p">.</span><span class="nf">user_name_input</span><span class="p">,</span> <span class="ss">placeholder: </span><span class="s2">"Enter Your Handle"</span>
+            <span class="p">).</span><span class="nf">on</span><span class="p">(</span><span class="ss">:change</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">e</span><span class="o">|</span>
+              <span class="n">state</span><span class="p">.</span><span class="nf">user_name_input!</span> <span class="n">e</span><span class="p">.</span><span class="nf">target</span><span class="p">.</span><span class="nf">value</span>
+            <span class="k">end</span><span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:key_down</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">e</span><span class="o">|</span>
+              <span class="n">login!</span> <span class="k">if</span> <span class="n">valid_new_input?</span> <span class="o">&amp;&amp;</span> <span class="n">e</span><span class="p">.</span><span class="nf">key_code</span> <span class="o">==</span> <span class="mi">13</span>
+            <span class="k">end</span>
+            <span class="n">button</span><span class="p">.</span><span class="nf">btn</span><span class="p">.</span><span class="nf">btn_default</span><span class="p">(</span><span class="ss">type: :button</span><span class="p">)</span> <span class="p">{</span> <span class="n">span</span><span class="p">.</span><span class="nf">glyphicon</span><span class="p">.</span><span class="nf">glyphicon_log_in</span> <span class="p">}.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:click</span><span class="p">)</span> <span class="k">do</span>
+              <span class="n">login!</span>
+            <span class="k">end</span> <span class="k">if</span> <span class="n">valid_new_input?</span>
+          <span class="k">end</span>
+        <span class="k">end</span><span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:submit</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span><span class="n">e</span><span class="o">|</span> <span class="n">e</span><span class="p">.</span><span class="nf">prevent_default</span> <span class="p">}</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
 </code></pre>
 <p>Now that you are all done make sure you change from the test fixture so your app interacts with the webservice.</p>
 
@@ -1037,10 +1030,156 @@ from <code>Messages</code> to <code>Message</code>.  Once you have added the par
 </code></pre>
 <p>and you will be sending and receiving messages from the chat server.  Try opening your a second browser window to get the full experience.</p>
 
-<p><em>Congratulations</em></p>
+<p><strong>Congratulations</strong></p>
 
 <p>You have built a very nice functional application.   We hope you have enjoyed the process.  Happy Coding!</p>
 
+<h4 id="source-code-of-the-steps-up-until-detecting-loged-in-user">Source code of the steps up until &#39;Detecting loged in user&rsquo;</h4>
+<pre class="highlight ruby"><code><span class="o">&lt;</span><span class="n">script</span> <span class="n">type</span><span class="o">=</span><span class="s2">"text/ruby"</span><span class="o">&gt;</span>
+<span class="k">class</span> <span class="nc">App</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
+
+  <span class="n">before_mount</span> <span class="k">do</span>
+   <span class="vi">@chat_service</span> <span class="o">=</span> <span class="no">ChatService</span><span class="p">.</span><span class="nf">new</span> <span class="k">do</span> <span class="o">|</span> <span class="n">messages</span> <span class="o">|</span>
+     <span class="n">state</span><span class="p">.</span><span class="nf">messages!</span> <span class="p">((</span><span class="n">state</span><span class="p">.</span><span class="nf">messages</span> <span class="o">||</span> <span class="p">[])</span> <span class="o">+</span> <span class="n">messages</span><span class="p">)</span>
+     <span class="nb">puts</span> <span class="s2">"state messages updated.  state.messages: </span><span class="si">#{</span><span class="n">state</span><span class="p">.</span><span class="nf">messages</span><span class="si">}</span><span class="s2">"</span>
+   <span class="k">end</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">render</span>
+    <span class="n">div</span> <span class="k">do</span>
+      <span class="no">Nav</span> <span class="ss">login: </span><span class="nb">method</span><span class="p">(</span><span class="ss">:login</span><span class="p">).</span><span class="nf">to_proc</span>
+      <span class="k">if</span> <span class="n">online?</span>
+        <span class="no">Messages</span> <span class="ss">messages: </span><span class="n">state</span><span class="p">.</span><span class="nf">messages</span>
+        <span class="no">InputBox</span> <span class="ss">chat_service: </span><span class="vi">@chat_service</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">login</span><span class="p">(</span><span class="n">user_name</span><span class="p">)</span>
+    <span class="vi">@chat_service</span><span class="p">.</span><span class="nf">login</span><span class="p">(</span><span class="n">user_name</span><span class="p">)</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">online?</span>
+    <span class="n">state</span><span class="p">.</span><span class="nf">messages</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nc">Nav</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
+  <span class="n">param</span> <span class="ss">:login</span><span class="p">,</span> <span class="ss">type: </span><span class="no">Proc</span>
+
+  <span class="n">before_mount</span> <span class="k">do</span>
+    <span class="n">state</span><span class="p">.</span><span class="nf">current_user_name!</span> <span class="kp">nil</span>
+    <span class="n">state</span><span class="p">.</span><span class="nf">user_name_input!</span> <span class="s2">""</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">render</span>
+    <span class="n">div</span><span class="p">.</span><span class="nf">navbar</span><span class="p">.</span><span class="nf">navbar_inverse</span><span class="p">.</span><span class="nf">navbar_fixed_top</span> <span class="k">do</span>
+      <span class="n">div</span><span class="p">.</span><span class="nf">container</span> <span class="k">do</span>
+        <span class="n">div</span><span class="p">.</span><span class="nf">collapse</span><span class="p">.</span><span class="nf">navbar_collapse</span><span class="p">(</span><span class="ss">id: </span><span class="s2">"navbar"</span><span class="p">)</span> <span class="k">do</span>
+          <span class="n">form</span><span class="p">.</span><span class="nf">navbar_form</span><span class="p">.</span><span class="nf">navbar_left</span><span class="p">(</span><span class="ss">role: :search</span><span class="p">)</span> <span class="k">do</span>
+            <span class="n">div</span><span class="p">.</span><span class="nf">form_group</span> <span class="k">do</span>
+              <span class="n">input</span><span class="p">.</span><span class="nf">form_control</span><span class="p">(</span><span class="ss">type: :text</span><span class="p">,</span> <span class="ss">value: </span><span class="n">state</span><span class="p">.</span><span class="nf">user_name_input</span><span class="p">,</span> <span class="ss">placeholder: </span><span class="s2">"Enter Your Handle"</span>
+              <span class="p">).</span><span class="nf">on</span><span class="p">(</span><span class="ss">:change</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">e</span><span class="o">|</span>
+                <span class="n">state</span><span class="p">.</span><span class="nf">user_name_input!</span> <span class="n">e</span><span class="p">.</span><span class="nf">target</span><span class="p">.</span><span class="nf">value</span>
+              <span class="k">end</span>
+              <span class="n">button</span><span class="p">.</span><span class="nf">btn</span><span class="p">.</span><span class="nf">btn_default</span><span class="p">(</span><span class="ss">type: :button</span><span class="p">)</span> <span class="p">{</span> <span class="s2">"login!"</span> <span class="p">}.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:click</span><span class="p">)</span> <span class="k">do</span>
+                <span class="n">login!</span>
+              <span class="k">end</span> <span class="k">if</span> <span class="n">valid_new_input?</span>
+            <span class="k">end</span>
+          <span class="k">end</span>
+        <span class="k">end</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">valid_new_input?</span>
+    <span class="n">state</span><span class="p">.</span><span class="nf">user_name_input</span><span class="p">.</span><span class="nf">present?</span> <span class="o">&amp;&amp;</span> <span class="n">state</span><span class="p">.</span><span class="nf">user_name_input</span> <span class="o">!=</span> <span class="n">state</span><span class="p">.</span><span class="nf">current_user_name</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">login!</span>
+     <span class="n">state</span><span class="p">.</span><span class="nf">current_user_name!</span> <span class="n">state</span><span class="p">.</span><span class="nf">user_name_input</span>
+     <span class="n">params</span><span class="p">.</span><span class="nf">login</span><span class="p">(</span><span class="n">state</span><span class="p">.</span><span class="nf">user_name_input</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nc">Messages</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
+  <span class="n">param</span> <span class="ss">:messages</span><span class="p">,</span> <span class="ss">type: </span><span class="p">[</span><span class="no">Hash</span><span class="p">]</span>
+
+  <span class="k">def</span> <span class="nf">render</span>
+    <span class="n">div</span><span class="p">.</span><span class="nf">container</span> <span class="k">do</span> <span class="c1"># add the bootstrap .container class here.</span>
+      <span class="n">params</span><span class="p">.</span><span class="nf">messages</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">message</span><span class="o">|</span>
+        <span class="no">Message</span> <span class="ss">message: </span><span class="n">message</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nc">Message</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
+  <span class="n">param</span> <span class="ss">:message</span><span class="p">,</span> <span class="ss">type: </span><span class="no">Hash</span>
+
+  <span class="n">after_mount</span> <span class="ss">:scroll_to_bottom</span>
+  <span class="n">after_update</span> <span class="ss">:scroll_to_bottom</span>
+
+  <span class="k">def</span> <span class="nf">render</span>
+   <span class="n">div</span><span class="p">.</span><span class="nf">row</span><span class="p">.</span><span class="nf">alternating</span><span class="p">.</span><span class="nf">message</span> <span class="k">do</span>
+     <span class="n">div</span><span class="p">.</span><span class="nf">col_sm_2</span> <span class="p">{</span> <span class="n">params</span><span class="p">.</span><span class="nf">message</span><span class="p">[</span><span class="ss">:from</span><span class="p">]</span> <span class="p">}</span>
+     <span class="no">FormattedDiv</span> <span class="ss">class: </span><span class="s2">"col-sm-8"</span><span class="p">,</span> <span class="ss">markdown: </span><span class="n">params</span><span class="p">.</span><span class="nf">message</span><span class="p">[</span><span class="ss">:message</span><span class="p">]</span>
+     <span class="n">div</span><span class="p">.</span><span class="nf">col_sm_2</span> <span class="p">{</span> <span class="no">Time</span><span class="p">.</span><span class="nf">at</span><span class="p">(</span><span class="n">params</span><span class="p">.</span><span class="nf">message</span><span class="p">[</span><span class="ss">:time</span><span class="p">]).</span><span class="nf">to_s</span> <span class="p">}</span>
+   <span class="k">end</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">scroll_to_bottom</span>
+    <span class="no">Element</span><span class="p">[</span><span class="s1">'html, body'</span><span class="p">].</span><span class="nf">animate</span><span class="p">({</span><span class="ss">scrollTop: </span><span class="no">Element</span><span class="p">[</span><span class="no">Document</span><span class="p">].</span><span class="nf">height</span><span class="p">},</span> <span class="ss">:slow</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nc">InputBox</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
+  <span class="n">param</span> <span class="ss">:chat_service</span><span class="p">,</span> <span class="ss">type: </span><span class="no">ChatService</span>
+
+  <span class="n">before_mount</span> <span class="p">{</span> <span class="n">state</span><span class="p">.</span><span class="nf">composition!</span> <span class="s2">""</span> <span class="p">}</span>
+
+  <span class="k">def</span> <span class="nf">render</span>
+    <span class="n">div</span><span class="p">.</span><span class="nf">row</span><span class="p">.</span><span class="nf">form_group</span><span class="p">.</span><span class="nf">input_box</span><span class="p">.</span><span class="nf">navbar</span><span class="p">.</span><span class="nf">navbar_inverse</span><span class="p">.</span><span class="nf">navbar_fixed_bottom</span> <span class="k">do</span>
+      <span class="n">div</span><span class="p">.</span><span class="nf">col_sm_1</span><span class="p">.</span><span class="nf">white</span> <span class="p">{</span><span class="s2">"Say: "</span><span class="p">}</span>
+      <span class="n">textarea</span><span class="p">.</span><span class="nf">col_sm_5</span><span class="p">(</span><span class="ss">rows: </span><span class="n">rows</span><span class="p">,</span> <span class="ss">value: </span><span class="n">state</span><span class="p">.</span><span class="nf">composition</span><span class="p">).</span><span class="nf">on</span><span class="p">(</span><span class="ss">:change</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">e</span><span class="o">|</span>
+        <span class="n">state</span><span class="p">.</span><span class="nf">composition!</span> <span class="n">e</span><span class="p">.</span><span class="nf">target</span><span class="p">.</span><span class="nf">value</span>
+      <span class="k">end</span><span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:key_down</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">e</span><span class="o">|</span>
+        <span class="n">send_message</span> <span class="k">if</span> <span class="n">is_send_key?</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+      <span class="k">end</span>
+      <span class="no">FormattedDiv</span> <span class="ss">class: </span><span class="s2">"col-sm-5 white"</span><span class="p">,</span> <span class="ss">markdown: </span><span class="n">state</span><span class="p">.</span><span class="nf">composition</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">rows</span>
+    <span class="p">[</span><span class="n">state</span><span class="p">.</span><span class="nf">composition</span><span class="p">.</span><span class="nf">count</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span><span class="mi">20</span><span class="p">].</span><span class="nf">min</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">is_send_key?</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+    <span class="c1">#(e.char_code == 13 || e.key_code == 13)</span>
+    <span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="nf">char_code</span> <span class="o">==</span> <span class="mi">13</span> <span class="o">||</span> <span class="n">e</span><span class="p">.</span><span class="nf">key_code</span> <span class="o">==</span> <span class="mi">13</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="nf">meta_key</span> <span class="o">||</span> <span class="n">e</span><span class="p">.</span><span class="nf">ctrl_key</span><span class="p">)</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">send_message</span>
+    <span class="n">params</span><span class="p">.</span><span class="nf">chat_service</span><span class="p">.</span><span class="nf">send</span><span class="p">(</span>
+      <span class="ss">message: </span><span class="n">state</span><span class="p">.</span><span class="nf">composition!</span><span class="p">(</span><span class="s2">""</span><span class="p">),</span>
+      <span class="ss">time: </span><span class="no">Time</span><span class="p">.</span><span class="nf">now</span><span class="p">.</span><span class="nf">to_i</span><span class="p">,</span>
+      <span class="ss">from: </span><span class="n">params</span><span class="p">.</span><span class="nf">chat_service</span><span class="p">.</span><span class="nf">id</span>
+    <span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nc">FormattedDiv</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
+  <span class="n">param</span> <span class="ss">:markdown</span><span class="p">,</span> <span class="ss">type: </span><span class="no">String</span>
+  <span class="n">collect_other_params_as</span> <span class="ss">:attributes</span>
+
+  <span class="k">def</span> <span class="nf">render</span>
+    <span class="n">div</span><span class="p">(</span><span class="n">params</span><span class="p">.</span><span class="nf">attributes</span><span class="p">)</span> <span class="k">do</span> <span class="c1"># send whatever class is specified on to the outer div</span>
+      <span class="n">div</span><span class="p">({</span><span class="ss">dangerously_set_inner_HTML: </span><span class="p">{</span> <span class="ss">__html: </span><span class="sb">`marked(</span><span class="si">#{</span><span class="n">params</span><span class="p">.</span><span class="nf">markdown</span><span class="si">}</span><span class="sb">, {sanitize: true })`</span><span class="p">}})</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+<span class="o">&lt;</span><span class="sr">/script&gt;
+</span></code></pre>
       </section>
   </body>
 </html>
