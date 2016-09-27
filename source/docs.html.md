@@ -1,11 +1,5 @@
 # Hyperloop Reactrb Docs
 
-- [DSL Overview](#dsl-overview)
-- [State, Components and Event Handelers](#state-components-and-event-handelers)
-- [Top level API](#top-level-api)
-- [Using Javascript Components](#using-javascript-components)
-- [Further Reading](#further-reading)
-
 ## DSL Overview
 
 The Reactrb DSL (Domain Specific Language) is a set of class and instance methods that are used to describe your React components.
