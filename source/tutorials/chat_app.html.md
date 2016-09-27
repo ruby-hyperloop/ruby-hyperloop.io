@@ -1,4 +1,4 @@
-# Tutorial
+## Char-App Tutorial
 
 We'll be building a simple but realistic chat application, a basic version of a chat room offered by a service like gitter.im.  
 
