@@ -1,0 +1,250 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv='X-UA-Compatible' content='IE=edge;chrome=1' />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta name="google-site-verification" content="qjqVOvRhHfsuDbLOvaAnj2mkUZJ9Xwzg84TMVXduvUc" />
+
+    <meta charset="UTF-8">
+    <title>Hyperloop</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+
+    <link href="/stylesheets/base.css" rel="stylesheet" />
+    <link href="/stylesheets/normalize.css" rel="stylesheet" />
+    <link href="/stylesheets/stylesheet.css" rel="stylesheet" />
+    <link href="/stylesheets/github-light.css" rel="stylesheet" />
+
+    <title>Reactrb</title>
+    <link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/feed.xml" />
+
+    <!-- Favicons -->
+    <link rel="apple-touch-icon" sizes="57x57" href="/images/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/images/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/images/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/images/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/images/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/images/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/images/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/images/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192"  href="/images/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/images/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/images/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+
+  </head>
+
+  <body>
+      <section class="page-header">
+        <img src="/images/hyperloop_white.svg" width="200" alt="Hyperloop white" />
+        <h1 class="project-name">
+          <a href="/" class="btn-logo">Hyperloop</a>
+        </h1>
+        <h2 class="project-tagline">THE MISSING RUBY FRONT-END LIBRARY</h2>
+        <a href="/get_started" class="btn">Get Started</a>
+        <a href="/tutorials/chat_app" class="btn">Tutorials</a>
+        <a href="/installation" class="btn">Installation</a>
+        <a href="/gems" class="btn">Gems</a>
+        <a href="https://github.com/reactrb" class="btn">Github</a>
+        <a href="/tools" class="btn">Tooling</a>
+        <a href="/docs/dsl_overview" class="btn">Docs</a>
+        <a href="/support" class="btn">Support</a>
+        <a href="/blog" class="btn">Blog</a>
+      </section>
+
+      <section class="main-nav">
+          <a href="/tutorials/chat_app">Chat-App Tutorial</a></br>
+  <a href="/tutorials/rails">Reactrb and Rails</a></br>
+  <a href="/tutorials/react_components">React components</a></br>
+  <a href="/tutorials/reactive_record">Reactive Record</a></br>
+  <a href="/tutorials/synchromesh">Synchromesh</a></br>
+
+      </section>
+
+      <section class="main-content">
+        <h2 id="using-reactrb-reactive-record">Using Reactrb Reactive Record</h2>
+
+<p><a href="https://github.com/barriehadfield/reactrb-showcase">The source code to this tutorial is here</a></p>
+
+<p>Reactive Record compiles your Active Record models so they are accessible to the front-end and implements an API based on your models and their associations. Lazy loads just the data that is needed to render a component and is fully integrated with Reactrb and paired with Synchromesh to push database changes to all connected clients. ReactiveRecord and Synchromesh give you Relay + GraphQL like functionality with a fraction of the effort and complexity (the original idea for Reactive Record is credited to <a href="https://github.com/voltrb/volt">Volt</a> and not Relay).</p>
+
+<h3 id="installing-reactive-record">Installing Reactive Record</h3>
+
+<p>Installing Reactive Record is straight forward.</p>
+
+<p>First add this line to your application&rsquo;s Gemfile:</p>
+<pre class="highlight ruby"><code><span class="n">gem</span> <span class="s1">'reactive-record'</span>
+</code></pre>
+<p>And then execute:</p>
+<pre class="highlight plaintext"><code>$ bundle install
+</code></pre>
+<p>Finally you need to add a line to your <code>routes.rb</code>:</p>
+<pre class="highlight ruby"><code><span class="n">mount</span> <span class="no">ReactiveRecord</span><span class="o">::</span><span class="no">Engine</span> <span class="o">=&gt;</span> <span class="s1">'/rr'</span>
+</code></pre>
+<h3 id="creating-the-models">Creating the models</h3>
+
+<p>We are going to need a few models to work with so let&rsquo;s go ahead and create those now.</p>
+<pre class="highlight plaintext"><code>rails g model Post
+rails g model Comment post:references
+</code></pre>
+<p>And then before you run the migrations, lets flesh them out a little so they look like this:</p>
+<pre class="highlight ruby"><code><span class="c1"># db/migrate/..create_posts.rb</span>
+<span class="k">class</span> <span class="nc">CreatePosts</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Migration</span>
+  <span class="k">def</span> <span class="nf">change</span>
+    <span class="n">create_table</span> <span class="ss">:posts</span> <span class="k">do</span> <span class="o">|</span><span class="n">t</span><span class="o">|</span>
+      <span class="n">t</span><span class="p">.</span><span class="nf">string</span> <span class="ss">:body</span>
+      <span class="n">t</span><span class="p">.</span><span class="nf">timestamps</span> <span class="ss">null: </span><span class="kp">false</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="c1"># db/migrate/..create_comments.rb</span>
+<span class="k">class</span> <span class="nc">CreateComments</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Migration</span>
+  <span class="k">def</span> <span class="nf">change</span>
+    <span class="n">create_table</span> <span class="ss">:comments</span> <span class="k">do</span> <span class="o">|</span><span class="n">t</span><span class="o">|</span>
+      <span class="n">t</span><span class="p">.</span><span class="nf">references</span> <span class="ss">:post</span><span class="p">,</span> <span class="ss">index: </span><span class="kp">true</span><span class="p">,</span> <span class="ss">foreign_key: </span><span class="kp">true</span>
+      <span class="n">t</span><span class="p">.</span><span class="nf">string</span> <span class="ss">:body</span>
+      <span class="n">t</span><span class="p">.</span><span class="nf">timestamps</span> <span class="ss">null: </span><span class="kp">false</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<p>Now would be a good time to run the migrations:</p>
+<pre class="highlight plaintext"><code>rake db:migrate
+</code></pre>
+<h3 id="making-your-models-accessible-to-reactive-record">Making your models accessible to Reactive Record</h3>
+
+<p>Reactive Record needs to &lsquo;see&rsquo; your models as a representation of them get compiled into JavaScript along with your Reactrb components so they are accessible in your client side code.</p>
+
+<p>The convention (though this is choice and you can change this if you prefer) is to create a <code>public</code> folder under <code>models</code> and then provide a linkage file which will <code>require_tree</code> your models when compiling <code>components.rb</code>.</p>
+
+<p>Create a new folder:</p>
+<pre class="highlight plaintext"><code>models/public
+</code></pre>
+<p>Then move <code>post.rb</code> and <code>comment.rb</code> to <code>models/public</code></p>
+<pre class="highlight plaintext"><code>$ mv app/models/post.rb app/models/public
+$ mv app/models/comment.rb app/models/public
+</code></pre>
+<p>Next create <code>_react_public_models.rb</code> in your models folder:</p>
+<pre class="highlight ruby"><code><span class="c1"># models/_react_public_models.rb</span>
+<span class="n">require_tree</span> <span class="s1">'./public'</span>
+</code></pre>
+<p>Finally add a line to your <code>views/components.rb</code> file:</p>
+<pre class="highlight ruby"><code><span class="c1"># views/components.rb</span>
+<span class="p">.</span><span class="nf">.</span><span class="p">.</span>
+<span class="nf">require</span> <span class="s1">'_react_public_models'</span>
+</code></pre>
+<h3 id="model-associations">Model Associations</h3>
+
+<p>Reactive Record is particular about both sides of an association being specified. If you forget to do this you will see warnings to this effect.</p>
+<pre class="highlight ruby"><code><span class="c1"># models/public/post.rb</span>
+<span class="k">class</span> <span class="nc">Post</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+  <span class="n">has_many</span> <span class="ss">:comments</span>
+<span class="k">end</span>
+
+<span class="c1"># models/public/comment.rb</span>
+<span class="k">class</span> <span class="nc">Comment</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+  <span class="n">belongs_to</span> <span class="ss">:post</span>
+<span class="k">end</span>
+</code></pre>
+<h3 id="accessing-your-models-in-reactrb-components">Accessing your models in Reactrb components</h3>
+
+<p>To get started, lets create a new component which will display a list of Posts and Comments under the video:</p>
+<pre class="highlight ruby"><code><span class="c1"># views/components/show.rb</span>
+<span class="p">.</span><span class="nf">.</span><span class="p">.</span>
+<span class="nf">div</span><span class="p">.</span><span class="nf">container</span> <span class="k">do</span>
+  <span class="no">ReactPlayer</span><span class="p">(</span><span class="ss">url: </span><span class="s1">'https://www.youtube.com/embed/FzCsDVfPQqk'</span><span class="p">,</span> <span class="ss">playing: </span><span class="kp">true</span><span class="p">)</span>
+  <span class="n">br</span> <span class="c1"># line break</span>
+  <span class="no">PostsList</span><span class="p">()</span>
+<span class="k">end</span>
+<span class="p">.</span><span class="nf">.</span><span class="o">.</span>
+</code></pre>
+<p>Note that to place a Reactrb component you either need to include ( ) or { }, so <code>PostsList()</code> or <code>PostsList { }</code> would be valid but just <code>PostsList</code> would not.</p>
+
+<p>Next lets create the <code>PostsList</code> component:</p>
+<pre class="highlight ruby"><code><span class="k">module</span> <span class="nn">Components</span>
+  <span class="k">module</span> <span class="nn">Home</span>
+    <span class="k">class</span> <span class="nc">PostsList</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
+      <span class="n">define_state</span> <span class="ss">:new_post</span><span class="p">,</span> <span class="s2">""</span>
+
+      <span class="n">before_mount</span> <span class="k">do</span>
+        <span class="c1"># note that this will lazy load posts</span>
+        <span class="c1"># and only the fields that are needed will be requested</span>
+        <span class="vi">@posts</span> <span class="o">=</span> <span class="no">Post</span><span class="p">.</span><span class="nf">all</span>
+      <span class="k">end</span>
+
+      <span class="k">def</span> <span class="nf">render</span>
+        <span class="n">div</span> <span class="k">do</span>
+          <span class="n">new_post</span>
+          <span class="n">ul</span><span class="p">.</span><span class="nf">list_unstyled</span> <span class="k">do</span>
+            <span class="vi">@posts</span><span class="p">.</span><span class="nf">reverse</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">post</span><span class="o">|</span>
+              <span class="no">PostListItem</span><span class="p">(</span><span class="ss">post: </span><span class="n">post</span><span class="p">)</span>
+              <span class="no">CommentsList</span><span class="p">(</span><span class="ss">comments: </span><span class="n">post</span><span class="p">.</span><span class="nf">comments</span><span class="p">)</span>
+            <span class="k">end</span>
+          <span class="k">end</span>
+        <span class="k">end</span>
+      <span class="k">end</span>
+
+      <span class="k">def</span> <span class="nf">new_post</span>
+        <span class="no">ReactBootstrap</span><span class="o">::</span><span class="no">FormGroup</span><span class="p">()</span> <span class="k">do</span>
+          <span class="no">ReactBootstrap</span><span class="o">::</span><span class="no">FormControl</span><span class="p">(</span>
+            <span class="ss">value: </span><span class="n">state</span><span class="p">.</span><span class="nf">new_post</span><span class="p">,</span>
+            <span class="ss">type: :text</span><span class="p">,</span>
+          <span class="p">).</span><span class="nf">on</span><span class="p">(</span><span class="ss">:change</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span><span class="n">e</span><span class="o">|</span>
+            <span class="n">state</span><span class="p">.</span><span class="nf">new_post!</span> <span class="n">e</span><span class="p">.</span><span class="nf">target</span><span class="p">.</span><span class="nf">value</span>
+          <span class="p">}</span>
+        <span class="k">end</span>
+        <span class="no">ReactBootstrap</span><span class="o">::</span><span class="no">Button</span><span class="p">(</span><span class="ss">bsStyle: :primary</span><span class="p">)</span> <span class="k">do</span>
+          <span class="s2">"Post"</span>
+        <span class="k">end</span><span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:click</span><span class="p">)</span> <span class="p">{</span> <span class="n">save_new_post</span> <span class="p">}</span>
+      <span class="k">end</span>
+
+      <span class="k">def</span> <span class="nf">save_new_post</span>
+        <span class="n">post</span> <span class="o">=</span> <span class="no">Post</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="ss">body: </span><span class="n">state</span><span class="p">.</span><span class="nf">new_post</span><span class="p">)</span>
+        <span class="n">post</span><span class="p">.</span><span class="nf">save</span> <span class="k">do</span> <span class="o">|</span><span class="n">result</span><span class="o">|</span>
+          <span class="c1"># note that save is a promise so this code will only run after the save</span>
+          <span class="c1"># yet react will move onto the code after this (before the save happens)</span>
+          <span class="n">alert</span> <span class="s2">"unable to save"</span> <span class="k">unless</span> <span class="n">result</span> <span class="o">==</span> <span class="kp">true</span>
+        <span class="k">end</span>
+        <span class="n">state</span><span class="p">.</span><span class="nf">new_post!</span> <span class="s2">""</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+
+    <span class="k">class</span> <span class="nc">PostListItem</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
+      <span class="n">param</span> <span class="ss">:post</span>
+
+      <span class="k">def</span> <span class="nf">render</span>
+        <span class="n">li</span> <span class="k">do</span>
+          <span class="c1"># note how you access post.body just like with Active Record</span>
+          <span class="n">h4</span> <span class="p">{</span> <span class="n">params</span><span class="p">.</span><span class="nf">post</span><span class="p">.</span><span class="nf">body</span> <span class="p">}</span>
+        <span class="k">end</span>
+      <span class="k">end</span>
+
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<p>Things to note in the code above:</p>
+
+<p>See how we fetch the Reactive Record Post collection in <code>before_mount</code>. Setting this here instead of in <code>after_mount</code> means that we do not need to worry about <code>@posts</code> being <code>nil</code> as the collection will always contain at least one entry with the actual records being lazy loaded when needed.</p>
+
+<p>Note how we are binding the state variable <code>new_post</code> to the <code>FormControl</code> and then setting its value based on the value being passed to the <code>.on(:change)</code> block. This is a standard React pattern.</p>
+
+<p>Also see how we are saving the new post where Reactive Record&rsquo;s save returns a promise which means that the block after save is only evaluated when it returns yet React would have moved on to the rest of the code.</p>
+
+<p>Finally note that there is no code which checks to see if there are new posts yet when you run this, the list of posts remains magically up-to-date.</p>
+
+<p>Welcome to the wonderful of Reactive Record and React!</p>
+
+      </section>
+
+
+  </body>
+</html>

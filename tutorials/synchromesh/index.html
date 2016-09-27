@@ -60,20 +60,44 @@
       </section>
 
       <section class="main-nav">
-        
+          <a href="/tutorials/chat_app">Chat-App Tutorial</a></br>
+  <a href="/tutorials/rails">Reactrb and Rails</a></br>
+  <a href="/tutorials/react_components">React components</a></br>
+  <a href="/tutorials/reactive_record">Reactive Record</a></br>
+  <a href="/tutorials/synchromesh">Synchromesh</a></br>
+
       </section>
 
       <section class="main-content">
-        <h1>Archive for
-    2016
-</h1>
+        <h2 id="synchromesh">Synchromesh</h2>
 
+<p><a href="https://github.com/barriehadfield/reactrb-showcase">The source code to this tutorial is here</a></p>
 
-<ul>
-    <li><a href="/2016/06/29/reactrb-v0-8-5/">Reactrb v0.8.5</a> <span>Jun 29</span></li>
-    <li><a href="/2016/01/26/getting-started-with-reactrb-and-rails/">Getting Started with Reactrb and Rails</a> <span>Jan 26</span></li>
-</ul>
+<p>Reactive Record is the data layer between one client and its server and Synchromesh uses push notifications to push changed records to all connected Reactive Record clients.</p>
 
+<p>Synchromesh is incredibly simple to setup. Add this line to your Gemfile:</p>
+<pre class="highlight ruby"><code><span class="n">gem</span> <span class="s1">'synchromesh'</span><span class="p">,</span> <span class="ss">git: </span><span class="s2">"https://github.com/reactrb/synchromesh.git"</span>
+</code></pre>
+<p>And then execute:</p>
+<pre class="highlight plaintext"><code>$ bundle install
+</code></pre>
+<p>Next add this line to your <code>components.rb</code>:</p>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'synchromesh'</span>
+</code></pre>
+<p>Finally, you need to add an initialiser <code>config/initializers/synchromesh.rb</code></p>
+<pre class="highlight ruby"><code><span class="c1"># config/initializers/synchromesh.rb</span>
+<span class="no">Synchromesh</span><span class="p">.</span><span class="nf">configuration</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
+  <span class="c1"># this is the initialiser for polling, see the synchromesh</span>
+  <span class="c1"># documentation for using pusher.com</span>
+  <span class="n">config</span><span class="p">.</span><span class="nf">transport</span> <span class="o">=</span> <span class="ss">:simple_poller</span>
+  <span class="n">config</span><span class="p">.</span><span class="nf">channel_prefix</span> <span class="o">=</span> <span class="s2">"synchromesh"</span>
+  <span class="n">config</span><span class="p">.</span><span class="nf">opts</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="ss">seconds_between_poll: </span><span class="mi">1</span><span class="p">.</span><span class="nf">second</span><span class="p">,</span>
+    <span class="ss">seconds_polled_data_will_be_retained: </span><span class="mi">1</span><span class="p">.</span><span class="nf">hour</span>
+  <span class="p">}</span>
+<span class="k">end</span>
+</code></pre>
+<p>Restart your server, open two browser windows and be amazed to see any new posts added to one session magically appearing in the other!</p>
 
       </section>
 
