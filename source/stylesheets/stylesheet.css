@@ -231,12 +231,9 @@ a {
   background-color: #eff0f1;
   border: 0; }
 
-/*.main-nav {
-  float: left;
-  margin: 10px;
-  padding: 40px;
-  max-width: 250px;
-}*/
+.center-text {
+  text-align: center;
+}
 
 .main-nav {
   padding: 40px;
