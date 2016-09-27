@@ -1,0 +1,215 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv='X-UA-Compatible' content='IE=edge;chrome=1' />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta name="google-site-verification" content="qjqVOvRhHfsuDbLOvaAnj2mkUZJ9Xwzg84TMVXduvUc" />
+
+    <meta charset="UTF-8">
+    <title>Hyperloop</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+
+    <link href="/stylesheets/base.css" rel="stylesheet" />
+    <link href="/stylesheets/normalize.css" rel="stylesheet" />
+    <link href="/stylesheets/stylesheet.css" rel="stylesheet" />
+    <link href="/stylesheets/github-light.css" rel="stylesheet" />
+
+    <title>Reactrb</title>
+    <link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/feed.xml" />
+
+    <!-- Favicons -->
+    <link rel="apple-touch-icon" sizes="57x57" href="/images/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/images/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/images/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/images/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/images/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/images/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/images/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/images/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192"  href="/images/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/images/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/images/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+
+  </head>
+
+  <body>
+      <section class="page-header">
+        <img src="/images/hyperloop_white.svg" width="200" alt="Hyperloop white" />
+        <h1 class="project-name">
+          <a href="/" class="btn-logo">Hyperloop</a>
+        </h1>
+        <h2 class="project-tagline">THE MISSING RUBY FRONT-END LIBRARY</h2>
+        <a href="/get_started" class="btn">Get Started</a>
+        <a href="/tutorial" class="btn">Tutorial</a>
+        <a href="/installation" class="btn">Installation</a>
+        <a href="/gems" class="btn">Gems</a>
+        <a href="https://github.com/reactrb" class="btn">Github</a>
+        <a href="/tools" class="btn">Tooling</a>
+        <a href="/docs/dsl_overview" class="btn">Docs</a>
+        <a href="/support" class="btn">Support</a>
+        <a href="/blog" class="btn">Blog</a>
+      </section>
+
+      <section class="main-nav">
+          <a href="/docs/dsl_overview">DSL Overview</a></br>
+  <a href="/docs/top_level_api">Top level API</a></br>
+  <a href="/docs/components_and_state">Components & State</a></br>
+  <a href="/docs/lifecycle_callbacks">Lifecycle Callbacks</a></br>
+  <a href="/docs/lifecycle_methods">Lifecycle Methods</a></br>
+  <a href="/docs/event_handelers">Event Handelers</a></br>
+  <a href="/docs/javascript_components">Javascript Components</a></br>
+  <a href="/docs/further_reading">Further Reading</a></br>
+
+      </section>
+
+      <section class="main-content">
+        
+        <h2 id="using-javascript-components">Using Javascript Components</h2>
+
+<p>While it is quite possible to develop large applications purely in Reactrb with a ruby back end like rails, you may eventually find you want to use some pre-existing React Javascript library.   Or you may be working with an existing React-JS application, and want to just start adding some Reactrb components.</p>
+
+<p>Either way you are going to need to import Javascript components into the Reactrb namespace.  Reactrb provides both manual and automatic mechanisms to do this depending on the level of control you need.</p>
+
+<ul>
+<li><a href="#importing-components">Importing Components</a></li>
+<li><a href="#importing-libraries">Importing Libraries</a></li>
+<li><a href="#auto-import">Auto Importing</a></li>
+<li><a href="#including-react-source">Including React Source</a></li>
+<li><a href="#using-webpack">Using Webpack</a></li>
+</ul>
+
+<h2 id="importing-components">Importing Components</h2>
+
+<p>Lets say you have an existing React Component written in javascript that you would like to access from Reactrb.  </p>
+
+<p>Here is a simple hello world component:</p>
+<pre class="highlight javascript"><code><span class="nb">window</span><span class="p">.</span><span class="nx">SayHello</span> <span class="o">=</span> <span class="nx">React</span><span class="p">.</span><span class="nx">createClass</span><span class="p">({</span>
+  <span class="na">displayName</span><span class="p">:</span> <span class="s2">"SayHello"</span><span class="p">,</span>
+  <span class="na">render</span><span class="p">:</span> <span class="kd">function</span> <span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">React</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s2">"div"</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="s2">"Hello "</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">name</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">})</span>
+</code></pre>
+<p>Assuming that this component is loaded some place in your assets, you can then access this from Reactrb by creating a wrapper component:</p>
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">SayHello</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
+  <span class="n">imports</span> <span class="s1">'SayHello'</span>
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nc">MyBigApp</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
+  <span class="k">def</span> <span class="nf">render</span>
+    <span class="c1"># SayHello will now act like any other Reactrb component</span>
+    <span class="no">SayHello</span> <span class="ss">name: </span><span class="s1">'Matz'</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<p>The <code>imports</code> directive takes a string (or a symbol) and will simply evaluate it and check to make sure that the value looks like a React component, and then set the underlying native component to point to the imported component.</p>
+
+<h2 id="importing-libraries">Importing Libraries</h2>
+
+<p>Many React components come in libraries.  The <code>ReactBootstrap</code> library is one example.  You can import the whole library at once using the <code>React::NativeLibrary</code> class.  Assuming that you have initialized <code>ReactBootstrap</code> elsewhere, this is how you would bring it into Reactrb.</p>
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">RBS</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">NativeLibrary</span>
+  <span class="n">imports</span> <span class="s1">'ReactBootstrap'</span>
+<span class="k">end</span>
+</code></pre>
+<p>We can now access our bootstrap components as components defined within the RBS scope:</p>
+<pre class="highlight ruby"><code>  <span class="c1"># taken  from Barrie Hadfield's excellent guide: http://tutorials.pluralsight.com/ruby-ruby-on-rails/reactrb-showcase</span>
+<span class="k">module</span> <span class="nn">Components</span>
+  <span class="k">module</span> <span class="nn">Home</span>
+    <span class="k">class</span> <span class="nc">Show</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
+
+      <span class="k">def</span> <span class="nf">say_hello</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+        <span class="n">alert</span> <span class="s2">"Hello from number </span><span class="si">#{</span><span class="n">i</span><span class="si">}</span><span class="s2">"</span>
+      <span class="k">end</span>
+
+      <span class="n">render</span> <span class="no">RBS</span><span class="o">::</span><span class="no">Navbar</span><span class="p">,</span> <span class="ss">bsStyle: :inverse</span> <span class="k">do</span>
+        <span class="no">RBS</span><span class="o">::</span><span class="no">Nav</span><span class="p">()</span> <span class="k">do</span>
+          <span class="no">RBS</span><span class="o">::</span><span class="no">NavbarBrand</span><span class="p">()</span> <span class="k">do</span>
+            <span class="n">a</span><span class="p">(</span><span class="ss">href: </span><span class="s1">'#'</span><span class="p">)</span> <span class="p">{</span> <span class="s1">'Reactrb Showcase'</span> <span class="p">}</span>
+          <span class="k">end</span>
+          <span class="no">RBS</span><span class="o">::</span><span class="no">NavDropdown</span><span class="p">(</span><span class="ss">eventKey: </span><span class="mi">1</span><span class="p">,</span> <span class="ss">title: </span><span class="s1">'Things'</span><span class="p">,</span> <span class="ss">id: :drop_down</span><span class="p">)</span> <span class="k">do</span>
+            <span class="p">(</span><span class="mi">1</span><span class="p">.</span><span class="nf">.</span><span class="mi">5</span><span class="p">).</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">n</span><span class="o">|</span>
+              <span class="no">RBS</span><span class="o">::</span><span class="no">MenuItem</span><span class="p">(</span><span class="ss">href: </span><span class="s1">'#'</span><span class="p">,</span> <span class="ss">key: </span><span class="n">n</span><span class="p">,</span> <span class="ss">eventKey: </span><span class="s2">"1.</span><span class="si">#{</span><span class="n">n</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span> <span class="k">do</span>
+                <span class="s2">"Number </span><span class="si">#{</span><span class="n">n</span><span class="si">}</span><span class="s2">"</span>
+              <span class="k">end</span><span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:click</span><span class="p">)</span> <span class="p">{</span> <span class="n">say_hello</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="p">}</span>
+            <span class="k">end</span>
+          <span class="k">end</span>
+        <span class="k">end</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<p>Besides the <code>imports</code> directive, <code>React::NativeLibrary</code> also provides a rename directive that takes pairs in the form <code>oldname =&gt; newname</code>.  For example:</p>
+<pre class="highlight ruby"><code>  <span class="n">rename</span> <span class="s1">'NavDropdown'</span> <span class="o">=&gt;</span> <span class="s1">'NavDD'</span><span class="p">,</span> <span class="s1">'Navbar'</span> <span class="o">=&gt;</span> <span class="s1">'NavBar'</span><span class="p">,</span> <span class="s1">'NavbarBrand'</span> <span class="o">=&gt;</span> <span class="s1">'NavBarBrand'</span>
+</code></pre>
+<p><code>React::NativeLibrary</code> will import components that may be deeply nested in the library.  For example consider a component was defined as <code>MyLibrary.MySubLibrary.MyComponent</code>:</p>
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">MyLib</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">NativeLibrary</span>
+  <span class="n">imports</span> <span class="s1">'MyLibrary'</span>
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nc">App</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">NativeLibrary</span>
+  <span class="k">def</span> <span class="nf">render</span>  
+    <span class="p">.</span><span class="nf">.</span><span class="o">.</span>
+    <span class="no">MyLib</span><span class="o">::</span><span class="no">MySubLibrary</span><span class="o">::</span><span class="no">MyComponent</span> <span class="p">.</span><span class="nf">.</span><span class="p">.</span>
+    <span class="nf">.</span><span class="p">.</span><span class="nf">.</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<p>Note that the <code>rename</code> directive can be used to rename both components and sublibraries, giving you full control over the ruby names of the components and libraries.</p>
+
+<h2 id="auto-import">Auto Import</h2>
+
+<p>If you use a lot of libraries and are using a Javascript tool chain with Webpack, having to import the libraries in both Reactrb and Webpack is redundant and just hard work.</p>
+
+<p>Instead you can opt-in for <em>auto importing</em> Javascript components into Reactrb as you need them.  Simply <code>require react/auto-import</code> immediately after you <code>require reactrb</code>.  </p>
+
+<p>For example typically you might have this:</p>
+<pre class="highlight ruby"><code>  <span class="c1"># app/views/components.rb</span>
+<span class="nb">require</span> <span class="s1">'opal'</span>
+<span class="nb">require</span> <span class="s1">'reactrb'</span>
+<span class="nb">require</span> <span class="s1">'reactrb/auto-import'</span> <span class="c1"># this opts into auto-importing javascript components</span>
+<span class="k">if</span> <span class="no">React</span><span class="o">::</span><span class="no">IsomorphicHelpers</span><span class="p">.</span><span class="nf">on_opal_client?</span>
+  <span class="nb">require</span> <span class="s1">'opal-jquery'</span>
+  <span class="nb">require</span> <span class="s1">'browser'</span>
+  <span class="nb">require</span> <span class="s1">'browser/interval'</span>
+  <span class="nb">require</span> <span class="s1">'browser/delay'</span>
+<span class="k">end</span>
+<span class="n">require_tree</span> <span class="s1">'./components'</span>
+</code></pre>
+<p>Now you do not have to use component <code>imports</code> directive or <code>React::NativeLibrary</code> unless you need to rename a component.</p>
+
+<p>In Ruby all module and class names normally begin with an uppercase letter.  However in Javascript this is not always the case, so the auto import will first try the Javascript name that exactly matches the Ruby name, and if that fails it will try the same name with the first character downcased.  For example</p>
+
+<p><code>MyComponent</code> will first try <code>MyComponent</code> in the Javascript name space, then <code>myComponent</code>.</p>
+
+<p>Likewise MyLib::MyComponent would match any of the following in the Javascript namespace: <code>MyLib.MyComponent</code>, <code>myLib.MyComponent</code>, <code>MyLib.myComponent</code>, <code>myLib.myComponent</code></p>
+
+<p><em>How it works:  The first time Ruby hits a native library or component name, the constant value will not be defined.  This will trigger a lookup in the javascript name space for the matching component or library name.  This will generate either a new subclass of React::Component::Base or React::NativeLibrary that imports the javascript object, and no further lookups will be needed.</em></p>
+
+<h2 id="including-react-source">Including React Source</h2>
+
+<p>If you are in the business of importing components with a tool like Webpack, then you will need to let Webpack (or whatever dependency manager you are using) take care of including the React source code.  Just make sure that you are <em>not</em> including it on the ruby side of things.  Reactrb is currently tested with React versions 13, 14, and 15, so its not sensitive to the version you use.</p>
+
+<p>However it gets a little tricky if you are using the react-rails gem.  Each version of this gem depends on a specific version of React, and so you will need to manually declare this dependency in your Javascript dependency manager.  Consult this <a href="https://github.com/reactjs/react-rails/blob/master/VERSIONS.md">table</a> to determine which version of React you need. For example assuming you are using <code>npm</code> to install modules and you are using version 1.7.2 of react-rails you would say something like this:</p>
+<pre class="highlight shell"><code>npm install react@15.0.2 react-dom@15.0.2 --save
+</code></pre>
+<h2 id="using-webpack">Using Webpack</h2>
+
+<p>Just a word on Webpack: If you a Ruby developer who is new to using Javascript libraries then we recommend using Webpack to manage javascript component dependencies.  Webpack is essentially bundler for Javascript.   Barrie Hadfield has put together a very nice <a href="http://tutorials.pluralsight.com/ruby-ruby-on-rails/reactrb-showcase">tutorial</a> to get you started here.  </p>
+
+<p>There are also good tutorials on integrating Webpack with existing rails apps a google search away.</p>
+
+      </section>
+
+
+  </body>
+</html>

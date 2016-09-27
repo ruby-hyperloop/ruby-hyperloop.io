@@ -1,0 +1,227 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv='X-UA-Compatible' content='IE=edge;chrome=1' />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta name="google-site-verification" content="qjqVOvRhHfsuDbLOvaAnj2mkUZJ9Xwzg84TMVXduvUc" />
+
+    <meta charset="UTF-8">
+    <title>Hyperloop</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+
+    <link href="/stylesheets/base.css" rel="stylesheet" />
+    <link href="/stylesheets/normalize.css" rel="stylesheet" />
+    <link href="/stylesheets/stylesheet.css" rel="stylesheet" />
+    <link href="/stylesheets/github-light.css" rel="stylesheet" />
+
+    <title>Reactrb</title>
+    <link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/feed.xml" />
+
+    <!-- Favicons -->
+    <link rel="apple-touch-icon" sizes="57x57" href="/images/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/images/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/images/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/images/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/images/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/images/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/images/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/images/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192"  href="/images/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/images/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/images/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+
+  </head>
+
+  <body>
+      <section class="page-header">
+        <img src="/images/hyperloop_white.svg" width="200" alt="Hyperloop white" />
+        <h1 class="project-name">
+          <a href="/" class="btn-logo">Hyperloop</a>
+        </h1>
+        <h2 class="project-tagline">THE MISSING RUBY FRONT-END LIBRARY</h2>
+        <a href="/get_started" class="btn">Get Started</a>
+        <a href="/tutorial" class="btn">Tutorial</a>
+        <a href="/installation" class="btn">Installation</a>
+        <a href="/gems" class="btn">Gems</a>
+        <a href="https://github.com/reactrb" class="btn">Github</a>
+        <a href="/tools" class="btn">Tooling</a>
+        <a href="/docs/dsl_overview" class="btn">Docs</a>
+        <a href="/support" class="btn">Support</a>
+        <a href="/blog" class="btn">Blog</a>
+      </section>
+
+      <section class="main-nav">
+          <a href="/docs/dsl_overview">DSL Overview</a></br>
+  <a href="/docs/top_level_api">Top level API</a></br>
+  <a href="/docs/components_and_state">Components & State</a></br>
+  <a href="/docs/lifecycle_callbacks">Lifecycle Callbacks</a></br>
+  <a href="/docs/lifecycle_methods">Lifecycle Methods</a></br>
+  <a href="/docs/event_handelers">Event Handelers</a></br>
+  <a href="/docs/javascript_components">Javascript Components</a></br>
+  <a href="/docs/further_reading">Further Reading</a></br>
+
+      </section>
+
+      <section class="main-content">
+        
+        <h2 id="lifecycle-callbacks">Lifecycle Callbacks</h2>
+
+<p>A component may define callbacks for each phase of the components lifecycle:</p>
+
+<ul>
+<li><code>before_mount</code></li>
+<li><code>render</code></li>
+<li><code>after_mount</code></li>
+<li><code>before_receive_props</code></li>
+<li><code>before_update</code></li>
+<li><code>after_update</code></li>
+<li><code>before_unmount</code></li>
+</ul>
+
+<p>All the callback macros may take a block or the name of an instance method to be called.</p>
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">AComponent</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
+  <span class="n">before_mount</span> <span class="k">do</span>
+    <span class="c1"># initialize stuff here</span>
+  <span class="k">end</span>
+  <span class="n">before_unmount</span> <span class="ss">:cleanup</span>  <span class="c1"># call the cleanup method before unmounting</span>
+  <span class="p">.</span><span class="nf">.</span><span class="p">.</span>
+<span class="nf">end</span>
+</code></pre>
+<p>Except for the render callback, multiple callbacks may be defined for each lifecycle phase, and will be executed in the order defined, and from most deeply nested subclass outwards.</p>
+
+<p>Details on the component lifecycle is described <a href="docs/component-specs.html">here</a></p>
+
+<h3 id="the-param-macro">The <code>param</code> macro</h3>
+
+<p>Within a React Component the <code>param</code> macro is used to define the parameter signature of the component.  You can think of params as
+the values that would normally be sent to the instance&rsquo;s <code>initialize</code> method, but with the difference that a React Component gets new parameters when it is rerendered.  </p>
+
+<p>The param macro has the following syntax:</p>
+<pre class="highlight ruby"><code><span class="n">param</span> <span class="n">symbol</span><span class="p">,</span> <span class="p">.</span><span class="nf">.</span><span class="p">.</span><span class="nf">options</span><span class="p">.</span><span class="nf">.</span><span class="o">.</span> <span class="c1"># or</span>
+<span class="n">param</span> <span class="n">symbol</span> <span class="o">=&gt;</span> <span class="n">default_value</span><span class="p">,</span> <span class="p">.</span><span class="nf">.</span><span class="p">.</span><span class="nf">options</span><span class="p">.</span><span class="nf">.</span><span class="o">.</span>
+</code></pre>
+<p>Available options are <code>:default_value =&gt; ...any value...</code> and <code>:type =&gt; ...class_spec...</code>
+where class_spec is either a class name, or <code>[]</code> (shorthand for Array), or <code>[ClassName]</code> (meaning array of <code>ClassName</code>.)</p>
+
+<p>Note that the default value can be specied either as the hash value of the symbol, or explicitly using the <code>:default_value</code> key.</p>
+
+<p>Examples:</p>
+<pre class="highlight ruby"><code><span class="n">param</span> <span class="ss">:foo</span> <span class="c1"># declares that we must be provided with a parameter foo when the component is instantiated or re-rerendered.</span>
+<span class="n">param</span> <span class="ss">:foo</span> <span class="o">=&gt;</span> <span class="s2">"some default"</span>        <span class="c1"># declares that foo is optional, and if not present the value "some default" will be used.</span>
+<span class="n">param</span> <span class="ss">foo: </span><span class="s2">"some default"</span>           <span class="c1"># same as above using ruby 1.9 JSON style syntax</span>
+<span class="n">param</span> <span class="ss">:foo</span><span class="p">,</span> <span class="ss">default: </span><span class="s2">"some default"</span> <span class="c1"># same as above but uses explicit default key</span>
+<span class="n">param</span> <span class="ss">:foo</span><span class="p">,</span> <span class="ss">type: </span><span class="no">String</span>            <span class="c1"># foo is required and must be of type String</span>
+<span class="n">param</span> <span class="ss">:foo</span><span class="p">,</span> <span class="ss">type: </span><span class="p">[</span><span class="no">String</span><span class="p">]</span>          <span class="c1"># foo is required and must be an array of Strings</span>
+<span class="n">param</span> <span class="ss">foo: </span><span class="p">[],</span> <span class="ss">type: </span><span class="p">[</span><span class="no">String</span><span class="p">]</span>       <span class="c1"># foo must be an array of strings, and has a default value of the empty array.</span>
+</code></pre>
+<h4 id="accessing-param-values">Accessing param values</h4>
+
+<p>The component instance method <code>params</code> gives access to all declared params.  So for example</p>
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">Hello</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
+  <span class="n">param</span> <span class="ss">visitor: </span><span class="s2">"World"</span><span class="p">,</span> <span class="ss">type: </span><span class="no">String</span>
+  <span class="n">render</span>
+    <span class="s2">"Hello </span><span class="si">#{</span><span class="n">params</span><span class="p">.</span><span class="nf">visitor</span><span class="si">}</span><span class="s2">"</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<h4 id="params-of-type-proc">Params of type <code>Proc</code></h4>
+
+<p>A param of type proc (i.e. <code>param :update, type: Proc</code>) gets special treatment that will directly
+call the proc when the param is accessed.</p>
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">Alarm</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
+  <span class="n">param</span> <span class="ss">:at</span><span class="p">,</span> <span class="ss">type: </span><span class="no">Time</span>
+  <span class="n">param</span> <span class="ss">:notify</span><span class="p">,</span> <span class="ss">type: </span><span class="no">Proc</span>
+  <span class="n">after_mount</span> <span class="k">do</span>
+    <span class="vi">@clock</span> <span class="o">=</span> <span class="n">every</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="k">do</span>
+      <span class="k">if</span> <span class="no">Time</span><span class="p">.</span><span class="nf">now</span> <span class="o">&gt;</span> <span class="n">params</span><span class="p">.</span><span class="nf">at</span>
+        <span class="n">params</span><span class="p">.</span><span class="nf">notify</span>
+        <span class="vi">@clock</span><span class="p">.</span><span class="nf">stop</span>
+      <span class="k">end</span>
+      <span class="n">force_update!</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+  <span class="k">def</span> <span class="nf">render</span>
+    <span class="s2">"</span><span class="si">#{</span><span class="no">Time</span><span class="p">.</span><span class="nf">now</span><span class="si">}</span><span class="s2">"</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<p>If for whatever reason you need to get the actual proc instead of calling it use <code>params.method(*symbol name of method*)</code></p>
+
+<h3 id="the-state-instance-method">The <code>state</code> instance method</h3>
+
+<p>React state variables are <em>reactive</em> component instance variables that cause rerendering when they change.</p>
+
+<p>State variables are accessed via the <code>state</code> instance method which works like the <code>params</code> method. Like normal instance variables, state variables are created when they are first accessed, so there is no explicit declaration.  </p>
+
+<p>To access the value of a state variable <code>foo</code> you would say <code>state.foo</code>.  </p>
+
+<p>To initialize or update a state variable you use its name followed by <code>!</code>.  For example <code>state.foo! []</code> would initialize <code>foo</code> to an empty array.  Unlike the assignment operator, the update method returns the current value (before it is changed.)</p>
+
+<p>Often state variables have complex values with their own internal state, an array for example.  The problem is as you push new values onto the array you are not changing the object pointed to by the state variable, but its internal state.</p>
+
+<p>To handle this use the same &ldquo;!&rdquo; suffix with <strong>no</strong> parameter, and then apply any update methods to the resulting value.  The underlying value will be updated, <strong>and</strong> the underlying system will be notified that a state change has occurred.</p>
+
+<p>For example
+<code>ruby
+  state.foo! []    # initialize foo (returns nil)
+  ...later...
+  state.foo! &lt;&lt; 12  # push 12 onto foo&#39;s array
+  ...or...
+  state.foo! {}
+  state.foo![:house =&gt; :boat]
+</code></p>
+
+<p>The rule is simple:  anytime you are updating a state variable follow it by the &ldquo;!&rdquo;.</p>
+
+<blockquote>
+<h4 id="tell-me-how-that-works">Tell Me How That Works???</h4>
+
+<p>A state variables update method (name followed by &ldquo;!&rdquo;) can optionally accept one parameter.  If a parameter is passed, then the method will 1) save the current value, 2) update the value to the passed parameter, 3) update the underlying react.js state object, 4) return the saved value.</p>
+</blockquote>
+
+<h3 id="the-force_update-method">The <code>force_update!</code> method</h3>
+
+<p>The <code>force_update!</code> instance method causes the component to re-render.  Usually this is not necessary as rendering will occur when state variables change, or new params are passed.  For a good example of using <code>force_update!</code> see the <code>Alarm</code> component above.  In this case there is no reason to have a state track of the time separately, so we just call <code>force_update!</code> every second.</p>
+
+<h3 id="the-dom_node-method">The <code>dom_node</code> method</h3>
+
+<p>Returns the dom<em>node that this component instance is mounted to.  Typically used in the `after</em>mount` callback to setup linkages to external libraries.</p>
+
+<h3 id="the-children-method">The <code>children</code> method</h3>
+
+<p>Along with params components may be passed a block which is used to build the components children.</p>
+
+<p>The instance method <code>children</code> returns an enumerable that is used to access the unrendered children of a component.</p>
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">IndentEachLine</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
+  <span class="n">param</span> <span class="ss">by: </span><span class="mi">20</span><span class="p">,</span> <span class="ss">type: </span><span class="no">Integer</span>
+  <span class="k">def</span> <span class="nf">render</span>
+    <span class="n">div</span> <span class="k">do</span>
+      <span class="n">children</span><span class="p">.</span><span class="nf">each_with_index</span> <span class="k">do</span> <span class="o">|</span><span class="n">child</span><span class="p">,</span> <span class="n">i</span><span class="o">|</span>
+        <span class="n">child</span><span class="p">.</span><span class="nf">render</span><span class="p">(</span><span class="ss">style: </span><span class="p">{</span><span class="s2">"margin-left"</span> <span class="o">=&gt;</span> <span class="n">params</span><span class="p">.</span><span class="nf">by</span><span class="o">*</span><span class="n">i</span><span class="p">})</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="no">Element</span><span class="p">[</span><span class="s1">'#container'</span><span class="p">].</span><span class="nf">render</span> <span class="k">do</span>
+  <span class="no">IndentEachLine</span><span class="p">(</span><span class="ss">by: </span><span class="mi">100</span><span class="p">)</span> <span class="k">do</span>
+    <span class="n">div</span> <span class="p">{</span><span class="s2">"Line 1"</span><span class="p">}</span>
+    <span class="n">div</span> <span class="p">{</span><span class="s2">"Line 2"</span><span class="p">}</span>
+    <span class="n">div</span> <span class="p">{</span><span class="s2">"Line 3"</span><span class="p">}</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+      </section>
+
+
+  </body>
+</html>
