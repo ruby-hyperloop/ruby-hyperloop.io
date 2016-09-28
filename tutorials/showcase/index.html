@@ -1,0 +1,836 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv='X-UA-Compatible' content='IE=edge;chrome=1' />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta name="google-site-verification" content="qjqVOvRhHfsuDbLOvaAnj2mkUZJ9Xwzg84TMVXduvUc" />
+
+    <meta charset="UTF-8">
+    <title>Hyperloop</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+
+    <link href="/stylesheets/base.css" rel="stylesheet" />
+    <link href="/stylesheets/normalize.css" rel="stylesheet" />
+    <link href="/stylesheets/stylesheet.css" rel="stylesheet" />
+    <link href="/stylesheets/github-light.css" rel="stylesheet" />
+
+    <title>Reactrb</title>
+    <link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/feed.xml" />
+
+    <!-- Favicons -->
+    <link rel="apple-touch-icon" sizes="57x57" href="/images/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/images/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/images/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/images/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/images/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/images/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/images/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/images/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192"  href="/images/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/images/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/images/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+
+  </head>
+
+  <body>
+      <section class="page-header">
+        <img src="/images/hyperloop_white.svg" width="200" alt="Hyperloop white" />
+        <h1 class="project-name">
+          <a href="/" class="btn-logo">Hyperloop</a>
+        </h1>
+        <h2 class="project-tagline">THE MISSING RUBY FRONT-END LIBRARY</h2>
+        
+        <a href="/get_started" class="btn">Get Started</a>
+<a href="/tutorials" class="btn">Tutorials</a>
+<a href="/installation" class="btn">Installation</a>
+<a href="/gems" class="btn">Gems</a>
+<a href="https://github.com/reactrb" class="btn">Github</a>
+<a href="/tools" class="btn">Tooling</a>
+<a href="/docs/dsl_overview" class="btn">Docs</a>
+<a href="/support" class="btn">Support</a>
+<a href="/blog" class="btn">Blog</a>
+
+
+      </section>
+
+      <section class="main-nav">
+          <ul class="ul-sidenav">
+    <li><a href="/tutorials/chat_app">Reactrb Chat-App Tutorial</a></li>
+    <ul>
+      <li><a href="/tutorials/chat_app#lets-get-started">Getting Started</a></li>
+      <li><a href="/tutorials/chat_app#application-structure">Application Structure</a></li>
+      <li><a href="/tutorials/chat_app#adding-parameters">Adding Parameters</a></li>
+      <li><a href="/tutorials/chat_app#adding-an-event-handler">Adding An Event Handler</a></li>
+      <li><a href="/tutorials/chat_app#adding-state">Adding State</a></li>
+      <li><a href="/tutorials/chat_app#talking-to-your-parents">Talking to Your Parents</a></li>
+      <li><a href="/tutorials/chat_app#lifecycle-callbacks">Lifecycle Callbacks</a></li>
+      <li><a href="/tutorials/chat_app#instance-and-state-variables">Instance and State Variables</a></li>
+      <li><a href="/tutorials/chat_app#sending-messages">Sending Messages</a></li>
+      <li><a href="/tutorials/chat_app#styling-the-app">Styling the App</a></li>
+      <li><a href="/tutorials/chat_app#source-code-of-the-steps-up-until-detecting-loged-in-user">Source Code</a></li>
+    </ul>
+  </br>
+    <li><a href="/tutorials/showcase">Hyperloop Technology Showcase Tutorial</a></li>
+    <ul>
+      <li><a href="/tutorials/showcase#technologies-highlighted-in-this-showcase-application">Technologies highlighted in this Showcase application</a></li>
+      <li><a href="/tutorials/showcase#setup">Rails Setup</a></li>
+      <li><a href="/tutorials/showcase#step-2-adding-reactrb">Adding Reactrb</a></li>
+      <li><a href="/tutorials/showcase#step-3-webpack-for-managing-front-end-assets">Webpack for managing front-end assets</a></li>
+      <li><a href="/tutorials/showcase#working-with-native-react-components">Working with native React components</a></li>
+      <li><a href="/tutorials/showcase#working-with-react-bootstrap">Working with React Bootstrap</a></li>
+      <li><a href="/tutorials/showcase#using-reactrb-reactive-record">Reactive Record</a></li>
+      <li><a href="/tutorials/showcase#synchromesh">Synchromesh</a></li>
+      <li><a href="/tutorials/showcase#reactrb-hot-reloader-and-opal-irb">Reactrb Hot-reloader and Opal IRB</a></li>
+
+    </ul>
+  </ul>
+
+
+      </section>
+
+      <section class="main-content">
+        <h2 id="hyperloop-technology-showcase-tutorial">Hyperloop Technology Showcase Tutorial</h2>
+
+<p><a href="https://github.com/barriehadfield/reactrb-showcase">The source code to this tutorial is here</a></p>
+
+<p>This tutorial builds a simple Rails application showcasing Reactrb, Opal, NPM, Webpack, React Bootstrap, Reactive Record, Synchromesh, Rearcrb Router and other associated technologies.  This showcase is intended to be a companion project to the excellent Reactrb tutorials already written which you can find in <a href="#further-reading">Further Reading</a> below.</p>
+
+<p>This Showcase application will mix native React and Reactrb components, be styled by Bootstrap CSS (using ReactBootstrap), display a video (using a native React component) and use Reactrb Reactive Record and Synchromesh to handle data for a Post and Comments feed.</p>
+
+<p>The Showcase application will look like this:</p>
+
+<p><img src="/images/screen.png" alt="Screen" /></p>
+
+<h3 id="technologies-highlighted-in-this-showcase-tutorial">Technologies highlighted in this Showcase Tutorial</h3>
+
+<ul>
+<li>For the backend we are using Rails 4.2.6 with Ruby 2.3.1</li>
+<li>NPM and Webpack to manage front end assets</li>
+<li><a href="https://github.com/reactjs/react-rails">React Rails</a> to use React with Rails</li>
+<li><a href="https://github.com/reactrb/reactrb">Reactrb</a> to write reactive UI components with Ruby&rsquo;s elegance</li>
+<li><a href="https://react-bootstrap.github.io/">React Bootstrap</a> to show how to use native React components in Reactrb</li>
+<li><a href="https://github.com/reactrb/reactive-record">Reactive Record</a> to move data between Rails models and the front end</li>
+<li><a href="https://github.com/reactrb/synchromesh">Synchromesh</a> to magically push changed data between all connected clients</li>
+<li><a href="https://github.com/fkchang/opal-hot-reloader">Reactrb Hot-Reloader and Opal IRB</a> for programmer joy and hot-loading with developing</li>
+</ul>
+
+<h3 id="using-npm-and-webpack-alongside-rails">Using NPM and Webpack alongside Rails</h3>
+
+<p>Ruby libraries are distributed as gems, and are managed in your Rails app using the Gemfile and bundler.</p>
+
+<p>In the Javascript world things are still evolving but I have found that the easiest way to manage Javascript libraries is using NPM (Node Package Manager) and Webpack.  Pretty much every front end library is packaged with NPM these days so it is easy to get help and most things just work.</p>
+
+<p>Happily NPM, Webpack, Rails, and Reactrb can all play together very nicely.</p>
+
+<ul>
+<li><a href="https://www.npmjs.com/">NPM</a></li>
+<li><a href="https://www.npmjs.com/package/webpack">Webpack</a></li>
+</ul>
+
+<p>This tutorial requires that Ruby, Rails, NPM and Webpack are installed. Please see their websites for installation instructions.</p>
+
+<h2 id="setup">Setup</h2>
+
+<h3 id="step-1-creating-a-new-rails-application">Step 1: Creating a new Rails application</h3>
+<pre class="highlight plaintext"><code>rails new reactrb-showcase
+cd reactrb-showcase
+bundle install
+</code></pre>
+<p>You should have a empty Rails application</p>
+<pre class="highlight plaintext"><code>bundle exec rails s
+</code></pre>
+<p>And in your browser</p>
+<pre class="highlight plaintext"><code>http://localhost:3000/
+</code></pre>
+<p>You should be seeing the Rails Welcome aboard page. Great, Rails is now installed. Lets get started with the interesting stuff.</p>
+
+<h3 id="step-2-adding-reactrb">Step 2: Adding Reactrb</h3>
+
+<p><a href="https://github.com/loicboutet/reactive-rails-generator">We will use the Reactrb Rails Generator Gem</a></p>
+
+<p>In your <code>Gemfile</code> under the development group add</p>
+<pre class="highlight plaintext"><code>gem "reactrb-rails-generator"
+</code></pre>
+<p>then</p>
+<pre class="highlight plaintext"><code>bundle install
+bundle exec rails g reactrb:install --all
+bundle update
+</code></pre>
+<p>At this stage Reactrb is installed but we don&rsquo;t have any components yet. Lets create one via the generator:</p>
+<pre class="highlight plaintext"><code>rails g reactrb:component Home::Show
+</code></pre>
+<p>This will add a new Component at app/views/components/home/show.rb</p>
+<pre class="highlight ruby"><code><span class="k">module</span> <span class="nn">Components</span>
+  <span class="k">module</span> <span class="nn">Home</span>
+    <span class="k">class</span> <span class="nc">Show</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
+
+      <span class="c1"># param :my_param</span>
+      <span class="c1"># param param_with_default: "default value"</span>
+      <span class="c1"># param :param_with_default2, default: "default value" # alternative syntax</span>
+      <span class="c1"># param :param_with_type, type: Hash</span>
+      <span class="c1"># param :array_of_hashes, type: [Hash]</span>
+      <span class="c1"># collect_all_other_params_as :attributes  #collects all other params into a hash</span>
+
+      <span class="c1"># The following are the most common lifecycle call backs,</span>
+      <span class="c1"># the following are the most common lifecycle call backs</span>
+            <span class="c1"># delete any that you are not using.</span>
+      <span class="c1"># call backs may also reference an instance method i.e. before_mount :my_method</span>
+
+      <span class="n">before_mount</span> <span class="k">do</span>
+        <span class="c1"># any initialization particularly of state variables goes here.</span>
+        <span class="c1"># this will execute on server (prerendering) and client.</span>
+      <span class="k">end</span>
+
+      <span class="n">after_mount</span> <span class="k">do</span>
+        <span class="c1"># any client only post rendering initialization goes here.</span>
+        <span class="c1"># i.e. start timers, HTTP requests, and low level jquery operations etc.</span>
+      <span class="k">end</span>
+
+      <span class="n">before_update</span> <span class="k">do</span>
+        <span class="c1"># called whenever a component will be re-rerendered</span>
+      <span class="k">end</span>
+
+      <span class="n">before_unmount</span> <span class="k">do</span>
+        <span class="c1"># cleanup any thing (i.e. timers) before component is destroyed</span>
+      <span class="k">end</span>
+
+      <span class="k">def</span> <span class="nf">render</span>
+        <span class="n">div</span> <span class="k">do</span>
+          <span class="s2">"Home::Show"</span>
+        <span class="k">end</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<p>Have a look at this component as the generator creates a boilerplate component and instructions for using the most common Reactrb macros. Note that Reactrb components normally inherit from class <code>React::Component::Base</code> but you are free to <code>include React::Component</code> instead if you need your component to inherit from some other class.</p>
+
+<p>Also note how <code>params</code> are declared and how <code>before_mount</code> macros (and friends) macros are used. Finally note that every component must have one <code>render</code> method which must return just one DOM <code>element</code> which in this example case is a <code>div</code>.</p>
+
+<p>Next let&rsquo;s get this simple component rendering on a page. For that we will need a rails controller and a route.</p>
+<pre class="highlight plaintext"><code>rails g controller home
+</code></pre>
+<p>And add a route to your <code>routes.rb</code></p>
+<pre class="highlight plaintext"><code>root 'home#show'
+</code></pre>
+<p>And a <code>show</code> method in the HomeController which will render the component using the <code>render_component</code> helper.</p>
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">HomeController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+    <span class="k">def</span> <span class="nf">show</span>
+        <span class="n">render_component</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<p>Fire up the server with <code>bundle exec rails s</code>, refresh your browser and if all has gone well, you should be rewarded with <code>Home::Show</code> in your browser.</p>
+
+<p>If you open your JavaScript console you can also check which version of React has been loaded.</p>
+<pre class="highlight plaintext"><code>React.version
+</code></pre>
+<p>Remember this value, as we will need to use it later.</p>
+
+<h3 id="step-3-webpack-for-managing-front-end-assets">Step 3: Webpack for managing front-end assets</h3>
+
+<p>There are three parts to this step:  </p>
+
+<ul>
+<li>Setting up NPM (node package manager) for the project</li>
+<li>Setting up Webpack</li>
+<li>Updating the rails asset pipeline to use the bundles generated by Webpack</li>
+</ul>
+
+<p>This is just a matter of adding 4 boiler plate files, and updating two of your rails files.</p>
+
+<p>First add a package.json file to your root directory (same place as your Gemfile) like this:</p>
+<pre class="highlight plaintext"><code>// package.json
+{
+    "name": "reactrb-showcase",
+    "version": "0.0.1",
+    "dependencies": {
+        "bootstrap": "^3.3.6",
+        "react": "^0.14.2",      
+        "react-dom": "^0.14.2",
+        "react-bootstrap": "^0.29.5",
+        "webpack": "^1.13.1"
+    },
+        "devDependencies": {
+    }
+}
+</code></pre>
+<p>Notice how similar this is to your Gemfile.</p>
+
+<p>Now run <code>npm install</code> which will make sure you have all these packages.</p>
+
+<p>So that we can run Webpack from the command line do a <code>npm install webpack -g</code></p>
+
+<p>Now that we have Webpack, we need to add 3 boiler plate files to configure it.  As you add more javascript packages you will be updating these files.  Again this is similar to updating your Gemfile when you add new gems to a project.</p>
+
+<p>Add webpack.config.js to the root of your project:</p>
+<pre class="highlight javascript"><code><span class="kd">var</span> <span class="nx">path</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"path"</span><span class="p">);</span>
+
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="na">context</span><span class="p">:</span> <span class="nx">__dirname</span><span class="p">,</span>
+    <span class="na">entry</span><span class="p">:</span> <span class="p">{</span>
+      <span class="na">client_only</span><span class="p">:</span>  <span class="s2">"./webpack/client_only.js"</span><span class="p">,</span>
+      <span class="na">client_and_server</span><span class="p">:</span> <span class="s2">"./webpack/client_and_server.js"</span>
+    <span class="p">},</span>
+    <span class="na">output</span><span class="p">:</span> <span class="p">{</span>
+      <span class="na">path</span><span class="p">:</span> <span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="nx">__dirname</span><span class="p">,</span> <span class="s1">'app'</span><span class="p">,</span> <span class="s1">'assets'</span><span class="p">,</span>   <span class="s1">'javascripts'</span><span class="p">,</span> <span class="s1">'webpack'</span><span class="p">),</span>
+      <span class="na">filename</span><span class="p">:</span> <span class="s2">"[name].js"</span><span class="p">,</span>
+      <span class="na">publicPath</span><span class="p">:</span> <span class="s2">"/webpack/"</span>
+    <span class="p">},</span>
+    <span class="na">module</span><span class="p">:</span> <span class="p">{</span>
+      <span class="na">loaders</span><span class="p">:</span> <span class="p">[</span>
+        <span class="c1">// add any loaders here</span>
+      <span class="p">]</span>
+    <span class="p">},</span>
+    <span class="na">resolve</span><span class="p">:</span> <span class="p">{</span>
+      <span class="na">root</span><span class="p">:</span> <span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="nx">__dirname</span><span class="p">,</span> <span class="s1">'..'</span><span class="p">,</span> <span class="s1">'webpack'</span><span class="p">)</span>
+    <span class="p">},</span>
+<span class="p">};</span>
+</code></pre>
+<p>and create a folder called <code>webpack</code> and add the following two files:</p>
+<pre class="highlight javascript"><code><span class="c1">// webpack/client_only.js</span>
+<span class="c1">// any packages that depend specifically on the DOM go here</span>
+<span class="c1">// for example the webpack css loader generates code that will break prerendering</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'client_only.js loaded'</span><span class="p">);</span>
+</code></pre><pre class="highlight javascript"><code><span class="c1">// webpack/client_and_server.js</span>
+<span class="c1">// all other packages that you can run on both server (prerendering) and client go here</span>
+<span class="c1">// most well behaved packages can be required here</span>
+<span class="nx">ReactDOM</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'react-dom'</span><span class="p">)</span>
+<span class="nx">React</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'react'</span><span class="p">)</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'client_and_server.js loaded'</span><span class="p">)</span>
+</code></pre>
+<p>Now run <code>webpack</code> from the command line.  This will grab all necessary dependencies and package them up into the <code>client_and_server.js</code> and <code>client_only.js</code> bundles.  If you look in the <code>app/assets/javascripts/webpack</code> directory you should see the two files there.</p>
+
+<p>Finally we need to require these two bundles into our rails asset pipeline.</p>
+
+<p>Edit <code>app/assets/javascript/application.js</code> and add
+<code>javascript
+//= require &#39;webpack/client_only&#39;
+</code>
+just <em>above</em> the line that reads <code>Opal.load(&#39;components&#39;);</code>.  This will pull in any webpack assets that can only run on the client.</p>
+
+<p>Then edit <code>app/views/components.rb</code> and replace the <code>require &#39;react&#39;</code> line with
+<code>ruby
+require &#39;webpack/client_and_server.js&#39;
+</code></p>
+
+<p>In otherwords instead of pulling in react from the react-rails gem, we are going to pull in react <em>and</em> any other javascript packages we want from our webpack bundle.</p>
+
+<p>Reactrb can automatically access our components loaded by Webpack, but we have to opt in to this behavior.  Edit <code>app/views/components.rb</code> and add
+<code>ruby
+require &#39;reactrb/auto-import&#39;
+</code></p>
+
+<p>immediately after <code>require &#39;reactrb&#39;</code> (which is right near the top of the file.)  Auto-import will now search the javascript name space, and import into ruby any components that are referenced by your Reactrb components.</p>
+
+<p>Now run <code>bundle exec rails s</code> and refresh the browser.  Look at the console and you should see something like this:</p>
+<pre class="highlight plaintext"><code>client_and_server.js loaded
+client_only.js loaded
+client_and_server.js loaded
+************************ React Prerendering Context Initialized Show ***********************
+************************ React Browser Context Initialized ****************************
+Reactive record prerendered data being loaded: [Object]
+</code></pre>
+<p>Congratulations you are setup and ready to begin adding javascript packages to your application.</p>
+
+<h2 id="working-with-native-react-components">Working with native React components</h2>
+
+<p>It is time to reap some of the rewards from all the hard work above. We have everything setup so we can easily add front end components and work with them in Reactrb. Lets jump in and add a native React component that plays a video.</p>
+
+<p><a href="https://github.com/CookPete/rplayr">We are going to use Pete Cook&rsquo;s React rplayr</a></p>
+
+<p>First let&rsquo;s install the component via NPM:
+<code>text
+npm install react-player --save
+</code></p>
+
+<p>Next we need to <code>require</code> it in <code>webpack/client_and_server.js</code>
+<code>javascript
+ReactPlayer = require(&#39;react-player&#39;)
+</code></p>
+
+<p>Next run webpack so it can be bundled
+<code>text
+webpack
+</code></p>
+
+<p>And then finally let&rsquo;s add it to our Show component:
+<code>ruby
+def render
+  div do
+    ReactPlayer(url:  &#39;https://www.youtube.com/embed/FzCsDVfPQqk&#39;,
+      playing: true
+    )
+  end
+end
+</code></p>
+
+<p>Refresh your browser and you should have a video. How simple was that!</p>
+
+<h2 id="working-with-react-bootstrap">Working with React Bootstrap</h2>
+
+<p><a href="https://react-bootstrap.github.io/">We will be using React Bootstrap which is a native React library</a></p>
+
+<p>The main purpose for React Bootstrap is that it abstracts away verbose HTML &amp; CSS code into React components which makes it a lot cleaner for React JSX developers. One of the very lovely things about Reactrb is that we already work in beautiful Ruby. To emphasise this point, consider the following:</p>
+
+<p>Sample 1 - In HTML (without React Bootstrap):</p>
+<pre class="highlight plaintext"><code>&lt;button id="something-btn" type="button" class="btn btn-success btn-sm"&gt;
+  Something
+&lt;/button&gt;
+$('#something-btn').click(someCallback);
+</code></pre>
+<p>Sample 2 - In JSX (with React Bootstrap components):</p>
+<pre class="highlight plaintext"><code>&lt;Button bsStyle="success" bsSize="small" onClick={someCallback}&gt;
+  Something
+&lt;/Button&gt;
+</code></pre>
+<p>Sample 3 - In Reactrb (without React Bootstrap):</p>
+<pre class="highlight plaintext"><code>button.btn_success.btn_sm {'Something'}.on(:click) do
+    someMethod
+end
+</code></pre>
+<p>Sample 4 - In Reactrb (with React Bootstrap):</p>
+<pre class="highlight plaintext"><code>Bs.Button(bsStyle: 'success' bsSize: "small") {'Something'}.on(:click) do
+    someMethod
+end
+</code></pre>
+<p>As you can see, sample 3 &amp; 4 are not that different and as a Reactrb developer, I actually prefer sample 3. If I were a JavaScript or JSX developer I would completely understand the advantage of abstracting Bootstrap CSS into React Components so I don&rsquo;t have to work directly with CSS and JavaScript but this is not the case with Reactrb as CSS classes are added to HTML elements with simple dot notation:</p>
+<pre class="highlight plaintext"><code>span.pull_right {}
+</code></pre>
+<p>compiles to (note the conversion from _ to -)</p>
+<pre class="highlight plaintext"><code>&lt;span class='pull-right'&gt;&lt;/span&gt;
+</code></pre>
+<p>So I hear you ask: why if I prefer the non-React Bootstrap syntax why am worrying about React Bootstrap? For one very simple reason: components like Navbar and Modal that requires <code>bootstrap.js</code> will not work with React on it&rsquo;s own so without the React Bootstrap project you would need to implement all that functionality yourself. The React Bootstrap project has re-implemented all this functionality as React components.</p>
+
+<p>Lets implement a Navbar in this project using React Bootstrap in Reactrb. First, we need to install Bootstrap and React Bootstrap:</p>
+<pre class="highlight plaintext"><code>npm install bootstrap react-bootstrap --save
+</code></pre>
+<p>Note: The <code>--save</code> option will update the package.json file.</p>
+
+<p>And then we need to <code>require</code> it in <code>webpack/client_and_server.js</code> by adding this line:
+<code>javascript
+ReactBootstrap = require(&#39;react-bootstrap&#39;)
+</code>
+Run the <code>webpack</code> command again, and restart your rails server.</p>
+
+<p>If you refresh your browser now and open the JavaScript console we will be able to interact with React Bootstrap by typing:</p>
+
+<p>In the JavaScript console type: <code>ReactBootstrap</code></p>
+
+<p>and you will see the ReactBootstrap object with all its components like Accordion, Alert, Badge, Breadcrumb, etc. This is great news, React Bootstrap is installed and ready to use. Accessing the JavaScript object in this way is a really great way to see what you have to work with. Sometimes the documentation of a component is not as accurate as actually seeing what you have in the component itself.</p>
+
+<p>To make sure everything is working lets add a <em>Button</em> to our our Show component like this:</p>
+<pre class="highlight ruby"><code><span class="k">module</span> <span class="nn">Components</span>
+  <span class="k">module</span> <span class="nn">Home</span>
+    <span class="k">class</span> <span class="nc">Show</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
+      <span class="k">def</span> <span class="nf">render</span>
+        <span class="no">ReactBootstrap</span><span class="o">::</span><span class="no">Button</span><span class="p">(</span><span class="ss">bsStyle: </span><span class="s1">'success'</span><span class="p">,</span> <span class="ss">bsSize: </span><span class="s2">"small"</span><span class="p">)</span> <span class="k">do</span>
+          <span class="s1">'Success'</span>
+        <span class="k">end</span><span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:click</span><span class="p">)</span> <span class="k">do</span>
+          <span class="n">alert</span><span class="p">(</span><span class="s1">'you clicked me!'</span><span class="p">)</span>
+        <span class="k">end</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<p>Notice that we reference <code>ReactBoostrap</code> in ruby using the same identifer that was in the require statement in our <code>client_and_server.js</code> webpack bundle.  The first time Reactrb hits the <code>ReactBootstrap</code> constant it will not be defined. This triggers a search of the javascript name space for something that looks either like a component or library of components.  It then defines the appropriate module or component class wrapper in ruby.</p>
+
+<p>Visit your page and if all is well you will see a clickable button.  However it will not have any styles.  This is because ReactBootstrap does not automatically depend on any particular style sheet, so we will have to supply one.  An easy way to do this is to just copy the css file from the bootstrap repo, and stuff it our rails assets directory, however with a little upfront work we can setup webpack to do it all for us.</p>
+
+<p>First lets add four webpack <em>loaders</em> using npm:
+<code>text
+npm install css-loader file-loader style-loader url-loader --save-dev
+</code>
+Notice we use <code>--save-dev</code> instead of just <code>--save</code> as these packages are only used in the development process.</p>
+
+<p>Now edit your <code>webpack.config.js</code> file, and update the loaders section so it looks like this:</p>
+<pre class="highlight javascript"><code><span class="kd">var</span> <span class="nx">path</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"path"</span><span class="p">);</span>
+
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="p">{</span>
+<span class="p">...</span>
+    <span class="na">module</span><span class="p">:</span> <span class="p">{</span>
+      <span class="na">loaders</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span> <span class="na">test</span><span class="p">:</span> <span class="sr">/</span><span class="se">\.</span><span class="sr">css$/</span><span class="p">,</span>
+          <span class="na">loader</span><span class="p">:</span> <span class="s2">"style-loader!css-loader"</span>
+        <span class="p">},</span>
+        <span class="p">{</span> <span class="na">test</span><span class="p">:</span> <span class="sr">/</span><span class="se">\.(</span><span class="sr">woff|woff2</span><span class="se">)(\?</span><span class="sr">v=</span><span class="se">\d</span><span class="sr">+</span><span class="se">\.\d</span><span class="sr">+</span><span class="se">\.\d</span><span class="sr">+</span><span class="se">)?</span><span class="sr">$/</span><span class="p">,</span>
+          <span class="na">loader</span><span class="p">:</span> <span class="s1">'url?limit=10000&amp;mimetype=application/font-woff'</span>
+        <span class="p">},</span>
+        <span class="p">{</span> <span class="na">test</span><span class="p">:</span> <span class="sr">/</span><span class="se">\.</span><span class="sr">ttf</span><span class="se">(\?</span><span class="sr">v=</span><span class="se">\d</span><span class="sr">+</span><span class="se">\.\d</span><span class="sr">+</span><span class="se">\.\d</span><span class="sr">+</span><span class="se">)?</span><span class="sr">$/</span><span class="p">,</span>
+          <span class="na">loader</span><span class="p">:</span> <span class="s1">'url?limit=10000&amp;mimetype=application/octet-stream'</span>
+        <span class="p">},</span>
+        <span class="p">{</span> <span class="na">test</span><span class="p">:</span> <span class="sr">/</span><span class="se">\.</span><span class="sr">eot</span><span class="se">(\?</span><span class="sr">v=</span><span class="se">\d</span><span class="sr">+</span><span class="se">\.\d</span><span class="sr">+</span><span class="se">\.\d</span><span class="sr">+</span><span class="se">)?</span><span class="sr">$/</span><span class="p">,</span>
+          <span class="na">loader</span><span class="p">:</span> <span class="s1">'file'</span>
+        <span class="p">},</span>
+        <span class="p">{</span> <span class="na">test</span><span class="p">:</span> <span class="sr">/</span><span class="se">\.</span><span class="sr">svg</span><span class="se">(\?</span><span class="sr">v=</span><span class="se">\d</span><span class="sr">+</span><span class="se">\.\d</span><span class="sr">+</span><span class="se">\.\d</span><span class="sr">+</span><span class="se">)?</span><span class="sr">$/</span><span class="p">,</span>
+          <span class="na">loader</span><span class="p">:</span> <span class="s1">'url?limit=10000&amp;mimetype=image/svg+xml'</span>
+        <span class="p">}</span>
+      <span class="p">]</span>
+    <span class="p">},</span>
+<span class="p">...</span>
+<span class="p">};</span>
+</code></pre>
+<p>We have set webpack up so that when a css file is required it uses the style loader to process the file.  Because the bootstrap css file will require font face files, we also have 4 font loaders.  All this will package up everything when we require any css file.</p>
+
+<p>Now we are ready to require CSS files, and have webpack build a complete bundle including the css and any fonts referenced.</p>
+
+<p>To bundle in the bootstrap css file add this line to <code>webpack/client_only.js</code>
+<code>javascript
+require(&#39;bootstrap/dist/css/bootstrap.css&#39;);
+</code></p>
+
+<p>And install the bootstrap package
+<code>text
+npm install bootstrap --save
+</code></p>
+
+<p>Now run <code>webpack</code> to update our bundles, and restart your server.  Now our button is properly styled you should be rewarded with a nice Bootstrap styled green Success Button.</p>
+
+<p>Now that everything is loaded, lets update our component to use a few more of the Bootstrap components.  Update your Show component so that it looks like this:</p>
+<pre class="highlight ruby"><code><span class="k">module</span> <span class="nn">Components</span>
+  <span class="k">module</span> <span class="nn">Home</span>
+    <span class="k">class</span> <span class="nc">Show</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
+
+      <span class="k">def</span> <span class="nf">say_hello</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+        <span class="n">alert</span> <span class="s2">"Hello from number </span><span class="si">#{</span><span class="n">i</span><span class="si">}</span><span class="s2">"</span>
+      <span class="k">end</span>
+
+      <span class="k">def</span> <span class="nf">render</span>
+        <span class="n">div</span> <span class="k">do</span>
+          <span class="no">ReactBootstrap</span><span class="o">::</span><span class="no">Navbar</span><span class="p">(</span><span class="ss">bsStyle: :inverse</span><span class="p">)</span> <span class="k">do</span>
+            <span class="no">ReactBootstrap</span><span class="o">::</span><span class="no">Nav</span><span class="p">()</span> <span class="k">do</span>
+              <span class="no">ReactBootstrap</span><span class="o">::</span><span class="no">NavbarBrand</span><span class="p">()</span> <span class="k">do</span>
+                <span class="n">a</span><span class="p">(</span><span class="ss">href: </span><span class="s1">'#'</span><span class="p">)</span> <span class="p">{</span> <span class="s1">'Reactrb Showcase'</span> <span class="p">}</span>
+              <span class="k">end</span>
+              <span class="no">ReactBootstrap</span><span class="o">::</span><span class="no">NavDropdown</span><span class="p">(</span>
+                <span class="ss">eventKey: </span><span class="mi">1</span><span class="p">,</span>
+                <span class="ss">title: </span><span class="s1">'Things'</span><span class="p">,</span>
+                <span class="ss">id: :drop_down</span>
+              <span class="p">)</span> <span class="k">do</span>
+                <span class="p">(</span><span class="mi">1</span><span class="p">.</span><span class="nf">.</span><span class="mi">5</span><span class="p">).</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">n</span><span class="o">|</span>
+                  <span class="no">ReactBootstrap</span><span class="o">::</span><span class="no">MenuItem</span><span class="p">(</span><span class="ss">href: </span><span class="s1">'#'</span><span class="p">,</span>
+                    <span class="ss">key: </span><span class="n">n</span><span class="p">,</span>
+                    <span class="ss">eventKey: </span><span class="s2">"1.</span><span class="si">#{</span><span class="n">n</span><span class="si">}</span><span class="s2">"</span>
+                  <span class="p">)</span> <span class="k">do</span>
+                    <span class="s2">"Number </span><span class="si">#{</span><span class="n">n</span><span class="si">}</span><span class="s2">"</span>
+                  <span class="k">end</span><span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:click</span><span class="p">)</span> <span class="p">{</span> <span class="n">say_hello</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="p">}</span>
+                <span class="k">end</span>
+              <span class="k">end</span>
+            <span class="k">end</span>
+          <span class="k">end</span>
+          <span class="n">div</span><span class="p">.</span><span class="nf">container</span> <span class="k">do</span>
+            <span class="no">ReactPlayer</span><span class="p">(</span><span class="ss">url: </span><span class="s1">'https://www.youtube.com/embed/FzCsDVfPQqk'</span><span class="p">,</span>
+              <span class="ss">playing: </span><span class="kp">true</span>
+            <span class="p">)</span>
+          <span class="k">end</span>
+        <span class="k">end</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<p>A few things to notice in the code above:</p>
+
+<p>We add React Bootstrap components simply by <code>ReactBootstrap::Name</code> where <code>Name</code> is the JavaScriot component you want to render. All the components are documented in the React Bootstrap <a href="https://react-bootstrap.github.io/components.html">documentation</a></p>
+
+<p>See with <code>div.container</code> we are mixing in CSS style which will compile into <code>&lt;div class=&#39;container&#39;&gt;</code></p>
+
+<p>Also notice how I have added an <code>.on(:click)</code> event handler to the <code>MenuItem</code> component while setting <code>href: &#39;#&#39;</code> as this will allow us to handle the event instead of navigating to a new page.</p>
+
+<p>So far we have a very basic application which is looking OK and showing a video. Time to do something a little more interesting. How about if we add Post and Comment functionality which will let us explore Reactive Record!</p>
+
+<h2 id="using-reactrb-reactive-record">Using Reactrb Reactive Record</h2>
+
+<p><a href="https://github.com/reactrb/reactive-record">We will be using the Reactive Record gem</a></p>
+
+<p>Reactive Record compiles your Active Record models so they are accessible to the front-end and implements an API based on your models and their associations. Lazy loads just the data that is needed to render a component and is fully integrated with Reactrb and paired with Synchromesh to push database changes to all connected clients. ReactiveRecord and Synchromesh give you Relay + GraphQL like functionality with a fraction of the effort and complexity (the original idea for Reactive Record is credited to <a href="https://github.com/voltrb/volt">Volt</a> and not Relay).</p>
+
+<h3 id="installing-reactive-record">Installing Reactive Record</h3>
+
+<p>Installing Reactive Record is straight forward.</p>
+
+<p>First add this line to your application&rsquo;s Gemfile:</p>
+<pre class="highlight ruby"><code><span class="n">gem</span> <span class="s1">'reactive-record'</span>
+</code></pre>
+<p>And then execute:</p>
+<pre class="highlight plaintext"><code>$ bundle install
+</code></pre>
+<p>Finally you need to add a line to your <code>routes.rb</code>:</p>
+<pre class="highlight ruby"><code><span class="n">mount</span> <span class="no">ReactiveRecord</span><span class="o">::</span><span class="no">Engine</span> <span class="o">=&gt;</span> <span class="s1">'/rr'</span>
+</code></pre>
+<h3 id="creating-the-models">Creating the models</h3>
+
+<p>We are going to need a few models to work with so let&rsquo;s go ahead and create those now.</p>
+<pre class="highlight plaintext"><code>rails g model Post
+rails g model Comment post:references
+</code></pre>
+<p>And then before you run the migrations, lets flesh them out a little so they look like this:</p>
+<pre class="highlight ruby"><code><span class="c1"># db/migrate/..create_posts.rb</span>
+<span class="k">class</span> <span class="nc">CreatePosts</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Migration</span>
+  <span class="k">def</span> <span class="nf">change</span>
+    <span class="n">create_table</span> <span class="ss">:posts</span> <span class="k">do</span> <span class="o">|</span><span class="n">t</span><span class="o">|</span>
+      <span class="n">t</span><span class="p">.</span><span class="nf">string</span> <span class="ss">:body</span>
+      <span class="n">t</span><span class="p">.</span><span class="nf">timestamps</span> <span class="ss">null: </span><span class="kp">false</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="c1"># db/migrate/..create_comments.rb</span>
+<span class="k">class</span> <span class="nc">CreateComments</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Migration</span>
+  <span class="k">def</span> <span class="nf">change</span>
+    <span class="n">create_table</span> <span class="ss">:comments</span> <span class="k">do</span> <span class="o">|</span><span class="n">t</span><span class="o">|</span>
+      <span class="n">t</span><span class="p">.</span><span class="nf">references</span> <span class="ss">:post</span><span class="p">,</span> <span class="ss">index: </span><span class="kp">true</span><span class="p">,</span> <span class="ss">foreign_key: </span><span class="kp">true</span>
+      <span class="n">t</span><span class="p">.</span><span class="nf">string</span> <span class="ss">:body</span>
+      <span class="n">t</span><span class="p">.</span><span class="nf">timestamps</span> <span class="ss">null: </span><span class="kp">false</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<p>Now would be a good time to run the migrations:</p>
+<pre class="highlight plaintext"><code>rake db:migrate
+</code></pre>
+<h3 id="making-your-models-accessible-to-reactive-record">Making your models accessible to Reactive Record</h3>
+
+<p>Reactive Record needs to &lsquo;see&rsquo; your models as a representation of them get compiled into JavaScript along with your Reactrb components so they are accessible in your client side code.</p>
+
+<p>The convention (though this is choice and you can change this if you prefer) is to create a <code>public</code> folder under <code>models</code> and then provide a linkage file which will <code>require_tree</code> your models when compiling <code>components.rb</code>.</p>
+
+<p>Create a new folder:</p>
+<pre class="highlight plaintext"><code>models/public
+</code></pre>
+<p>Then move <code>post.rb</code> and <code>comment.rb</code> to <code>models/public</code></p>
+<pre class="highlight plaintext"><code>$ mv app/models/post.rb app/models/public
+$ mv app/models/comment.rb app/models/public
+</code></pre>
+<p>Next create <code>_react_public_models.rb</code> in your models folder:</p>
+<pre class="highlight ruby"><code><span class="c1"># models/_react_public_models.rb</span>
+<span class="n">require_tree</span> <span class="s1">'./public'</span>
+</code></pre>
+<p>Finally add a line to your <code>views/components.rb</code> file:</p>
+<pre class="highlight ruby"><code><span class="c1"># views/components.rb</span>
+<span class="p">.</span><span class="nf">.</span><span class="p">.</span>
+<span class="nf">require</span> <span class="s1">'_react_public_models'</span>
+</code></pre>
+<h3 id="model-associations">Model Associations</h3>
+
+<p>Reactive Record is particular about both sides of an association being specified. If you forget to do this you will see warnings to this effect.</p>
+<pre class="highlight ruby"><code><span class="c1"># models/public/post.rb</span>
+<span class="k">class</span> <span class="nc">Post</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+  <span class="n">has_many</span> <span class="ss">:comments</span>
+<span class="k">end</span>
+
+<span class="c1"># models/public/comment.rb</span>
+<span class="k">class</span> <span class="nc">Comment</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+  <span class="n">belongs_to</span> <span class="ss">:post</span>
+<span class="k">end</span>
+</code></pre>
+<h3 id="accessing-your-models-in-reactrb-components">Accessing your models in Reactrb components</h3>
+
+<p>To get started, lets create a new component which will display a list of Posts and Comments under the video:</p>
+<pre class="highlight ruby"><code><span class="c1"># views/components/show.rb</span>
+<span class="p">.</span><span class="nf">.</span><span class="p">.</span>
+<span class="nf">div</span><span class="p">.</span><span class="nf">container</span> <span class="k">do</span>
+  <span class="no">ReactPlayer</span><span class="p">(</span><span class="ss">url: </span><span class="s1">'https://www.youtube.com/embed/FzCsDVfPQqk'</span><span class="p">,</span> <span class="ss">playing: </span><span class="kp">true</span><span class="p">)</span>
+  <span class="n">br</span> <span class="c1"># line break</span>
+  <span class="no">PostsList</span><span class="p">()</span>
+<span class="k">end</span>
+<span class="p">.</span><span class="nf">.</span><span class="o">.</span>
+</code></pre>
+<p>Note that to place a Reactrb component you either need to include ( ) or { }, so <code>PostsList()</code> or <code>PostsList { }</code> would be valid but just <code>PostsList</code> would not.</p>
+
+<p>Next lets create the <code>PostsList</code> component:</p>
+<pre class="highlight ruby"><code><span class="k">module</span> <span class="nn">Components</span>
+  <span class="k">module</span> <span class="nn">Home</span>
+    <span class="k">class</span> <span class="nc">PostsList</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
+      <span class="n">define_state</span> <span class="ss">:new_post</span><span class="p">,</span> <span class="s2">""</span>
+
+      <span class="n">before_mount</span> <span class="k">do</span>
+        <span class="c1"># note that this will lazy load posts</span>
+        <span class="c1"># and only the fields that are needed will be requested</span>
+        <span class="vi">@posts</span> <span class="o">=</span> <span class="no">Post</span><span class="p">.</span><span class="nf">all</span>
+      <span class="k">end</span>
+
+      <span class="k">def</span> <span class="nf">render</span>
+        <span class="n">div</span> <span class="k">do</span>
+          <span class="n">new_post</span>
+          <span class="n">ul</span><span class="p">.</span><span class="nf">list_unstyled</span> <span class="k">do</span>
+            <span class="vi">@posts</span><span class="p">.</span><span class="nf">reverse</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">post</span><span class="o">|</span>
+              <span class="no">PostListItem</span><span class="p">(</span><span class="ss">post: </span><span class="n">post</span><span class="p">)</span>
+              <span class="no">CommentsList</span><span class="p">(</span><span class="ss">comments: </span><span class="n">post</span><span class="p">.</span><span class="nf">comments</span><span class="p">)</span>
+            <span class="k">end</span>
+          <span class="k">end</span>
+        <span class="k">end</span>
+      <span class="k">end</span>
+
+      <span class="k">def</span> <span class="nf">new_post</span>
+        <span class="no">ReactBootstrap</span><span class="o">::</span><span class="no">FormGroup</span><span class="p">()</span> <span class="k">do</span>
+          <span class="no">ReactBootstrap</span><span class="o">::</span><span class="no">FormControl</span><span class="p">(</span>
+            <span class="ss">value: </span><span class="n">state</span><span class="p">.</span><span class="nf">new_post</span><span class="p">,</span>
+            <span class="ss">type: :text</span><span class="p">,</span>
+          <span class="p">).</span><span class="nf">on</span><span class="p">(</span><span class="ss">:change</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span><span class="n">e</span><span class="o">|</span>
+            <span class="n">state</span><span class="p">.</span><span class="nf">new_post!</span> <span class="n">e</span><span class="p">.</span><span class="nf">target</span><span class="p">.</span><span class="nf">value</span>
+          <span class="p">}</span>
+        <span class="k">end</span>
+        <span class="no">ReactBootstrap</span><span class="o">::</span><span class="no">Button</span><span class="p">(</span><span class="ss">bsStyle: :primary</span><span class="p">)</span> <span class="k">do</span>
+          <span class="s2">"Post"</span>
+        <span class="k">end</span><span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:click</span><span class="p">)</span> <span class="p">{</span> <span class="n">save_new_post</span> <span class="p">}</span>
+      <span class="k">end</span>
+
+      <span class="k">def</span> <span class="nf">save_new_post</span>
+        <span class="n">post</span> <span class="o">=</span> <span class="no">Post</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="ss">body: </span><span class="n">state</span><span class="p">.</span><span class="nf">new_post</span><span class="p">)</span>
+        <span class="n">post</span><span class="p">.</span><span class="nf">save</span> <span class="k">do</span> <span class="o">|</span><span class="n">result</span><span class="o">|</span>
+          <span class="c1"># note that save is a promise so this code will only run after the save</span>
+          <span class="c1"># yet react will move onto the code after this (before the save happens)</span>
+          <span class="n">alert</span> <span class="s2">"unable to save"</span> <span class="k">unless</span> <span class="n">result</span> <span class="o">==</span> <span class="kp">true</span>
+        <span class="k">end</span>
+        <span class="n">state</span><span class="p">.</span><span class="nf">new_post!</span> <span class="s2">""</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+
+    <span class="k">class</span> <span class="nc">PostListItem</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
+      <span class="n">param</span> <span class="ss">:post</span>
+
+      <span class="k">def</span> <span class="nf">render</span>
+        <span class="n">li</span> <span class="k">do</span>
+          <span class="c1"># note how you access post.body just like with Active Record</span>
+          <span class="n">h4</span> <span class="p">{</span> <span class="n">params</span><span class="p">.</span><span class="nf">post</span><span class="p">.</span><span class="nf">body</span> <span class="p">}</span>
+        <span class="k">end</span>
+      <span class="k">end</span>
+
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<p>Things to note in the code above:</p>
+
+<p>See how we fetch the Reactive Record Post collection in <code>before_mount</code>. Setting this here instead of in <code>after_mount</code> means that we do not need to worry about <code>@posts</code> being <code>nil</code> as the collection will always contain at least one entry with the actual records being lazy loaded when needed.</p>
+
+<p>Note how we are binding the state variable <code>new_post</code> to the <code>FormControl</code> and then setting its value based on the value being passed to the <code>.on(:change)</code> block. This is a standard React pattern.</p>
+
+<p>Also see how we are saving the new post where Reactive Record&rsquo;s save returns a promise which means that the block after save is only evaluated when it returns yet React would have moved on to the rest of the code.</p>
+
+<p>Finally note that there is no code which checks to see if there are new posts yet when you run this, the list of posts remains magically up-to-date.</p>
+
+<p>Welcome to the wonderful of Reactive Record and React!</p>
+
+<h2 id="synchromesh">Synchromesh</h2>
+
+<p><a href="https://github.com/reactrb/synchromesh">We will be using the Synchromesh gem</a></p>
+
+<p>Reactive Record is the data layer between one client and its server and Synchromesh uses push notifications to push changed records to all connected Reactive Record clients.</p>
+
+<p>Synchromesh is incredibly simple to setup. Add this line to your Gemfile:</p>
+<pre class="highlight ruby"><code><span class="n">gem</span> <span class="s1">'synchromesh'</span><span class="p">,</span> <span class="ss">git: </span><span class="s2">"https://github.com/reactrb/synchromesh.git"</span>
+</code></pre>
+<p>And then execute:</p>
+<pre class="highlight plaintext"><code>$ bundle install
+</code></pre>
+<p>Next add this line to your <code>components.rb</code>:</p>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'synchromesh'</span>
+</code></pre>
+<p>Finally, you need to add an initialiser <code>config/initializers/synchromesh.rb</code></p>
+<pre class="highlight ruby"><code><span class="c1"># config/initializers/synchromesh.rb</span>
+<span class="no">Synchromesh</span><span class="p">.</span><span class="nf">configuration</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
+  <span class="c1"># this is the initialiser for polling, see the synchromesh</span>
+  <span class="c1"># documentation for using pusher.com</span>
+  <span class="n">config</span><span class="p">.</span><span class="nf">transport</span> <span class="o">=</span> <span class="ss">:simple_poller</span>
+  <span class="n">config</span><span class="p">.</span><span class="nf">channel_prefix</span> <span class="o">=</span> <span class="s2">"synchromesh"</span>
+  <span class="n">config</span><span class="p">.</span><span class="nf">opts</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="ss">seconds_between_poll: </span><span class="mi">1</span><span class="p">.</span><span class="nf">second</span><span class="p">,</span>
+    <span class="ss">seconds_polled_data_will_be_retained: </span><span class="mi">1</span><span class="p">.</span><span class="nf">hour</span>
+  <span class="p">}</span>
+<span class="k">end</span>
+</code></pre>
+<p>Restart your server, open two browser windows and be amazed to see any new posts added to one session magically appearing in the other!</p>
+
+<p>Todo:
++ Reactrb Router</p>
+
+<h2 id="reactrb-hot-reloader-and-opal-irb">Reactrb Hot-reloader and Opal IRB</h2>
+
+<p>Before we go any further, let&rsquo;s install too fantastic tools written by Forrest Chang:</p>
+
+<ul>
+<li><a href="https://github.com/fkchang/opal-hot-reloader">Opal Hot Reloader</a></li>
+<li><a href="https://github.com/fkchang/opal-console">Opal Console</a></li>
+</ul>
+
+<p>Opal Hot Loader is for pure programmer joy (not having to reload the page to compile your source) and the Opal console is incredibly useful to test how Ruby code compiles to JavaScript.</p>
+
+<p>We are also going to add the Foreman gem to run our Rails server and the Hot Loader service for us.</p>
+
+<p>Add the following lines to your <code>gemfile</code> and run <code>bundle</code>:</p>
+<pre class="highlight ruby"><code><span class="n">gem</span> <span class="s1">'opal_hot_reloader'</span><span class="p">,</span> <span class="ss">git: </span><span class="s1">'https://github.com/fkchang/opal-hot-reloader.git'</span>
+<span class="n">gem</span> <span class="s1">'foreman'</span>
+</code></pre>
+<p><code>bundle install</code></p>
+
+<p>Modify your <code>components.rb</code>, adding the following lines inside the if statement so they only run on the client and not as part of the server pre-rendering process:</p>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'opal_hot_reloader'</span>
+<span class="no">OpalHotReloader</span><span class="p">.</span><span class="nf">listen</span><span class="p">(</span><span class="mi">25222</span><span class="p">,</span> <span class="kp">true</span><span class="p">)</span>
+</code></pre>
+<p>Then modify your <code>procfile</code> so that the Hot Loader service will start whenever you start your server:</p>
+<pre class="highlight plaintext"><code>rails: bundle exec rails server
+hotloader: opal-hot-reloader -p 25222 -d app/views/components
+</code></pre>
+<p>To start both servers:</p>
+
+<p><code>foreman start</code></p>
+
+<p>Refresh your browser for the last time and try modifying your <code>show.rb</code> component and you should see your changes appearing magically in your browser as you save. Pure joy.  </p>
+
+<h2 id="further-reading">Further reading</h2>
+
+<h3 id="other-reactrb-tutorials-and-examples">Other Reactrb tutorials and examples</h3>
+
+<ul>
+<li><a href="https://github.com/loicboutet/reactrb_tutorial">Getting started with Reactrb and Rails</a></li>
+<li><a href="https://github.com/reactrb/reactrb.github.io/blob/master/docs/tutorial.md">ChatRB Demo App</a></li>
+<li><a href="https://github.com/loicboutet/reactivetodo">Reactive Record sample ToDo app</a></li>
+<li><a href="https://github.com/reactrb/reactrb.github.io/wiki/Sending-data-from-deeply-nested-components">Flux pattern in Reactrb</a></li>
+<li><a href="https://github.com/fkchang/getting-started-reactrb-webpack">Getting with Reactrb, React Bootstrap and Webpack</a></li>
+</ul>
+
+<h3 id="other-reactrb-resources">Other Reactrb resources</h3>
+
+<ul>
+<li><a href="http://reactrb.org/">Reactrb website</a></li>
+<li><a href="https://github.com/reactrb/reactrb">Reactrb GitHub site</a></li>
+</ul>
+
+<h3 id="reactrb-is-powered-by-react">Reactrb is powered by React</h3>
+
+<p>Reactrb and friends are in most cases simple DSL Ruby wrappers to the underlying native JavaScript libraries and React Components. It is really important to have a solid grip on how these technologies work to complement your understanding of Reactrb. Most searches for help on Google will take you to examples written in JSX or ES6 JavaScript but you will learn over time to transalte this to Reactrb equivalents. To make headway with Reactrb you do need a solid understanding of the underlying philosophy of React and its component based architecture. The &lsquo;Thinking in React&rsquo; tutorial below is an excellent place to start. (Make sure you see the Flux pattern in Reactrb above for an example of how to communicate between grandparent and child components).   </p>
+
+<ul>
+<li><a href="https://facebook.github.io/react/docs/thinking-in-react.html">Thinking in React</a></li>
+<li><a href="https://facebook.github.io/react/docs/getting-started.html">React</a></li>
+<li><a href="https://github.com/reactjs/react-router">React Router</a></li>
+<li><a href="https://react-bootstrap.github.io/">React Bootstrap</a></li>
+</ul>
+
+<h3 id="opal-under-the-covers">Opal under the covers</h3>
+
+<p>Reactrb is a DSL wrapper of React which uses Opal to compile Ruby code to ES5 native JavaScript. If you have not used Opal before then you should at a minimum read the excellent guides as they will teach you enough to get you started with Reactrb.</p>
+
+<ul>
+<li><a href="http://opalrb.org/">Opal</a></li>
+<li><a href="http://opalrb.org/docs/guides/v0.9.2/index.html">Opal Guides</a></li>
+<li><a href="https://www.youtube.com/watch?v=vhIrrlcWphU">To see the full power of Opal in action watch this video</a></li>
+</ul>
+
+      </section>
+
+
+  </body>
+</html>
