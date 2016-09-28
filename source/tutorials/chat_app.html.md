@@ -1,6 +1,8 @@
-## Char-App Tutorial
+## Reactrb Chat-App Tutorial
 
 We'll be building a simple but realistic chat application, a basic version of a chat room offered by a service like gitter.im.  
+
+We will be building the app from the ground up, but if you want to see the [final source code it is here](#source-code-of-the-steps-up-until-detecting-loged-in-user)
 
 Our Chat app will provide:
 

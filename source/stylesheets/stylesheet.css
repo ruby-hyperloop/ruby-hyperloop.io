@@ -12,6 +12,20 @@ div.centered table
 * {
   box-sizing: border-box; }
 
+.ul-sidenav {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.ul-sidenav2 {
+    list-style-type: none;
+    padding: 1;
+    margin: 1;
+}
+
+
+
 body {
   padding: 0;
   margin: 0;
