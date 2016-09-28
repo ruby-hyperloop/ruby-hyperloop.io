@@ -24,6 +24,39 @@ div.centered table
     margin: 1;
 }
 
+.wrapper{
+    margin-right: 300px;
+}
+
+.content{
+    width: 100%;
+    float: left;
+    /*background: red;*/
+}
+
+.sidebar{
+    float: right;
+    width: 300px;
+    margin-right: -300px;
+    padding: 30px;
+    /*background: blue;*/
+}
+
+/*.side-bar{
+    width: 300px;
+    float: left;
+    background: blue;
+    position: absolute;
+    height: 100%;
+    padding: 30px;
+}*/
+
+/*.main-nav {
+  padding: 40px;
+  float: left;
+  clear: both;
+  width: 20%;
+}*/
 
 
 body {
@@ -249,17 +282,10 @@ a {
   text-align: center;
 }
 
-.main-nav {
-  padding: 40px;
-  float: left;
-  clear: both;
-  width: 20%;
-}
-
 @media only screen and (max-width: 64em) {
     /* For mobile phones: */
-    .main-nav {
-      float: left;
+    .sidebar {
+      float: right;
       padding: 40px;
       width: 100%; } }
 
