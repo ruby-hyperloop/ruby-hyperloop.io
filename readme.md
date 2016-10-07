@@ -25,4 +25,4 @@ The rake tasks below will build and deploy to `master`
 $ rake build    # Compile all files into the build directory
 $ rake publish # Publish to master branch
 ```
-**Note `rake publish` uses REMOTE_NAME=reactrb BRANCH_NAME=master (see Rakefile)**
+**Note `rake publish` uses REMOTE_NAME=origin  BRANCH_NAME=master (see Rakefile)**
