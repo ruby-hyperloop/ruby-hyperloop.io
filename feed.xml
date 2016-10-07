@@ -14,7 +14,7 @@
     <link rel="alternate" href="http://blog.url.com/2016/06/29/reactrb-v0-8-5/"/>
     <id>http://blog.url.com/2016/06/29/reactrb-v0-8-5/</id>
     <published>2016-06-29T01:00:00+01:00</published>
-    <updated>2016-09-16T07:29:45+01:00</updated>
+    <updated>2016-10-07T12:27:44+01:00</updated>
     <author>
       <name>Article Author</name>
     </author>
@@ -116,7 +116,7 @@
     <link rel="alternate" href="http://blog.url.com/2016/01/26/getting-started-with-reactrb-and-rails/"/>
     <id>http://blog.url.com/2016/01/26/getting-started-with-reactrb-and-rails/</id>
     <published>2016-01-26T16:29:00+00:00</published>
-    <updated>2016-09-16T07:29:45+01:00</updated>
+    <updated>2016-10-07T12:27:44+01:00</updated>
     <author>
       <name>Article Author</name>
     </author>
@@ -553,7 +553,7 @@ application.js, as below.  Use of application.rb will automatically load the fil
     <link rel="alternate" href="http://blog.url.com/2015/12/01/reactive-ruby/"/>
     <id>http://blog.url.com/2015/12/01/reactive-ruby/</id>
     <published>2015-12-01T00:00:00+00:00</published>
-    <updated>2016-09-16T07:29:45+01:00</updated>
+    <updated>2016-10-07T12:27:44+01:00</updated>
     <author>
       <name>Article Author</name>
     </author>
