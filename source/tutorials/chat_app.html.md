@@ -4,6 +4,8 @@ We'll be building a simple but realistic chat application, a basic version of a 
 
 We will be building the app from the ground up, but if you want to see the [final source code it is here](#source-code-of-the-steps-up-until-detecting-loged-in-user)
 
+[The final app is here](/tutorials/chat_app_source)
+
 Our Chat app will provide:
 
 * A login window to register your chat handle
