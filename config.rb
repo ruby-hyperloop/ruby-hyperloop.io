@@ -11,7 +11,6 @@ page '/*.txt', layout: false
 
 page "/chatrb.html", layout: false
 page "/reactrb.html", layout: false
-page "/test.html", layout: false
 
 # With alternative layout
 # page "/path/to/file.html", layout: :otherlayout
