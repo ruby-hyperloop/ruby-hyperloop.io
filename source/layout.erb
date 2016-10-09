@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta http-equiv='X-UA-Compatible' content='IE=edge;chrome=1' />
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <meta name="google-site-verification" content="qjqVOvRhHfsuDbLOvaAnj2mkUZJ9Xwzg84TMVXduvUc" />
 
@@ -12,10 +12,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
 
-    <%= stylesheet_link_tag 'base' %>
+    <!-- <%= stylesheet_link_tag 'base' %>
     <%= stylesheet_link_tag 'normalize' %>
     <%= stylesheet_link_tag 'stylesheet' %>
-    <%= stylesheet_link_tag 'github-light' %>
+    <%= stylesheet_link_tag 'github-light' %> -->
+
+    <%= stylesheet_link_tag 'bootstrap.min.css' %>
+    <%= stylesheet_link_tag 'override.css' %>
+    <%= stylesheet_link_tag 'code.css' %>
 
     <title>Reactrb<%= ' ' + current_article.title unless current_article.nil? %></title>
     <%= feed_tag :atom, "#{blog.options.prefix.to_s}/feed.xml", title: "Atom Feed" %>
@@ -42,25 +46,43 @@
   </head>
 
   <body>
-      <section class="page-header">
-        <%= image_tag "hyperloop_white.svg", width: '200' %>
-        <h1 class="project-name">
-          <%= link_to "Hyperloop", "/", class: "btn-logo"%>
-        </h1>
-        <h2 class="project-tagline">THE MISSING RUBY FRONT-END LIBRARY</h2>
-        
-        <%= partial "buttons"%>
+    <div class="container">
+      <%= partial "navigation"%>
+    </div>
 
-      </section>
+    <div class="jumbotron page-header">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-4 center-text">
+            <%= image_tag "hyperloop_white.svg", width: '200' %>
+          </div>
+          <div class="col-md-8">
+            <h1 class="display-4 project-name">Hyperloop</h1>
+            </br>
+            <h2 class="display-7 project-tagline">THE MISSING RUBY FRONT-END LIBRARY</h2>
+          </div>
+        </div>
+      </div>
+    </div>
 
-      <section class="main-nav">
-        <%= partial "_sidenav" %>
-      </section>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4">
+          <%= partial "_sidenav" %>
+        </div>
+        <div class="col-md-8 main-content">
+          <%= yield %>
+        </div>
+      </div>
+    </div>
 
-      <section class="main-content">
-        <%= yield %>
-      </section>
 
+    <!-- <section class="main-nav">
+      <%= partial "_sidenav" %>
+    </section>
 
+    <section class="container main-content">
+      <%= yield %>
+    </section> -->
   </body>
 </html>
