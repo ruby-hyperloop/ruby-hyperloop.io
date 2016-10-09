@@ -53,10 +53,10 @@
     <div class="jumbotron page-header">
       <div class="container">
         <div class="row">
-          <div class="col-md-4 center-text">
+          <div class="col-md-3 center-text">
             <%= image_tag "hyperloop_white.svg", width: '200' %>
           </div>
-          <div class="col-md-8">
+          <div class="col-md-9">
             <h1 class="display-4 project-name">Hyperloop</h1>
             </br>
             <h2 class="display-7 project-tagline">THE MISSING RUBY FRONT-END LIBRARY</h2>
@@ -67,22 +67,14 @@
 
     <div class="container">
       <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-3">
           <%= partial "_sidenav" %>
         </div>
-        <div class="col-md-8 main-content">
+        <div class="col-md-9 main-content">
           <%= yield %>
         </div>
       </div>
     </div>
-
-
-    <!-- <section class="main-nav">
-      <%= partial "_sidenav" %>
-    </section>
-
-    <section class="container main-content">
-      <%= yield %>
-    </section> -->
+    
   </body>
 </html>
