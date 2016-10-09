@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta http-equiv='X-UA-Compatible' content='IE=edge;chrome=1' />
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <meta name="google-site-verification" content="qjqVOvRhHfsuDbLOvaAnj2mkUZJ9Xwzg84TMVXduvUc" />
 
@@ -12,10 +12,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
 
-    <%= stylesheet_link_tag 'base' %>
+    <!-- <%= stylesheet_link_tag 'base' %>
     <%= stylesheet_link_tag 'normalize' %>
     <%= stylesheet_link_tag 'stylesheet' %>
-    <%= stylesheet_link_tag 'github-light' %>
+    <%= stylesheet_link_tag 'github-light' %> -->
+
+    <%= stylesheet_link_tag 'bootstrap.min.css' %>
+    <%= stylesheet_link_tag 'override.css' %>
+    <%= stylesheet_link_tag 'code.css' %>
+
+    <title>Reactrb<%= ' ' + current_article.title unless current_article.nil? %></title>
+    <%= feed_tag :atom, "#{blog.options.prefix.to_s}/feed.xml", title: "Atom Feed" %>
 
     <!-- Favicons -->
     <link rel="apple-touch-icon" sizes="57x57" href="/images/apple-icon-57x57.png">
@@ -39,24 +46,43 @@
   </head>
 
   <body>
-      <section class="page-header">
-        <h1 class="project-name">
-          <%= link_to "Looking for Reactrb.org?", "/", class: "btn-logo"%>
-        </h1>
-      </br>
-        <%= partial "_buttons"%>
-      </section>
+    <div class="container">
+      <%= partial "navigation"%>
+    </div>
 
-      <section class="main-content">
-        <h1>Reactrb is now a part of Ruby Hyperloop</h1>
-        <p>
-          Reactrb has evolved and become a part of a collection of technologies called Ruby Hyperloop.
-        </p>
-        <p>
-          Follow one of the links above to proceed to the new site. <b>Welcome to Hyperloop!</b>
-        </p>
-        <%= partial "index"%>
-      </section>
+    <div class="jumbotron page-header">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-3 center-text">
+            <%= image_tag "hyperloop_white.svg", width: '200' %>
+          </div>
+          <div class="col-md-9">
+            <br>
+            <h1 class="display-4 project-name">Looking for Reactrb.org?</h1>
+          </br>
+          <h2 class="display-7 project-tagline">Reactrb is now a part of Ruby Hyperloop</h2>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-md-3">
+          <%= partial "_sidenav" %>
+        </div>
+        <div class="col-md-9 main-content">
+          <h1>Ruby Hyperloop</h1>
+          <p>
+            Reactrb has evolved and become a part of a collection of technologies called Ruby Hyperloop.
+          </p>
+          <p>
+            Follow one of the links above to proceed to the new site. <b>Welcome to Hyperloop!</b>
+          </p>
+          <%= partial "index"%>
+        </div>
+      </div>
+    </div>
 
   </body>
 </html>
