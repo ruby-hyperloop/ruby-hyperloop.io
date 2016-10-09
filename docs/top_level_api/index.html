@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta http-equiv='X-UA-Compatible' content='IE=edge;chrome=1' />
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <meta name="google-site-verification" content="qjqVOvRhHfsuDbLOvaAnj2mkUZJ9Xwzg84TMVXduvUc" />
 
@@ -12,10 +12,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
 
-    <link href="/stylesheets/base.css" rel="stylesheet" />
+    <!-- <link href="/stylesheets/base.css" rel="stylesheet" />
     <link href="/stylesheets/normalize.css" rel="stylesheet" />
     <link href="/stylesheets/stylesheet.css" rel="stylesheet" />
-    <link href="/stylesheets/github-light.css" rel="stylesheet" />
+    <link href="/stylesheets/github-light.css" rel="stylesheet" /> -->
+
+    <link href="/stylesheets/bootstrap.min.css" rel="stylesheet" />
+    <link href="/stylesheets/override.css" rel="stylesheet" />
+    <link href="/stylesheets/code.css" rel="stylesheet" />
 
     <title>Reactrb</title>
     <link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/feed.xml" />
@@ -42,28 +46,61 @@
   </head>
 
   <body>
-      <section class="page-header">
-        <img src="/images/hyperloop_white.svg" width="200" alt="Hyperloop white" />
-        <h1 class="project-name">
-          <a href="/" class="btn-logo">Hyperloop</a>
-        </h1>
-        <h2 class="project-tagline">THE MISSING RUBY FRONT-END LIBRARY</h2>
-        
-        <a href="/get_started" class="btn">Get Started</a>
-<a href="/tutorials" class="btn">Tutorials</a>
-<a href="/installation" class="btn">Installation</a>
-<a href="/gems" class="btn">Gems</a>
-<a href="https://github.com/reactrb" class="btn">Github</a>
-<a href="/tools" class="btn">Tooling</a>
-<a href="/docs/dsl_overview" class="btn">Docs</a>
-<a href="/support" class="btn">Support</a>
-<a href="/blog" class="btn">Blog</a>
+    <div class="container">
+      <nav class="navbar navbar-static-top p-a-1">
+  <a class="navbar-brand" href="/">Hyperloop</a>
+  <ul class="nav navbar-nav">
+    <li class="nav-item">
+      <a href="/get_started" class="nav-link">Get Started</a>
+    </li>
+    <li class="nav-item">
+      <a href="/tutorials" class="nav-link">Tutorials</a>
+    </li>
+    <li class="nav-item">
+      <a href="/installation" class="nav-link">Installation</a>
+    </li>
+    <li class="nav-item">
+      <a href="/gems" class="nav-link">Gems</a>
+    </li>
+    <li class="nav-item">
+      <a href="https://github.com/reactrb" class="nav-link">Github</a>
+    </li>
+    <li class="nav-item">
+      <a href="/tools" class="nav-link">Tools</a>
+    </li>
+    <li class="nav-item">
+      <a href="/docs/dsl_overview" class="nav-link">Docs</a>
+    </li>
+    <li class="nav-item">
+      <a href="/support" class="nav-link">Support</a>
+    </li>
+    <li class="nav-item">
+      <a href="/blog" class="nav-link">Blog</a>
+    </li>
+  </ul>
+</nav>
 
+    </div>
 
-      </section>
+    <div class="jumbotron page-header">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-3 center-text">
+            <img src="/images/hyperloop_white.svg" width="200" alt="Hyperloop white" />
+          </div>
+          <div class="col-md-9">
+            <h1 class="display-4 project-name">Hyperloop</h1>
+            </br>
+            <h2 class="display-7 project-tagline">THE MISSING RUBY FRONT-END LIBRARY</h2>
+          </div>
+        </div>
+      </div>
+    </div>
 
-      <section class="main-nav">
-          <a href="/docs/dsl_overview">DSL Overview</a></br>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-3">
+            <a href="/docs/dsl_overview">DSL Overview</a></br>
   <a href="/docs/top_level_api">Top level API</a></br>
   <a href="/docs/components_and_state">Components & State</a></br>
   <a href="/docs/lifecycle_callbacks">Lifecycle Callbacks</a></br>
@@ -72,10 +109,10 @@
   <a href="/docs/javascript_components">Javascript Components</a></br>
   <a href="/docs/further_reading">Further Reading</a></br>
 
-      </section>
-
-      <section class="main-content">
-        <h2 id="top-level-api">Top level API</h2>
+          <br>
+        </div>
+        <div class="col-md-9 main-content">
+          <h2 id="top-level-api">Top level API</h2>
 
 <p>The <code>React</code> module is the name space for all the React classes and modules.  </p>
 
@@ -186,8 +223,9 @@
 
 <p>Instances of React Components are created internally by React when rendering. The instances exist through subsequent renders, and although coupled to React, act like normal ruby instances. The only way to get a valid reference to a React Component instance outside of React is by storing the return value of <code>React.render</code>.  Inside other Components, you may use refs to achieve the same result.</p>
 
-      </section>
-
+        </div>
+      </div>
+    </div>
 
   </body>
 </html>
