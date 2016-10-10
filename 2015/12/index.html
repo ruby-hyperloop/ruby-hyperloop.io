@@ -47,44 +47,49 @@
 
   <body>
     <div class="container">
-      <nav class="navbar navbar-static-top p-a-1">
+      <nav class="navbar navbar-ligh">
+  <button class="navbar-toggler hidden-sm-up" type="button" data-toggle="collapse" data-target="#exCollapsingNavbar2" aria-controls="exCollapsingNavbar2" aria-expanded="false" aria-label="Toggle navigation">
+    &#9776;
+  </button>
   <a class="navbar-brand" href="/">Hyperloop</a>
-  <ul class="nav navbar-nav">
-    <li class="nav-item">
-      <a href="/get_started" class="nav-link">Get Started</a>
-    </li>
-    <li class="nav-item">
-      <a href="/tutorials" class="nav-link">Tutorials</a>
-    </li>
-    <li class="nav-item">
-      <a href="/installation" class="nav-link">Installation</a>
-    </li>
-    <li class="nav-item">
-      <a href="/gems" class="nav-link">Gems</a>
-    </li>
-    <li class="nav-item">
-      <a href="https://github.com/reactrb" class="nav-link">Github</a>
-    </li>
-    <li class="nav-item">
-      <a href="/tools" class="nav-link">Tools</a>
-    </li>
-    <li class="nav-item">
-      <a href="/docs/dsl_overview" class="nav-link">Docs</a>
-    </li>
-    <li class="nav-item">
-      <a href="/support" class="nav-link">Support</a>
-    </li>
-    <li class="nav-item">
-      <a href="/blog" class="nav-link">Blog</a>
-    </li>
-  </ul>
+  <div class="collapse navbar-toggleable-xs" id="exCollapsingNavbar2">
+    <ul class="nav navbar-nav">
+      <li class="nav-item">
+        <a href="/get_started" class="nav-link">Get Started</a>
+      </li>
+      <li class="nav-item">
+        <a href="/tutorials" class="nav-link">Tutorials</a>
+      </li>
+      <li class="nav-item">
+        <a href="/installation" class="nav-link">Installation</a>
+      </li>
+      <li class="nav-item">
+        <a href="/gems" class="nav-link">Gems</a>
+      </li>
+      <li class="nav-item">
+        <a href="https://github.com/reactrb" class="nav-link">Github</a>
+      </li>
+      <li class="nav-item">
+        <a href="/tools" class="nav-link">Tools</a>
+      </li>
+      <li class="nav-item">
+        <a href="/docs/dsl_overview" class="nav-link">Docs</a>
+      </li>
+      <li class="nav-item">
+        <a href="/support" class="nav-link">Support</a>
+      </li>
+      <li class="nav-item">
+        <a href="/blog" class="nav-link">Blog</a>
+      </li>
+    </ul>
+  </div>
 </nav>
 
     </div>
 
     <div class="jumbotron page-header">
       <div class="container">
-        <div class="row">
+        <div class="row hidden-xs-down">
           <div class="col-md-3 center-text">
             <img src="/images/hyperloop_white.svg" width="200" alt="Hyperloop white" />
           </div>
@@ -92,6 +97,16 @@
             <h1 class="display-4 project-name">Hyperloop</h1>
             </br>
             <h2 class="display-7 project-tagline">THE MISSING RUBY FRONT-END LIBRARY</h2>
+          </div>
+        </div>
+        <div class="row hidden-sm-up">
+          <div class="col-md-3 center-text">
+            <img src="/images/hyperloop_white.svg" width="120" alt="Hyperloop white" />
+          </div>
+          <div class="col-md-9">
+            <h1 class="h1 project-name center-text">Hyperloop</h1>
+            </br>
+            <h2 class="h4 project-tagline center-text">THE MISSING RUBY FRONT-END LIBRARY</h2>
           </div>
         </div>
       </div>
@@ -117,6 +132,10 @@
         </div>
       </div>
     </div>
+
+
+    <script   src="http://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+    <script src="/javascripts/bootstrap.min.js"></script>
 
   </body>
 </html>
