@@ -52,7 +52,7 @@
 
     <div class="jumbotron page-header">
       <div class="container">
-        <div class="row">
+        <div class="row hidden-xs-down">
           <div class="col-md-3 center-text">
             <%= image_tag "hyperloop_white.svg", width: '200' %>
           </div>
@@ -60,6 +60,16 @@
             <h1 class="display-4 project-name">Hyperloop</h1>
             </br>
             <h2 class="display-7 project-tagline">THE MISSING RUBY FRONT-END LIBRARY</h2>
+          </div>
+        </div>
+        <div class="row hidden-sm-up">
+          <div class="col-md-3 center-text">
+            <%= image_tag "hyperloop_white.svg", width: '120' %>
+          </div>
+          <div class="col-md-9">
+            <h1 class="h1 project-name center-text">Hyperloop</h1>
+            </br>
+            <h2 class="h4 project-tagline center-text">THE MISSING RUBY FRONT-END LIBRARY</h2>
           </div>
         </div>
       </div>
@@ -76,6 +86,10 @@
         </div>
       </div>
     </div>
+
+
+    <script   src="http://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+    <%= javascript_include_tag 'bootstrap.min.js' %>
 
   </body>
 </html>
