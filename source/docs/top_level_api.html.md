@@ -1,3 +1,6 @@
+---
+title: Docs
+---
 ## Top level API
 
 The `React` module is the name space for all the React classes and modules.  

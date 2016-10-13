@@ -1,4 +1,6 @@
-
+---
+title: Docs
+---
 ## Using Javascript Components
 
 While it is quite possible to develop large applications purely in Reactrb with a ruby back end like rails, you may eventually find you want to use some pre-existing React Javascript library.   Or you may be working with an existing React-JS application, and want to just start adding some Reactrb components.

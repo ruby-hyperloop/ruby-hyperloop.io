@@ -1,3 +1,6 @@
+---
+title: Docs
+---
 ## Lifecycle Methods
 
 A component class may define callbacks for  specific points in a component's lifecycle.

@@ -1,4 +1,7 @@
-# Hyperloop Reactive Record
+---
+title: Hyper Record Gem
+---
+# Hyper Record
 
 Github: [Reactive Record](https://github.com/reactrb/reactive-record)
 

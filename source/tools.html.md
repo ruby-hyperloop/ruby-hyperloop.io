@@ -1,4 +1,7 @@
-# Tools, Debugging and Testing
+---
+title: Tools and Debugging
+---
+# Tools and Debugging
 
 ## Tools
 
@@ -58,7 +61,3 @@ At any time during program execution you can breakout into the JavaScript consol
 If you have source maps turned on you will then be able to see your ruby code (and the compiled JavaScript code) and set browser breakpoints, examine values and continue execution. See [Opal Source Maps](http://opalrb.org/docs/guides/v0.10.1/source_maps.html) if you are not seeing source maps.
 
 You can also inspect ruby objects from the JavaScript console. [Here are three tricks](http://dev.mikamai.com/post/103047475349/3-tricks-to-debug-opal-code-from-your-browser).
-
-## Testing
-
-... need help here please ...

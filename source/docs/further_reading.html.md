@@ -1,3 +1,6 @@
+---
+title: Docs
+---
 ## Further Reading
 
 ### Other Reactrb tutorials and examples

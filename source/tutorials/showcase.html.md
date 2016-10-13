@@ -1,3 +1,6 @@
+---
+title: Technology Showcase Tutorial
+---
 ## Hyperloop Technology Showcase Tutorial
 
 [The source code to this tutorial is here](https://github.com/barriehadfield/reactrb-showcase)

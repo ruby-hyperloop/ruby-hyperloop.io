@@ -1,4 +1,7 @@
-# Hyperloop Synchromesh
+---
+title: Hyper Synchromesh Gem
+---
+# Hyper Synchromesh
 
 Github: [Synchromesh](https://github.com/reactrb/synchromesh)
 

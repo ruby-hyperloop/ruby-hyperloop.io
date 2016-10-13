@@ -1,3 +1,6 @@
+---
+title: Docs
+---
 ## Event Handelers
 
 ### Event Handling and Synthetic Events

@@ -1,3 +1,6 @@
+---
+title: Getting Started
+---
 ## Getting Started
 
 Let's look at a really simple example. Create a `hello-react.html` file with the following code:

@@ -54,12 +54,16 @@
       <div class="container">
         <div class="row hidden-xs-down">
           <div class="col-md-3 center-text">
-            <%= image_tag "hyperloop_white.svg", width: '200' %>
+            <%= image_tag "hyperloop_white.svg", width: '180' %>
           </div>
           <div class="col-md-9">
             <h1 class="display-4 project-name">Hyperloop</h1>
             </br>
-            <h2 class="display-7 project-tagline">THE MISSING RUBY FRONT-END LIBRARY</h2>
+            <h2 class="display-7 project-tagline">
+              <%=
+              current_page.data.title ? current_page.data.title.upcase : "THE MISSING RUBY FRONT-END LIBRARY"
+              %>
+            </h2>
           </div>
         </div>
         <div class="row hidden-sm-up">

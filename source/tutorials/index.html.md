@@ -1,3 +1,6 @@
+---
+title: Tutorials
+---
 # Tutorials
 
 There are two main tutorials on this site:

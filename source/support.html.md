@@ -1,3 +1,6 @@
+---
+title: Support
+---
 # Support
 
 **React.rb** is worked on by a team of contributors. Many features and concepts are a result of early adopters like you.  Please get in touch, there is so much to do!

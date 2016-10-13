@@ -1,4 +1,7 @@
-# Hyperloop Reactrb Express
+---
+title: Hyperloop Express Gem
+---
+# Hyperloop Express
 
 Github: [Reactrb Express](https://github.com/reactrb/reactrb-express)
 

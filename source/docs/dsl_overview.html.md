@@ -1,3 +1,6 @@
+---
+title: Docs
+---
 # Hyperloop Reactrb Docs
 
 ## DSL Overview

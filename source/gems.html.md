@@ -1,3 +1,6 @@
+---
+title: Gems
+---
 # Hyperloop gems
 
 Hyperloop is made up of a family of gems which all work together which collectively make up the missing Ruby front end library.

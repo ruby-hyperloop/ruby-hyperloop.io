@@ -1,3 +1,6 @@
+---
+title: Docs
+---
 ## Components and State
 
 - [Using State](#using-state)
