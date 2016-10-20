@@ -88,7 +88,6 @@ In your Gemfile:
 
 ```ruby
 gem 'reactrb'
-gem 'react-rails'
 gem 'opal-rails'
 gem 'therubyracer', platforms: :ruby # Required for prerendering
 # optional gems
@@ -110,7 +109,7 @@ side rendering system as well as the browser.
 ```
 # app/views/components.rb
 require 'opal'
-require 'react-latest'    # or other version i.e. react-v14
+require 'react/react-source'
 require 'reactrb'
 require 'reactrb-router' # if you are using the reactive-router gem
 require_tree './components'
@@ -186,7 +185,7 @@ require 'browser/delay'    # optional
 # you can pull in the jQuery.js file here, or separately
 # but in must be loaded BEFORE opal-jquery
 require 'opal-jquery'      # optional
-require 'react-latest'     # or other version i.e. react-v14
+require 'react/react-source'
 require 'reactrb'
 # here you can require other files, do a require_tree, or
 # just add some components inline right here...

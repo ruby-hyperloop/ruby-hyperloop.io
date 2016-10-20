@@ -131,7 +131,7 @@ Render an element to its initial HTML. This is should only be used on the server
 
 If you call `React.render` on a node that already has this server-rendered markup, React will preserve it and only attach event handlers, allowing you to have a very performant first-load experience.
 
-If you are using rails, and have included the react-rails gem, then the prerendering functions are automatically performed.  Otherwise you can use `render_to_string` to build your own prerendering system.
+If you are using rails, then the prerendering functions are automatically performed.  Otherwise you can use `render_to_string` to build your own prerendering system.
 
 
 **`React.render_to_static_markup`**
