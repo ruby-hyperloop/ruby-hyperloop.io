@@ -79,7 +79,7 @@ Have a look at the sources in the console, and notice your ruby code is there, a
 
 ### Manual Rails Install
 
-The following instructions have been superceeded by the [`reactrb-rails-generator`](https://github.com/reactrb/reactrb-rails-generator) gem use them at your own risk!
+The following instructions have been superceeded by the [reactrb-rails-generator](https://github.com/reactrb/reactrb-rails-generator) gem.
 
 To start using Reactrb within a new or existing rails 4.0 app, follow these steps:
 
@@ -154,7 +154,7 @@ a basic ruby setup (you can follow instructions for Jekyll for example.)*
 The following assumes you are building a js file called application.js, and the code is stored in a directory
 called react_lib.
 
-Add the following gems, and run bundle install.
+Add the following gems, and run `bundle install`.
 
 ```ruby
 # Gemfile
