@@ -155,10 +155,11 @@ Simply include the reactrb-express.js file with your other javascript code, or a
 
 <h2 id="with-rails">With Rails</h2>
 
-<p>Reactrb works great with new or existing rails apps, and Reactrb plays well with other frameworks, so
-its pain free to introduce React to your application.</p>
+<p>Reactrb works great with new or existing rails apps, and Reactrb plays well with other frameworks, so its pain free to introduce React to your application.</p>
 
-<p><strong>We recommend you use the <a href="https://github.com/reactrb/reactrb-rails-generator"><code>reactrb-rails-generator</code></a> gem to do a transparent install of everything you need in a new or existing rails app.</strong></p>
+<p>We recommend you use the <a href="https://github.com/reactrb/reactrb-rails-generator">reactrb-rails-generator</a> gem to do a transparent install of everything you need in a new or existing rails app.</p>
+
+<p><strong>Rails 5:</strong> The generator does not support Rails 5 yet. This will be coming soon. If you are using Rails 5 and need help with installing Hyperloop please contact us on <a href="https://gitter.im/reactrb/chat">gitter.im</a></p>
 
 <p>Within a Rails app React Components are by convention stored in the <code>app/views/components</code> directory.  </p>
 
@@ -203,7 +204,7 @@ its pain free to introduce React to your application.</p>
 
 <h3 id="manual-rails-install">Manual Rails Install</h3>
 
-<p>The following instructions have been superceeded by the <a href="https://github.com/reactrb/reactrb-rails-generator"><code>reactrb-rails-generator</code></a> gem use them at your own risk!</p>
+<p>The following instructions have been superceeded by the <a href="https://github.com/reactrb/reactrb-rails-generator">reactrb-rails-generator</a> gem.</p>
 
 <p>To start using Reactrb within a new or existing rails 4.0 app, follow these steps:</p>
 
@@ -269,7 +270,7 @@ a basic ruby setup (you can follow instructions for Jekyll for example.)</em></p
 <p>The following assumes you are building a js file called application.js, and the code is stored in a directory
 called react_lib.</p>
 
-<p>Add the following gems, and run bundle install.</p>
+<p>Add the following gems, and run <code>bundle install</code>.</p>
 <pre class="highlight ruby"><code><span class="c1"># Gemfile</span>
 <span class="n">gem</span> <span class="s1">'opal'</span>
 <span class="n">gem</span> <span class="s1">'opal-browser'</span> <span class="c1"># optional</span>
