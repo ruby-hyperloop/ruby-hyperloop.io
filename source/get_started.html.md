@@ -3,7 +3,9 @@ title: Getting Started
 ---
 ## Getting Started
 
-Let's look at a really simple example. Create a `hello-react.html` file with the following code:
+To keep things simple, this Getting Started guide uses [Hyperloop Express](/gems/reactrb-express) which basically uses Opal to transpile Ruby code to Javascript in your browser. This is a good way to get you started and also a good option for a static website (like this one) but is unlikely to be used in production. Please see the [Installation](/installation) section for information on how to install Hyperloop in your development ecosystem.
+
+Using Hyperloop Express, let's look at a really simple example. Create a `hello-react.html` file with the following code:
 
 ```html
 <!DOCTYPE html>
