@@ -211,7 +211,6 @@ its pain free to introduce React to your application.</p>
 
 <p>In your Gemfile:</p>
 <pre class="highlight ruby"><code><span class="n">gem</span> <span class="s1">'reactrb'</span>
-<span class="n">gem</span> <span class="s1">'react-rails'</span>
 <span class="n">gem</span> <span class="s1">'opal-rails'</span>
 <span class="n">gem</span> <span class="s1">'therubyracer'</span><span class="p">,</span> <span class="ss">platforms: :ruby</span> <span class="c1"># Required for prerendering</span>
 <span class="c1"># optional gems</span>
@@ -230,7 +229,7 @@ Files required in <code>app/views/components.rb</code> will be made available to
 side rendering system as well as the browser.</p>
 <pre class="highlight plaintext"><code># app/views/components.rb
 require 'opal'
-require 'react-latest'    # or other version i.e. react-v14
+require 'react/react-source'
 require 'reactrb'
 require 'reactrb-router' # if you are using the reactive-router gem
 require_tree './components'
@@ -294,7 +293,7 @@ called react_lib.</p>
 <span class="c1"># you can pull in the jQuery.js file here, or separately</span>
 <span class="c1"># but in must be loaded BEFORE opal-jquery</span>
 <span class="nb">require</span> <span class="s1">'opal-jquery'</span>      <span class="c1"># optional</span>
-<span class="nb">require</span> <span class="s1">'react-latest'</span>     <span class="c1"># or other version i.e. react-v14</span>
+<span class="nb">require</span> <span class="s1">'react/react-source'</span>
 <span class="nb">require</span> <span class="s1">'reactrb'</span>
 <span class="c1"># here you can require other files, do a require_tree, or</span>
 <span class="c1"># just add some components inline right here...</span>
