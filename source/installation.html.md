@@ -24,10 +24,11 @@ This is another great way to experiment with Reactrb.  You don't need any setup 
 
 ## With Rails
 
-Reactrb works great with new or existing rails apps, and Reactrb plays well with other frameworks, so
-its pain free to introduce React to your application.
+Reactrb works great with new or existing rails apps, and Reactrb plays well with other frameworks, so its pain free to introduce React to your application.
 
-**We recommend you use the [`reactrb-rails-generator`](https://github.com/reactrb/reactrb-rails-generator) gem to do a transparent install of everything you need in a new or existing rails app.**
+We recommend you use the [reactrb-rails-generator](https://github.com/reactrb/reactrb-rails-generator) gem to do a transparent install of everything you need in a new or existing rails app.
+
+**Rails 5:** The generator does not support Rails 5 yet. This will be coming soon. If you are using Rails 5 and need help with installing Hyperloop please contact us on [gitter.im](https://gitter.im/reactrb/chat)
 
 Within a Rails app React Components are by convention stored in the `app/views/components` directory.  
 
