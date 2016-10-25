@@ -3,7 +3,7 @@ title: A family of Gems
 ---
 # Hyperloop Gems
 
-Hyperloop is made up of a family of gems which all work together to collectively make up the missing Ruby front end library.
+Hyperloop is a family of gems which collectively make up the missing Ruby Front End library. Isomorphic Ruby and pure programmer joy.
 
 **Note:** The Hyperloop gems are in a process of being renamed. The links below will take you to the correct Github projects but you might find the name of the project does not quite match the name of the gem on this page. This will be addressed over time as the gems are renamed.
 
