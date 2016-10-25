@@ -99,7 +99,7 @@
             <h1 class="display-4 project-name">Hyperloop</h1>
             </br>
             <h2 class="display-7 project-tagline">
-              GEMS
+              A FAMILY OF GEMS
             </h2>
           </div>
         </div>
@@ -111,7 +111,7 @@
             <h1 class="h1 project-name center-text">Hyperloop</h1>
             </br>
             <h2 class="h4 project-tagline center-text">
-              GEMS
+              A FAMILY OF GEMS
             </h2>
           </div>
         </div>
@@ -122,39 +122,65 @@
       <div class="row">
         <div class="col-md-3">
             <ul class="nav">
-    <li class="nav-item"><a href="/gems/reactrb">Reactrb</a></br></li>
-    <li class="nav-item"><a href="/gems/reactrb-reactive-record">Reactive Record</a></br></li>
-    <li class="nav-item"><a href="/gems/reactrb-synchromesh">Synchromesh</a></br></li>
-    <li class="nav-item"><a href="/gems/reactrb-router">Router</a></br></li>
-    <li class="nav-item"><a href="/gems/reactrb-express">Reactrb Express</a></br></li>
+    <p>For information on how to use the gems be sure to see:</p>
+    <li class="nav-item"><a href="/installation">Installation</a></br></li>
+    <li class="nav-item"><a href="/tutorials">Tutorials</a></br></li>
+    <li class="nav-item"><a href="/docs/dsl_overview">Docs</a></br></li>
+    <li class="nav-item"><a href="/tools">Tools and Debugging</a></br></li>
   </ul>
 
           <br>
         </div>
         <div class="col-md-9 main-content">
-          <h1 id="hyperloop-gems">Hyperloop gems</h1>
+          <h1 id="hyperloop-gems">Hyperloop Gems</h1>
 
-<p>Hyperloop is made up of a family of gems which all work together which collectively make up the missing Ruby front end library.</p>
+<p>Hyperloop is made up of a family of gems which all work together to collectively make up the missing Ruby front end library.</p>
 
-<h2 id="hyperloop-reactrb"><a href="/gems/reactrb">Hyperloop Reactrb</a></h2>
+<p><strong>Note:</strong> The Hyperloop gems are in a process of being renamed. The links below will take you to the correct Github projects but you might find the name of the project does not quite match the name of the gem on this page. This will be addressed over time as the gems are renamed.</p>
 
-<p>This is the master gem. You will always need this as a base. Reactrb provides a Ruby DSL to Facebook&rsquo;s React.</p>
+<h2 id="installation-gems">Installation Gems</h2>
 
-<h2 id="hyperloop-reactive-record"><a href="/gems/reactrb-reactive-record">Hyperloop Reactive Record</a></h2>
+<p>See <a href="/installation">Installation</a> for further installation options.</p>
 
-<p>Reactrb Reactive Record compiles your Active Record models so they are accessible to the front-end and implements an API based on your models and their associations.</p>
+<h4 id="hyperloop-express"><a href="https://github.com/ruby-hyperloop/reactrb-express">Hyperloop Express</a></h4>
 
-<h2 id="hyperloop-synchromesh"><a href="/gems/reactrb-synchromesh">Hyperloop Synchromesh</a></h2>
+<p>Hyper-react for static sites, with no build process needed.</p>
 
-<p>Reactrb Synchromesh uses push notifications to push changed records to all connected Reactive Record clients.</p>
+<h4 id="hyperloop-rails"><a href="https://github.com/ruby-hyperloop/reactrb-rails-generator">Hyperloop Rails</a></h4>
 
-<h2 id="hyperloop-router"><a href="/gems/reactrb-router">Hyperloop Router</a></h2>
+<p>One step integration of Hyper-react, Hyper-mesh and Hyper-router with Rails plus generators for Components and Routers.</p>
 
-<p>The router is a React component that loads other components depending on the current URL. Reactrb Router provides a Ruby DSL to Facebook&rsquo;s React Router.</p>
+<h2 id="hyperloop-gems">Hyperloop  Gems</h2>
 
-<h2 id="hyperloop-reactrb-express"><a href="/gems/reactrb-express">Hyperloop Reactrb Express</a></h2>
+<p>See <a href="/docs/dsl_overview">Docs</a> for detailed information on how to use these gems or <a href="/tutorials">Tutorials</a> for working examples.</p>
 
-<p>React.rb for static sites, with no build process needed.</p>
+<h4 id="hyper-react"><a href="https://github.com/ruby-hyperloop/reactrb">Hyper-react</a></h4>
+
+<p>This is the master gem. You will always need this as a base. Hyper-react provides a Ruby DSL to Facebook&rsquo;s React. Much of the documentation on this site covers usage of this Gem.</p>
+
+<h4 id="hyper-router"><a href="https://github.com/ruby-hyperloop/reactrb-router/tree/v2-4-0">Hyper-router</a></h4>
+
+<p>Hyper-router provides a Ruby DSL to Facebook&rsquo;s React Router which is a React component that loads other components depending on the current URL.</p>
+
+<h4 id="hyper-mesh"><a href="https://github.com/ruby-hyperloop/synchromesh">Hyper-mesh</a></h4>
+
+<p>Hyper-mesh is a policy based CRUD system which wraps ActiveRecord models on the server and extends them to the client. Furthermore it implements push notifications (via a number of possible technologies) so changes to records in use by clients are pushed to those clients if authorised. Isomorphic Ruby in action.</p>
+
+<h2 id="tools-and-deubgging">Tools and Deubgging</h2>
+
+<p>See <a href="/tools/">Tools and Debugging</a> for further information.</p>
+
+<h4 id="hyper-trace"><a href="https://github.com/ruby-hyperloop/hyper-trace">Hyper-trace</a></h4>
+
+<p>Method tracing and conditional breakpoints for Opal Ruby.</p>
+
+<h4 id="opal-hot-reloader"><a href="https://github.com/fkchang/opal-hot-reloader">Opal Hot Reloader</a></h4>
+
+<p>For pure programmer joy, no more page refreshes.</p>
+
+<h4 id="opal-console"><a href="https://github.com/fkchang/opal-console">Opal Console</a></h4>
+
+<p>Opal in your browser. Great for testing.</p>
 
         </div>
       </div>
