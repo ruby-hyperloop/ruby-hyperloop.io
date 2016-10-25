@@ -17,7 +17,11 @@ Opal in your browser. Great for testing.
 
 ## Debugging
 
-There are a few simple debugging techniques:
+### [Hyper-trace](https://github.com/ruby-hyperloop/hyper-trace)
+
+Method tracing and conditional breakpoints for Opal Ruby.
+
+**There are a few simple debugging techniques:**
 
 ### Puts is your friend
 
