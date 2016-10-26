@@ -23,23 +23,23 @@ One step integration of Hyper-react, Hyper-mesh and Hyper-router with Rails plus
 
 See [Docs](/docs/dsl_overview) for detailed information on how to use these gems or [Tutorials](/tutorials) for working examples.
 
-#### [Hyper-react](https://github.com/ruby-hyperloop/reactrb)
+#### [Hyperact](https://github.com/ruby-hyperloop/reactrb)
 
-This is the master gem. You will always need this as a base. Hyper-react provides a Ruby DSL to Facebook's React. Much of the documentation on this site covers usage of this Gem.
+This is the master gem. You will always need this as a base. Hypeact provides a Ruby DSL to Facebook's React. Much of the documentation on this site covers usage of this Gem.
 
-#### [Hyper-router](https://github.com/ruby-hyperloop/reactrb-router/tree/v2-4-0)
+#### [Hyperroute](https://github.com/ruby-hyperloop/reactrb-router/tree/v2-4-0)
 
-Hyper-router provides a Ruby DSL to Facebook's React Router which is a React component that loads other components depending on the current URL.
+Hyperoute provides a Ruby DSL to Facebook's React Router which is a React component that loads other components depending on the current URL.
 
 #### [Hyper-mesh](https://github.com/ruby-hyperloop/synchromesh)
 
-Hyper-mesh is a policy based CRUD system which wraps ActiveRecord models on the server and extends them to the client. Furthermore it implements push notifications (via a number of possible technologies) so changes to records in use by clients are pushed to those clients if authorised. Isomorphic Ruby in action.
+Hypermesh is a policy based CRUD system which wraps ActiveRecord models on the server and extends them to the client. Furthermore it implements push notifications (via a number of possible technologies) so changes to records in use by clients are pushed to those clients if authorised. Isomorphic Ruby in action.
 
 ## Tools and Deubgging
 
 See [Tools and Debugging](/tools/) for further information.
 
-#### [Hyper-trace](https://github.com/ruby-hyperloop/hyper-trace)
+#### [Hypertrace](https://github.com/ruby-hyperloop/hyper-trace)
 
 Method tracing and conditional breakpoints for Opal Ruby.
 
