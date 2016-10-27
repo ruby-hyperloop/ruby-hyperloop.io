@@ -15,13 +15,30 @@ For pure programmer joy, no more page refreshes.
 
 Opal in your browser. Great for testing.
 
-## Debugging
-
 ### [Hyper-trace](https://github.com/ruby-hyperloop/hyper-trace)
 
 Method tracing and conditional breakpoints for Opal Ruby.
 
-**There are a few simple debugging techniques:**
+## Debugging
+
+### Using Hyper-trace and Opal Console together
+
+These two tools make a powerful combination as you can arbitrarily turn things on and off:
+
+![Screen](images/opal_console.png)
+
+See [Hyper-trace](https://github.com/ruby-hyperloop/hyper-trace) and [Opal Console](https://github.com/fkchang/opal-console) for more information.
+
+### JavaScript Console
+
+At any time during program execution you can breakout into the JavaScript console by simply adding a line of back-ticked JavaScript to your ruby code:
+
+```ruby
+`debugger;`
+```
+If you have source maps turned on you will then be able to see your ruby code (and the compiled JavaScript code) and set browser breakpoints, examine values and continue execution. See [Opal Source Maps](http://opalrb.org/docs/guides/v0.10.1/source_maps.html) if you are not seeing source maps.
+
+You can also inspect ruby objects from the JavaScript console. [Here are three tricks](http://dev.mikamai.com/post/103047475349/3-tricks-to-debug-opal-code-from-your-browser).
 
 ### Puts is your friend
 
@@ -55,13 +72,3 @@ class Thing < React::Component::Base
   end
 end
 ```
-### JavaScript Console
-
-At any time during program execution you can breakout into the JavaScript console by simply adding a line of back-ticked JavaScript to your ruby code:
-
-```ruby
-`debugger;`
-```
-If you have source maps turned on you will then be able to see your ruby code (and the compiled JavaScript code) and set browser breakpoints, examine values and continue execution. See [Opal Source Maps](http://opalrb.org/docs/guides/v0.10.1/source_maps.html) if you are not seeing source maps.
-
-You can also inspect ruby objects from the JavaScript console. [Here are three tricks](http://dev.mikamai.com/post/103047475349/3-tricks-to-debug-opal-code-from-your-browser).
