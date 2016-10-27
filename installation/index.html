@@ -330,10 +330,6 @@ require 'opal-browser'
 <span class="c1"># just add some components inline right here...</span>
 <span class="k">class</span> <span class="nc">Clock</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
 
-  <span class="n">after_mount</span> <span class="k">do</span>
-    <span class="n">every</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span> <span class="n">force_update!</span> <span class="p">}</span>
-  <span class="k">end</span>
-
   <span class="k">def</span> <span class="nf">render</span>
     <span class="s2">"Hello there - Its </span><span class="si">#{</span><span class="no">Time</span><span class="p">.</span><span class="nf">now</span><span class="si">}</span><span class="s2">"</span>
   <span class="k">end</span>
