@@ -28,7 +28,11 @@ Reactrb works great with new or existing rails apps, and Reactrb plays well with
 
 We recommend you use the [reactrb-rails-generator](https://github.com/reactrb/reactrb-rails-generator) gem to do a transparent install of everything you need in a new or existing rails app.
 
-**Rails 5:** The generator does not support Rails 5 yet. This will be coming soon. If you are using Rails 5 and need help with installing Hyperloop please contact us on [gitter.im](https://gitter.im/reactrb/chat)
+**Note:** The generator is missing two steps at the moment. This will be corrected soon as a part of the bigger gem rename. After you do the `rails g reactrb:install --all`, add this line to the gem file: `gem 'opal-browser'` and then do a `bundle update`
+
+The generator and gems work with Rails 4.x and Rails 5.x.
+
+ If you ned any help with your installation please contact us on [gitter.im](https://gitter.im/reactrb/chat)
 
 Within a Rails app React Components are by convention stored in the `app/views/components` directory.  
 
@@ -79,7 +83,7 @@ Have a look at the sources in the console, and notice your ruby code is there, a
 
 ### Manual Rails Install
 
-The following instructions have been superceeded by the [reactrb-rails-generator](https://github.com/reactrb/reactrb-rails-generator) gem.
+The following instructions have been superceeded by the [reactrb-rails-generator](https://github.com/reactrb/reactrb-rails-generator) gem but the steps are very simple if you prefer to do them yourself.
 
 To start using Reactrb within a new or existing rails 4.0 app, follow these steps:
 
@@ -92,6 +96,7 @@ gem 'reactrb'
 gem 'opal-rails'
 gem 'therubyracer', platforms: :ruby # Required for prerendering
 # optional gems
+gem 'opal-browser'
 gem 'opal-jquery'     # a clean interface to jQuery from your ruby code
 gem 'reactrb-router'  # a basic SPA router
 ```
@@ -100,10 +105,10 @@ Run `bundle install` and restart your rails server.
 
 #### Add the components directory and manifest
 
-Your react components will go into the `app/views/components/` directory of your
-rails app.
+Your react components will go into the `app/views/components/` directory of your rails app.
 
 Within your `app/views` directory you need to create a `components.rb` manifest.
+
 Files required in `app/views/components.rb` will be made available to the server
 side rendering system as well as the browser.
 
@@ -139,6 +144,32 @@ require 'react_ujs'
 # Finally, require your other javascript assets. jQuery for example...
 require 'jquery'      # You need both these files to access jQuery from Opal.
 require 'opal-jquery' # They must be in this order.
+require 'opal-browser'
+```
+
+### Rendering components
+
+There are two ways to render a component - either directly from a controller or from a view. If you opt to render a component from a controller, pre-rendering is done by default, but if you opt to render the component via a view then pre-rendering is not done by default. There are limitations to pre-rendering (for example you cannot use JQuery) so it is up to you to decide which approach you prefer.
+
+#### Mounting a component from a controller:
+
+```ruby
+# controllers/home_controller.rb
+class HomeController < ApplicationController
+  def show
+    # render_component uses the controller name to find the 'show' component.
+    render_component say_hello_to: params[:say_hello_to]
+  end
+
+  def index
+    # or just simply with no params
+    render_component
+  end
+```
+#### Mounting a component from a view:
+``` ruby
+# views/home/show.html.erb
+<%= react_component('Home::Show', say_hello_to: params[:say_hello_to]) %>
 ```
 
 ## With Sinatra
