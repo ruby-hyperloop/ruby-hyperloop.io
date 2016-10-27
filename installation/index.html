@@ -287,16 +287,13 @@ require 'opal-browser'
 </span></code></pre>
 <h2 id="with-sinatra">With Sinatra</h2>
 
-<p>Reactrb works fine with Sinatra.  Use this <a href="https://github.com/reactrb/reactrb-examples">Sinatra Example App</a>
-to get started.</p>
+<p>Reactrb works fine with Sinatra.  Use this <a href="https://github.com/reactrb/reactrb-examples">Sinatra Example App</a> to get started.</p>
 
 <h2 id="building-with-rake">Building With Rake</h2>
 
-<p>If you have a larger static app (like this one) you will want to precompile your ruby code to a single js file, instead of using Reactrb-Express. <em>You will need
-a basic ruby setup (you can follow instructions for Jekyll for example.)</em></p>
+<p>You can also build a simple front end application with no back end consisting of one JS file, one CSS file and and index.html.</p>
 
-<p>The following assumes you are building a js file called application.js, and the code is stored in a directory
-called react_lib.</p>
+<p>In the example below we will build a simple app.js file from a Hyper-react components using Opal.</p>
 
 <p>Add the following gems, and run <code>bundle install</code>.</p>
 <pre class="highlight ruby"><code><span class="c1"># Gemfile</span>
@@ -307,13 +304,18 @@ called react_lib.</p>
 </code></pre>
 <p>Your rake file task will look like this:</p>
 <pre class="highlight ruby"><code><span class="c1">#rake.rb</span>
-<span class="n">desc</span> <span class="s2">"Build reactrb library"</span>
-<span class="n">task</span> <span class="ss">:build_react_lib</span> <span class="k">do</span>
-  <span class="no">Opal</span><span class="p">.</span><span class="nf">append_path</span> <span class="s2">"react_lib"</span>
-  <span class="no">File</span><span class="p">.</span><span class="nf">binwrite</span> <span class="s2">"react_lib.js"</span><span class="p">,</span> <span class="no">Opal</span><span class="o">::</span><span class="no">Builder</span><span class="p">.</span><span class="nf">build</span><span class="p">(</span><span class="s2">"application"</span><span class="p">).</span><span class="nf">to_s</span>
+<span class="nb">require</span> <span class="s1">'opal'</span>
+<span class="nb">require</span> <span class="s1">'reactrb'</span>
+
+<span class="n">desc</span> <span class="s2">"Build app.js"</span>
+<span class="n">task</span> <span class="ss">:build</span> <span class="k">do</span>
+   <span class="no">Opal</span><span class="p">.</span><span class="nf">append_path</span> <span class="s2">"react_lib"</span>
+    <span class="no">File</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="s2">"app.js"</span><span class="p">,</span> <span class="s2">"w+"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">out</span><span class="o">|</span>
+      <span class="n">out</span> <span class="o">&lt;&lt;</span> <span class="no">Opal</span><span class="o">::</span><span class="no">Builder</span><span class="p">.</span><span class="nf">build</span><span class="p">(</span><span class="s2">"application"</span><span class="p">).</span><span class="nf">to_s</span>
+    <span class="k">end</span>
 <span class="k">end</span>
 </code></pre>
-<p>Your main application file will look like this:</p>
+<p>Your main <code>application.rb</code> file will look like this:</p>
 <pre class="highlight ruby"><code><span class="c1">#react_lib/application.rb</span>
 
 <span class="nb">require</span> <span class="s1">'opal'</span>
@@ -341,9 +343,38 @@ called react_lib.</p>
   <span class="no">Element</span><span class="p">[</span><span class="s1">'#content'</span><span class="p">].</span><span class="nf">render</span><span class="p">{</span> <span class="no">Clock</span><span class="p">()</span> <span class="p">}</span>
 <span class="k">end</span>
 </code></pre>
-<p>Run <code>bundle exec rake build_react_app</code></p>
+<p>Run <code>bundle exec rake build</code></p>
 
-<p>This should build <code>react_lib.js</code> which can be included in your main html file.</p>
+<p>This should build <code>app.js</code> which can be included in your main html file.</p>
+
+<p>Your <code>index.html</code> will look like this:</p>
+<pre class="highlight html"><code><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="nt">&lt;html&gt;</span>
+  <span class="nt">&lt;head&gt;</span>
+    <span class="nt">&lt;meta</span> <span class="na">charset=</span><span class="s">"UTF-8"</span><span class="nt">&gt;</span>
+
+    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"http://code.jquery.com/jquery-1.11.0.min.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"http://code.jquery.com/jquery-migrate-1.2.1.min.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"https://unpkg.com/react@15/dist/react.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"https://unpkg.com/react-dom@15/dist/react-dom.js"</span><span class="nt">&gt;&lt;/script&gt;</span>  
+
+    <span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">"stylesheet"</span> <span class="na">href=</span><span class="s">"styles.css"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"app.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+
+  <span class="nt">&lt;/head&gt;</span>
+  <span class="nt">&lt;body&gt;</span>      
+    <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"content"</span><span class="nt">&gt;&lt;/div&gt;</span>
+  <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</code></pre>
+<p>Two things to note about the code above:</p>
+
+<ul>
+<li><code>&lt;meta charset=&quot;UTF-8&quot;&gt;</code> is important as this is required by Opal</li>
+<li><code>&lt;div id=&quot;content&quot;&gt;&lt;/div&gt;</code> is where our Clock component will be rendered from <code>Element[&#39;#content&#39;].render{ Clock() }</code></li>
+</ul>
+
+<p>As a final note, the resulting JS file may be a little large, so you might want to Gzip or uglify it.</p>
 
 <h2 id="next-steps">Next Steps</h2>
 
