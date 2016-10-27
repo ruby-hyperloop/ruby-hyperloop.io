@@ -174,16 +174,13 @@ class HomeController < ApplicationController
 
 ## With Sinatra
 
-Reactrb works fine with Sinatra.  Use this [Sinatra Example App](https://github.com/reactrb/reactrb-examples)
-to get started.
+Reactrb works fine with Sinatra.  Use this [Sinatra Example App](https://github.com/reactrb/reactrb-examples) to get started.
 
 ## Building With Rake
 
-If you have a larger static app (like this one) you will want to precompile your ruby code to a single js file, instead of using Reactrb-Express. *You will need
-a basic ruby setup (you can follow instructions for Jekyll for example.)*
+You can also build a simple front end application with no back end consisting of one JS file, one CSS file and and index.html.
 
-The following assumes you are building a js file called application.js, and the code is stored in a directory
-called react_lib.
+In the example below we will build a simple app.js file from a Hyper-react components using Opal.
 
 Add the following gems, and run `bundle install`.
 
@@ -199,14 +196,19 @@ Your rake file task will look like this:
 
 ```ruby
 #rake.rb
-desc "Build reactrb library"
-task :build_react_lib do
-  Opal.append_path "react_lib"
-  File.binwrite "react_lib.js", Opal::Builder.build("application").to_s
+require 'opal'
+require 'reactrb'
+
+desc "Build app.js"
+task :build do
+   Opal.append_path "react_lib"
+    File.open("app.js", "w+") do |out|
+      out << Opal::Builder.build("application").to_s
+    end
 end
 ```
 
-Your main application file will look like this:
+Your main `application.rb` file will look like this:
 
 ```ruby
 #react_lib/application.rb
@@ -237,10 +239,39 @@ Document.ready? do
 end
 ```
 
-Run `bundle exec rake build_react_app`
+Run `bundle exec rake build`
 
-This should build `react_lib.js` which can be included in your main html file.
+This should build `app.js` which can be included in your main html file.
 
+Your `index.html` will look like this:
+
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+
+    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+  	<script src="https://unpkg.com/react@15/dist/react.js"></script>
+  	<script src="https://unpkg.com/react-dom@15/dist/react-dom.js"></script>  
+
+    <link rel="stylesheet" href="styles.css">
+    <script src="app.js"></script>
+
+  </head>
+  <body>	  
+    <div id="content"></div>
+  </body>
+</html>
+```
+
+Two things to note about the code above:
+
++ `<meta charset="UTF-8">` is important as this is required by Opal
++ `<div id="content"></div>` is where our Clock component will be rendered from `Element['#content'].render{ Clock() }`
+
+As a final note, the resulting JS file may be a little large, so you might want to Gzip or uglify it.
 
 ## Next Steps
 
