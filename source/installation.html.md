@@ -225,10 +225,6 @@ require 'reactrb'
 # just add some components inline right here...
 class Clock < React::Component::Base
 
-  after_mount do
-    every(1) { force_update! }
-  end
-
   def render
     "Hello there - Its #{Time.now}"
   end
