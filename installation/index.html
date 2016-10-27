@@ -125,6 +125,7 @@
     <li class="nav-item"><a href="#using-reactrb-express">Opal Playground</a></br></li>
     <li class="nav-item"><a href="#with-rails">Using Reactrb-Express</a></br></li>
     <li class="nav-item"><a href="#with-rails">With Rails</a></br></li>
+    <li class="nav-item"><a href="#manual-rails-install">Manual Rails Install</a></br></li>
     <li class="nav-item"><a href="#with-sinatra">With Sinatra</a></br></li>
     <li class="nav-item"><a href="#building-with-rake">Building with Rake</a></br></li>
   </ul>
@@ -159,7 +160,11 @@ Simply include the reactrb-express.js file with your other javascript code, or a
 
 <p>We recommend you use the <a href="https://github.com/reactrb/reactrb-rails-generator">reactrb-rails-generator</a> gem to do a transparent install of everything you need in a new or existing rails app.</p>
 
-<p><strong>Rails 5:</strong> The generator does not support Rails 5 yet. This will be coming soon. If you are using Rails 5 and need help with installing Hyperloop please contact us on <a href="https://gitter.im/reactrb/chat">gitter.im</a></p>
+<p><strong>Note:</strong> The generator is missing two steps at the moment. This will be corrected soon as a part of the bigger gem rename. After you do the <code>rails g reactrb:install --all</code>, add this line to the gem file: <code>gem &#39;opal-browser&#39;</code> and then do a <code>bundle update</code></p>
+
+<p>The generator and gems work with Rails 4.x and Rails 5.x.</p>
+
+<p>If you ned any help with your installation please contact us on <a href="https://gitter.im/reactrb/chat">gitter.im</a></p>
 
 <p>Within a Rails app React Components are by convention stored in the <code>app/views/components</code> directory.  </p>
 
@@ -204,7 +209,7 @@ Simply include the reactrb-express.js file with your other javascript code, or a
 
 <h3 id="manual-rails-install">Manual Rails Install</h3>
 
-<p>The following instructions have been superceeded by the <a href="https://github.com/reactrb/reactrb-rails-generator">reactrb-rails-generator</a> gem.</p>
+<p>The following instructions have been superceeded by the <a href="https://github.com/reactrb/reactrb-rails-generator">reactrb-rails-generator</a> gem but the steps are very simple if you prefer to do them yourself.</p>
 
 <p>To start using Reactrb within a new or existing rails 4.0 app, follow these steps:</p>
 
@@ -215,6 +220,7 @@ Simply include the reactrb-express.js file with your other javascript code, or a
 <span class="n">gem</span> <span class="s1">'opal-rails'</span>
 <span class="n">gem</span> <span class="s1">'therubyracer'</span><span class="p">,</span> <span class="ss">platforms: :ruby</span> <span class="c1"># Required for prerendering</span>
 <span class="c1"># optional gems</span>
+<span class="n">gem</span> <span class="s1">'opal-browser'</span>
 <span class="n">gem</span> <span class="s1">'opal-jquery'</span>     <span class="c1"># a clean interface to jQuery from your ruby code</span>
 <span class="n">gem</span> <span class="s1">'reactrb-router'</span>  <span class="c1"># a basic SPA router</span>
 </code></pre>
@@ -222,11 +228,11 @@ Simply include the reactrb-express.js file with your other javascript code, or a
 
 <h4 id="add-the-components-directory-and-manifest">Add the components directory and manifest</h4>
 
-<p>Your react components will go into the <code>app/views/components/</code> directory of your
-rails app.</p>
+<p>Your react components will go into the <code>app/views/components/</code> directory of your rails app.</p>
 
-<p>Within your <code>app/views</code> directory you need to create a <code>components.rb</code> manifest.
-Files required in <code>app/views/components.rb</code> will be made available to the server
+<p>Within your <code>app/views</code> directory you need to create a <code>components.rb</code> manifest.</p>
+
+<p>Files required in <code>app/views/components.rb</code> will be made available to the server
 side rendering system as well as the browser.</p>
 <pre class="highlight plaintext"><code># app/views/components.rb
 require 'opal'
@@ -256,7 +262,29 @@ require 'react_ujs'
 # Finally, require your other javascript assets. jQuery for example...
 require 'jquery'      # You need both these files to access jQuery from Opal.
 require 'opal-jquery' # They must be in this order.
+require 'opal-browser'
 </code></pre>
+<h3 id="rendering-components">Rendering components</h3>
+
+<p>There are two ways to render a component - either directly from a controller or from a view. If you opt to render a component from a controller, pre-rendering is done by default, but if you opt to render the component via a view then pre-rendering is not done by default. There are limitations to pre-rendering (for example you cannot use JQuery) so it is up to you to decide which approach you prefer.</p>
+
+<h4 id="mounting-a-component-from-a-controller">Mounting a component from a controller:</h4>
+<pre class="highlight ruby"><code><span class="c1"># controllers/home_controller.rb</span>
+<span class="k">class</span> <span class="nc">HomeController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+  <span class="k">def</span> <span class="nf">show</span>
+    <span class="c1"># render_component uses the controller name to find the 'show' component.</span>
+    <span class="n">render_component</span> <span class="ss">say_hello_to: </span><span class="n">params</span><span class="p">[</span><span class="ss">:say_hello_to</span><span class="p">]</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">index</span>
+    <span class="c1"># or just simply with no params</span>
+    <span class="n">render_component</span>
+  <span class="k">end</span>
+</code></pre>
+<h4 id="mounting-a-component-from-a-view">Mounting a component from a view:</h4>
+<pre class="highlight ruby"><code><span class="c1"># views/home/show.html.erb</span>
+<span class="o">&lt;</span><span class="sx">%= react_component('Home::Show', say_hello_to: params[:say_hello_to]) %&gt;
+</span></code></pre>
 <h2 id="with-sinatra">With Sinatra</h2>
 
 <p>Reactrb works fine with Sinatra.  Use this <a href="https://github.com/reactrb/reactrb-examples">Sinatra Example App</a>
