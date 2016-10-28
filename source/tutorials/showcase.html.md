@@ -244,6 +244,7 @@ Edit `app/assets/javascript/application.js` and add
 just *above* the line that reads `Opal.load('components');`.  This will pull in any webpack assets that can only run on the client.
 
 Then edit `app/views/components.rb` and replace the `require 'react'` line with
+
 ```ruby
 require 'webpack/client_and_server.js'
 ```
