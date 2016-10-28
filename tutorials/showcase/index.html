@@ -373,11 +373,9 @@ bundle update
 </code></pre>
 <p>just <em>above</em> the line that reads <code>Opal.load(&#39;components&#39;);</code>.  This will pull in any webpack assets that can only run on the client.</p>
 
-<p>Then edit <code>app/views/components.rb</code> and replace the <code>require &#39;react&#39;</code> line with
-<code>ruby
-require &#39;webpack/client_and_server.js&#39;
-</code></p>
-
+<p>Then edit <code>app/views/components.rb</code> and replace the <code>require &#39;react&#39;</code> line with</p>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'webpack/client_and_server.js'</span>
+</code></pre>
 <p>In otherwords instead of pulling in react from the react-rails gem, we are going to pull in react <em>and</em> any other javascript packages we want from our webpack bundle.</p>
 
 <p>Reactrb can automatically access our components loaded by Webpack, but we have to opt in to this behavior.  Edit <code>app/views/components.rb</code> and add</p>
