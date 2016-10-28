@@ -368,11 +368,10 @@ bundle update
 
 <p>Finally we need to require these two bundles into our rails asset pipeline.</p>
 
-<p>Edit <code>app/assets/javascript/application.js</code> and add
-<code>javascript
-//= require &#39;webpack/client_only&#39;
-</code>
-just <em>above</em> the line that reads <code>Opal.load(&#39;components&#39;);</code>.  This will pull in any webpack assets that can only run on the client.</p>
+<p>Edit <code>app/assets/javascript/application.js</code> and add</p>
+<pre class="highlight javascript"><code><span class="c1">//= require 'webpack/client_only'</span>
+</code></pre>
+<p>just <em>above</em> the line that reads <code>Opal.load(&#39;components&#39;);</code>.  This will pull in any webpack assets that can only run on the client.</p>
 
 <p>Then edit <code>app/views/components.rb</code> and replace the <code>require &#39;react&#39;</code> line with
 <code>ruby
@@ -381,11 +380,9 @@ require &#39;webpack/client_and_server.js&#39;
 
 <p>In otherwords instead of pulling in react from the react-rails gem, we are going to pull in react <em>and</em> any other javascript packages we want from our webpack bundle.</p>
 
-<p>Reactrb can automatically access our components loaded by Webpack, but we have to opt in to this behavior.  Edit <code>app/views/components.rb</code> and add
-<code>ruby
-require &#39;reactrb/auto-import&#39;
-</code></p>
-
+<p>Reactrb can automatically access our components loaded by Webpack, but we have to opt in to this behavior.  Edit <code>app/views/components.rb</code> and add</p>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'reactrb/auto-import'</span>
+</code></pre>
 <p>immediately after <code>require &#39;reactrb&#39;</code> (which is right near the top of the file.)  Auto-import will now search the javascript name space, and import into ruby any components that are referenced by your Reactrb components.</p>
 
 <p>Now run <code>bundle exec rails s</code> and refresh the browser.  Look at the console and you should see something like this:</p>
@@ -404,32 +401,24 @@ Reactive record prerendered data being loaded: [Object]
 
 <p><a href="https://github.com/CookPete/rplayr">We are going to use Pete Cook&rsquo;s React rplayr</a></p>
 
-<p>First let&rsquo;s install the component via NPM:
-<code>text
-npm install react-player --save
-</code></p>
-
-<p>Next we need to <code>require</code> it in <code>webpack/client_and_server.js</code>
-<code>javascript
-ReactPlayer = require(&#39;react-player&#39;)
-</code></p>
-
-<p>Next run webpack so it can be bundled
-<code>text
-webpack
-</code></p>
-
-<p>And then finally let&rsquo;s add it to our Show component:
-<code>ruby
-def render
-  div do
-    ReactPlayer(url:  &#39;https://www.youtube.com/embed/FzCsDVfPQqk&#39;,
-      playing: true
-    )
-  end
-end
-</code></p>
-
+<p>First let&rsquo;s install the component via NPM:</p>
+<pre class="highlight plaintext"><code>npm install react-player --save
+</code></pre>
+<p>Next we need to <code>require</code> it in <code>webpack/client_and_server.js</code></p>
+<pre class="highlight javascript"><code><span class="nx">ReactPlayer</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'react-player'</span><span class="p">)</span>
+</code></pre>
+<p>Next run webpack so it can be bundled</p>
+<pre class="highlight plaintext"><code>webpack
+</code></pre>
+<p>And then finally let&rsquo;s add it to our Show component:</p>
+<pre class="highlight ruby"><code><span class="k">def</span> <span class="nf">render</span>
+  <span class="n">div</span> <span class="k">do</span>
+    <span class="no">ReactPlayer</span><span class="p">(</span><span class="ss">url:  </span><span class="s1">'https://www.youtube.com/embed/FzCsDVfPQqk'</span><span class="p">,</span>
+      <span class="ss">playing: </span><span class="kp">true</span>
+    <span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
 <p>Refresh your browser and you should have a video. How simple was that!</p>
 
 <h2 id="working-with-react-bootstrap">Working with React Bootstrap</h2>
@@ -472,11 +461,10 @@ end
 </code></pre>
 <p>Note: The <code>--save</code> option will update the package.json file.</p>
 
-<p>And then we need to <code>require</code> it in <code>webpack/client_and_server.js</code> by adding this line:
-<code>javascript
-ReactBootstrap = require(&#39;react-bootstrap&#39;)
-</code>
-Run the <code>webpack</code> command again, and restart your rails server.</p>
+<p>And then we need to <code>require</code> it in <code>webpack/client_and_server.js</code> by adding this line:</p>
+<pre class="highlight javascript"><code><span class="nx">ReactBootstrap</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'react-bootstrap'</span><span class="p">)</span>
+</code></pre>
+<p>Run the <code>webpack</code> command again, and restart your rails server.</p>
 
 <p>If you refresh your browser now and open the JavaScript console we will be able to interact with React Bootstrap by typing:</p>
 
@@ -503,11 +491,10 @@ Run the <code>webpack</code> command again, and restart your rails server.</p>
 
 <p>Visit your page and if all is well you will see a clickable button.  However it will not have any styles.  This is because ReactBootstrap does not automatically depend on any particular style sheet, so we will have to supply one.  An easy way to do this is to just copy the css file from the bootstrap repo, and stuff it our rails assets directory, however with a little upfront work we can setup webpack to do it all for us.</p>
 
-<p>First lets add four webpack <em>loaders</em> using npm:
-<code>text
-npm install css-loader file-loader style-loader url-loader --save-dev
-</code>
-Notice we use <code>--save-dev</code> instead of just <code>--save</code> as these packages are only used in the development process.</p>
+<p>First lets add four webpack <em>loaders</em> using npm:</p>
+<pre class="highlight plaintext"><code>npm install css-loader file-loader style-loader url-loader --save-dev
+</code></pre>
+<p>Notice we use <code>--save-dev</code> instead of just <code>--save</code> as these packages are only used in the development process.</p>
 
 <p>Now edit your <code>webpack.config.js</code> file, and update the loaders section so it looks like this:</p>
 <pre class="highlight javascript"><code><span class="kd">var</span> <span class="nx">path</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"path"</span><span class="p">);</span>
@@ -540,16 +527,12 @@ Notice we use <code>--save-dev</code> instead of just <code>--save</code> as the
 
 <p>Now we are ready to require CSS files, and have webpack build a complete bundle including the css and any fonts referenced.</p>
 
-<p>To bundle in the bootstrap css file add this line to <code>webpack/client_only.js</code>
-<code>javascript
-require(&#39;bootstrap/dist/css/bootstrap.css&#39;);
-</code></p>
-
-<p>And install the bootstrap package
-<code>text
-npm install bootstrap --save
-</code></p>
-
+<p>To bundle in the bootstrap css file add this line to <code>webpack/client_only.js</code></p>
+<pre class="highlight javascript"><code><span class="nx">require</span><span class="p">(</span><span class="s1">'bootstrap/dist/css/bootstrap.css'</span><span class="p">);</span>
+</code></pre>
+<p>And install the bootstrap package</p>
+<pre class="highlight plaintext"><code>npm install bootstrap --save
+</code></pre>
 <p>Now run <code>webpack</code> to update our bundles, and restart your server.  Now our button is properly styled you should be rewarded with a nice Bootstrap styled green Success Button.</p>
 
 <p>Now that everything is loaded, lets update our component to use a few more of the Bootstrap components.  Update your Show component so that it looks like this:</p>
