@@ -212,6 +212,7 @@ module.exports = {
     },
 };
 ```
+
 and create a folder called `webpack` and add the following two files:
 
 ```javascript
@@ -235,9 +236,11 @@ Now run `webpack` from the command line.  This will grab all necessary dependenc
 Finally we need to require these two bundles into our rails asset pipeline.
 
 Edit `app/assets/javascript/application.js` and add
+
 ```javascript
 //= require 'webpack/client_only'
 ```
+
 just *above* the line that reads `Opal.load('components');`.  This will pull in any webpack assets that can only run on the client.
 
 Then edit `app/views/components.rb` and replace the `require 'react'` line with
@@ -248,6 +251,7 @@ require 'webpack/client_and_server.js'
 In otherwords instead of pulling in react from the react-rails gem, we are going to pull in react *and* any other javascript packages we want from our webpack bundle.
 
 Reactrb can automatically access our components loaded by Webpack, but we have to opt in to this behavior.  Edit `app/views/components.rb` and add
+
 ```ruby
 require 'reactrb/auto-import'
 ```
@@ -274,21 +278,25 @@ It is time to reap some of the rewards from all the hard work above. We have eve
 [We are going to use Pete Cook's React rplayr](https://github.com/CookPete/rplayr)
 
 First let's install the component via NPM:
+
 ```text
 npm install react-player --save
 ```
 
 Next we need to `require` it in `webpack/client_and_server.js`
+
 ```javascript
 ReactPlayer = require('react-player')
 ```
 
 Next run webpack so it can be bundled
+
 ```text
 webpack
 ```
 
 And then finally let's add it to our Show component:
+
 ```ruby
 def render
   div do
@@ -349,9 +357,11 @@ Lets implement a Navbar in this project using React Bootstrap in Reactrb. First,
 Note: The `--save` option will update the package.json file.
 
 And then we need to `require` it in `webpack/client_and_server.js` by adding this line:
+
 ```javascript
 ReactBootstrap = require('react-bootstrap')
 ```
+
 Run the `webpack` command again, and restart your rails server.
 
 If you refresh your browser now and open the JavaScript console we will be able to interact with React Bootstrap by typing:
@@ -377,14 +387,17 @@ module Components
   end
 end
 ```
+
 Notice that we reference `ReactBoostrap` in ruby using the same identifer that was in the require statement in our `client_and_server.js` webpack bundle.  The first time Reactrb hits the `ReactBootstrap` constant it will not be defined. This triggers a search of the javascript name space for something that looks either like a component or library of components.  It then defines the appropriate module or component class wrapper in ruby.
 
 Visit your page and if all is well you will see a clickable button.  However it will not have any styles.  This is because ReactBootstrap does not automatically depend on any particular style sheet, so we will have to supply one.  An easy way to do this is to just copy the css file from the bootstrap repo, and stuff it our rails assets directory, however with a little upfront work we can setup webpack to do it all for us.
 
 First lets add four webpack *loaders* using npm:
+
 ```text
 npm install css-loader file-loader style-loader url-loader --save-dev
 ```
+
 Notice we use `--save-dev` instead of just `--save` as these packages are only used in the development process.
 
 Now edit your `webpack.config.js` file, and update the loaders section so it looks like this:
@@ -422,11 +435,13 @@ We have set webpack up so that when a css file is required it uses the style loa
 Now we are ready to require CSS files, and have webpack build a complete bundle including the css and any fonts referenced.
 
 To bundle in the bootstrap css file add this line to `webpack/client_only.js`
+
 ```javascript
 require('bootstrap/dist/css/bootstrap.css');
 ```
 
 And install the bootstrap package
+
 ```text
 npm install bootstrap --save
 ```
