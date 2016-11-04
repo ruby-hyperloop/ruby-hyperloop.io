@@ -1,11 +1,11 @@
 ---
 title: Docs
 ---
-# Hyperloop Reactrb Docs
+# HyperReact Docs
 
 ## DSL Overview
 
-The Reactrb DSL (Domain Specific Language) is a set of class and instance methods that are used to describe your React components.
+The HyperReact DSL (Domain Specific Language) is a set of class and instance methods that are used to describe your React components.
 
 - [React::Component::Base](#react-component-base)
 - [Macros (Class Methods)](#macros-class-methods)
@@ -15,7 +15,7 @@ The Reactrb DSL (Domain Specific Language) is a set of class and instance method
 - [HAML style class names](#haml-style-class-names)
 - [Event Handlers](#event-handlers)
 - [Miscellaneous Methods](#miscellaneous-methods)
-- [Ruby and Reactrb](#ruby-and-reactrb)
+- [Ruby and HyperReact](#ruby-and-hyperreact)
 - [DSL Gotchas](#dsl-gotchas)
 
 The DSL has the following major areas:  
@@ -221,7 +221,7 @@ end
 
 `force_update!` is a component instance method that causes the component to re-rerender.
 
-`as_node` can be attached to a component or tag, and removes the element from the rendering buffer and returns it.   This is useful when you need store an element in some data structure, or passing to a native JS component.  When passing an element to another reactrb component `.as_node` will be automatically applied so you normally don't need it.  
+`as_node` can be attached to a component or tag, and removes the element from the rendering buffer and returns it.   This is useful when you need store an element in some data structure, or passing to a native JS component.  When passing an element to another HyperReact component `.as_node` will be automatically applied so you normally don't need it.  
 
 `render` can be applied to the objects returned by `as_node` and `children` to actually render the node.
 
@@ -250,7 +250,7 @@ end
 
 [Try It Out](http://goo.gl/J6m0PN)
 
-### Ruby and Reactrb
+### Ruby and HyperReact
 
 A key design goal of the DSL is to make it work seamlessly with the rest of Ruby.  Notice in the above example, the use of constant declaration (`FORMATS`), regular instance variables (`@timer`), and other non-react methods like `every` (an Opal Browser method).  
 

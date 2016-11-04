@@ -1,6 +1,8 @@
 ---
 title: Docs
 ---
+# HyperReact Docs
+
 ## Lifecycle Methods
 
 A component class may define callbacks for  specific points in a component's lifecycle.
@@ -9,7 +11,7 @@ A component class may define callbacks for  specific points in a component's lif
 
 The lifecycle revolves around rendering the component.  As the state or parameters of a component changes, its render method will be called to generate the new HTML.  The rest of the callbacks hook into the lifecycle before or after rendering.
 
-For reasons described below Reactrb provides a render callback to simplify defining the render method:
+For reasons described below HyperReact provides a render callback to simplify defining the render method:
 
 ```ruby
 render do ....
@@ -85,7 +87,7 @@ end
 
 ### Controlling Updates
 
-Normally Reactrb will only update a component if some state variable or param has changed.  To override this behavior you can redefine the `should_component_update?` instance method.  For example, assume that we have a state called `funky` that for whatever reason, we
+Normally HyperReact will only update a component if some state variable or param has changed.  To override this behavior you can redefine the `should_component_update?` instance method.  For example, assume that we have a state called `funky` that for whatever reason, we
 cannot update using the normal `state.funky!` update method.  So what we can do is override `should_component_update?` call `super`, and then double check if the `funky` has changed by doing an explicit comparison.
 
 ```ruby
@@ -96,11 +98,11 @@ class RerenderMore < React::Component::Base
 end
 ```
 
-Why would this happen?  Most likey there is integration between new Reactrb components and other data structures being maintained outside of Reactrb, and so we have to do some explicit comparisions to detect the state change.
+Why would this happen?  Most likely there is integration between new HyperReact components and other data structures being maintained outside of HyperReact, and so we have to do some explicit comparisons to detect the state change.
 
 Note that `should_component_update?` is not called for the initial render or when `force_update!` is used.
 
-> Note to react.js readers.  Essentially Reactrb assumes components are "well behaved" in the sense that all state changes
+> Note to react.js readers.  Essentially HyperReact assumes components are "well behaved" in the sense that all state changes
 > will be explicitly declared using the state update ("!") method when changing state.  This gives similar behavior to a
 > "pure" component without the possible performance penalties.
 > To achieve the standard react.js behavior add this line to your class `def should_component_update?; true; end`

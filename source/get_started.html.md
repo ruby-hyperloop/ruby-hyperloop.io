@@ -70,14 +70,14 @@ The render method may be defined simply by using `def render`, or by using the `
 
 The React philosophy is that components are the right way to separate concerns rather than by "templates" and "display logic."  This is because the resulting markup and the code that generates it are intimately tied together.  Additionally, display logic is often very complex and using template languages to express it becomes cumbersome.
 
-The Reactrb approach is to generate HTML and component trees directly right in the component class using Ruby so that you can use all of Ruby's expressive power when building your UI.
+The HyperReact approach is to generate HTML and component trees directly right in the component class using Ruby so that you can use all of Ruby's expressive power when building your UI.
 
-To enable this every Reactrb component class has access to set of class and instance methods that makes specifying the component, and building HTML and event handlers straightforward.  
+To enable this every HyperReact component class has access to set of class and instance methods that makes specifying the component, and building HTML and event handlers straightforward.  
 
 For example within the render method the `a` method generates an anchor tag like this:
 
 ```ruby
-a(href: 'https://reactrb.github.io') { 'Get Reactive' }
+a(href: 'https://github.com/ruby-hyperloop') { 'Get Hyperloop' }
 ```
 
-Under the hood everything maps to React.js function calls in a straight forward manner.  The Reactrb DSL is roughly analogous to the React.js JSX, but because its "just ruby" you don't have to learn a new language, and switch mental gears while writing code.
+Under the hood everything maps to React.js function calls in a straight forward manner.  The HyperReact DSL is roughly analogous to the React.js JSX, but because its "just ruby" you don't have to learn a new language, and switch mental gears while writing code.

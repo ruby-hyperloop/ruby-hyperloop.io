@@ -1,6 +1,8 @@
 ---
 title: Docs
 ---
+# HyperReact Docs
+
 ## Lifecycle Callbacks
 
 A component may define callbacks for each phase of the components lifecycle:

@@ -13,25 +13,25 @@ See [Installation](/installation) for further installation options.
 
 #### [Hyperloop Express](https://github.com/ruby-hyperloop/reactrb-express)
 
-Hyper-react for static sites, with no build process needed.
+HyperReact for static sites, with no build process needed.
 
 #### [Hyperloop Rails](https://github.com/ruby-hyperloop/reactrb-rails-generator)
 
-One step integration of Hyper-react, Hyper-mesh and Hyper-router with Rails plus generators for Components and Routers.
+One step integration of HyperReact, HyperMesh and HyperRouter with Rails plus generators for Components and Routers.
 
 ## Hyperloop  Gems
 
 See [Docs](/docs/dsl_overview) for detailed information on how to use these gems or [Tutorials](/tutorials) for working examples.
 
-#### [Hyper-react](https://github.com/ruby-hyperloop/reactrb)
+#### [HyperReact](https://github.com/ruby-hyperloop/hyper-react)
 
-This is the master gem. You will always need this as a base. Hyper-react provides a Ruby DSL to Facebook's React. Much of the documentation on this site covers usage of this Gem.
+This is the master gem. You will always need this as a base. HyperReact provides a Ruby DSL to Facebook's React. Much of the documentation on this site covers usage of this Gem.
 
-#### [Hyper-router](https://github.com/ruby-hyperloop/reactrb-router/tree/v2-4-0)
+#### [HyperRouter](https://github.com/ruby-hyperloop/reactrb-router/tree/v2-4-0)
 
-Hyper-router provides a Ruby DSL to Facebook's React Router which is a React component that loads other components depending on the current URL.
+HyperRouter provides a Ruby DSL to Facebook's React Router which is a React component that loads other components depending on the current URL.
 
-#### [Hyper-mesh](https://github.com/ruby-hyperloop/synchromesh)
+#### [HyperMesh](https://github.com/ruby-hyperloop/synchromesh)
 
 Hyper-mesh is a policy based CRUD system which wraps ActiveRecord models on the server and extends them to the client. Furthermore it implements push notifications (via a number of possible technologies) so changes to records in use by clients are pushed to those clients if authorised. Isomorphic Ruby in action.
 
@@ -39,7 +39,7 @@ Hyper-mesh is a policy based CRUD system which wraps ActiveRecord models on the 
 
 See [Tools and Debugging](/tools/) for further information.
 
-#### [Hyper-trace](https://github.com/ruby-hyperloop/hyper-trace)
+#### [HyperTrace](https://github.com/ruby-hyperloop/hyper-trace)
 
 Method tracing and conditional breakpoints for Opal Ruby.
 

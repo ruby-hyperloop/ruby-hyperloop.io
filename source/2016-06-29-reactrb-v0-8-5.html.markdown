@@ -41,7 +41,7 @@ This gives you at least three ways to include React source into your assets:
 
      This will let the JS tool chain manage the dependencies, but insure you have a compatible version for react-rails.
 
-4. Otherwise Reactrb includes (but does not require) several versions of react source.   Just add `require 'react-latest'` right above wherever you do a `require 'reactrb'`.  
+4. Otherwise Reactrb includes (but does not require) several versions of react source.   Just add `require 'react-latest'` right above wherever you do a `require 'hyper-react'`.  
 
      If you want another version do `require 'react-v14'` or `require 'react-v13'`
 
@@ -59,15 +59,15 @@ class Griddle << React::Component::Base
 end
 ```
 
-Now once you install the the [Griddle](http://griddlegriddle.github.io/Griddle/) Javascript component you can use `Griddle` like any other Reactrb component.
+Now once you install the the [Griddle](http://griddlegriddle.github.io/Griddle/) Javascript component you can use `Griddle` like any other HyperReact component.
 
 *But wait there's more...*
 
 Importing a ton of libraries this way could get tedious especially if you are using something like Webpack anyway to manage which components to include.
 
-To keep things easy, you can opt in to *auto-import* by simply adding `require 'reactrb/auto-import'` after you require reactrb.
+To keep things easy, you can opt in to *auto-import* by simply adding `require 'hyper-react/auto-import'` after you `require hyper-react`.
 
-With auto-importing enabled a component like `Griddle` or a library like `ReactBootstrap` will automatically be available to your Reactrb components.
+With auto-importing enabled a component like `Griddle` or a library like `ReactBootstrap` will automatically be available to your HyperReact components.
 
 See [Using Javascript Components](/using-javascript-components.html) for more details.
 

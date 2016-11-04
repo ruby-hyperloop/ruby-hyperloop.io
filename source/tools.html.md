@@ -5,7 +5,7 @@ title: Tools and Debugging
 
 ## Tools
 
-As most of the Hyperloop gems use [Opal](http://opalrb.org/), you have the whole Opal universe of tools available to you. The following two have been designed to work with Reactrb:
+As most of the Hyperloop gems use [Opal](http://opalrb.org/), you have the whole Opal universe of tools available to you. The following two have been designed to work with HyperReact:
 
 ### [Opal Hot Reloader](https://github.com/fkchang/opal-hot-reloader)
 
@@ -15,19 +15,19 @@ For pure programmer joy, no more page refreshes.
 
 Opal in your browser. Great for testing.
 
-### [Hyper-trace](https://github.com/ruby-hyperloop/hyper-trace)
+### [HyperTrace](https://github.com/ruby-hyperloop/hyper-trace)
 
 Method tracing and conditional breakpoints for Opal Ruby.
 
 ## Debugging
 
-### Using Hyper-trace and Opal Console together
+### Using HyperTrace and Opal Console together
 
 These two tools make a powerful combination as you can arbitrarily turn things on and off:
 
 ![Screen](images/opal_console.png)
 
-See [Hyper-trace](https://github.com/ruby-hyperloop/hyper-trace) and [Opal Console](https://github.com/fkchang/opal-console) for more information.
+See [HyperTrace](https://github.com/ruby-hyperloop/hyper-trace) and [Opal Console](https://github.com/fkchang/opal-console) for more information.
 
 ### JavaScript Console
 
@@ -42,7 +42,7 @@ You can also inspect ruby objects from the JavaScript console. [Here are three t
 
 ### Puts is your friend
 
-Anywhere in your Reactrb code you can simply `puts any_value` which will display the contents of the value in the browser console. This can help you understand React program flow as well as how data changes over time.
+Anywhere in your HyperReact code you can simply `puts any_value` which will display the contents of the value in the browser console. This can help you understand React program flow as well as how data changes over time.
 
 ```ruby
 class Thing < React::Component::Base
