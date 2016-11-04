@@ -21,7 +21,7 @@
     <link href="/stylesheets/override.css" rel="stylesheet" />
     <link href="/stylesheets/code.css" rel="stylesheet" />
 
-    <title>Reactrb Reactrb v0.8.5</title>
+    <title>Hyperloop Reactrb v0.8.5</title>
     <link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/feed.xml" />
 
     <!-- Favicons -->
@@ -165,7 +165,7 @@
 <li><p>If you are using react-rails <em>and</em> a Javascript dependency manager, then check <a href="https://github.com/reactjs/react-rails/blob/master/VERSIONS.md">here</a> for the version that react-rails wants, and include that version explicitly with <code>npm</code> or whatever tool you are using on the JS side.</p>
 
 <p>This will let the JS tool chain manage the dependencies, but insure you have a compatible version for react-rails.</p></li>
-<li><p>Otherwise Reactrb includes (but does not require) several versions of react source.   Just add <code>require &#39;react-latest&#39;</code> right above wherever you do a <code>require &#39;reactrb&#39;</code>.  </p>
+<li><p>Otherwise Reactrb includes (but does not require) several versions of react source.   Just add <code>require &#39;react-latest&#39;</code> right above wherever you do a <code>require &#39;hyper-react&#39;</code>.  </p>
 
 <p>If you want another version do <code>require &#39;react-v14&#39;</code> or <code>require &#39;react-v13&#39;</code></p></li>
 </ol>
@@ -181,15 +181,15 @@
   <span class="n">imports</span> <span class="s1">'Griddle'</span>
 <span class="k">end</span>
 </code></pre>
-<p>Now once you install the the <a href="http://griddlegriddle.github.io/Griddle/">Griddle</a> Javascript component you can use <code>Griddle</code> like any other Reactrb component.</p>
+<p>Now once you install the the <a href="http://griddlegriddle.github.io/Griddle/">Griddle</a> Javascript component you can use <code>Griddle</code> like any other HyperReact component.</p>
 
 <p><em>But wait there&rsquo;s more&hellip;</em></p>
 
 <p>Importing a ton of libraries this way could get tedious especially if you are using something like Webpack anyway to manage which components to include.</p>
 
-<p>To keep things easy, you can opt in to <em>auto-import</em> by simply adding <code>require &#39;reactrb/auto-import&#39;</code> after you require reactrb.</p>
+<p>To keep things easy, you can opt in to <em>auto-import</em> by simply adding <code>require &#39;hyper-react/auto-import&#39;</code> after you <code>require hyper-react</code>.</p>
 
-<p>With auto-importing enabled a component like <code>Griddle</code> or a library like <code>ReactBootstrap</code> will automatically be available to your Reactrb components.</p>
+<p>With auto-importing enabled a component like <code>Griddle</code> or a library like <code>ReactBootstrap</code> will automatically be available to your HyperReact components.</p>
 
 <p>See <a href="/using-javascript-components.html">Using Javascript Components</a> for more details.</p>
 

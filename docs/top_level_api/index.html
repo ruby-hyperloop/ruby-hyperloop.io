@@ -21,7 +21,7 @@
     <link href="/stylesheets/override.css" rel="stylesheet" />
     <link href="/stylesheets/code.css" rel="stylesheet" />
 
-    <title>Reactrb</title>
+    <title>Hyperloop</title>
     <link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/feed.xml" />
 
     <!-- Favicons -->
@@ -135,7 +135,9 @@
           <br>
         </div>
         <div class="col-md-9 main-content">
-          <h2 id="top-level-api">Top level API</h2>
+          <h1 id="hyperreact-docs">HyperReact Docs</h1>
+
+<h2 id="top-level-api">Top level API</h2>
 
 <p>The <code>React</code> module is the name space for all the React classes and modules.  </p>
 
@@ -242,7 +244,7 @@
 
 <p><strong><code>React::Component::Base</code></strong></p>
 
-<p>Reactrb Components are ruby classes that either subclass <code>React::Component::Base</code>, or mixin <code>React::Component</code>.  Both mechanisms have the same effect.</p>
+<p>HyperReact Components are ruby classes that either subclass <code>React::Component::Base</code>, or mixin <code>React::Component</code>.  Both mechanisms have the same effect.</p>
 
 <p>Instances of React Components are created internally by React when rendering. The instances exist through subsequent renders, and although coupled to React, act like normal ruby instances. The only way to get a valid reference to a React Component instance outside of React is by storing the return value of <code>React.render</code>.  Inside other Components, you may use refs to achieve the same result.</p>
 

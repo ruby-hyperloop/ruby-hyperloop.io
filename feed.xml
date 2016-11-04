@@ -14,7 +14,7 @@
     <link rel="alternate" href="http://blog.url.com/2016/06/29/reactrb-v0-8-5/"/>
     <id>http://blog.url.com/2016/06/29/reactrb-v0-8-5/</id>
     <published>2016-06-29T01:00:00+01:00</published>
-    <updated>2016-10-07T12:27:44+01:00</updated>
+    <updated>2016-11-04T06:07:48+00:00</updated>
     <author>
       <name>Article Author</name>
     </author>
@@ -58,7 +58,7 @@
 &lt;li&gt;&lt;p&gt;If you are using react-rails &lt;em&gt;and&lt;/em&gt; a Javascript dependency manager, then check &lt;a href="https://github.com/reactjs/react-rails/blob/master/VERSIONS.md"&gt;here&lt;/a&gt; for the version that react-rails wants, and include that version explicitly with &lt;code&gt;npm&lt;/code&gt; or whatever tool you are using on the JS side.&lt;/p&gt;
 
 &lt;p&gt;This will let the JS tool chain manage the dependencies, but insure you have a compatible version for react-rails.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;Otherwise Reactrb includes (but does not require) several versions of react source.   Just add &lt;code&gt;require &amp;#39;react-latest&amp;#39;&lt;/code&gt; right above wherever you do a &lt;code&gt;require &amp;#39;reactrb&amp;#39;&lt;/code&gt;.  &lt;/p&gt;
+&lt;li&gt;&lt;p&gt;Otherwise Reactrb includes (but does not require) several versions of react source.   Just add &lt;code&gt;require &amp;#39;react-latest&amp;#39;&lt;/code&gt; right above wherever you do a &lt;code&gt;require &amp;#39;hyper-react&amp;#39;&lt;/code&gt;.  &lt;/p&gt;
 
 &lt;p&gt;If you want another version do &lt;code&gt;require &amp;#39;react-v14&amp;#39;&lt;/code&gt; or &lt;code&gt;require &amp;#39;react-v13&amp;#39;&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;/ol&gt;
@@ -74,15 +74,15 @@
   &lt;span class="n"&gt;imports&lt;/span&gt; &lt;span class="s1"&gt;'Griddle'&lt;/span&gt;
 &lt;span class="k"&gt;end&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Now once you install the the &lt;a href="http://griddlegriddle.github.io/Griddle/"&gt;Griddle&lt;/a&gt; Javascript component you can use &lt;code&gt;Griddle&lt;/code&gt; like any other Reactrb component.&lt;/p&gt;
+&lt;p&gt;Now once you install the the &lt;a href="http://griddlegriddle.github.io/Griddle/"&gt;Griddle&lt;/a&gt; Javascript component you can use &lt;code&gt;Griddle&lt;/code&gt; like any other HyperReact component.&lt;/p&gt;
 
 &lt;p&gt;&lt;em&gt;But wait there&amp;rsquo;s more&amp;hellip;&lt;/em&gt;&lt;/p&gt;
 
 &lt;p&gt;Importing a ton of libraries this way could get tedious especially if you are using something like Webpack anyway to manage which components to include.&lt;/p&gt;
 
-&lt;p&gt;To keep things easy, you can opt in to &lt;em&gt;auto-import&lt;/em&gt; by simply adding &lt;code&gt;require &amp;#39;reactrb/auto-import&amp;#39;&lt;/code&gt; after you require reactrb.&lt;/p&gt;
+&lt;p&gt;To keep things easy, you can opt in to &lt;em&gt;auto-import&lt;/em&gt; by simply adding &lt;code&gt;require &amp;#39;hyper-react/auto-import&amp;#39;&lt;/code&gt; after you &lt;code&gt;require hyper-react&lt;/code&gt;.&lt;/p&gt;
 
-&lt;p&gt;With auto-importing enabled a component like &lt;code&gt;Griddle&lt;/code&gt; or a library like &lt;code&gt;ReactBootstrap&lt;/code&gt; will automatically be available to your Reactrb components.&lt;/p&gt;
+&lt;p&gt;With auto-importing enabled a component like &lt;code&gt;Griddle&lt;/code&gt; or a library like &lt;code&gt;ReactBootstrap&lt;/code&gt; will automatically be available to your HyperReact components.&lt;/p&gt;
 
 &lt;p&gt;See &lt;a href="/using-javascript-components.html"&gt;Using Javascript Components&lt;/a&gt; for more details.&lt;/p&gt;
 

@@ -21,7 +21,7 @@
     <link href="/stylesheets/override.css" rel="stylesheet" />
     <link href="/stylesheets/code.css" rel="stylesheet" />
 
-    <title>Reactrb</title>
+    <title>Hyperloop</title>
     <link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/feed.xml" />
 
     <!-- Favicons -->
@@ -135,11 +135,11 @@
           <br>
         </div>
         <div class="col-md-9 main-content">
-          <h1 id="hyperloop-reactrb-docs">Hyperloop Reactrb Docs</h1>
+          <h1 id="hyperreact-docs">HyperReact Docs</h1>
 
 <h2 id="dsl-overview">DSL Overview</h2>
 
-<p>The Reactrb DSL (Domain Specific Language) is a set of class and instance methods that are used to describe your React components.</p>
+<p>The HyperReact DSL (Domain Specific Language) is a set of class and instance methods that are used to describe your React components.</p>
 
 <ul>
 <li><a href="#react-component-base">React::Component::Base</a></li>
@@ -150,7 +150,7 @@
 <li><a href="#haml-style-class-names">HAML style class names</a></li>
 <li><a href="#event-handlers">Event Handlers</a></li>
 <li><a href="#miscellaneous-methods">Miscellaneous Methods</a></li>
-<li><a href="#ruby-and-reactrb">Ruby and Reactrb</a></li>
+<li><a href="#ruby-and-hyperreact">Ruby and HyperReact</a></li>
 <li><a href="#dsl-gotchas">DSL Gotchas</a></li>
 </ul>
 
@@ -322,7 +322,7 @@ method call looks like this:</p>
 
 <p><code>force_update!</code> is a component instance method that causes the component to re-rerender.</p>
 
-<p><code>as_node</code> can be attached to a component or tag, and removes the element from the rendering buffer and returns it.   This is useful when you need store an element in some data structure, or passing to a native JS component.  When passing an element to another reactrb component <code>.as_node</code> will be automatically applied so you normally don&rsquo;t need it.  </p>
+<p><code>as_node</code> can be attached to a component or tag, and removes the element from the rendering buffer and returns it.   This is useful when you need store an element in some data structure, or passing to a native JS component.  When passing an element to another HyperReact component <code>.as_node</code> will be automatically applied so you normally don&rsquo;t need it.  </p>
 
 <p><code>render</code> can be applied to the objects returned by <code>as_node</code> and <code>children</code> to actually render the node.</p>
 <pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">Test</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
@@ -348,7 +348,7 @@ method call looks like this:</p>
 </code></pre>
 <p><a href="http://goo.gl/J6m0PN">Try It Out</a></p>
 
-<h3 id="ruby-and-reactrb">Ruby and Reactrb</h3>
+<h3 id="ruby-and-hyperreact">Ruby and HyperReact</h3>
 
 <p>A key design goal of the DSL is to make it work seamlessly with the rest of Ruby.  Notice in the above example, the use of constant declaration (<code>FORMATS</code>), regular instance variables (<code>@timer</code>), and other non-react methods like <code>every</code> (an Opal Browser method).  </p>
 

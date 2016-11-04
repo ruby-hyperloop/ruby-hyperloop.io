@@ -21,7 +21,7 @@
     <link href="/stylesheets/override.css" rel="stylesheet" />
     <link href="/stylesheets/code.css" rel="stylesheet" />
 
-    <title>Reactrb</title>
+    <title>Hyperloop</title>
     <link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/feed.xml" />
 
     <!-- Favicons -->
@@ -190,14 +190,14 @@
 
 <p>The React philosophy is that components are the right way to separate concerns rather than by &ldquo;templates&rdquo; and &ldquo;display logic.&rdquo;  This is because the resulting markup and the code that generates it are intimately tied together.  Additionally, display logic is often very complex and using template languages to express it becomes cumbersome.</p>
 
-<p>The Reactrb approach is to generate HTML and component trees directly right in the component class using Ruby so that you can use all of Ruby&rsquo;s expressive power when building your UI.</p>
+<p>The HyperReact approach is to generate HTML and component trees directly right in the component class using Ruby so that you can use all of Ruby&rsquo;s expressive power when building your UI.</p>
 
-<p>To enable this every Reactrb component class has access to set of class and instance methods that makes specifying the component, and building HTML and event handlers straightforward.  </p>
+<p>To enable this every HyperReact component class has access to set of class and instance methods that makes specifying the component, and building HTML and event handlers straightforward.  </p>
 
 <p>For example within the render method the <code>a</code> method generates an anchor tag like this:</p>
-<pre class="highlight ruby"><code><span class="n">a</span><span class="p">(</span><span class="ss">href: </span><span class="s1">'https://reactrb.github.io'</span><span class="p">)</span> <span class="p">{</span> <span class="s1">'Get Reactive'</span> <span class="p">}</span>
+<pre class="highlight ruby"><code><span class="n">a</span><span class="p">(</span><span class="ss">href: </span><span class="s1">'https://github.com/ruby-hyperloop'</span><span class="p">)</span> <span class="p">{</span> <span class="s1">'Get Hyperloop'</span> <span class="p">}</span>
 </code></pre>
-<p>Under the hood everything maps to React.js function calls in a straight forward manner.  The Reactrb DSL is roughly analogous to the React.js JSX, but because its &ldquo;just ruby&rdquo; you don&rsquo;t have to learn a new language, and switch mental gears while writing code.</p>
+<p>Under the hood everything maps to React.js function calls in a straight forward manner.  The HyperReact DSL is roughly analogous to the React.js JSX, but because its &ldquo;just ruby&rdquo; you don&rsquo;t have to learn a new language, and switch mental gears while writing code.</p>
 
         </div>
       </div>

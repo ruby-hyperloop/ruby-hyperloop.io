@@ -21,7 +21,7 @@
     <link href="/stylesheets/override.css" rel="stylesheet" />
     <link href="/stylesheets/code.css" rel="stylesheet" />
 
-    <title>Reactrb</title>
+    <title>Hyperloop</title>
     <link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/feed.xml" />
 
     <!-- Favicons -->
@@ -122,8 +122,8 @@
       <div class="row">
         <div class="col-md-3">
             <ul class="nav">
-    <li class="nav-item"><a href="#using-reactrb-express">Opal Playground</a></br></li>
-    <li class="nav-item"><a href="#with-rails">Using Reactrb-Express</a></br></li>
+    <li class="nav-item"><a href="#opal-playground">Opal Playground</a></br></li>
+    <li class="nav-item"><a href="#using-hyperloop-express">Using Hyperloop Express</a></br></li>
     <li class="nav-item"><a href="#with-rails">With Rails</a></br></li>
     <li class="nav-item"><a href="#manual-rails-install">Manual Rails Install</a></br></li>
     <li class="nav-item"><a href="#with-sinatra">With Sinatra</a></br></li>
@@ -135,28 +135,28 @@
         <div class="col-md-9 main-content">
           <h1 id="installation">Installation</h1>
 
+<p><strong>Note:</strong> The Hyperloop gems are in a process of being renamed. The links below will take you to the correct Github projects but you might find the name of the project does not quite match the name of the gem on this page. This will be addressed over time as the gems are renamed. HyperReact was previously known as Reactrb.</p>
+
 <h2 id="opal-playground">Opal Playground</h2>
 
-<p>A great way to start learning Reactrb is use OpalPlayground.</p>
+<p>A great way to start learning HyperReact is use OpalPlayground.</p>
 
 <p>Here is a simple HelloWorld example to get you started.</p>
 
 <p><strong><a href="http://fkchang.github.io/opal-playground/?code:class%20HelloWorld%20%3C%20React%3A%3AComponent%3A%3ABase%0A%20%20param%20%3Avisitor%0A%0A%20%20def%20render%0A%20%20%20%20%22Hello%20there%20%23%7Bparams.visitor%7D%22%0A%20%20end%0Aend%0A%0A%0AElement%5B%27%23content%27%5D.render%20do%0A%20%20HelloWorld%20visitor%3A%20%22world%22%0Aend%0A%0A%0A&amp;html_code=%3Cdiv%20id%3D%27content%27%3E%3C%2Fdiv%3E&amp;css_code=body%20%7B%0A%20%20background%3A%20%23eeeeee%3B%0A%7D%0A">HelloWorld</a></strong></p>
 
-<h2 id="using-reactrb-express">Using Reactrb-Express</h2>
-
-<p><em>formerly inline-reactive-ruby</em></p>
+<h2 id="using-hyperloop-express">Using Hyperloop Express</h2>
 
 <p>For small static sites that don&rsquo;t need a server backend you can use the reactrb-express javascript library.
 Simply include the reactrb-express.js file with your other javascript code, or access it directly via the CDN, and you are good to go.</p>
 
-<p>This is another great way to experiment with Reactrb.  You don&rsquo;t need any setup or download to get started.</p>
+<p>This is another great way to experiment with HyperReact.  You don&rsquo;t need any setup or download to get started.</p>
 
-<p><a href="https://github.com/reactrb/reactrb-express">Reactrb-Express</a></p>
+<p><a href="https://github.com/reactrb/reactrb-express">Hyperloop Express</a></p>
 
 <h2 id="with-rails">With Rails</h2>
 
-<p>Reactrb works great with new or existing rails apps, and Reactrb plays well with other frameworks, so its pain free to introduce React to your application.</p>
+<p>HyperReact works great with new or existing rails apps, and HyperReact plays well with other frameworks, so its pain free to introduce React to your application.</p>
 
 <p>We recommend you use the <a href="https://github.com/reactrb/reactrb-rails-generator">reactrb-rails-generator</a> gem to do a transparent install of everything you need in a new or existing rails app.</p>
 
@@ -211,12 +211,12 @@ Simply include the reactrb-express.js file with your other javascript code, or a
 
 <p>The following instructions have been superceeded by the <a href="https://github.com/reactrb/reactrb-rails-generator">reactrb-rails-generator</a> gem but the steps are very simple if you prefer to do them yourself.</p>
 
-<p>To start using Reactrb within a new or existing rails 4.0 app, follow these steps:</p>
+<p>To start using HyperReact within a new or existing Rails 4.x or Rails 5.x app, follow these steps:</p>
 
 <h4 id="add-the-gems">Add the gems</h4>
 
 <p>In your Gemfile:</p>
-<pre class="highlight ruby"><code><span class="n">gem</span> <span class="s1">'reactrb'</span>
+<pre class="highlight ruby"><code><span class="n">gem</span> <span class="s1">'hyper-react'</span>
 <span class="n">gem</span> <span class="s1">'opal-rails'</span>
 <span class="n">gem</span> <span class="s1">'therubyracer'</span><span class="p">,</span> <span class="ss">platforms: :ruby</span> <span class="c1"># Required for prerendering</span>
 <span class="c1"># optional gems</span>
@@ -237,7 +237,7 @@ side rendering system as well as the browser.</p>
 <pre class="highlight plaintext"><code># app/views/components.rb
 require 'opal'
 require 'react/react-source'
-require 'reactrb'
+require 'hyper-react'
 require 'reactrb-router' # if you are using the reactive-router gem
 require_tree './components'
 </code></pre>
@@ -287,7 +287,7 @@ require 'opal-browser'
 </span></code></pre>
 <h2 id="with-sinatra">With Sinatra</h2>
 
-<p>Reactrb works fine with Sinatra.  Use this <a href="https://github.com/reactrb/reactrb-examples">Sinatra Example App</a> to get started.</p>
+<p>HyperReact works fine with Sinatra.  Use this <a href="https://github.com/reactrb/reactrb-examples">Sinatra Example App</a> to get started.</p>
 
 <h2 id="building-with-rake">Building With Rake</h2>
 
@@ -299,13 +299,13 @@ require 'opal-browser'
 <pre class="highlight ruby"><code><span class="c1"># Gemfile</span>
 <span class="n">gem</span> <span class="s1">'opal'</span>
 <span class="n">gem</span> <span class="s1">'opal-browser'</span> <span class="c1"># optional</span>
-<span class="n">gem</span> <span class="s1">'reactrb'</span>
+<span class="n">gem</span> <span class="s1">'hyper-react'</span>
 <span class="n">gem</span> <span class="s1">'opal-jquery'</span>  <span class="c1"># optional</span>
 </code></pre>
 <p>Your rake file task will look like this:</p>
 <pre class="highlight ruby"><code><span class="c1">#rake.rb</span>
 <span class="nb">require</span> <span class="s1">'opal'</span>
-<span class="nb">require</span> <span class="s1">'reactrb'</span>
+<span class="nb">require</span> <span class="s1">'hyper-react'</span>
 
 <span class="n">desc</span> <span class="s2">"Build app.js"</span>
 <span class="n">task</span> <span class="ss">:build</span> <span class="k">do</span>
@@ -325,7 +325,7 @@ require 'opal-browser'
 <span class="c1"># but in must be loaded BEFORE opal-jquery</span>
 <span class="nb">require</span> <span class="s1">'opal-jquery'</span>      <span class="c1"># optional</span>
 <span class="nb">require</span> <span class="s1">'react/react-source'</span>
-<span class="nb">require</span> <span class="s1">'reactrb'</span>
+<span class="nb">require</span> <span class="s1">'hyper-react'</span>
 <span class="c1"># here you can require other files, do a require_tree, or</span>
 <span class="c1"># just add some components inline right here...</span>
 <span class="k">class</span> <span class="nc">Clock</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
