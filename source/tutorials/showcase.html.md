@@ -18,7 +18,7 @@ The Showcase application will look like this:
 + For the backend we are using Rails 4.2.6 with Ruby 2.3.1
 + NPM and Webpack to manage front end assets
 + [React Rails](https://github.com/reactjs/react-rails) to use React with Rails
-+ [Reactrb](https://github.com/reactrb/reactrb) to write reactive UI components with Ruby's elegance
++ [HyperReact](https://github.com/ruby-hyperloop/hyper-react) to write reactive UI components with Ruby's elegance
 + [React Bootstrap](https://react-bootstrap.github.io/) to show how to use native React components in Reactrb
 + [Reactive Record](https://github.com/reactrb/reactive-record) to move data between Rails models and the front end
 + [Synchromesh](https://github.com/reactrb/synchromesh) to magically push changed data between all connected clients
