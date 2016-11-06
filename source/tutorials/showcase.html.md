@@ -56,23 +56,23 @@ And in your browser
 
 You should be seeing the Rails Welcome aboard page. Great, Rails is now installed. Lets get started with the interesting stuff.
 
-### Step 2: Adding Reactrb
+### Step 2: Adding HyperReact
 
-[We will use the Reactrb Rails Generator Gem](https://github.com/loicboutet/reactive-rails-generator)
+[We will use the HyperRails Generator Gem](https://github.com/ruby-hyperloop/reactrb-rails-generator/tree/hyper-rails)
 
 In your `Gemfile` under the development group add
 
-	gem "reactrb-rails-generator"
+	gem "hyper-rails"
 
 then
 
 	bundle install
-	bundle exec rails g reactrb:install --all
+	bundle exec rails g hyperloop:install
 	bundle update
 
-At this stage Reactrb is installed but we don't have any components yet. Lets create one via the generator:
+At this stage HyperReact is installed but we don't have any components yet. Lets create one via the generator:
 
-	rails g reactrb:component Home::Show
+	rails g hyperloop:component Home::Show
 
 This will add a new Component at app/views/components/home/show.rb
 

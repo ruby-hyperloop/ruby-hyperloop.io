@@ -27,13 +27,23 @@ This is another great way to experiment with HyperReact.  You don't need any set
 
 HyperReact works great with new or existing rails apps, and HyperReact plays well with other frameworks, so its pain free to introduce React to your application.
 
-We recommend you use the [reactrb-rails-generator](https://github.com/reactrb/reactrb-rails-generator) gem to do a transparent install of everything you need in a new or existing rails app.
+We recommend you use the [HyperRails](https://github.com/ruby-hyperloop/reactrb-rails-generator/tree/hyper-rails) gem to do a transparent install of everything you need in a new or existing rails app.
 
-**Note:** The generator is missing two steps at the moment. This will be corrected soon as a part of the bigger gem rename. After you do the `rails g reactrb:install --all`, add this line to the gem file: `gem 'opal-browser'` and then do a `bundle update`
+In your `Gemfile`
 
-The generator and gems work with Rails 4.x and Rails 5.x.
+```ruby
+gem "hyper-rails"
+```
 
-If you ned any help with your installation please contact us on [gitter.im](https://gitter.im/reactrb/chat)
+then
+
+```ruby
+bundle install
+rails g hyperloop:install
+bundle update
+```
+
+If you need any help with your installation please contact us on [gitter.im](https://gitter.im/reactrb/chat)
 
 Within a Rails app React Components are by convention stored in the `app/views/components` directory.  
 
@@ -45,7 +55,9 @@ Because React plays well with others, you can start with a single aspect of a pa
 
 #### Rendering Components
 
-Once you are setup (i.e. `rails g reactrb:install --all`) components may be rendered directly from a controller action by simply following a naming convention. To render a component from the `home#show` action, create a component class named `Show`.  Note: You can use the `rails g reactrb:component Home::Show` command to generate a component template.
+Once you are setup (i.e. `rails g hyperloop:install`) components may be rendered directly from a controller action by simply following a naming convention.
+
+To render a component from the `home#show` action, create a component class named `Show`.  Note: You can use the `rails g hyperloop:component Home::Show` command to generate a component template.
 
 ```ruby
 # app/views/components/home/show.rb
@@ -74,6 +86,12 @@ class HomeController < ApplicationController
     render_component say_hello_to: params[:say_hello_to]
   end
 end
+```
+
+Or from a view:
+
+```ruby
+<%= react_component('Home::Show', say_hello_to: "Sally") %>
 ```
 
 Make sure your routes file has a route to your home#show action. Visit that route in your browser and you should see 'Hello' rendered.
