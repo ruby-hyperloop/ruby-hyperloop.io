@@ -158,13 +158,17 @@ Simply include the reactrb-express.js file with your other javascript code, or a
 
 <p>HyperReact works great with new or existing rails apps, and HyperReact plays well with other frameworks, so its pain free to introduce React to your application.</p>
 
-<p>We recommend you use the <a href="https://github.com/reactrb/reactrb-rails-generator">reactrb-rails-generator</a> gem to do a transparent install of everything you need in a new or existing rails app.</p>
+<p>We recommend you use the <a href="https://github.com/ruby-hyperloop/reactrb-rails-generator/tree/hyper-rails">HyperRails</a> gem to do a transparent install of everything you need in a new or existing rails app.</p>
 
-<p><strong>Note:</strong> The generator is missing two steps at the moment. This will be corrected soon as a part of the bigger gem rename. After you do the <code>rails g reactrb:install --all</code>, add this line to the gem file: <code>gem &#39;opal-browser&#39;</code> and then do a <code>bundle update</code></p>
-
-<p>The generator and gems work with Rails 4.x and Rails 5.x.</p>
-
-<p>If you ned any help with your installation please contact us on <a href="https://gitter.im/reactrb/chat">gitter.im</a></p>
+<p>In your <code>Gemfile</code></p>
+<pre class="highlight ruby"><code><span class="n">gem</span> <span class="s2">"hyper-rails"</span>
+</code></pre>
+<p>then</p>
+<pre class="highlight ruby"><code><span class="n">bundle</span> <span class="n">install</span>
+<span class="n">rails</span> <span class="n">g</span> <span class="n">hyperloop</span><span class="ss">:install</span>
+<span class="n">bundle</span> <span class="n">update</span>
+</code></pre>
+<p>If you need any help with your installation please contact us on <a href="https://gitter.im/reactrb/chat">gitter.im</a></p>
 
 <p>Within a Rails app React Components are by convention stored in the <code>app/views/components</code> directory.  </p>
 
@@ -176,7 +180,9 @@ Simply include the reactrb-express.js file with your other javascript code, or a
 
 <h4 id="rendering-components">Rendering Components</h4>
 
-<p>Once you are setup (i.e. <code>rails g reactrb:install --all</code>) components may be rendered directly from a controller action by simply following a naming convention. To render a component from the <code>home#show</code> action, create a component class named <code>Show</code>.  Note: You can use the <code>rails g reactrb:component Home::Show</code> command to generate a component template.</p>
+<p>Once you are setup (i.e. <code>rails g hyperloop:install</code>) components may be rendered directly from a controller action by simply following a naming convention.</p>
+
+<p>To render a component from the <code>home#show</code> action, create a component class named <code>Show</code>.  Note: You can use the <code>rails g hyperloop:component Home::Show</code> command to generate a component template.</p>
 <pre class="highlight ruby"><code><span class="c1"># app/views/components/home/show.rb</span>
 <span class="k">module</span> <span class="nn">Components</span>
   <span class="k">module</span> <span class="nn">Home</span>
@@ -201,6 +207,9 @@ Simply include the reactrb-express.js file with your other javascript code, or a
   <span class="k">end</span>
 <span class="k">end</span>
 </code></pre>
+<p>Or from a view:</p>
+<pre class="highlight ruby"><code><span class="o">&lt;</span><span class="sx">%= react_component('Home::Show', say_hello_to: "Sally") %&gt;
+</span></code></pre>
 <p>Make sure your routes file has a route to your home#show action. Visit that route in your browser and you should see &lsquo;Hello&rsquo; rendered.</p>
 
 <p>Open up the js console in the browser and you will see a log showing what went on during rendering.</p>
