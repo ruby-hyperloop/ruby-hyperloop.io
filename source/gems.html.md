@@ -35,7 +35,7 @@ HyperRouter provides a Ruby DSL to Facebook's React Router which is a React comp
 
 Hyper-mesh is a policy based CRUD system which wraps ActiveRecord models on the server and extends them to the client. Furthermore it implements push notifications (via a number of possible technologies) so changes to records in use by clients are pushed to those clients if authorised. Isomorphic Ruby in action.
 
-## Tools and Deubgging
+## Tools and Debugging
 
 See [Tools and Debugging](/tools/) for further information.
 
