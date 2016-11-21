@@ -441,7 +441,7 @@ $('#something-btn').click(someCallback);
 end
 </code></pre>
 <p>Sample 4 - In Reactrb (with React Bootstrap):</p>
-<pre class="highlight plaintext"><code>Bs.Button(bsStyle: 'success' bsSize: "small") {'Something'}.on(:click) do
+<pre class="highlight plaintext"><code>Bs.Button(bsStyle: :success, bsSize: :small) {'Something'}.on(:click) do
     someMethod
 end
 </code></pre>
@@ -813,7 +813,7 @@ $ mv app/models/comment.rb app/models/public
 
 <p>Modify your <code>components.rb</code>, adding the following lines inside the if statement so they only run on the client and not as part of the server pre-rendering process:</p>
 <pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'opal_hot_reloader'</span>
-<span class="no">OpalHotReloader</span><span class="p">.</span><span class="nf">listen</span><span class="p">(</span><span class="mi">25222</span><span class="p">,</span> <span class="kp">true</span><span class="p">)</span>
+<span class="no">OpalHotReloader</span><span class="p">.</span><span class="nf">listen</span><span class="p">(</span><span class="mi">25222</span><span class="p">)</span>
 </code></pre>
 <p>Then modify your <code>procfile</code> so that the Hot Loader service will start whenever you start your server:</p>
 <pre class="highlight plaintext"><code>rails: bundle exec rails server
