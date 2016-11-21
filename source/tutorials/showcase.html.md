@@ -337,7 +337,7 @@ Sample 3 - In Reactrb (without React Bootstrap):
 
 Sample 4 - In Reactrb (with React Bootstrap):
 
-	Bs.Button(bsStyle: 'success' bsSize: "small") {'Something'}.on(:click) do
+	Bs.Button(bsStyle: :success, bsSize: :small) {'Something'}.on(:click) do
 		someMethod
 	end
 
@@ -787,7 +787,7 @@ Modify your `components.rb`, adding the following lines inside the if statement 
 
 ```ruby
 require 'opal_hot_reloader'
-OpalHotReloader.listen(25222, true)
+OpalHotReloader.listen(25222)
 ```
 
 Then modify your `procfile` so that the Hot Loader service will start whenever you start your server:
