@@ -3,6 +3,8 @@ title: Technology Showcase Tutorial
 ---
 ## Hyperloop Technology Showcase Tutorial
 
+**Please note: This tutorial was written prior to the Reactrb gem being renamed HyperReact. Additionaly, the section at the end of the tutorial on ReactiveRecord and Synchromesh is out of date as these gems have been merged into a new gem - HyperMesh. All of this will be updated soon.**
+
 [The source code to this tutorial is here](https://github.com/barriehadfield/reactrb-showcase)
 
 This tutorial builds a simple Rails application showcasing Reactrb, Opal, NPM, Webpack, React Bootstrap, Reactive Record, Synchromesh, Rearcrb Router and other associated technologies.  This showcase is intended to be a companion project to the excellent Reactrb tutorials already written which you can find in [Further Reading](#further-reading) below.
