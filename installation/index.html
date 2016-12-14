@@ -218,7 +218,7 @@ Simply include the reactrb-express.js file with your other javascript code, or a
 
 <h3 id="manual-rails-install">Manual Rails Install</h3>
 
-<p>The following instructions have been superceeded by the <a href="https://github.com/reactrb/reactrb-rails-generator">reactrb-rails-generator</a> gem but the steps are very simple if you prefer to do them yourself.</p>
+<p>The following can easily be achieved by using the generators in <a href="https://github.com/ruby-hyperloop/hyper-rails">hyper-rails</a> gem but the steps are simple if you prefer to do them yourself.</p>
 
 <p>To start using HyperReact within a new or existing Rails 4.x or Rails 5.x app, follow these steps:</p>
 
@@ -245,7 +245,6 @@ Simply include the reactrb-express.js file with your other javascript code, or a
 side rendering system as well as the browser.</p>
 <pre class="highlight plaintext"><code># app/views/components.rb
 require 'opal'
-require 'react/react-source'
 require 'hyper-react'
 require 'reactrb-router' # if you are using the reactive-router gem
 require_tree './components'
@@ -259,19 +258,23 @@ Notably jQuery is a client only asset.</p>
 it application.rb.  The below assumes you are using ruby syntax.</p>
 
 <p>In <code>assets/javascript/application.rb</code> require your components manifest as well
-as any additional browser only assets.</p>
+as any additional browser only assets. (If you are using <code>application.js</code> then use the standard <code>//= require &#39;...&#39;</code> format and load your components with <code>Opal.load(&#39;components&#39;);</code>)</p>
 <pre class="highlight plaintext"><code># assets/javascript/application.rb
 
-# Make components available by requiring your components.rb manifest.
+# Add React and make components available by requiring your components.rb manifest.
+require 'react/react-source'
 require 'components'
 
 # 'react_ujs' tells react in the browser to mount rendered components.
 require 'react_ujs'
 
-# Finally, require your other javascript assets. jQuery for example...
+# Require your other javascript assets. jQuery for example...
 require 'jquery'      # You need both these files to access jQuery from Opal.
 require 'opal-jquery' # They must be in this order.
 require 'opal-browser'
+
+# Finally have Opal load your components.rb
+Opal.load('components')
 </code></pre>
 <h3 id="rendering-components">Rendering components</h3>
 
