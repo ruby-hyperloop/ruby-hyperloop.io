@@ -102,7 +102,7 @@ Have a look at the sources in the console, and notice your ruby code is there, a
 
 ### Manual Rails Install
 
-The following instructions have been superceeded by the [reactrb-rails-generator](https://github.com/reactrb/reactrb-rails-generator) gem but the steps are very simple if you prefer to do them yourself.
+The following can easily be achieved by using the generators in [hyper-rails](https://github.com/ruby-hyperloop/hyper-rails) gem but the steps are simple if you prefer to do them yourself.
 
 To start using HyperReact within a new or existing Rails 4.x or Rails 5.x app, follow these steps:
 
@@ -134,7 +134,6 @@ side rendering system as well as the browser.
 ```
 # app/views/components.rb
 require 'opal'
-require 'react/react-source'
 require 'hyper-react'
 require 'reactrb-router' # if you are using the reactive-router gem
 require_tree './components'
@@ -149,21 +148,25 @@ You can update your existing application.js file, or convert it to ruby syntax a
 it application.rb.  The below assumes you are using ruby syntax.
 
 In `assets/javascript/application.rb` require your components manifest as well
-as any additional browser only assets.
+as any additional browser only assets. (If you are using `application.js` then use the standard `//= require '...'` format and load your components with `Opal.load('components');`)
 
 ```
 # assets/javascript/application.rb
 
-# Make components available by requiring your components.rb manifest.
+# Add React and make components available by requiring your components.rb manifest.
+require 'react/react-source'
 require 'components'
 
 # 'react_ujs' tells react in the browser to mount rendered components.
 require 'react_ujs'
 
-# Finally, require your other javascript assets. jQuery for example...
+# Require your other javascript assets. jQuery for example...
 require 'jquery'      # You need both these files to access jQuery from Opal.
 require 'opal-jquery' # They must be in this order.
 require 'opal-browser'
+
+# Finally have Opal load your components.rb
+Opal.load('components')
 ```
 
 ### Rendering components
