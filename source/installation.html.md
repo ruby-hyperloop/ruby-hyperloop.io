@@ -106,51 +106,59 @@ The following can easily be achieved by using the generators in [hyper-rails](ht
 
 To start using HyperReact within a new or existing Rails 4.x or Rails 5.x app, follow these steps:
 
-#### Add the gems
+#### Step 1 - Add the gems
 
 In your Gemfile:
 
 ```ruby
-gem 'hyper-react'
+# Gemfile
 gem 'opal-rails'
-gem 'therubyracer', platforms: :ruby # Required for prerendering
-# optional gems
 gem 'opal-browser'
-gem 'opal-jquery'     # a clean interface to jQuery from your ruby code
-gem 'reactrb-router'  # a basic SPA router
+gem 'hyper-react'
+gem 'therubyracer', platforms: :ruby
+gem 'react-router-rails', '~> 0.13.3'
+gem 'hyper-router'
+gem 'hyper-mesh'
 ```
 
 Run `bundle install` and restart your rails server.
 
-#### Add the components directory and manifest
+#### Step 2 - Add the components directory and manifest
 
 Your react components will go into the `app/views/components/` directory of your rails app.
 
 Within your `app/views` directory you need to create a `components.rb` manifest.
 
-Files required in `app/views/components.rb` will be made available to the server
-side rendering system as well as the browser.
+Files required in `app/views/components.rb` will be made available to the server side rendering system as well as the browser.
 
-```
+```ruby
 # app/views/components.rb
 require 'opal'
+require 'react/react-source'
 require 'hyper-react'
-require 'reactrb-router' # if you are using the reactive-router gem
+if React::IsomorphicHelpers.on_opal_client?
+  require 'opal-jquery'
+  require 'browser'
+  require 'browser/interval'
+  require 'browser/delay'
+  # add any additional requires that can ONLY run on client here
+end
+require 'hyper-router'
+require 'react_router'
+require 'hyper-mesh'
+require 'models'
 require_tree './components'
 ```
 
-#### Client Side Assets
+#### Step 3 - Client Side Assets
 
-Typically the client will need all the above assets, plus other files that are client only.
-Notably jQuery is a client only asset.
+Typically the client will need all the above assets, plus other files that are client only. Notably jQuery is a client only asset.
 
-You can update your existing application.js file, or convert it to ruby syntax and name
-it application.rb.  The below assumes you are using ruby syntax.
+NOTE: You can update your existing application.js file, or convert it to ruby syntax and name it application.rb. The example below assumes you are using ruby syntax. However if you are using `application.js` then use the standard `//= require '...'` format and load your components with `Opal.load('components');`
 
-In `assets/javascript/application.rb` require your components manifest as well
-as any additional browser only assets. (If you are using `application.js` then use the standard `//= require '...'` format and load your components with `Opal.load('components');`)
+Assuming you are using the ruby syntax (application.rb), in `assets/javascript/application.rb` require your components manifest as well as any additional browser only assets.
 
-```
+```ruby
 # assets/javascript/application.rb
 
 # Add React and make components available by requiring your components.rb manifest.
@@ -167,6 +175,18 @@ require 'opal-browser'
 
 # Finally have Opal load your components.rb
 Opal.load('components')
+```
+
+#### Step 4 - Update application.rb
+
+Finally you will need to update your `application.rb` to ensure everything works in production:
+
+```ruby
+config.eager_load_paths += %W(#{config.root}/app/models/public)
+config.eager_load_paths += %W(#{config.root}/app/views/components)
+config.autoload_paths += %W(#{config.root}/app/models/public)
+config.autoload_paths += %W(#{config.root}/app/views/components)
+config.assets.paths << ::Rails.root.join('app', 'models').to_s
 ```
 
 ### Rendering components
