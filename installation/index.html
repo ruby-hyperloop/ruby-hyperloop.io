@@ -222,59 +222,76 @@ Simply include the reactrb-express.js file with your other javascript code, or a
 
 <p>To start using HyperReact within a new or existing Rails 4.x or Rails 5.x app, follow these steps:</p>
 
-<h4 id="add-the-gems">Add the gems</h4>
+<h4 id="step-1-add-the-gems">Step 1 - Add the gems</h4>
 
 <p>In your Gemfile:</p>
-<pre class="highlight ruby"><code><span class="n">gem</span> <span class="s1">'hyper-react'</span>
+<pre class="highlight ruby"><code><span class="c1"># Gemfile</span>
 <span class="n">gem</span> <span class="s1">'opal-rails'</span>
-<span class="n">gem</span> <span class="s1">'therubyracer'</span><span class="p">,</span> <span class="ss">platforms: :ruby</span> <span class="c1"># Required for prerendering</span>
-<span class="c1"># optional gems</span>
 <span class="n">gem</span> <span class="s1">'opal-browser'</span>
-<span class="n">gem</span> <span class="s1">'opal-jquery'</span>     <span class="c1"># a clean interface to jQuery from your ruby code</span>
-<span class="n">gem</span> <span class="s1">'reactrb-router'</span>  <span class="c1"># a basic SPA router</span>
+<span class="n">gem</span> <span class="s1">'hyper-react'</span>
+<span class="n">gem</span> <span class="s1">'therubyracer'</span><span class="p">,</span> <span class="ss">platforms: :ruby</span>
+<span class="n">gem</span> <span class="s1">'react-router-rails'</span><span class="p">,</span> <span class="s1">'~&gt; 0.13.3'</span>
+<span class="n">gem</span> <span class="s1">'hyper-router'</span>
+<span class="n">gem</span> <span class="s1">'hyper-mesh'</span>
 </code></pre>
 <p>Run <code>bundle install</code> and restart your rails server.</p>
 
-<h4 id="add-the-components-directory-and-manifest">Add the components directory and manifest</h4>
+<h4 id="step-2-add-the-components-directory-and-manifest">Step 2 - Add the components directory and manifest</h4>
 
 <p>Your react components will go into the <code>app/views/components/</code> directory of your rails app.</p>
 
 <p>Within your <code>app/views</code> directory you need to create a <code>components.rb</code> manifest.</p>
 
-<p>Files required in <code>app/views/components.rb</code> will be made available to the server
-side rendering system as well as the browser.</p>
-<pre class="highlight plaintext"><code># app/views/components.rb
-require 'opal'
-require 'hyper-react'
-require 'reactrb-router' # if you are using the reactive-router gem
-require_tree './components'
+<p>Files required in <code>app/views/components.rb</code> will be made available to the server side rendering system as well as the browser.</p>
+<pre class="highlight ruby"><code><span class="c1"># app/views/components.rb</span>
+<span class="nb">require</span> <span class="s1">'opal'</span>
+<span class="nb">require</span> <span class="s1">'react/react-source'</span>
+<span class="nb">require</span> <span class="s1">'hyper-react'</span>
+<span class="k">if</span> <span class="no">React</span><span class="o">::</span><span class="no">IsomorphicHelpers</span><span class="p">.</span><span class="nf">on_opal_client?</span>
+  <span class="nb">require</span> <span class="s1">'opal-jquery'</span>
+  <span class="nb">require</span> <span class="s1">'browser'</span>
+  <span class="nb">require</span> <span class="s1">'browser/interval'</span>
+  <span class="nb">require</span> <span class="s1">'browser/delay'</span>
+  <span class="c1"># add any additional requires that can ONLY run on client here</span>
+<span class="k">end</span>
+<span class="nb">require</span> <span class="s1">'hyper-router'</span>
+<span class="nb">require</span> <span class="s1">'react_router'</span>
+<span class="nb">require</span> <span class="s1">'hyper-mesh'</span>
+<span class="nb">require</span> <span class="s1">'models'</span>
+<span class="n">require_tree</span> <span class="s1">'./components'</span>
 </code></pre>
-<h4 id="client-side-assets">Client Side Assets</h4>
+<h4 id="step-3-client-side-assets">Step 3 - Client Side Assets</h4>
 
-<p>Typically the client will need all the above assets, plus other files that are client only.
-Notably jQuery is a client only asset.</p>
+<p>Typically the client will need all the above assets, plus other files that are client only. Notably jQuery is a client only asset.</p>
 
-<p>You can update your existing application.js file, or convert it to ruby syntax and name
-it application.rb.  The below assumes you are using ruby syntax.</p>
+<p>NOTE: You can update your existing application.js file, or convert it to ruby syntax and name it application.rb. The example below assumes you are using ruby syntax. However if you are using <code>application.js</code> then use the standard <code>//= require &#39;...&#39;</code> format and load your components with <code>Opal.load(&#39;components&#39;);</code></p>
 
-<p>In <code>assets/javascript/application.rb</code> require your components manifest as well
-as any additional browser only assets. (If you are using <code>application.js</code> then use the standard <code>//= require &#39;...&#39;</code> format and load your components with <code>Opal.load(&#39;components&#39;);</code>)</p>
-<pre class="highlight plaintext"><code># assets/javascript/application.rb
+<p>Assuming you are using the ruby syntax (application.rb), in <code>assets/javascript/application.rb</code> require your components manifest as well as any additional browser only assets.</p>
+<pre class="highlight ruby"><code><span class="c1"># assets/javascript/application.rb</span>
 
-# Add React and make components available by requiring your components.rb manifest.
-require 'react/react-source'
-require 'components'
+<span class="c1"># Add React and make components available by requiring your components.rb manifest.</span>
+<span class="nb">require</span> <span class="s1">'react/react-source'</span>
+<span class="nb">require</span> <span class="s1">'components'</span>
 
-# 'react_ujs' tells react in the browser to mount rendered components.
-require 'react_ujs'
+<span class="c1"># 'react_ujs' tells react in the browser to mount rendered components.</span>
+<span class="nb">require</span> <span class="s1">'react_ujs'</span>
 
-# Require your other javascript assets. jQuery for example...
-require 'jquery'      # You need both these files to access jQuery from Opal.
-require 'opal-jquery' # They must be in this order.
-require 'opal-browser'
+<span class="c1"># Require your other javascript assets. jQuery for example...</span>
+<span class="nb">require</span> <span class="s1">'jquery'</span>      <span class="c1"># You need both these files to access jQuery from Opal.</span>
+<span class="nb">require</span> <span class="s1">'opal-jquery'</span> <span class="c1"># They must be in this order.</span>
+<span class="nb">require</span> <span class="s1">'opal-browser'</span>
 
-# Finally have Opal load your components.rb
-Opal.load('components')
+<span class="c1"># Finally have Opal load your components.rb</span>
+<span class="no">Opal</span><span class="p">.</span><span class="nf">load</span><span class="p">(</span><span class="s1">'components'</span><span class="p">)</span>
+</code></pre>
+<h4 id="step-4-update-application-rb">Step 4 - Update application.rb</h4>
+
+<p>Finally you will need to update your <code>application.rb</code> to ensure everything works in production:</p>
+<pre class="highlight ruby"><code><span class="n">config</span><span class="p">.</span><span class="nf">eager_load_paths</span> <span class="o">+=</span> <span class="sx">%W(</span><span class="si">#{</span><span class="n">config</span><span class="p">.</span><span class="nf">root</span><span class="si">}</span><span class="sx">/app/models/public)</span>
+<span class="n">config</span><span class="p">.</span><span class="nf">eager_load_paths</span> <span class="o">+=</span> <span class="sx">%W(</span><span class="si">#{</span><span class="n">config</span><span class="p">.</span><span class="nf">root</span><span class="si">}</span><span class="sx">/app/views/components)</span>
+<span class="n">config</span><span class="p">.</span><span class="nf">autoload_paths</span> <span class="o">+=</span> <span class="sx">%W(</span><span class="si">#{</span><span class="n">config</span><span class="p">.</span><span class="nf">root</span><span class="si">}</span><span class="sx">/app/models/public)</span>
+<span class="n">config</span><span class="p">.</span><span class="nf">autoload_paths</span> <span class="o">+=</span> <span class="sx">%W(</span><span class="si">#{</span><span class="n">config</span><span class="p">.</span><span class="nf">root</span><span class="si">}</span><span class="sx">/app/views/components)</span>
+<span class="n">config</span><span class="p">.</span><span class="nf">assets</span><span class="p">.</span><span class="nf">paths</span> <span class="o">&lt;&lt;</span> <span class="o">::</span><span class="no">Rails</span><span class="p">.</span><span class="nf">root</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="s1">'app'</span><span class="p">,</span> <span class="s1">'models'</span><span class="p">).</span><span class="nf">to_s</span>
 </code></pre>
 <h3 id="rendering-components">Rendering components</h3>
 
