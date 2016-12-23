@@ -63,10 +63,6 @@ class Clock < React::Component::Base
     end
   end
 end
-
-Element['#container'].render do
-  Clock(initial_mode: 12)
-end
 ```
 
 [Try It Out](http://goo.gl/zN8i9B)
@@ -236,14 +232,6 @@ class Test < React::Component::Base
       end
       params.node.render
     end
-  end
-end
-
-Element['#container'].render do
-  Test(node: "foo".span) do
-  # equivilent to Test(node: "foo".span.as_node)...
-    div { "hello"}
-    div { "goodby" }
   end
 end
 ```

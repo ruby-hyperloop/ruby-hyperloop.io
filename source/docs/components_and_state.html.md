@@ -28,10 +28,6 @@ class LikeButton < React::Component::Base
     end
   end
 end
-
-Element['#container'].render do
-  LikeButton()
-end
 ```
 
 [Try It Out](http://goo.gl/fWUOOe)
@@ -106,10 +102,6 @@ class ProfileLink < React::Component::Base
       params.user_name
     end
   end
-end
-
-Element['#container'].render do
-  Avatar user_name: "pwh"
 end
 ```
 
