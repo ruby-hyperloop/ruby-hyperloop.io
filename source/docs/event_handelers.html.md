@@ -1,8 +1,6 @@
 ---
-title: Docs
+title: Hyper-React Docs
 ---
-# HyperReact Docs
-
 ## Event Handelers
 
 ### Event Handling and Synthetic Events

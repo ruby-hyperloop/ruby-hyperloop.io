@@ -1,8 +1,6 @@
 ---
-title: Docs
+title: Hyper-React Docs
 ---
-# HyperReact Docs
-
 ## Elements and Rendering
 
 **`React.create_element`**
