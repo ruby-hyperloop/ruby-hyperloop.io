@@ -15,7 +15,7 @@ See [Installation](/installation) for further installation options.
 
 HyperReact for static sites, with no build process needed.
 
-#### [Hyperloop Rails](https://github.com/ruby-hyperloop/reactrb-rails-generator)
+#### [HyperRails](https://github.com/ruby-hyperloop/hyper-rails)
 
 One step integration of HyperReact, HyperMesh and HyperRouter with Rails plus generators for Components and Routers.
 
@@ -31,7 +31,7 @@ This is the master gem. You will always need this as a base. HyperReact provides
 
 HyperRouter provides a Ruby DSL to Facebook's React Router which is a React component that loads other components depending on the current URL.
 
-#### [HyperMesh](https://github.com/ruby-hyperloop/synchromesh)
+#### [HyperMesh](https://github.com/ruby-hyperloop/hyper-mesh)
 
 Hyper-mesh is a policy based CRUD system which wraps ActiveRecord models on the server and extends them to the client. Furthermore it implements push notifications (via a number of possible technologies) so changes to records in use by clients are pushed to those clients if authorised. Isomorphic Ruby in action.
 
