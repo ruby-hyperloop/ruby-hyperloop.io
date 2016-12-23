@@ -10,6 +10,7 @@ It is very easy to implement a Flux store pattern in Hyperloop.
 In your top level component use the `export_state` directive to export the state outside the component.
 
 This does two things:
+
 * It makes the state variable a class level instance variable, so all instances of that top level component (but you probably will only have one) share that state variable.
 * It makes the instance variable accessible outside the class.
 
