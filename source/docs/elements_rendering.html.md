@@ -3,57 +3,7 @@ title: Docs
 ---
 # HyperReact Docs
 
-## Top level API
-
-The `React` module is the name space for all the React classes and modules.  
-
-
-## React::Component and React::Component::Base
-
-React components classes either include `React::Component` or are subclasses of `React::Component::Base`.  
-
-```ruby
-class Component < React::Component::Base
-end
-  # if subclassing is inappropriate, you can mixin instead
-class AnotherComponent
-  include React::Component
-end
-```
-
-At a minimum every component class must define a `render` method which returns **one single** child element. That child may in turn have an arbitrarily deep structure.
-
-```ruby
-class Component < React::Component::Base
-  def render
-    div # render an empty div
-  end
-end
-```
-
-You may also use the `render` macro to define the render method, which has some styling advantages, but is functionally equivilent.
-
-```ruby
-class Component < React::Component::Base
-  render do
-    div # render an empty div
-  end
-end
-```
-
-
-To render a component, you reference its class name in the DSL as a method call.  This creates a new instance, passes any parameters proceeds with the component lifecycle.  
-
-```ruby
-class AnotherComponent < React::Component::Base
-  def render
-    Component() # ruby syntax requires either () or {} following the class name
-  end
-end
-```
-
-Note that you should never redefine the `new` or `initialize` methods, or call them directly.  The equivilent of `initialize` is the `before_mount` callback.  
-
+## Elements and Rendering
 
 **`React.create_element`**
 
