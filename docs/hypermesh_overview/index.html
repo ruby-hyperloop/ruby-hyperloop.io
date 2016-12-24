@@ -99,7 +99,7 @@
             <h1 class="display-4 project-name">Hyperloop</h1>
             </br>
             <h2 class="display-7 project-tagline">
-              HYPER-REACT DOCS
+              HYPER-MESH DOCS
             </h2>
           </div>
         </div>
@@ -111,7 +111,7 @@
             <h1 class="h1 project-name center-text">Hyperloop</h1>
             </br>
             <h2 class="h4 project-tagline center-text">
-              HYPER-REACT DOCS
+              HYPER-MESH DOCS
             </h2>
           </div>
         </div>
@@ -143,42 +143,61 @@
           <br>
         </div>
         <div class="col-md-9 main-content">
-          <h2 id="further-reading">Further Reading</h2>
+          <h2 id="hypermesh-overview">HyperMesh Overview</h2>
 
-<p><strong>Note:</strong> The Hyperloop gems are in a process of being renamed. The links below will take you to the correct Github projects but you might find the name of the project does not quite match the name of the gem on this page. This will be addressed over time as the gems are renamed. HyperReact was previously known as Reactrb.</p>
+<p>HyperMesh gives your HyperReact components CRUD access to your server side ActiveRecord models, using the standard ActiveRecord API. In addition HyperMesh implements push notifications (via a number of possible technologies) so changes to records on the server are dynamically pushed to all authorised clients.</p>
 
-<h3 id="other-hyperreact-tutorials-and-examples">Other HyperReact tutorials and examples</h3>
+<p><em>Its Isomorphic Ruby in action.</em></p>
 
-<ul>
-<li><a href="https://github.com/loicboutet/reactrb_tutorial">Getting started with HyperReact and Rails</a></li>
-<li><a href="https://github.com/reactrb/todo-tutorial">Todo Tutorial and App</a></li>
-<li><a href="https://github.com/barriehadfield/reactrb-showcase">HyperReact Technology Showcase</a></li>
-<li><a href="https://github.com/loicboutet/reactivetodo">Reactive Record sample ToDo app</a></li>
-<li><a href="https://github.com/reactrb/reactrb.github.io/wiki/Sending-data-from-deeply-nested-components">Flux pattern in HyperReact</a></li>
-<li><a href="https://github.com/fkchang/getting-started-reactrb-webpack">Getting started with Reactrb, React Bootstrap and Webpack</a></li>
-</ul>
-
-<h3 id="hyperreact-is-powered-by-react">HyperReact is powered by React</h3>
-
-<p>HyperReact and friends are in most cases simple DSL Ruby wrappers to the underlying native JavaScript libraries and React Components. It is really important to have a solid grip on how these technologies work to complement your understanding of HyperReact. Most searches for help on Google will take you to examples written in JSX or ES6 JavaScript but you will learn over time to transalte this to HyperReact equivalents. To make headway with HyperReact you do need a solid understanding of the underlying philosophy of React and its component based architecture. The &lsquo;Thinking in React&rsquo; tutorial below is an excellent place to start. (Make sure you see the Flux pattern in HyperReact above for an example of how to communicate between grandparent and child components).   </p>
+<p>In other words one browser creates, updates, or destroys a model, and the changes are persisted in active record models and then broadcast to all other authorised clients.</p>
 
 <ul>
-<li><a href="https://facebook.github.io/react/docs/thinking-in-react.html">Thinking in React</a></li>
-<li><a href="https://facebook.github.io/react/docs/getting-started.html">React</a></li>
-<li><a href="https://github.com/reactjs/react-router">React Router</a></li>
-<li><a href="https://react-bootstrap.github.io/">React Bootstrap</a></li>
+<li>HyperMesh is built on top of HyperReact.</li>
+<li>HyperReact is a Ruby DSL (Domain Specific Language) to build <a href="https://facebook.github.io/react/">React.js</a> UI components in Ruby.  As data changes on the client (either from user interactions or external events) HyperReact re-draws whatever parts of the display is needed.</li>
+<li>HyperMesh provides a <a href="https://facebook.github.io/flux/docs/overview.html">flux dispatcher and data store</a> backed by <a href="http://guides.rubyonrails.org/active_record_basics.html">Rails Active Record models</a>.<br>
+You access your model data in your HyperReact components just like you would on the server or in an ERB or HAML view file.</li>
+<li>If an optional push transport is connected HyperMesh broadcasts any changes made to your ActiveRecord models as they are persisted on the server.</li>
 </ul>
 
-<h3 id="opal-under-the-covers">Opal under the covers</h3>
+<p>For example consider a simple model called <code>Dictionary</code> which might be part of Wiktionary type app.</p>
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">Dictionary</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
 
-<p>HyperReact is a DSL wrapper of React which uses Opal to compile Ruby code to ES5 native JavaScript. If you have not used Opal before then you should at a minimum read the excellent guides as they will teach you enough Opal to get you started with HyperReact.</p>
+  <span class="c1"># attributes</span>
+  <span class="c1">#   word: string   </span>
+  <span class="c1">#   definition: text</span>
+  <span class="c1">#   pronunciation: string</span>
 
-<ul>
-<li><a href="http://opalrb.org/">Opal</a></li>
-<li><a href="http://opalrb.org/docs/guides/v0.9.2/index.html">Opal Guides</a></li>
-<li><a href="https://www.youtube.com/watch?v=vhIrrlcWphU">To see the full power of Opal in action watch this video</a></li>
-</ul>
+  <span class="n">scope</span> <span class="ss">:defined</span><span class="p">,</span> <span class="o">-&gt;</span> <span class="p">{</span> <span class="s1">'definition IS NOT NULL AND pronunciation IS NOT NULL'</span> <span class="p">}</span>
+<span class="k">end</span>
+</code></pre>
+<p>Here is a very simple HyperReact component that shows a random word from the dictionary:</p>
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">WordOfTheDay</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
 
+  <span class="k">def</span> <span class="nf">pick_entry!</span>  
+    <span class="c1"># pick a random word and assign the selected record to entry</span>
+    <span class="vi">@entry</span> <span class="o">=</span> <span class="no">Dictionary</span><span class="p">.</span><span class="nf">defined</span><span class="p">.</span><span class="nf">all</span><span class="p">[</span><span class="nb">rand</span><span class="p">(</span><span class="no">Dictionary</span><span class="p">.</span><span class="nf">defined</span><span class="p">.</span><span class="nf">count</span><span class="p">)]</span>
+    <span class="n">force_update!</span> <span class="c1"># redraw our component when the word changes</span>
+    <span class="c1"># Notice that we use standard ActiveRecord constructs to select our</span>
+    <span class="c1"># random entry value</span>
+  <span class="k">end</span>
+
+  <span class="c1"># pick an initial entry before we mount our component...</span>
+  <span class="n">before_mount</span> <span class="ss">:pick_entry</span>
+
+  <span class="c1"># Again in our render block we use the standard ActiveRecord API, such</span>
+  <span class="c1"># as the 'defined' scope, and the 'word', 'pronunciation', and</span>
+  <span class="c1"># 'definition' attribute getters.  </span>
+  <span class="n">render</span><span class="p">(</span><span class="no">DIV</span><span class="p">)</span> <span class="k">do</span>
+    <span class="no">DIV</span> <span class="p">{</span> <span class="s2">"total definitions: </span><span class="si">#{</span><span class="no">Dictionary</span><span class="p">.</span><span class="nf">defined</span><span class="p">.</span><span class="nf">count</span><span class="si">}</span><span class="s2">"</span> <span class="p">}</span>
+    <span class="no">DIV</span> <span class="k">do</span>
+      <span class="no">DIV</span> <span class="p">{</span> <span class="vi">@entry</span><span class="p">.</span><span class="nf">word</span> <span class="p">}</span>
+      <span class="no">DIV</span> <span class="p">{</span> <span class="vi">@entry</span><span class="p">.</span><span class="nf">pronunciation</span> <span class="p">}</span>
+      <span class="no">DIV</span> <span class="p">{</span> <span class="vi">@entry</span><span class="p">.</span><span class="nf">definition</span> <span class="p">}</span>
+      <span class="no">BUTTON</span> <span class="p">{</span> <span class="s1">'pick another'</span> <span class="p">}.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:click</span><span class="p">)</span> <span class="p">{</span> <span class="n">pick_entry!</span> <span class="p">}</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
         </div>
       </div>
     </div>

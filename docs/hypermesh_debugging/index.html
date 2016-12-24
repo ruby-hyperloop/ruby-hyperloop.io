@@ -99,7 +99,7 @@
             <h1 class="display-4 project-name">Hyperloop</h1>
             </br>
             <h2 class="display-7 project-tagline">
-              A FAMILY OF GEMS
+              HYPER-MESH DOCS
             </h2>
           </div>
         </div>
@@ -111,7 +111,7 @@
             <h1 class="h1 project-name center-text">Hyperloop</h1>
             </br>
             <h2 class="h4 project-tagline center-text">
-              A FAMILY OF GEMS
+              HYPER-MESH DOCS
             </h2>
           </div>
         </div>
@@ -122,65 +122,58 @@
       <div class="row">
         <div class="col-md-3">
             <ul class="nav">
-    <p>For information on how to use the gems be sure to see:</p>
-    <li class="nav-item"><a href="/installation">Installation</a></br></li>
-    <li class="nav-item"><a href="/tutorials">Tutorials</a></br></li>
-    <li class="nav-item"><a href="/docs/dsl_overview">Docs</a></br></li>
-    <li class="nav-item"><a href="/tools">Tools and Debugging</a></br></li>
+    <li class="nav-item"><strong><a href="/docs/dsl_overview">HyperReact Overview</a></strong></br></li>
+    <li class="nav-item"><a href="/docs/components_and_state">Components and State</a></br></li>
+    <li class="nav-item"><a href="/docs/lifecycle_callbacks">Lifecycle Callbacks</a></br></li>
+    <li class="nav-item"><a href="/docs/lifecycle_methods">Lifecycle Methods</a></br></li>
+    <li class="nav-item"><a href="/docs/event_handelers">Event Handelers</a></br></li>
+    <li class="nav-item"><a href="/docs/elements_rendering">Elements and Rendering</a></br></li>
+    <li class="nav-item"><a href="/docs/javascript_components">Javascript Components</a></br></li>
+    <li class="nav-item"><a href="/docs/further_reading">Further Reading</a></br></li>
+  </ul>
+  <br>
+  <ul class="nav">
+    <li class="nav-item"><strong><a href="/docs/hypermesh_overview">HyperMesh Overview</a></strong></li>
+    <li class="nav-item"><a href="/docs/hypermesh_active_record">ActiveRecord API</a></br></li>
+    <li class="nav-item"><a href="/docs/hypermesh_scoping">Scoping</a></br></li>
+    <li class="nav-item"><a href="/docs/hypermesh_authorization">Authorization</a></br></li>
+    <li class="nav-item"><a href="/docs/hypermesh_debugging">Debugging</a></br></li>
   </ul>
 
           <br>
         </div>
         <div class="col-md-9 main-content">
-          <h1 id="hyperloop-gems">Hyperloop Gems</h1>
+          <h2 id="debugging">Debugging</h2>
 
-<p>Hyperloop is a family of gems which collectively make up the missing Ruby Front End library. Isomorphic programming for those who love Ruby.</p>
+<p>Sometimes you need to figure out what connections are available, or what attributes are readable etc.</p>
 
-<p><strong>Note:</strong> The Hyperloop gems are in a process of being renamed. The links below will take you to the correct Github projects but you might find the name of the project does not quite match the name of the gem on this page. This will be addressed over time as the gems are renamed.</p>
+<p>Its usually all to do with your policies, but perhaps you just need a little investigation.</p>
 
-<h2 id="installation-gems">Installation Gems</h2>
+<p>You can bring up a console within the controller context by browsing <code>localhost:3000/rr/console</code></p>
 
-<p>See <a href="/installation">Installation</a> for further installation options.</p>
+<p><em>Note:  change <code>rr</code> to wherever you are mounting HyperMesh in your routes file.</em></p>
 
-<h4 id="hyperloop-express"><a href="https://github.com/ruby-hyperloop/reactrb-express">Hyperloop Express</a></h4>
+<p><em>Note: in rails 4, you will need to add the gem &lsquo;web-console&rsquo; to your development section</em></p>
 
-<p>HyperReact for static sites, with no build process needed.</p>
+<p>Within the context you have access to <code>session.id</code> and current <code>acting_user</code> which you will need, plus some helper methods to reduce typing</p>
 
-<h4 id="hyperrails"><a href="https://github.com/ruby-hyperloop/hyper-rails">HyperRails</a></h4>
+<ul>
+<li><p>Getting auto connection channels:<br>
+<code>channels(session_id = session.id, user = acting_user)</code><br>
+e.g. <code>channels</code> returns all channels connecting to this session and user   providing nil as the <code>acting_user</code> will test if connections can be made without there being a logged in user.</p></li>
+<li><p>Can a specific class connection be made:
+<code>can_connect?(channel, user = acting_user)</code> e.g. <code>can_connect? Todo</code> returns true if current acting_user can connect to the Todo class. You can also provide the class name as a string.</p></li>
+<li><p>Can a specific instance connection be made:
+<code>can_connect?(channel, user = acting_user)</code> e.g. <code>can_connect? Todo.first</code>  returns true if current acting_user can connect to the first Todo model. You can also provide the instance in the form &lsquo;Todo-123&rsquo;</p></li>
+<li><p>What attributes are accessible for a model instance:<br>
+<code>viewable_attributes(instance, user = acting_user)</code></p></li>
+<li><p>Can the attribute be viewed:<br>
+<code>view_permitted?(instance, attribute, user = acting_user)</code></p></li>
+<li><p>Can a model be created/updated/destroyed:
+<code>create_permitted?(instance, user = acting_user)</code> e.g. <code>create_permitted?(Todo.new, nil)</code> can anybody save a new todo?  e.g. <code>destroy_permitted?(Todo.last)</code> can the acting_user destroy the last Todo</p></li>
+</ul>
 
-<p>One step integration of HyperReact, HyperMesh and HyperRouter with Rails plus generators for Components and Routers.</p>
-
-<h2 id="hyperloop-gems">Hyperloop  Gems</h2>
-
-<p>See <a href="/docs/dsl_overview">Docs</a> for detailed information on how to use these gems or <a href="/tutorials">Tutorials</a> for working examples.</p>
-
-<h4 id="hyperreact"><a href="https://github.com/ruby-hyperloop/hyper-react">HyperReact</a></h4>
-
-<p>This is the master gem. You will always need this as a base. HyperReact provides a Ruby DSL to Facebook&rsquo;s React. Much of the documentation on this site covers usage of this Gem.</p>
-
-<h4 id="hypermesh"><a href="https://github.com/ruby-hyperloop/hyper-mesh">HyperMesh</a></h4>
-
-<p>Hyper-mesh is a policy based CRUD system which wraps ActiveRecord models on the server and extends them to the client. Furthermore it implements push notifications (via a number of possible technologies) so changes to records in use by clients are pushed to those clients if authorised. Isomorphic Ruby in action.</p>
-
-<h4 id="hyperrouter"><a href="https://github.com/ruby-hyperloop/reactrb-router/tree/v2-4-0">HyperRouter</a></h4>
-
-<p>HyperRouter provides a Ruby DSL to Facebook&rsquo;s React Router which is a React component that loads other components depending on the current URL.</p>
-
-<h2 id="tools-and-debugging">Tools and Debugging</h2>
-
-<p>See <a href="/tools/">Tools and Debugging</a> for further information.</p>
-
-<h4 id="hypertrace"><a href="https://github.com/ruby-hyperloop/hyper-trace">HyperTrace</a></h4>
-
-<p>Method tracing and conditional breakpoints for Opal Ruby.</p>
-
-<h4 id="opal-hot-reloader"><a href="https://github.com/fkchang/opal-hot-reloader">Opal Hot Reloader</a></h4>
-
-<p>For pure programmer joy, no more page refreshes.</p>
-
-<h4 id="opal-console"><a href="https://github.com/fkchang/opal-console">Opal Console</a></h4>
-
-<p>Opal in your browser. Great for testing.</p>
+<p>You can of course simulate server side changes to your models through this console like any other console. For example <code>Todo.new.save</code> will broadcast the changes to the Todo model to any authorized channels.</p>
 
         </div>
       </div>

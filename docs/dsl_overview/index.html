@@ -99,7 +99,7 @@
             <h1 class="display-4 project-name">Hyperloop</h1>
             </br>
             <h2 class="display-7 project-tagline">
-              DOCS
+              HYPER-REACT DOCS
             </h2>
           </div>
         </div>
@@ -111,7 +111,7 @@
             <h1 class="h1 project-name center-text">Hyperloop</h1>
             </br>
             <h2 class="h4 project-tagline center-text">
-              DOCS
+              HYPER-REACT DOCS
             </h2>
           </div>
         </div>
@@ -122,22 +122,28 @@
       <div class="row">
         <div class="col-md-3">
             <ul class="nav">
-    <li class="nav-item"><a href="/docs/dsl_overview">DSL Overview</a></br></li>
-    <li class="nav-item"><a href="/docs/top_level_api">Top level API</a></br></li>
-    <li class="nav-item"><a href="/docs/components_and_state">Components & State</a></br></li>
+    <li class="nav-item"><strong><a href="/docs/dsl_overview">HyperReact Overview</a></strong></br></li>
+    <li class="nav-item"><a href="/docs/components_and_state">Components and State</a></br></li>
     <li class="nav-item"><a href="/docs/lifecycle_callbacks">Lifecycle Callbacks</a></br></li>
     <li class="nav-item"><a href="/docs/lifecycle_methods">Lifecycle Methods</a></br></li>
     <li class="nav-item"><a href="/docs/event_handelers">Event Handelers</a></br></li>
+    <li class="nav-item"><a href="/docs/elements_rendering">Elements and Rendering</a></br></li>
     <li class="nav-item"><a href="/docs/javascript_components">Javascript Components</a></br></li>
     <li class="nav-item"><a href="/docs/further_reading">Further Reading</a></br></li>
+  </ul>
+  <br>
+  <ul class="nav">
+    <li class="nav-item"><strong><a href="/docs/hypermesh_overview">HyperMesh Overview</a></strong></li>
+    <li class="nav-item"><a href="/docs/hypermesh_active_record">ActiveRecord API</a></br></li>
+    <li class="nav-item"><a href="/docs/hypermesh_scoping">Scoping</a></br></li>
+    <li class="nav-item"><a href="/docs/hypermesh_authorization">Authorization</a></br></li>
+    <li class="nav-item"><a href="/docs/hypermesh_debugging">Debugging</a></br></li>
   </ul>
 
           <br>
         </div>
         <div class="col-md-9 main-content">
-          <h1 id="hyperreact-docs">HyperReact Docs</h1>
-
-<h2 id="dsl-overview">DSL Overview</h2>
+          <h2 id="hyperreact-dsl-overview">HyperReact DSL Overview</h2>
 
 <p>The HyperReact DSL (Domain Specific Language) is a set of class and instance methods that are used to describe your React components.</p>
 
@@ -199,10 +205,6 @@
     <span class="k">end</span>
   <span class="k">end</span>
 <span class="k">end</span>
-
-<span class="no">Element</span><span class="p">[</span><span class="s1">'#container'</span><span class="p">].</span><span class="nf">render</span> <span class="k">do</span>
-  <span class="no">Clock</span><span class="p">(</span><span class="ss">initial_mode: </span><span class="mi">12</span><span class="p">)</span>
-<span class="k">end</span>
 </code></pre>
 <p><a href="http://goo.gl/zN8i9B">Try It Out</a></p>
 
@@ -219,6 +221,40 @@
   <span class="p">.</span><span class="nf">.</span><span class="p">.</span>
 <span class="nf">end</span>
 </code></pre>
+<p>The <code>React</code> module is the name space for all the React classes and modules.  </p>
+
+<p>React components classes either include <code>React::Component</code> or are subclasses of <code>React::Component::Base</code>.  </p>
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">Component</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
+<span class="k">end</span>
+
+<span class="c1"># if subclassing is inappropriate, you can mixin instead</span>
+<span class="k">class</span> <span class="nc">AnotherComponent</span>
+  <span class="kp">include</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span>
+<span class="k">end</span>
+</code></pre>
+<p>At a minimum every component class must define a <code>render</code> method which returns <strong>one single</strong> child element. That child may in turn have an arbitrarily deep structure.</p>
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">Component</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
+  <span class="k">def</span> <span class="nf">render</span>
+    <span class="n">div</span> <span class="c1"># render an empty div</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<p>You may also use the <code>render</code> macro to define the render method, which has some styling advantages, but is functionally equivilent.</p>
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">Component</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
+  <span class="n">render</span> <span class="k">do</span>
+    <span class="n">div</span> <span class="c1"># render an empty div</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<p>To render a component, you reference its class name in the DSL as a method call.  This creates a new instance, passes any parameters proceeds with the component lifecycle.  </p>
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">AnotherComponent</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
+  <span class="k">def</span> <span class="nf">render</span>
+    <span class="no">Component</span><span class="p">()</span> <span class="c1"># ruby syntax requires either () or {} following the class name</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<p>Note that you should never redefine the <code>new</code> or <code>initialize</code> methods, or call them directly.  The equivilent of <code>initialize</code> is the <code>before_mount</code> callback.  </p>
+
 <h3 id="macros-class-methods">Macros (Class Methods)</h3>
 
 <p>Macros specify class wide behaviors.  In our example we use the five most common macros.</p>
@@ -335,14 +371,6 @@ method call looks like this:</p>
       <span class="k">end</span>
       <span class="n">params</span><span class="p">.</span><span class="nf">node</span><span class="p">.</span><span class="nf">render</span>
     <span class="k">end</span>
-  <span class="k">end</span>
-<span class="k">end</span>
-
-<span class="no">Element</span><span class="p">[</span><span class="s1">'#container'</span><span class="p">].</span><span class="nf">render</span> <span class="k">do</span>
-  <span class="no">Test</span><span class="p">(</span><span class="ss">node: </span><span class="s2">"foo"</span><span class="p">.</span><span class="nf">span</span><span class="p">)</span> <span class="k">do</span>
-  <span class="c1"># equivilent to Test(node: "foo".span.as_node)...</span>
-    <span class="n">div</span> <span class="p">{</span> <span class="s2">"hello"</span><span class="p">}</span>
-    <span class="n">div</span> <span class="p">{</span> <span class="s2">"goodby"</span> <span class="p">}</span>
   <span class="k">end</span>
 <span class="k">end</span>
 </code></pre>
