@@ -1,7 +1,7 @@
 ---
 title: Hyper-React Docs
 ---
-## DSL Overview
+## HyperReact DSL Overview
 
 The HyperReact DSL (Domain Specific Language) is a set of class and instance methods that are used to describe your React components.
 
