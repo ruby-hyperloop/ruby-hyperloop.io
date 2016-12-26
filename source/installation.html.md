@@ -25,7 +25,7 @@ This is another great way to experiment with HyperReact.  You don't need any set
 
 ## With Rails
 
-HyperReact works great with new or existing rails apps, and HyperReact plays well with other frameworks, so its pain free to introduce React to your application.
+HyperReact works great with new or existing rails apps, and HyperReact plays well with other frameworks, so it's pain free to introduce React to your application.
 
 We recommend you use the [HyperRails](https://github.com/ruby-hyperloop/reactrb-rails-generator/tree/hyper-rails) gem to do a transparent install of everything you need in a new or existing rails app.
 
@@ -45,7 +45,7 @@ bundle update
 
 If you need any help with your installation please contact us on [gitter.im](https://gitter.im/reactrb/chat)
 
-Within a Rails app React Components are by convention stored in the `app/views/components` directory.  
+Within a Rails app React Components are by convention stored in the `app/views/components` directory.
 
 Your Rails controllers, and layouts access your top level components using the `render_component` method.
 
@@ -292,13 +292,13 @@ Your `index.html` will look like this:
     <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
     <script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
   	<script src="https://unpkg.com/react@15/dist/react.js"></script>
-  	<script src="https://unpkg.com/react-dom@15/dist/react-dom.js"></script>  
+  	<script src="https://unpkg.com/react-dom@15/dist/react-dom.js"></script>
 
     <link rel="stylesheet" href="styles.css">
     <script src="app.js"></script>
 
   </head>
-  <body>	  
+  <body>
     <div id="content"></div>
   </body>
 </html>
