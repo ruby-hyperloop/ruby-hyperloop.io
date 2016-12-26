@@ -27,7 +27,7 @@ This is another great way to experiment with HyperReact.  You don't need any set
 
 HyperReact works great with new or existing rails apps, and HyperReact plays well with other frameworks, so it's pain free to introduce React to your application.
 
-We recommend you use the [HyperRails](https://github.com/ruby-hyperloop/reactrb-rails-generator/tree/hyper-rails) gem to do a transparent install of everything you need in a new or existing rails app.
+We recommend you use the [HyperRails](https://github.com/ruby-hyperloop/hyper-rails) gem to do a transparent install of everything you need in a new or existing rails app.
 
 In your `Gemfile`
 
