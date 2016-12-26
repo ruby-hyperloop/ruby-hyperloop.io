@@ -1,8 +1,6 @@
 ---
-title: Docs
+title: Hyper-React Docs
 ---
-# HyperReact Docs
-
 ## Further Reading
 
 **Note:** The Hyperloop gems are in a process of being renamed. The links below will take you to the correct Github projects but you might find the name of the project does not quite match the name of the gem on this page. This will be addressed over time as the gems are renamed. HyperReact was previously known as Reactrb.

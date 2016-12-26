@@ -27,13 +27,14 @@ See [Docs](/docs/dsl_overview) for detailed information on how to use these gems
 
 This is the master gem. You will always need this as a base. HyperReact provides a Ruby DSL to Facebook's React. Much of the documentation on this site covers usage of this Gem.
 
-#### [HyperRouter](https://github.com/ruby-hyperloop/reactrb-router/tree/v2-4-0)
-
-HyperRouter provides a Ruby DSL to Facebook's React Router which is a React component that loads other components depending on the current URL.
-
 #### [HyperMesh](https://github.com/ruby-hyperloop/hyper-mesh)
 
 Hyper-mesh is a policy based CRUD system which wraps ActiveRecord models on the server and extends them to the client. Furthermore it implements push notifications (via a number of possible technologies) so changes to records in use by clients are pushed to those clients if authorised. Isomorphic Ruby in action.
+
+
+#### [HyperRouter](https://github.com/ruby-hyperloop/reactrb-router/tree/v2-4-0)
+
+HyperRouter provides a Ruby DSL to Facebook's React Router which is a React component that loads other components depending on the current URL.
 
 ## Tools and Debugging
 

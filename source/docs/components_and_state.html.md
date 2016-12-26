@@ -1,8 +1,6 @@
 ---
-title: Docs
+title: Hyper-React Docs
 ---
-# HyperReact Docs
-
 ## Components and State
 
 - [Using State](#using-state)
@@ -27,10 +25,6 @@ class LikeButton < React::Component::Base
       state.liked! !state.liked
     end
   end
-end
-
-Element['#container'].render do
-  LikeButton()
 end
 ```
 
@@ -106,10 +100,6 @@ class ProfileLink < React::Component::Base
       params.user_name
     end
   end
-end
-
-Element['#container'].render do
-  Avatar user_name: "pwh"
 end
 ```
 
