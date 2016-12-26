@@ -3,15 +3,13 @@ title: Hyper-Mesh Docs
 ---
 ## ActiveRecord API
 
-HyperMesh uses a large subset of the ActiveRecord API modified only when necessary to accommodate the asynchronous nature of the client.  You can access your ActiveRecord models just like you would in models, controllers, or in ERB or HAML view templates. As much as possible HyperMesh follows the syntax and semantics of ActiveRecord.  
+HyperMesh uses a large subset of the ActiveRecord API modified only when necessary to accommodate the asynchronous nature of the client.  You can access your ActiveRecord models just like you would in models, controllers, or in ERB or HAML view templates. As much as possible, HyperMesh follows the syntax and semantics of ActiveRecord.  
 
 ### Interfacing to React
 
 HyperMesh integrates with React to deliver your model data to the client without you having to create extra APIs or specialized controllers.  The key idea of React is that when state (or params) change, the portions of the display effected by this data will be updated.
 
-HyperMesh automatically creates react state objects that will be updated as server side data is loaded or changes.  When these states change the associated parts of the display will be updated.
-
-A brief overview of how this works will help you understand the how HyperMesh gets the job done.
+HyperMesh automatically creates react state objects that will be updated as server side data is loaded or changes.  When these states change, the associated parts of the display will be updated.
 
 #### Rendering Cycle
 
@@ -31,7 +29,7 @@ During server-side pre-rendering, HyperMesh has direct access to the server so o
 
 #### Lazy Loading
 
-HyperMesh lazy loads values, and does not load any thing until an explicit displayable value is requested.  For example `Todo.all` will have no action, but `Todo.all.pluck[:title]` will return an array of titles.
+HyperMesh lazy loads values, and does not load any thing until an explicit displayable value is requested.  For example, `Todo.all` will have no action, but `Todo.all.pluck[:title]` will return an array of titles.
 
 At the end of the rendering cycle the set of all values requested will be merged into a tree structure and sent to the server, returning the minimum amount of data needed.
 
@@ -51,7 +49,7 @@ If `new` is passed a native javascript object it will be treated as a hash and c
 
 #### Scoping and Finding
 
-`scope` and `default_scope`:  HyperMesh adds four new options to these methods: `joins`, `client`, `select` and `server`.  The `joins` option provides information on how the scope will be joined with other models.  The `client` and `select` options allow scoping to be done on the client side to offload this from the server, and the `server` option is there just for symmetry with the other options.  See the [Client Side Scoping](/docs/client_side_scoping.md) page for more details.
+`scope` and `default_scope`:  HyperMesh adds four new options to these methods: `joins`, `client`, `select` and `server`.  The `joins` option provides information on how the scope will be joined with other models.  The `client` and `select` options allow scoping to be done on the client side to offload this from the server, and the `server` option is just there for symmetry with the other options.  See the [Client Side Scoping](/docs/client_side_scoping.md) page for more details.
 
 ```ruby
 # the active scope proc is executed on the server
@@ -89,7 +87,7 @@ BTW: to save typing you can skip the `all`:  Models will respond like enumerator
 Word.find_by_text('hello') # short for Word.find_by(text: 'hello')
 ```
 
-`limit` and `offset`: These builtin scopes behave as they do on the server:
+`limit` and `offset`: These built-in scopes behave as they do on the server:
 
 ```ruby
 Word.offset(500).limit(20) # get words 500-519
@@ -147,7 +145,7 @@ class User < ActiveRecord::Base
 end
 ```
 
-When the method is first called on the client the default value will be returned, and there will be a reactive update when the true value is returned from the server.
+When the method is first called on the client the default value will be returned and there will be a reactive update when the true value is returned from the server.
 
 To force the value to be recomputed at the server append a  `!` to the end of the name, otherwise the last value returned from the server will continue to be returned.
 
@@ -184,9 +182,9 @@ my_todo.save(validate: false).then do |result|
 end
 ```
 
-After a save operation completes the models will have an `errors` hash (just like on the server) with any validation problems.
+After a save operation completes, the models will have an `errors` hash (just like on the server) with any validation problems.
 
-During the save operation the method `saving?` will return `true`.  This can be used to instead of (or with) the promise to update the screen:
+During the save operation, the method `saving?` will return `true`.  This can be used instead of (or with) the promise to update the screen:
 
 ```ruby
 render do
@@ -204,7 +202,7 @@ end
 
 #### Destroy
 
-Like `save` destroy returns a promise that is resolved when the destroy completes.
+Like `save`, destroy returns a promise that is resolved when the destroy completes.
 
 After the destroy completes the record's `destroyed?` method will return true.
 
@@ -234,7 +232,7 @@ After the destroy completes the record's `destroyed?` method will return true.
 
 #### `loading?` and `loaded?`
 
-All Ruby objects will respond to these methods.  If you want to put up a "Please Wait" message, spinner, etc, you can use the `loaded?` or `loading?` method to determine if the object represents a real loaded value or not.  Any value for which `loaded?` returns `false` (or `loading?` returns `true`) will eventually load and cause a re-render
+All Ruby objects will respond to these methods.  If you want to put up a "Please Wait" message, spinner, etc., you can use the `loaded?` or `loading?` method to determine if the object represents a real loaded value or not.  Any value for which `loaded?` returns `false` (or `loading?` returns `true`) will eventually load and cause a re-render.
 
 #### The `HyperMesh.load` Method
 
@@ -254,7 +252,7 @@ end
 
 #### Force Loading Attributes
 
-Normally you will simply display attributes as part of the render method, and when the values are loaded from the server the component will re-render.
+Normally you will simply display attributes as part of the render method and, when the values are loaded from the server, the component will re-render.
 
 Sometimes outside of the render method you may need to insure an attribute (or a server side method) is loaded before proceeding.  This is typically when you are building some kind of higher level store.  
 

@@ -3,19 +3,21 @@ title: Hyper-Mesh Docs
 ---
 ## HyperMesh Overview
 
-HyperMesh gives your HyperReact components CRUD access to your server side ActiveRecord models, using the standard ActiveRecord API. In addition HyperMesh implements push notifications (via a number of possible technologies) so changes to records on the server are dynamically pushed to all authorised clients.
+HyperMesh takes Isomorphic Ruby to the next level by giving your HyperReact components CRUD access to your server side ActiveRecord models, using the standard ActiveRecord API. In addition, HyperMesh implements push notifications (via a number of possible technologies) so that changes to records on the server are dynamically pushed to all authorised clients.
 
-*Its Isomorphic Ruby in action.*
+**Its Isomorphic Ruby in action.**
 
-In other words one browser creates, updates, or destroys a model, and the changes are persisted in active record models and then broadcast to all other authorised clients.
+In other words one browser creates, updates, or destroys a model, and the changes are persisted in active record models, before being broadcast to all other authorised clients.
+
+Overview:
 
 + HyperMesh is built on top of HyperReact.
 + HyperReact is a Ruby DSL (Domain Specific Language) to build [React.js](https://facebook.github.io/react/) UI components in Ruby.  As data changes on the client (either from user interactions or external events) HyperReact re-draws whatever parts of the display is needed.
 + HyperMesh provides a [flux dispatcher and data store](https://facebook.github.io/flux/docs/overview.html) backed by [Rails Active Record models](http://guides.rubyonrails.org/active_record_basics.html).  
 You access your model data in your HyperReact components just like you would on the server or in an ERB or HAML view file.
-+ If an optional push transport is connected HyperMesh broadcasts any changes made to your ActiveRecord models as they are persisted on the server.
++ If an optional push transport is connected, HyperMesh broadcasts any changes made to your ActiveRecord models as they are persisted on the server.
 
-For example consider a simple model called `Dictionary` which might be part of Wiktionary type app.
+For example, consider a simple model called `Dictionary`, which might be part of Wiktionary type app.
 
 ```ruby
 class Dictionary < ActiveRecord::Base
