@@ -136,8 +136,18 @@
     </ul>
   </br>
     <li class="nav-item"><strong><a href="/tutorials/hyperreact_with_rails">HyperReact and Rails Tutorial</a></strong></li>
+    <ul class="nav">
+      <li class="nav-item"><a href="/tutorials/hyperreact_with_rails#using-hyperrails">Using HyperRails</a></li>
+      <li class="nav-item"><a href="/tutorials/hyperreact_with_rails#adding-a-component">Adding a component</a></li>
+      <li class="nav-item"><a href="/tutorials/hyperreact_with_rails#controller-rendering">Controller Rendering</a></li>
+    </ul>
   </br>
-    <li class="nav-item"><strong><a href="/tutorials/hyperreact_with_webpack">HyperReact, NPM and Webpack Tutorial</a></strong></li>
+    <li class="nav-item"><strong><a href="/tutorials/hyperreact_with_webpack">NPM and Webpack Tutorial</a></strong></li>
+    <ul class="nav">
+      <li class="nav-item"><a href="/tutorials/hyperreact_with_webpack#setup">Setup</a></li>
+      <li class="nav-item"><a href="/tutorials/hyperreact_with_webpack#usage">Usage</a></li>
+      <li class="nav-item"><a href="/tutorials/hyperreact_with_webpack#example">Example</a></li>
+    </ul>
   </br>
     <li class="nav-item"><strong><a href="/tutorials/flux_store">Flux Store Tutorial</a></strong></li>
   </br>
@@ -147,9 +157,11 @@
           <br>
         </div>
         <div class="col-md-9 main-content">
-          <h2 id="hyperreact-and-rails">HyperReact and Rails</h2>
+          <h1 id="hyperreact-and-rails">HyperReact and Rails</h1>
 
 <p>This quick tutorial will take you through all the steps necessary to get simple HyperReact components rendering in a new Rails application. You can clone the source of this tutorial <a href="https://github.com/barriehadfield/tutorial-hyperreact-rails">here</a>.</p>
+
+<h2 id="using-hyperrails">Using HyperRails</h2>
 
 <p>Firstly, let&rsquo;s create a new Rails app. If you would like to add HyperReact to an existing app simply skip this step and pick up from where we add the HyperRails gem.</p>
 
@@ -168,6 +180,8 @@
 <span class="n">bundle</span> <span class="n">update</span>
 </code></pre>
 <p>HyperRails will add all the necessary Gem&rsquo;s and configuration to our new Rails app. If you are interested in the steps the generator has completed, please see the <a href="http://ruby-hyperloop.io/installation/#manual-rails-install">Manual Rails Install</a> section on the website.</p>
+
+<h2 id="adding-a-component">Adding a component</h2>
 
 <p>Next we will ask the generator to create a simple HyperReact component for us:</p>
 <pre class="highlight ruby"><code><span class="n">rails</span> <span class="n">g</span> <span class="n">hyperloop</span><span class="ss">:component</span> <span class="no">Home</span><span class="o">::</span><span class="no">Welcome</span>
@@ -242,6 +256,8 @@
   <span class="k">end</span>
 <span class="k">end</span>
 </code></pre>
+<h2 id="controller-rendering">Controller Rendering</h2>
+
 <p>And then finally we need to create a controller to render the component. We could do this through a view, but in this case we will use the <code>render_component</code> shortcut to create the view for us dynamically.</p>
 
 <p><strong>Note</strong> how we pass a value to our <code>name</code> paramater.</p>
