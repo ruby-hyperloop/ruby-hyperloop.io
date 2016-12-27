@@ -144,15 +144,13 @@
         <div class="col-md-9 main-content">
           <h2 id="activerecord-api">ActiveRecord API</h2>
 
-<p>HyperMesh uses a large subset of the ActiveRecord API modified only when necessary to accommodate the asynchronous nature of the client.  You can access your ActiveRecord models just like you would in models, controllers, or in ERB or HAML view templates. As much as possible HyperMesh follows the syntax and semantics of ActiveRecord.  </p>
+<p>HyperMesh uses a large subset of the ActiveRecord API modified only when necessary to accommodate the asynchronous nature of the client.  You can access your ActiveRecord models just like you would in models, controllers, or in ERB or HAML view templates. As much as possible, HyperMesh follows the syntax and semantics of ActiveRecord.  </p>
 
 <h3 id="interfacing-to-react">Interfacing to React</h3>
 
 <p>HyperMesh integrates with React to deliver your model data to the client without you having to create extra APIs or specialized controllers.  The key idea of React is that when state (or params) change, the portions of the display effected by this data will be updated.</p>
 
-<p>HyperMesh automatically creates react state objects that will be updated as server side data is loaded or changes.  When these states change the associated parts of the display will be updated.</p>
-
-<p>A brief overview of how this works will help you understand the how HyperMesh gets the job done.</p>
+<p>HyperMesh automatically creates react state objects that will be updated as server side data is loaded or changes.  When these states change, the associated parts of the display will be updated.</p>
 
 <h4 id="rendering-cycle">Rendering Cycle</h4>
 
@@ -172,7 +170,7 @@
 
 <h4 id="lazy-loading">Lazy Loading</h4>
 
-<p>HyperMesh lazy loads values, and does not load any thing until an explicit displayable value is requested.  For example <code>Todo.all</code> will have no action, but <code>Todo.all.pluck[:title]</code> will return an array of titles.</p>
+<p>HyperMesh lazy loads values, and does not load any thing until an explicit displayable value is requested.  For example, <code>Todo.all</code> will have no action, but <code>Todo.all.pluck[:title]</code> will return an array of titles.</p>
 
 <p>At the end of the rendering cycle the set of all values requested will be merged into a tree structure and sent to the server, returning the minimum amount of data needed.</p>
 
@@ -192,7 +190,7 @@
 
 <h4 id="scoping-and-finding">Scoping and Finding</h4>
 
-<p><code>scope</code> and <code>default_scope</code>:  HyperMesh adds four new options to these methods: <code>joins</code>, <code>client</code>, <code>select</code> and <code>server</code>.  The <code>joins</code> option provides information on how the scope will be joined with other models.  The <code>client</code> and <code>select</code> options allow scoping to be done on the client side to offload this from the server, and the <code>server</code> option is there just for symmetry with the other options.  See the <a href="/docs/client_side_scoping.md">Client Side Scoping</a> page for more details.</p>
+<p><code>scope</code> and <code>default_scope</code>:  HyperMesh adds four new options to these methods: <code>joins</code>, <code>client</code>, <code>select</code> and <code>server</code>.  The <code>joins</code> option provides information on how the scope will be joined with other models.  The <code>client</code> and <code>select</code> options allow scoping to be done on the client side to offload this from the server, and the <code>server</code> option is just there for symmetry with the other options.  See the <a href="/docs/client_side_scoping.md">Client Side Scoping</a> page for more details.</p>
 <pre class="highlight ruby"><code><span class="c1"># the active scope proc is executed on the server</span>
 <span class="n">scope</span> <span class="ss">:active</span><span class="p">,</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="p">{</span> <span class="n">where</span><span class="p">(</span><span class="ss">completed: </span><span class="kp">true</span><span class="p">)</span> <span class="p">}</span>
 
@@ -221,7 +219,7 @@
 <p><code>find_by_...</code>: i.e. <code>find_by_first_name</code> these methods will find the first record with a matching attribute.</p>
 <pre class="highlight ruby"><code><span class="no">Word</span><span class="p">.</span><span class="nf">find_by_text</span><span class="p">(</span><span class="s1">'hello'</span><span class="p">)</span> <span class="c1"># short for Word.find_by(text: 'hello')</span>
 </code></pre>
-<p><code>limit</code> and <code>offset</code>: These builtin scopes behave as they do on the server:</p>
+<p><code>limit</code> and <code>offset</code>: These built-in scopes behave as they do on the server:</p>
 <pre class="highlight ruby"><code><span class="no">Word</span><span class="p">.</span><span class="nf">offset</span><span class="p">(</span><span class="mi">500</span><span class="p">).</span><span class="nf">limit</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span> <span class="c1"># get words 500-519</span>
 </code></pre>
 <h4 id="relationships-and-aggregations">Relationships and Aggregations</h4>
@@ -261,7 +259,7 @@
   <span class="k">end</span>
 <span class="k">end</span>
 </code></pre>
-<p>When the method is first called on the client the default value will be returned, and there will be a reactive update when the true value is returned from the server.</p>
+<p>When the method is first called on the client the default value will be returned and there will be a reactive update when the true value is returned from the server.</p>
 
 <p>To force the value to be recomputed at the server append a  <code>!</code> to the end of the name, otherwise the last value returned from the server will continue to be returned.</p>
 
@@ -292,9 +290,9 @@
   <span class="c1"># result is a hash with {success: ..., message: , models: ....}</span>
 <span class="k">end</span>
 </code></pre>
-<p>After a save operation completes the models will have an <code>errors</code> hash (just like on the server) with any validation problems.</p>
+<p>After a save operation completes, the models will have an <code>errors</code> hash (just like on the server) with any validation problems.</p>
 
-<p>During the save operation the method <code>saving?</code> will return <code>true</code>.  This can be used to instead of (or with) the promise to update the screen:</p>
+<p>During the save operation, the method <code>saving?</code> will return <code>true</code>.  This can be used instead of (or with) the promise to update the screen:</p>
 <pre class="highlight ruby"><code><span class="n">render</span> <span class="k">do</span>
   <span class="p">.</span><span class="nf">.</span><span class="p">.</span>
   <span class="nf">if</span> <span class="n">some_model</span><span class="p">.</span><span class="nf">saving?</span>
@@ -309,7 +307,7 @@
 </code></pre>
 <h4 id="destroy">Destroy</h4>
 
-<p>Like <code>save</code> destroy returns a promise that is resolved when the destroy completes.</p>
+<p>Like <code>save</code>, destroy returns a promise that is resolved when the destroy completes.</p>
 
 <p>After the destroy completes the record&rsquo;s <code>destroyed?</code> method will return true.</p>
 
@@ -339,7 +337,7 @@
 
 <h4 id="loading-and-loaded"><code>loading?</code> and <code>loaded?</code></h4>
 
-<p>All Ruby objects will respond to these methods.  If you want to put up a &ldquo;Please Wait&rdquo; message, spinner, etc, you can use the <code>loaded?</code> or <code>loading?</code> method to determine if the object represents a real loaded value or not.  Any value for which <code>loaded?</code> returns <code>false</code> (or <code>loading?</code> returns <code>true</code>) will eventually load and cause a re-render</p>
+<p>All Ruby objects will respond to these methods.  If you want to put up a &ldquo;Please Wait&rdquo; message, spinner, etc., you can use the <code>loaded?</code> or <code>loading?</code> method to determine if the object represents a real loaded value or not.  Any value for which <code>loaded?</code> returns <code>false</code> (or <code>loading?</code> returns <code>true</code>) will eventually load and cause a re-render.</p>
 
 <h4 id="the-hypermesh-load-method">The <code>HyperMesh.load</code> Method</h4>
 
@@ -356,7 +354,7 @@
 </code></pre>
 <h4 id="force-loading-attributes">Force Loading Attributes</h4>
 
-<p>Normally you will simply display attributes as part of the render method, and when the values are loaded from the server the component will re-render.</p>
+<p>Normally you will simply display attributes as part of the render method and, when the values are loaded from the server, the component will re-render.</p>
 
 <p>Sometimes outside of the render method you may need to insure an attribute (or a server side method) is loaded before proceeding.  This is typically when you are building some kind of higher level store.  </p>
 
