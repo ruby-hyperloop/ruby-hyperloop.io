@@ -1,6 +1,8 @@
-## HyperReact and Rails
+# HyperReact and Rails
 
 This quick tutorial will take you through all the steps necessary to get simple HyperReact components rendering in a new Rails application. You can clone the source of this tutorial [here](https://github.com/barriehadfield/tutorial-hyperreact-rails).
+
+## Using HyperRails
 
 Firstly, let's create a new Rails app. If you would like to add HyperReact to an existing app simply skip this step and pick up from where we add the HyperRails gem.
 
@@ -24,6 +26,8 @@ bundle update
 ```
 
 HyperRails will add all the necessary Gem's and configuration to our new Rails app. If you are interested in the steps the generator has completed, please see the [Manual Rails Install](http://ruby-hyperloop.io/installation/#manual-rails-install) section on the website.
+
+## Adding a component
 
 Next we will ask the generator to create a simple HyperReact component for us:
 
@@ -109,6 +113,8 @@ module Components
   end
 end
 ```
+
+## Controller Rendering
 
 And then finally we need to create a controller to render the component. We could do this through a view, but in this case we will use the `render_component` shortcut to create the view for us dynamically.
 

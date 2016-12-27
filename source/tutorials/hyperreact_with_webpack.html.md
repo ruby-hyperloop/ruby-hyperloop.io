@@ -2,7 +2,7 @@
 
 ## Overview and prerequisites
 
-In a Isomorphic Ruby world, we need a good way of including Ruby and JavaScript components so they co-exist and play nicely together.
+In an Isomorphic Ruby world, we need a good way of including Ruby and JavaScript components so they co-exist and play nicely together.
 
 Most Ruby libraries are distributed as Gems whereas (these days) most Javascript components are distributed through NPM. Webpack co-exists well with Rails and the combination of Rails, Yarn, Sprockets and Webpack looks like it might become a standard within the Rails community.
 
