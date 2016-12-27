@@ -1,6 +1,6 @@
 # HyperReact, NPM and Webpack
 
-## Overview and prerequisite
+## Overview and prerequisites
 
 In a Isomorphic Ruby world, we need a good way of including Ruby and JavaScript components so they co-exist and play nicely together.
 
@@ -17,6 +17,7 @@ You can access the [source code]((https://github.com/barriehadfield/tutorial-hyp
 ## Setup
 
 If you have completed all the steps above, let's get started - there are a few steps to this process:
+
 + Adding Webpack to your project
 + Setting up Webpack so that it generates assets for server side pre-rendering and client side rendering
 + Installing React and ReactDOM via NPM
