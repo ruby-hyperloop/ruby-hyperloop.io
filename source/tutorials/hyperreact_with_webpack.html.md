@@ -6,7 +6,7 @@ In an Isomorphic Ruby world, we need a good way of including Ruby and JavaScript
 
 Most Ruby libraries are distributed as Gems whereas (these days) most Javascript components are distributed through NPM. Webpack co-exists well with Rails and the combination of Rails, Yarn, Sprockets and Webpack looks like it might become a standard within the Rails community.
 
-This tutorial will take you through [Setup](#setup) of NPM and Webpack, [Usage](#usage) instructions for adding new components and then give an [Example](#example) of adding a new JavaScript component to a HyperReact project.
+This tutorial will take you through [Setup](#setup) of NPM and Webpack, [Usage](#usage) instructions for adding new components and then give an [Example](#example) of adding and using a JavaScript component in a HyperReact project.
 
 This tutorial assumes that NPM is installed. Please see the [NPM website](https://www.npmjs.com/) for installation instructions.
 
@@ -16,16 +16,16 @@ You can access the [source code]((https://github.com/barriehadfield/tutorial-hyp
 
 ## Setup
 
-If you have completed the prerequisites above, let's get started - there are a few steps to this process:
+If you have completed the prerequisites above, let's get started - there are 5 steps to this process:
 
-1. Adding Webpack to your project
+1. Adding Webpack to your Rails project
 2. Setting up Webpack
 3. Using Webpack to build your client and server bundles
 4. Installing React and ReactDOM via NPM
 5. Adding Webpack bundles to the Rails asset pipeline
 
 
-### Step 1 - Adding Webpack to your project
+### Step 1 - Adding Webpack to your Rails project
 
 Run these three commands:
 
@@ -170,13 +170,16 @@ Note that `client_and_server.js` has gone from 1.61kB to 740kB as it now include
 
 Now that we have completed the setup, using NPM and Webpack to include new JavaScript components is simply a case of running Step 6 again for each component you would like to add. You simply follow these three steps:
 
-+ Install the component using NPM `npm install xx --save`
-+ `require` the component into either `webpack/client_and_server.js ` or `webpack/client_only.js `
-+ Run the `webpack` command to rebuild your bundles
+1. Install the component using NPM `npm install xx --save`
+2. `require` the component into either `webpack/client_and_server.js ` or `webpack/client_only.js`
+3. Run the `webpack` command to rebuild your bundles
+
+Adding a components via NPM and then making it accessible to HyperReact as a Ruby class really is that simple.
+
 
 ## Example
 
-To complete this tutorial, let's install a React component and access it in HyperReact.
+To complete this tutorial, let's install a JavaScript React component and use it in HyperReact.
 
 We are going to use [Pete Cook’s React rplayr](https://github.com/CookPete/playr) to play a YouTube video.
 
@@ -199,7 +202,7 @@ Then run `webpack` so it can be bundled
 webpack
 ```
 
-And then finally let’s add it to a HyperReact component:
+And then finally let’s use it while rendering a HyperReact component:
 
 ```ruby
 def render
