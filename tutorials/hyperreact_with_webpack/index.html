@@ -165,27 +165,27 @@
 
 <p>Most Ruby libraries are distributed as Gems whereas (these days) most Javascript components are distributed through NPM. Webpack co-exists well with Rails and the combination of Rails, Yarn, Sprockets and Webpack looks like it might become a standard within the Rails community.</p>
 
-<p>This tutorial will take you through <a href="#setup">Setup</a> of NPM and Webpack, <a href="#usage">Usage</a> instructions for adding new components and then give an <a href="#example">Example</a> of adding a new JavaScript component to a HyperReact project.</p>
+<p>This tutorial will take you through <a href="#setup">Setup</a> of NPM and Webpack, <a href="#usage">Usage</a> instructions for adding new components and then give an <a href="#example">Example</a> of adding and using a JavaScript component in a HyperReact project.</p>
 
 <p>This tutorial assumes that NPM is installed. Please see the <a href="https://www.npmjs.com/">NPM website</a> for installation instructions.</p>
 
 <p>Additionally, this tutorial starts with an existing Rails app with <strong>HyperReact already setup and working</strong>. For more information on how to get to that stage, please see the <a href="http://ruby-hyperloop.io/tutorials/hyperreact_with_rails/">HyperReact and Rails Tutorial</a>.</p>
 
-<p>You can access the <a href="(https://github.com/barriehadfield/tutorial-hyperreact-webpack)">source code</a> to this tutorial here.</p>
+<p>The source of this tutorial is avaiable as a <a href="https://github.com/ruby-hyperloop/quickstart">Quickstart</a> which you can clone.</p>
 
 <h2 id="setup">Setup</h2>
 
-<p>If you have completed the prerequisites above, let&rsquo;s get started - there are a few steps to this process:</p>
+<p>If you have completed the prerequisites above, let&rsquo;s get started - there are 5 steps to this process:</p>
 
 <ol>
-<li>Adding Webpack to your project</li>
+<li>Adding Webpack to your Rails project</li>
 <li>Setting up Webpack</li>
 <li>Using Webpack to build your client and server bundles</li>
 <li>Installing React and ReactDOM via NPM</li>
 <li>Adding Webpack bundles to the Rails asset pipeline</li>
 </ol>
 
-<h3 id="step-1-adding-webpack-to-your-project">Step 1 - Adding Webpack to your project</h3>
+<h3 id="step-1-adding-webpack-to-your-rails-project">Step 1 - Adding Webpack to your Rails project</h3>
 
 <p>Run these three commands:</p>
 
@@ -301,15 +301,17 @@ client_and_server.js   740 kB       0  [emitted]  client_and_server
 
 <p>Now that we have completed the setup, using NPM and Webpack to include new JavaScript components is simply a case of running Step 6 again for each component you would like to add. You simply follow these three steps:</p>
 
-<ul>
+<ol>
 <li>Install the component using NPM <code>npm install xx --save</code></li>
 <li><code>require</code> the component into either <code>webpack/client_and_server.js</code> or <code>webpack/client_only.js</code></li>
 <li>Run the <code>webpack</code> command to rebuild your bundles</li>
-</ul>
+</ol>
+
+<p>Adding a components via NPM and then making it accessible to HyperReact as a Ruby class really is that simple.</p>
 
 <h2 id="example">Example</h2>
 
-<p>To complete this tutorial, let&rsquo;s install a React component and access it in HyperReact.</p>
+<p>To complete this tutorial, let&rsquo;s install a JavaScript React component and use it in HyperReact.</p>
 
 <p>We are going to use <a href="https://github.com/CookPete/playr">Pete Cook’s React rplayr</a> to play a YouTube video.</p>
 
@@ -323,7 +325,7 @@ client_and_server.js   740 kB       0  [emitted]  client_and_server
 <p>Then run <code>webpack</code> so it can be bundled</p>
 <pre class="highlight plaintext"><code>webpack
 </code></pre>
-<p>And then finally let’s add it to a HyperReact component:</p>
+<p>And then finally let’s use it while rendering a HyperReact component:</p>
 <pre class="highlight ruby"><code><span class="k">def</span> <span class="nf">render</span>
   <span class="n">div</span> <span class="k">do</span>
     <span class="no">ReactPlayer</span><span class="p">(</span><span class="ss">url:  </span><span class="s1">'https://www.youtube.com/embed/FzCsDVfPQqk'</span><span class="p">,</span>
