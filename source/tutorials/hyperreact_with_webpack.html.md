@@ -12,7 +12,7 @@ This tutorial assumes that NPM is installed. Please see the [NPM website](https:
 
 Additionally, this tutorial starts with an existing Rails app with **HyperReact already setup and working**. For more information on how to get to that stage, please see the [HyperReact and Rails Tutorial](http://ruby-hyperloop.io/tutorials/hyperreact_with_rails/).
 
-You can access the [source code]((https://github.com/barriehadfield/tutorial-hyperreact-webpack)) to this tutorial here.
+The source of this tutorial is avaiable as a [Quickstart](https://github.com/ruby-hyperloop/quickstart) which you can clone.
 
 ## Setup
 
