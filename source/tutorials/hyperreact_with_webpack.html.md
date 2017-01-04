@@ -114,7 +114,7 @@ Our `client_and_server.js` and `client_only.js` bundles are built and ready to b
 
 Finally we need to require these two bundles into our rails asset pipeline.
 
-Edit `app/assets/javascript/application.js` and add
+Edit `app/assets/javascripts/application.js` and add
 
 ```ruby
 //= require 'webpack/client_only'
