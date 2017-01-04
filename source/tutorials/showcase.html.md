@@ -235,7 +235,7 @@ Now run `webpack` from the command line.  This will grab all necessary dependenc
 
 Finally we need to require these two bundles into our rails asset pipeline.
 
-Edit `app/assets/javascript/application.js` and add
+Edit `app/assets/javascripts/application.js` and add
 
 ```javascript
 //= require 'webpack/client_only'
