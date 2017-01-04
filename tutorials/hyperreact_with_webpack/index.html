@@ -260,7 +260,7 @@ client_and_server.js  1.61 kB       0  [emitted]  client_and_server
 
 <p>Finally we need to require these two bundles into our rails asset pipeline.</p>
 
-<p>Edit <code>app/assets/javascript/application.js</code> and add</p>
+<p>Edit <code>app/assets/javascripts/application.js</code> and add</p>
 <pre class="highlight ruby"><code><span class="sr">//</span><span class="o">=</span> <span class="nb">require</span> <span class="s1">'webpack/client_only'</span>
 </code></pre>
 <p>Then edit <code>app/views/components.rb</code> and directly after <code>require &#39;hyper-react&#39;</code> add the following two lines:</p>

@@ -371,7 +371,7 @@ bundle update
 
 <p>Finally we need to require these two bundles into our rails asset pipeline.</p>
 
-<p>Edit <code>app/assets/javascript/application.js</code> and add</p>
+<p>Edit <code>app/assets/javascripts/application.js</code> and add</p>
 <pre class="highlight javascript"><code><span class="c1">//= require 'webpack/client_only'</span>
 </code></pre>
 <p>just <em>above</em> the line that reads <code>Opal.load(&#39;components&#39;);</code>.  This will pull in any webpack assets that can only run on the client.</p>
