@@ -181,7 +181,7 @@ Adding a components via NPM and then making it accessible to HyperReact as a Rub
 
 To complete this tutorial, let's install a JavaScript React component and use it in HyperReact.
 
-We are going to use [Pete Cook’s React rplayr](https://github.com/CookPete/playr) to play a YouTube video.
+We are going to use [Pete Cook’s React rplayr](https://github.com/CookPete/rplayr) to play a YouTube video.
 
 First let’s install the component via NPM:
 
