@@ -1,6 +1,6 @@
 ## Image Uploader using HTML5 FileReader
 
-A brief tutorial uses a combination of Hyperloop native and JavaScript code to implement an image uploader with preview.
+This brief tutorial uses a combination of Hyperloop native and JavaScript code to implement an image uploader with preview.
 
 The steps involved are:
 
