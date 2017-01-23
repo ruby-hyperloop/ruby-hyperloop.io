@@ -5,14 +5,69 @@
   <id>http://blog.url.com/</id>
   <link href="http://blog.url.com/"/>
   <link href="http://blog.url.com/feed.xml" rel="self"/>
-  <updated>2016-06-29T01:00:00+01:00</updated>
+  <updated>2016-09-08T06:50:00+01:00</updated>
   <author>
     <name>Blog Author</name>
   </author>
   <entry>
+    <title>Hyperloop is born</title>
+    <link rel="alternate" href="http://blog.url.com/blog/2016/09/08/Hyperloop-is-born/"/>
+    <id>http://blog.url.com/blog/2016/09/08/Hyperloop-is-born/</id>
+    <published>2016-09-08T06:50:00+01:00</published>
+    <updated>2017-01-23T06:47:00+00:00</updated>
+    <author>
+      <name>Article Author</name>
+    </author>
+    <content type="html">&lt;p&gt;Reactrb is being renamed Ruby Hyperloop to reflect the change in emphasis of the project. We have chosen Hyperloop as an umbrella name for the project as it is more expansive and allows us to build out Hyperloop as a web application framework.&lt;/p&gt;
+
+&lt;p&gt;React and Reactrb (being renamed HyperReact) remain fundamental parts of this project.&lt;/p&gt;
+
+&lt;h2 id="gems"&gt;Gems&lt;/h2&gt;
+
+&lt;p&gt;All of the Hyperloop core gems will take on a Hyper-name. The naming convention will be HyperReact when discussion the gem and the actual gem will be &lt;code&gt;hyper-rect&lt;/code&gt;. All of the gems will follow this convention.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Reactrb becomes &lt;strong&gt;HyperReact&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;Reactrb Router becomes &lt;strong&gt;HyperRouter&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;Reactive Record and Synchromesh will be merged to become one gem, &lt;strong&gt;HyperMesh&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;Reactrb Rails Generator becomes &lt;strong&gt;HyperRails&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;Reactrb Express becomes &lt;strong&gt;Hyperloop Express&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id="website"&gt;Website&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Reactrb.org is changing to &lt;strong&gt;ruby-hyperloop.io&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;The goal of this refactor is to reposition Reactrb as an umbrella project for Reactrb and associated Isomorphic ruby technologies&lt;/li&gt;
+&lt;li&gt;The emphasis of the site will be to show how simple Reactrb is to use and also to show best practice for taking it further (Stores, etc). There will be a few tutorials.&lt;/li&gt;
+&lt;li&gt;The new Reactrb.org will not try to mirroring the React(JS) site – but will have its own identity and structure but it will use as much of the existing Reactrb content as possible&lt;/li&gt;
+&lt;li&gt;Remove all the original React(JS) text and structure (basically remove everything that comes from the original React site and does not pertain to Reactrb)&lt;/li&gt;
+&lt;li&gt;New fresh looking design&lt;/li&gt;
+&lt;li&gt;The new site documentation will include Architectural and + Pattern discussions, describing best practice when working with React like components and stores&lt;/li&gt;
+&lt;li&gt;There will be a section on Reactrb development tools (Opal Console) and techniques&lt;/li&gt;
+&lt;li&gt;All of the above Gem’s documentation should be on reactrb.org. The individual Gem’s Read-me’s should be minimal and refer to each Gem’s page on reactrb.org so we can emphasize that these gems are a part of the same family and explain how they work together include installation, usage and best practice instructions for use with:
+
+&lt;ul&gt;
+&lt;li&gt;Rails&lt;/li&gt;
+&lt;li&gt;Sinatra&lt;/li&gt;
+&lt;li&gt;Webpack &amp;amp; NPM&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Will still include Live Ruby examples through Opal Playground&lt;/li&gt;
+&lt;li&gt;The site will continue to be hosted on Github pages but the underlying technology will change to:
+
+&lt;ul&gt;
+&lt;li&gt;Reactrb Express&lt;/li&gt;
+&lt;li&gt;Middleman&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The changes will be made over time so some Gems, Docs and Tutorials might reference Reactrb or their previous names.&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
     <title>Reactrb v0.8.5</title>
-    <link rel="alternate" href="http://blog.url.com/2016/06/29/reactrb-v0-8-5/"/>
-    <id>http://blog.url.com/2016/06/29/reactrb-v0-8-5/</id>
+    <link rel="alternate" href="http://blog.url.com/blog/2016/06/29/reactrb-v0-8-5/"/>
+    <id>http://blog.url.com/blog/2016/06/29/reactrb-v0-8-5/</id>
     <published>2016-06-29T01:00:00+01:00</published>
     <updated>2016-11-04T06:07:48+00:00</updated>
     <author>
@@ -113,8 +168,8 @@
   </entry>
   <entry>
     <title>Getting Started with Reactrb and Rails</title>
-    <link rel="alternate" href="http://blog.url.com/2016/01/26/getting-started-with-reactrb-and-rails/"/>
-    <id>http://blog.url.com/2016/01/26/getting-started-with-reactrb-and-rails/</id>
+    <link rel="alternate" href="http://blog.url.com/blog/2016/01/26/getting-started-with-reactrb-and-rails/"/>
+    <id>http://blog.url.com/blog/2016/01/26/getting-started-with-reactrb-and-rails/</id>
     <published>2016-01-26T16:29:00+00:00</published>
     <updated>2016-10-07T12:27:44+01:00</updated>
     <author>
@@ -550,8 +605,8 @@ application.js, as below.  Use of application.rb will automatically load the fil
   </entry>
   <entry>
     <title>Reactive-Ruby v0.7.32</title>
-    <link rel="alternate" href="http://blog.url.com/2015/12/01/reactive-ruby/"/>
-    <id>http://blog.url.com/2015/12/01/reactive-ruby/</id>
+    <link rel="alternate" href="http://blog.url.com/blog/2015/12/01/reactive-ruby/"/>
+    <id>http://blog.url.com/blog/2015/12/01/reactive-ruby/</id>
     <published>2015-12-01T00:00:00+00:00</published>
     <updated>2016-10-07T12:27:44+01:00</updated>
     <author>
