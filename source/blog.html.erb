@@ -2,16 +2,15 @@
 title: Blog
 pageable: true
 ---
-<h1>Blog</h1>
-
 <% blog.articles.each do |article| %>
   <article>
-    <h2>
+    <h1>
       <a href="<%= article.url %>"><%= article.title %></a>
+      <br>
       <small>
         <time><%= article.date.strftime('%b %e %Y') %></time>
       </small>
-    </h2>
+    </h1>
 
     <%= article.summary %>
 

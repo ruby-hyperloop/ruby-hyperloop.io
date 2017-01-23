@@ -1,4 +1,12 @@
 <% case %>
+<% when current_page.path.include?("support") %>
+  <p>The <strong>best way</strong> to get help is to join our <a href='https://gitter.im/ruby-hyperloop/chat'>Gitter Chat</a></p>
+<% when current_page.path.include?("blog") %>
+  <ul class="nav">
+    <% blog.articles.each do |article| %>
+        <li class="nav-item"><a href="<%= article.url %>"><%= article.title %></a></li>
+    <% end %>
+  </ul>
 <% when current_page.path.include?("gems") %>
   <ul class="nav">
     <p>For information on how to use the gems be sure to see:</p>

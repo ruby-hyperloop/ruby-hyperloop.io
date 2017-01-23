@@ -7,7 +7,7 @@ title: Support
 
 ## Gitter
 
-There is almost always someone available to ask a quick question or discuss a concept on [gitter.im](https://gitter.im/reactrb/chat)
+There is almost always someone available to ask a quick question or discuss a concept on [gitter.im](https://gitter.im/ruby-hyperloop/chat)
 
 ## Stack Overflow
 
