@@ -959,7 +959,7 @@ end
 
 Now all we need to do is call `scroll_to_bottom` whenever our message data changes.  What we need to do is hook into the `after_mount`, and `after_update` callbacks.  `after_mount` runs after the initial rendering of a component, and likewise `after_update` runs after every subsequent update.
 
-Add these two lines right after the param declaration in the `Message` component:
+Add these two lines right after the param declaration in the `Messages` component:
 
 ```ruby
 after_mount :scroll_to_bottom
