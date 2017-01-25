@@ -1007,7 +1007,7 @@ the message string, and the time that the message was sent:</p>
 </code></pre>
 <p>Now all we need to do is call <code>scroll_to_bottom</code> whenever our message data changes.  What we need to do is hook into the <code>after_mount</code>, and <code>after_update</code> callbacks.  <code>after_mount</code> runs after the initial rendering of a component, and likewise <code>after_update</code> runs after every subsequent update.</p>
 
-<p>Add these two lines right after the param declaration in the <code>Message</code> component:</p>
+<p>Add these two lines right after the param declaration in the <code>Messages</code> component:</p>
 <pre class="highlight ruby"><code><span class="n">after_mount</span> <span class="ss">:scroll_to_bottom</span>
 <span class="n">after_update</span> <span class="ss">:scroll_to_bottom</span>
 </code></pre>
