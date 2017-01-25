@@ -150,7 +150,8 @@
 <p>For the rest of the documentation, we&rsquo;ll just focus on the ruby code and assume it&rsquo;s inserted into a template like the one above. Replace the placeholder comment above with the following ruby code:</p>
 <pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">HelloWorld</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
   <span class="n">param</span> <span class="ss">:time</span><span class="p">,</span> <span class="ss">type: </span><span class="no">Time</span>
-  <span class="n">render</span> <span class="k">do</span>
+
+  <span class="nx">def</span> <span class="nx">render</span>
     <span class="nb">p</span> <span class="k">do</span>
       <span class="n">span</span> <span class="p">{</span> <span class="s2">"Hello, "</span> <span class="p">}</span>
       <span class="n">input</span><span class="p">(</span><span class="ss">type: :text</span><span class="p">,</span> <span class="ss">placeholder: </span><span class="s2">"Your Name Here"</span><span class="p">)</span>
