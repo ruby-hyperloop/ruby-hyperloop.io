@@ -4,17 +4,14 @@
 	font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
 	letter-spacing: 0.0px;
 	word-spacing: 0px;
-	background: #f3f6fa;
 	color: #000000;
 }
 .cm-s-github .CodeMirror-lines {
-  background: #f3f6fa;
 	padding: 8px 0;
 }
 .cm-s-github .CodeMirror-gutters {
 	box-shadow: 1px 0 2px 0 rgba(0, 0, 0, 0.5);
 	-webkit-box-shadow: 1px 0 2px 0 rgba(0, 0, 0, 0.5);
-	background-color: #f3f6fa;
 	padding-right: 10px;
 	z-index: 3;
 	border: none;
@@ -23,7 +20,6 @@
 	border-left: 3px solid #000000;
 }
 .CodeMirror-scroll {
-  background-color: #f3f6fa;
 }
 .cm-s-github .CodeMirror-activeline-background {
 	background: #00000012;
