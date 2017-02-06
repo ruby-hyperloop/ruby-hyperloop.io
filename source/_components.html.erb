@@ -1,34 +1,31 @@
 <script type="text/ruby">
 
-class CodeEditor < React::Component::Base
-
-  define_state :code, type: String
-
+class CodeMirror < React::Component::Base
+  param :code, type: String
+  define_state :output_code
   before_mount do
-    state.code! "I am the code"
+    state.output_code! params.code
+  end
+  after_mount do
+    @editor = `CodeMirror(document.getElementById("code"), {
+      value: #{params.code},
+      mode: "text/x-ruby",
+      matchBrackets: true,
+      lineNumbers: true,
+      indentUnit: 2,
+      theme: 'github'
+    });`
+    `#{@editor}.on('change', #{lambda {on_change} })`
+  end
+  render(DIV) do
+    div(id: 'code')
+    p { state.output_code }
   end
 
-  render do
-    div.row do
-      div.col_md_6 { code_card }
-      div.col_md_6 { result_card }
-    end
+  def on_change
+    state.output_code! Opal.compile `#{@editor}.getValue()`
   end
 
-  def code_card
-    div.card_block do
-      input(type: :text, value: state.code, placeholder: "placeholder"
-      ).on(:change) do |e|
-        state.code! e.target.value
-      end
-    end
-  end
-
-  def result_card
-    div.card_block do
-      p { state.code }
-    end
-  end
 end
 
 class TestApp < React::Component::Base
