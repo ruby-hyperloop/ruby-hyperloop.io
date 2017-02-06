@@ -2,6 +2,12 @@
 
 class CodeEditor < React::Component::Base
 
+  define_state :code, type: String
+
+  before_mount do
+    state.code! "I am the code"
+  end
+
   render do
     div.row do
       div.col_md_6 { code_card }
@@ -11,13 +17,16 @@ class CodeEditor < React::Component::Base
 
   def code_card
     div.card_block do
-      p { "here" }
+      input(type: :text, value: state.code, placeholder: "placeholder"
+      ).on(:change) do |e|
+        state.code! e.target.value
+      end
     end
   end
 
   def result_card
     div.card_block do
-      p { "there" }
+      p { state.code }
     end
   end
 end
