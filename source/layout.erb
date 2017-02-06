@@ -22,11 +22,15 @@
     <script src="https://rawgit.com/reactrb/reactrb-express/master/reactrb-express.js"></script>
 
     <script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
+
     <%= javascript_include_tag 'bootstrap.min.js' %>
+    <%= javascript_include_tag 'codemirror.js' %>
+    <%= javascript_include_tag 'ruby.js' %>
 
     <%= stylesheet_link_tag 'bootstrap.min.css' %>
     <%= stylesheet_link_tag 'override.css' %>
-    <%= stylesheet_link_tag 'code.css' %>
+    <!-- <%= stylesheet_link_tag 'code.css' %> -->
+    <%= stylesheet_link_tag 'codemirror.css' %>
 
     <%= feed_tag :atom, "#{blog.options.prefix.to_s}/feed.xml", title: "Atom Feed" %>
 
