@@ -1,25 +1,29 @@
 .cm-s-github {
-	font-size: 0.95em;
+	font-size: 0.9em;
 	line-height: 1.4em;
 	font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
 	letter-spacing: 0.0px;
 	word-spacing: 0px;
-	background: #F8F8FF;
+	background: #f3f6fa;
 	color: #000000;
 }
 .cm-s-github .CodeMirror-lines {
+  background: #f3f6fa;
 	padding: 8px 0;
 }
 .cm-s-github .CodeMirror-gutters {
 	box-shadow: 1px 0 2px 0 rgba(0, 0, 0, 0.5);
 	-webkit-box-shadow: 1px 0 2px 0 rgba(0, 0, 0, 0.5);
-	background-color: #F8F8FF;
+	background-color: #f3f6fa;
 	padding-right: 10px;
 	z-index: 3;
 	border: none;
 }
 .cm-s-github div.CodeMirror-cursor {
 	border-left: 3px solid #000000;
+}
+.CodeMirror-scroll {
+  background-color: #f3f6fa;
 }
 .cm-s-github .CodeMirror-activeline-background {
 	background: #00000012;
@@ -35,7 +39,7 @@
 	color: null;
 }
 .cm-s-github .cm-atom {
-	color: #445588;
+	color: #567482;
 }
 .cm-s-github .cm-string {
 	color: #DD1144;
@@ -44,7 +48,7 @@
 	color: #121289;
 }
 .cm-s-github .cm-variable {
-	color: #445588;
+	color: #567482;
 }
 .cm-s-github .cm-property {
 	color: #990000;
@@ -55,7 +59,7 @@
   font-weight: bold;
 }
 .cm-s-github .cm-tag {
-	color: #445588;
+	color: #567482;
 }
 
 .cm-s-github .cm-operator {
