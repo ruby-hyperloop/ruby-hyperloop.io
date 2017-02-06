@@ -17,9 +17,25 @@ end
   var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
     mode: "text/x-ruby",
     matchBrackets: true,
-    indentUnit: 2
+    indentUnit: 2,
+    theme: 'github'
   });
 </script>
+
+<br>
+
+```ruby
+class TestApp < React::Component::Base
+  param :name
+  before_mount { @timer = every(1) { force_update! } }
+  render(DIV) do
+    h1 {"The current time is #{Time.now}"}
+    h2 { "here hello #{params.name}" }.on(:click) do
+     alert "you clicked"
+    end
+  end
+end
+```
 
 
 ## Pure Ruby
