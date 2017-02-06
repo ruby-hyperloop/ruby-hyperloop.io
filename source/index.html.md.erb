@@ -1,72 +1,26 @@
 <div data-reactrb-mount="CodeEditor"></div>
 
-<script>
-// var myCodeMirror = CodeMirror(document.body);
-(function() {
-  var mode = CodeMirror.getMode({indentUnit: 2}, "ruby");
-  function MT(name) { test.mode(name, mode, Array.prototype.slice.call(arguments, 1)); }
-
-  MT("divide_equal_operator",
-     "[variable bar] [operator /=] [variable foo]");
-
-  MT("divide_equal_operator_no_spacing",
-     "[variable foo][operator /=][number 42]");
-
-})();
-</script>
-
-
-<!doctype html>
-
-<title>CodeMirror: Ruby mode</title>
-<meta charset="utf-8"/>
-<link rel=stylesheet href="../../doc/docs.css">
-
-<link rel="stylesheet" href="../../lib/codemirror.css">
-<script src="../../lib/codemirror.js"></script>
-<script src="../../addon/edit/matchbrackets.js"></script>
-<script src="ruby.js"></script>
-<style>
-      .CodeMirror {border-top: 1px solid black; border-bottom: 1px solid black;}
-      .cm-s-default span.cm-arrow { color: red; }
-    </style>
-<div id=nav>
-  <a href="http://codemirror.net"><h1>CodeMirror</h1><img id=logo src="../../doc/logo.png"></a>
-
-  <ul>
-    <li><a href="../../index.html">Home</a>
-    <li><a href="../../doc/manual.html">Manual</a>
-    <li><a href="https://github.com/codemirror/codemirror">Code</a>
-  </ul>
-  <ul>
-    <li><a href="../index.html">Language modes</a>
-    <li><a class=active href="#">Ruby</a>
-  </ul>
-</div>
-
-<article>
-<h2>Ruby mode</h2>
 <form><textarea id="code" name="code">
-def polyval(x, coef)
-    sum = 0
-    coef = coef.clone           # Don't want to destroy the original
-    while true
-        sum += coef.shift       # Add and remove the next coef
-        break if coef.empty?    # If no more, done entirely.
-        sum *= x                # This happens the right number of times.
+class TestApp < React::Component::Base
+  param :name
+  before_mount { @timer = every(1) { force_update! } }
+  render(DIV) do
+    h1 {"The current time is #{Time.now}"}
+    h2 { "here hello #{params.name}" }.on(:click) do
+     alert "you clicked"
     end
-    return sum
+  end
 end
 </textarea></form>
-    <script>
-      var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
-        mode: "text/x-ruby",
-        matchBrackets: true,
-        indentUnit: 4
-      });
-    </script>
 
-  </article>
+<script>
+  var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+    mode: "text/x-ruby",
+    matchBrackets: true,
+    indentUnit: 2
+  });
+</script>
+
 
 ## Pure Ruby
 Hyperloop lets you build beautiful interactive user interfaces using the same Ruby language running your server side code. Hyperloop replaces JS code, JSX, HTML, templating languages, and complex frameworks with one simple system.
