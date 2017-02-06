@@ -1,6 +1,28 @@
 <script type="text/ruby">
 
-class App < React::Component::Base
+class CodeEditor < React::Component::Base
+
+  render do
+    div.row do
+      div.col_md_6 { code_card }
+      div.col_md_6 { result_card }
+    end
+  end
+
+  def code_card
+    div.card_block do
+      p { "here" }
+    end
+  end
+
+  def result_card
+    div.card_block do
+      p { "there" }
+    end
+  end
+end
+
+class TestApp < React::Component::Base
   param :name
   before_mount { @timer = every(1) { force_update! } }
   render(DIV) do
