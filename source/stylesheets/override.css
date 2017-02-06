@@ -2,6 +2,12 @@
 .CodeMirror {border-top: 1px solid black; border-bottom: 1px solid black;}
 .cm-s-default span.cm-arrow { color: red; }
 
+/*table.rouge-table.tr {
+  background-color: blue;
+  border: 0px;
+}*/
+
+
 .page-header {
   color: #fff;
   text-align: left;
@@ -49,7 +55,7 @@ body {
   font-size: 0.9rem;
   color: #383e41;
   background-color: #f3f6fa;
-  border-radius: 0.3rem; }
+  border-radius: 0.0rem; }
 .main-content pre {
   padding: 0.8rem;
   margin-top: 0;
@@ -58,7 +64,7 @@ body {
   color: #567482;
   word-wrap: normal;
   background-color: #f3f6fa;
-  border: solid 1px #dce6f0;
+  border: solid 0px #dce6f0;
   border-radius: 0.3rem; }
   .main-content pre > code {
     padding: 0;
