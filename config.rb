@@ -63,9 +63,9 @@ end
 
 page "/feed.xml", layout: false
 # Reload the browser automatically whenever files change
-# configure :development do
-#   activate :livereload
-# end
+configure :development do
+  activate :livereload
+end
 
 # Methods defined in the helpers block are available in templates
 # helpers do
@@ -90,7 +90,7 @@ configure :build do
 end
 
 # Reload the browser automatically whenever files change
-activate :livereload
+# activate :livereload
 
 # Turn this on if you want to make your url's prettier, without the .html
 activate :directory_indexes
