@@ -1,0 +1,14 @@
+<script type="text/ruby">
+
+class App < React::Component::Base
+  param :name
+  before_mount { @timer = every(1) { force_update! } }
+  render(DIV) do
+    h1 {"The current time is #{Time.now}"}
+    h2 { "here hello #{params.name}" }.on(:click) do
+     alert "you clicked"
+    end
+  end
+end
+
+</script>
