@@ -3,8 +3,10 @@
 class CodeMirror < React::Component::Base
   param :code, type: String
   define_state :output_code
+  define_state :error_message
   before_mount do
     state.output_code! params.code
+    state.error_message! ""
   end
   after_mount do
     @editor = `CodeMirror(document.getElementById("code"), {
@@ -19,11 +21,21 @@ class CodeMirror < React::Component::Base
   end
   render(DIV) do
     div(id: 'code')
+    p { state.error_message }
     p { state.output_code }
   end
 
   def on_change
-    state.output_code! Opal.compile `#{@editor}.getValue()`
+    state.error_message! ""
+    compiled_code = Opal.compile `#{@editor}.getValue()`
+    state.output_code! compiled_code
+    `eval(#{compiled_code})`
+    rescue Exception => e
+    @time_out = after(0.5) do
+      # Element[mount_node].render { div.playgroundError { e.message } }
+      state.error_message! e.message
+      state.output_code! ""
+    end
   end
 
 end
