@@ -3,10 +3,16 @@
 class CodeMirror < React::Component::Base
   param :code, type: String
 
+  before_mount do
+    r=rand(2**256).to_s(36)[0..7]
+    @div_code = "code_#{r}"
+    @div_result = "result_#{r}"
+  end
+
   after_mount do
-    @editor = `CodeMirror(document.getElementById("code"), {
+    @editor = `CodeMirror(document.getElementById(#{@div_code}), {
       value: #{params.code},
-      mode: "text/x-ruby",
+      mode: 'text/x-ruby',
       matchBrackets: true,
       lineNumbers: true,
       indentUnit: 2,
@@ -18,10 +24,10 @@ class CodeMirror < React::Component::Base
 
   render(DIV) do
     div.card {
-      div.card_header { "Code" }
-      div(id: 'code')
-      div.card_header { "Output" }
-      div.card_block(id: 'result')
+      div.card_header { 'Code' }
+      div(id: @div_code)
+      div.card_header { 'Output' }
+      div.card_block(id: @div_result)
     }
   end
 
@@ -32,12 +38,12 @@ class CodeMirror < React::Component::Base
   def execute_code
     begin
       compiled_code = Opal::Compiler.new(`#{@editor}.getValue()`).compile
-      `ReactDOM.unmountComponentAtNode(document.getElementById("result"));`
+      `ReactDOM.unmountComponentAtNode(document.getElementById(#{@div_result}));`
       `eval(#{compiled_code})`
       if React.render_to_static_markup( ExampleComponent() ).empty?
         invalid_component_message
       else
-        Element['#result'].render{ ExampleComponent() }
+        Element["##{@div_result}"].render{ ExampleComponent() }
       end
     rescue Exception => e
       @time_out = after(0.1) do
@@ -48,10 +54,10 @@ class CodeMirror < React::Component::Base
 
   def invalid_component_message
     message = div.text_danger do
-      h3.text_danger {"Oops, invalid component..."}
-      p { "Your component has been rejected by React. A valid Component must have a render macro and return just one HTML element." }
+      h3.text_danger {"Oops, invalid Component..."}
+      p { "Your Component has been rejected by React. A valid Component must have a render macro and return just one HTML element." }
     end
-    Element['#result'].render{ message }
+    Element["##{@div_result}"].render{ message }
   end
 
   def unable_to_compile_message reason
@@ -59,7 +65,7 @@ class CodeMirror < React::Component::Base
       h3.text_danger {"Can't compile..."}
       p { reason }
     end
-    Element['#result'].render{ message }
+    Element["##{@div_result}"].render{ message }
   end
 
 end
