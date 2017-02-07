@@ -30,6 +30,11 @@ helpers do
     markdown = Redcarpet::Markdown.new(toc_renderer)
     markdown.render(content)
   end
+
+  def render_code_component opts
+    "<div data-reactrb-mount='CodeMirror' data-code=\"#{opts[:code]}\"></div>".html_safe
+  end
+
 end
 
 activate :blog do |blog|
