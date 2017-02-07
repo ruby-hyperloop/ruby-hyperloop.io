@@ -22,10 +22,11 @@ class CodeMirror < React::Component::Base
   end
 
   render(DIV) do
-    div(id: 'code')
-    br
-    div(id: 'result')
-    p { state.error_message }
+    div.card {
+      div(id: 'code')
+      p { state.error_message }
+      div.card_block(id: 'result')
+    }
   end
 
   def on_change
@@ -33,17 +34,16 @@ class CodeMirror < React::Component::Base
     execute_code
   end
 
-  after_mount   :execute_code
-  after_update  :execute_code
-
   def execute_code
-    compiled_code = Opal::Compiler.new(`#{@editor}.getValue()`).compile
-    `ReactDOM.unmountComponentAtNode(document.getElementById("result"));`
-    `eval(#{compiled_code})`
-    Element['#result'].render{ Alfie() }
-    rescue Exception => e
-    @time_out = after(0.5) do
-      state.error_message! e.message
+    begin
+      compiled_code = Opal::Compiler.new(`#{@editor}.getValue()`).compile
+      `ReactDOM.unmountComponentAtNode(document.getElementById("result"));`
+      `eval(#{compiled_code})`
+      Element['#result'].render{ App() }
+      rescue Exception => e
+      @time_out = after(0.1) do
+        state.error_message! e.message
+      end
     end
   end
 
