@@ -32,7 +32,9 @@ helpers do
   end
 
   def render_code_component opts
-    "<div data-reactrb-mount='CodeMirror' data-code=\"#{opts[:code]}\"></div>".html_safe
+    "<div data-reactrb-mount='CodeMirror'
+    data-code=\"#{opts[:code]}\" data-heading=\"#{opts[:heading]}\"
+    ></div>".html_safe
   end
 
 end

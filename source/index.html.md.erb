@@ -1,7 +1,15 @@
 <%= partial "/components/_code_mirror" %>
 
 <%= render_code_component(
-  code: "puts 'hello'"
+  heading: "Adding an on(:click) event to a BUTTON",
+  code:
+"class ExampleComponent < React::Component::Base
+  render(DIV) do
+    BUTTON { 'Alfie is on my foot' }.on(:click) do
+     alert 'you clicked'
+    end
+  end
+end"
 )%>
 
 ## Pure Ruby
