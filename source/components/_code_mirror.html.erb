@@ -39,7 +39,7 @@ class CodeMirror < React::Component::Base
       else
         Element['#result'].render{ ExampleComponent() }
       end
-      rescue Exception => e
+    rescue Exception => e
       @time_out = after(0.1) do
         unable_to_compile_message e
       end
