@@ -39,7 +39,7 @@ class CodeMirror < React::Component::Base
       compiled_code = Opal::Compiler.new(`#{@editor}.getValue()`).compile
       `ReactDOM.unmountComponentAtNode(document.getElementById("result"));`
       `eval(#{compiled_code})`
-      Element['#result'].render{ App() }
+      Element['#result'].render{ ExampleComponent() }
       rescue Exception => e
       @time_out = after(0.1) do
         state.error_message! e.message
