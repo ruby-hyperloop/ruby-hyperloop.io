@@ -34,18 +34,19 @@ class CodeMirror < React::Component::Base
       compiled_code = Opal::Compiler.new(`#{@editor}.getValue()`).compile
       `ReactDOM.unmountComponentAtNode(document.getElementById("result"));`
       result = `eval(#{compiled_code})`
-      if result == "render"
-        Element['#result'].render{ ExampleComponent() }
-      else
+      puts "result #{result}"
+      puts "static #{React.render_to_static_markup( ExampleComponent() ).empty?}"
+      if React.render_to_static_markup( ExampleComponent() ).empty?
         message = div.text_danger do
           h3.text_danger {"Oops, bad component..."}
           p { "Your component has been rejected by React. A valid Component must have a render macro and return just one HTML element." }
         end
         Element['#result'].render{ message }
+      else
+        Element['#result'].render{ ExampleComponent() }
       end
       rescue Exception => e
       @time_out = after(0.1) do
-        # state.error_message! e.message
         message = div.text_danger do
           h3.text_danger {"Unable to compile..."}
           p { e.message }
