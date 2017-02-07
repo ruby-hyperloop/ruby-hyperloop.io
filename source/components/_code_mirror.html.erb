@@ -2,11 +2,6 @@
 
 class CodeMirror < React::Component::Base
   param :code, type: String
-  define_state :error_message
-
-  before_mount do
-    state.error_message! ""
-  end
 
   after_mount do
     @editor = `CodeMirror(document.getElementById("code"), {
@@ -23,14 +18,14 @@ class CodeMirror < React::Component::Base
 
   render(DIV) do
     div.card {
+      div.card_header { "Code" }
       div(id: 'code')
-      # p { state.error_message }
+      div.card_header { "Output" }
       div.card_block(id: 'result')
     }
   end
 
   def on_change
-    state.error_message! ""
     execute_code
   end
 
@@ -60,17 +55,6 @@ class CodeMirror < React::Component::Base
     end
   end
 
-end
-
-class TestApp < React::Component::Base
-  param :name
-  before_mount { @timer = every(1) { force_update! } }
-  render(DIV) do
-    h1 {"The current time is #{Time.now}"}
-    h2 { "here hello #{params.name}" }.on(:click) do
-     alert "you clicked"
-    end
-  end
 end
 
 </script>
