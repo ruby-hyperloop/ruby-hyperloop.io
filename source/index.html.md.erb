@@ -1,3 +1,13 @@
+<%= partial "/components/_code_mirror" %>
+
+
+## Pure Ruby
+Hyperloop lets you build beautiful interactive user interfaces using the same Ruby language running your server side code. Hyperloop replaces JS code, JSX, HTML, templating languages, and complex frameworks with one simple system.
+
+## Simplicity
+One language. One simple model. Under the hood the Hyperloop gems takes care of all the details for you. The same Ruby code runs on the server to deliver pages fast, and then keeps running on the client to handle your user interactions, data flow and data synchronisation.
+<br>
+
 <div data-reactrb-mount="CodeMirror"
   data-code=
 "class ExampleComponent < React::Component::Base
@@ -9,66 +19,6 @@
 end"
 ></div>
 
-<!-- Element['#playground'].render{ Alfie() } -->
-
-<!-- <form><textarea id="code" name="code">
-class TestApp < React::Component::Base
-  param :name
-  before_mount { @timer = every(1) { force_update! } }
-  render(DIV) do
-    h1 {"The current time is #{Time.now}"}
-    h2 { "here hello #{params.name}" }.on(:click) do
-     alert "you clicked"
-    end
-  end
-end
-</textarea></form> -->
-
-<!-- <div id="code"> </div> -->
-
-<!-- <script>
-  var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
-    mode: "text/x-ruby",
-    matchBrackets: true,
-    lineNumbers: true,
-    indentUnit: 2,
-    theme: 'github'
-  });
-</script> -->
-
-<!-- <script>
-var myCodeMirror = CodeMirror(document.getElementById("code"), {
-  value: "puts 'hello'",
-  mode: "text/x-ruby",
-  matchBrackets: true,
-  lineNumbers: true,
-  indentUnit: 2,
-  theme: 'github'
-});
-</script> -->
-
-
-<br>
-
-```ruby
-class TestApp < React::Component::Base
-  param :name
-  before_mount { @timer = every(1) { force_update! } }
-  render(DIV) do
-    h1 {"The current time is #{Time.now}"}
-    h2 { "here hello #{params.name}" }.on(:click) do
-     alert "you clicked"
-    end
-  end
-end
-```
-
-
-## Pure Ruby
-Hyperloop lets you build beautiful interactive user interfaces using the same Ruby language running your server side code. Hyperloop replaces JS code, JSX, HTML, templating languages, and complex frameworks with one simple system.
-
-## Simplicity
-One language. One simple model. Under the hood the Hyperloop gems takes care of all the details for you. The same Ruby code runs on the server to deliver pages fast, and then keeps running on the client to handle your user interactions, data flow and data synchronisation.
 
 ## HyperReact = React + Ruby
 The power and simplicity of React with a great easy to use Ruby DSL. HyperReact frees you up to do what you do best - building great apps.

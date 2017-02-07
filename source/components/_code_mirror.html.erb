@@ -24,7 +24,7 @@ class CodeMirror < React::Component::Base
   render(DIV) do
     div.card {
       div(id: 'code')
-      p { state.error_message }
+      # p { state.error_message }
       div.card_block(id: 'result')
     }
   end
@@ -42,7 +42,12 @@ class CodeMirror < React::Component::Base
       Element['#result'].render{ ExampleComponent() }
       rescue Exception => e
       @time_out = after(0.1) do
-        state.error_message! e.message
+        # state.error_message! e.message
+        message = div.text_danger do
+          h3.text_danger {"Houston, we have a problem..."}
+          p { e.message }
+          end
+        Element['#result'].render{ message }
       end
     end
   end
