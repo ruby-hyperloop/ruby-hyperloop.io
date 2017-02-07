@@ -34,8 +34,6 @@ class CodeMirror < React::Component::Base
       compiled_code = Opal::Compiler.new(`#{@editor}.getValue()`).compile
       `ReactDOM.unmountComponentAtNode(document.getElementById("result"));`
       result = `eval(#{compiled_code})`
-      puts "result #{result}"
-      puts "static #{React.render_to_static_markup( ExampleComponent() ).empty?}"
       if React.render_to_static_markup( ExampleComponent() ).empty?
         message = div.text_danger do
           h3.text_danger {"Oops, bad component..."}
