@@ -1,5 +1,9 @@
 <%= partial "/components/_code_mirror" %>
 
+```ruby
+puts "hello"
+```
+
 ## Pure Ruby
 Hyperloop lets you build beautiful interactive user interfaces using the same Ruby language running your server side code. Hyperloop replaces JS code, JSX, HTML, templating languages, and complex frameworks with one simple system.
 
@@ -11,8 +15,7 @@ The power and simplicity of React with a great easy to use Ruby DSL. HyperReact 
 
 HyperReact is a wrapper for the React.js library for creating user interfaces.  HyperReact provides all the goodness of React combined with the expressiveness of the Ruby language.
 
-<div data-reactrb-mount="CodeMirror"
-  data-code=
+<div data-reactrb-mount="CodeMirror" data-code=
 "class ExampleComponent < React::Component::Base
   render(DIV) do
     h1 { 'Alfie is here' }.on(:click) do
