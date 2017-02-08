@@ -1,5 +1,3 @@
-<%= partial "/components/_code_mirror" %>
-
 # Getting Started with Hyperloop
 
 Welcome to Hyperloop, the missing ruby front end library. Building highly interactive web applications should not be difficult.
@@ -10,7 +8,7 @@ This introduction will take you through most of what you need to know to get sta
 
 There are five important ingreditets to th Hyperloop architecture. We will start with Components which are a fantastic way of building interactive web pages. Let's have a look at a basic Component:
 
-<%= render_code_component(
+<!-- <%= render_code_component(
   heading: "A simple Hyperloop Component",
   code:
 "class ExampleComponent < React::Component::Base
@@ -20,7 +18,30 @@ There are five important ingreditets to th Hyperloop architecture. We will start
     end
   end
 end"
-)%>
+)%> -->
+
+<div class="codemirror-live-edit"
+  data-component="PushButton"
+  data-heading="A simple Component rendering a Button">
+<pre>
+class ExampleComponent < React::Component::Base
+  render(DIV) do
+    BUTTON { 'Push the button' }.on(:click) do
+     alert 'You did it!'
+    end
+  end
+end
+</pre></div>
+
+
+<div class="codemirror-live-edit"><pre>
+class ExampleComponent < React::Component::Base
+  render(DIV) do
+    H1 { "and text william" }
+  end
+end
+</pre></div>
+
 
 There are a few things to notice in the code above.
 
@@ -31,26 +52,6 @@ There are a few things to notice in the code above.
 ### Components render other Components
 
 A Component based architecture encourages you to write simple coponents that preform single tasks and render other Components. There are no ERB template files,
-
-<div data-reactrb-mount='CodeMirror' data-code='xx'>
-class ExampleComponent < React::Component::Base
-  render(DIV) do
-    SayHelloTo(name: 'Sally')
-    SayHelloTo(name: 'John')
-  end
-end
-
-class SayHelloTo < React::Component::Base
-  param :name
-  render(DIV) do
-    H3 { "Hello #{params.name}!" }
-  end
-end
-</div>
-
-<div data-reactrb-mount='CodeMirror'>
-How do I get this text?
-</div>
 
 
 ## old

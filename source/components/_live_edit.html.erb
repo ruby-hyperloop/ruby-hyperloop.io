@@ -1,0 +1,12 @@
+<script type="text/ruby">
+
+Document.ready? do
+   Element.find('div.codemirror-live-edit').each do |mount_point|
+     code = Element[mount_point].find('pre').html
+     code = `Encoder.htmlDecode(#{code});`
+     component = Object.const_get('CodeMirror')
+     React.render(React.create_element(component, {code: code} ), mount_point)
+   end
+end
+
+</script>
