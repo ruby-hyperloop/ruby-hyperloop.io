@@ -31,12 +31,6 @@ helpers do
     markdown.render(content)
   end
 
-  def render_code_component opts
-    "<div data-reactrb-mount='CodeMirror'
-    data-code=\"#{opts[:code]}\" data-heading=\"#{opts[:heading]}\"
-    ></div>".html_safe
-  end
-
 end
 
 activate :blog do |blog|
