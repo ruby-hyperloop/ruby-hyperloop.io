@@ -2,12 +2,15 @@
 .CodeMirror {border-top: 1px solid gray; border-bottom: 1px solid gray;}
 .cm-s-default span.cm-arrow { color: red; }
 
+.CodeMirror {
+  border: 1px solid #eee;
+  height: auto; }
 
 .page-header {
   color: #fff;
   text-align: left;
-  background-color: #159957;
-  background-image: linear-gradient(120deg, #155799, #159957); }
+  background-color: #033282;
+  background-image: linear-gradient(120deg, #033282, #599be2); }
 
 .project-name {
   margin-top: 0;
@@ -41,7 +44,7 @@ body {
   margin-top: 2rem;
   margin-bottom: 1rem;
   font-weight: normal;
-  color: #159957; }
+  color: #2c64b0; }
 .main-content p {
   margin-bottom: 1em; }
 .main-content code {
