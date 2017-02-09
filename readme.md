@@ -21,9 +21,12 @@ To a add this to a Markdown (.md) file you need to add an .erb extension to the 
 
 All components need to be called `ExampleComponent` (hopefully this will be improved sometime soon).
 
+`data-heading` and `data-rows` are optional.
+
 ```ruby
 <div class="codemirror-live-edit"
   data-heading="A simple Component rendering a Button">
+  data-rows=10>
 <pre>
 class ExampleComponent < React::Component::Base
   render(DIV) do
