@@ -1,35 +1,3 @@
-
-## Pure Ruby
-Hyperloop lets you build beautiful interactive user interfaces using the same Ruby language running your server side code. Hyperloop replaces JS code, JSX, HTML, templating languages, and complex frameworks with one simple system.
-
-## Simplicity
-One language. One simple model. Under the hood the Hyperloop gems takes care of all the details for you. The same Ruby code runs on the server to deliver pages fast, and then keeps running on the client to handle your user interactions, data flow and data synchronisation.
-
-<div class="codemirror-live-edit"
-  data-heading="A simple Component rendering a Button">
-<pre>
-class ExampleComponent < React::Component::Base
-  render(DIV) do
-    BUTTON { 'Push the button' }.on(:click) do
-     alert 'you clicked'
-    end
-  end
-end
-</pre></div>
-
-And then sometimes you have things which cannot be edited, like this:
-
-```ruby
-# here is a component which cannot be edited
-class ExampleComponent < React::Component::Base
-  render(DIV) do
-    h1 { 'Alfie is here' }.on(:click) do
-     alert 'you clicked'
-    end
-  end
-end
-```
-
 ## Pure Ruby
 Hyperloop lets you build beautiful interactive user interfaces using the same Ruby language running your server side code. Hyperloop replaces JS code, JSX, HTML, templating languages, and complex frameworks with one simple system.
 
@@ -41,6 +9,4 @@ The power and simplicity of React with a great easy to use Ruby DSL. HyperReact 
 
 HyperReact is a wrapper for the React.js library for creating user interfaces.  HyperReact provides all the goodness of React combined with the expressiveness of the Ruby language.
 
-React was built to solve one problem: building large applications with data that changes over time.
-
-HyperReact takes this one step further.  Because it uses Ruby, you can think in one language on the server and the client.  Because it uses React.js you get a simple, declarative, structured way to build your UI.
+React was built to solve one problem: building large applications with data that changes over time. HyperReact takes this one step further.  Because it uses Ruby, you can think in one language on the server and the client.  Because it uses React.js you get a simple, declarative, structured way to build your UI.
