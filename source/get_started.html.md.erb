@@ -1,12 +1,18 @@
 # Getting Started with Hyperloop
 
-Welcome to Hyperloop, the missing ruby front end library!
-
 This introduction will take you through most of what you need to know to get started with Hyperloop. There are live code examples, so please feel free to experiment as you read.
 
-## Components
+There are five important ingredients to the Hyperloop architecture (COMPS for short):
 
-There are five important ingredients to the Hyperloop architecture. We will start with Components which are a painless way of building interactive web UIs.
++ Components
++ Operations
++ Models
++ Policies
++ Stores
+
+We will start with Components which are a painless way of building interactive web UIs.
+
+## Components
 
 Here is the basic structure of a Component:
 
@@ -39,14 +45,13 @@ end
 
 There are a few things to notice in the code above.
 
-+ Components are Ruby Classes which inherit from `React::Component::Base`.
 + Every Component must have a `render` macro which must return just one HTML element. The syntax of `render(DIV)` is a shorthand for this which will return one div.
 + HTML elements (DIV, BUTTON, etc) can be in uppercase or lowercase.
 + We added an event handler to the button. You can do this for any HTML element in the same way.
 
 ### Components render Components
 
-Hyperloop's component-based architecture encourages you to write simple Components that perform single tasks and render other Components.
+Hyperloop's architecture encourages you to write simple Components that perform single tasks and render other Components.
 
 ```ruby
 class App < React::Component::Base
@@ -62,7 +67,7 @@ This simple approach allows you to build complicated user interfaces yet encapsu
 
 ### Passing parameters
 
-Data is passed downward from a parent Component to its children. There are various techniques for passing data upward and (better still) keeping data in Stores independently of Components but we will address that later.
+Data is passed downward from a parent Component to its children. There are various techniques for passing data upward and (better still) keeping data in **Stores** independently of Components but we will address that later.
 
 For now, let's experiment with passing parameters:
 
@@ -107,20 +112,63 @@ class ExampleComponent < React::Component::Base
   render(DIV) do
     BUTTON do
       state.show_field ? "Hide" : "Show"
-    end.on(click) { state.show_field! !state.show_field }
+    end.on(:click) { state.show_field! !state.show_field }
     DIV do
-      INPUT(type: :text, placeholder: "Type something").on(:change) do |e|
+      BR {}
+      INPUT(type: :text).on(:change) do |e|
         state.field_value! e.target.value
       end
-    H1 { "You typed '#{state.field_value}'" } if state.field_value.any?
+    	H1 { "#{state.field_value}" }
     end if state.show_field
   end
 end
 </pre></div>
 
-+ CSS
-+ Lifecycle callbacks
-+ JS libraries
+A few things to notice in the code above:
+
++ We define state using the `define_state` macro. Notice how we set the initial value.
++ To reference state we use `state.something` and `state.mutate.something =` (or previously `state.something!`) is used to update state
++ Here is the most important part - notice how React automatically updates the user interface as state changes. This is the very heart of React thinking.
+
+### Stylish Components
+
+Conditional logic, HTML elements, state and style all intermingle in a Hyperloop Component. As an example, this website uses Bootstrap so we have complete access to the Bootstrap CSS within our Components.
+
+<div class="codemirror-live-edit"
+  data-heading="Using CSS"
+  data-rows=23>
+<pre>
+class ExampleComponent < React::Component::Base
+  render(DIV) do
+    table.table.table_bordered do
+      thead do
+        tr do
+          th { "First Name" }
+          th { "Last Name" }
+          th { "Username" }
+          th { }
+        end
+      end
+      tbody do
+        tr do
+          td { "Mark" }
+          td { "Otto" }
+          td { "@odm" }
+          td { button.btn.btn_primary { "Edit" } }
+        end
+      end
+    end
+  end
+end</pre></div>
+
+As you can see above, CSS is mixed into HTML elements. `div.something` becomes `<div class="something">`. Also note that `btn-primary` (which is the Bootstrap style) becomes `btn_primary` as `-` is not allowed in a name in Ruby. 
+
+-----------------------------------
+Todo:
+
+CSS
+Lifecycle callbacks
+JS libraries
 
 
 ## old

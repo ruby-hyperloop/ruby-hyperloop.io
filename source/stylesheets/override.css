@@ -1,10 +1,6 @@
 
-.CodeMirror {border-top: 1px solid gray; border-bottom: 1px solid gray;}
+.CodeMirror {border-top: 1px solid gray; border-bottom: 1px solid gray; height: auto;}
 .cm-s-default span.cm-arrow { color: red; }
-
-.CodeMirror {
-  border: 1px solid #eee;
-  height: auto; }
 
 .page-header {
   color: #fff;
