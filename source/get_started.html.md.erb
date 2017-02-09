@@ -132,7 +132,7 @@ A few things to notice in the code above:
 
 ### Stylish Components
 
-Conditional logic, HTML elements, state and style all intermingle in a Hyperloop Component. As an example, this website uses Bootstrap so we have complete access to the Bootstrap CSS within our Components.
+Conditional logic, HTML elements, state and style all intermingle in a Hyperloop Component. This website uses Bootstrap CSS, so we have complete access to the Bootstrap CSS from within our Components.
 
 <div class="codemirror-live-edit"
   data-heading="Using CSS"
@@ -153,46 +153,31 @@ class ExampleComponent < React::Component::Base
         tr do
           td { "Mark" }
           td { "Otto" }
-          td { "@odm" }
-          td { button.btn.btn_primary { "Edit" } }
+          td.text_success { "@odm" }
+          td { button.btn.btn_primary.btn_sm { "Edit" } }
         end
       end
     end
   end
 end</pre></div>
 
-As you can see above, CSS is mixed into HTML elements. `div.something` becomes `<div class="something">`. Also note that `btn-primary` (which is the Bootstrap style) becomes `btn_primary` as `-` is not allowed in a name in Ruby. 
+As you can see above, CSS is mixed into HTML elements. `div.something` becomes `<div class="something">`. Also note that `btn-primary` becomes `btn_primary` as `-` is not allowed in a name in Ruby.
 
------------------------------------
-Todo:
+### The complete JavaScript universe at your disposal
 
-CSS
-Lifecycle callbacks
-JS libraries
+Hyperloop gives you full access to all JavaScript libraries and components from directly within your Ruby code. Everything you can do in JavaScript is simple to do in ruby, this includes passing parameters between Ruby and JavaScript and even passing in Ruby lambdas as JavaScript callbacks. All of this magic comes from Opal.
 
+As a simple example, let's import a React library to play a YouTube video. We are going to use [Pete Cook's rplayr component](https://github.com/CookPete/rplayr)
 
-## old
-## Reactive Updates
-
-Open `hello-react.html` in a web browser and type your name into the text field. Notice that React is only changing the time string in the UI — any input you put in the text field remains, even though you haven't written any code to manage this behavior. React figures it out for you and does the right thing.
-
-The way React figures this out is that it does not manipulate the DOM unless it needs to. **It uses a fast, internal mock DOM to perform diffs and computes the most efficient DOM mutation for you.**
-
-The inputs to this component are called `params` (*called props in react.js*). They are passed as a hash to the component.
-
-## Components are Ruby Classes
-
-
-The React philosophy is that components are the right way to separate concerns rather than by "templates" and "display logic."  This is because the resulting markup and the code that generates it are intimately tied together.  Additionally, display logic is often very complex and using template languages to express it becomes cumbersome.
-
-The HyperReact approach is to generate HTML and component trees directly right in the component class using Ruby so that you can use all of Ruby's expressive power when building your UI.
-
-To enable this every HyperReact component class has access to set of class and instance methods that makes specifying the component, and building HTML and event handlers straightforward.
-
-For example within the render method the `a` method generates an anchor tag like this:
-
-```ruby
-a(href: 'https://github.com/ruby-hyperloop') { 'Get Hyperloop' }
-```
-
-Under the hood everything maps to React.js function calls in a straight forward manner.  The HyperReact DSL is roughly analogous to the React.js JSX, but because its "just ruby" you don't have to learn a new language, and switch mental gears while writing code.
+<div class="codemirror-live-edit"
+  data-heading="Using CSS"
+  data-rows=8>
+<pre>
+class ExampleComponent < React::Component::Base
+  render(DIV) do
+    #ReactPlayer(url:  'https://www.youtube.com/embed/FzCsDVfPQqk',
+    #  playing: false
+    #)
+  end
+end
+</pre></div>
