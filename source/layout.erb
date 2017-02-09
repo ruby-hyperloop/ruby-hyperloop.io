@@ -27,7 +27,10 @@
     <%= javascript_include_tag 'codemirror.js' %>
     <%= javascript_include_tag 'ruby.js' %>
     <%= javascript_include_tag 'matchbrackets.js' %>
-    <%= javascript_include_tag 'encoder.js' %>
+
+    <!-- Components are compiled by Hyperloop Express -->
+    <%= partial "/components/_code_mirror" %>
+    <%= partial "/components/_live_edit" %>
 
     <%= stylesheet_link_tag 'bootstrap.min.css' %>
     <%= stylesheet_link_tag 'override.css' %>
@@ -120,9 +123,6 @@
     <!-- <script   src="http://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script> -->
 
     <script type="text/ruby">puts "Hyperloop Express ok"</script>
-
-    <%= partial "/components/_code_mirror" %>
-    <%= partial "/components/_live_edit" %>
 
   </body>
 </html>
