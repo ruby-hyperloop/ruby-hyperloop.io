@@ -3,9 +3,11 @@
 Document.ready? do
    Element.find('div.codemirror-live-edit').each do |mount_point|
      heading = mount_point.attr('data-heading')
+     rows = mount_point.attr('data-rows')
      code = Element[mount_point].find('pre').text.strip
      params = {code: code}
      params = params.merge({heading: heading}) if heading
+     params = params.merge({rows: rows.to_i}) if rows
      codemirror_component = Object.const_get('CodeMirror')
      React.render(React.create_element(codemirror_component, params ), mount_point)
    end

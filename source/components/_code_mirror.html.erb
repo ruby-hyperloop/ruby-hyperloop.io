@@ -3,6 +3,7 @@
 class CodeMirror < React::Component::Base
   param :code, type: String
   param :heading, default: "Code"
+  param :rows, type: Integer, default: 0
 
   before_mount do
     r=rand(2**256).to_s(36)[0..7]
@@ -20,6 +21,7 @@ class CodeMirror < React::Component::Base
       theme: 'github'
     });`
     `#{@editor}.on('change', #{lambda {on_change} })`
+    `#{@editor}.setSize(null, #{@editor}.defaultTextHeight()*#{params.rows})` unless params.rows == 0
     execute_code
   end
 
