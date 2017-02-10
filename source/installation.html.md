@@ -253,27 +253,27 @@ end
 Your main `application.rb` file will look like this:
 
 ```ruby
-#react_lib/application.rb
-
 require 'opal'
-require 'browser/interval' # optional
-require 'browser/delay'    # optional
-# you can pull in the jQuery.js file here, or separately
-# but in must be loaded BEFORE opal-jquery
-require 'opal-jquery'      # optional
-require 'react/react-source'
+require 'browser/interval'
+require 'opal-jquery'
 require 'hyper-react'
-# here you can require other files, do a require_tree, or
-# just add some components inline right here...
-class Clock < React::Component::Base
+require 'react/top_level_render'
 
-  def render
-    "Hello there - Its #{Time.now}"
+class HelloWorld < React::Component::Base
+  param :time, type: Time
+  render do
+    p do
+      span { "Hello, " }
+      input(type: :text, placeholder: "Your Name Here")
+      span { "! It is #{params.time}"}
+    end
   end
 end
 
-Document.ready? do
-  Element['#content'].render{ Clock() }
+every(1) do
+  Element["#example"].render do
+    HelloWorld(time: Time.now)
+  end
 end
 ```
 
