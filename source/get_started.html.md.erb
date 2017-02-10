@@ -4,11 +4,11 @@ This introduction will take you through most of what you need to know to get sta
 
 There are five important ingredients to the Hyperloop architecture (COMPS for short):
 
-+ Components
-+ Operations
-+ Models
-+ Policies
-+ Stores
++ **Components** describe how the UI will display the *current* application state and how it will handle user actions.  Using React Components automatically rerender parts of the display as state changes due to local or remote activities.
++ **Operations (coming soon)** encapsulate activities. In an MVC architecture operations end up either in controllers, models or some other secondary construct such as service objects, helpers, or concerns. Here they are first class objects.
++ **Models** can now focus on one thing and that is the structure of the data as it is persisted.  Any business logic is moved to Operations.
++ **Policies** keep authorization logic out of models, and operations, and also allows the isomorphic transport mechanism to know what and when to communicate between client and server.
++ **Stores** hold application state. Stores are Ruby classes that keep the dynamic parts of the state in special state variables.
 
 We will start with Components which are a painless way of building interactive web UIs.
 

@@ -24,14 +24,20 @@
     <li class="nav-item"><a href="#with-sinatra">With Sinatra</a></br></li>
     <li class="nav-item"><a href="#building-with-rake">Building with Rake</a></br></li>
   </ul>
+
 <% when current_page.path.include?("tools") %>
   <ul class="nav">
     <li class="nav-item"><a href="#tools">Tools</a></br></li>
     <li class="nav-item"><a href="#debugging">Debugging</a></br></li>
   </ul>
+
 <% when current_page.path.include?("docs") %>
   <ul class="nav">
-    <li class="nav-item"><strong><a href="/docs/dsl_overview">HyperReact Overview</a></strong></br></li>
+    <li class="nav-item"><strong><a href="/docs/architecture">Hyperloop Architecture</a></strong></br></li>
+  </ul>
+  <br>
+  <ul class="nav">
+    <li class="nav-item"><strong><a href="/docs/dsl_overview">Components</a></strong></br></li>
     <li class="nav-item"><a href="/docs/components_and_state">Components and State</a></br></li>
     <li class="nav-item"><a href="/docs/lifecycle_callbacks">Lifecycle Callbacks</a></br></li>
     <li class="nav-item"><a href="/docs/lifecycle_methods">Lifecycle Methods</a></br></li>
@@ -42,12 +48,17 @@
   </ul>
   <br>
   <ul class="nav">
-    <li class="nav-item"><strong><a href="/docs/hypermesh_overview">HyperMesh Overview</a></strong></li>
+    <li class="nav-item"><strong><a href="/docs/hypermesh_overview">Models</a></strong></li>
     <li class="nav-item"><a href="/docs/hypermesh_active_record">ActiveRecord API</a></br></li>
     <li class="nav-item"><a href="/docs/hypermesh_scoping">Scoping</a></br></li>
     <li class="nav-item"><a href="/docs/hypermesh_authorization">Authorization</a></br></li>
     <li class="nav-item"><a href="/docs/hypermesh_debugging">Debugging</a></br></li>
   </ul>
+  <br>
+  <ul class="nav">
+    <li class="nav-item"><strong><a href="/docs/hyperstore_overview">Stores</a></strong></li>
+  </ul>
+
 <% when current_page.path.include?("tutorials") %>
   <ul class="nav">
     <li class="nav-item"><strong><a href="/tutorials/chat_app">Chat-App Tutorial</a></strong></li>

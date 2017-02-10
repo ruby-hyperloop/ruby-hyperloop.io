@@ -1,5 +1,5 @@
 ---
-title: Hyper-React Docs
+title: Components
 ---
 ## Further Reading
 

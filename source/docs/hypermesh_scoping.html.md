@@ -1,5 +1,5 @@
 ---
-title: Hyper-Mesh Docs
+title: Models
 ---
 ## Client Side Scoping
 
