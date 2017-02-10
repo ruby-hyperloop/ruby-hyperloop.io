@@ -10,9 +10,11 @@ There are five important ingredients to the Hyperloop architecture (COMPS for sh
 + **Policies** keep authorization logic out of models, and operations, and also allows the isomorphic transport mechanism to know what and when to communicate between client and server.
 + **Stores** hold application state. Stores are Ruby classes that keep the dynamic parts of the state in special state variables.
 
-We will start with Components which are a painless way of building interactive web UIs.
+This Getting Started guide will introduce you to our Components. After reading this you might like to try some of the [Tutorials](/tutorials) or jump into the [Docs](/docs/architecture) for a comprehensive overview of the Hyperloop architecture.
 
 ## Components
+
+Hyperloop user interfaces are composed of React Components written in Ruby.
 
 Here is the basic structure of a Component:
 
@@ -179,7 +181,7 @@ As you can see above, CSS is mixed into HTML elements. `div.something` becomes `
 
 Hyperloop gives you full access to all JavaScript libraries and components from directly within your Ruby code. Everything you can do in JavaScript is simple to do in ruby, this includes passing parameters between Ruby and JavaScript and even passing in Ruby lambdas as JavaScript callbacks. All of this magic comes from Opal.
 
-As a simple example, let's import a React library to play a YouTube video. This is how you would use [Pete Cook's rplayr component](https://github.com/CookPete/rplayr)
+JavaScript components are accessed directly from within your Ruby code. We have a tutorial which will show you exactly how this works.
 
 ```ruby
 class ExampleComponent < React::Component::Base
@@ -190,3 +192,7 @@ class ExampleComponent < React::Component::Base
   end
 end
 ```
+
+We hope you have enjoyed this introduction to Hyperloop. As a next step, perhaps try some of the [Tutorials](/tutorials) or jump into the [Docs](/docs/architecture) for a comprehensive overview of the Hyperloop architecture.
+
+Welcome aboard!
