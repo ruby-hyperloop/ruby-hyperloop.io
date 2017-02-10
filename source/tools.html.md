@@ -5,6 +5,10 @@ title: Tools and Debugging
 
 ## Tools
 
+### [HyperTrace](https://github.com/ruby-hyperloop/hyper-trace)
+
+Method tracing and conditional breakpoints for Opal Ruby.
+
 As most of the Hyperloop gems use [Opal](http://opalrb.org/), you have the whole Opal universe of tools available to you. The following two have been designed to work with HyperReact:
 
 ### [Opal Hot Reloader](https://github.com/fkchang/opal-hot-reloader)
@@ -13,11 +17,13 @@ For pure programmer joy, no more page refreshes.
 
 ### [Opal Console](https://github.com/fkchang/opal-console)
 
-Opal in your browser. Great for testing.
+Opal in your browser. Great for learning.
 
-### [HyperTrace](https://github.com/ruby-hyperloop/hyper-trace)
+## Testing
 
-Method tracing and conditional breakpoints for Opal Ruby.
+### [HyperSpec](https://github.com/ruby-hyperloop/hyper-spec)
+
+With HyperSpec you can run isomorphic specs for all your Hyperloop code using RSpec. Everything runs as standard RSpec test specs.
 
 ## Debugging
 
