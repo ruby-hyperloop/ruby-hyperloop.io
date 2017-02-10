@@ -1,7 +1,7 @@
 ---
 title: Stores
 ---
-# Stores Overview
+## Stores Overview
 
 Hyperloop **Stores** are implemented in the **HyperStore Gem**.
 
