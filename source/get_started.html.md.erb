@@ -103,31 +103,43 @@ Lets experiment with an example:
 
 <div class="codemirror-live-edit"
   data-heading="Using state"
-  data-rows=18>
+  data-rows=30>
 <pre>
 class ExampleComponent < React::Component::Base
   define_state show_field: false
   define_state field_value: ""
 
   render(DIV) do
+    show_button
+    DIV do
+      show_input
+      H1 { "#{state.field_value}" }
+    end if state.show_field
+  end
+
+  def show_button
     BUTTON do
       state.show_field ? "Hide" : "Show"
     end.on(:click) { state.show_field! !state.show_field }
-    DIV do
-      BR {}
-      INPUT(type: :text).on(:change) do |e|
-        state.field_value! e.target.value
-      end
-    	H1 { "#{state.field_value}" }
-    end if state.show_field
   end
-end
-</pre></div>
+
+  def show_input
+    BR {}
+    INPUT(type: :text).on(:change) do |e|
+      state.field_value! e.target.value
+    end
+  end
+
+  def show_text
+    H1 { "#{state.field_value}" }
+  end
+end</pre></div>
 
 A few things to notice in the code above:
 
 + We define state using the `define_state` macro. Notice how we set the initial value.
 + To reference state we use `state.something` and `state.mutate.something =` (or previously `state.something!`) is used to update state
++ Components are just Ruby classes which have methods.
 + Here is the most important part - notice how React automatically updates the user interface as state changes. This is the very heart of React thinking.
 
 ### Stylish Components
@@ -167,17 +179,14 @@ As you can see above, CSS is mixed into HTML elements. `div.something` becomes `
 
 Hyperloop gives you full access to all JavaScript libraries and components from directly within your Ruby code. Everything you can do in JavaScript is simple to do in ruby, this includes passing parameters between Ruby and JavaScript and even passing in Ruby lambdas as JavaScript callbacks. All of this magic comes from Opal.
 
-As a simple example, let's import a React library to play a YouTube video. We are going to use [Pete Cook's rplayr component](https://github.com/CookPete/rplayr)
+As a simple example, let's import a React library to play a YouTube video. This is how you would use [Pete Cook's rplayr component](https://github.com/CookPete/rplayr)
 
-<div class="codemirror-live-edit"
-  data-heading="Using CSS"
-  data-rows=8>
-<pre>
+```ruby
 class ExampleComponent < React::Component::Base
   render(DIV) do
-    #ReactPlayer(url:  'https://www.youtube.com/embed/FzCsDVfPQqk',
-    #  playing: false
-    #)
+    ReactPlayer(url:  'https://www.youtube.com/embed/FzCsDVfPQqk',
+      playing: false
+    )
   end
 end
-</pre></div>
+```
