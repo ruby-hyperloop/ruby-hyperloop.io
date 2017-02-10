@@ -101,6 +101,6 @@ activate :syntax, :line_numbers => false
 
 set :markdown_engine, :redcarpet
 
-set :markdown, :tables => false, :autolink => true,
+set :markdown, :tables => true, :autolink => true,
   :gh_blockcode => false, :fenced_code_blocks => true,
   :smartypants => false,  with_toc_data: true
