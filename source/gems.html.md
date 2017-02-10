@@ -3,64 +3,62 @@ title: A family of Gems
 ---
 # Hyperloop Gems
 
-Hyperloop is a family of gems which collectively make up the missing Ruby Front End library. Isomorphic programming for those who love Ruby.
-
-**Note:** The Hyperloop gems are in a process of being renamed. The links below will take you to the correct Github projects but you might find the name of the project does not quite match the name of the gem on this page. This will be addressed over time as the gems are renamed.
+The Hyperloop framework comprises of a family of gems which for the most part can be used independently (though some do depend on each other).
 
 ## Installation Gems
 
-See [Installation](/installation) for further installation options.
+> See [Installation](/installation) for further installation options.
 
-#### [Hyperloop Express](https://github.com/ruby-hyperloop/reactrb-express)
+> #### [Hyperloop Express](https://github.com/ruby-hyperloop/reactrb-express)
 
-HyperReact for static sites, with no build process needed.
+> HyperReact for static sites, with no build process needed.
 
-#### [HyperRails](https://github.com/ruby-hyperloop/hyper-rails)
+> #### [HyperRails](https://github.com/ruby-hyperloop/hyper-rails)
 
-One step integration of HyperReact, HyperMesh and HyperRouter with Rails plus generators for Components and Routers.
+> One step integration of HyperReact, HyperMesh and HyperRouter with Rails plus generators for Components and Routers.
 
-## Hyperloop  Gems
+## Core Hyperloop Gems
 
-See [Docs](/docs/dsl_overview) for detailed information on how to use these gems or [Tutorials](/tutorials) for working examples.
+> See [Docs](/docs/dsl_overview) for detailed information on how to use these gems or [Tutorials](/tutorials) for working examples.
 
-#### [HyperReact](https://github.com/ruby-hyperloop/hyper-react)
+> #### [HyperReact](https://github.com/ruby-hyperloop/hyper-react)
 
-The HyperReact gem implements Hyperloop's **Components**.
+> The HyperReact gem implements Hyperloop's **Components**.
 
- HyperReact provides a Ruby DSL to Facebook's React. Much of the documentation on this site covers usage of this Gem.
+ > HyperReact provides a Ruby DSL to Facebook's React. Much of the documentation on this site covers usage of this Gem.
 
-#### [HyperMesh](https://github.com/ruby-hyperloop/hyper-mesh)
+> #### [HyperMesh](https://github.com/ruby-hyperloop/hyper-mesh)
 
-The HyperMesh gem implements Hyperloop's **Models and Policies**.
+> The HyperMesh gem implements Hyperloop's **Models and Policies**.
 
-HyperMesh is a policy based CRUD system which wraps ActiveRecord models on the server and extends them to the client. Furthermore it implements push notifications (via a number of possible technologies) so changes to records in use by clients are pushed to those clients if authorised. Isomorphic Ruby in action.
+> HyperMesh is a policy based CRUD system which wraps ActiveRecord models on the server and extends them to the client. Furthermore it implements push notifications (via a number of possible technologies) so changes to records in use by clients are pushed to those clients if authorised. Isomorphic Ruby in action.
 
-#### [HyperStore](https://github.com/ruby-hyperloop/hyper-store)
+> #### [HyperStore](https://github.com/ruby-hyperloop/hyper-store)
 
-The HyperStore gem implements Hyperloop's **Stores**.
+> The HyperStore gem implements Hyperloop's **Stores**.
 
-Stores hold application state. Stores are Ruby classes that keep the dynamic parts of the state in special state variables
+> Stores hold application state. Stores are Ruby classes that keep the dynamic parts of the state in special state variables
 
-#### [HyperRouter](https://github.com/ruby-hyperloop/reactrb-router/tree/v2-4-0)
+> #### [HyperRouter](https://github.com/ruby-hyperloop/reactrb-router/tree/v2-4-0)
 
-HyperRouter provides a Ruby DSL to Facebook's React Router which is a React component that loads other components depending on the current URL.
+> HyperRouter provides a Ruby DSL to Facebook's React Router which is a React component that loads other components depending on the current URL.
 
-## Tools, Testing and Debugging
+## Tools, Testing and Debugging Gems
 
-See [Tools and Debugging](/tools/) for further information.
+> See [Tools and Debugging](/tools/) for further information.
 
-#### [HyperSpec](https://github.com/ruby-hyperloop/hyper-spec)
+> #### [HyperSpec](https://github.com/ruby-hyperloop/hyper-spec)
 
-With HyperSpec you can run isomorphic specs for all your Hyperloop code using RSpec. Everything runs as standard RSpec test specs.
+> With HyperSpec you can run isomorphic specs for all your Hyperloop code using RSpec. Everything runs as standard RSpec test specs.
 
-#### [HyperTrace](https://github.com/ruby-hyperloop/hyper-trace)
+> #### [HyperTrace](https://github.com/ruby-hyperloop/hyper-trace)
 
-Method tracing and conditional breakpoints for Opal Ruby.
+> Method tracing and conditional breakpoints for Opal Ruby.
 
-#### [Opal Hot Reloader](https://github.com/fkchang/opal-hot-reloader)
+> #### [Opal Hot Reloader](https://github.com/fkchang/opal-hot-reloader)
 
-For pure programmer joy, no more page refreshes.
+> For pure programmer joy, no more page refreshes.
 
-#### [Opal Console](https://github.com/fkchang/opal-console)
+> #### [Opal Console](https://github.com/fkchang/opal-console)
 
-Opal in your browser. Great for testing.
+> Opal in your browser. Great for testing.

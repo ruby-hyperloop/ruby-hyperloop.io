@@ -1,33 +1,33 @@
 ---
 title: Tools and Debugging
 ---
-# Tools and Debugging
+# Testing, Tools and Debugging
+
+## Testing
+
+#### [HyperSpec](https://github.com/ruby-hyperloop/hyper-spec)
+
+With HyperSpec you can run isomorphic specs for all your Hyperloop code using RSpec. Everything runs as standard RSpec test specs.
 
 ## Tools
 
-### [HyperTrace](https://github.com/ruby-hyperloop/hyper-trace)
+#### [HyperTrace](https://github.com/ruby-hyperloop/hyper-trace)
 
 Method tracing and conditional breakpoints for Opal Ruby.
 
 As most of the Hyperloop gems use [Opal](http://opalrb.org/), you have the whole Opal universe of tools available to you. The following two have been designed to work with HyperReact:
 
-### [Opal Hot Reloader](https://github.com/fkchang/opal-hot-reloader)
+#### [Opal Hot Reloader](https://github.com/fkchang/opal-hot-reloader)
 
 For pure programmer joy, no more page refreshes.
 
-### [Opal Console](https://github.com/fkchang/opal-console)
+#### [Opal Console](https://github.com/fkchang/opal-console)
 
 Opal in your browser. Great for learning.
 
-## Testing
-
-### [HyperSpec](https://github.com/ruby-hyperloop/hyper-spec)
-
-With HyperSpec you can run isomorphic specs for all your Hyperloop code using RSpec. Everything runs as standard RSpec test specs.
-
 ## Debugging
 
-### Using HyperTrace and Opal Console together
+#### Using HyperTrace and Opal Console together
 
 These two tools make a powerful combination as you can arbitrarily turn things on and off:
 
@@ -35,7 +35,7 @@ These two tools make a powerful combination as you can arbitrarily turn things o
 
 See [HyperTrace](https://github.com/ruby-hyperloop/hyper-trace) and [Opal Console](https://github.com/fkchang/opal-console) for more information.
 
-### JavaScript Console
+#### JavaScript Console
 
 At any time during program execution you can breakout into the JavaScript console by simply adding a line of back-ticked JavaScript to your ruby code:
 
@@ -46,7 +46,7 @@ If you have source maps turned on you will then be able to see your ruby code (a
 
 You can also inspect ruby objects from the JavaScript console. [Here are three tricks](http://dev.mikamai.com/post/103047475349/3-tricks-to-debug-opal-code-from-your-browser).
 
-### Puts is your friend
+#### Puts is your friend
 
 Anywhere in your HyperReact code you can simply `puts any_value` which will display the contents of the value in the browser console. This can help you understand React program flow as well as how data changes over time.
 
