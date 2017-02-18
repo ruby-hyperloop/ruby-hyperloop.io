@@ -1,6 +1,9 @@
 <% case %>
 <% when current_page.path.include?("support") %>
-  <p>The <strong>best way</strong> to get help is to join our <a href='https://gitter.im/ruby-hyperloop/chat'>Gitter Chat</a></p>
+  <div>
+    <p>The <strong>best way</strong> to get help and contribute is to join our Gitter Chat</p>
+    <button type="button" class="btn btn-primary btn-lg" onclick="location.href='https://gitter.im/ruby-hyperloop/chat';">Gitter Chat</button>
+  </div>
 <% when current_page.path.include?("blog") %>
   <ul class="nav">
     <% blog.articles.each do |article| %>
