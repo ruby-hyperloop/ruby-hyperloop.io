@@ -3,7 +3,13 @@ title: Installation
 ---
 # Installation
 
-**Note:** The Hyperloop gems are in a process of being renamed. The links below will take you to the correct Github projects but you might find the name of the project does not quite match the name of the gem on this page. This will be addressed over time as the gems are renamed. HyperReact was previously known as Reactrb.
+There are several ways to install Hyperloop into your development environment.
+
++ Experimenting online in the Opal playground
++ Running exclusively in your browser with Hyperloop Express
++ Integrating with the Rails Asset Pipeline
++ Building a single `application.js` with Rake
++ Using NPM and Webpack to require all your JavaScript components
 
 ## Opal Playground
 
@@ -310,6 +316,15 @@ Two things to note about the code above:
 + `<div id="content"></div>` is where our Clock component will be rendered from `Element['#content'].render{ Clock() }`
 
 As a final note, the resulting JS file may be a little large, so you might want to Gzip or uglify it.
+
+## Deployment
+
+There are a few deployment specific considerations:
+
++ The resulting compiled JavaScript files can be quite large, so you might want to add a minimise, uglify or gzip step
++ Some free deployment PaaS (Heroku for example) include low levels of memory and system resources. HyperReact may be configured in such a way that it is pre-rendering all pages before they are delivered to the browser and this can be an issue to the PaaS in a low memory environment. If the server is constrained it is better to turn pre-rendering off.
+
+There is a most excellent [Tutorial written by Frederic ZINGG](https://github.com/fzingg/hyperloop-showcase-heroku) which takes you through a step by step guid to deploying on Heroku.
 
 ## Next Steps
 
