@@ -5,50 +5,51 @@ title: Tools and Debugging
 
 ## Testing
 
-#### [HyperSpec](https://github.com/ruby-hyperloop/hyper-spec)
+> #### [HyperSpec](https://github.com/ruby-hyperloop/hyper-spec)
 
-With HyperSpec you can run isomorphic specs for all your Hyperloop code using RSpec. Everything runs as standard RSpec test specs.
+> With HyperSpec you can run isomorphic specs for all your Hyperloop code using RSpec. Everything runs as standard RSpec test specs.
 
 ## Tools
 
-#### [HyperTrace](https://github.com/ruby-hyperloop/hyper-trace)
+> #### [HyperTrace](https://github.com/ruby-hyperloop/hyper-trace)
 
-Method tracing and conditional breakpoints for Opal Ruby.
+> Method tracing and conditional breakpoints for Opal Ruby.
 
-As most of the Hyperloop gems use [Opal](http://opalrb.org/), you have the whole Opal universe of tools available to you. The following two have been designed to work with HyperReact:
+> As most of the Hyperloop gems use [Opal](http://opalrb.org/), you have the whole Opal universe of tools available to you. The following two have been designed to work with HyperReact:
 
-#### [Opal Hot Reloader](https://github.com/fkchang/opal-hot-reloader)
+> #### [Opal Hot Reloader](https://github.com/fkchang/opal-hot-reloader)
 
-For pure programmer joy, no more page refreshes.
+> For pure programmer joy, no more page refreshes.
 
-#### [Opal Console](https://github.com/fkchang/opal-console)
+> #### [Opal Console](https://github.com/fkchang/opal-console)
 
-Opal in your browser. Great for learning.
+> Opal in your browser. Great for learning.
 
 ## Debugging
 
-#### Using HyperTrace and Opal Console together
+> #### Using HyperTrace and Opal Console together
 
-These two tools make a powerful combination as you can arbitrarily turn things on and off:
+> These two tools make a powerful combination as you can arbitrarily turn things on and off:
 
-![Screen](images/opal_console.png)
+> ![Screen](images/opal_console.png)
 
-See [HyperTrace](https://github.com/ruby-hyperloop/hyper-trace) and [Opal Console](https://github.com/fkchang/opal-console) for more information.
+> See [HyperTrace](https://github.com/ruby-hyperloop/hyper-trace) and [Opal Console](https://github.com/fkchang/opal-console) for more information.
 
-#### JavaScript Console
+> #### JavaScript Console
 
-At any time during program execution you can breakout into the JavaScript console by simply adding a line of back-ticked JavaScript to your ruby code:
+> At any time during program execution you can breakout into the JavaScript console by simply adding a line of back-ticked JavaScript to your ruby code:
 
-```ruby
+> ```ruby
 `debugger;`
 ```
-If you have source maps turned on you will then be able to see your ruby code (and the compiled JavaScript code) and set browser breakpoints, examine values and continue execution. See [Opal Source Maps](http://opalrb.org/docs/guides/v0.10.1/source_maps.html) if you are not seeing source maps.
 
-You can also inspect ruby objects from the JavaScript console. [Here are three tricks](http://dev.mikamai.com/post/103047475349/3-tricks-to-debug-opal-code-from-your-browser).
+> If you have source maps turned on you will then be able to see your ruby code (and the compiled JavaScript code) and set browser breakpoints, examine values and continue execution. See [Opal Source Maps](http://opalrb.org/docs/guides/v0.10.1/source_maps.html) if you are not seeing source maps.
 
-#### Puts is your friend
+> You can also inspect ruby objects from the JavaScript console. [Here are three tricks](http://dev.mikamai.com/post/103047475349/3-tricks-to-debug-opal-code-from-your-browser).
 
-Anywhere in your HyperReact code you can simply `puts any_value` which will display the contents of the value in the browser console. This can help you understand React program flow as well as how data changes over time.
+> #### Puts is your friend
+
+> Anywhere in your HyperReact code you can simply `puts any_value` which will display the contents of the value in the browser console. This can help you understand React program flow as well as how data changes over time.
 
 ```ruby
 class Thing < React::Component::Base

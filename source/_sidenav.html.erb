@@ -1,10 +1,4 @@
 <% case %>
-<% when current_page.path.include?("index") %>
-  <div>
-    <p>Get Started with Hyperloop right now, no installation necussary, <strong>code</strong> in your browser.</p>
-    <button type="button" class="btn btn-primary btn-lg" onclick="location.href='/get_started';">Get Started</button>
-  </div>
-
 <% when current_page.path.include?("support") %>
   <p>The <strong>best way</strong> to get help is to join our <a href='https://gitter.im/ruby-hyperloop/chat'>Gitter Chat</a></p>
 <% when current_page.path.include?("blog") %>
@@ -108,5 +102,11 @@
     <li class="nav-item"><strong><a href="/tutorials/file_uploader">File Uploader Tutorial</a></strong></li>
   </br>
   </ul>
+  <% when current_page.path.include?("index") %>
+    <div>
+      <p>Get Started with Hyperloop right now, no installation necussary, <strong>code</strong> in your browser.</p>
+      <button type="button" class="btn btn-primary btn-lg" onclick="location.href='/get_started';">Get Started</button>
+    </div>
+
 
 <% end %>
