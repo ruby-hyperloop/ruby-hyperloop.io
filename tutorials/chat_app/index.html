@@ -17,9 +17,23 @@
     <link href="/stylesheets/stylesheet.css" rel="stylesheet" />
     <link href="/stylesheets/github-light.css" rel="stylesheet" /> -->
 
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.5/marked.min.js"></script>
+    <script src="https://rawgit.com/reactrb/reactrb-express/master/reactrb-express.js"></script>
+
+    <script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
+
+    <script src="/javascripts/bootstrap.min.js"></script>
+    <script src="/javascripts/codemirror.js"></script>
+    <script src="/javascripts/ruby.js"></script>
+    <script src="/javascripts/matchbrackets.js"></script>
+
     <link href="/stylesheets/bootstrap.min.css" rel="stylesheet" />
     <link href="/stylesheets/override.css" rel="stylesheet" />
-    <link href="/stylesheets/code.css" rel="stylesheet" />
+    <!-- <link href="/stylesheets/code.css" rel="stylesheet" /> -->
+    <link href="/stylesheets/github.css" rel="stylesheet" />
+    <link href="/stylesheets/highlighting.css" rel="stylesheet" />
+    <link href="/stylesheets/codemirror.css" rel="stylesheet" />
 
     <link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/feed.xml" />
 
@@ -161,7 +175,7 @@
         <div class="col-md-9 main-content">
           <h2 id="hyperreact-chat-app-tutorial">HyperReact Chat-App Tutorial</h2>
 
-<p>We&rsquo;ll be building a simple but realistic chat application, a basic version of a chat room offered by a service like gitter.im.  </p>
+<p>We&#39;ll be building a simple but realistic chat application, a basic version of a chat room offered by a service like gitter.im.  </p>
 
 <p>We will be building the app from the ground up, but if you want to see the <a href="#source-code-of-the-steps-up-until-detecting-loged-in-user">final source code it is here</a></p>
 
@@ -178,13 +192,13 @@
 <p>It will also have a few neat features:</p>
 
 <ul>
-<li><strong>Live updates:</strong> other users&rsquo; chats are popped into the conversation view in real time.</li>
+<li><strong>Live updates:</strong> other users&#39; chats are popped into the conversation view in real time.</li>
 <li><strong>Dynamic Time Formatting:</strong> the time format changes as that chat ages.</li>
 <li><strong>Markdown formatting:</strong> users can use Markdown to format their text.</li>
 <li><strong>Uses Bootstrap:</strong> for styling</li>
 </ul>
 
-<h3 id="lets-get-started">Let&rsquo;s Get Started!</h3>
+<h3 id="lets-get-started">Let&#39;s Get Started!</h3>
 
 <ol>
 <li>open up a file named <code>chatrb.html</code> (or whatever you want)</li>
@@ -229,7 +243,7 @@
 </code></pre>
 <h3 id="application-structure">Application Structure</h3>
 
-<p>React is all about modular, composable components. For our chat app, we&rsquo;ll have the following structure which will be mirrored by 6 corresponding Reactrb components:</p>
+<p>React is all about modular, composable components. For our chat app, we&#39;ll have the following structure which will be mirrored by 6 corresponding Reactrb components:</p>
 <pre class="highlight plaintext"><code>App
   Nav
   Messages
@@ -243,7 +257,7 @@
 </code></pre>
 <p>Each component will render the corresponding portion of the UI and is described by a Ruby class that inherits from React::Component::Base.</p>
 
-<p>Let&rsquo;s stub out all of classes right now.  Replace the contents inside  the
+<p>Let&#39;s stub out all of classes right now.  Replace the contents inside  the
 <code>&lt;script type=&quot;text/ruby&quot;&gt;...&lt;/script&gt;</code> tag with the following ruby code.</p>
 <pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">App</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
   <span class="k">def</span> <span class="nf">render</span>
@@ -306,7 +320,7 @@ convert and display markdown
 <p>Each component is a class that inherits from <code>React::Component::Base</code> and defines a <code>render</code> method.</p></li>
 <li><h4 id="the-render-method-must-generate-a-single-react-element">The <code>render</code> method must generate a single <code>React::Element</code></h4>
 
-<p>Look at the <code>App</code> component: it wraps its three <em>children</em> in a <code>div</code>.  If you forgot this wrapper <code>div</code> you would get this error in the browser&rsquo;s javascript console:</p>
+<p>Look at the <code>App</code> component: it wraps its three <em>children</em> in a <code>div</code>.  If you forgot this wrapper <code>div</code> you would get this error in the browser&#39;s javascript console:</p>
 <pre class="highlight plaintext"><code>RuntimeError: a components render method must generate and return exactly 1 element or a string
 </code></pre></li>
 <li><h4 id="html-tags-are-ruby-methods">HTML tags are Ruby methods</h4>
@@ -324,7 +338,7 @@ convert and display markdown
 <code>Message()</code> &lt;- generate a <code>Message</code> element.</p></li>
 <li><h4 id="by-default-strings-are-wrapped-by-span-tags">By default strings are wrapped by <code>span</code> tags</h4>
 
-<p>Now go all the way down to the <code>FormattedDiv</code> component.  If a string appears as the last expression (the returned value) of either a render method or a component&rsquo;s block, the string is wrapped in a <code>span</code> as if you had typed <code>span { &quot;some string&quot; }</code>.</p></li>
+<p>Now go all the way down to the <code>FormattedDiv</code> component.  If a string appears as the last expression (the returned value) of either a render method or a component&#39;s block, the string is wrapped in a <code>span</code> as if you had typed <code>span { &quot;some string&quot; }</code>.</p></li>
 <li><h4 id="strings-also-respond-to-br-span-para-th-and-td">Strings also respond to <code>br, span, para, th</code> and <code>td</code></h4>
 
 <p>Strings also respond to several element generating methods: <code>br, span, para</code> (for <code>p</code>), <code>td</code> and <code>th</code>.  Again this is just short hand, so <code>&quot;foo&quot;.td</code> is short for <code>td { &quot;foo&quot; }</code></p></li>
@@ -332,7 +346,7 @@ convert and display markdown
 
 <h3 id="adding-parameters">Adding Parameters</h3>
 
-<p>Components have parameters just like methods.  Now that we have the basic App structure, understanding a component&rsquo;s params is a good next step.  Lets start by adding the <code>markdown</code> parameter to the <code>FormattedDiv</code> component.</p>
+<p>Components have parameters just like methods.  Now that we have the basic App structure, understanding a component&#39;s params is a good next step.  Lets start by adding the <code>markdown</code> parameter to the <code>FormattedDiv</code> component.</p>
 
 <p>Update the <code>Message, InputBox</code> and <code>FormattedDiv</code> components so they look like this:</p>
 <pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">Message</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
@@ -402,7 +416,7 @@ convert and display markdown
 
 <span class="k">end</span>
 </code></pre>
-<p>Replace the <code>Nav</code> component with the above code, and refresh your browser.  You should now be able to &ldquo;login&rdquo;.</p>
+<p>Replace the <code>Nav</code> component with the above code, and refresh your browser.  You should now be able to &quot;login&quot;.</p>
 
 <p>Things to notice:</p>
 
@@ -422,7 +436,7 @@ generates<br>
 <li><h4 id="element-is-the-opal-ruby-jquery-compatible-wrapper"><code>Element</code> is the Opal-Ruby jQuery compatible wrapper.</h4>
 
 <p><code>Element[&#39;input.handle&#39;].value</code> translates to <code>$(&#39;input.handle&#39;).value()</code><br>
-Be aware that <code>React::Element</code> which we refer to as <em>elements</em> through out the tutorial is not the same as Opal&rsquo;s <code>Element</code> wrapper.</p></li>
+Be aware that <code>React::Element</code> which we refer to as <em>elements</em> through out the tutorial is not the same as Opal&#39;s <code>Element</code> wrapper.</p></li>
 </ul>
 
 <h3 id="adding-state">Adding State</h3>
@@ -474,7 +488,7 @@ Be aware that <code>React::Element</code> which we refer to as <em>elements</em>
 <li><h4 id="state-variables-are-accessed-through-the-state-object">State variables are accessed through the <code>state</code> object.</h4>
 
 <p>Each state variable has a read and write accessor on the state object.  The
-write accessor ends with a &ldquo;!&rdquo; to remind you that this method will update state
+write accessor ends with a &quot;!&quot; to remind you that this method will update state
 and cause re-rendering of the component.</p></li>
 <li><h4 id="there-is-no-assignment-method-for-state-variables">There is no <em>assignment</em> method for state variables.</h4>
 
@@ -514,7 +528,7 @@ update is performed.</p></li>
 
 <p>We will add some other nice features  of our <code>Nav</code> component later but right now we need to think about what happens when the user logs in.</p>
 
-<p>We don&rsquo;t want to clutter up our <code>Nav</code> component with this logic so we need some way to communicate that we have a new user name upwards to the parent.</p>
+<p>We don&#39;t want to clutter up our <code>Nav</code> component with this logic so we need some way to communicate that we have a new user name upwards to the parent.</p>
 
 <p>There are quite a few different ways to do this, depending on your specific needs.  A straight forward way is for the parent to provide a <em>callback</em> that the <code>Nav</code> component will use to signal that a new user has logged in.  </p>
 
@@ -583,7 +597,7 @@ have additional state to track and report the progress of the login process.</p>
   <span class="n">chat</span><span class="p">.</span><span class="nf">id</span>             <span class="c1"># returns the current id (i.e. "LukeS")</span>
   <span class="n">chat</span><span class="p">.</span><span class="nf">send</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>  <span class="c1"># sends message to everybody (including the sender)</span>
 </code></pre>
-<p>What the message contains is completely up to us.  We will be sending hashes containing the sender&rsquo;s handle,
+<p>What the message contains is completely up to us.  We will be sending hashes containing the sender&#39;s handle,
 the message string, and the time that the message was sent:</p>
 <pre class="highlight ruby"><code>  <span class="n">chat</span><span class="p">.</span><span class="nf">send</span><span class="p">({</span><span class="ss">handle: </span><span class="p">.</span><span class="nf">.</span><span class="p">.</span><span class="nf">,</span> <span class="ss">message: </span><span class="p">.</span><span class="nf">.</span><span class="p">.</span><span class="nf">,</span> <span class="ss">time: </span><span class="no">Time</span><span class="p">.</span><span class="nf">now</span><span class="p">})</span>
 </code></pre>
@@ -657,7 +671,7 @@ the message string, and the time that the message was sent:</p>
 
 <p>Now that we are logging in, connecting to the (test) chat service and updating our <code>messages</code> state variable, we are ready to display those messages.</p>
 
-<p>Hopefully by this time you&rsquo;ve got a rough idea how we are going to do this!</p>
+<p>Hopefully by this time you&#39;ve got a rough idea how we are going to do this!</p>
 
 <p>First update the <code>App</code> render method like this:</p>
 <pre class="highlight ruby"><code>  <span class="k">def</span> <span class="nf">render</span>
@@ -699,7 +713,7 @@ the message string, and the time that the message was sent:</p>
 <ul>
 <li><h4 id="array-type-params">Array type params</h4>
 
-<p>Notice how we declared the <code>messages</code> param as type <code>[Hash]</code> this notation means &ldquo;Array of Hash&rdquo;.</p>
+<p>Notice how we declared the <code>messages</code> param as type <code>[Hash]</code> this notation means &quot;Array of Hash&quot;.</p>
 
 <p>You can also say <code>type: []</code> which means array of anything and is shorthand for <code>type: Array</code>.</p></li>
 </ul>
@@ -722,7 +736,7 @@ the message string, and the time that the message was sent:</p>
 </code></pre>
 <p>For our simple App we are going to figure that we are logged in <strong>if</strong> <code>state.messages</code> is not <code>nil</code>.  </p>
 
-<p>Now update the <code>App</code>s <code>render</code> method so that we don&rsquo;t display the <code>Messages</code> or the <code>InputBox</code> unless we are logged in.</p>
+<p>Now update the <code>App</code>s <code>render</code> method so that we don&#39;t display the <code>Messages</code> or the <code>InputBox</code> unless we are logged in.</p>
 <pre class="highlight ruby"><code>  <span class="k">def</span> <span class="nf">render</span>
     <span class="n">div</span> <span class="k">do</span>
       <span class="no">Nav</span> <span class="ss">login: </span><span class="nb">method</span><span class="p">(</span><span class="ss">:login</span><span class="p">).</span><span class="nf">to_proc</span>
@@ -785,7 +799,7 @@ the message string, and the time that the message was sent:</p>
 
 <p>The <code>InputBox</code> has one state variable <code>state.composition</code> which just keeps track of the current message as the user types, just like we did with the <code>Nav</code> component.</p>
 
-<p>Instead of a &ldquo;send&rdquo; button, we just wait till the user hits the Enter Key.</p>
+<p>Instead of a &quot;send&quot; button, we just wait till the user hits the Enter Key.</p>
 
 <p>The current value of<code>state.composition</code> is passed along to the <code>FormattedDiv</code> which will (eventually) display the formatted markdown.</p>
 
@@ -799,9 +813,9 @@ the message string, and the time that the message was sent:</p>
 
 <p>Lets get the <code>FormattedDiv</code> working.  The header loads the marked.js library which will convert markdown to html.  React will normally escape any raw html, but there is a special escape mechanism which we will use in our component.  </p>
 
-<p>We will also use Opal-Ruby&rsquo;s native escape mechanism to insert raw javascript code so we can call the <code>marked</code> function.</p>
+<p>We will also use Opal-Ruby&#39;s native escape mechanism to insert raw javascript code so we can call the <code>marked</code> function.</p>
 
-<p>Replace <code>FormattedDiv</code>&lsquo;s <code>render</code> method with the following:</p>
+<p>Replace <code>FormattedDiv</code>&#39;s <code>render</code> method with the following:</p>
 <pre class="highlight ruby"><code><span class="k">def</span> <span class="nf">render</span>
   <span class="n">div</span> <span class="k">do</span>
     <span class="n">div</span><span class="p">({</span><span class="ss">dangerously_set_inner_HTML: </span><span class="p">{</span> <span class="ss">__html: </span><span class="sb">`marked(</span><span class="si">#{</span><span class="n">params</span><span class="p">.</span><span class="nf">markdown</span><span class="si">}</span><span class="sb">, {sanitize: true})`</span><span class="p">}})</span>
@@ -937,7 +951,7 @@ the message string, and the time that the message was sent:</p>
 
 <p>Add the <code>row, form-group, input-box, navbar, navbar-inverse, navbar-fixed-bottom</code> classes to the outer <code>div</code>.</p>
 
-<p>Add the <code>col-sm-1</code> and <code>white</code> classes to the &ldquo;Say Something&rdquo; div.</p>
+<p>Add the <code>col-sm-1</code> and <code>white</code> classes to the &quot;Say Something&quot; div.</p>
 
 <p>Add the <code>col-sm-5</code> class to the <code>input</code></p>
 
@@ -996,7 +1010,7 @@ the message string, and the time that the message was sent:</p>
 
 <h3 id="automatic-scroll-position">Automatic Scroll Position</h3>
 
-<p>You may have noticed that when you enter a message, you can&rsquo;t see it until you scroll down.  We would like to automatically scroll down when a message is sent so you can see it.  While we are at it, we will also make any new incoming messages do the same thing.</p>
+<p>You may have noticed that when you enter a message, you can&#39;t see it until you scroll down.  We would like to automatically scroll down when a message is sent so you can see it.  While we are at it, we will also make any new incoming messages do the same thing.</p>
 
 <p>Displaying the messages is the responsibility of the <code>Messages</code> component so that is where this fix will go.</p>
 
@@ -1017,7 +1031,7 @@ the message string, and the time that the message was sent:</p>
 
 <h3 id="detecting-the-logged-in-user">Detecting the Logged In User</h3>
 
-<p>The display is a bit impersonal.  If I am logged in, then messages from me should say &ldquo;You&rdquo; instead of my login name.</p>
+<p>The display is a bit impersonal.  If I am logged in, then messages from me should say &quot;You&quot; instead of my login name.</p>
 
 <p>Lets fix this.</p>
 
@@ -1072,7 +1086,7 @@ from <code>Messages</code> to <code>Message</code>.  Once you have added the par
 
 <h3 id="final-touches">Final Touches</h3>
 
-<p>You may notice that you can&rsquo;t hit the enter key to login.  Instead the enter key refreshes the page.</p>
+<p>You may notice that you can&#39;t hit the enter key to login.  Instead the enter key refreshes the page.</p>
 
 <p>To fix this the <code>Nav</code> component will need to two additional event handlers, one to track the <code>key_down</code> event, and the other to clear the <code>submit</code> event for the form.</p>
 
@@ -1092,7 +1106,7 @@ from <code>Messages</code> to <code>Message</code>.  Once you have added the par
 </code></pre>
 <p>inside the <code>container</code> <code>div</code>.</p>
 
-<p>Finally lets use one of the standard bootstrap login icons instead of the words &ldquo;Login!&rdquo;.</p>
+<p>Finally lets use one of the standard bootstrap login icons instead of the words &quot;Login!&quot;.</p>
 
 <p>Replace <code>{ &quot;Login!&quot; }</code> with <code>{ span.glyphicon.glyphicon_log_in }</code></p>
 
@@ -1137,7 +1151,7 @@ from <code>Messages</code> to <code>Message</code>.  Once you have added the par
 
 <p>You have built a very nice functional application.   We hope you have enjoyed the process.  Happy Coding!</p>
 
-<h4 id="source-code-of-the-steps-up-until-detecting-loged-in-user">Source code of the steps up until &#39;Detecting loged in user&rsquo;</h4>
+<h4 id="source-code-of-the-steps-up-until-detecting-loged-in-user">Source code of the steps up until &#39;Detecting loged in user&#39;</h4>
 <pre class="highlight ruby"><code><span class="o">&lt;</span><span class="n">script</span> <span class="n">type</span><span class="o">=</span><span class="s2">"text/ruby"</span><span class="o">&gt;</span>
 <span class="k">class</span> <span class="nc">App</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
 
@@ -1287,9 +1301,82 @@ from <code>Messages</code> to <code>Message</code>.  Once you have added the par
       </div>
     </div>
 
+    <script>
+      (function(Opal) {
+        var self = Opal.top, $scope = Opal, nil = Opal.nil, $breaker = Opal.breaker, $slice = Opal.slice;
+        Opal.add_stubs(['$puts']);
+        return self.$puts("Opal ok")
+      })(Opal);
+    </script>
 
-    <script   src="http://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
-    <script src="/javascripts/bootstrap.min.js"></script>
+    <!-- <script   src="http://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script> -->
+
+    <script type="text/ruby">puts "Hyperloop Express ok"</script>
+
+    <script type="text/ruby">
+
+class CodeMirror < React::Component::Base
+  param :code, type: String
+  define_state :error_message
+
+  before_mount do
+    state.error_message! ""
+  end
+
+  after_mount do
+    @editor = `CodeMirror(document.getElementById("code"), {
+      value: #{params.code},
+      mode: "text/x-ruby",
+      matchBrackets: true,
+      lineNumbers: true,
+      indentUnit: 2,
+      theme: 'github'
+    });`
+    `#{@editor}.on('change', #{lambda {on_change} })`
+    execute_code
+  end
+
+  render(DIV) do
+    div(id: 'code')
+    br
+    div(id: 'result')
+    p { state.error_message }
+  end
+
+  def on_change
+    state.error_message! ""
+    execute_code
+  end
+
+  after_mount   :execute_code
+  after_update  :execute_code
+
+  def execute_code
+    compiled_code = Opal::Compiler.new(`#{@editor}.getValue()`).compile
+    `ReactDOM.unmountComponentAtNode(document.getElementById("result"));`
+    `eval(#{compiled_code})`
+    Element['#result'].render{ Alfie() }
+    rescue Exception => e
+    @time_out = after(0.5) do
+      state.error_message! e.message
+    end
+  end
+
+end
+
+class TestApp < React::Component::Base
+  param :name
+  before_mount { @timer = every(1) { force_update! } }
+  render(DIV) do
+    h1 {"The current time is #{Time.now}"}
+    h2 { "here hello #{params.name}" }.on(:click) do
+     alert "you clicked"
+    end
+  end
+end
+
+</script>
+
 
   </body>
 </html>

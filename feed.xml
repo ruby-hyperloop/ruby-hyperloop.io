@@ -73,13 +73,13 @@
     <author>
       <name>Article Author</name>
     </author>
-    <content type="html">&lt;p&gt;Wow - its already been a hot sweaty summer around here in Reactrb land.  First off after a lot of discussion and thinking we have decided to consistently rename everything &lt;strong&gt;Reactrb&lt;/strong&gt;.  We are sad to see the &amp;ldquo;dot&amp;rdquo; go, but this way the name is consistent everywhere, twitter handle, domain name, github org name, etc.&lt;/p&gt;
+    <content type="html">&lt;p&gt;Wow - its already been a hot sweaty summer around here in Reactrb land.  First off after a lot of discussion and thinking we have decided to consistently rename everything &lt;strong&gt;Reactrb&lt;/strong&gt;.  We are sad to see the &amp;quot;dot&amp;quot; go, but this way the name is consistent everywhere, twitter handle, domain name, github org name, etc.&lt;/p&gt;
 
-&lt;p&gt;Within the &lt;a href="https://github.com/reactrb"&gt;github org&lt;/a&gt; we will use the reactb prefix for all gems and repos unless it really doesn&amp;rsquo;t make sense.  So you will find in the repo:&lt;/p&gt;
+&lt;p&gt;Within the &lt;a href="https://github.com/reactrb"&gt;github org&lt;/a&gt; we will use the reactb prefix for all gems and repos unless it really doesn&amp;#39;t make sense.  So you will find in the repo:&lt;/p&gt;
 
 &lt;ul&gt;
 &lt;li&gt;reactrb-express (formerly inline-reactive-ruby)&lt;/li&gt;
-&lt;li&gt;reactrb-examples (looking help here to clean these up&amp;hellip;)&lt;/li&gt;
+&lt;li&gt;reactrb-examples (looking help here to clean these up...)&lt;/li&gt;
 &lt;li&gt;reactrb-router (formerly reactive-router)&lt;/li&gt;
 &lt;li&gt;reactrb-rails-generator (formerly reactive&lt;em&gt;rails&lt;/em&gt;generator)&lt;/li&gt;
 &lt;/ul&gt;
@@ -97,7 +97,7 @@
 
 &lt;h2 id="you-pick-your-react-version"&gt;You Pick Your React Version&lt;/h2&gt;
 
-&lt;p&gt;We really needed this one&amp;hellip; With every gem and javascript component bundle pulling for a different version of react, Reactrb needed to step out of the way!&lt;/p&gt;
+&lt;p&gt;We really needed this one... With every gem and javascript component bundle pulling for a different version of react, Reactrb needed to step out of the way!&lt;/p&gt;
 
 &lt;p&gt;Reactrb is now tested with React V13-V15, and by default does &lt;em&gt;not&lt;/em&gt; include any version when you &lt;code&gt;require &amp;#39;reactrb&amp;#39;&lt;/code&gt;.  &lt;/p&gt;
 
@@ -131,7 +131,7 @@
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Now once you install the the &lt;a href="http://griddlegriddle.github.io/Griddle/"&gt;Griddle&lt;/a&gt; Javascript component you can use &lt;code&gt;Griddle&lt;/code&gt; like any other HyperReact component.&lt;/p&gt;
 
-&lt;p&gt;&lt;em&gt;But wait there&amp;rsquo;s more&amp;hellip;&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;But wait there&amp;#39;s more...&lt;/em&gt;&lt;/p&gt;
 
 &lt;p&gt;Importing a ton of libraries this way could get tedious especially if you are using something like Webpack anyway to manage which components to include.&lt;/p&gt;
 
@@ -143,12 +143,12 @@
 
 &lt;h2 id="render-call-back"&gt;Render Call back&lt;/h2&gt;
 
-&lt;p&gt;Up till now we have been defining the render method as just that &lt;em&gt;an instance method in your component class.&lt;/em&gt;  That&amp;rsquo;s cool, and that still works, however for a couple of reasons we felt having a call back to define the render method would be handy.  &lt;/p&gt;
+&lt;p&gt;Up till now we have been defining the render method as just that &lt;em&gt;an instance method in your component class.&lt;/em&gt;  That&amp;#39;s cool, and that still works, however for a couple of reasons we felt having a call back to define the render method would be handy.  &lt;/p&gt;
 
 &lt;ol&gt;
 &lt;li&gt;&lt;p&gt;&lt;strong&gt;Render methods are too large:&lt;/strong&gt; Even using helper methods to keep things small, render methods often exceed the normal 10 line ruby style guide recommendation.  &lt;/p&gt;
 
-&lt;p&gt;That is not a problem in itself - after all recommendations are just that.  However if you are using tools like RuboCop, then it&amp;rsquo;s sad when every single one of your components has a warning flag.  You can turn off that cop of course, but then lose a very valuable check that most of the times should be followed.  &lt;/p&gt;
+&lt;p&gt;That is not a problem in itself - after all recommendations are just that.  However if you are using tools like RuboCop, then it&amp;#39;s sad when every single one of your components has a warning flag.  You can turn off that cop of course, but then lose a very valuable check that most of the times should be followed.  &lt;/p&gt;
 
 &lt;p&gt;By allowing render to be defined as a call back, you get rid of this problem.&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;&lt;strong&gt;Get Rid of Boiler Plate:&lt;/strong&gt; All components must have a single outer container, and for many components this container and its parameters are static.  So the new render call back lets you specify the container component and its parameters as params to the callback.  This eliminates two unnecessary lines per component, plus an unneeded level of indentation, and I think when used properly it makes things clearer.&lt;/p&gt;&lt;/li&gt;
@@ -157,11 +157,11 @@
 
 &lt;p&gt;Meanwhile the &lt;code&gt;Element[...].render&lt;/code&gt; method which can be used to mount a top level component to a DOM element, has been updated to follow the same syntax as well.  So for example to mount a component you can just say &lt;code&gt;Element[&amp;#39;#top-level&amp;#39;].render App&lt;/code&gt;.&lt;/p&gt;
 
-&lt;p&gt;This is not a big deal but I think you should try it out, and see if it doesn&amp;rsquo;t lead to more readable components.&lt;/p&gt;
+&lt;p&gt;This is not a big deal but I think you should try it out, and see if it doesn&amp;#39;t lead to more readable components.&lt;/p&gt;
 
 &lt;h2 id="caps-tag-names"&gt;CAPS Tag Names&lt;/h2&gt;
 
-&lt;p&gt;Its been suggested that especially for beginners its a little hard to parse the DSL.  You don&amp;rsquo;t know which method is what, and its hard to tell the difference between tags like &lt;code&gt;select&lt;/code&gt; and other helper methods.  One way to solve this is to write the built-in tag names in all caps, which the DSL now supports.&lt;/p&gt;
+&lt;p&gt;Its been suggested that especially for beginners its a little hard to parse the DSL.  You don&amp;#39;t know which method is what, and its hard to tell the difference between tags like &lt;code&gt;select&lt;/code&gt; and other helper methods.  One way to solve this is to write the built-in tag names in all caps, which the DSL now supports.&lt;/p&gt;
 
 &lt;p&gt;It was a small thing, so we went ahead and added it.  Tell us what you think!&lt;/p&gt;
 </content>
@@ -277,17 +277,17 @@ components, like so:&lt;/p&gt;
 &lt;h1 id="make-a-controller-to-demonstrate-react-components"&gt;Make a controller to demonstrate react components&lt;/h1&gt;
 
 &lt;p&gt;We will be demonstrating several types of components as
-examples. Let&amp;rsquo;s make a dedicated controller to demo these components with
+examples. Let&amp;#39;s make a dedicated controller to demo these components with
 dedicated actions for each case.&lt;/p&gt;
 &lt;pre class="highlight shell"&gt;&lt;code&gt;    % rails g controller home isomorphic iso_convention search_path client_only
 &lt;/code&gt;&lt;/pre&gt;
 &lt;h1 id="create-your-first-react-component"&gt;Create your first React Component&lt;/h1&gt;
 
-&lt;p&gt;So now that we&amp;rsquo;re setup for isomorphic components, lets make our first
-react.rb component.  We&amp;rsquo;ll start with a simple &amp;ldquo;Hello World&amp;rdquo;
+&lt;p&gt;So now that we&amp;#39;re setup for isomorphic components, lets make our first
+react.rb component.  We&amp;#39;ll start with a simple &amp;quot;Hello World&amp;quot;
 component.  This component takes a single, required param message of
 type &lt;code&gt;String&lt;/code&gt;. Note, param in &lt;code&gt;react.rb&lt;/code&gt; corresonds to prop in
-react.js; &lt;code&gt;react.rb&lt;/code&gt; calls props &amp;ldquo;params&amp;rdquo; to provide a more Rails
+react.js; &lt;code&gt;react.rb&lt;/code&gt; calls props &amp;quot;params&amp;quot; to provide a more Rails
 familiar API. The component renders this message param in an &lt;strong&gt;h1&lt;/strong&gt; element,
 and renders a button that, when clicked, calls &lt;code&gt;alert()&lt;/code&gt; with the same
 message.&lt;/p&gt;
@@ -323,11 +323,11 @@ pass the component.  Implement the &lt;code&gt;isomorphic&lt;/code&gt; action in
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Start the server, then visit &lt;a href="http://localhost:3000/home/isomorphic"&gt;&lt;a href="http://localhost:3000/home/isomorphic"&gt;http://localhost:3000/home/isomorphic&lt;/a&gt;&lt;/a&gt; to
 view the component.  By default, react.rb prerenders the component on
-the server (the reverse of react-rails&amp;rsquo; &lt;code&gt;react_component()&lt;/code&gt;, but you can force Rails to NOT prerender by appending
+the server (the reverse of react-rails&amp;#39; &lt;code&gt;react_component()&lt;/code&gt;, but you can force Rails to NOT prerender by appending
 ?no_prerender=1 to the url, like so&lt;/p&gt;
 &lt;pre class="highlight plaintext"&gt;&lt;code&gt;http://localhost:3000/home/isomorphic?no_prerender=1
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Let&amp;rsquo;s take a quick look at the HTML returned by the server in both cases (formatted to be more human-readable)&lt;/p&gt;
+&lt;p&gt;Let&amp;#39;s take a quick look at the HTML returned by the server in both cases (formatted to be more human-readable)&lt;/p&gt;
 
 &lt;p&gt;For &lt;a href="http://localhost:3000/home/isomorphic"&gt;&lt;a href="http://localhost:3000/home/isomorphic"&gt;http://localhost:3000/home/isomorphic&lt;/a&gt;&lt;/a&gt;
 we see the &lt;strong&gt;h1&lt;/strong&gt; and button rendered from the server:&lt;/p&gt;
@@ -346,11 +346,11 @@ there is no prerendering and the rendering is done by the client&lt;/p&gt;
          &lt;span class="na"&gt;data-react-props=&lt;/span&gt;&lt;span class="s"&gt;"{&amp;amp;quot;render_params&amp;amp;quot;:{&amp;amp;quot;message&amp;amp;quot;:&amp;amp;quot;World&amp;amp;quot;},&amp;amp;quot;component_name&amp;amp;quot;:&amp;amp;quot;Hello&amp;amp;quot;,&amp;amp;quot;controller&amp;amp;quot;:&amp;amp;quot;Home&amp;amp;quot;}"&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
     &lt;span class="nt"&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;
-&lt;h1 id="rails-conventions-isomorphic-i-e-universal-components-and-the-default-component"&gt;Rails conventions, isomorphic (i.e. universal) components and the &amp;ldquo;default&amp;rdquo; component&lt;/h1&gt;
+&lt;h1 id="rails-conventions-isomorphic-i-e-universal-components-and-the-default-component"&gt;Rails conventions, isomorphic (i.e. universal) components and the &amp;quot;default&amp;quot; component&lt;/h1&gt;
 
 &lt;p&gt;In the Rails tradition of convention over configuration, you can
 structure/name your components to match your controllers to support a
-&amp;ldquo;default&amp;rdquo; component, i.e. a component you do NOT need to specify, for
+&amp;quot;default&amp;quot; component, i.e. a component you do NOT need to specify, for
 a controller action. To make a default component for the
 &lt;code&gt;HomeController#iso_convention&lt;/code&gt; action, create the following file:&lt;/p&gt;
 &lt;pre class="highlight ruby"&gt;&lt;code&gt;    &lt;span class="c1"&gt;# app/views/components/home/iso_convention.rb&lt;/span&gt;
@@ -391,24 +391,24 @@ react.rb is described here: &lt;a href="https://github.com/zetachang/react.rb#ch
 &lt;p&gt;You can control the top level component name and search path.&lt;/p&gt;
 
 &lt;p&gt;You can specify the component name explicitly in the
-render_component method. render_component &amp;ldquo;Blatz will search the
+render_component method. render_component &amp;quot;Blatz will search the
 for a component class named Blatz regardless of the controller
 method.&lt;/p&gt;
 
 &lt;p&gt;Searching for components normally works like this: Given a
-controller named &amp;quot;Foo&amp;rdquo; then the component should be either in the
+controller named &amp;quot;Foo&amp;quot; then the component should be either in the
 Components::Foo module, the Components module (no controller -
 useful if you have just a couple of shared components) or just the
 outer scope (i.e. Module) which is useful for small apps.&lt;/p&gt;
 
-&lt;p&gt;Saying render_component &amp;ldquo;::Blatz&amp;rdquo; will only search the outer scope,
-while &amp;ldquo;::Foo::Blatz&amp;rdquo; will look only in the module Foo for a class
+&lt;p&gt;Saying render_component &amp;quot;::Blatz&amp;quot; will only search the outer scope,
+while &amp;quot;::Foo::Blatz&amp;quot; will look only in the module Foo for a class
 named Blatz.&lt;/p&gt;
 &lt;/blockquote&gt;
 
 &lt;h1 id="exploring-the-component-search-path"&gt;Exploring the component search path&lt;/h1&gt;
 
-&lt;p&gt;Let&amp;rsquo;s play around with several components that have the same class name and
+&lt;p&gt;Let&amp;#39;s play around with several components that have the same class name and
 see how the search path resolves which component to use.  Create the
 file below:&lt;/p&gt;
 
@@ -452,7 +452,7 @@ file below:&lt;/p&gt;
       &lt;span class="k"&gt;end&lt;/span&gt;
     &lt;span class="k"&gt;end&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;To render the &amp;ldquo;default&amp;rdquo; component, we can just call &lt;code&gt;render_component()&lt;/code&gt;:&lt;/p&gt;
+&lt;p&gt;To render the &amp;quot;default&amp;quot; component, we can just call &lt;code&gt;render_component()&lt;/code&gt;:&lt;/p&gt;
 &lt;pre class="highlight ruby"&gt;&lt;code&gt;    &lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;HomeController&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="no"&gt;ApplicationController&lt;/span&gt;
       &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;search_path&lt;/span&gt;
         &lt;span class="n"&gt;render_component&lt;/span&gt;
@@ -470,7 +470,7 @@ file below:&lt;/p&gt;
     &lt;span class="k"&gt;end&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;We can explore what will be found next the search path by changing the
-found component&amp;rsquo;s name to &lt;code&gt;SearchPath1&lt;/code&gt;, and then refreshing
+found component&amp;#39;s name to &lt;code&gt;SearchPath1&lt;/code&gt;, and then refreshing
 &lt;a href="http://localhost:3000/home/search_path"&gt;http://localhost:3000/home/search_path&lt;/a&gt; to see which component is
 found.  Doing this for each found component gets the following
 results:&lt;/p&gt;
@@ -535,7 +535,7 @@ the full namespace in the &lt;code&gt;render_component()&lt;/code&gt; call&lt;/p
 components in the &lt;code&gt;app/assets/javascripts/components&lt;/code&gt; directory.  This
 makes sense, esp. since Rails out of the box does NOT support
 isomorphic code and views; hence this directoy is a logical and
-&amp;ldquo;Rails-like&amp;rdquo; place for Javascript to go.  Similarly, if you are just
+&amp;quot;Rails-like&amp;quot; place for Javascript to go.  Similarly, if you are just
 using opal-rails and not not react.rb, then by convention, your &lt;code&gt;Opal&lt;/code&gt;
 code will be placed under &lt;code&gt;app/assets/javascripts&lt;/code&gt; where the asset
 pipeline knows how to find and transpile the &lt;code&gt;Opal&lt;/code&gt; files to Javascript.
@@ -553,7 +553,7 @@ javascript files for both server and client rendering, but I would
 recommend a structure similar to how react-rails, i.e. in
 &lt;code&gt;app/assets/javascripts/components&lt;/code&gt; to make them easy to find.&lt;/p&gt;
 
-&lt;p&gt;Let&amp;rsquo;s put the &amp;ldquo;client side only&amp;rdquo; component into
+&lt;p&gt;Let&amp;#39;s put the &amp;quot;client side only&amp;quot; component into
 &lt;code&gt;app/assets/javascripts&lt;/code&gt;. Since Opal will find the file anywhere the
 asset pipeline knows to look, this would be more for organizational
 conventions rather than a configuration necessary to make it work.&lt;/p&gt;
@@ -575,7 +575,7 @@ become react.js components.&lt;/p&gt;
     &lt;span class="nt"&gt;&amp;lt;p&amp;gt;&lt;/span&gt;Find me in app/views/home/client_only.html.erb&lt;span class="nt"&gt;&amp;lt;/p&amp;gt;&lt;/span&gt;
     &lt;span class="err"&gt;&amp;lt;&lt;/span&gt;%= react_component 'ClientOnly', message: 'World' %&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;
-&lt;h1 id="thats-all-for-now"&gt;That&amp;rsquo;s all for now.&lt;/h1&gt;
+&lt;h1 id="thats-all-for-now"&gt;That&amp;#39;s all for now.&lt;/h1&gt;
 
 &lt;p&gt;So now you have a Rails project with react.rb running with several
 examples of react.rb components. All of this code exists in a rails

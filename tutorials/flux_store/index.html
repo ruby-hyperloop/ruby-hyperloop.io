@@ -17,9 +17,23 @@
     <link href="/stylesheets/stylesheet.css" rel="stylesheet" />
     <link href="/stylesheets/github-light.css" rel="stylesheet" /> -->
 
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.5/marked.min.js"></script>
+    <script src="https://rawgit.com/reactrb/reactrb-express/master/reactrb-express.js"></script>
+
+    <script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
+
+    <script src="/javascripts/bootstrap.min.js"></script>
+    <script src="/javascripts/codemirror.js"></script>
+    <script src="/javascripts/ruby.js"></script>
+    <script src="/javascripts/matchbrackets.js"></script>
+
     <link href="/stylesheets/bootstrap.min.css" rel="stylesheet" />
     <link href="/stylesheets/override.css" rel="stylesheet" />
-    <link href="/stylesheets/code.css" rel="stylesheet" />
+    <!-- <link href="/stylesheets/code.css" rel="stylesheet" /> -->
+    <link href="/stylesheets/github.css" rel="stylesheet" />
+    <link href="/stylesheets/highlighting.css" rel="stylesheet" />
+    <link href="/stylesheets/codemirror.css" rel="stylesheet" />
 
     <link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/feed.xml" />
 
@@ -161,7 +175,7 @@
         <div class="col-md-9 main-content">
           <h2 id="implementing-a-flux-store">Implementing a Flux Store</h2>
 
-<p>Let&rsquo;s say, for example, that you have deeply nested components where the inner child component needs to tell the outermost component to reload its JSON and re-render. You could use callbacks between components for children to speak to their parent there is a better way to do this using a Flux pattern.</p>
+<p>Let&#39;s say, for example, that you have deeply nested components where the inner child component needs to tell the outermost component to reload its JSON and re-render. You could use callbacks between components for children to speak to their parent there is a better way to do this using a Flux pattern.</p>
 
 <p>It is very easy to implement a Flux store pattern in Hyperloop.</p>
 
@@ -220,7 +234,7 @@
 
 <p>As you see store acts just like state variable. You update it just like a state variable by adding the bang (!) at the end of the name, which will cause a rerender of any component depending on the value of store.</p>
 
-<p>Let&rsquo;s clean this up just a little bit. What we are going to do is hide the specifics of how we represent our store.</p>
+<p>Let&#39;s clean this up just a little bit. What we are going to do is hide the specifics of how we represent our store.</p>
 <pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">MyApp</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
 
   <span class="n">export_state</span> <span class="ss">:store</span>
@@ -275,7 +289,7 @@
 </code></pre>
 <p>Try it here: <a href="http://goo.gl/7iMVbe">http://goo.gl/7iMVbe</a></p>
 
-<p>Let&rsquo;s separate out the store completely from the top level App:</p>
+<p>Let&#39;s separate out the store completely from the top level App:</p>
 <pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">Store</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
 
   <span class="n">export_state</span> <span class="ss">:store</span>
@@ -406,7 +420,7 @@
 
 <p>As you can see flux is simply a programming pattern, that keeps your code clean. Data flows down to the leaf components, which will call methods on a store as external events occur. Updating the store, triggers rerendering of any components reading that data, which will cascade down to any lower level components that have changed as a result.</p>
 
-<p>One thing that you may wonder about is efficiency&hellip; so let&rsquo;s add output info to the console whenever we re-render DisplayItem:</p>
+<p>One thing that you may wonder about is efficiency... so let&#39;s add output info to the console whenever we re-render DisplayItem:</p>
 <pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">DisplayItem</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
   <span class="n">param</span> <span class="ss">:name</span>
   <span class="n">param</span> <span class="ss">:value</span>
@@ -423,9 +437,9 @@
 
 <p>Open up the javascript console, and add at least 3 items, then delete a middle item.</p>
 
-<p>You will notice that adding an item only renders the new row, however when you delete a middle item all the rows below the item you deleted get re-rendered. This is not due to the flux pattern, but is a problem that react calls reconciliation, and there is a simple solution. In cases where you have lists of items being shuffled around, react can be given a &ldquo;key&rdquo; for each item, and during reconciliation it will use the keys to match up items before and after. <a href="https://facebook.github.io/react/docs/reconciliation.html">https://facebook.github.io/react/docs/reconciliation.html</a></p>
+<p>You will notice that adding an item only renders the new row, however when you delete a middle item all the rows below the item you deleted get re-rendered. This is not due to the flux pattern, but is a problem that react calls reconciliation, and there is a simple solution. In cases where you have lists of items being shuffled around, react can be given a &quot;key&quot; for each item, and during reconciliation it will use the keys to match up items before and after. <a href="https://facebook.github.io/react/docs/reconciliation.html">https://facebook.github.io/react/docs/reconciliation.html</a></p>
 
-<p>So all we need to do is add a unique key to each DisplayItem. In our simple example the &ldquo;name&rdquo; can act as a key, since we know its going to be unique. In a real implementation you would want the store to be responsible for this, and have a key method on each object in a list (perhaps?). Notice that &ldquo;key&rdquo; is a reserved param. It does not get passed into the component but is intercepted by react and used internally.</p>
+<p>So all we need to do is add a unique key to each DisplayItem. In our simple example the &quot;name&quot; can act as a key, since we know its going to be unique. In a real implementation you would want the store to be responsible for this, and have a key method on each object in a list (perhaps?). Notice that &quot;key&quot; is a reserved param. It does not get passed into the component but is intercepted by react and used internally.</p>
 <pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">MyApp</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
   <span class="k">def</span> <span class="nf">render</span>
     <span class="n">div</span> <span class="k">do</span>
@@ -445,9 +459,82 @@
       </div>
     </div>
 
+    <script>
+      (function(Opal) {
+        var self = Opal.top, $scope = Opal, nil = Opal.nil, $breaker = Opal.breaker, $slice = Opal.slice;
+        Opal.add_stubs(['$puts']);
+        return self.$puts("Opal ok")
+      })(Opal);
+    </script>
 
-    <script   src="http://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
-    <script src="/javascripts/bootstrap.min.js"></script>
+    <!-- <script   src="http://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script> -->
+
+    <script type="text/ruby">puts "Hyperloop Express ok"</script>
+
+    <script type="text/ruby">
+
+class CodeMirror < React::Component::Base
+  param :code, type: String
+  define_state :error_message
+
+  before_mount do
+    state.error_message! ""
+  end
+
+  after_mount do
+    @editor = `CodeMirror(document.getElementById("code"), {
+      value: #{params.code},
+      mode: "text/x-ruby",
+      matchBrackets: true,
+      lineNumbers: true,
+      indentUnit: 2,
+      theme: 'github'
+    });`
+    `#{@editor}.on('change', #{lambda {on_change} })`
+    execute_code
+  end
+
+  render(DIV) do
+    div(id: 'code')
+    br
+    div(id: 'result')
+    p { state.error_message }
+  end
+
+  def on_change
+    state.error_message! ""
+    execute_code
+  end
+
+  after_mount   :execute_code
+  after_update  :execute_code
+
+  def execute_code
+    compiled_code = Opal::Compiler.new(`#{@editor}.getValue()`).compile
+    `ReactDOM.unmountComponentAtNode(document.getElementById("result"));`
+    `eval(#{compiled_code})`
+    Element['#result'].render{ Alfie() }
+    rescue Exception => e
+    @time_out = after(0.5) do
+      state.error_message! e.message
+    end
+  end
+
+end
+
+class TestApp < React::Component::Base
+  param :name
+  before_mount { @timer = every(1) { force_update! } }
+  render(DIV) do
+    h1 {"The current time is #{Time.now}"}
+    h2 { "here hello #{params.name}" }.on(:click) do
+     alert "you clicked"
+    end
+  end
+end
+
+</script>
+
 
   </body>
 </html>

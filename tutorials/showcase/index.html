@@ -17,9 +17,23 @@
     <link href="/stylesheets/stylesheet.css" rel="stylesheet" />
     <link href="/stylesheets/github-light.css" rel="stylesheet" /> -->
 
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.5/marked.min.js"></script>
+    <script src="https://rawgit.com/reactrb/reactrb-express/master/reactrb-express.js"></script>
+
+    <script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
+
+    <script src="/javascripts/bootstrap.min.js"></script>
+    <script src="/javascripts/codemirror.js"></script>
+    <script src="/javascripts/ruby.js"></script>
+    <script src="/javascripts/matchbrackets.js"></script>
+
     <link href="/stylesheets/bootstrap.min.css" rel="stylesheet" />
     <link href="/stylesheets/override.css" rel="stylesheet" />
-    <link href="/stylesheets/code.css" rel="stylesheet" />
+    <!-- <link href="/stylesheets/code.css" rel="stylesheet" /> -->
+    <link href="/stylesheets/github.css" rel="stylesheet" />
+    <link href="/stylesheets/highlighting.css" rel="stylesheet" />
+    <link href="/stylesheets/codemirror.css" rel="stylesheet" />
 
     <link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/feed.xml" />
 
@@ -179,7 +193,7 @@
 <li>For the backend we are using Rails 4.2.6 with Ruby 2.3.1</li>
 <li>NPM and Webpack to manage front end assets</li>
 <li><a href="https://github.com/reactjs/react-rails">React Rails</a> to use React with Rails</li>
-<li><a href="https://github.com/ruby-hyperloop/hyper-react">HyperReact</a> to write reactive UI components with Ruby&rsquo;s elegance</li>
+<li><a href="https://github.com/ruby-hyperloop/hyper-react">HyperReact</a> to write reactive UI components with Ruby&#39;s elegance</li>
 <li><a href="https://react-bootstrap.github.io/">React Bootstrap</a> to show how to use native React components in Reactrb</li>
 <li><a href="https://github.com/fkchang/opal-hot-reloader">Reactrb Hot-Reloader and Opal IRB</a> for programmer joy and hot-loading with developing</li>
 </ul>
@@ -226,7 +240,7 @@ bundle install
 bundle exec rails g hyperloop:install
 bundle update
 </code></pre>
-<p>At this stage HyperReact is installed but we don&rsquo;t have any components yet. Lets create one via the generator:</p>
+<p>At this stage HyperReact is installed but we don&#39;t have any components yet. Lets create one via the generator:</p>
 <pre class="highlight plaintext"><code>rails g hyperloop:component Home::Show
 </code></pre>
 <p>This will add a new Component at app/views/components/home/show.rb</p>
@@ -277,7 +291,7 @@ bundle update
 
 <p>Also note how <code>params</code> are declared and how <code>before_mount</code> macros (and friends) macros are used. Finally note that every component must have one <code>render</code> method which must return just one DOM <code>element</code> which in this example case is a <code>div</code>.</p>
 
-<p>Next let&rsquo;s get this simple component rendering on a page. For that we will need a rails controller and a route.</p>
+<p>Next let&#39;s get this simple component rendering on a page. For that we will need a rails controller and a route.</p>
 <pre class="highlight plaintext"><code>rails g controller home
 </code></pre>
 <p>And add a route to your <code>routes.rb</code></p>
@@ -402,9 +416,9 @@ Reactive record prerendered data being loaded: [Object]
 
 <p>It is time to reap some of the rewards from all the hard work above. We have everything setup so we can easily add front end components and work with them in Reactrb. Lets jump in and add a native React component that plays a video.</p>
 
-<p><a href="https://github.com/CookPete/rplayr">We are going to use Pete Cook&rsquo;s React rplayr</a></p>
+<p><a href="https://github.com/CookPete/rplayr">We are going to use Pete Cook&#39;s React rplayr</a></p>
 
-<p>First let&rsquo;s install the component via NPM:</p>
+<p>First let&#39;s install the component via NPM:</p>
 <pre class="highlight plaintext"><code>npm install react-player --save
 </code></pre>
 <p>Next we need to <code>require</code> it in <code>webpack/client_and_server.js</code></p>
@@ -413,7 +427,7 @@ Reactive record prerendered data being loaded: [Object]
 <p>Next run webpack so it can be bundled</p>
 <pre class="highlight plaintext"><code>webpack
 </code></pre>
-<p>And then finally let&rsquo;s add it to our Show component:</p>
+<p>And then finally let&#39;s add it to our Show component:</p>
 <pre class="highlight ruby"><code><span class="k">def</span> <span class="nf">render</span>
   <span class="n">div</span> <span class="k">do</span>
     <span class="no">ReactPlayer</span><span class="p">(</span><span class="ss">url:  </span><span class="s1">'https://www.youtube.com/embed/FzCsDVfPQqk'</span><span class="p">,</span>
@@ -451,13 +465,13 @@ end
     someMethod
 end
 </code></pre>
-<p>As you can see, sample 3 &amp; 4 are not that different and as a Reactrb developer, I actually prefer sample 3. If I were a JavaScript or JSX developer I would completely understand the advantage of abstracting Bootstrap CSS into React Components so I don&rsquo;t have to work directly with CSS and JavaScript but this is not the case with Reactrb as CSS classes are added to HTML elements with simple dot notation:</p>
+<p>As you can see, sample 3 &amp; 4 are not that different and as a Reactrb developer, I actually prefer sample 3. If I were a JavaScript or JSX developer I would completely understand the advantage of abstracting Bootstrap CSS into React Components so I don&#39;t have to work directly with CSS and JavaScript but this is not the case with Reactrb as CSS classes are added to HTML elements with simple dot notation:</p>
 <pre class="highlight plaintext"><code>span.pull_right {}
 </code></pre>
 <p>compiles to (note the conversion from _ to -)</p>
 <pre class="highlight plaintext"><code>&lt;span class='pull-right'&gt;&lt;/span&gt;
 </code></pre>
-<p>So I hear you ask: why if I prefer the non-React Bootstrap syntax why am worrying about React Bootstrap? For one very simple reason: components like Navbar and Modal that requires <code>bootstrap.js</code> will not work with React on it&rsquo;s own so without the React Bootstrap project you would need to implement all that functionality yourself. The React Bootstrap project has re-implemented all this functionality as React components.</p>
+<p>So I hear you ask: why if I prefer the non-React Bootstrap syntax why am worrying about React Bootstrap? For one very simple reason: components like Navbar and Modal that requires <code>bootstrap.js</code> will not work with React on it&#39;s own so without the React Bootstrap project you would need to implement all that functionality yourself. The React Bootstrap project has re-implemented all this functionality as React components.</p>
 
 <p>Lets implement a Navbar in this project using React Bootstrap in Reactrb. First, we need to install Bootstrap and React Bootstrap:</p>
 <pre class="highlight plaintext"><code>npm install bootstrap react-bootstrap --save
@@ -593,7 +607,7 @@ end
 
 <h2 id="reactrb-hot-reloader-and-opal-irb">Reactrb Hot-reloader and Opal IRB</h2>
 
-<p>Before we go any further, let&rsquo;s install too fantastic tools written by Forrest Chang:</p>
+<p>Before we go any further, let&#39;s install too fantastic tools written by Forrest Chang:</p>
 
 <ul>
 <li><a href="https://github.com/fkchang/opal-hot-reloader">Opal Hot Reloader</a></li>
@@ -645,7 +659,7 @@ hotloader: opal-hot-reloader -p 25222 -d app/views/components
 
 <h3 id="reactrb-is-powered-by-react">Reactrb is powered by React</h3>
 
-<p>Reactrb and friends are in most cases simple DSL Ruby wrappers to the underlying native JavaScript libraries and React Components. It is really important to have a solid grip on how these technologies work to complement your understanding of Reactrb. Most searches for help on Google will take you to examples written in JSX or ES6 JavaScript but you will learn over time to transalte this to Reactrb equivalents. To make headway with Reactrb you do need a solid understanding of the underlying philosophy of React and its component based architecture. The &lsquo;Thinking in React&rsquo; tutorial below is an excellent place to start. (Make sure you see the Flux pattern in Reactrb above for an example of how to communicate between grandparent and child components).   </p>
+<p>Reactrb and friends are in most cases simple DSL Ruby wrappers to the underlying native JavaScript libraries and React Components. It is really important to have a solid grip on how these technologies work to complement your understanding of Reactrb. Most searches for help on Google will take you to examples written in JSX or ES6 JavaScript but you will learn over time to transalte this to Reactrb equivalents. To make headway with Reactrb you do need a solid understanding of the underlying philosophy of React and its component based architecture. The &#39;Thinking in React&#39; tutorial below is an excellent place to start. (Make sure you see the Flux pattern in Reactrb above for an example of how to communicate between grandparent and child components).   </p>
 
 <ul>
 <li><a href="https://facebook.github.io/react/docs/thinking-in-react.html">Thinking in React</a></li>
@@ -668,9 +682,82 @@ hotloader: opal-hot-reloader -p 25222 -d app/views/components
       </div>
     </div>
 
+    <script>
+      (function(Opal) {
+        var self = Opal.top, $scope = Opal, nil = Opal.nil, $breaker = Opal.breaker, $slice = Opal.slice;
+        Opal.add_stubs(['$puts']);
+        return self.$puts("Opal ok")
+      })(Opal);
+    </script>
 
-    <script   src="http://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
-    <script src="/javascripts/bootstrap.min.js"></script>
+    <!-- <script   src="http://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script> -->
+
+    <script type="text/ruby">puts "Hyperloop Express ok"</script>
+
+    <script type="text/ruby">
+
+class CodeMirror < React::Component::Base
+  param :code, type: String
+  define_state :error_message
+
+  before_mount do
+    state.error_message! ""
+  end
+
+  after_mount do
+    @editor = `CodeMirror(document.getElementById("code"), {
+      value: #{params.code},
+      mode: "text/x-ruby",
+      matchBrackets: true,
+      lineNumbers: true,
+      indentUnit: 2,
+      theme: 'github'
+    });`
+    `#{@editor}.on('change', #{lambda {on_change} })`
+    execute_code
+  end
+
+  render(DIV) do
+    div(id: 'code')
+    br
+    div(id: 'result')
+    p { state.error_message }
+  end
+
+  def on_change
+    state.error_message! ""
+    execute_code
+  end
+
+  after_mount   :execute_code
+  after_update  :execute_code
+
+  def execute_code
+    compiled_code = Opal::Compiler.new(`#{@editor}.getValue()`).compile
+    `ReactDOM.unmountComponentAtNode(document.getElementById("result"));`
+    `eval(#{compiled_code})`
+    Element['#result'].render{ Alfie() }
+    rescue Exception => e
+    @time_out = after(0.5) do
+      state.error_message! e.message
+    end
+  end
+
+end
+
+class TestApp < React::Component::Base
+  param :name
+  before_mount { @timer = every(1) { force_update! } }
+  render(DIV) do
+    h1 {"The current time is #{Time.now}"}
+    h2 { "here hello #{params.name}" }.on(:click) do
+     alert "you clicked"
+    end
+  end
+end
+
+</script>
+
 
   </body>
 </html>

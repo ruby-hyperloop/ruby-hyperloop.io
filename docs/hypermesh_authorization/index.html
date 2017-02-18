@@ -17,9 +17,23 @@
     <link href="/stylesheets/stylesheet.css" rel="stylesheet" />
     <link href="/stylesheets/github-light.css" rel="stylesheet" /> -->
 
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.5/marked.min.js"></script>
+    <script src="https://rawgit.com/reactrb/reactrb-express/master/reactrb-express.js"></script>
+
+    <script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
+
+    <script src="/javascripts/bootstrap.min.js"></script>
+    <script src="/javascripts/codemirror.js"></script>
+    <script src="/javascripts/ruby.js"></script>
+    <script src="/javascripts/matchbrackets.js"></script>
+
     <link href="/stylesheets/bootstrap.min.css" rel="stylesheet" />
     <link href="/stylesheets/override.css" rel="stylesheet" />
-    <link href="/stylesheets/code.css" rel="stylesheet" />
+    <!-- <link href="/stylesheets/code.css" rel="stylesheet" /> -->
+    <link href="/stylesheets/github.css" rel="stylesheet" />
+    <link href="/stylesheets/highlighting.css" rel="stylesheet" />
+    <link href="/stylesheets/codemirror.css" rel="stylesheet" />
 
     <link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/feed.xml" />
 
@@ -160,9 +174,9 @@
 
 <p>For example a Todo application might have an <em>instance</em> of a channel for each currently logged in user; an instance of a channel for each team if that team has one or more logged in users; and a general <code>AdminUser</code> channel shared by all administrators that are logged in.</p>
 
-<p>Lets say a specific <code>Todo</code> changes, which is part of team id 123&rsquo;s Todo list, and users 7 and 8 who are members of that team are currently logged in as well as two of the <code>AdminUsers</code>.  </p>
+<p>Lets say a specific <code>Todo</code> changes, which is part of team id 123&#39;s Todo list, and users 7 and 8 who are members of that team are currently logged in as well as two of the <code>AdminUsers</code>.  </p>
 
-<p>When the <code>Todo</code> changes we want all the attributes of the <code>Todo</code> broadcast on team 123&rsquo;s channel, as well on the <code>AdminUser</code>&lsquo;s channel.  Now lets say User 7 sends User 8 a private message, adding a new record to the <code>Message</code> model.  This update should only be sent to user 7 and user 8&rsquo;s private channels, as well as to the AdminUser channel.</p>
+<p>When the <code>Todo</code> changes we want all the attributes of the <code>Todo</code> broadcast on team 123&#39;s channel, as well on the <code>AdminUser</code>&#39;s channel.  Now lets say User 7 sends User 8 a private message, adding a new record to the <code>Message</code> model.  This update should only be sent to user 7 and user 8&#39;s private channels, as well as to the AdminUser channel.</p>
 
 <p>We can define all these policies by creating the following classes:</p>
 <pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">UserPolicy</span> <span class="c1"># defines policies for the User class</span>
@@ -235,7 +249,7 @@
   <span class="k">end</span>
 <span class="k">end</span>
 </code></pre>
-<p>Note that <code>acting_user</code> is also used by Reactive-Record&rsquo;s permission system.</p>
+<p>Note that <code>acting_user</code> is also used by Reactive-Record&#39;s permission system.</p>
 
 <p>Our entire set of policies is defined in 29 lines of code of which 8 actually execute the policies.  Our existing classes form the foundation, and we simply add synchromesh specific policy directives.  Pretty sweet huh?</p>
 
@@ -412,7 +426,7 @@ HyperMesh.connect(AdminUser, current_user)
 <li>The client calls <code>HyperMesh.connect</code>.</li>
 <li>HyperMesh sends the channel name to the server.</li>
 <li>HyperMesh has its own controller which will determine the <code>acting_user</code>,</li>
-<li>and call the channel&rsquo;s <code>regulate_class_connection</code> method.</li>
+<li>and call the channel&#39;s <code>regulate_class_connection</code> method.</li>
 <li>If <code>regulate_class_connection</code> returns a truthy value then the connetion is made,</li>
 <li>otherwise a 500 error is returned.</li>
 </ol>
@@ -583,9 +597,82 @@ HyperMesh.connect(AdminUser, current_user)
       </div>
     </div>
 
+    <script>
+      (function(Opal) {
+        var self = Opal.top, $scope = Opal, nil = Opal.nil, $breaker = Opal.breaker, $slice = Opal.slice;
+        Opal.add_stubs(['$puts']);
+        return self.$puts("Opal ok")
+      })(Opal);
+    </script>
 
-    <script   src="http://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
-    <script src="/javascripts/bootstrap.min.js"></script>
+    <!-- <script   src="http://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script> -->
+
+    <script type="text/ruby">puts "Hyperloop Express ok"</script>
+
+    <script type="text/ruby">
+
+class CodeMirror < React::Component::Base
+  param :code, type: String
+  define_state :error_message
+
+  before_mount do
+    state.error_message! ""
+  end
+
+  after_mount do
+    @editor = `CodeMirror(document.getElementById("code"), {
+      value: #{params.code},
+      mode: "text/x-ruby",
+      matchBrackets: true,
+      lineNumbers: true,
+      indentUnit: 2,
+      theme: 'github'
+    });`
+    `#{@editor}.on('change', #{lambda {on_change} })`
+    execute_code
+  end
+
+  render(DIV) do
+    div(id: 'code')
+    br
+    div(id: 'result')
+    p { state.error_message }
+  end
+
+  def on_change
+    state.error_message! ""
+    execute_code
+  end
+
+  after_mount   :execute_code
+  after_update  :execute_code
+
+  def execute_code
+    compiled_code = Opal::Compiler.new(`#{@editor}.getValue()`).compile
+    `ReactDOM.unmountComponentAtNode(document.getElementById("result"));`
+    `eval(#{compiled_code})`
+    Element['#result'].render{ Alfie() }
+    rescue Exception => e
+    @time_out = after(0.5) do
+      state.error_message! e.message
+    end
+  end
+
+end
+
+class TestApp < React::Component::Base
+  param :name
+  before_mount { @timer = every(1) { force_update! } }
+  render(DIV) do
+    h1 {"The current time is #{Time.now}"}
+    h2 { "here hello #{params.name}" }.on(:click) do
+     alert "you clicked"
+    end
+  end
+end
+
+</script>
+
 
   </body>
 </html>

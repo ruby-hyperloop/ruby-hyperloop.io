@@ -17,9 +17,23 @@
     <link href="/stylesheets/stylesheet.css" rel="stylesheet" />
     <link href="/stylesheets/github-light.css" rel="stylesheet" /> -->
 
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.5/marked.min.js"></script>
+    <script src="https://rawgit.com/reactrb/reactrb-express/master/reactrb-express.js"></script>
+
+    <script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
+
+    <script src="/javascripts/bootstrap.min.js"></script>
+    <script src="/javascripts/codemirror.js"></script>
+    <script src="/javascripts/ruby.js"></script>
+    <script src="/javascripts/matchbrackets.js"></script>
+
     <link href="/stylesheets/bootstrap.min.css" rel="stylesheet" />
     <link href="/stylesheets/override.css" rel="stylesheet" />
-    <link href="/stylesheets/code.css" rel="stylesheet" />
+    <!-- <link href="/stylesheets/code.css" rel="stylesheet" /> -->
+    <link href="/stylesheets/github.css" rel="stylesheet" />
+    <link href="/stylesheets/highlighting.css" rel="stylesheet" />
+    <link href="/stylesheets/codemirror.css" rel="stylesheet" />
 
     <link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/feed.xml" />
 
@@ -172,42 +186,42 @@
 
 <h3 id="components-are-just-state-machines">Components are Just State Machines</h3>
 
-<p>React thinks of UIs as simple state machines. By thinking of a UI as being in various states and rendering those states, it&rsquo;s easy to keep your UI consistent.</p>
+<p>React thinks of UIs as simple state machines. By thinking of a UI as being in various states and rendering those states, it&#39;s easy to keep your UI consistent.</p>
 
-<p>In React, you simply update a component&rsquo;s state, and then the new UI will be rendered on this new state. React takes care of updating the DOM for you in the most efficient way.</p>
+<p>In React, you simply update a component&#39;s state, and then the new UI will be rendered on this new state. React takes care of updating the DOM for you in the most efficient way.</p>
 
 <h3 id="how-state-works">How State Works</h3>
 
-<p>Whenever a state variable changes you invoke the corresponding state variable name followed by a &ldquo;!&rdquo; method.  For example <code>state.liked! !state.like</code> <em>gets</em> the current value of like, toggles it, and then <em>updates</em> it.  This in turn causes the component to be rerendered. For more details on how this works, and the full syntax of the update method see <a href="#top-level-api">the component API reference</a></p>
+<p>Whenever a state variable changes you invoke the corresponding state variable name followed by a &quot;!&quot; method.  For example <code>state.liked! !state.like</code> <em>gets</em> the current value of like, toggles it, and then <em>updates</em> it.  This in turn causes the component to be rerendered. For more details on how this works, and the full syntax of the update method see <a href="#top-level-api">the component API reference</a></p>
 
 <h3 id="what-components-should-have-state">What Components Should Have State?</h3>
 
 <p>Most of your components should simply take some params and render based on their value. However, sometimes you need to respond to user input, a server request or the passage of time. For this you use state.</p>
 
-<p><strong>Try to keep as many of your components as possible stateless.</strong> By doing this you&rsquo;ll isolate the state to its most logical place and minimize redundancy, making it easier to reason about your application.</p>
+<p><strong>Try to keep as many of your components as possible stateless.</strong> By doing this you&#39;ll isolate the state to its most logical place and minimize redundancy, making it easier to reason about your application.</p>
 
 <p>A common pattern is to create several stateless components that just render data, and have a stateful component above them in the hierarchy that passes its state to its children via <code>params</code>. The stateful component encapsulates all of the interaction logic, while the stateless components take care of rendering data in a declarative way.</p>
 
 <h3 id="what-should-go-in-state">What <em>Should</em> Go in State?</h3>
 
-<p><strong>State should contain data that a component&rsquo;s event handlers, timers, or http requests may change and trigger a UI update.</strong></p>
+<p><strong>State should contain data that a component&#39;s event handlers, timers, or http requests may change and trigger a UI update.</strong></p>
 
 <p>When building a stateful component, think about the minimal possible representation of its state, and only store those properties in <code>state</code>.  Add to your class methods to compute higher level values from your state variables.  Avoid adding redundant or computed values as state variables as
 these values must then be kept in sync whenever state changes.</p>
 
-<h3 id="what-shouldnt-go-in-state">What <em>Shouldn&rsquo;t</em> Go in State?</h3>
+<h3 id="what-shouldnt-go-in-state">What <em>Shouldn&#39;t</em> Go in State?</h3>
 
-<p><code>state</code> should only contain the minimal amount of data needed to represent your UI&rsquo;s state. As such, it should not contain:</p>
+<p><code>state</code> should only contain the minimal amount of data needed to represent your UI&#39;s state. As such, it should not contain:</p>
 
 <ul>
-<li><strong>Computed data:</strong> Don&rsquo;t worry about precomputing values based on state — it&rsquo;s easier to ensure that your UI is consistent if you do all computation during rendering.  For example, if you have an array of list items in state and you want to render the count as a string, simply render <code>&quot;#{state.list_items.length} list items&#39;</code> in your <code>render</code> method rather than storing the count as another state.</li>
+<li><strong>Computed data:</strong> Don&#39;t worry about precomputing values based on state — it&#39;s easier to ensure that your UI is consistent if you do all computation during rendering.  For example, if you have an array of list items in state and you want to render the count as a string, simply render <code>&quot;#{state.list_items.length} list items&#39;</code> in your <code>render</code> method rather than storing the count as another state.</li>
 <li><strong>Data that does not effect rendering:</strong> For example handles on timers, that need to be cleaned up when a component unmounts should go
 in plain old instance variables.</li>
 </ul>
 
 <h2 id="multiple-components">Multiple Components</h2>
 
-<p>So far, we&rsquo;ve looked at how to write a single component to display data and handle user input. Next let&rsquo;s examine one of React&rsquo;s finest features: composability.</p>
+<p>So far, we&#39;ve looked at how to write a single component to display data and handle user input. Next let&#39;s examine one of React&#39;s finest features: composability.</p>
 
 <h3 id="motivation-separation-of-concerns">Motivation: Separation of Concerns</h3>
 
@@ -215,7 +229,7 @@ in plain old instance variables.</li>
 
 <h3 id="composition-example">Composition Example</h3>
 
-<p>Let&rsquo;s create a simple Avatar component which shows a profile picture and username using the Facebook Graph API.</p>
+<p>Let&#39;s create a simple Avatar component which shows a profile picture and username using the Facebook Graph API.</p>
 <pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">Avatar</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
   <span class="n">param</span> <span class="ss">:user_name</span>
   <span class="k">def</span> <span class="nf">render</span>
@@ -244,9 +258,9 @@ in plain old instance variables.</li>
 </code></pre>
 <h3 id="ownership">Ownership</h3>
 
-<p>In the above example, instances of <code>Avatar</code> <em>own</em> instances of <code>ProfilePic</code> and <code>ProfileLink</code>. In React, <strong>an owner is the component that sets the <code>params</code> of other components</strong>. More formally, if a component <code>X</code> is created in component <code>Y</code>&lsquo;s <code>render</code> method, it is said that <code>X</code> is <em>owned by</em> <code>Y</code>. As discussed earlier, a component cannot mutate its <code>params</code> — they are always consistent with what its owner sets them to. This fundamental invariant leads to UIs that are guaranteed to be consistent.</p>
+<p>In the above example, instances of <code>Avatar</code> <em>own</em> instances of <code>ProfilePic</code> and <code>ProfileLink</code>. In React, <strong>an owner is the component that sets the <code>params</code> of other components</strong>. More formally, if a component <code>X</code> is created in component <code>Y</code>&#39;s <code>render</code> method, it is said that <code>X</code> is <em>owned by</em> <code>Y</code>. As discussed earlier, a component cannot mutate its <code>params</code> — they are always consistent with what its owner sets them to. This fundamental invariant leads to UIs that are guaranteed to be consistent.</p>
 
-<p>It&rsquo;s important to draw a distinction between the owner-ownee relationship and the parent-child relationship. The owner-ownee relationship is specific to React, while the parent-child relationship is simply the one you know and love from the DOM. In the example above, <code>Avatar</code> owns the <code>div</code>, <code>ProfilePic</code> and <code>ProfileLink</code> instances, and <code>div</code> is the <strong>parent</strong> (but not owner) of the <code>ProfilePic</code> and <code>ProfileLink</code> instances.</p>
+<p>It&#39;s important to draw a distinction between the owner-ownee relationship and the parent-child relationship. The owner-ownee relationship is specific to React, while the parent-child relationship is simply the one you know and love from the DOM. In the example above, <code>Avatar</code> owns the <code>div</code>, <code>ProfilePic</code> and <code>ProfileLink</code> instances, and <code>div</code> is the <strong>parent</strong> (but not owner) of the <code>ProfilePic</code> and <code>ProfileLink</code> instances.</p>
 
 <h3 id="children">Children</h3>
 
@@ -335,7 +349,7 @@ Intuitively, the paragraph <code>&lt;p&gt;foo&lt;/p&gt;</code> was removed. Inst
 </code></pre>
 <h3 id="data-flow">Data Flow</h3>
 
-<p>In React, data flows from owner to owned component through the params as discussed above. This is effectively one-way data binding: owners bind their owned component&rsquo;s param to some value the owner has computed based on its <code>params</code> or <code>state</code>. Since this process happens recursively, data changes are automatically reflected everywhere they are used.</p>
+<p>In React, data flows from owner to owned component through the params as discussed above. This is effectively one-way data binding: owners bind their owned component&#39;s param to some value the owner has computed based on its <code>params</code> or <code>state</code>. Since this process happens recursively, data changes are automatically reflected everywhere they are used.</p>
 
 <h2 id="reusable-components">Reusable Components</h2>
 
@@ -343,7 +357,7 @@ Intuitively, the paragraph <code>&lt;p&gt;foo&lt;/p&gt;</code> was removed. Inst
 
 <h2 id="param-validation">Param Validation</h2>
 
-<p>As your app grows it&rsquo;s helpful to ensure that your components are used correctly. We do this by allowing you to specify the expected ruby class of your parameters. When an invalid value is provided for a param, a warning will be shown in the JavaScript console. Note that for performance reasons type checking is only done in development mode. Here is an example showing typical type specifications:</p>
+<p>As your app grows it&#39;s helpful to ensure that your components are used correctly. We do this by allowing you to specify the expected ruby class of your parameters. When an invalid value is provided for a param, a warning will be shown in the JavaScript console. Note that for performance reasons type checking is only done in development mode. Here is an example showing typical type specifications:</p>
 <pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">ManyParams</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
   <span class="n">param</span> <span class="ss">:an_array</span><span class="p">,</span>         <span class="ss">type: </span><span class="p">[]</span> <span class="c1"># or type: Array</span>
   <span class="n">param</span> <span class="ss">:a_string</span><span class="p">,</span>         <span class="ss">type: </span><span class="no">String</span>
@@ -375,7 +389,7 @@ Intuitively, the paragraph <code>&lt;p&gt;foo&lt;/p&gt;</code> was removed. Inst
 
 <h2 id="other-params">Other Params</h2>
 
-<p>A common type of React component is one that extends a basic HTML element in a simple way. Often you&rsquo;ll want to copy any HTML attributes passed to your component to the underlying HTML element.</p>
+<p>A common type of React component is one that extends a basic HTML element in a simple way. Often you&#39;ll want to copy any HTML attributes passed to your component to the underlying HTML element.</p>
 
 <p>To do this use the <code>collect_other_params_as</code> macro which will gather all the params you did not declare into a hash. Then you can pass this hash on to the child component</p>
 <pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">CheckLink</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
@@ -400,7 +414,7 @@ Intuitively, the paragraph <code>&lt;p&gt;foo&lt;/p&gt;</code> was removed. Inst
     <span class="kp">include</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span>
   <span class="k">end</span>
 </code></pre>
-<p>One common use case is a component wanting to update itself on a time interval. It&rsquo;s easy to use the kernel method <code>every</code>, but it&rsquo;s important to cancel your interval when you don&rsquo;t need it anymore to save memory. React provides <a href="/docs/working-with-the-browser.html#component-lifecycle">lifecycle methods</a> that let you know when a component is about to be created or destroyed. Let&rsquo;s create a simple mixin that uses these methods to provide a React friendly <code>every</code> function that will automatically get cleaned up when your component is destroyed.</p>
+<p>One common use case is a component wanting to update itself on a time interval. It&#39;s easy to use the kernel method <code>every</code>, but it&#39;s important to cancel your interval when you don&#39;t need it anymore to save memory. React provides <a href="/docs/working-with-the-browser.html#component-lifecycle">lifecycle methods</a> that let you know when a component is about to be created or destroyed. Let&#39;s create a simple mixin that uses these methods to provide a React friendly <code>every</code> function that will automatically get cleaned up when your component is destroyed.</p>
 <pre class="highlight ruby"><code><span class="k">module</span> <span class="nn">ReactInterval</span>
 
   <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">included</span><span class="p">(</span><span class="n">base</span><span class="p">)</span>
@@ -439,9 +453,82 @@ Intuitively, the paragraph <code>&lt;p&gt;foo&lt;/p&gt;</code> was removed. Inst
       </div>
     </div>
 
+    <script>
+      (function(Opal) {
+        var self = Opal.top, $scope = Opal, nil = Opal.nil, $breaker = Opal.breaker, $slice = Opal.slice;
+        Opal.add_stubs(['$puts']);
+        return self.$puts("Opal ok")
+      })(Opal);
+    </script>
 
-    <script   src="http://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
-    <script src="/javascripts/bootstrap.min.js"></script>
+    <!-- <script   src="http://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script> -->
+
+    <script type="text/ruby">puts "Hyperloop Express ok"</script>
+
+    <script type="text/ruby">
+
+class CodeMirror < React::Component::Base
+  param :code, type: String
+  define_state :error_message
+
+  before_mount do
+    state.error_message! ""
+  end
+
+  after_mount do
+    @editor = `CodeMirror(document.getElementById("code"), {
+      value: #{params.code},
+      mode: "text/x-ruby",
+      matchBrackets: true,
+      lineNumbers: true,
+      indentUnit: 2,
+      theme: 'github'
+    });`
+    `#{@editor}.on('change', #{lambda {on_change} })`
+    execute_code
+  end
+
+  render(DIV) do
+    div(id: 'code')
+    br
+    div(id: 'result')
+    p { state.error_message }
+  end
+
+  def on_change
+    state.error_message! ""
+    execute_code
+  end
+
+  after_mount   :execute_code
+  after_update  :execute_code
+
+  def execute_code
+    compiled_code = Opal::Compiler.new(`#{@editor}.getValue()`).compile
+    `ReactDOM.unmountComponentAtNode(document.getElementById("result"));`
+    `eval(#{compiled_code})`
+    Element['#result'].render{ Alfie() }
+    rescue Exception => e
+    @time_out = after(0.5) do
+      state.error_message! e.message
+    end
+  end
+
+end
+
+class TestApp < React::Component::Base
+  param :name
+  before_mount { @timer = every(1) { force_update! } }
+  render(DIV) do
+    h1 {"The current time is #{Time.now}"}
+    h2 { "here hello #{params.name}" }.on(:click) do
+     alert "you clicked"
+    end
+  end
+end
+
+</script>
+
 
   </body>
 </html>

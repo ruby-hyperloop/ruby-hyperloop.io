@@ -118,7 +118,66 @@
           <p>
             Follow one of the links above to proceed to the new site. <b>Welcome to Hyperloop!</b>
           </p>
-          <h2 id="pure-ruby">Pure Ruby</h2>
+          <div data-reactrb-mount="CodeMirror" data-code="class Alfie < React::Component::Base
+  render(DIV) do
+    h1 { 'Alfie is here' }.on(:click) do
+     alert 'you clicked'
+    end
+  end
+end
+"></div>
+
+<!-- Element['#playground'].render{ Alfie() } -->
+
+<!-- <form><textarea id="code" name="code">
+class TestApp < React::Component::Base
+  param :name
+  before_mount { @timer = every(1) { force_update! } }
+  render(DIV) do
+    h1 {"The current time is #{Time.now}"}
+    h2 { "here hello #{params.name}" }.on(:click) do
+     alert "you clicked"
+    end
+  end
+end
+</textarea></form> -->
+
+<!-- <div id="code"> </div> -->
+
+<!-- <script>
+  var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+    mode: "text/x-ruby",
+    matchBrackets: true,
+    lineNumbers: true,
+    indentUnit: 2,
+    theme: 'github'
+  });
+</script> -->
+
+<!-- <script>
+var myCodeMirror = CodeMirror(document.getElementById("code"), {
+  value: "puts 'hello'",
+  mode: "text/x-ruby",
+  matchBrackets: true,
+  lineNumbers: true,
+  indentUnit: 2,
+  theme: 'github'
+});
+</script> -->
+
+<p><br></p>
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">TestApp</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
+  <span class="n">param</span> <span class="ss">:name</span>
+  <span class="n">before_mount</span> <span class="p">{</span> <span class="vi">@timer</span> <span class="o">=</span> <span class="n">every</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span> <span class="n">force_update!</span> <span class="p">}</span> <span class="p">}</span>
+  <span class="n">render</span><span class="p">(</span><span class="no">DIV</span><span class="p">)</span> <span class="k">do</span>
+    <span class="n">h1</span> <span class="p">{</span><span class="s2">"The current time is </span><span class="si">#{</span><span class="no">Time</span><span class="p">.</span><span class="nf">now</span><span class="si">}</span><span class="s2">"</span><span class="p">}</span>
+    <span class="n">h2</span> <span class="p">{</span> <span class="s2">"here hello </span><span class="si">#{</span><span class="n">params</span><span class="p">.</span><span class="nf">name</span><span class="si">}</span><span class="s2">"</span> <span class="p">}.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:click</span><span class="p">)</span> <span class="k">do</span>
+     <span class="n">alert</span> <span class="s2">"you clicked"</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<h2 id="pure-ruby">Pure Ruby</h2>
 
 <p>Hyperloop lets you build beautiful interactive user interfaces using the same Ruby language running your server side code. Hyperloop replaces JS code, JSX, HTML, templating languages, and complex frameworks with one simple system.</p>
 
@@ -130,7 +189,7 @@
 
 <p>The power and simplicity of React with a great easy to use Ruby DSL. HyperReact frees you up to do what you do best - building great apps.</p>
 
-<p>HyperReact is a wrapper for the React.js library for creating user interfaces.  HyperReact provides all the goodness of React combined with the expressiveness of the Ruby language.   </p>
+<p>HyperReact is a wrapper for the React.js library for creating user interfaces.  HyperReact provides all the goodness of React combined with the expressiveness of the Ruby language.</p>
 
 <p>React was built to solve one problem: building large applications with data that changes over time.</p>
 

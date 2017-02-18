@@ -17,9 +17,23 @@
     <link href="/stylesheets/stylesheet.css" rel="stylesheet" />
     <link href="/stylesheets/github-light.css" rel="stylesheet" /> -->
 
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.5/marked.min.js"></script>
+    <script src="https://rawgit.com/reactrb/reactrb-express/master/reactrb-express.js"></script>
+
+    <script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
+
+    <script src="/javascripts/bootstrap.min.js"></script>
+    <script src="/javascripts/codemirror.js"></script>
+    <script src="/javascripts/ruby.js"></script>
+    <script src="/javascripts/matchbrackets.js"></script>
+
     <link href="/stylesheets/bootstrap.min.css" rel="stylesheet" />
     <link href="/stylesheets/override.css" rel="stylesheet" />
-    <link href="/stylesheets/code.css" rel="stylesheet" />
+    <!-- <link href="/stylesheets/code.css" rel="stylesheet" /> -->
+    <link href="/stylesheets/github.css" rel="stylesheet" />
+    <link href="/stylesheets/highlighting.css" rel="stylesheet" />
+    <link href="/stylesheets/codemirror.css" rel="stylesheet" />
 
     <link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/feed.xml" />
 
@@ -124,13 +138,13 @@
           <br>
         </div>
         <div class="col-md-9 main-content">
-          <p>Wow - its already been a hot sweaty summer around here in Reactrb land.  First off after a lot of discussion and thinking we have decided to consistently rename everything <strong>Reactrb</strong>.  We are sad to see the &ldquo;dot&rdquo; go, but this way the name is consistent everywhere, twitter handle, domain name, github org name, etc.</p>
+          <p>Wow - its already been a hot sweaty summer around here in Reactrb land.  First off after a lot of discussion and thinking we have decided to consistently rename everything <strong>Reactrb</strong>.  We are sad to see the &quot;dot&quot; go, but this way the name is consistent everywhere, twitter handle, domain name, github org name, etc.</p>
 
-<p>Within the <a href="https://github.com/reactrb">github org</a> we will use the reactb prefix for all gems and repos unless it really doesn&rsquo;t make sense.  So you will find in the repo:</p>
+<p>Within the <a href="https://github.com/reactrb">github org</a> we will use the reactb prefix for all gems and repos unless it really doesn&#39;t make sense.  So you will find in the repo:</p>
 
 <ul>
 <li>reactrb-express (formerly inline-reactive-ruby)</li>
-<li>reactrb-examples (looking help here to clean these up&hellip;)</li>
+<li>reactrb-examples (looking help here to clean these up...)</li>
 <li>reactrb-router (formerly reactive-router)</li>
 <li>reactrb-rails-generator (formerly reactive<em>rails</em>generator)</li>
 </ul>
@@ -148,7 +162,7 @@
 
 <h2 id="you-pick-your-react-version">You Pick Your React Version</h2>
 
-<p>We really needed this one&hellip; With every gem and javascript component bundle pulling for a different version of react, Reactrb needed to step out of the way!</p>
+<p>We really needed this one... With every gem and javascript component bundle pulling for a different version of react, Reactrb needed to step out of the way!</p>
 
 <p>Reactrb is now tested with React V13-V15, and by default does <em>not</em> include any version when you <code>require &#39;reactrb&#39;</code>.  </p>
 
@@ -182,7 +196,7 @@
 </code></pre>
 <p>Now once you install the the <a href="http://griddlegriddle.github.io/Griddle/">Griddle</a> Javascript component you can use <code>Griddle</code> like any other HyperReact component.</p>
 
-<p><em>But wait there&rsquo;s more&hellip;</em></p>
+<p><em>But wait there&#39;s more...</em></p>
 
 <p>Importing a ton of libraries this way could get tedious especially if you are using something like Webpack anyway to manage which components to include.</p>
 
@@ -194,12 +208,12 @@
 
 <h2 id="render-call-back">Render Call back</h2>
 
-<p>Up till now we have been defining the render method as just that <em>an instance method in your component class.</em>  That&rsquo;s cool, and that still works, however for a couple of reasons we felt having a call back to define the render method would be handy.  </p>
+<p>Up till now we have been defining the render method as just that <em>an instance method in your component class.</em>  That&#39;s cool, and that still works, however for a couple of reasons we felt having a call back to define the render method would be handy.  </p>
 
 <ol>
 <li><p><strong>Render methods are too large:</strong> Even using helper methods to keep things small, render methods often exceed the normal 10 line ruby style guide recommendation.  </p>
 
-<p>That is not a problem in itself - after all recommendations are just that.  However if you are using tools like RuboCop, then it&rsquo;s sad when every single one of your components has a warning flag.  You can turn off that cop of course, but then lose a very valuable check that most of the times should be followed.  </p>
+<p>That is not a problem in itself - after all recommendations are just that.  However if you are using tools like RuboCop, then it&#39;s sad when every single one of your components has a warning flag.  You can turn off that cop of course, but then lose a very valuable check that most of the times should be followed.  </p>
 
 <p>By allowing render to be defined as a call back, you get rid of this problem.</p></li>
 <li><p><strong>Get Rid of Boiler Plate:</strong> All components must have a single outer container, and for many components this container and its parameters are static.  So the new render call back lets you specify the container component and its parameters as params to the callback.  This eliminates two unnecessary lines per component, plus an unneeded level of indentation, and I think when used properly it makes things clearer.</p></li>
@@ -208,11 +222,11 @@
 
 <p>Meanwhile the <code>Element[...].render</code> method which can be used to mount a top level component to a DOM element, has been updated to follow the same syntax as well.  So for example to mount a component you can just say <code>Element[&#39;#top-level&#39;].render App</code>.</p>
 
-<p>This is not a big deal but I think you should try it out, and see if it doesn&rsquo;t lead to more readable components.</p>
+<p>This is not a big deal but I think you should try it out, and see if it doesn&#39;t lead to more readable components.</p>
 
 <h2 id="caps-tag-names">CAPS Tag Names</h2>
 
-<p>Its been suggested that especially for beginners its a little hard to parse the DSL.  You don&rsquo;t know which method is what, and its hard to tell the difference between tags like <code>select</code> and other helper methods.  One way to solve this is to write the built-in tag names in all caps, which the DSL now supports.</p>
+<p>Its been suggested that especially for beginners its a little hard to parse the DSL.  You don&#39;t know which method is what, and its hard to tell the difference between tags like <code>select</code> and other helper methods.  One way to solve this is to write the built-in tag names in all caps, which the DSL now supports.</p>
 
 <p>It was a small thing, so we went ahead and added it.  Tell us what you think!</p>
 
@@ -220,9 +234,82 @@
       </div>
     </div>
 
+    <script>
+      (function(Opal) {
+        var self = Opal.top, $scope = Opal, nil = Opal.nil, $breaker = Opal.breaker, $slice = Opal.slice;
+        Opal.add_stubs(['$puts']);
+        return self.$puts("Opal ok")
+      })(Opal);
+    </script>
 
-    <script   src="http://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
-    <script src="/javascripts/bootstrap.min.js"></script>
+    <!-- <script   src="http://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script> -->
+
+    <script type="text/ruby">puts "Hyperloop Express ok"</script>
+
+    <script type="text/ruby">
+
+class CodeMirror < React::Component::Base
+  param :code, type: String
+  define_state :error_message
+
+  before_mount do
+    state.error_message! ""
+  end
+
+  after_mount do
+    @editor = `CodeMirror(document.getElementById("code"), {
+      value: #{params.code},
+      mode: "text/x-ruby",
+      matchBrackets: true,
+      lineNumbers: true,
+      indentUnit: 2,
+      theme: 'github'
+    });`
+    `#{@editor}.on('change', #{lambda {on_change} })`
+    execute_code
+  end
+
+  render(DIV) do
+    div(id: 'code')
+    br
+    div(id: 'result')
+    p { state.error_message }
+  end
+
+  def on_change
+    state.error_message! ""
+    execute_code
+  end
+
+  after_mount   :execute_code
+  after_update  :execute_code
+
+  def execute_code
+    compiled_code = Opal::Compiler.new(`#{@editor}.getValue()`).compile
+    `ReactDOM.unmountComponentAtNode(document.getElementById("result"));`
+    `eval(#{compiled_code})`
+    Element['#result'].render{ Alfie() }
+    rescue Exception => e
+    @time_out = after(0.5) do
+      state.error_message! e.message
+    end
+  end
+
+end
+
+class TestApp < React::Component::Base
+  param :name
+  before_mount { @timer = every(1) { force_update! } }
+  render(DIV) do
+    h1 {"The current time is #{Time.now}"}
+    h2 { "here hello #{params.name}" }.on(:click) do
+     alert "you clicked"
+    end
+  end
+end
+
+</script>
+
 
   </body>
 </html>

@@ -17,9 +17,23 @@
     <link href="/stylesheets/stylesheet.css" rel="stylesheet" />
     <link href="/stylesheets/github-light.css" rel="stylesheet" /> -->
 
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.5/marked.min.js"></script>
+    <script src="https://rawgit.com/reactrb/reactrb-express/master/reactrb-express.js"></script>
+
+    <script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
+
+    <script src="/javascripts/bootstrap.min.js"></script>
+    <script src="/javascripts/codemirror.js"></script>
+    <script src="/javascripts/ruby.js"></script>
+    <script src="/javascripts/matchbrackets.js"></script>
+
     <link href="/stylesheets/bootstrap.min.css" rel="stylesheet" />
     <link href="/stylesheets/override.css" rel="stylesheet" />
-    <link href="/stylesheets/code.css" rel="stylesheet" />
+    <!-- <link href="/stylesheets/code.css" rel="stylesheet" /> -->
+    <link href="/stylesheets/github.css" rel="stylesheet" />
+    <link href="/stylesheets/highlighting.css" rel="stylesheet" />
+    <link href="/stylesheets/codemirror.css" rel="stylesheet" />
 
     <link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/feed.xml" />
 
@@ -177,7 +191,7 @@
 
 <h2 id="setup">Setup</h2>
 
-<p>If you have completed the prerequisites above, let&rsquo;s get started - there are 5 steps to this process:</p>
+<p>If you have completed the prerequisites above, let&#39;s get started - there are 5 steps to this process:</p>
 
 <ol>
 <li>Adding Webpack to your Rails project</li>
@@ -197,7 +211,7 @@
 
 <p><code>npm install webpack -g</code> so we can run Webpack from the command line</p>
 
-<p>The commands above will have created a <code>package.json</code> (similar concept to a Gemfile) and a <code>node_modules</code> folder containing hundreds of JavaScript dependancies that we do not need in the source of our project so let&rsquo;s tell git to ignore them by adding a <code>.gitignore</code> file:</p>
+<p>The commands above will have created a <code>package.json</code> (similar concept to a Gemfile) and a <code>node_modules</code> folder containing hundreds of JavaScript dependancies that we do not need in the source of our project so let&#39;s tell git to ignore them by adding a <code>.gitignore</code> file:</p>
 <pre class="highlight plaintext"><code>#/.gitignore
 /node_modules
 </code></pre>
@@ -276,7 +290,7 @@ client_and_server.js  1.61 kB       0  [emitted]  client_and_server
 <p><code>npm install react --save</code> to install React
 <code>npm install react-dom --save</code> to install ReactDOM</p>
 
-<p>Note how this modifies your &lsquo;package.json&rsquo; and installs React and ReactDOM in your <code>node_modules</code> folder.</p>
+<p>Note how this modifies your &#39;package.json&#39; and installs React and ReactDOM in your <code>node_modules</code> folder.</p>
 
 <p>Next we need to <code>require</code> them into <code>client_and_server.js</code>:</p>
 <pre class="highlight javascript"><code><span class="c1">// webpack/client_and_server.js</span>
@@ -313,7 +327,7 @@ client_and_server.js   740 kB       0  [emitted]  client_and_server
 
 <h2 id="example">Example</h2>
 
-<p>To complete this tutorial, let&rsquo;s install a JavaScript React component and use it in HyperReact.</p>
+<p>To complete this tutorial, let&#39;s install a JavaScript React component and use it in HyperReact.</p>
 
 <p>We are going to use <a href="https://github.com/CookPete/rplayr">Pete Cook’s React rplayr</a> to play a YouTube video.</p>
 
@@ -340,9 +354,82 @@ client_and_server.js   740 kB       0  [emitted]  client_and_server
       </div>
     </div>
 
+    <script>
+      (function(Opal) {
+        var self = Opal.top, $scope = Opal, nil = Opal.nil, $breaker = Opal.breaker, $slice = Opal.slice;
+        Opal.add_stubs(['$puts']);
+        return self.$puts("Opal ok")
+      })(Opal);
+    </script>
 
-    <script   src="http://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
-    <script src="/javascripts/bootstrap.min.js"></script>
+    <!-- <script   src="http://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script> -->
+
+    <script type="text/ruby">puts "Hyperloop Express ok"</script>
+
+    <script type="text/ruby">
+
+class CodeMirror < React::Component::Base
+  param :code, type: String
+  define_state :error_message
+
+  before_mount do
+    state.error_message! ""
+  end
+
+  after_mount do
+    @editor = `CodeMirror(document.getElementById("code"), {
+      value: #{params.code},
+      mode: "text/x-ruby",
+      matchBrackets: true,
+      lineNumbers: true,
+      indentUnit: 2,
+      theme: 'github'
+    });`
+    `#{@editor}.on('change', #{lambda {on_change} })`
+    execute_code
+  end
+
+  render(DIV) do
+    div(id: 'code')
+    br
+    div(id: 'result')
+    p { state.error_message }
+  end
+
+  def on_change
+    state.error_message! ""
+    execute_code
+  end
+
+  after_mount   :execute_code
+  after_update  :execute_code
+
+  def execute_code
+    compiled_code = Opal::Compiler.new(`#{@editor}.getValue()`).compile
+    `ReactDOM.unmountComponentAtNode(document.getElementById("result"));`
+    `eval(#{compiled_code})`
+    Element['#result'].render{ Alfie() }
+    rescue Exception => e
+    @time_out = after(0.5) do
+      state.error_message! e.message
+    end
+  end
+
+end
+
+class TestApp < React::Component::Base
+  param :name
+  before_mount { @timer = every(1) { force_update! } }
+  render(DIV) do
+    h1 {"The current time is #{Time.now}"}
+    h2 { "here hello #{params.name}" }.on(:click) do
+     alert "you clicked"
+    end
+  end
+end
+
+</script>
+
 
   </body>
 </html>

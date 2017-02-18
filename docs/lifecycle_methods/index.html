@@ -17,9 +17,23 @@
     <link href="/stylesheets/stylesheet.css" rel="stylesheet" />
     <link href="/stylesheets/github-light.css" rel="stylesheet" /> -->
 
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.5/marked.min.js"></script>
+    <script src="https://rawgit.com/reactrb/reactrb-express/master/reactrb-express.js"></script>
+
+    <script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
+
+    <script src="/javascripts/bootstrap.min.js"></script>
+    <script src="/javascripts/codemirror.js"></script>
+    <script src="/javascripts/ruby.js"></script>
+    <script src="/javascripts/matchbrackets.js"></script>
+
     <link href="/stylesheets/bootstrap.min.css" rel="stylesheet" />
     <link href="/stylesheets/override.css" rel="stylesheet" />
-    <link href="/stylesheets/code.css" rel="stylesheet" />
+    <!-- <link href="/stylesheets/code.css" rel="stylesheet" /> -->
+    <link href="/stylesheets/github.css" rel="stylesheet" />
+    <link href="/stylesheets/highlighting.css" rel="stylesheet" />
+    <link href="/stylesheets/codemirror.css" rel="stylesheet" />
 
     <link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/feed.xml" />
 
@@ -144,7 +158,7 @@
         <div class="col-md-9 main-content">
           <h2 id="lifecycle-methods">Lifecycle Methods</h2>
 
-<p>A component class may define callbacks for  specific points in a component&rsquo;s lifecycle.</p>
+<p>A component class may define callbacks for  specific points in a component&#39;s lifecycle.</p>
 
 <h3 id="rendering">Rendering</h3>
 
@@ -166,7 +180,7 @@
   <span class="nf">end</span>
 <span class="k">end</span>
 </code></pre>
-<p>The purpose of the render callback is syntactic.  Many components consist of a static outer container with possibly some parameters, and most component&rsquo;s render method by necessity will be longer than the normal <em>10 line</em> ruby style guideline.  The render call back solves both these problems by allowing the outer container to be specified as part of the callback parameter (which reads very nicely) and because the render code is now specified as a block you avoid the 10 line limitation, while encouraging the rest of your methods to adhere to normal ruby style guides</p>
+<p>The purpose of the render callback is syntactic.  Many components consist of a static outer container with possibly some parameters, and most component&#39;s render method by necessity will be longer than the normal <em>10 line</em> ruby style guideline.  The render call back solves both these problems by allowing the outer container to be specified as part of the callback parameter (which reads very nicely) and because the render code is now specified as a block you avoid the 10 line limitation, while encouraging the rest of your methods to adhere to normal ruby style guides</p>
 
 <h3 id="before-mounting-first-render">Before Mounting (first render)</h3>
 <pre class="highlight ruby"><code><span class="n">before_mount</span> <span class="k">do</span> <span class="p">.</span><span class="nf">.</span><span class="p">.</span>
@@ -218,9 +232,9 @@ cannot update using the normal <code>state.funky!</code> update method.  So what
 <p>Note that <code>should_component_update?</code> is not called for the initial render or when <code>force_update!</code> is used.</p>
 
 <blockquote>
-<p>Note to react.js readers.  Essentially HyperReact assumes components are &ldquo;well behaved&rdquo; in the sense that all state changes
-will be explicitly declared using the state update (&ldquo;!&rdquo;) method when changing state.  This gives similar behavior to a
-&ldquo;pure&rdquo; component without the possible performance penalties.
+<p>Note to react.js readers.  Essentially HyperReact assumes components are &quot;well behaved&quot; in the sense that all state changes
+will be explicitly declared using the state update (&quot;!&quot;) method when changing state.  This gives similar behavior to a
+&quot;pure&quot; component without the possible performance penalties.
 To achieve the standard react.js behavior add this line to your class <code>def should_component_update?; true; end</code></p>
 </blockquote>
 
@@ -234,7 +248,7 @@ To achieve the standard react.js behavior add this line to your class <code>def 
 <pre class="highlight ruby"><code><span class="n">after_update</span> <span class="k">do</span> <span class="p">.</span><span class="nf">.</span><span class="p">.</span>
 <span class="nf">end</span>
 </code></pre>
-<p>Invoked immediately after the component&rsquo;s updates are flushed to the DOM. This method is not called for the initial render.</p>
+<p>Invoked immediately after the component&#39;s updates are flushed to the DOM. This method is not called for the initial render.</p>
 
 <p>Use this as an opportunity to operate on the DOM when the component has been updated.</p>
 
@@ -250,9 +264,82 @@ To achieve the standard react.js behavior add this line to your class <code>def 
       </div>
     </div>
 
+    <script>
+      (function(Opal) {
+        var self = Opal.top, $scope = Opal, nil = Opal.nil, $breaker = Opal.breaker, $slice = Opal.slice;
+        Opal.add_stubs(['$puts']);
+        return self.$puts("Opal ok")
+      })(Opal);
+    </script>
 
-    <script   src="http://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
-    <script src="/javascripts/bootstrap.min.js"></script>
+    <!-- <script   src="http://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script> -->
+
+    <script type="text/ruby">puts "Hyperloop Express ok"</script>
+
+    <script type="text/ruby">
+
+class CodeMirror < React::Component::Base
+  param :code, type: String
+  define_state :error_message
+
+  before_mount do
+    state.error_message! ""
+  end
+
+  after_mount do
+    @editor = `CodeMirror(document.getElementById("code"), {
+      value: #{params.code},
+      mode: "text/x-ruby",
+      matchBrackets: true,
+      lineNumbers: true,
+      indentUnit: 2,
+      theme: 'github'
+    });`
+    `#{@editor}.on('change', #{lambda {on_change} })`
+    execute_code
+  end
+
+  render(DIV) do
+    div(id: 'code')
+    br
+    div(id: 'result')
+    p { state.error_message }
+  end
+
+  def on_change
+    state.error_message! ""
+    execute_code
+  end
+
+  after_mount   :execute_code
+  after_update  :execute_code
+
+  def execute_code
+    compiled_code = Opal::Compiler.new(`#{@editor}.getValue()`).compile
+    `ReactDOM.unmountComponentAtNode(document.getElementById("result"));`
+    `eval(#{compiled_code})`
+    Element['#result'].render{ Alfie() }
+    rescue Exception => e
+    @time_out = after(0.5) do
+      state.error_message! e.message
+    end
+  end
+
+end
+
+class TestApp < React::Component::Base
+  param :name
+  before_mount { @timer = every(1) { force_update! } }
+  render(DIV) do
+    h1 {"The current time is #{Time.now}"}
+    h2 { "here hello #{params.name}" }.on(:click) do
+     alert "you clicked"
+    end
+  end
+end
+
+</script>
+
 
   </body>
 </html>

@@ -17,9 +17,23 @@
     <link href="/stylesheets/stylesheet.css" rel="stylesheet" />
     <link href="/stylesheets/github-light.css" rel="stylesheet" /> -->
 
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.5/marked.min.js"></script>
+    <script src="https://rawgit.com/reactrb/reactrb-express/master/reactrb-express.js"></script>
+
+    <script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
+
+    <script src="/javascripts/bootstrap.min.js"></script>
+    <script src="/javascripts/codemirror.js"></script>
+    <script src="/javascripts/ruby.js"></script>
+    <script src="/javascripts/matchbrackets.js"></script>
+
     <link href="/stylesheets/bootstrap.min.css" rel="stylesheet" />
     <link href="/stylesheets/override.css" rel="stylesheet" />
-    <link href="/stylesheets/code.css" rel="stylesheet" />
+    <!-- <link href="/stylesheets/code.css" rel="stylesheet" /> -->
+    <link href="/stylesheets/github.css" rel="stylesheet" />
+    <link href="/stylesheets/highlighting.css" rel="stylesheet" />
+    <link href="/stylesheets/codemirror.css" rel="stylesheet" />
 
     <link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/feed.xml" />
 
@@ -127,6 +141,7 @@
     <li class="nav-item"><a href="#manual-rails-install">Manual Rails Install</a></br></li>
     <li class="nav-item"><a href="#with-sinatra">With Sinatra</a></br></li>
     <li class="nav-item"><a href="#building-with-rake">Building with Rake</a></br></li>
+    <li class="nav-item"><a href="#deployment">Deployment</a></br></li>
   </ul>
 
           <br>
@@ -134,7 +149,15 @@
         <div class="col-md-9 main-content">
           <h1 id="installation">Installation</h1>
 
-<p><strong>Note:</strong> The Hyperloop gems are in a process of being renamed. The links below will take you to the correct Github projects but you might find the name of the project does not quite match the name of the gem on this page. This will be addressed over time as the gems are renamed. HyperReact was previously known as Reactrb.</p>
+<p>There are several ways to install Hyperloop into your development environment.</p>
+
+<ul>
+<li>Experimenting online in the Opal playground</li>
+<li>Running exclusively in your browser with Hyperloop Express</li>
+<li>Integrating with the Rails Asset Pipeline</li>
+<li>Building a single <code>application.js</code> with Rake</li>
+<li>Using NPM and Webpack to require all your JavaScript components</li>
+</ul>
 
 <h2 id="opal-playground">Opal Playground</h2>
 
@@ -146,16 +169,16 @@
 
 <h2 id="using-hyperloop-express">Using Hyperloop Express</h2>
 
-<p>For small static sites that don&rsquo;t need a server backend you can use the reactrb-express javascript library.
+<p>For small static sites that don&#39;t need a server backend you can use the reactrb-express javascript library.
 Simply include the reactrb-express.js file with your other javascript code, or access it directly via the CDN, and you are good to go.</p>
 
-<p>This is another great way to experiment with HyperReact.  You don&rsquo;t need any setup or download to get started.</p>
+<p>This is another great way to experiment with HyperReact.  You don&#39;t need any setup or download to get started.</p>
 
 <p><a href="https://github.com/reactrb/reactrb-express">Hyperloop Express</a></p>
 
 <h2 id="with-rails">With Rails</h2>
 
-<p>HyperReact works great with new or existing rails apps, and HyperReact plays well with other frameworks, so it&rsquo;s pain free to introduce React to your application.</p>
+<p>HyperReact works great with new or existing rails apps, and HyperReact plays well with other frameworks, so it&#39;s pain free to introduce React to your application.</p>
 
 <p>We recommend you use the <a href="https://github.com/ruby-hyperloop/hyper-rails">HyperRails</a> gem to do a transparent install of everything you need in a new or existing rails app.</p>
 
@@ -209,7 +232,7 @@ Simply include the reactrb-express.js file with your other javascript code, or a
 <p>Or from a view:</p>
 <pre class="highlight ruby"><code><span class="o">&lt;</span><span class="sx">%= react_component('Home::Show', say_hello_to: "Sally") %&gt;
 </span></code></pre>
-<p>Make sure your routes file has a route to your home#show action. Visit that route in your browser and you should see &lsquo;Hello&rsquo; rendered.</p>
+<p>Make sure your routes file has a route to your home#show action. Visit that route in your browser and you should see &#39;Hello&#39; rendered.</p>
 
 <p>Open up the js console in the browser and you will see a log showing what went on during rendering.</p>
 
@@ -400,6 +423,17 @@ Simply include the reactrb-express.js file with your other javascript code, or a
 
 <p>As a final note, the resulting JS file may be a little large, so you might want to Gzip or uglify it.</p>
 
+<h2 id="deployment">Deployment</h2>
+
+<p>There are a few deployment specific considerations:</p>
+
+<ul>
+<li>The resulting compiled JavaScript files can be quite large, so you might want to add a minimise, uglify or gzip step</li>
+<li>Some free deployment PaaS (Heroku for example) include low levels of memory and system resources. HyperReact may be configured in such a way that it is pre-rendering all pages before they are delivered to the browser and this can be an issue to the PaaS in a low memory environment. If the server is constrained it is better to turn pre-rendering off.</li>
+</ul>
+
+<p>There is a most excellent <a href="https://github.com/fzingg/hyperloop-showcase-heroku">Tutorial written by Frederic ZINGG</a> which takes you through a step by step guid to deploying on Heroku.</p>
+
 <h2 id="next-steps">Next Steps</h2>
 
 <p>Check out <a href="/tutorials">the tutorials</a> to learn more.</p>
@@ -410,9 +444,82 @@ Simply include the reactrb-express.js file with your other javascript code, or a
       </div>
     </div>
 
+    <script>
+      (function(Opal) {
+        var self = Opal.top, $scope = Opal, nil = Opal.nil, $breaker = Opal.breaker, $slice = Opal.slice;
+        Opal.add_stubs(['$puts']);
+        return self.$puts("Opal ok")
+      })(Opal);
+    </script>
 
-    <script   src="http://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
-    <script src="/javascripts/bootstrap.min.js"></script>
+    <!-- <script   src="http://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script> -->
+
+    <script type="text/ruby">puts "Hyperloop Express ok"</script>
+
+    <script type="text/ruby">
+
+class CodeMirror < React::Component::Base
+  param :code, type: String
+  define_state :error_message
+
+  before_mount do
+    state.error_message! ""
+  end
+
+  after_mount do
+    @editor = `CodeMirror(document.getElementById("code"), {
+      value: #{params.code},
+      mode: "text/x-ruby",
+      matchBrackets: true,
+      lineNumbers: true,
+      indentUnit: 2,
+      theme: 'github'
+    });`
+    `#{@editor}.on('change', #{lambda {on_change} })`
+    execute_code
+  end
+
+  render(DIV) do
+    div(id: 'code')
+    br
+    div(id: 'result')
+    p { state.error_message }
+  end
+
+  def on_change
+    state.error_message! ""
+    execute_code
+  end
+
+  after_mount   :execute_code
+  after_update  :execute_code
+
+  def execute_code
+    compiled_code = Opal::Compiler.new(`#{@editor}.getValue()`).compile
+    `ReactDOM.unmountComponentAtNode(document.getElementById("result"));`
+    `eval(#{compiled_code})`
+    Element['#result'].render{ Alfie() }
+    rescue Exception => e
+    @time_out = after(0.5) do
+      state.error_message! e.message
+    end
+  end
+
+end
+
+class TestApp < React::Component::Base
+  param :name
+  before_mount { @timer = every(1) { force_update! } }
+  render(DIV) do
+    h1 {"The current time is #{Time.now}"}
+    h2 { "here hello #{params.name}" }.on(:click) do
+     alert "you clicked"
+    end
+  end
+end
+
+</script>
+
 
   </body>
 </html>
