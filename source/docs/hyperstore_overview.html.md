@@ -124,6 +124,7 @@ mutate.items[item] = value
 Stores are often singleton classes.  In an application there is one 'cart' for example.
 
 However sometimes you will want to create a class where each instance is a Store.  This is straight forward because if a state is read or mutated in an instance method, then you will be referring to that instance's copy of the state.
+
 ```ruby
 # Each UserStream provides a stream of unique user profiles.
 # Each instance has a single HyperStore state variable called user
@@ -178,6 +179,7 @@ class GetMoreUsers < HyperOperation
   end
 end
 ```
+
 Stores that have multiple instances will typically have instance methods that directly mutate the store.  We recommend you end these methods with an exclamation (!) to make it clear you are exposing a mutator.
 
 ### States and Promises
@@ -212,11 +214,13 @@ The `state` declaration has the following flavors, depending on how the state is
 ```
 
 other options to the `state` declaration are:
+
 + `scope:` either `:class`, `:instance`, `:shared`.  Details below!
 + `reader:` either `true`, or a symbol used to declare a reader (getter) method.  
 + `initializer:` either a proc or a symbol (indicating a method), to be used to initialize the state.
 
 The value of the `scope` option determines where the state resides.  
+
 + A class state has one instance per class and is directly accessible in class methods, and indirectly in instances using `self.class.state`.
 + An instance state has a different copy in each instance of the class, and is not accessible by class methods.
 + A shared state is like a class state, but is also directly accessible in instances.
@@ -281,6 +285,7 @@ Instance variables are initialized when instances of the Store are created.  Eac
 This initialization behavior will work in most cases but for more control simply leave off any initializer, and write your own.
 
 **Note for class states there is a subtle difference between saying:**
+
 ```ruby
 state my_state: nil, scope: :shared # or :class
 # and
@@ -289,7 +294,6 @@ state :my_state, scope: :shared # or :class
 ```
 
 In the first case `my_state` will be re-initialized to nil on every boot, in the second case it will not.
-
 
 
 ### The `HyperStore` Mixin
