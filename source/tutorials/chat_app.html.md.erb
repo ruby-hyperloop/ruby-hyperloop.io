@@ -1,9 +1,9 @@
 ---
 title: Chat App Tutorial
 ---
-## HyperReact Chat-App Tutorial
+## Chat-App Tutorial
 
-We'll be building a simple but realistic chat application, a basic version of a chat room offered by a service like gitter.im.  
+We'll be building a simple but realistic chat application, a basic version of a chat room offered by a service like gitter.im.
 
 We will be building the app from the ground up, but if you want to see the [final source code it is here](#source-code-of-the-steps-up-until-detecting-loged-in-user)
 
@@ -22,55 +22,15 @@ It will also have a few neat features:
 * **Markdown formatting:** users can use Markdown to format their text.
 * **Uses Bootstrap:** for styling
 
+**NOTE:** This tutorial uses Hyperloop Express for in-browser compilation and a live-editing Component which compiles with each key press and loads the result as you are typing. Each live-editing Component contains a copy of the example code up until that point in the tutorial. If you are making edits you wish to preserve between chapters then just copy the code out of the editing session and paste it into the next one.
+
 ### Let's Get Started!
-
-1. open up a file named `chatrb.html` (or whatever you want)
-2. copy in the following content and save it.  
-3. point your browser to `file://...your directory path.../chatrb.html` and you should see the current time.
-
-```html
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8" />
-    <title>Hello React</title>
-    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.5/marked.min.js"></script>
-    <script src="https://rawgit.com/reactrb/reactrb-express/master/reactrb-express.js"></script>
-    <script src="http://ruby-hyperloop.io/javascripts/test_chat_service.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-
-    <style type="text/css">
-      /* most styles will come from bootstrap, but we will be adding a
-        few extra styles here */
-    </style>
-
-    <script type="text/ruby">
-      # Our ruby code will go here.  For now lets use a simple component
-      # to make sure things are working.  For the rest of the tutorial
-      # all the code we write will go in this section.
-      class App < React::Component::Base
-        before_mount { @timer = every(1) { force_update! } }
-        def render
-          "The current time is #{Time.now}"
-        end
-      end  
-    </script>
-  </head>
-  <body>
-    <!-- Tell inline reactive ruby to mount App here -->
-    <div data-reactrb-mount="App"></div>
-  </body>
-</html>
-```
 
 ### Application Structure
 
-React is all about modular, composable components. For our chat app, we'll have the following structure which will be mirrored by 6 corresponding Reactrb components:
+React is all about modular, composable components. For our chat app, we'll have the following structure which will be mirrored by 6 corresponding Hyperloop Components:
 
-```
+```ruby
 App
   Nav
   Messages
@@ -83,76 +43,13 @@ App
     FormattedDiv
 ```
 
+Each component will render the corresponding portion of the UI and is described by a Ruby class that inherits from `React::Component::Base`.
 
-
-
-Each component will render the corresponding portion of the UI and is described by a Ruby class that inherits from React::Component::Base.
-
-Let's stub out all of classes right now.  Replace the contents inside  the
-`<script type="text/ruby">...</script>` tag with the following ruby code.
-
-```ruby
-class App < React::Component::Base
-  def render
-    div do
-      Nav()
-      Messages()
-      InputBox()
-    end
-  end
-end
-
-class Nav < React::Component::Base
-  def render
-    div {"Our Nav Bar Goes Here including a login box"}
-  end
-end
-
-class Messages < React::Component::Base
-  def render
-    # eventually we will loop and display each message
-    # for now we will just display one as an example
-    Message()
-  end
-end
-
-class Message < React::Component::Base
-  def render
-    FormattedDiv()
-  end
-end
-
-class InputBox < React::Component::Base
-  def render
-    div do
-      "An input box to send new messages will".br
-      "go here plus a display of the formatted markdown".br
-      FormattedDiv()
-    end
-  end
-end
-
-class FormattedDiv < React::Component::Base
-  def render
-    "convert and display markdown"
-  end
-end
-```
-
-Refresh your page, and you should see this:
-
-```
-Our Nav Bar Goes Here including a login box
-convert and display markdown
-An input box to send new messages will
-go here plus a display of the formatted markdown
-convert and display markdown
-```
-
+Let's stub out all of classes right now and replace the contents of the stubs above with working code:
 
 <div class="codemirror-live-edit"
   data-heading="1. Chat Application structure"
-  data-rows=9>
+  data-rows=46>
 <pre>
 class ExampleComponent < React::Component::Base
   def render
@@ -202,13 +99,13 @@ end
 </pre></div>
 
 
-Before going on lets understand the basic features of the Reactrb DSL
+Before going on lets understand the basic features of the Hyperloop Component DSL
 
 - #### Every component has a `render` method
 
     Each component is a class that inherits from `React::Component::Base` and defines a `render` method.
 
-- #### The `render` method must generate a single `React::Element`  
+- #### The `render` method must generate a single `React::Element`
 
     Look at the `App` component: it wraps its three *children* in a `div`.  If you forgot this wrapper `div` you would get this error in the browser's javascript console:
 
@@ -218,7 +115,7 @@ Before going on lets understand the basic features of the Reactrb DSL
 
 - #### HTML tags are Ruby methods
 
-    Within the `render` method each html tag has a corresponding Ruby method.  Each of these methods generates a single `React::Element`, which contains component type plus parameters, plus any nested elements.  
+    Within the `render` method each html tag has a corresponding Ruby method.  Each of these methods generates a single `React::Element`, which contains component type plus parameters, plus any nested elements.
 
     All HTML tags have lower case names matching their HTML counter parts.
 
@@ -243,42 +140,11 @@ Before going on lets understand the basic features of the Reactrb DSL
 
 Components have parameters just like methods.  Now that we have the basic App structure, understanding a component's params is a good next step.  Lets start by adding the `markdown` parameter to the `FormattedDiv` component.
 
-Update the `Message, InputBox` and `FormattedDiv` components so they look like this:
-
-
-```ruby
-class Message < React::Component::Base
-
-  def render
-    FormattedDiv(markdown: "This **Markdown** will eventually be a message")
-  end
-end
-
-class InputBox < React::Component::Base
-  def render
-    div do
-      "An input box to send new messages will".br
-      "go here plus a display of the formatted markdown".br
-      FormattedDiv(markdown: "This **Markdown** will get updated as the user types")
-    end
-  end
-end
-
-class FormattedDiv < React::Component::Base
-
-  param :markdown, type: String
-
-  def render
-    div do
-      params.markdown
-    end
-  end
-end
-```
+Let's update the `Message, InputBox` and `FormattedDiv` components so they look like this:
 
 <div class="codemirror-live-edit"
   data-heading="2. Chat Application - Adding Parameters"
-  data-rows=9>
+  data-rows=52>
 <pre>
 class ExampleComponent < React::Component::Base
   def render
@@ -335,7 +201,7 @@ end
 - #### The `param` *macro* describes the *inputs* to a component.
 
     In our case the `FormattedDiv` component will *receive* the `markdown` param from either the
-    `Message` or `InputBox` components.  
+    `Message` or `InputBox` components.
 
 - #### Params can have an optional type.
 
@@ -343,7 +209,7 @@ end
 
 - #### Params are accessed using the `params` object.
 
-    Each `param` you declare in a component will have a corresponding method on the `params` object.  Component parameters are accessible by any instance method within your component using the `params` object.  
+    Each `param` you declare in a component will have a corresponding method on the `params` object.  Component parameters are accessible by any instance method within your component using the `params` object.
 
 ### Adding An Event Handler
 
@@ -446,27 +312,27 @@ Things to notice:
 
 - #### Tag attributes are passed just like params.
 
-    `input(class: :handle, type: :text, placeholder: "Enter Your Handle")`  
-    generates  
+    `input(class: :handle, type: :text, placeholder: "Enter Your Handle")`
+    generates
     `<input class="handle", type="text", placeholder="Enter Your Handle" />`
 
 - #### Strings and Symbols are the same type in Opal.
 
-    For effeciency the Opal-Ruby transpiler treats Ruby symbols as strings.  So  
+    For effeciency the Opal-Ruby transpiler treats Ruby symbols as strings.  So
     `:text == 'text'`
 
 - #### `Element` is the Opal-Ruby jQuery compatible wrapper.
 
-    `Element['input.handle'].value` translates to `$('input.handle').value()`  
+    `Element['input.handle'].value` translates to `$('input.handle').value()`
     Be aware that `React::Element` which we refer to as *elements* through out the tutorial is not the same as Opal's `Element` wrapper.
 
 ### Adding State
 
 Our improved `Nav` component is still pretty dull, and having to directly access the DOM using `Element` is not a great idea either.
 
-To add some intelligence to our `Nav` component it needs *state*.  Reactrb provides *state variables* that work like *reactive* instance variables.  When a state variable is updated, it will cause components to re-render.  
+To add some intelligence to our `Nav` component it needs *state*.  Reactrb provides *state variables* that work like *reactive* instance variables.  When a state variable is updated, it will cause components to re-render.
 
-We are going to add two state variables to our component:  `current_user_name` and `user_name_input`.  
+We are going to add two state variables to our component:  `current_user_name` and `user_name_input`.
 
 `current_user_name` is either `nil` (meaning there is no valid user name) or contains the user name string.
 
@@ -504,7 +370,7 @@ class Nav < React::Component::Base
 end
 ```
 
-Once again, update the `Nav` component, and make sure it works. 
+Once again, update the `Nav` component, and make sure it works.
 
 <div class="codemirror-live-edit"
   data-heading="4. Chat Application - Adding State"
@@ -586,7 +452,7 @@ class FormattedDiv < React::Component::Base
 end
 </pre></div>
 
- 
+
 
 Things to notice:
 
@@ -610,7 +476,7 @@ Things to notice:
 
 - #### Event handlers are passed the event object
 
-    As each character is typed we use the event object to update `state.user_name_input`.  
+    As each character is typed we use the event object to update `state.user_name_input`.
 
     Besides giving us dynamic access to the state of the user input as its changing, `state.user_name_input` also frees us from having to tag and interrogate DOM objects directly.
 
@@ -640,7 +506,7 @@ We will add some other nice features  of our `Nav` component later but right now
 
 We don't want to clutter up our `Nav` component with this logic so we need some way to communicate that we have a new user name upwards to the parent.
 
-There are quite a few different ways to do this, depending on your specific needs.  A straight forward way is for the parent to provide a *callback* that the `Nav` component will use to signal that a new user has logged in.  
+There are quite a few different ways to do this, depending on your specific needs.  A straight forward way is for the parent to provide a *callback* that the `Nav` component will use to signal that a new user has logged in.
 
 Add the following `param` declaration at the top of the `Nav` component:
 
@@ -702,7 +568,7 @@ class Nav < React::Component::Base
     state.current_user_name! state.user_name_input
     params.login(state.user_name_input)
   end
-  
+
 end
 
 class Messages < React::Component::Base
@@ -747,7 +613,7 @@ Warning: Failed propType: In component `Nav`
 Required prop `login` was not specified Check the render method of `App`.
 ```
 
-Which makes sense, as we specified that `Nav` wants a `login` parameter, but `App` did not provide one.  
+Which makes sense, as we specified that `Nav` wants a `login` parameter, but `App` did not provide one.
 
 Lets go ahead and add the callback to the `App` component.  Add the following method to the bottom of the `App`:
 
@@ -773,7 +639,7 @@ Reload your browser, and login, and the warning will be gone, and the login mess
   data-rows=9>
 <pre>
 class ExampleComponent < React::Component::Base
-  
+
   def render
     div do
       Nav(login: method(:login).to_proc)
@@ -817,7 +683,7 @@ class Nav < React::Component::Base
     state.current_user_name! state.user_name_input
     params.login(state.user_name_input)
   end
-  
+
 end
 
 class Messages < React::Component::Base
@@ -860,9 +726,9 @@ Lets review these changes:
 
 - #### Callbacks are a simple way to communicate upwards
 
-    As we will see there are other mechanisms which are often more appropriate but in this case a call back `Proc` is the perfect solution.  
+    As we will see there are other mechanisms which are often more appropriate but in this case a call back `Proc` is the perfect solution.
 
-    To implement a callback you declare the param type as `Proc`.  This tells the `params` object to treat the param as a method call, rather than just returning its value.  
+    To implement a callback you declare the param type as `Proc`.  This tells the `params` object to treat the param as a method call, rather than just returning its value.
 
     Meanwhile in the parent component you will need to pass a `Proc` to the component.  Ruby lets you create and access `Proc`s in several ways, in our case we converted the instance method `login` to a `Proc` using `method`.
 
@@ -886,7 +752,7 @@ To access the Chat Service we create a new instance of the `ChatService` like th
   chat = ChatService.new do | messages |
     # After a user logs in, a (possibly empty) initial
     # array of current messages will be sent to this block.
-    # As new messages arrive the block will be called again.  
+    # As new messages arrive the block will be called again.
   end
 ```
 
@@ -911,7 +777,7 @@ Armed with this, we are ready to start displaying chat messages.
 
 ### Lifecycle Callbacks
 
-A react component has a well defined life cycle, and your components can hook into the lifecycle using the callback macros.  In our application we will use three of the most common callbacks `before_mount, after_mount` and `after_update`.  
+A react component has a well defined life cycle, and your components can hook into the lifecycle using the callback macros.  In our application we will use three of the most common callbacks `before_mount, after_mount` and `after_update`.
 
 Each call back takes a block or the name of a method, which will be called as the component passes through each stage in its lifecycle.
 
@@ -932,7 +798,7 @@ Add this code to the beginning of the `App` component:
   end
 ```
 
-Before the component mounts our callback will execute and it creates a new `ChatService` instance.  
+Before the component mounts our callback will execute and it creates a new `ChatService` instance.
 
 As each new set of messages arrives the block will execute which will initialize or append the messages to the `state.messages` state variable.  We know we want to make this a state variable since it clearly is going to change asynchronously overtime, and we will want to update the UI when that occurs.
 
@@ -954,7 +820,7 @@ class ExampleComponent < React::Component::Base
       puts "state messages updated.  state.messages: #{state.messages}"
     end
   end
-  
+
   def render
     div do
       Nav(login: method(:login).to_proc)
@@ -966,7 +832,7 @@ class ExampleComponent < React::Component::Base
   def login(user_name)
     puts "*** #{user_name} has logged in"
   end
-  
+
 end
 
 class Nav < React::Component::Base
@@ -998,7 +864,7 @@ class Nav < React::Component::Base
     state.current_user_name! state.user_name_input
     params.login(state.user_name_input)
   end
-  
+
 end
 
 class Messages < React::Component::Base
@@ -1039,7 +905,7 @@ end
 
 ### Instance and State Variables
 
-Okay so while we can initialize the chat service when `App` mounts, nothing will happen until the user logs in.  
+Okay so while we can initialize the chat service when `App` mounts, nothing will happen until the user logs in.
 
 We have our login method already defined, so we just want to change it so that it passes the login to the chat service.  To do this we have to save the chat service object in the `before_mount` callback so that we can use it in the `login` method.
 
@@ -1103,7 +969,7 @@ class ExampleComponent < React::Component::Base
       puts "state messages updated.  state.messages: #{state.messages}"
     end
   end
-  
+
   def render
     div do
       Nav(login: method(:login).to_proc)
@@ -1115,7 +981,7 @@ class ExampleComponent < React::Component::Base
   def login(user_name)
     @chat_service.login(user_name)
   end
-  
+
 end
 
 
@@ -1149,7 +1015,7 @@ class Nav < React::Component::Base
     state.current_user_name! state.user_name_input
     params.login(state.user_name_input)
   end
-  
+
 end
 
 class Messages < React::Component::Base
@@ -1290,7 +1156,7 @@ class ExampleComponent < React::Component::Base
       puts "state messages updated.  state.messages: #{state.messages}"
     end
   end
-  
+
   def render
     div do
       Nav login: method(:login).to_proc
@@ -1302,7 +1168,7 @@ class ExampleComponent < React::Component::Base
   def login(user_name)
     @chat_service.login(user_name)
   end
-  
+
 end
 
 
@@ -1336,11 +1202,11 @@ class Nav < React::Component::Base
     state.current_user_name! state.user_name_input
     params.login(state.user_name_input)
   end
-  
+
 end
 
 class Messages < React::Component::Base
-  
+
   param :messages, type: [Hash]
 
   def render
@@ -1397,7 +1263,7 @@ end
 
 Take a look at the console log, and you will see a big red error like this:
 
-`Exception raised while rendering #<Messages:0x16fa>`  
+`Exception raised while rendering #<Messages:0x16fa>`
 `    NoMethodError: undefined method 'each' for nil`
 
 Lets think about this.  When we first render `Messages`, there are no messages, so trying to send `each` to `nil` fails.
@@ -1412,7 +1278,7 @@ Anyway we need to fix this!  Add the following method to the bottom of the `App`
   end
 ```
 
-For our simple App we are going to figure that we are logged in **if** `state.messages` is not `nil`.  
+For our simple App we are going to figure that we are logged in **if** `state.messages` is not `nil`.
 
 Now update the `App`s `render` method so that we don't display the `Messages` or the `InputBox` unless we are logged in.
 
@@ -1465,7 +1331,7 @@ class ExampleComponent < React::Component::Base
       puts "state messages updated.  state.messages: #{state.messages}"
     end
   end
-  
+
   def render
     div do
       Nav login: method(:login).to_proc
@@ -1483,7 +1349,7 @@ class ExampleComponent < React::Component::Base
   def online?
     state.messages
   end
-  
+
 end
 
 
@@ -1517,11 +1383,11 @@ class Nav < React::Component::Base
     state.current_user_name! state.user_name_input
     params.login(state.user_name_input)
   end
-  
+
 end
 
 class Messages < React::Component::Base
-  
+
   param :messages, type: [Hash]
 
   def render
@@ -1572,7 +1438,7 @@ end
 
 Next lets send some messages.  To do this the InputBox component will need to communicate when the user sends a new message.  We could add a callback like we did with the `Nav` component, but it might be more appropriate to use a different mechanism here.
 
-We know we can send a message by doing a `@chat_service.send`, so if we just pass the `@chat_service` down to the InputBox we should be all set.  
+We know we can send a message by doing a `@chat_service.send`, so if we just pass the `@chat_service` down to the InputBox we should be all set.
 
 So first update the `App` render method to pass the `@chat_service` to the InputBox:
 
@@ -1618,7 +1484,7 @@ class InputBox < React::Component::Base
 end
 ```
 
-While we have done almost nothing new here, lets walk through so we are sure we understand everything.  
+While we have done almost nothing new here, lets walk through so we are sure we understand everything.
 
 The `InputBox` receives a `ChatService` which it will use to get the current user id, and send each new chat message.
 
@@ -1663,7 +1529,7 @@ class ExampleComponent < React::Component::Base
       puts "state messages updated.  state.messages: #{state.messages}"
     end
   end
-  
+
   def render
     div do
       Nav login: method(:login).to_proc
@@ -1681,7 +1547,7 @@ class ExampleComponent < React::Component::Base
   def online?
     state.messages
   end
-  
+
 end
 
 
@@ -1715,11 +1581,11 @@ class Nav < React::Component::Base
     state.current_user_name! state.user_name_input
     params.login(state.user_name_input)
   end
-  
+
 end
 
 class Messages < React::Component::Base
-  
+
   param :messages, type: [Hash]
 
   def render
@@ -1794,7 +1660,7 @@ end
 
 ### Formatting The Markdown
 
-Lets get the `FormattedDiv` working.  The header loads the marked.js library which will convert markdown to html.  React will normally escape any raw html, but there is a special escape mechanism which we will use in our component.  
+Lets get the `FormattedDiv` working.  The header loads the marked.js library which will convert markdown to html.  React will normally escape any raw html, but there is a special escape mechanism which we will use in our component.
 
 We will also use Opal-Ruby's native escape mechanism to insert raw javascript code so we can call the `marked` function.
 
@@ -1847,7 +1713,7 @@ class ExampleComponent < React::Component::Base
       puts "state messages updated.  state.messages: #{state.messages}"
     end
   end
-  
+
   def render
     div do
       Nav login: method(:login).to_proc
@@ -1865,7 +1731,7 @@ class ExampleComponent < React::Component::Base
   def online?
     state.messages
   end
-  
+
 end
 
 
@@ -1899,11 +1765,11 @@ class Nav < React::Component::Base
     state.current_user_name! state.user_name_input
     params.login(state.user_name_input)
   end
-  
+
 end
 
 class Messages < React::Component::Base
-  
+
   param :messages, type: [Hash]
 
   def render
@@ -1978,7 +1844,7 @@ end
 
 - #### Opal Javascript Native
 
-    In the above example we insert some raw javascript using the backquote literal.  Within the literal you can escape back out to Ruby using the `#{}` operator.  
+    In the above example we insert some raw javascript using the backquote literal.  Within the literal you can escape back out to Ruby using the `#{}` operator.
 
 Congratulations your chat app is basically working.  If you want change `test_chat_service.js` to `chat_service.js` and you can now run your client in several windows and watch things update nicely.
 
@@ -2024,7 +1890,7 @@ class ExampleComponent < React::Component::Base
       puts "state messages updated.  state.messages: #{state.messages}"
     end
   end
-  
+
   def render
     div do
       Nav login: method(:login).to_proc
@@ -2042,7 +1908,7 @@ class ExampleComponent < React::Component::Base
   def online?
     state.messages
   end
-  
+
 end
 
 
@@ -2076,11 +1942,11 @@ class Nav < React::Component::Base
     state.current_user_name! state.user_name_input
     params.login(state.user_name_input)
   end
-  
+
 end
 
 class Messages < React::Component::Base
-  
+
   param :messages, type: [Hash]
 
   def render
@@ -2241,7 +2107,7 @@ end
 
 Now add the `row, alternating` and `message` classes to the outer div of the Message component, and the `col-sm-2` class to the sender and time divs.  (Remember to change dashes to underscores.)
 
-Now add the `class: "col-sm-8"` to the `FormattedDiv` element.  Notice that you can not use the short hand syntax with application defined components.  
+Now add the `class: "col-sm-8"` to the `FormattedDiv` element.  Notice that you can not use the short hand syntax with application defined components.
 
 Your `Message` render method should look like this:
 
@@ -2309,7 +2175,7 @@ Now that our app looks better, we are motivated to clean up the remaining proble
 
 First change the `input` element to a `textarea` element which will allow us to display multiple lines.
 
-Now go back and change the expression in the `is_send_key?`` method to also check for a ctrl or meta key.  
+Now go back and change the expression in the `is_send_key?`` method to also check for a ctrl or meta key.
 
 **Note:** You will need to press Ctrl-Enter to submit.
 
@@ -2345,9 +2211,9 @@ This brings up a very important point about states:
 
 + Where possible compute values rather than adding state
 
-+ You might be tempted to create a state variable called rows that is updated whenever the text area changes.  
++ You might be tempted to create a state variable called rows that is updated whenever the text area changes.
 
-+ This may (or may not) be slightly more effecient, but it introduces a lot of complexity.  
++ This may (or may not) be slightly more effecient, but it introduces a lot of complexity.
 
 + Instead where ever possible compute values from existing state.
 
@@ -2429,7 +2295,7 @@ and then call `formatted_time` instead of just displaying the raw time.
 
 Try logging in, and then logging in again, either as the same or different user.  Notice that the list of messages is duplicated.
 
-Our chat service supplies us with all existing messages when somebody logs in.  And our `App` component happily appends all the incoming messages.  
+Our chat service supplies us with all existing messages when somebody logs in.  And our `App` component happily appends all the incoming messages.
 
 What we need to do is clear the messages during the login process.
 
