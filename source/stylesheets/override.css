@@ -9,8 +9,8 @@
 .page-header {
   color: #fff;
   text-align: left;
-  background-color: #02146f;
-  background-image: linear-gradient(120deg, #02146f, #599be2); }
+  background-color: #070618;
+  background-image: linear-gradient(120deg, #070618, #599be2); }
 
 .project-name {
   margin-top: 0;
@@ -44,7 +44,7 @@ body {
   margin-top: 2rem;
   margin-bottom: 1rem;
   font-weight: bold;
-  color: #447ac6; }
+  color: #4476b0; }
 .main-content p {
   margin-bottom: 1em; }
 .main-content code {
