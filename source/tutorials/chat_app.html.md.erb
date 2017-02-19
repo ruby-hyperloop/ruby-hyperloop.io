@@ -142,6 +142,20 @@ Components have parameters just like methods.  Now that we have the basic App st
 
 Let's update the `Message, InputBox` and `FormattedDiv` components so they look like this:
 
+```ruby
+class InputBox < React::Component::Base
+  ...
+  FormattedDiv(markdown: "This **Markdown** will get updated as the user types")
+  ...
+end
+
+class FormattedDiv < React::Component::Base
+  ...
+  param :markdown, type: String
+  ...
+end
+```
+
 <div class="codemirror-live-edit"
   data-heading="2. Chat Application - Adding Parameters"
   data-rows=52>
