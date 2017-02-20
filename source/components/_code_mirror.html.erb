@@ -47,9 +47,11 @@ class CodeMirror < React::Component::Base
       `ReactDOM.unmountComponentAtNode(document.getElementById(#{@div_result}));`
       `eval(#{compiled_code})`
       component = Module.const_get params.top_level_component
-      # how do we find out if component is valid?
-      # puts component.render_to_static_markup
-      # the above does not work, render_to_static_markup does not exist??
+      # we need to see if the component is valid - try checking if it can render static markup
+      # the following line generates: `undefined method to_n for SimpleComponent`
+      # if React.render_to_static_markup( component ).empty?
+      #   invalid_component_message
+      # end
     rescue Exception => e
       @time_out = after(0.1) do
         unable_to_compile_message e.message
