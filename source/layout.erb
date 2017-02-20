@@ -69,36 +69,41 @@
   </head>
 
   <body>
-    <div class="container">
-      <%= partial "navigation"%>
+    <div class="navbarbackgroundcolor">
+      <div class="container">
+        <%= partial "navigation"%>
+      </div>
     </div>
 
     <div class="jumbotron page-header">
       <div class="container">
         <div class="row hidden-xs-down">
-          <div class="col-md-3 center-text">
-            <%= image_tag "hyperloop_white.svg", width: '160' %>
+          <div class="col-md-2 ">
+            <%= image_tag "hyperloop-logo.png", width: '140' %>
           </div>
-          <div class="col-md-9">
+          <div class="col-md-10">
+
+          
+
             <h1 class="display-4 project-name">Hyperloop</h1>
-            </br>
+            
             <h4 class="display-7 project-tagline">
               <%=
-              current_page.data.title ? current_page.data.title.upcase : "THE COMPLETE ISOMORPHIC RUBY FRAMEWORK"
+              current_page.data.title ? current_page.data.title : "The complete isomorphic Ruby Framework"
               %>
             </h2>
           </div>
         </div>
         <div class="row hidden-sm-up">
           <div class="col-md-3 center-text">
-            <%= image_tag "hyperloop_white.svg", width: '100' %>
+            <%= image_tag "hyperloop-logo.png", width: '100' %>
           </div>
           <div class="col-md-9">
             <h1 class="h1 project-name center-text">Hyperloop</h1>
             </br>
             <h2 class="h5 project-tagline center-text">
               <%=
-              current_page.data.title ? current_page.data.title.upcase : "THE COMPLETE ISOMORPHIC RUBY FRAMEWORK"
+              current_page.data.title ? current_page.data.title : "The complete isomorphic Ruby Framework"
               %>
             </h2>
           </div>
@@ -108,7 +113,7 @@
 
     <div class="container">
       <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-3 sidenavcol">
           <%= partial "_sidenav" %>
           <br>
         </div>
