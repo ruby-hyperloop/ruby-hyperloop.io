@@ -4,8 +4,9 @@ Document.ready? do
    Element.find('div.codemirror-live-edit').each do |mount_point|
      heading = mount_point.attr('data-heading')
      rows = mount_point.attr('data-rows')
+     top_level_component = mount_point.attr('data-top-level-component')
      code = Element[mount_point].find('pre').text.strip
-     params = {code: code}
+     params = {code: code, top_level_component: top_level_component}
      params = params.merge({heading: heading}) if heading
      params = params.merge({rows: rows.to_i}) if rows
      codemirror_component = Object.const_get('CodeMirror')

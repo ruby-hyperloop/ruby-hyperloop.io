@@ -33,9 +33,10 @@ Let's add a little functionality to this Component - you can edit this code if y
 
 <div class="codemirror-live-edit"
   data-heading="A simple Component rendering a Button"
-  data-rows=9>
+  data-rows=9
+  data-top-level-component="SimpleComponent">
 <pre>
-class ExampleComponent < React::Component::Base
+class SimpleComponent < React::Component::Base
   render(DIV) do
     BUTTON { 'Push the button' }.on(:click) do
      alert 'You did it!'
@@ -74,9 +75,10 @@ Data is passed downward from a parent Component to its children. There are vario
 For now, let's experiment with passing parameters:
 
 <div class="codemirror-live-edit"
-  data-heading="Passing parameters">
+  data-heading="Passing parameters"
+  data-top-level-component="MeeterGreeter">
 <pre>
-class ExampleComponent < React::Component::Base
+class MeeterGreeter < React::Component::Base
   render(DIV) do
     SayHelloTo(name: "John")
     SayHelloTo(name: "Sally")
@@ -105,9 +107,10 @@ Lets experiment with an example:
 
 <div class="codemirror-live-edit"
   data-heading="Using state"
-  data-rows=30>
+  data-rows=30
+  data-top-level-component="StateExample">
 <pre>
-class ExampleComponent < React::Component::Base
+class StateExample < React::Component::Base
   define_state show_field: false
   define_state field_value: ""
 
@@ -150,9 +153,10 @@ Conditional logic, HTML elements, state and style all intermingle in a Hyperloop
 
 <div class="codemirror-live-edit"
   data-heading="Using CSS"
-  data-rows=23>
+  data-rows=23
+  data-top-level-component="StylishTable">
 <pre>
-class ExampleComponent < React::Component::Base
+class StylishTable < React::Component::Base
   render(DIV) do
     table.table.table_bordered do
       thead do

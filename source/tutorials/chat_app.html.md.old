@@ -61,7 +61,7 @@ It will also have a few neat features:
   </head>
   <body>
     <!-- Tell inline reactive ruby to mount App here -->
-    <div data-reactrb-mount="App"></div>
+    <div data-hyperloop-mount="App"></div>
   </body>
 </html>
 ```

@@ -4,6 +4,7 @@ class CodeMirror < React::Component::Base
   param :code, type: String
   param :heading, default: "Code"
   param :rows, type: Integer, default: 0
+  param :top_level_component, type: String
 
   before_mount do
     r=rand(2**256).to_s(36)[0..7]
@@ -40,14 +41,15 @@ class CodeMirror < React::Component::Base
 
   def execute_code
     begin
-      compiled_code = Opal::Compiler.new(`#{@editor}.getValue()`).compile
+      code = `#{@editor}.getValue()`
+      code += "\nElement['##{@div_result}'].render(#{params.top_level_component})"
+      compiled_code = Opal::Compiler.new(code).compile
       `ReactDOM.unmountComponentAtNode(document.getElementById(#{@div_result}));`
       `eval(#{compiled_code})`
-      if React.render_to_static_markup( ExampleComponent() ).empty?
-        invalid_component_message
-      else
-        Element["##{@div_result}"].render{ ExampleComponent() }
-      end
+      component = Module.const_get params.top_level_component
+      # how do we find out if component is valid?
+      # puts component.render_to_static_markup
+      # the above does not work, render_to_static_markup does not exist??
     rescue Exception => e
       @time_out = after(0.1) do
         unable_to_compile_message e.message
