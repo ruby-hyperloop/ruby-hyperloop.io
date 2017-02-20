@@ -34,9 +34,9 @@ Let's add a little functionality to this Component - you can edit this code if y
 <div class="codemirror-live-edit"
   data-heading="A simple Component rendering a Button"
   data-rows=9
-  data-top-level-component="SkeletonComponent">
+  data-top-level-component="SimpleComponent">
 <pre>
-class SkeletonComponent < React::Component::Base
+class SimpleComponent < React::Component::Base
   render(DIV) do
     BUTTON { 'Push the button' }.on(:click) do
      alert 'You did it!'
