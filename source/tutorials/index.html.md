@@ -1,6 +1,14 @@
 ---
-title: Tutorials & Quickstarts
+title: Tutorials, Videos & Quickstarts
 ---
+# Videos
+
+Watch Loïc Boutet at Rails Israel speaking about the front end aspects of Hyperloop.
+
+<div class="embed-responsive embed-responsive-16by9">
+  <iframe class="embed-responsive-item" src="//www.youtube.com/embed/OiybfzRlNdg?rel=0" allowfullscreen></iframe>
+</div>
+
 # Hyperloop COMP architecture tutorials
 
 This site contains a number of Tutorials and Quickstarts. The tutorials are arranged in accordance with the architectural aspect they cover, though some are not limited only to that aspect. The Quickstarts are fully working and configured applications you can clone and run.
