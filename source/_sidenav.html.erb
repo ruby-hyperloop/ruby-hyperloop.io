@@ -71,6 +71,24 @@
     <li class="nav-item"><strong><a href="/docs/hyperstore_overview">Stores</a></strong></li>
   </ul>
 
+<% when current_page.path.include?("get_started") %>
+  <ul class="nav">
+    <li class="nav-item"><a href="/get_started#components">Components</a></li>
+    <ul class="nav">
+      <li class="nav-item"><a href="/get_started#rendering-components">Rendering Components</a></li>
+      <li class="nav-item"><a href="/get_started#passing-paramaters">Passing Paramaters</a></li>
+      <li class="nav-item"><a href="/get_started#state-and-conditional-execution">State and conditional execution</a></li>
+      <li class="nav-item"><a href="/get_started#stylish-components">Stylish Components</a></li>
+      <li class="nav-item"><a href="/get_started#using-javascript-libraries">Using JavaScript Libraries</a></li>
+    </ul>
+    <br>
+    <li class="nav-item"><a href="/get_started#stores">Stores</a></li>
+    <ul class="nav">
+      <li class="nav-item"><a href="/get_started#overloaded-components">Overloaded Components</a></li>
+      <li class="nav-item"><a href="/get_started#using-stores">Using Stores</a></li>
+    </ul>
+  </ul>
+
 <% when current_page.path.include?("tutorials") %>
   <ul class="nav">
     <li class="nav-item"><a href="/tutorials/chat_app">Chat-App Tutorial</a></li>
@@ -111,7 +129,7 @@
       <p>Get Started with Hyperloop right now, no installation necessary, <strong>code</strong> in your browser.</p>
       <button type="button" class="btn btn-primary btn-lg btn-hyperloopgreen" onclick="location.href='/get_started';">Get Started</button>
     </div>
-    
+
 
 
 <% end %>
