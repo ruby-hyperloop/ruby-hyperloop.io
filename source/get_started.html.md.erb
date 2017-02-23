@@ -8,8 +8,8 @@ There are five important ingredients to the Hyperloop architecture (COMPS for sh
   <div class="divTable">
     <div class="divTableBody">
       <div class="divTableRow">
-        <div class="divTableCell img">
-          <%= image_tag "HyperComponents.png"%>
+        <div class="divTableCell">
+          <%= image_tag "HyperComponents.png", width: '170'%>
         </div>
         <div class="divTableCell">
           <b>Components</b> describe how the UI will display the current application state and how it will handle user actions.  Using React, Components automatically rerender parts of the display as state changes due to local or remote activities.
@@ -17,7 +17,7 @@ There are five important ingredients to the Hyperloop architecture (COMPS for sh
       </div>
       <div class="divTableRow">
         <div class="divTableCell">
-          <%= image_tag "HyperOperations.png" %>
+          <%= image_tag "HyperOperations.png", width: '170' %>
         </div>
         <div class="divTableCell">
           <b>Operations</b> encapsulate activities. In an MVC architecture operations end up either in controllers, models or some other secondary construct such as service objects, helpers, or concerns. Here they are first class objects.
@@ -25,7 +25,7 @@ There are five important ingredients to the Hyperloop architecture (COMPS for sh
       </div>
       <div class="divTableRow">
         <div class="divTableCell">
-          <%= image_tag "HyperModels.png" %>
+          <%= image_tag "HyperModels.png", width: '170' %>
         </div>
         <div class="divTableCell">
           <b>Models</b> can now focus on one thing and that is the structure of the data as it is persisted.  Any business logic is moved to Operations.
@@ -33,7 +33,7 @@ There are five important ingredients to the Hyperloop architecture (COMPS for sh
       </div>
       <div class="divTableRow">
         <div class="divTableCell">
-          <%= image_tag "HyperPolicies.png" %>
+          <%= image_tag "HyperPolicies.png", width: '170' %>
         </div>
         <div class="divTableCell">
           <b>Policies</b> keep authorization logic out of models, and operations, and also allows the isomorphic transport mechanism to know what and when to communicate between client and server.
@@ -41,7 +41,7 @@ There are five important ingredients to the Hyperloop architecture (COMPS for sh
       </div>
       <div class="divTableRow">
         <div class="divTableCell">
-          <%= image_tag "HyperStores.png" %>
+          <%= image_tag "HyperStores.png", width: '170' %>
         </div>
         <div class="divTableCell">
           <b>Stores</b> hold the local application state. Stores are Ruby classes that keep the dynamic parts of the state in special state variables.
