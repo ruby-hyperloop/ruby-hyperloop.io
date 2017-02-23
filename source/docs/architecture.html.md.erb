@@ -13,17 +13,58 @@ Hyperloop is an Isomorphic Web Application Framework consisting of Components, O
 
 ![](/images/HSCOMP-schematic.png)
 
-+ **Components** describe how the UI will display the *current* application state and how it will handle user actions.  Using React Components automatically rerender parts of the display as state changes due to local or remote activities.
-+ **Operations** encapsulate activities. In an MVC architecture operations end up either in controllers, models or some other secondary construct such as service objects, helpers, or concerns. Here they are first class objects.
-+ **Models** can now focus on one thing and that is the structure of the data as it is persisted.  Any business logic is moved to Operations.
-+ **Policies** keep authorization logic out of models, and operations, and also allows the isomorphic transport mechanism to know what and when to communicate between client and server.
-+ **Stores** hold application state. Stores are Ruby classes that keep the dynamic parts of the state in special state variables.
+<div class="startpageTable">
+  <div class="divTable">
+    <div class="divTableBody">
+      <div class="divTableRow">
+        <div class="divTableCell img">
+          <%= image_tag "HyperComponents.png"%>
+        </div>
+        <div class="divTableCell">
+          <b>Components</b> describe how the UI will display the current application state and how it will handle user actions.  Using React, Components automatically rerender parts of the display as state changes due to local or remote activities.
+        </div>
+      </div>
+      <div class="divTableRow">
+        <div class="divTableCell">
+          <%= image_tag "HyperOperations.png" %>
+        </div>
+        <div class="divTableCell">
+          <b>Operations</b> encapsulate activities. In an MVC architecture operations end up either in controllers, models or some other secondary construct such as service objects, helpers, or concerns. Here they are first class objects.
+        </div>
+      </div>
+      <div class="divTableRow">
+        <div class="divTableCell">
+          <%= image_tag "HyperModels.png" %>
+        </div>
+        <div class="divTableCell">
+          <b>Models</b> can now focus on one thing and that is the structure of the data as it is persisted.  Any business logic is moved to Operations.
+      </div>
+      </div>
+      <div class="divTableRow">
+        <div class="divTableCell">
+          <%= image_tag "HyperPolicies.png" %>
+        </div>
+        <div class="divTableCell">
+          <b>Policies</b> keep authorization logic out of models, and operations, and also allows the isomorphic transport mechanism to know what and when to communicate between client and server.
+        </div>
+      </div>
+      <div class="divTableRow">
+        <div class="divTableCell">
+          <%= image_tag "HyperStores.png" %>
+        </div>
+        <div class="divTableCell">
+          <b>Stores</b> hold the local application state. Stores are Ruby classes that keep the dynamic parts of the state in special state variables.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 The only remaining function of controllers - acting as the HTTP end point - is automatically handled by the Hyperloop framework.  Both Models and Operations will automatically *work across the wire* using the Policies to determine access rights, and reactive Components to update the display as data changes.
 
 This overview will take you through all the main Hyperloop architectural layers.
 
-## Components
+<h2><div class="hyperlogoalone"><%= image_tag "HyperComponents.png", width: '40'%></div>Components</h2>
 
 You build your UI using React Components described as Ruby classes.  Within your Components, you can display other components, change state, access models, or communicate with third party APIs.  Typically you will want to use Operations to encapsulate these activities.  Here is a simple example using our `AddBookToBasket` operation.
 
@@ -43,7 +84,7 @@ end
 
 Notice how our component directly scopes the `Book` model and reads the `name` attribute.  Models are dynamically synchronized to all connected and authorized clients using ActionCable, pusher.com or polling.  The synchronization is completely automatic and magical to behold.
 
-## Operations (coming soon)
+<h2><div class="hyperlogoalone"><%= image_tag "HyperOperations.png", width: '40'%></div>Operations (coming soon)</h2> (coming soon)
 
 Hyperloop *recommends* that only scopes, relations, and validations are described in model classes. All business logic can be encapsulated in reusable *isomorphic* Operations that do not complicate your Models or Components.  Each Operation is a self-contained piece of logic that does one simple thing.  
 
@@ -80,7 +121,7 @@ class AddBookToBasket < Hyperloop::Operation
 end
 ```
 
-## Models
+<h2><div class="hyperlogoalone"><%= image_tag "HyperModels.png", width: '40'%></div>Models</h2>
 
 Hyperloop uses Rails ActiveRecord for data persistence.  This allows easy integration with existing Rails apps.  Hyperloop Models are implemented in the HyperMesh Gem.
 
@@ -100,7 +141,7 @@ end
 Changes made to Models on a client or server are **automatically synchronized** to all other authorized connected clients using ActionCable, pusher.com or polling. The synchronization is completely automatic and magical to behold.
 
 
-## Policies
+<h2><div class="hyperlogoalone"><%= image_tag "HyperPolicies.png", width: '40'%></div>Policies</h2>
 
 While communication between the client and server is automatic it does need to be authorized.  This is accomplished by *regulations* which can be grouped into pundit style Policy classes.  This allows your access rules to be described separately from your Models and Operations.
 
@@ -122,7 +163,7 @@ class OperationPolicy
 end
 ```
 
-## Stores
+<h2><div class="hyperlogoalone"><%= image_tag "HyperStores.png", width: '40'%></div>Stores</h2>
 
 Stores are where the state of your Application lives.
 
@@ -180,7 +221,7 @@ This will automatically rerender the contents of the 'new-york' DIV **whenever t
 
 ## Benefits of COMPS Architecture
 
-+ The COMP architecture encapsulates functionality for clean, predictable, testable code
++ The **COMPS** architecture encapsulates functionality for clean, predictable, testable code
 + One language - Ruby everywhere - reduces complexity and lets developers build solutions quickly
 + Encourages client-side execution for distributed processing and a rich interactive user experience
 + Full power of Rails, React and the entire JavaScript universe

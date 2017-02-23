@@ -4,11 +4,52 @@ This introduction will take you through most of what you need to know to get sta
 
 There are five important ingredients to the Hyperloop architecture (COMPS for short):
 
-+ **Components** describe how the UI will display the *current* application state and how it will handle user actions.  Using React Components automatically rerender parts of the display as state changes due to local or remote activities.
-+ **Operations** encapsulate activities. In an MVC architecture operations end up either in controllers, models or some other secondary construct such as service objects, helpers, or concerns. Here they are first class objects.
-+ **Models** can now focus on one thing and that is the structure of the data as it is persisted.  Any business logic is moved to Operations.
-+ **Policies** keep authorization logic out of models, and operations, and also allows the isomorphic transport mechanism to know what and when to communicate between client and server.
-+ **Stores** hold application state. Stores are Ruby classes that keep the dynamic parts of the state in special state variables.
+<div class="startpageTable">
+  <div class="divTable">
+    <div class="divTableBody">
+      <div class="divTableRow">
+        <div class="divTableCell img">
+          <%= image_tag "HyperComponents.png"%>
+        </div>
+        <div class="divTableCell">
+          <b>Components</b> describe how the UI will display the current application state and how it will handle user actions.  Using React, Components automatically rerender parts of the display as state changes due to local or remote activities.
+        </div>
+      </div>
+      <div class="divTableRow">
+        <div class="divTableCell">
+          <%= image_tag "HyperOperations.png" %>
+        </div>
+        <div class="divTableCell">
+          <b>Operations</b> encapsulate activities. In an MVC architecture operations end up either in controllers, models or some other secondary construct such as service objects, helpers, or concerns. Here they are first class objects.
+        </div>
+      </div>
+      <div class="divTableRow">
+        <div class="divTableCell">
+          <%= image_tag "HyperModels.png" %>
+        </div>
+        <div class="divTableCell">
+          <b>Models</b> can now focus on one thing and that is the structure of the data as it is persisted.  Any business logic is moved to Operations.
+      </div>
+      </div>
+      <div class="divTableRow">
+        <div class="divTableCell">
+          <%= image_tag "HyperPolicies.png" %>
+        </div>
+        <div class="divTableCell">
+          <b>Policies</b> keep authorization logic out of models, and operations, and also allows the isomorphic transport mechanism to know what and when to communicate between client and server.
+        </div>
+      </div>
+      <div class="divTableRow">
+        <div class="divTableCell">
+          <%= image_tag "HyperStores.png" %>
+        </div>
+        <div class="divTableCell">
+          <b>Stores</b> hold the local application state. Stores are Ruby classes that keep the dynamic parts of the state in special state variables.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 This Getting Started guide will introduce you to our Components. After reading this you might like to try some of the [Tutorials](/tutorials) or jump into the [Docs](/docs/architecture) for a comprehensive overview of the Hyperloop architecture.
 
