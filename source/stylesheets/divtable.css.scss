@@ -1,0 +1,89 @@
+
+.homepageTable {
+	display: inline-block;
+	margin-left: 50px;
+
+	.divTable{
+		display: table;
+		
+		
+	}
+	.divTableRow {
+		display: table-row;
+		text-align: center;
+
+	}
+	.divTableHeading {
+		background-color: #EEE;
+		display: table-header-group;
+	}
+	.divTableCell, .divTableHead {
+		border: 0px solid #d9d9d9;
+		display: table-cell;
+		vertical-align: top;
+		
+		display: inline-block;
+	}
+	
+	.divTableFoot {
+		background-color: #EEE;
+		display: table-footer-group;
+		font-weight: bold;
+	}
+	.divTableBody {
+		display: table-row-group;
+	}
+	
+}
+
+
+.startpageTable {
+
+	.divTable{
+		display: table;
+		width: 100%;
+		margin-top: 30px;
+		margin-bottom: 30px;
+	}
+	.divTableRow {
+		display: table-row;
+
+	}
+	.divTableHeading {
+		background-color: #EEE;
+		display: table-header-group;
+	}
+	.divTableCell, .divTableHead {
+		border: 0px solid #d9d9d9;
+		display: table-cell;
+		vertical-align: middle;
+		padding: 10px;
+
+
+	}
+	.divTableCell.img {
+		padding: 8px;
+
+	}
+	.divTableHeading {
+		background-color: #EEE;
+		display: table-header-group;
+		font-weight: bold;
+	}
+	.divTableFoot {
+		background-color: #EEE;
+		display: table-footer-group;
+		font-weight: bold;
+	}
+	.divTableBody {
+		display: table-row-group;
+	}
+	
+}
+
+
+
+.hyperlogoalone {
+	display: inline-block;
+	margin-right: 10px;
+}
