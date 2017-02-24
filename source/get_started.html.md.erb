@@ -330,6 +330,48 @@ That concludes the introduction to Stores. To learn more about Stores please see
 ------------------------------------
 # Models
 
+Hyperloop Models give your access to your server side Rails ActiveRecord Models from the client. In addition, Hyperloop implements push notifications (via a number of possible technologies) so changes to records on the server are dynamically pushed to all authorized clients.
+
++ No need for a boilerplate API just to move JSON between the client and server
++ Changes are automatically synchronized between connected clients
++ You do not need to maintain one Model for the server and one Model for the client
+
+**One set of Models used by the client and the server. Isomorphic Ruby in action.**
+
+Models act like Stores in that they contain state, which is linked to the underlying ActiveRecord Models on the server. Changes make to the server-side Models are pushed to the client depending on the configured Policy for the current user.
+
+Hyperloop has a few important advantages over Relay and GraphQL:
+
++ Hyperloop is fully integrated with Rails out the box, so there is no need to build and maintain a GraphQL server or an API.
++ Your server side Models are available to your client side code, so there is no need to recreate an abstracted version of the Models client-side.
++ Unlike Relay and GraphQL, Hyperloop has built in push notifications to magically push changes to underlying server-side Models to any connected client with a Component rendering that Model
++ Access to Models and synchronized changes are controlled neatly by Policy classes
++ Just like Relay and GraphQL, only the records needed to render Components are transferred
++ Everything in beautiful, simple Ruby!
+
+## Active Record Models
+
+Our Models are linked to Active Record Models so for this part of the Hyperloop architecture we have a dependancy on Rails and Active Record. If you are not using Rails you can still take advantage of Hyperloop's Components & Stores (which do not depend on Rails) to create stunning interactive user interfaces.
+
+Let's assume we have an ActiveRecord Model called Books as below:
+
+```ruby
+class Book < ApplicationRecord
+end
+```
+
+You would access this Model in a Component like this:
+
+```ruby
+class BookList < React::Component::Base
+render(UL) do
+  Book.all.each do |book|
+    LI { "#{book.name}" }
+  end
+end
+```
+
+That's it! No API, no serialisation or de-serialisation
 
 ------------------------------------
 ## Welcome aboard!
