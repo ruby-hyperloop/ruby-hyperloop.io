@@ -17,43 +17,45 @@ There are five important ingredients to the Hyperloop architecture (COMPS for sh
       </div>
       <div class="divTableRow">
         <div class="divTableCell">
-          <%= image_tag "HyperOperations.png", width: '170' %>
+          <%= image_tag "HyperStores.png", width: '170' %>
         </div>
         <div class="divTableCell">
-          <b>Operations</b> encapsulate activities. In an MVC architecture operations end up either in controllers, models or some other secondary construct such as service objects, helpers, or concerns. Here they are first class objects.
+          <b>Stores</b> hold the local application state. Stores are Ruby classes that keep the dynamic parts of the state in special state variables. We use Stores to share state between Components.
         </div>
+      </div>
       </div>
       <div class="divTableRow">
         <div class="divTableCell">
           <%= image_tag "HyperModels.png", width: '170' %>
         </div>
         <div class="divTableCell">
-          <b>Models</b> can now focus on one thing and that is the structure of the data as it is persisted.  Any business logic is moved to Operations.
+          <b>Models</b> can now focus on one thing and that is the structure of the data as it is persisted.  Any business logic is moved to Operations so our Models are very slim and, amazingly, we automatically synchronize data between connected clients.
       </div>
+      </div>
+      <div class="divTableRow">
+        <div class="divTableCell">
+          <%= image_tag "HyperOperations.png", width: '170' %>
+        </div>
+        <div class="divTableCell">
+          <b>Operations</b> encapsulate business logic. In a traditional MVC architecture, Operations end up either in Controllers, Models or some other secondary construct such as service objects, helpers, or concerns. Here they are first class objects. Their job is to mutate state in the Stores and Models.
+        </div>
       </div>
       <div class="divTableRow">
         <div class="divTableCell">
           <%= image_tag "HyperPolicies.png", width: '170' %>
         </div>
         <div class="divTableCell">
-          <b>Policies</b> keep authorization logic out of models, and operations, and also allows the isomorphic transport mechanism to know what and when to communicate between client and server.
+          <b>Policies</b> keep authorization logic out of Models, and Operations, and also allows the isomorphic transport mechanism to know what and when to communicate between client and server.
         </div>
       </div>
-      <div class="divTableRow">
-        <div class="divTableCell">
-          <%= image_tag "HyperStores.png", width: '170' %>
-        </div>
-        <div class="divTableCell">
-          <b>Stores</b> hold the local application state. Stores are Ruby classes that keep the dynamic parts of the state in special state variables.
-        </div>
-      </div>
-    </div>
   </div>
 </div>
 
 This Getting Started guide will introduce you to Hyperloop. After reading this you might like to try some of the [Tutorials](/tutorials) or jump into the [Docs](/docs/architecture) for a comprehensive overview of the Hyperloop architecture.
 
-## Components
+---------------------------------
+
+# Components
 
 Hyperloop user interfaces are composed of React Components written in Ruby.
 
@@ -238,9 +240,14 @@ class ExampleComponent < React::Component::Base
 end
 ```
 
-## Stores
+That concludes the introduction to Components. To learn more about Components please see the [Tutorials](/tutorials) and also the comprehensive [Docs](/docs/architecture)
+
+-------------------------------
+# Stores
 
 The next area of Hyperloop we will cover are Stores. Hyperloop Stores (similar to Flux Stores) exist to hold local application state. Components read state from Stores and render accordingly. This separation of concerns is an improvement in the overall architecture and makes our application easier to maintain.
+
+**Why would we have Stores?** Let's examine that question through an example.
 
 ### Overloaded Components
 
@@ -269,10 +276,10 @@ end
 
 The Component works as expected but there are two fundamental problems with the architecture:
 
-+ Firstly, the discount (state) is tied to the Component itself. This is a problem as we might have other Components on the page which need to also see and interact with the discount. We need a better place to keep application state than in our Components.
-+ Our business logic (discounts start at 30% and the lucky dip increases or decreases by 5%) is all wrapped up with our presentational code. This makes our application fragile and difficult to evolve. Our application logic should be separate from our display logic.
++ Firstly, the discount (state) is tied to the Component itself. This is a problem as we might have other Components on the page which need to also see and interact with the discount. **We need a better place than in our Components to keep application state.**
++ Our business logic (discounts start at 30% and the lucky dip increases or decreases by 5%) is all wrapped up with our presentational code. This makes our application fragile and difficult to evolve. **Our application logic should be separate from our display logic.**
 
-We will fix these problems but first implementing a Hyperloop Store to keep our application state and business logic out of our Components.
+We will fix these problems but first implementing a Hyperloop Store to keep our application state and business logic out of our Components. Later in this guide we will go one step further and move our business logic out of the Store into an Operation but for now the first step will be a big improvement.
 
 ### Using Stores
 
@@ -289,6 +296,7 @@ class Discounter < Hyperloop::Store
   end
 end
 ```
+
 You will notice a few things in the code above:
 
 + A Store is a ruby class derived from `Hyperloop::Store`
@@ -315,8 +323,13 @@ end
 + `Discounter.discount` is a reader class method that was added to the Store for us by `state discount: 30, scope: :class, reader: true` which saved us a lot of typing!
 + Components that read a Store's state will automatically update when the state changes.
 
-Stores can receive dispatches from Operations! See the [Docs](/docs/architecture) for more information.
+Stores can receive dispatches from Operations - we will come to that later in this overview. That concludes the introduction to Stores. To learn more about Stores please see the [Tutorials](/tutorials) and also the comprehensive [Docs](/docs/architecture)
+
+------------------------------------
+# Models
+
+
+------------------------------------
+## Welcome aboard!
 
 We hope you have enjoyed this introduction to Hyperloop. As a next step, perhaps try some of the [Tutorials](/tutorials) or jump into the [Docs](/docs/architecture) for a comprehensive overview of the Hyperloop architecture.
-
-Welcome aboard!
