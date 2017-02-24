@@ -95,7 +95,7 @@ There are a few things to notice in the code above.
 + HTML elements (DIV, BUTTON, etc) can be in uppercase or lowercase.
 + We added an event handler to the button. You can do this for any HTML element in the same way.
 
-### Rendering Components
+## Rendering Components
 
 Hyperloop's architecture encourages you to write simple Components that perform single tasks and render other Components.
 
@@ -111,7 +111,7 @@ end
 
 This simple approach allows you to build complicated user interfaces yet encapsulate functionality into reusable contained entities.
 
-### Passing parameters
+## Passing parameters
 
 Data is passed downward from a parent Component to its children. There are various techniques for passing data upward and (better still) keeping data in **Stores** independently of Components but we will address that later.
 
@@ -142,7 +142,7 @@ You will notice a couple of things in the code above:
 + The syntax for adding components is either `MyComponent()` or `MyComponent {}` but never just `MyComponent`. Sometimes you use both - `button(style: default) { "Click Me" }`. Everything in the brackets is passed to the Component as a parameter and everything in the curly brace is rendered within the Component.
 + Parameters can be strongly typed `param :name, type: String` and considering this code will be compiled to JavaScript this is a good idea.
 
-### State and Conditional Execution
+## State and Conditional Execution
 
 One of the greatest things about React is that it encourages you to write code in a declarative way with Components that manage their own state. As state changes, React works out how to render the user interface without you having to worry about the DOM. As state changes, the user interface re-renders itself.
 
@@ -190,7 +190,7 @@ A few things to notice in the code above:
 + Components are just Ruby classes which have methods.
 + Here is the most important part - notice how React automatically updates the user interface as state changes. This is the very heart of React thinking.
 
-### Stylish Components
+## Stylish Components
 
 Conditional logic, HTML elements, state and style all intermingle in a Hyperloop Component. This website uses Bootstrap CSS, so we have complete access to the Bootstrap CSS from within our Components.
 
@@ -224,7 +224,7 @@ end</pre></div>
 
 As you can see above, CSS is mixed into HTML elements. `div.something` becomes `<div class="something">`. Also note that `btn-primary` becomes `btn_primary` as '-' is disallowed in Ruby.
 
-### Using JavaScript Libraries
+## Using JavaScript Libraries
 
 As a final point on Components, it is important to understand that Hyperloop gives you full access to **all JavaScript libraries and components from directly within your Ruby code.** Everything you can do in JavaScript is simple to do in ruby, this includes passing parameters between Ruby and JavaScript and even passing in Ruby lambdas as JavaScript callbacks. All of this magic comes from Opal.
 
@@ -249,7 +249,7 @@ The next area of Hyperloop we will cover are Stores. Hyperloop Stores (similar t
 
 **Why would we have Stores?** Let's examine that question through an example.
 
-### Overloaded Components
+## Overloaded Components
 
 Take the simple Component below which displays an initial discount then gives the user the option of taking a once only 'Lucky Dip' that will either increase or decrease their discount.
 
@@ -281,7 +281,7 @@ The Component works as expected but there are two fundamental problems with the 
 
 We will fix these problems but first implementing a Hyperloop Store to keep our application state and business logic out of our Components. Later in this guide we will go one step further and move our business logic out of the Store into an Operation but for now the first step will be a big improvement.
 
-### Using Stores
+## Using Stores
 
 First let's add the Store:
 
@@ -323,7 +323,9 @@ end
 + `Discounter.discount` is a reader class method that was added to the Store for us by `state discount: 30, scope: :class, reader: true` which saved us a lot of typing!
 + Components that read a Store's state will automatically update when the state changes.
 
-Stores can receive dispatches from Operations - we will come to that later in this overview. That concludes the introduction to Stores. To learn more about Stores please see the [Tutorials](/tutorials) and also the comprehensive [Docs](/docs/architecture)
+Stores can also receive dispatches from Operations - we will come to that later in this overview. In Hyperloop it is perfectly legitimate to interact with a Store though its class methods as we have done above.
+
+That concludes the introduction to Stores. To learn more about Stores please see the [Tutorials](/tutorials) and also the comprehensive [Docs](/docs/architecture)
 
 ------------------------------------
 # Models
