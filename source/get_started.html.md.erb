@@ -55,7 +55,9 @@ This Getting Started guide will introduce you to Hyperloop. After reading this y
 
 ---------------------------------
 
-<h2><div class="hyperlogoalone"><%= image_tag "HyperComponents.png", width: '35'%></div>Components</h2>
+<h2><div class="hyperlogoalone" id="components"><%= image_tag "HyperComponents.png", width: '35'%></div>
+Components
+</h2>
 
 Hyperloop user interfaces are composed of React Components written in Ruby.
 
@@ -95,7 +97,7 @@ There are a few things to notice in the code above.
 + HTML elements (DIV, BUTTON, etc) can be in uppercase or lowercase.
 + We added an event handler to the button. You can do this for any HTML element in the same way.
 
-## Rendering Components
+### Rendering Components
 
 Hyperloop's architecture encourages you to write simple Components that perform single tasks and render other Components.
 
@@ -111,7 +113,7 @@ end
 
 This simple approach allows you to build complicated user interfaces yet encapsulate functionality into reusable contained entities.
 
-## Passing parameters
+### Passing parameters
 
 Data is passed downward from a parent Component to its children. There are various techniques for passing data upward and (better still) keeping data in **Stores** independently of Components but we will address that later.
 
@@ -142,7 +144,7 @@ You will notice a couple of things in the code above:
 + The syntax for adding components is either `MyComponent()` or `MyComponent {}` but never just `MyComponent`. Sometimes you use both - `button(style: default) { "Click Me" }`. Everything in the brackets is passed to the Component as a parameter and everything in the curly brace is rendered within the Component.
 + Parameters can be strongly typed `param :name, type: String` and considering this code will be compiled to JavaScript this is a good idea.
 
-## State and Conditional Execution
+### State and Conditional Execution
 
 One of the greatest things about React is that it encourages you to write code in a declarative way with Components that manage their own state. As state changes, React works out how to render the user interface without you having to worry about the DOM. As state changes, the user interface re-renders itself.
 
@@ -190,7 +192,7 @@ A few things to notice in the code above:
 + Components are just Ruby classes which have methods.
 + Here is the most important part - notice how React automatically updates the user interface as state changes. This is the very heart of React thinking.
 
-## Stylish Components
+### Stylish Components
 
 Conditional logic, HTML elements, state and style all intermingle in a Hyperloop Component. This website uses Bootstrap CSS, so we have complete access to the Bootstrap CSS from within our Components.
 
@@ -224,7 +226,7 @@ end</pre></div>
 
 As you can see above, CSS is mixed into HTML elements. `div.something` becomes `<div class="something">`. Also note that `btn-primary` becomes `btn_primary` as '-' is disallowed in Ruby.
 
-## Using JavaScript Libraries
+### Using JavaScript Libraries
 
 As a final point on Components, it is important to understand that Hyperloop gives you full access to **all JavaScript libraries and components from directly within your Ruby code.** Everything you can do in JavaScript is simple to do in ruby, this includes passing parameters between Ruby and JavaScript and even passing in Ruby lambdas as JavaScript callbacks. All of this magic comes from Opal.
 
@@ -244,13 +246,15 @@ That concludes the introduction to Components. To learn more about Components pl
 
 -------------------------------
 
-<h2><div class="hyperlogoalone"><%= image_tag "HyperStores.png", width: '35'%></div>Stores</h2>
+<h2><div class="hyperlogoalone" id="stores"><%= image_tag "HyperStores.png", width: '35'%></div>
+Stores
+</h2>
 
-The next area of Hyperloop we will cover are Stores. Hyperloop Stores (similar to Flux Stores) exist to hold local application state. Components read state from Stores and render accordingly. This separation of concerns is an improvement in the overall architecture and makes our application easier to maintain.
+Hyperloop Stores (similar to Flux Stores) exist to hold local application state. Components read state from Stores and render accordingly. This separation of concerns is an improvement in the overall architecture and makes our application easier to maintain.
 
 **Why would we have Stores?** Let's examine that question through an example.
 
-## Overloaded Components
+### Overloaded Components
 
 Take the simple Component below which displays an initial discount then gives the user the option of taking a once only 'Lucky Dip' that will either increase or decrease their discount.
 
@@ -282,7 +286,7 @@ The Component works as expected but there are two fundamental problems with the 
 
 We will fix these problems but first implementing a Hyperloop Store to keep our application state and business logic out of our Components. Later in this guide we will go one step further and move our business logic out of the Store into an Operation but for now the first step will be a big improvement.
 
-## Using Stores
+### Using Stores
 
 First let's add the Store:
 
@@ -329,7 +333,9 @@ Stores can also receive dispatches from Operations - we will come to that later 
 That concludes the introduction to Stores. To learn more about Stores please see the [Tutorials](/tutorials) and also the comprehensive [Docs](/docs/architecture)
 
 ------------------------------------
-<h2><div class="hyperlogoalone"><%= image_tag "HyperModels.png", width: '35'%></div>Models</h2>
+<h2><div class="hyperlogoalone" id="models"><%= image_tag "HyperModels.png", width: '35'%></div>
+Models
+</h2>
 
 Hyperloop Models give your access to your server side Rails ActiveRecord Models from the client. In addition, Hyperloop implements push notifications (via a number of possible technologies) so changes to records on the server are dynamically pushed to all authorized clients.
 
@@ -337,31 +343,24 @@ Hyperloop Models give your access to your server side Rails ActiveRecord Models 
 + Changes are automatically synchronized between connected clients
 + You do not need to maintain one Model for the server and one Model for the client
 
-**One set of Models used by the client and the server. Isomorphic Ruby in action.**
+**One set of Models used by the client and the server code. Isomorphic Ruby in action.**
 
 Models act like Stores in that they contain state, which is linked to the underlying ActiveRecord Models on the server. Changes make to the server-side Models are pushed to the client depending on the configured Policy for the current user.
 
-Hyperloop has a few important advantages over Relay and GraphQL:
+### ActiveRecord Models
 
-+ Hyperloop is fully integrated with Rails out the box, so there is no need to build and maintain a GraphQL server or an API.
-+ Your server side Models are available to your client side code, so there is no need to recreate an abstracted version of the Models client-side.
-+ Unlike Relay and GraphQL, Hyperloop has built in push notifications to magically push changes to underlying server-side Models to any connected client with a Component rendering that Model
-+ Access to Models and synchronized changes are controlled neatly by Policy classes
-+ Just like Relay and GraphQL, only the records needed to render Components are transferred
-+ Everything in beautiful, simple Ruby!
+Our Models are linked to ActiveRecord Models so for this part of the Hyperloop architecture we have a dependancy on Rails and Active Record. If you are not using Rails you can still take advantage of Hyperloop's Components & Stores (which do not depend on Rails) to create stunning interactive user interfaces.
 
-## Active Record Models
-
-Our Models are linked to Active Record Models so for this part of the Hyperloop architecture we have a dependancy on Rails and Active Record. If you are not using Rails you can still take advantage of Hyperloop's Components & Stores (which do not depend on Rails) to create stunning interactive user interfaces.
-
-Let's assume we have an ActiveRecord Model called Books as below:
+Let's assume we have an ActiveRecord Model called Books:
 
 ```ruby
 class Book < ApplicationRecord
 end
 ```
 
-You would access this Model in a Component like this:
+### Hyperloop Models
+
+Your ActiveRecord Models are accessible in your client-side code as simply as this:
 
 ```ruby
 class BookList < React::Component::Base
@@ -372,9 +371,39 @@ render(UL) do
 end
 ```
 
-That's it! No API, no serialisation or de-serialisation
+**No boilerplate API, no serialisation, no de-serialisation.** Much like Relay and GraphQL, when rendering, Hyperloop parses through each Component and establishes which fields are necessary then queries just for those fields which are returned as JSON and then inserted into each Component. The key difference with Relay is that both the client and server code is provided by Hyperloop so the entire process is seamless for the developer.
+
+Hyperloop has a few important advantages over Relay and GraphQL:
+
++ Hyperloop is fully integrated with Rails out the box, so there is no need to build and maintain a GraphQL server or an API.
++ Your server side Models are available to your client side code, so there is no need to recreate an abstracted version of the Models client-side.
++ Unlike Relay and GraphQL, Hyperloop has built in push notifications to magically push changes to underlying server-side Models to any connected client with a Component rendering that Model
++ Access to Models and synchronized changes are controlled neatly by Policy classes
++ Just like Relay and GraphQL, only the records needed to render Components are transferred
++ Everything in beautiful, simple Ruby!
+
+-----------------------------------
+<h2><div class="hyperlogoalone" id="operations"><%= image_tag "HyperOperations.png", width: '35'%></div>
+Operations
+</h2>
+
+Your business logic needs to go somewhere and unless we provide a good place you would have to mix it up with your Components, Models or Stores and that just does not make sense. Operations encapsulate business logic.
+
+**Isomorphic Operations execute on the client or server.** This simple principal radically simplifies application design and testing.
+
+We do however accept that there are some Operations that simply do not make sense to run on the client as (for example) the resources they depend on are not available on the client. Consider an Operation that needs to send an email - there is no mailer on the client so the Operation has to execute from the server.
+
+That said, considering our highest goal is developer productivity, it should be as invisible as possible to the developer where the Operation will execute. To complete the example, a developer writing front-end code should be able to invoke a server-side resource (like a mailer) just as easily as they might invoke a client-side resource.
+
+
+
+-----------------------------------
+<h2><div class="hyperlogoalone" id="policies"><%= image_tag "HyperPolicies.png", width: '35'%></div>
+Policies
+</h2>
+
 
 ------------------------------------
-## Welcome aboard!
+### Welcome aboard!
 
 We hope you have enjoyed this introduction to Hyperloop. As a next step, perhaps try some of the [Tutorials](/tutorials) or jump into the [Docs](/docs/architecture) for a comprehensive overview of the Hyperloop architecture.
