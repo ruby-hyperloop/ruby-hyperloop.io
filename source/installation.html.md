@@ -1,6 +1,50 @@
 ---
 title: Installation
 ---
+# TODO THIS PAGE NEEDS UPDATING
+
+Locations of files:
+
+|   Directory                 |   Contents              |   Visible on server     |   Visible on client |
+|-----------------------------|-------------------------|-------------------------|---------------------|
+|   app/models                |	  private AR models	    |   yes	                  |   no                |
+|   app/operations	          |   private operations	  |   yes	                  |   no                |
+|   app/hyperloop/components	|   components            |   for prerendering only	|   yes               |
+|   app/hyperloop/stores	    |   stores	              |   yes	                  |   yes               |
+|   app/hyperloop/operations	|   public operations	    |   yes	                  |   yes               |
+|   app/hyperloop/models	    |   public models	        |   yes	                  |   yes               |
+
+Hide code from client:
+
+```
+# app/hyperloop/operations/authorize_cc.rb
+class AuthorizeCC < ServerOp
+  param :acting_user
+  param :cc_last_four
+end
+```
+
+and then
+
+```
+# app/hyperloop/operations/authorize_cc_private.rb
+class AuthorizeCC < ServerOp
+  ... all the top secret implementation here
+end unless RUBY_ENGINE == 'opal
+```
+
+or even
+
+```
+# app/operations/authorize_cc.rb
+require 'hyperloop/operations/authorize.rb'
+class AuthorizeCC < ServerOp
+  ... all the top secret implementation here
+end
+```
+
+
+
 # Installation
 
 There are several ways to install Hyperloop into your development environment.
