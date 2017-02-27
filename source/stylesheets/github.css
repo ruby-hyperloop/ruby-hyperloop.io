@@ -17,7 +17,7 @@
 	border: none;
 }
 .cm-s-github div.CodeMirror-cursor {
-	border-left: 3px solid #000000;
+	border-left: 1px solid white;
 }
 .CodeMirror-scroll {
 }
