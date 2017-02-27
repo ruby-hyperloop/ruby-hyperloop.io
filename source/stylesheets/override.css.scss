@@ -1,43 +1,34 @@
+ 
+// COLORS USED IN WEB SITE :
 
-
- @font-face {
-    font-family: 'raleway-regular';
-    src: url('fonts/raleway/raleway-regular.eot');
-    src: url('fonts/raleway/raleway-regular.eot?#iefix') format('embedded-opentype'),
-           url('fonts/raleway/raleway-regular.woff') format('woff'),
-           url('fonts/raleway/raleway-regular.ttf') format('truetype'),
-           url('fonts/raleway/raleway-regular.svg#action_manregular') format('svg');
-    font-weight: normal;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'raleway-bold';
-    src: url('fonts/raleway/raleway-bold.eot');
-    src: url('fonts/raleway/raleway-bold.eot?#iefix') format('embedded-opentype'),
-           url('fonts/raleway/raleway-bold.woff') format('woff'),
-           url('fonts/raleway/raleway-bold.ttf') format('truetype'),
-           url('fonts/raleway/raleway-bold.svg#action_manregular') format('svg');
-    font-weight: normal;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'raleway-semibold';
-    src: url('fonts/raleway/raleway-semibold.eot');
-    src: url('fonts/raleway/raleway-semibold.eot?#iefix') format('embedded-opentype'),
-           url('fonts/raleway/raleway-semibold.woff') format('woff'),
-           url('fonts/raleway/raleway-semibold.ttf') format('truetype'),
-           url('fonts/raleway/raleway-semibold.svg#action_manregular') format('svg');
-    font-weight: normal;
-    font-style: normal;
-}
+// PINK : #e81176
+// GREEN : #149c8e
 
 
 
 
-.CodeMirror {border-top: 1px solid gray; border-bottom: 1px solid gray; height: auto;}
+// CSS override for codemirror-live-edit
+
+.CodeMirror {border-top: 0px solid white; border-bottom: 0px solid white; height: auto;}
 .cm-s-default span.cm-arrow { color: red; }
+.codemirror-live-edit { margin: 3rem 0 3rem 0;}
+
+.card {
+  background-color: #f2f1f0;
+  border: 1px solid #0071C1;
+}
+
+.card-header {
+  padding: 0.75rem 1.25rem;
+  margin-bottom: 0;
+  color: white;
+  background-color: #0071C1;
+  border-bottom: 0px solid white;
+}
+
+////////////////////////////////////////
+
+
 
 .jumbotron {
     padding: 3.0em;
@@ -146,7 +137,7 @@ a:hover {
 body {
   padding: 0;
   margin: 0;
-  font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "opensans-regular";
   font-size: 16px;
   line-height: 1.5;
   color: #606c71; 

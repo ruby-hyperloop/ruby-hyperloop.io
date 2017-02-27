@@ -45,6 +45,14 @@
 		display: table-row;
 
 	}
+
+	.first { width: 20%; } .second { width: 80%; }
+	@media (min-width: 576px) { .first { width: 20%; }.second { width: 80%; }}
+	@media (min-width: 768px) { .first { width: 17%; }.second { width: 83%; }}
+	@media (min-width: 992px) { .first { width: 13%; }.second { width: 87%; }}
+	@media (min-width: 1200px) { .first { width: 10%; }.second { width: 90%; }}
+	  
+
 	.divTableHeading {
 		background-color: #EEE;
 		display: table-header-group;
