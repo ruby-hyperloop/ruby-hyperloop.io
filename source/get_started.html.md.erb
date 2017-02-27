@@ -344,18 +344,81 @@ Operations
 
 Your business logic needs to go somewhere and unless we provide a good place you would have to mix it up with your Components, Models or Stores and that just does not make sense. Operations encapsulate business logic.
 
-**Isomorphic Operations execute on the client or server.** This simple principal radically simplifies application design and testing.
+**Operations execute on the clients or the server.** This simple principal radically simplifies application design and testing.
 
 We do however accept that there are some Operations that simply do not make sense to run on the client as (for example) the resources they depend on are not available on the client. Consider an Operation that needs to send an email - there is no mailer on the client so the Operation has to execute from the server.
 
 That said, considering our highest goal is developer productivity, it should be as invisible as possible to the developer where the Operation will execute. To complete the example, a developer writing front-end code should be able to invoke a server-side resource (like a mailer) just as easily as they might invoke a client-side resource.
 
+**ServerOps execute only on the server but are invokable from your Isomorphic code** No need for boilerplate APIs just to execute a server side Operation. ServerOps are just like any normal Operations and invokable from any part of your code.
+
+Operations always dispatch, but its up to the receiver to attach to a dispatch (Flux style)
+
+Dispatch and Receive
+Isomorphic or Server
+steps
+
+
+```ruby
+class Discounter < Hyperloop::Store
+   state discount: 30, scope: :class, reader: true
+   state lucky_dip_taken: false, scope: :class, reader: true
+
+  # Note these two lines are essentially "noise" at this point, however
+  # they will future proof the API.    They also provide a very clear declaration
+  # of the API.  
+  class LuckyDip < Hyperloop::Operation; end
+  class Bumper < Hyperloop::Operation; end
+end
+
+# we can take advantage of the way Ruby deals with classes and close the the
+# class definition above as the 'public' interface, and open the class up in another
+# file (if we want)
+
+class Discounter
+
+  # likewise because Operations are classes we can open them up here and add implementation:
+
+  class LuckyDip < Hyperloop::Operation
+    outbound :dip_or_slip
+    validate { !Discounter.lucky_dip_taken }
+    fail { puts '**** attempted to take two lucky dips *****' }
+    step { params.dip_or_slip = rand(-5..5) }
+    # or for more fun we could of course make it a ServerOp and grab the lucky dip based on
+    # some global algorithm insuring the luck dip average across all users 0
+  end
+
+  receives LuckyDip do |params|
+    mutate.discount( state.discount + params.dip_or_slip )
+    mutate.lucky_dip_taken true
+  end
+
+  receives Bumper do
+    mutate.discount( state.discount * 10 )
+  end
+end
+
+class OfferLuckyDip < React::Component::Base
+  def render
+    DIV do
+      H1 {"Your discount is #{Discounter.discount}%"}
+      BUTTON { "Lucky Dip" }.on(:click) do
+        Discounter::LuckyDip.run # note should be able to say Discounter::LuckyDip() but there is a bug :-)
+      end unless Discounter.lucky_dip_taken
+    end
+    BUTTON { "Bump" }.on(:click) do
+      Discounter::Bumper.run
+    end
+  end
+end
+```
 
 -----------------------------------
 <h2><div class="hyperlogoalone" id="policies"><%= image_tag "HyperPolicies.png", width: '35'%></div>
 Policies
 </h2>
 
+TODO
 
 ## Pragmatic Thinking
 
