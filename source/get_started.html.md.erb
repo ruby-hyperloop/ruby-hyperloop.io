@@ -342,31 +342,51 @@ Hyperloop has a few important advantages over Relay and GraphQL:
 Operations
 </h2>
 
-Your business logic needs to go somewhere and unless we provide a good place you would have to mix it up with your Components, Models or Stores and that just does not make sense. Operations encapsulate business logic.
+In a traditional MCV architecture, there is no defined place to keep business logic. You can overload your Controllers, Views or Models and unless you follow a defined pattern like Trailblazer you generally end up with your business logic all over the place. Our vision of building a 'Complete Ruby Isomorphic Framework' meant that we had to address that problem head on, so we created Operations.
+
+The design of our Operations has been inspired by a few sources:
+
++ We liked the way the [Mutations Gem](https://github.com/cypriss/mutations) handles parameters and validation
++ [Trailblazer](https://github.com/trailblazer/trailblazer#operation) inspired the idea of Operations and we like the `step` method
++ The [Flux](https://facebook.github.io/flux/) pattern taught us that unidirectional data flow is a good idea and Stores should be able to `receive` dispatches from Operations.
 
 **Operations execute on the clients or the server.** This simple principal radically simplifies application design and testing.
 
-We do however accept that there are some Operations that simply do not make sense to run on the client as (for example) the resources they depend on are not available on the client. Consider an Operation that needs to send an email - there is no mailer on the client so the Operation has to execute from the server.
+We do accept that there are some Operations that simply do not make sense to run on the client as (for example) the resources they depend on may not be available on the client. Consider an Operation that needs to send an email - there is no mailer on the client so the Operation has to execute from the server.
 
-That said, considering our highest goal is developer productivity, it should be as invisible as possible to the developer where the Operation will execute. To complete the example, a developer writing front-end code should be able to invoke a server-side resource (like a mailer) just as easily as they might invoke a client-side resource.
+That said, with our highest goal being developer productivity, it should be as invisible as possible to the developer where the Operation will execute. To complete the example, a developer writing front-end code should be able to invoke a server-side resource (like a mailer) just as easily as they might invoke a client-side resource.
 
 **ServerOps execute only on the server but are invokable from your Isomorphic code** No need for boilerplate APIs just to execute a server side Operation. ServerOps are just like any normal Operations and invokable from any part of your code.
 
-Operations always dispatch, but its up to the receiver to attach to a dispatch (Flux style)
+**All Operations dispatch but it up to a Store to receive a dispatch.** We have implemented the Flux pattern into Operations and Stores. Operations are dispatchers and Stores are receivers.
 
-To show you the power of Operations and the various ways in which you will use them, we are going to take on three use case example and use Operations in three different ways
+To demonstrate the power of Operations and the various ways in which you can use them, we are going to use three use case example and employ Operations in three different ways:
 
-+ Firstly we will create a ShoppingCart Store and mutate the Store's data through methods on the Store (much like we did in the Store discount example above).
++ Firstly we will create a ShoppingCart Store and mutate the Store's data through methods on the Store, much like we did in the Store discount example above, but improved by adding an Operation to the Store's namespace.
 
-+ Next we will write an Operation for Logout which will dispatch a message that our ShoppingCart will receive. This will be following a Flux pattern.
++ Next we will write an Operation for login the user out which will dispatch a message that our ShoppingCart will receive. This will be following a Flux pattern.
 
-+ Finally we will use a server Operation to sign a user up to a mailing list and send them an email
++ Finally we will use a server Operation to sign a user up to a mailing list and send them an email. This will show how to use ServerOps and also how `step` works.
 
+### Operations and Stores
 
+Stores hold state and Operations mutate a Store's state. In the Store section above, we demonstrated how a class method on the Store could be used to mutate the state. In this example, we will go one further and add an Operation to the Store's namespace:
 
-Dispatch and Receive
-Isomorphic or Server
-steps
+```ruby
+class ShoppingCart < Hyperloop::Store
+  state items: [], scope: :class, reader: true
+
+  class AddItem < Hyperloop::Operation
+    validate( !state.items.include?(params.item) )
+    step( mutate.items << params.item )
+  end
+end
+```
+
+You will notice in the code above:
+
++ The AddItem Operation is included in the ShoppingCart Store's namespace. To invoke this Operation would would use `ShoppingCart.AddItem(items: item)`
++ Notice how we validate the incoming params. If `validate` returns falsy then th OPeration
 
 
 ```ruby

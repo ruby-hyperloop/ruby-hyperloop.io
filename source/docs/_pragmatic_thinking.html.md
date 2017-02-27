@@ -2,7 +2,7 @@ Hyperloop provides all the architectural constructs you need for a well designed
 
 + If state is only mutated inside of a Component then leave it as a state in the Component. For example a state that is tracking the current value of some input.
 + Otherwise if it is a single application wide state object (like a cart), then use a Store, and group Operations in the Store's namespace.
-+ Otherwise if you are going to have instances of the state (like you have a Store that manages a random feed of objects like tweets, github users etc) then use a Store and add accessor, and mutators to the store's api. Those methods may need Operations (which can be name spaced inside the store) to deal with APIs, server side code etc.
++ Otherwise if you are going to have instances of the state (like you have a Store that manages a random feed of objects like tweets, github users etc) then use a Store and add accessor, and mutators to the store's API. Those methods may need Operations (which can be name spaced inside the store) to deal with APIs, server side code etc.
 
 **Why?**
 
