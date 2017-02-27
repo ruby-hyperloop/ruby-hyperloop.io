@@ -30,7 +30,11 @@ class CodeMirror < React::Component::Base
     div.card {
       div.card_header { params.heading }
       div(id: @div_code)
-      div.card_header { 'Output' }
+      div.card_header do 
+        img(src:'images/hyperloop-logo.png', width:'25')
+        span { ' ' }
+        'Hyperloop playground :' 
+      end
       div.card_block(id: @div_result)
     }
   end
