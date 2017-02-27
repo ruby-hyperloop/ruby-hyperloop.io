@@ -4,7 +4,15 @@
 // PINK : #e81176
 // GREEN : #149c8e
 
+// COMPONENT BLUE : #0071C1
+// STORE GREEN : #9ad45c
+// MODEL ORANGE : #ed8036
+// OPERATION PURPLE : #7030a0
+// POLICIES BLACK : #464444
 
+// LIVEEDIT LIGHT BLUE : #CDE9FF
+
+// GITTER PURPLE : #753a88
 
 
 // CSS override for codemirror-live-edit
@@ -15,15 +23,16 @@
 
 .card {
   background-color: #f2f1f0;
-  border: 1px solid #0071C1;
+  border: 1px solid #ccc;
 }
 
 .card-header {
-  padding: 0.75rem 1.25rem;
+  font-size: 14px;
+  padding: 0.5rem 1.25rem;
   margin-bottom: 0;
   color: white;
   background-color: #0071C1;
-  border-bottom: 0px solid white;
+  border-bottom: 4px solid #ccc;
 }
 
 ////////////////////////////////////////
@@ -113,6 +122,28 @@ nav .navbar-nav .nav-item .nav-link:hover {
 .btn-hyperloopgreen:hover {
   background-color: #149c8e !important;
   border-color: #149c8e !important;
+}
+
+.btn-hyperlooppink {
+  background-color: #e81176 !important;
+  border-color: #e81176 !important;
+}
+
+.btn-hyperlooppink:hover {
+  background-color: white !important;
+  border-color: #e81176 !important;
+  color: #e81176 !important;
+}
+
+.btn-hyperloopgitter {
+  background-color: #753a88 !important;
+  border-color: #753a88 !important;
+}
+
+.btn-hyperloopgitter:hover {
+  background-color: white !important;
+  border-color: #753a88 !important;
+  color: #753a88 !important;
 }
 
 .getstarted > p {
