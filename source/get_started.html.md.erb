@@ -354,6 +354,16 @@ That said, considering our highest goal is developer productivity, it should be 
 
 Operations always dispatch, but its up to the receiver to attach to a dispatch (Flux style)
 
+To show you the power of Operations and the various ways in which you will use them, we are going to take on three use case example and use Operations in three different ways
+
++ Firstly we will create a ShoppingCart Store and mutate the Store's data through methods on the Store (much like we did in the Store discount example above).
+
++ Next we will write an Operation for Logout which will dispatch a message that our ShoppingCart will receive. This will be following a Flux pattern.
+
++ Finally we will use a server Operation to sign a user up to a mailing list and send them an email
+
+
+
 Dispatch and Receive
 Isomorphic or Server
 steps
@@ -411,6 +421,8 @@ class OfferLuckyDip < React::Component::Base
     end
   end
 end
+
+
 ```
 
 -----------------------------------
