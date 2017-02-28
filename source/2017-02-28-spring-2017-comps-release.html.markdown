@@ -79,9 +79,10 @@ This just provides a standard way for the other gems to define config params tha
 
 #### Hyper-Component compatibility
 The hyper-component gem will include 3 compatibility modes, determined by which file you require in `components.rb.`
-* **Hyperloop Standard**: (`require 'hyper-component'`) In this mode you will use the new hyperloop syntax for all names, macros etc.  I.e. components are defined as subclasses of `Hyperloop::Component` or using `Hyperloop::Component::Mixin`.   states are changed using `mutate` rather than the exclamation notation.
-* **HyperReact Compatibility**: (`require 'hyper-react'`) In this mode you can use either syntax, but you will get deprecation warnings, as this mode *will* go away.  This mode will be provided as a bridge so developers can use Operations and Stores without having to make changes to existing components.
-* **DSL Only** (`require 'hyper-react-dsl'`)  In this mode you will use the new syntax, however, the DSL will be limited to the base feature set provided by react.js.  This mainly applies to states acting as stores.  The advantage will be smaller payload size.  Initially, this mode not exist but the code will be set up to support it easily in the future
+
++ **Hyperloop Standard**: (`require 'hyper-component'`) In this mode you will use the new hyperloop syntax for all names, macros etc.  I.e. components are defined as subclasses of `Hyperloop::Component` or using `Hyperloop::Component::Mixin`.   states are changed using `mutate` rather than the exclamation notation.
++ **HyperReact Compatibility**: (`require 'hyper-react'`) In this mode you can use either syntax, but you will get deprecation warnings, as this mode *will* go away.  This mode will be provided as a bridge so developers can use Operations and Stores without having to make changes to existing components.
++ **DSL Only** (`require 'hyper-react-dsl'`)  In this mode you will use the new syntax, however, the DSL will be limited to the base feature set provided by react.js.  This mainly applies to states acting as stores.  The advantage will be smaller payload size.  Initially, this mode not exist but the code will be set up to support it easily in the future
 
 In addition, we will make one more release to the hyper-react and hyper-mesh gems that simply pulls in provides the hyper-component and hyper-model functionality, plus a deprecation warning.  The intent is that the next time you update these gems, you will get the warning, and will know to change to the new gem names.
 
@@ -122,23 +123,6 @@ New folder layout:
 ## Base class names
 
 For consistency, `React::Component::Base` as been changed to `Hyperloop::Component`
-
-All Components now inherit from `Hyperloop::Component`:
-
-```ruby
-class Clock < Hyperloop::Component
-  ...
-end
-```
-
-Or you may also create a component class by mixing in the Hyperloop::Component module:
-
-```ruby
-class Clock
-  include Hyperloop::Component
-  ...
-end
-```
 
 ### Base classes:
 
