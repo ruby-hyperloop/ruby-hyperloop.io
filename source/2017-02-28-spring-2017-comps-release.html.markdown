@@ -27,7 +27,7 @@ This release consists of:
 + Introduction of Hyper-Operation gem
 + Introduction of Hyper-Store gem
 + Introduction of Hyper-Spec gem
-+ Introduction of Hyperloop-config gem (TODO: is this happening?)
++ Introduction of a centralized Hyperloop configuration gem
 + Renaming of HyperReact gem to Hyper-Component
 + Renaming of HyperMesh gem to Hyper-Model
 + Changes to state syntax from bang(!) notation to mutate method
@@ -41,9 +41,7 @@ This release consists of:
 
 TODO: change tense from future to past tense in this section
 
-This describes how we get from the current mixed bag of HyperReact/Mesh gems to a consistent set of Hyperloop gems (and hyperloop-express js files.)
-
-First the gem file dependencies:
+Hyperloop gems are now structured to allow developers to pick and choose based on their specific needs:
 
 ```text
 
@@ -60,10 +58,10 @@ First the gem file dependencies:
    |         |               |
    |         |--hyper-model--|
    |
-   |--hyper-rails (might use hyperloop config for control?)
+   |--hyper-rails
 ```
 
-###Notes
+###Details
 
 #### hyperloop-config gem
 This just provides a standard way for the other gems to define config params that can be stored in a rails style initializer.  It is never needed to be directly referenced in a Gemfile or `require` by the developer.
@@ -80,11 +78,11 @@ This just provides a standard way for the other gems to define config params tha
 #### Hyper-Component compatibility
 The hyper-component gem will include 3 compatibility modes, determined by which file you require in `components.rb.`
 
-+ **Hyperloop Standard**: (`require 'hyper-component'`) In this mode you will use the new hyperloop syntax for all names, macros etc.  I.e. components are defined as subclasses of `Hyperloop::Component` or using `Hyperloop::Component::Mixin`.   states are changed using `mutate` rather than the exclamation notation.
++ **Hyperloop Standard**: (`require 'hyper-component'`) In this mode you will use the new hyperloop syntax for all names, macros etc.  I.e. components are defined as subclasses of `Hyperloop::Component` or using `Hyperloop::Component::Mixin`.   States are changed using the `mutate` objectrather than the exclamation notation.  States are declared using the `state` macro.
 + **HyperReact Compatibility**: (`require 'hyper-react'`) In this mode you can use either syntax, but you will get deprecation warnings, as this mode *will* go away.  This mode will be provided as a bridge so developers can use Operations and Stores without having to make changes to existing components.
 + **DSL Only** (`require 'hyper-react-dsl'`)  In this mode you will use the new syntax, however, the DSL will be limited to the base feature set provided by react.js.  This mainly applies to states acting as stores.  The advantage will be smaller payload size.  Initially, this mode not exist but the code will be set up to support it easily in the future
 
-In addition, we will make one more release to the hyper-react and hyper-mesh gems that simply pulls in provides the hyper-component and hyper-model functionality, plus a deprecation warning.  The intent is that the next time you update these gems, you will get the warning, and will know to change to the new gem names.
+In addition, we will make one more release to the hyper-react and hyper-mesh gems that simply provides the hyper-component and hyper-model functionality, plus a deprecation warning.  The intent is that the next time you update these gems, you will get the warning, and will know to change to the new gem names.
 
 #### Store and Operation interoperability
 
@@ -113,21 +111,29 @@ New folder layout:
 
 ```text
 /app/hyperloop/components      <-- components
-/app/hyperloop/operations      <-- operations
-/app/hyperloop/models          <-- models
+/app/hyperloop/operations      <-- isomorphic operations
+/app/hyperloop/models          <-- isomorphic models
 /app/policies                  <-- policies
 /app/hyperloop/stores          <-- stores
 /app/hyperloop/hyperloop.rb    <-- Opal requires
 ```
 
-## Base class names
+TODO: do you want to explain that /app/operations, (and app/models) are where you put strictly server side.
+TODO: why is policies stuck in the middle like that?
 
-For consistency, `React::Component::Base` as been changed to `Hyperloop::Component`
 
-### Base classes:
+### Base classes and Mixins:
 
 + Hyperloop::Component
 + Hyperloop::Operation
 + Hyperloop::Model
 + Hyperloop::Policy (TODO: is this true?)
 + Hyperloop::Store
+
+TODO explain about mixins 
+
+## Base class names
+
+For consistency, `React::Component::Base` as been changed to `Hyperloop::Component`
+To include `React::Component` functionality you will use `Hyperloop::Component::Mixin
+
