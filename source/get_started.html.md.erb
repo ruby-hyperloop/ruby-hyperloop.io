@@ -25,7 +25,7 @@ class StrippedBackComponent < React::Component::Base
 end
 ```
 
-As you can see, a Component is just a Ruby class which inherits from `React::Component::Base`. At a minimum, a Component must implement a `render` macro that returns just one HTML element. Under the covers, HyperReact used Opal to compile this Component into JavaScript then hands it to React to mount as a regular JavaScript React Component.
+As you can see, a Component is just a Ruby class which inherits from `React::Component::Base`. At a minimum, a Component must implement a `render` macro that returns just one HTML element. Under the covers, HyperReact uses Opal to compile this Component into JavaScript then hands it to React to mount as a regular JavaScript React Component.
 
 As with React, there are no templates in Hyperloop, your user interface is made up of Components which mix conditional logic and HTML elements to build the user interface. Unlike React, where you code in JSX and JavaScript, Hyperloop lets you keep all your code in Ruby.
 
@@ -283,7 +283,7 @@ end
 + `Discounter.discount` is a reader class method that was added to the Store for us by `state discount: 30, scope: :class, reader: true` which saved us a lot of typing!
 + Components that read a Store's state will automatically update when the state changes.
 
-Stores can also receive dispatches from Operations - we will come to that later in this overview. In Hyperloop it is perfectly legitimate to interact with a Store though its class methods as we have done above.
+Stores can also receive dispatches from Operations - we will come to that later in this overview. In Hyperloop it is perfectly legitimate to interact with a Store through its class methods as we have done above.
 
 That concludes the introduction to Stores. To learn more about Stores please see the [Tutorials](/tutorials) and also the comprehensive [Docs](/docs/architecture)
 
