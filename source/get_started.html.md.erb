@@ -426,7 +426,7 @@ class Discounter
     fail { puts '**** attempted to take two lucky dips *****' }
     step { params.dip_or_slip = rand(-5..5) }
     # or for more fun we could of course make it a ServerOp and grab the lucky dip based on
-    # some global algorithm insuring the luck dip average across all users 0
+    # some global algorithm ensuring the luck dip average across all users 0
   end
 
   receives LuckyDip do |params|
