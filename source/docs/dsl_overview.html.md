@@ -1,7 +1,9 @@
 ---
-title: Hyper-React Docs
+title: Components
 ---
-## HyperReact DSL Overview
+## Components DSL Overview
+
+Hyperloop **Components** are implemented in the **HyperReact Gem**.
 
 The HyperReact DSL (Domain Specific Language) is a set of class and instance methods that are used to describe your React components.
 

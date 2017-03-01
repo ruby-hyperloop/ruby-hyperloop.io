@@ -30,6 +30,7 @@ helpers do
     markdown = Redcarpet::Markdown.new(toc_renderer)
     markdown.render(content)
   end
+
 end
 
 activate :blog do |blog|
@@ -87,6 +88,7 @@ configure :build do
   # set :site_url, "/reactrb.org"
   # set :http_prefix, '/reactrb.org'
 
+
 end
 
 # Reload the browser automatically whenever files change
@@ -100,6 +102,7 @@ activate :syntax, :line_numbers => false
 
 set :markdown_engine, :redcarpet
 
-set :markdown, :tables => false, :autolink => true,
+set :markdown, :tables => true, :autolink => true,
   :gh_blockcode => false, :fenced_code_blocks => true,
   :smartypants => false,  with_toc_data: true
+

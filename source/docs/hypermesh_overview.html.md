@@ -1,7 +1,9 @@
 ---
-title: Hyper-Mesh Docs
+title: Models
 ---
-## HyperMesh Overview
+## Models Overview
+
+Hyperloop **Models** are implemented in the **HyperMesh Gem**.
 
 HyperMesh takes Isomorphic Ruby to the next level by giving your HyperReact components CRUD access to your server side ActiveRecord models, using the standard ActiveRecord API. In addition, HyperMesh implements push notifications (via a number of possible technologies) so that changes to records on the server are dynamically pushed to all authorised clients.
 

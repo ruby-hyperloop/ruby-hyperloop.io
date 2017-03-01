@@ -1,6 +1,9 @@
 <% case %>
 <% when current_page.path.include?("support") %>
-  <p>The <strong>best way</strong> to get help is to join our <a href='https://gitter.im/ruby-hyperloop/chat'>Gitter Chat</a></p>
+  <div>
+    <p>The <strong>best way</strong> to get help and contribute is to join our Gitter Chat</p>
+    <button type="button" class="btn btn-primary btn-lg btn-hyperloopgitter" onclick="location.href='https://gitter.im/ruby-hyperloop/chat';">Gitter Chat</button>
+  </div>
 <% when current_page.path.include?("blog") %>
   <ul class="nav">
     <% blog.articles.each do |article| %>
@@ -25,14 +28,21 @@
     <li class="nav-item"><a href="#building-with-rake">Building with Rake</a></br></li>
     <li class="nav-item"><a href="#deployment">Deployment</a></br></li>
   </ul>
+
 <% when current_page.path.include?("tools") %>
   <ul class="nav">
+    <li class="nav-item"><a href="#testing">Testing</a></br></li>
     <li class="nav-item"><a href="#tools">Tools</a></br></li>
     <li class="nav-item"><a href="#debugging">Debugging</a></br></li>
   </ul>
+
 <% when current_page.path.include?("docs") %>
   <ul class="nav">
-    <li class="nav-item"><strong><a href="/docs/dsl_overview">HyperReact Overview</a></strong></br></li>
+    <li class="nav-item"><strong><a href="/docs/architecture">Hyperloop Architecture</a></strong></br></li>
+  </ul>
+  <br>
+  <ul class="nav">
+    <li class="nav-item"><strong><a href="/docs/dsl_overview">Components</a></strong></br></li>
     <li class="nav-item"><a href="/docs/components_and_state">Components and State</a></br></li>
     <li class="nav-item"><a href="/docs/lifecycle_callbacks">Lifecycle Callbacks</a></br></li>
     <li class="nav-item"><a href="/docs/lifecycle_methods">Lifecycle Methods</a></br></li>
@@ -43,15 +53,65 @@
   </ul>
   <br>
   <ul class="nav">
-    <li class="nav-item"><strong><a href="/docs/hypermesh_overview">HyperMesh Overview</a></strong></li>
+    <li class="nav-item"><strong><a href="/docs/hyperoperations_overview">Operations</a></strong></li>
+  </ul>
+  <br>
+  <ul class="nav">
+    <li class="nav-item"><strong><a href="/docs/hypermesh_overview">Models</a></strong></li>
     <li class="nav-item"><a href="/docs/hypermesh_active_record">ActiveRecord API</a></br></li>
     <li class="nav-item"><a href="/docs/hypermesh_scoping">Scoping</a></br></li>
-    <li class="nav-item"><a href="/docs/hypermesh_authorization">Authorization</a></br></li>
     <li class="nav-item"><a href="/docs/hypermesh_debugging">Debugging</a></br></li>
   </ul>
+  <br>
+  <ul class="nav">
+    <li class="nav-item"><strong><a href="/docs/hypermesh_authorization">Policies</a></strong></li>
+  </ul>
+  <br>
+  <ul class="nav">
+    <li class="nav-item"><strong><a href="/docs/hyperstore_overview">Stores</a></strong></li>
+  </ul>
+
+<% when current_page.path.include?("get_started") %>
+  <ul class="nav">
+    <li class="nav-item"><a href="/get_started#components">Components</a></li>
+    <ul class="nav">
+      <li class="nav-item"><a href="/get_started#rendering-components">Rendering Components</a></li>
+      <li class="nav-item"><a href="/get_started#passing-paramaters">Passing Paramaters</a></li>
+      <li class="nav-item"><a href="/get_started#state-and-conditional-execution">State and conditional execution</a></li>
+      <li class="nav-item"><a href="/get_started#stylish-components">Stylish Components</a></li>
+      <li class="nav-item"><a href="/get_started#using-javascript-libraries">Using JavaScript Libraries</a></li>
+    </ul>
+    <br>
+    <li class="nav-item"><a href="/get_started#stores">Stores</a></li>
+    <ul class="nav">
+      <li class="nav-item"><a href="/get_started#overloaded-components">Overloaded Components</a></li>
+      <li class="nav-item"><a href="/get_started#using-stores">Using Stores</a></li>
+    </ul>
+    <br>
+    <li class="nav-item"><a href="/get_started#models">Models</a></li>
+    <ul class="nav">
+      <li class="nav-item"><a href="/get_started#activerecord-models">Active Record Models</a></li>
+      <li class="nav-item"><a href="/get_started#hyperloop-models">Hyperloop Models</a></li>
+    </ul>
+    <br>
+    <li class="nav-item"><a href="/get_started#operations">Operations</a></li>
+    <ul class="nav">
+      <li class="nav-item"><a href="/get_started#operations-and-stores">Operations and Stores</a></li>
+      <li class="nav-item"><a href="/get_started#ispatchers-and-receivers">Dispatchers and Receivers</a></li>
+      <li class="nav-item"><a href="/get_started#server-operations">Server Operations</a></li>
+    </ul>
+    <br>
+    <li class="nav-item"><a href="/get_started#policies">Policies</a></li>
+    <ul class="nav">
+      <li class="nav-item"><a href="/get_started#using-policies">Using Policies</a></li>
+    </ul>
+    <br>
+    <li class="nav-item"><a href="/get_started#pragmatic-thinking">Pragmatic Thinking</a></li>
+  </ul>
+
 <% when current_page.path.include?("tutorials") %>
   <ul class="nav">
-    <li class="nav-item"><strong><a href="/tutorials/chat_app">Chat-App Tutorial</a></strong></li>
+    <li class="nav-item"><a href="/tutorials/chat_app">Chat-App Tutorial</a></li>
     <ul class="nav">
       <li class="nav-item"><a href="/tutorials/chat_app#application-structure">Application Structure</a></li>
       <li class="nav-item"><a href="/tutorials/chat_app#adding-parameters">Adding Parameters</a></li>
@@ -84,5 +144,12 @@
     <li class="nav-item"><strong><a href="/tutorials/file_uploader">File Uploader Tutorial</a></strong></li>
   </br>
   </ul>
+  <% when current_page.path.include?("index") %>
+    <div class="getstarted">
+      <p>Get Started with Hyperloop right now, no installation necessary, <strong>code</strong> in your browser.</p>
+      <button type="button" class="btn btn-primary btn-lg btn-hyperlooppink" onclick="location.href='/get_started';">Get Started</button>
+    </div>
+
+
 
 <% end %>
