@@ -319,9 +319,10 @@ Your ActiveRecord Models are accessible in your client-side code as simply as th
 
 ```ruby
 class BookList < React::Component::Base
-render(UL) do
-  Book.all.each do |book|
-    LI { "#{book.name}" }
+  render(UL) do
+    Book.all.each do |book|
+      LI { "#{book.name}" }
+    end
   end
 end
 ```
