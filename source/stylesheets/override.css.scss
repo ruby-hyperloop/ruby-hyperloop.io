@@ -1,18 +1,25 @@
  
 // COLORS USED IN WEB SITE :
 
-// PINK : #e81176
-// GREEN : #149c8e
+.hyperloop-pink { color: #e81176;}
+.hyperloop-green { color: #149c8e;}
+.hyperloop-background { color: #f8f8f8;}
 
-// COMPONENT BLUE : #0071C1
-// STORE GREEN : #9ad45c
-// MODEL ORANGE : #ed8036
-// OPERATION PURPLE : #7030a0
-// POLICIES BLACK : #464444
+.component-blue { color: #0071C1;}
+.store-green { color: #9ad45c;}
+.model-orange { color: #ed8036;}
+.operation-purple { color: #7030a0;}
+.policies-black { color: #464444;}
 
-// LIVEEDIT LIGHT BLUE : #CDE9FF
+.rails-red { color: #cc0000;}
+.express-yellow { color: #f7df1e;}
+.router-blue { color: #61dbfc;}
+.spec-red { color: #fe4161;}
+.tracer-green { color: #c3d9c2;}
 
-// GITTER PURPLE : #753a88
+.liveedit-lightblue-green { color: #CDE9FF;}
+.gitter-purple { color: #753a88;}
+
 
 
 // CSS override for codemirror-live-edit
@@ -162,6 +169,11 @@ a {
 
 a:hover {
   color: #ed5a9f;
+  text-decoration: none;
+}
+
+a:focus {
+  color: #149c8e;
   text-decoration: none;
 }
 
