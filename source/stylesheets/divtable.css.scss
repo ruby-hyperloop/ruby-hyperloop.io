@@ -87,6 +87,57 @@
 
 
 
+.gemsTable {
+
+	a:hover {
+		color:#149c8e;
+	}
+
+	.divTable{
+		display: table;
+		width: 100%;
+		margin-top: 20px;
+		margin-bottom: 20px;
+		border: 1px solid #c1bfbf;
+	}
+	.divTableRow {
+		display: table-row;
+
+	}
+	  
+	.color0 { background-color: #149c8e !important; color: white; font-size: 18px; font-weight: bold; text-align: center;}
+	.color1 { background-color: #c1bfbf !important; color: white; }
+
+	.noborderright { border-right: 0px !important;}
+	.noborderleft { border-left: 0px !important;}
+	.thinborderright { border-right: 2px solid #f8f8f8 !important;}
+	.thinborderleft { border-left: 2px solid #f8f8f8 !important;}
+
+	.divTableHeading {
+		background-color: #EEE;
+		display: table-header-group;
+	}
+	.divTableCell, .divTableHead {
+		border-left: 2px solid #f8f8f8;
+		border-right: 2px solid #f8f8f8;
+		border-top: 4px solid #f8f8f8;
+		border-bottom: 0px solid #f8f8f8;
+		display: table-cell;
+		vertical-align: middle;
+		width: 50%;
+		padding: 8px 20px 8px 20px;
+		background-color: #f3f3f3;
+
+	}
+	
+	.divTableBody {
+		display: table-row-group;
+	}
+	
+}
+
+
+
 .hyperlogoalone {
 	display: inline-block;
 	margin-right: 10px;
