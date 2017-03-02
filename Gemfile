@@ -22,3 +22,4 @@ gem 'redcarpet', git: "https://github.com/vmg/redcarpet.git"
 
 # For feed.xml.builder
 gem "builder", "~> 3.0"
+

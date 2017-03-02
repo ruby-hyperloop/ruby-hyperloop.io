@@ -4,83 +4,230 @@ title: A family of Gems
 
 # Hyperloop Gems
 
-The Hyperloop framework comprises of a family of gems which for the most part can be used independently (though some do depend on each other).
-
-## Gems family and dependencies
-
-<%= partial "docs/gems_table"%>
-
-
-## Installation Gems
-
-> See [Installation](/installation) for further installation options.
-
-
-> <h5><div class="hyperlogoalone"><%= image_tag "HyperRails.png", width: '35'%></div>
-<%= link_to 'hyper-rails', 'https://github.com/ruby-hyperloop/hyper-rails', :class => 'rails-red', :name => 'hyper-rails' %></h5>
-
-> One step integration of **hyper-component**, **hyper-model** and **hyper-router** with Rails plus generators for Components and Routers.
-
-
-> <h5><div class="hyperlogoalone"><%= image_tag "HyperloopExpress.png", width: '35'%></div>
-<%= link_to 'Hyperloop Express', 'https://github.com/ruby-hyperloop/reactrb-express', :class => 'express-yellow', :name => 'hyperloop-express' %></h5>
-
-> **hyper-component** for static sites, with no build process needed.
-
-
-## Core Hyperloop Gems
+> The Hyperloop framework comprises of a family of gems which for the most part can be used independently (though some do depend on each other).
 
 > See [Docs](/docs/dsl_overview) for detailed information on how to use these gems or [Tutorials](/tutorials) for working examples.
 
-> <h5><div class="hyperlogoalone"><%= image_tag "HyperComponents.png", width: '35'%></div>
-<%= link_to 'hyper-component', 'https://github.com/ruby-hyperloop/hyper-react', :class => 'component-blue', :name => 'hyper-component' %></h5>
+## Gems family and dependencies
 
-> The **hyper-component** gem implements Hyperloop's **Components**.
+<table class="gemsTable table table-sm table-hover">
 
- > **hyper-component** provides a Ruby DSL to Facebook's React. Much of the documentation on this site covers usage of this Gem.
+  <thead>
+      <tr class="table-header">
+        <th class="first">
+          Gem name
+        </th>
+        <th class="second">
+          Dependencies
+        </th>
+        <th class="third">
+          Description
+        </th>
+        
+      </tr>
+  </thead>
+
+  <tbody>
+
+      <tr class="table-active">
+        <th scope="row" class="table-category" colspan="3">
+          Installation Gems
+        </th>
+      </tr>
+
+      <tr class="gem-cell-1">
+        <td class="first">
+          <div class="hyperlogoalone"><%= image_tag "HyperRails.png", width: '35'%></div><%= link_to 'hyper-rails', 'https://github.com/ruby-hyperloop/hyper-rails' , :class => 'rails-red' %>
+        </td>
+        <td class="second">
+          
+        </td>
+        <td class="descriptiontext third">
+        One step integration of <b>Hyperloop</b> Gems with Rails plus generators.
+        </td>
+        
+      </tr>
 
 
-> <h5><div class="hyperlogoalone"><%= image_tag "HyperStores.png", width: '35'%></div>
-<%= link_to 'hyper-store', 'https://github.com/ruby-hyperloop/hyper-store', :class => 'store-green', :name => 'hyper-store' %></h5>
+      <tr class="gem-cell-1">
+        <td class="first">
+          <div class="hyperlogoalone"><%= image_tag "HyperloopExpress.png", width: '35'%></div><%= link_to 'hyperloop-express', 'https://github.com/ruby-hyperloop/reactrb-express' , :class => 'express-yellow' %>
+        </td>
+        <td class="second">
+          
+        </td>
+        <td class="descriptiontext third">
+          <b>hyper-component</b> for static sites, with no build process needed.
 
-> The **hyper-store** gem implements Hyperloop's **Stores**.
-
-> Stores hold application state. Stores are Ruby classes that keep the dynamic parts of the state in special state variables
-
-
-> <h5><div class="hyperlogoalone"><%= image_tag "HyperModels.png", width: '35'%></div>
-<%= link_to 'hyper-model', 'https://github.com/ruby-hyperloop/hyper-mesh', :class => 'model-orange', :name => 'hyper-model' %></h5>
-
-> The **hyper-model** gem implements Hyperloop's **Models and Policies**. Providing Hyperloop Models as isomorphic ActiveRecord models. In addition your ActiveRecord models stay connected to your clients via push notifications
+        </td>
+        
+      </tr>
 
 
-> <h5><div class="hyperlogoalone"><%= image_tag "HyperOperations.png", width: '35'%></div><%= link_to 'hyper-operation', 'https://github.com/ruby-hyperloop/hyper-operation', :class => 'operation-purple', :name => 'hyper-operation' %></h5>
+      <tr class="table-active">
+        <th class="table-category" colspan="3">
+          Core Hyperloop Gems
+        </th>
+        
+        
+      </tr>
 
-> The **hyper-operation** gem implements Hyperloop's **Operations**.
 
-> <h5><div class="hyperlogoalone"><%= image_tag "HyperRouter.png", width: '35'%></div>
-<%= link_to 'hyper-router', 'https://github.com/ruby-hyperloop/reactrb-router/tree/v2-4-0', :class => 'router-blue', :name => 'hyper-router' %></h5>
+      <tr class="gem-cell-2">
+        <td class="first">
+          <div class="hyperlogoalone"><%= image_tag "HyperComponents.png", width: '35'%></div><%= link_to 'hyper-component', 'https://github.com/ruby-hyperloop/hyper-react', :class => 'component-blue' %>
+        </td>
+        <td class="second">
+          <div class="hyperlogoalone"><%= image_tag "HyperStores.png", width: '35'%></div><%= link_to 'hyper-store', 'https://github.com/ruby-hyperloop/hyper-store', :class => 'store-green' %>
+        </td>
+        <td class="descriptiontext third">
+          The <b>hyper-component</b> gem implements Hyperloop's <b>Components</b>.
+          <br>
+          <b>Components</b> provides a Ruby DSL to Facebook's React. Much of the documentation on this site covers usage of this Gem.
+        </td>
+      </tr>
 
-> The **hyper-router** gem provides a Ruby DSL to Facebook's React Router which is a React component that loads other components depending on the current URL.
+      <tr class="gem-cell-2">
+        <td class="first">
+          <div class="hyperlogoalone"><%= image_tag "HyperStores.png", width: '35'%></div><%= link_to 'hyper-store', 'https://github.com/ruby-hyperloop/hyper-store', :class => 'store-green' %>
+        </td>
+        <td class="second">
+          
+        </td>
+        <td class="descriptiontext third">
+          The <b>hyper-store</b> gem implements Hyperloop's <b>Stores</b>.
+          <br>
+          <b>Stores</b> hold application state. <b>Stores</b> are Ruby classes that keep the dynamic parts of the state in special state variables
+        </td>
+      </tr>
 
-## Tools, Testing and Debugging Gems
+      <tr class="gem-cell-2">
+        <td class="first">
+          <div class="hyperlogoalone"><%= image_tag "HyperModels.png", width: '35'%></div><%= link_to 'hyper-model', 'https://github.com/ruby-hyperloop/hyper-mesh', :class => 'model-orange' %>
+        </td>
+        <td class="second">
+          <div class="hyperlogoalone"><%= image_tag "HyperOperations.png", width: '35'%></div><%= link_to 'hyper-operation', 'https://github.com/ruby-hyperloop/hyper-operation', :class => 'operation-purple' %>
+          <br><br>
+          <div class="hyperlogoalone"><%= image_tag "HyperStores.png", width: '35'%></div><%= link_to 'hyper-store', 'https://github.com/ruby-hyperloop/hyper-store', :class => 'store-green' %>
 
-> See [Tools and Debugging](/tools/) for further information.
+        </td>
+        <td class="descriptiontext third">
+          The <b>hyper-model</b> gem implements Hyperloop's <b>Models</b> and <b>Policies</b>. Providing <b>Hyperloop Models</b> as isomorphic ActiveRecord models. In addition your ActiveRecord models stay connected to your clients via push notifications
+        </td>
+        
+      </tr>
 
-> <h5><div class="hyperlogoalone"><%= image_tag "HyperSpecs.png", width: '35'%></div>
-<%= link_to 'hyper-spec', 'https://github.com/ruby-hyperloop/hyper-spec', :class => 'spec-red', :name => 'hyper-spec' %></h5>
 
-> With **hyper-spec** you can run isomorphic specs for all your **Hyperloop** code using RSpec. Everything runs as standard RSpec test specs.
+      <tr class="gem-cell-2">
+        <td class="first">
+          <div class="hyperlogoalone"><%= image_tag "HyperOperations.png", width: '35'%></div><%= link_to 'hyper-operation', 'https://github.com/ruby-hyperloop/hyper-operation', :class => 'operation-purple' %>
+        </td>
+        <td class="second">
+          
+        </td>
+        <td class="descriptiontext third">
+          The <b>hyper-operation</b> gem implements Hyperloop's <b>Operations</b>.
+          <br>
+          <b>Operations</b> encapsulate business logic
+        </td>
+        
+      </tr>
 
-> <h5><div class="hyperlogoalone"><%= image_tag "HyperTracer.png", width: '35'%></div>
-<%= link_to 'hyper-trace', 'https://github.com/ruby-hyperloop/hyper-trace', :class => 'tracer-green', :name => 'hyper-trace' %></h5>
+      
 
-> Method tracing and conditional breakpoints for Opal Ruby.
 
-> ##### [Opal Hot Reloader](https://github.com/fkchang/opal-hot-reloader)
+      <tr class="gem-cell-2">
+        <td class="first">
+          <div class="hyperlogoalone"><%= image_tag "HyperRouter.png", width: '35'%></div><%= link_to 'hyper-router', 'https://github.com/ruby-hyperloop/reactrb-router/tree/v2-4-0', :class => 'router-blue' %>
+        </td>
+        <td class="second">
+          
+        </td>
+        <td class="descriptiontext third">
+          The <b>hyper-router</b> gem provides a Ruby DSL to Facebook's React Router which is a React component that loads other components depending on the current URL.
 
-> For pure programmer joy, no more page refreshes.
+        </td>
+        
+      </tr>
 
-> ##### [Opal Console](https://github.com/fkchang/opal-console)
 
-> Opal in your browser. Great for testing.
+      <tr class="table-active">
+        <th class="table-category" colspan="3">
+          Tools, Testing and Debugging Gems
+        </th>
+        
+        
+      </tr>
+
+      <tr class="gem-cell-3">
+        <td class="first">
+          <div class="hyperlogoalone"><%= image_tag "HyperSpecs.png", width: '35'%></div>
+          <%= link_to 'hyper-spec', 'https://github.com/ruby-hyperloop/hyper-spec', :class => 'spec-red' %>
+        </td>
+        <td class="second">
+          
+        </td>
+        <td class="descriptiontext third">
+          With <b>hyper-spec</b> you can run isomorphic specs for all your <b>Hyperloop</b> code using RSpec. Everything runs as standard RSpec test specs.
+        </td>
+        
+      </tr>
+
+      <tr class="gem-cell-3">
+        <td class="first">
+          <div class="hyperlogoalone"><%= image_tag "HyperTracer.png", width: '35'%></div>
+          <%= link_to 'hyper-trace', 'https://github.com/ruby-hyperloop/hyper-trace', :class => 'tracer-green' %>
+        </td>
+        <td class="second">
+          
+        </td>
+        <td class="descriptiontext third">
+          Method tracing and conditional breakpoints for Opal Ruby.
+        </td>
+        
+      </tr>
+
+      <tr class="gem-cell-3">
+        <td class="first">
+         <div class="hyperlogoalone"><%= image_tag "opallogo.png", width: '35'%></div>
+          <%= link_to 'Opal Hot Reloader', 'https://github.com/fkchang/opal-hot-reloader' %>
+        </td>
+        <td class="second">
+          
+        </td>
+        <td class="descriptiontext third">
+          For pure programmer joy, no more page refreshes.
+        </td>
+        
+      </tr>
+
+      <tr class="gem-cell-3">
+        <td class="first">
+          <div class="hyperlogoalone"><%= image_tag "opallogo.png", width: '35'%></div>
+          <%= link_to 'Opal Console', 'https://github.com/fkchang/opal-console' %>
+        </td>
+        <td class="second">
+          
+        </td>
+        <td class="descriptiontext third">
+          Opal in your browser. Great for testing.
+        </td>
+        
+      </tr>
+
+  </tbody>
+
+</table>
+
+
+<br><br>
+
+
+
+
+
+
+
+
+
+
