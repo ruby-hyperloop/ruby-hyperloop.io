@@ -15,8 +15,8 @@ This release includes a new version and renaming of all of the Hyperloop gems as
 These release notes cover the following topics:
 
 + [Release Overview](#release-overview)
-+ [Gem dependancy and naming changes](#gem-dependancy-and-naming-changes)
-+ [New folder layout in Rails project](#new-folder-layout-in-rails-project)
++ [Gem changes](#gem-changes)
++ [New folder layout](#new-folder-layout)
 + [Base class names](#base-class-names)
 
 ## Release Overview
@@ -28,43 +28,15 @@ This release consists of:
 + Introduction of Hyper-Store gem
 + Introduction of Hyper-Spec gem
 + Introduction of a centralized Hyperloop configuration gem
-+ Renaming of HyperReact gem to Hyper-Component
 + Renaming of HyperMesh gem to Hyper-Model
 + Changes to state syntax from bang(!) notation to mutate method
 + Changes to all base class names (Hyperloop::Component, Hyperloop::Model, etc) for consistency
-+ Changes to the location of files in Rails project
++ Changes to the location of files in a Rails project
 + New Hyperloop Express based on latest gems
 + New HyperRails gem
 + New website documentation, lived-code editing, new styling and new branding
 
-## Gem dependancy and naming changes
-
-TODO: change tense from future to past tense in this section
-
-Hyperloop gems are now structured to allow developers to pick and choose based on their specific needs:
-
-```text
-
-  hyperloop-config
-   ^            ^
-   |            |
-   |            |--------hyper-store
-   |                         ^    ^              
-   |                         |    |--hyper-component
-   |                         |
-   |                         |
-   |--hyper-operation        |
-   |         ^               |
-   |         |               |
-   |         |--hyper-model--|
-   |
-   |--hyper-rails
-```
-
-###Details
-
-#### hyperloop-config gem
-This just provides a standard way for the other gems to define config params that can be stored in a rails style initializer.  It is never needed to be directly referenced in a Gemfile or `require` by the developer.
+## Gem changes
 
 #### Version Numbers and Content
 | gem | version | notes |
@@ -90,11 +62,15 @@ Stores depend on `Hyperloop::Application::Boot`, which is an operation defined i
 
 #### Hyperloop Express
 
+Hyperloop Express now supports Operations and Stores.
+
+TODO: update as to how it ends up....
+
 There is no gem here, just JS files.  We will have two: hyperloop-express.js which includes hyper-component (and therefore hyper-store) and hyperloop-express-operation.js which brings in the `Hyperloop::Operation` class (but not the `Hyperloop::ServerOp` class)
 
 To support this the `hyper-operation` gem will have a `hyper-operation/client_only` require file.
 
-## New folder layout in Rails project
+## New folder layout
 
 There is a folder layout within a Rails project.
 
@@ -103,37 +79,50 @@ Old folder layout:
 ```text
 /app/views/components          <-- HyperReact components
 /app/models/public             <-- HyperMesh models
+/app/models                    <-- server-only models
+/app/views/components.rb       <-- component manifest
 /app/policies                  <-- HyperMesh policies
-/app/views/components.rb       <-- Opal requires
 ```
 
 New folder layout:
 
 ```text
 /app/hyperloop/components      <-- components
-/app/hyperloop/operations      <-- isomorphic operations
 /app/hyperloop/models          <-- isomorphic models
-/app/policies                  <-- policies
+/app/models                    <-- server-only models
+/app/hyperloop/operations      <-- isomorphic operations
+/app/operations                <-- server-only operations
 /app/hyperloop/stores          <-- stores
-/app/hyperloop/hyperloop.rb    <-- Opal requires
+/app/hyperloop/hyperloop.rb    <-- hyperloop manifest
+/app/policies                  <-- policies
 ```
 
-TODO: do you want to explain that /app/operations, (and app/models) are where you put strictly server side.
-TODO: why is policies stuck in the middle like that?
+## Base classes and Mixins
 
+Hyperloop base classes follow a consistent naming convention:
 
-### Base classes and Mixins:
++ `Hyperloop::Operation`
++ `Hyperloop::Store`
++ `Hyperloop::Policy`
 
-+ Hyperloop::Component
-+ Hyperloop::Operation
-+ Hyperloop::Model
-+ Hyperloop::Policy (TODO: is this true?)
-+ Hyperloop::Store
+You can inherit from the class:
 
-TODO explain about mixins 
+```ruby
+class Cart < Hyperloop::Store
+  ...
+end
+```
 
-## Base class names
+Or mixin the module:
 
-For consistency, `React::Component::Base` as been changed to `Hyperloop::Component`
-To include `React::Component` functionality you will use `Hyperloop::Component::Mixin
+```ruby
+class Cart
+  include Hyperloop::Store::Mixin
+  ...
+end
+```
 
+Mixins available:
+
++ `Hyperloop::Store::Mixin`
++ `Hyperloop::Policy::Mixin`
