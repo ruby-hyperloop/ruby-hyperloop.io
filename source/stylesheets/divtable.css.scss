@@ -107,7 +107,9 @@
 		font-size: 14px;
 	}
 
-	.first { width: 27% !important;} .second { width: 25% !important;} .third { width: 48% !important;}
+	.first { width: 27% !important; text-align: center; vertical-align: middle;} 
+	.second { width: 25% !important; text-align: center; vertical-align: middle;} 
+	.third { width: 48% !important;}
 
 	a:hover {
 		color:#149c8e;
