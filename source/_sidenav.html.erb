@@ -39,6 +39,9 @@
 <% when current_page.path.include?("docs") %>
   <ul class="nav">
     <li class="nav-item"><a href="/docs/architecture">Hyperloop Architecture</a></li>
+    <ul class="nav">
+      <li class="nav-item"><a href="/docs/configuration">Configuration</a></li>
+    </ul>
   </ul>
   <br>
   <ul class="nav">
@@ -61,14 +64,19 @@
   <ul class="nav">
     <li class="nav-item"><a href="/docs/models/overview">Models</a></li>
     <ul class="nav">
-      <li class="nav-item"><a href="/docs/models/active-record">ActiveRecord API</a></br></li>
+      <li class="nav-item"><a href="/docs/models/active-record">ActiveRecord API</a></li>
       <li class="nav-item"><a href="/docs/models/scoping">Scoping</a></br></li>
-      <li class="nav-item"><a href="/docs/models/debugging">Debugging</a></br></li>
+      <li class="nav-item"><a href="/docs/models/configuring-transport">Configuring the Transort</a></li>
+      <li class="nav-item"><a href="/docs/models/debugging">Debugging</a></li>
+      <li class="nav-item"><a href="/docs/models/common-errors">Common Errors</a></li>
     </ul>
   </ul>
   <br>
   <ul class="nav">
     <li class="nav-item"><strong><a href="/docs/policies/authorization">Policies</a></strong></li>
+    <ul class="nav">
+      <li class="nav-item"><a href="/docs/policies/authorization#details">Details</a></li>
+    </ul>
   </ul>
   <br>
   <ul class="nav">

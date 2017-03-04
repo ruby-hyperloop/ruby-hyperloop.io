@@ -1,15 +1,12 @@
 ---
 title: Policies
 ---
+
 ## Authorization
 
-Each application defines a number of *channels* and *authorization policies* for those channels and the data sent over the channels.
+TODO check which parts apply to Models only and which to Operations and then refactor these docs.
 
-Policies are defined with *Policy* classes.  These are similar and compatible with [Pundit](https://github.com/elabs/pundit) but you do not need to use the pundit gem (but can if you want.)
-
-### HyperMesh Authorization Policies
-
-Access to your models is controlled by *Policies* that describe how the current *acting_user* and *channels* may access your models.
+Access to your Isomorphic Models is controlled by *Policies* that describe how the current *acting_user* and *channels* may access your Models.
 
 Each browser session has an *acting_user* (which may be nil) and you will define `create`, `update`, and `destroy` policies giving (or denying) the `acting_user` the ability to do these operations.
 
@@ -100,23 +97,23 @@ class ApplicationController < ActionController::Base
 end
 ```
 
-Note that `acting_user` is also used by Reactive-Record's permission system.
+Note that `acting_user` is also used by ReactiveRecord's permission system.
 
-Our entire set of policies is defined in 29 lines of code of which 8 actually execute the policies.  Our existing classes form the foundation, and we simply add synchromesh specific policy directives.  Pretty sweet huh?
+Our entire set of policies is defined in 29 lines of code of which 8 actually execute the policies.  Our existing classes form the foundation, and we simply add Hyperloop specific policy directives.  Pretty sweet huh?
 
 ### Details
 
-HyperMesh uses *Policies* to *regulate* what *connections* are opened between clients and the server and what data is distributed over those connections.
+Hyperloop uses *Policies* to *regulate* what *connections* are opened between clients and the server and what data is distributed over those connections.
 
 Connections are made on *channels* of data flowing between the server and a number of clients.  Each channel is associated with either a class or an instance of a class.  Typically the channel class represents an entity (or is associated with an entity) that can be authenticated like a `User`, an  `AdminUser`, or a `Team` of users.  A channel associated with the class itself broadcasts data that is received by any member of that class.  A channel associated with an instance is for data that is available only to that specific instance.   
 
-As models on the server change (i.e. created, updated, or destroyed) the changes are broadcast over open channels.  What specific attributes are sent (if any) is determined by broadcast policies.
+As Models on the server change (i.e. created, updated, or destroyed) the changes are broadcast over open channels.  What specific attributes are sent (if any) is determined by broadcast policies.
 
-Broadcast policies can be associated with models.  As the model changes the broadcast policy will regulate what attributes of the changed model will be sent over which channels.  
+Broadcast policies can be associated with Models.  As the Model changes the broadcast policy will regulate what attributes of the changed model will be sent over which channels.  
 
-Broadcast policies can also be associated with a channel and will regulate *all* model changes over specific channels.  In other words this is just a convenient way to associate a common policy with *all* models.
+Broadcast policies can also be associated with a channel and will regulate *all* model changes over specific channels.  In other words this is just a convenient way to associate a common policy with *all* Models.
 
-Note that models that are associated with channels can also broadcast their changes on the same or different channels.
+Note that Models that are associated with channels can also broadcast their changes on the same or different channels.
 
 #### Defining Policies and Policy Classes
 
@@ -139,13 +136,15 @@ class ApplicationPolicy
 end
 ```
 
-Note that by default policy classes go in the `app/policies` directory.  HyperMesh will require all the files in this directory.
+Note that by default policy classes go in the `app/policies` directory.  Hyperloop will require all the files in this directory.
 
-If you wish, you can also add policies directly in your models by including the `HyperMesh::PolicyMethods` module in your model.  You can then use the `regulate_class_connection`, `regulate_instance_connections`, `regulate_all_broadcasts` and `regulate_broadcast` methods directly in the model.
+TODO check the name of the module below
+
+If you wish, you can also add policies directly in your Models by including the `Hyperloop::PolicyMethods` module in your model.  You can then use the `regulate_class_connection`, `regulate_instance_connections`, `regulate_all_broadcasts` and `regulate_broadcast` methods directly in the model.
 
 ```ruby
 class User < ActiveRecord::Base
-  include HyperMesh::PolicyMethods
+  include Hyperloop::PolicyMethods
   regulate_class_connection ...
   regulate_instance_connections ...
   regulate_all_broadcasts ...  
@@ -170,12 +169,12 @@ end
 
 #### Channels and the connection policies
 
-Any ruby class that has a connection policy is a synchromesh channel. The fully scoped name of the class becomes the root of the channel name.
+Any ruby class that has a connection policy is a Hyperloop channel. The fully scoped name of the class becomes the root of the channel name.
 
 The purpose of having channels is to restrict what gets broadcast when models change, therefore typically channels represent *connections* to
 
 + the application, or some function within the application
-+ or some class which *authenticated* like a User or Administrator,
++ or some class which is *authenticated* like a User or Administrator,
 + instances of those classes,
 + or instances of related classes.
 
@@ -211,15 +210,15 @@ regulate_instance_connections { group }
 regulate_instance_connections { teams }
 ```
 
-#### Class Names, Instances and Ids
+#### Class Names, Instances and IDs
 
 While establishing connections, classes are represented as their fully scoped name, and instances are represented as the class name plus the result of calling `id` on the instance.
 
-Typically connections are made to ActiveRecord models, and if those are in the `app/models/public` folder everything will work fine.
+Typically connections are made to ActiveRecord models, and if those are in the `app/hyperloop/models` folder everything will work fine.
 
 #### Acting User
 
-HyperMesh looks for an `acting_user` method typically defined in the ApplicationController and would normally pick up the current session user, and return an appropriate object.
+Hyperloop looks for an `acting_user` method typically defined in the ApplicationController and would normally pick up the current session user, and return an appropriate object.
 
 ```ruby
 class ApplicationController < ActiveController::Base
@@ -242,13 +241,20 @@ class TeamPolicy
 end
 ```
 
-Its important to consider turning off automatic connections for cases like the above where the user is likely to be a member of many teams.  Typically the client application will want to dynamically determine which specific teams to connect to given the current state of the application.
+Its important to consider turning off automatic connections for cases like the above where
+the user is likely to be a member of many teams.  Typically the client application will
+want to dynamically determine which specific teams to connect to given the current state of
+the application.
 
 ### Manually Connecting to Channels
 
-Normally the client will automatically connect to the available channels when a page loads, but you can also manually connect on the client in response to some user action like logging in, or the user deciding to display a specific team status on their dashboard.
+Normally the client will automatically connect to the available channels when a page loads, but you can also
+manually connect on the client in response to some user action like logging in, or the user deciding to
+display a specific team status on their dashboard.
 
-To manually connect a client use the `HyperMesh.connect` method.  
+TODO check below Hyperloop.connect
+
+To manually connect a client use the `Hyperloop.connect` method.  
 
 The `connect` method takes any number of arguments each of which is either a class, an object, a String or Array.
 
@@ -256,7 +262,7 @@ If the argument is a class then the connection will be made to the matching clas
 
 ```ruby
 # connect the client to the AdminUser class channel
-HyperMesh.connect(AdminUser)
+Hyperloop.connect(AdminUser)
 # if the connection is successful the client will begin getting updates on the
 # AdminUser class channel
 ```
@@ -265,7 +271,7 @@ If the argument is an object then a connection will be made to the matching obje
 
 ```ruby
 # assume current_user is an instance of class User
-HyperMesh.connect(current_user)
+Hyperloop.connect(current_user)
 # current_user.id is used to establish which User instance to connect to on the
 # server
 ```
@@ -273,20 +279,20 @@ HyperMesh.connect(current_user)
 The argument can also be a string, which matches the name of a class on the server
 
 ```ruby
-HyperMesh.connect('AdminUser')
+Hyperloop.connect('AdminUser')
 # same as AdminUser class
 ```
 
 or the argument can be an array with a string and the id:
 
 ```ruby
-HyperMesh.connect(['User', current_user.id])
+Hyperloop.connect(['User', current_user.id])
 # same as saying current_user
 ```
 
 You can make several connections at once as well:
 ```ruby
-HyperMesh.connect(AdminUser, current_user)
+Hyperloop.connect(AdminUser, current_user)
 ```
 
 Finally falsy values are ignored.
@@ -294,25 +300,25 @@ Finally falsy values are ignored.
 You can also send `connect` directly to ActiveRecord models:
 
 ```ruby
-AdminUser.connect!    # same as HyperMesh.connect(AdminUser)
-current_user.connect! # same as HyperMesh.connect(current_user)
+AdminUser.connect!    # same as Hyperloop.connect(AdminUser)
+current_user.connect! # same as Hyperloop.connect(current_user)
 ```
 
 #### Connection Sequence Summary
 
 For class connections:
 
-1. The client calls `HyperMesh.connect`.
-2. HyperMesh sends the channel name to the server.
-3. HyperMesh has its own controller which will determine the `acting_user`,
+1. The client calls `Hyperloop.connect`.
+2. Hyperloop sends the channel name to the server.
+3. Hyperloop has its own controller which will determine the `acting_user`,
 4. and call the channel's `regulate_class_connection` method.
-5. If `regulate_class_connection` returns a truthy value then the connetion is made,
+5. If `regulate_class_connection` returns a truthy value then the connection is made,
 6. otherwise a 500 error is returned.
 
 For instance connections:
 
 1. The process is the same but the channel name and id are sent to the server.  
-2. The HyperMesh controller will do a find of the id passed to get the instance,
+2. The Hyperloop controller will do a `find` of the id passed to get the instance,
 3. and if successful `regulate_instance_connections` is called,
 4. which must return an either the same instance, or an enumerable with that instance as a member.
 5. Otherwise a 500 error is returned.
@@ -321,13 +327,15 @@ Note that the same sequence is used for auto connections and manually invoked co
 
 #### Disconnecting
 
-Calling `HyperMesh.disconnect(channel)` or `channel.disconnect!` will disconnect from the channel.
+TODO check Hyperloop.disconnect(
+
+Calling `Hyperloop.disconnect(channel)` or `channel.disconnect!` will disconnect from the channel.
 
 #### Broadcasting and Broadcast Policies
 
 Broadcast policies can be defined for channels using the `regulate_all_broadcasts` method, and for individual objects (typically ActiveRecord models) using the `regulate_broadcast` method.  A `regulate_all_broadcasts` policy is essentially a `regulate_broadcast` that will be run for every record that changes in the system.
 
-After an ActiveRecord model change is committed, all active class channels run their channel broadcast policies, and then the instance broadcast policy associated with the changing model is run.  So for any change there may be multiple channel broadcast policies involved, but only one (at most) regulate_broadcast.  
+After an ActiveRecord Model change is committed, all active class channels run their channel broadcast policies, and then the instance broadcast policy associated with the changing Model is run.  So for any change there may be multiple channel broadcast policies involved, but only one (at most) regulate_broadcast.  
 
 The result is that each channel may get a filtered copy of the record which is broadcast on that channel.
 
@@ -396,7 +404,8 @@ policy.send_only(:baz).to(MyChannel)
 # MyChannel gets nothing
 ```
 
-Keep in mind that the broadcast policies are sent a copy of the policy object so you can use helper methods in your policies. Also you can add policy specific methods to your models using `class_eval` thus keeping policy logic out of your models.
+Keep in mind that the broadcast policies are sent a copy of the policy object so you can use helper methods in your policies. Also you can add policy specific methods to your models using
+`class_eval` thus keeping policy logic out of your models.
 
 So we could for example we can rewrite the above MessagePolicy like this:
 
@@ -420,7 +429,7 @@ Each change access policy executes a block in the context of the record that wil
 
 If the block returns a truthy value access will be allowed, otherwise if the block returns a falsy value or raises an exception, access will be denied.
 
-In the below examples we assume that your user model responds to `admin?` but this is not built into HyperMesh.
+In the below examples we assume that your user model responds to `admin?` but this is not built into Hyperloop.
 
 ```ruby
 class TodoPolicy
@@ -464,10 +473,9 @@ end
 
 Note that there is no `allow_read` method.  Read access is granted if this browser would have the attribute broadcast to it.  
 
-
 #### Method Summary and Name Space Conflicts
 
-Policy classes (and the HyperMesh::PolicyMethods module) define the following class methods:
+Policy classes (and the Hyperloop::PolicyMethods module) define the following class methods:
 
 + `regulate_connection`
 + `regulate_all_broadcasts`
@@ -479,7 +487,7 @@ As well as the following instance methods:
 + `send_only`
 + `obj`
 
-To avoid name space conflicts with your classes, synchromesh policy classes (and the HyperMesh::PolicyMethods module) maintain class and instance `attr_accessor`s named `synchromesh_internal_policy_object`.   The above methods call methods of the same name in the appropriate internal policy object.
+To avoid name space conflicts with your classes, Hyperloop policy classes (and the Hyperloop::PolicyMethods module) maintain class and instance `attr_accessor`s named `synchromesh_internal_policy_object`.   The above methods call methods of the same name in the appropriate internal policy object.
 
 You may thus freely redefine of the class and instance methods if you have name space conflicts
 

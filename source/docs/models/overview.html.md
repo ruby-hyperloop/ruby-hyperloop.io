@@ -5,21 +5,24 @@ title: Models
 
 Hyperloop **Models** are implemented in the **HyperMesh Gem**.
 
-HyperMesh takes Isomorphic Ruby to the next level by giving your HyperReact components CRUD access to your server side ActiveRecord models, using the standard ActiveRecord API. In addition, HyperMesh implements push notifications (via a number of possible technologies) so that changes to records on the server are dynamically pushed to all authorised clients.
+In Hyperloop, your ActiveRecord Models are available in your Isomorphic code.
 
-**Its Isomorphic Ruby in action.**
+Components, Operations, and Stores have CRUD access to your server side ActiveRecord Models, using the standard ActiveRecord API.
 
-In other words one browser creates, updates, or destroys a model, and the changes are persisted in active record models, before being broadcast to all other authorised clients.
+In addition, Hyperloop implements push notifications (via a number of possible technologies) so changes to records on the server are dynamically pushed to all authorized clients.
 
-Overview:
+*Isomorphic Ruby in action.*
 
-+ HyperMesh is built on top of HyperReact.
-+ HyperReact is a Ruby DSL (Domain Specific Language) to build [React.js](https://facebook.github.io/react/) UI components in Ruby.  As data changes on the client (either from user interactions or external events) HyperReact re-draws whatever parts of the display is needed.
-+ HyperMesh provides a [flux dispatcher and data store](https://facebook.github.io/flux/docs/overview.html) backed by [Rails Active Record models](http://guides.rubyonrails.org/active_record_basics.html).  
-You access your model data in your HyperReact components just like you would on the server or in an ERB or HAML view file.
-+ If an optional push transport is connected, HyperMesh broadcasts any changes made to your ActiveRecord models as they are persisted on the server.
+In other words, one browser creates, updates, or destroys a Model, and the changes are persisted in ActiveRecord models and then broadcast to all other authorized clients.
 
-For example, consider a simple model called `Dictionary`, which might be part of Wiktionary type app.
+## Overview
+
++ The `hyper-model` gem provides ActiveRecord Models to Hyperloop's Isomorphic architecture.
++ You access your Model data in your Components, Operations, and Stores just like you would on the server or in an ERB or HAML view file.
++ If an optional push transport is connected Hyperloop broadcasts any changes made to your ActiveRecord models as they are persisted on the server or updated by one of the authorized clients.
++ Some Models can be designated as *server-only* which means they are not available to the Isomorphic code.
+
+For example, consider a simple model called `Dictionary` which might be part of Wiktionary type app.
 
 ```ruby
 class Dictionary < ActiveRecord::Base
@@ -33,10 +36,10 @@ class Dictionary < ActiveRecord::Base
 end
 ```
 
-Here is a very simple HyperReact component that shows a random word from the dictionary:
+Here is a very simple Hyperloop Component that shows a random word from the dictionary:
 
 ```ruby
-class WordOfTheDay < React::Component::Base
+class WordOfTheDay < Hyperloop::Component
 
   def pick_entry!  
     # pick a random word and assign the selected record to entry
@@ -61,5 +64,6 @@ class WordOfTheDay < React::Component::Base
       BUTTON { 'pick another' }.on(:click) { pick_entry! }
     end
   end
-end
 ```
+
+For complete examples with *push* updates, see any of the apps in the `examples` directory, or build your own in 5 minutes following one of the quickstart guides:
