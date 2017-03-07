@@ -1,11 +1,13 @@
 ---
 title: Stores
 ---
-## Stores Overview
+## Stores
 
 Hyperloop **Stores** are implemented in the **HyperStore Gem**.
 
-## HyperStore
+Stores are where the state of your Application lives. Anything but a completely static web page will have dynamic states that change because of user inputs, the passage of time, or other external events.
+
+**Stores are Ruby classes that keep the dynamic parts of the state in special state variables**
 
 + `Hyperloop::Store::Mixin` can be mixed in to any class to turn it into a Flux Store.
 + You can also create Stores by subclassing `Hyperloop::Store`.

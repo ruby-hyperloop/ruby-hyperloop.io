@@ -2,8 +2,6 @@
 title: Architecture
 ---
 
-# TODO - THIS PAGE AND ALL THE PAGES IN DOCS ARE VERY MUCH WIP AT THE MOMENT
-
 # Hyperloop Architecture
 
 Hyperloop's primary goal is to allow you to enjoy quickly building modern interactive web applications.
@@ -18,9 +16,15 @@ Hyperloop is an Isomorphic Web Application Framework consisting of Components, O
 
 <%= partial "docs/comps_table"%>
 
-The only remaining function of controllers - acting as the HTTP end point - is automatically handled by the Hyperloop framework.  Both Models and Operations will automatically *work across the wire* using the Policies to determine access rights, and reactive Components to update the display as data changes.
+## Benefits of COMPS Architecture
 
-This overview will take you through all the main Hyperloop architectural layers.
++ The **COMPS** architecture encapsulates functionality for clean, predictable, testable code
++ One language - Ruby everywhere - reduces complexity and lets developers build solutions quickly
++ Encourages client-side execution for distributed processing and a rich interactive user experience
++ Full power of Rails, React and the entire JavaScript universe
++ Transparent, automatic and secure client-server communication built into Models and Operations
+
+## COMPS Overview
 
 <h2><div class="hyperlogoalone"><%= image_tag "HyperComponents.png", width: '35'%></div>Components</h2>
 
@@ -97,15 +101,6 @@ end
 
 This will automatically rerender the contents of the 'new-york' DIV **whenever the store changes**
 
-
-## Benefits of COMPS Architecture
-
-+ The **COMPS** architecture encapsulates functionality for clean, predictable, testable code
-+ One language - Ruby everywhere - reduces complexity and lets developers build solutions quickly
-+ Encourages client-side execution for distributed processing and a rich interactive user experience
-+ Full power of Rails, React and the entire JavaScript universe
-+ Transparent, automatic and secure client-server communication built into Models and Operations
-
 <h2><div class="hyperlogoalone"><%= image_tag "HyperModels.png", width: '35'%></div>Models</h2>
 
 Hyperloop uses Rails ActiveRecord for data persistence.  This allows easy integration with existing Rails apps.  Hyperloop Models are implemented in the HyperMesh Gem.
@@ -125,7 +120,7 @@ end
 
 Changes made to Models on a client or server are **automatically synchronized** to all other authorized connected clients using ActionCable, pusher.com or polling. The synchronization is completely automatic and magical to behold.
 
-<h2><div class="hyperlogoalone"><%= image_tag "HyperOperations.png", width: '35'%></div>Operations (coming soon)</h2> (coming soon)
+<h2><div class="hyperlogoalone"><%= image_tag "HyperOperations.png", width: '35'%></div>Operations</h2>
 
 Hyperloop *recommends* that only scopes, relations, and validations are described in model classes. All business logic can be encapsulated in reusable *isomorphic* Operations that do not complicate your Models or Components.  Each Operation is a self-contained piece of logic that does one simple thing.
 
@@ -138,7 +133,7 @@ class AddToActingUsersWatchList < Hyperloop::Operation
   # Operations have access to the current 'acting_user'
   # so we do not need to pass it as a parameter.
 
-  def execute
+  step do
     return if acting_user.watch_list.include? params.book
     WatchListMailer.new_book_email\
       WatchList.create(user: acting_user,  book: params.book)
@@ -155,7 +150,7 @@ class AddBookToBasket < Hyperloop::Operation
   # Add a book to the basket and add to users watchlist
   param :book, type: Book
 
-  def execute
+  step do
     acting_user.basket << book
     AddToActingUsersWatchList(book: params.book)
   end
