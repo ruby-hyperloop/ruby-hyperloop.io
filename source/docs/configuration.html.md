@@ -2,17 +2,12 @@
 title: Configuration
 ---
 
-TODO work on this....
-
-There are parts to the Hyperloop configuration:
-
-1. Model classes
-2. Policies
-3. Push Transport
-
 ## Configuration
 
-Add an initializer like this:
+Hyperloop configuration is kept in `config/initializers/Hyperloop.rb`.
+
+A minimal Hyperloop configuration consists of a simple initializer file, and at least one *Policy* class that will *authorize* who gets to see what.
+
 
 ```ruby
 # for rails this would go in: config/initializers/Hyperloop.rb
@@ -29,5 +24,3 @@ class ApplicationPolicy
   regulate_all_broadcasts { |policy| policy.send_all }
 end
 ```
-
-A minimal Hyperloop configuration consists of a simple initializer file, and at least one *Policy* class that will *authorize* who gets to see what.
