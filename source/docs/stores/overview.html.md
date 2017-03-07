@@ -5,17 +5,19 @@ title: Stores
 
 Hyperloop **Stores** are implemented in the **HyperStore Gem**.
 
-+ `HyperStore` can be mixed to to any class to turn it into a Flux Store
-+ You can also create Stores by subclassing `HyperStore::Base`
-+ Stores are built out of *reactive state variables.*  
-+ Components that *read* a Stores state will be automatically updated when the state changes.  
-+ All of your *shared* reactive state should be Stores - The Store is the Truth
-+ Stores can *receive* *dispatches* from *Operations*
+## HyperStore
+
++ `Hyperloop::Store::Mixin` can be mixed in to any class to turn it into a Flux Store.
++ You can also create Stores by subclassing `Hyperloop::Store`.
++ Stores are built out of *reactive state variables*.
++ Components that *read* a Store's state will **automatically** update when the state changes.
++ All of your **shared** reactive state should be Stores - *The Store is the Truth*!
++ Stores can *receive* **dispatches** from *Operations*
 
 Here is a simple shopping cart Store that receives Add, Remove and Empty Operations:
 
 ```ruby
-class Cart < HyperStore::Base
+class Cart < Hyperloop::Store
   # First we will define the two Operations.
   # Because these are closely associated with the Cart
   # we will name space them inside the cart.
@@ -31,9 +33,9 @@ class Cart < HyperStore::Base
   end
 
   # The cart's state is represented as a hash, items are the keys, qty is the value
-  # initialize the hash by receiving the system HyperLoop::Boot or Empty dispatches
+  # initialize the hash by receiving the system Hyperloop::Application::Boot or Empty dispatches
 
-  receives HyperLoop::Boot, Empty do
+  receives Hyperloop::Application::Boot, Empty do
     mutate.items(Hash.new { |h, k| h[k] = 0 })
   end
 
@@ -60,7 +62,7 @@ class Cart < HyperStore::Base
 end
 ```
 
-This example demonstrates the two ingredients of a Store:  
+This example demonstrates the two ingredients of a Store:
 
 + Receiving Operation Dispatches and
 + Reading, and Mutating *states*.
@@ -91,7 +93,7 @@ A Store will have one or more *Reactive State Variables* or *State* for short.  
 
 `mutate.items` returns the current value of the state named `items`, but also tells Hyperloop that the value is changing, and that any Components depending on the current value will have to be re-rendered.
 
-The one thing you must remember to do is use `mutate` if you intend to update the internal value of a state.  For example if the state contains a hash, and you are updating the Hash's internal value you would use `mutate` otherwise the change will go unrecorded.  
+The one thing you must remember to do is use `mutate` if you intend to update the internal value of a state.  For example if the state contains a hash, and you are updating the Hash's internal value you would use `mutate` otherwise the change will go unrecorded.
 
 #### Initializing States
 
@@ -129,7 +131,7 @@ However sometimes you will want to create a class where each instance is a Store
 # Each UserStream provides a stream of unique user profiles.
 # Each instance has a single HyperStore state variable called user
 # user will contain a single hash representing the user profile.
-class UserStream < HyperStore::Base
+class UserStream < Hyperloop::Store
 
   # get another user
 
@@ -179,7 +181,6 @@ class GetMoreUsers < HyperOperation
   end
 end
 ```
-
 Stores that have multiple instances will typically have instance methods that directly mutate the store.  We recommend you end these methods with an exclamation (!) to make it clear you are exposing a mutator.
 
 ### States and Promises
@@ -188,7 +189,7 @@ The above example is greatly simplified because if a promise is assigned to a st
 
 ### Explicitly Declaring States
 
-States like instance variables are created when they are first referenced.  
+States like instance variables are created when they are first referenced.
 
 As a convenience you may also explicitly declare states.  This reduces code noise, and improves readability.
 
@@ -214,13 +215,11 @@ The `state` declaration has the following flavors, depending on how the state is
 ```
 
 other options to the `state` declaration are:
-
 + `scope:` either `:class`, `:instance`, `:shared`.  Details below!
-+ `reader:` either `true`, or a symbol used to declare a reader (getter) method.  
-+ `initializer:` either a proc or a symbol (indicating a method), to be used to initialize the state.
++ `reader:` either `true`, or a symbol used to declare a reader (getter) method.
++ `initializer:` either a Proc or a Symbol (indicating a method), to be used to initialize the state.
 
-The value of the `scope` option determines where the state resides.  
-
+The value of the `scope` option determines where the state resides.
 + A class state has one instance per class and is directly accessible in class methods, and indirectly in instances using `self.class.state`.
 + An instance state has a different copy in each instance of the class, and is not accessible by class methods.
 + A shared state is like a class state, but is also directly accessible in instances.
@@ -240,7 +239,7 @@ items for each instance.
 The `shared` option just makes it easier to access a class state from instances.
 
 ```ruby
-class MyStore < HyperStore::Base
+class MyStore < Hyperloop::Store
   state :shared_state, scope: :shared
   state :class_state, scope: :class
   state :instance_state # scope: :instance is default here
@@ -266,7 +265,7 @@ class MyStore < HyperStore::Base
   end
 ```
 
-Class state variables are initialized by an implicit `Hyperloop::Boot` receiver.  If an initial value is directly provided (not via a proc, method or block) then the value will be `dup`ed when the second and following Boot dispatches are received.  The proc, method or block initializers will run in the context of the class, and the state variable will be available.  For example:
+Class state variables are initialized by an implicit `Hyperloop::Application::Boot` receiver.  If an initial value is directly provided (not via a proc, method or block) then the value will be `dup`ed when the second and following Boot dispatches are received.  The proc, method or block initializers will run in the context of the class, and the state variable will be available.  For example:
 
 ```ruby
 state :boot_counter, scope: :shared do
@@ -295,7 +294,7 @@ state :my_state, scope: :shared # or :class
 
 In the first case `my_state` will be re-initialized to nil on every boot, in the second case it will not.
 
+### Hyperloop::Store::Mixin
 
-### The `HyperStore` Mixin
-
-You can also include `HyperStore` in any class and then use all the methods described above.  Useful when you want to add HyperStore capabilities to another class.
+You can also include `Hyperloop::Store::Mixin` in any class and then use all the methods described above.
+Useful when you want to add HyperStore capabilities to another class.
