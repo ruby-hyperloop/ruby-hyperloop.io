@@ -49,7 +49,7 @@
 .jumbotron {
     padding: 3.0em;
     margin-top: 2px;
-    margin-bottom: 3.5rem;
+    margin-bottom: 2px !important;
     border-radius: 0 !important;
   }
 
@@ -57,7 +57,15 @@
   color: #fff;
   text-align: left;
   background-color: #e81176;
-   }
+
+  //border-bottom: 2px solid #149c8e;
+}
+
+.page-header-underline {
+  background-color: #149c8e;
+  height: 2px;
+  margin-bottom: 3em;
+}
 
 .project-name {
   margin-top: 0;
@@ -191,6 +199,46 @@ h1 {
   font-size: 2.2rem;
 }
 
+.hyperlooplogo {
+  width: 150px;
+  height: 145px;
+  margin: 0 !important;
+  background: url(image_path("hyperloop-logo-medium-white.png"));
+  background-repeat: no-repeat;
+  background-position: center;
+  //background-size: 184px 178px;
+  background-size: 140px 125px;
+  //background-size: 66px 65px;
+
+}
+
+.hyperlooplogo:after {
+  content: '';
+  width: 150px;
+  height: 145px;
+  position: absolute;
+  background: url(image_path("hyperloop-logo-atom-medium-white.png"));
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 140px 125px;
+
+  -webkit-animation-name: rotate;
+  -webkit-animation-duration:10s;
+  -webkit-animation-iteration-count:infinite;
+  -webkit-animation-timing-function: ease-in-out;
+  
+  -moz-animation-name: rotate;
+  -moz-animation-duration:10s;
+  -moz-animation-iteration-count:infinite;
+  -moz-animation-timing-function: ease-in-out;
+  
+ }
+
+  
+
+.main-content {
+  margin-bottom: 4em;
+}
 .main-content :first-child {
   margin-top: 0; }
 .main-content img {
@@ -295,3 +343,117 @@ h1 {
   margin: 1rem 0;
   background-color: #eff0f1;
   border: 0; }
+
+.page-footer-upperline {
+  background-color: #e81176;
+  height: 2px;
+  margin-top: 3em;
+}
+
+
+footer.nav-footer {
+  padding-top: 3em;
+  padding-bottom: 2em;
+  background: #149c8e;
+  margin-top: 2px;
+  //border-top: 2px solid #e81176;
+
+  .sitemap {
+    display: flex;
+    justify-content: space-between;
+    max-width: 1400px;
+    margin: 0 auto 2em;
+
+    .nav-home {
+      display: table;
+      margin: -30px 20px 0 0;
+      padding-right: 10px;
+      width: 150px;
+      height: 150px;
+      background: url(image_path("hyperloop-logo-small-white.png"));
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: 100px 90px;
+
+
+    }
+
+    .nav-home:after {
+      content: '';
+      width: 150px;
+      height: 150px;
+      position: absolute;
+      background: url(image_path("hyperloop-logo-atom-small-white.png"));
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: 100px 90px;
+
+      -webkit-animation-name: rotate;
+      -webkit-animation-duration:15s;
+      -webkit-animation-iteration-count:infinite;
+      -webkit-animation-timing-function:ease-in-out;
+      -moz-animation-name: rotate;
+      -moz-animation-duration:15s;
+      -moz-animation-iteration-count:infinite;
+      -moz-animation-timing-function:ease-in-out;
+    }
+
+    h6>a {
+      margin: 0 -10px;
+      padding: 3px 10px;
+    }
+
+    h6 ~ a {
+      font-size: 12px;
+      color: white;
+      display: table;
+      margin: 2px -10px;
+      padding: 3px 10px;
+
+      &:hover {
+        color: #e81176;
+      }
+    }
+
+  }
+
+  .otherlinks {
+    padding: 0em 0 1em 0;
+    text-align: center;
+    font-size: 18px;
+
+    a {
+      padding: 0 10px 0 10px;
+
+      &:before {
+        color: #606c71;
+        content: "{";
+        margin: 0 15px 0 15px;
+      }
+
+      &:after {
+        color: #606c71;
+        content: "}";
+        margin: 0 15px 0 15px;
+      }
+    }
+  }
+
+  .copyright {
+    color: rgba(255,255,255,0.4);
+    text-align: center;
+  }
+}
+
+
+@-webkit-keyframes rotate {
+  0% {-webkit-transform:rotate(0deg);}
+  20% {-webkit-transform:rotate(0deg);}
+  100% {  -webkit-transform:rotate(360deg);}
+}
+
+@-moz-keyframes rotate5 {
+  0% { -moz-transform:rotate(0deg);}
+  20% {  -moz-transform:rotate(0deg);}
+  100% {  -moz-transform:rotate(360deg);}
+}
