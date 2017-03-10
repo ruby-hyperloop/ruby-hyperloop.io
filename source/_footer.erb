@@ -1,3 +1,70 @@
-<footer>
-  <h3>Footer here</h3>
+<footer class="nav-footer">
+  <section class="sitemap">
+
+    <%= link_to "", "/", class: "nav-home"%>
+    
+    <div>
+      <h6><%= link_to "Start", "/start"%></h6>
+      <a href="/start#components">Components</a>
+      <a href="/start#stores">Stores</a>
+      <a href="/start#operations">Operations</a>
+      <a href="/start#policies">Policies</a>
+    </div>
+    <div>
+      <h6><%= link_to "Learn", "/tutorials"%></h6>
+      <a href="/tutorials/chat_app">Chat-App Tutorial</a>
+      <a href="/tutorials/hyperreact_with_rails">HyperReact and Rails Tutorial</a>
+      <a href="/tutorials/hyperreact_with_webpack">NPM and Webpack Tutorial</a>
+      <a href="/tutorials/flux_store">Flux Store Tutorial</a>
+      <a href="/tutorials/file_uploader">File Uploader Tutorial</a>
+    </div>
+    <div>
+      <h6><%= link_to "Install", "/installation"%></h6>
+      <a href="#opal-playground">Opal Playground</a>
+	  <a href="#using-hyperloop-express">Using Hyperloop Express</a>
+	  <a href="#with-rails">With Rails</a>
+	  <a href="#manual-rails-install">Manual Rails Install</a>
+	  <a href="#with-sinatra">With Sinatra</a>
+	  <a href="#building-with-rake">Building with Rake</a>
+	  <a href="#deployment">Deployment</a>
+    </div>
+    <div>
+      <h6><%= link_to "Gems", "/gems"%></h6>
+      <%= link_to 'hyper-rails', 'https://github.com/ruby-hyperloop/hyper-rails'%>
+      <%= link_to 'hyperloop-express', 'https://github.com/ruby-hyperloop/reactrb-express' %>
+      <%= link_to 'hyper-component', 'https://github.com/ruby-hyperloop/hyper-react' %>
+      <%= link_to 'hyper-store', 'https://github.com/ruby-hyperloop/hyper-store' %>
+      <%= link_to 'hyper-model', 'https://github.com/ruby-hyperloop/hyper-mesh' %>
+      <%= link_to 'hyper-operation', 'https://github.com/ruby-hyperloop/hyper-operation' %>
+      <%= link_to 'hyper-router', 'https://github.com/ruby-hyperloop/reactrb-router/tree/v2-4-0' %>
+      <%= link_to 'hyper-spec', 'https://github.com/ruby-hyperloop/hyper-spec' %>
+      <%= link_to 'hyper-trace', 'https://github.com/ruby-hyperloop/hyper-trace' %>
+    </div>
+    <div>
+      <h6><%= link_to "Tools", "/tools"%></h6>
+      <a href="#testing">Testing</a>
+    	<a href="#tools">Tools</a>
+    	<a href="#debugging">Debugging</a>
+    </div>
+    <div>
+      <h6><%= link_to "Docs", "/docs/architecture"%></h6>
+      <a href="/docs/architecture">Hyperloop Architecture</a>
+      <a href="/docs/components/dsl-overview">Components</a>
+      <a href="/docs/stores/overview">Stores</a>
+      <a href="/docs/models/overview">Models</a>
+      <a href="/docs/operations/overview">Operations</a>
+      <a href="/docs/policies/authorization">Policies</a>
+    </div>
+
+  </section>
+  
+  <section class="otherlinks">
+    <%= link_to "Github", "https://github.com/ruby-hyperloop"%>
+    <%= link_to "Help", "/support"%>
+    <%= link_to "Blog", "/blog"%>
+  </section>
+
+  <section class="copyright">
+    Copyright © 2017 Hyperloop.
+  </section>
 </footer>
