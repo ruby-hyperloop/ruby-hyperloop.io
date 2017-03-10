@@ -223,13 +223,15 @@ h1 {
   background-size: 140px 125px;
 
   -webkit-animation-name: rotate;
-  -webkit-animation-duration:30s;
+  -webkit-animation-duration:10s;
   -webkit-animation-iteration-count:infinite;
-  -webkit-animation-timing-function:linear;
+  -webkit-animation-timing-function: ease-in-out;
+  
   -moz-animation-name: rotate;
-  -moz-animation-duration:30s;
+  -moz-animation-duration:10s;
   -moz-animation-iteration-count:infinite;
-  -moz-animation-timing-function:linear;
+  -moz-animation-timing-function: ease-in-out;
+  
  }
 
   
@@ -387,13 +389,13 @@ footer.nav-footer {
       background-size: 100px 90px;
 
       -webkit-animation-name: rotate;
-      -webkit-animation-duration:30s;
+      -webkit-animation-duration:15s;
       -webkit-animation-iteration-count:infinite;
-      -webkit-animation-timing-function:linear;
+      -webkit-animation-timing-function:ease-in-out;
       -moz-animation-name: rotate;
-      -moz-animation-duration:30s;
+      -moz-animation-duration:15s;
       -moz-animation-iteration-count:infinite;
-      -moz-animation-timing-function:linear;
+      -moz-animation-timing-function:ease-in-out;
     }
 
     h6>a {
@@ -445,11 +447,13 @@ footer.nav-footer {
 
 
 @-webkit-keyframes rotate {
-  from {-webkit-transform:rotate(0deg);}
-  to {  -webkit-transform:rotate(360deg);}
+  0% {-webkit-transform:rotate(0deg);}
+  20% {-webkit-transform:rotate(0deg);}
+  100% {  -webkit-transform:rotate(360deg);}
 }
 
-@-moz-keyframes rotate {
-  from {-moz-transform:rotate(0deg);}
-  to {  -moz-transform:rotate(360deg);}
+@-moz-keyframes rotate5 {
+  0% { -moz-transform:rotate(0deg);}
+  20% {  -moz-transform:rotate(0deg);}
+  100% {  -moz-transform:rotate(360deg);}
 }
