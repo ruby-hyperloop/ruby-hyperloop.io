@@ -447,12 +447,13 @@ footer.nav-footer {
 
 
 @-webkit-keyframes rotate {
-  0% {-webkit-transform:rotate(0deg);}
-  20% {-webkit-transform:rotate(0deg);}
-  100% {  -webkit-transform:rotate(360deg);}
+  0% {-webkit-transform:rotate(0deg); opacity: 0.3;}
+  20% {-webkit-transform:rotate(0deg); opacity: 0.4;}
+  50% {opacity: 1;}
+  100% {  -webkit-transform:rotate(360deg); opacity: 0.4;}
 }
 
-@-moz-keyframes rotate5 {
+@-moz-keyframes rotate {
   0% { -moz-transform:rotate(0deg);}
   20% {  -moz-transform:rotate(0deg);}
   100% {  -moz-transform:rotate(360deg);}

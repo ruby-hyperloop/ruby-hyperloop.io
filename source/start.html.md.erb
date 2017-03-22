@@ -1,5 +1,6 @@
 # Getting Started with Hyperloop
 
+
 This introduction will take you through most of what you need to know to get started with Hyperloop. There are live code examples, so please feel free to experiment as you read.
 
 There are five important ingredients to the Hyperloop architecture (COMPS for short):
@@ -19,7 +20,7 @@ Hyperloop user interfaces are composed of React Components written in Ruby.
 Here is the basic structure of a Component:
 
 ```ruby
-class StrippedBackComponent < React::Component::Base
+class StrippedBackComponent < Hyperloop::Component
   render(DIV) do
   end
 end
@@ -36,7 +37,7 @@ Let's add a little functionality to this Component - you can edit this code if y
   data-rows=9
   data-top-level-component="SimpleComponent">
 <pre>
-class SimpleComponent < React::Component::Base
+class SimpleComponent < Hyperloop::Component
   render(DIV) do
     BUTTON { 'Push the button' }.on(:click) do
      alert 'You did it!'
@@ -57,7 +58,7 @@ There are a few things to notice in the code above.
 Hyperloop's architecture encourages you to write simple Components that perform single tasks and render other Components.
 
 ```ruby
-class App < React::Component::Base
+class App < Hyperloop::Component
   render(DIV) do
     MainNavigation {}
     PageContents {}
@@ -78,14 +79,14 @@ For now, let's experiment with passing parameters:
   data-heading="Passing parameters"
   data-top-level-component="MeeterGreeter">
 <pre>
-class MeeterGreeter < React::Component::Base
+class MeeterGreeter < Hyperloop::Component
   render(DIV) do
     SayHelloTo(name: "John")
     SayHelloTo(name: "Sally")
   end
 end
 
-class SayHelloTo < React::Component::Base
+class SayHelloTo < Hyperloop::Component
   param :name, type: String
 
   render(DIV) do
@@ -110,7 +111,7 @@ Lets experiment with an example:
   data-rows=30
   data-top-level-component="StateExample">
 <pre>
-class StateExample < React::Component::Base
+class StateExample < Hyperloop::Component
   define_state show_field: false
   define_state field_value: ""
 
@@ -156,7 +157,7 @@ Conditional logic, HTML elements, state and style all intermingle in a Hyperloop
   data-rows=23
   data-top-level-component="StylishTable">
 <pre>
-class StylishTable < React::Component::Base
+class StylishTable < Hyperloop::Component
   render(DIV) do
     table.table.table_bordered do
       thead do
@@ -188,7 +189,7 @@ As a final point on Components, it is important to understand that Hyperloop giv
 JavaScript components are accessed directly from within your Ruby code. We have a tutorial which will show you exactly how this works.
 
 ```ruby
-class ExampleComponent < React::Component::Base
+class ExampleComponent < Hyperloop::Component
   render(DIV) do
     ReactPlayer(url:  'https://www.youtube.com/embed/FzCsDVfPQqk',
       playing: false
@@ -218,7 +219,7 @@ Take the simple Component below which displays an initial discount then gives th
   data-rows=15
   data-top-level-component="OfferLuckyDip">
 <pre>
-class OfferLuckyDip < React::Component::Base
+class OfferLuckyDip < Hyperloop::Component
   define_state discount: 30
   define_state lucky_dip_taken: false
 
@@ -267,7 +268,7 @@ You will notice a few things in the code above:
 Next we will refactor our Component to use the Store:
 
 ```ruby
-class OfferLuckyDip < React::Component::Base
+class OfferLuckyDip < Hyperloop::Component
   def render
     DIV do
       H1 {"Your discount is #{Discounter.discount}%"}
@@ -318,7 +319,7 @@ end
 Your ActiveRecord Models are accessible in your client-side code as simply as this:
 
 ```ruby
-class BookList < React::Component::Base
+class BookList < Hyperloop::Component
   render(UL) do
     Book.all.each do |book|
       LI { "#{book.name}" }
@@ -439,7 +440,7 @@ class Discounter
   end
 end
 
-class OfferLuckyDip < React::Component::Base
+class OfferLuckyDip < Hyperloop::Component
   def render
     DIV do
       H1 {"Your discount is #{Discounter.discount}%"}
