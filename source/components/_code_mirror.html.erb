@@ -13,14 +13,16 @@ class CodeMirror < React::Component::Base
   end
 
   after_mount do
+  puts params.code
     @editor = `CodeMirror(document.getElementById(#{@div_code}), {
-      value: #{params.code},
+      value: #{params.code.to_s},
       mode: 'text/x-ruby',
       matchBrackets: true,
       lineNumbers: true,
       indentUnit: 2,
       theme: 'github'
     });`
+
     `#{@editor}.on('change', #{lambda {on_change} })`
     `#{@editor}.setSize(null, #{@editor}.defaultTextHeight()*#{params.rows})` unless params.rows == 0
     execute_code
@@ -31,7 +33,7 @@ class CodeMirror < React::Component::Base
       div.card_header { params.heading }
       div(id: @div_code)
       div.card_header do 
-        img(src:'images/hyperloop-logo.png', width:'25')
+        img(src:'../images/hyperloop-logo-small-white.png', width:'25')
         span { ' ' }
         'Hyperloop playground :' 
       end
@@ -46,6 +48,7 @@ class CodeMirror < React::Component::Base
   def execute_code
     begin
       code = `#{@editor}.getValue()`
+      puts code
       code += "\nElement['##{@div_result}'].render(#{params.top_level_component})"
       compiled_code = Opal::Compiler.new(code).compile
       `ReactDOM.unmountComponentAtNode(document.getElementById(#{@div_result}));`
