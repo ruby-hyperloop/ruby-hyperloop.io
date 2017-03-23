@@ -17,14 +17,18 @@
     <%= stylesheet_link_tag 'stylesheet' %>
     <%= stylesheet_link_tag 'github-light' %> -->
 
-    <script src="https://unpkg.com/react@15/dist/react.js"></script>
-    <script src="https://unpkg.com/react-dom@15/dist/react-dom.js"></script>
+    <script src="https://unpkg.com/react@15/dist/react.min.js"></script>
+    <script src="https://unpkg.com/react-dom@15/dist/react-dom.min.js"></script>
 
     <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.5/marked.min.js"></script>
 
     <!-- <script src="https://rawgit.com/ruby-hyperloop/reactrb-express/integration_sprint/hyperloop-express.js"></script> -->
-    <script src="https://rawgit.com/reactrb/reactrb-express/master/reactrb-express.js"></script>
+    <!--script src="https://rawgit.com/reactrb/reactrb-express/master/reactrb-express.js"></script-->
+
+
+
+    <%= javascript_include_tag 'reactrb-express.min.js' %>
 
     <script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
 
@@ -37,6 +41,7 @@
     <!-- Components are compiled by Hyperloop Express -->
     <%= partial "/components/_code_mirror" %>
     <%= partial "/components/_live_edit" %>
+    
 
     <%= stylesheet_link_tag 'bootstrap.min.css' %>
     <%= stylesheet_link_tag 'typography.css' %>
@@ -89,7 +94,7 @@
         </div>
         <div class="row hidden-sm-up">
           <div class="col-md-3 center-text">
-            <%= image_tag "hyperloop-logo.png", width: '100' %>
+            <%= image_tag "hyperloop-logo-small-white.png", width: '100' %>
           </div>
           <div class="col-md-9">
             <h1 class="h1 project-name center-text">Hyperloop</h1>
