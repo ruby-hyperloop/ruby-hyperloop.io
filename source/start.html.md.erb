@@ -38,6 +38,7 @@ Let's add a little functionality to this Component - you can edit this code if y
   data-top-level-component="SimpleComponent">
 <pre>
 class SimpleComponent < Hyperloop::Component
+  state show_field: false
   render(DIV) do
     BUTTON { 'Push the button' }.on(:click) do
      alert 'You did it!'
@@ -408,7 +409,7 @@ class Discounter < Hyperloop::Store
 
   # Note these two lines are essentially "noise" at this point, however
   # they will future proof the API.    They also provide a very clear declaration
-  # of the API.  
+  # of the API.
   class LuckyDip < Hyperloop::Operation; end
   class Bumper < Hyperloop::Operation; end
 end

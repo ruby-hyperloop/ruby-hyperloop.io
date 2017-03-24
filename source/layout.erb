@@ -23,12 +23,14 @@
     <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.5/marked.min.js"></script>
 
-    <!-- <script src="https://rawgit.com/ruby-hyperloop/reactrb-express/integration_sprint/hyperloop-express.js"></script> -->
-    <!--script src="https://rawgit.com/reactrb/reactrb-express/master/reactrb-express.js"></script-->
+    <%= javascript_include_tag 'opal-compiler.js' %>
+    <!-- <script src="http://cdn.opalrb.org/opal/0.10.1/opal.min.js"></script> -->
+    <!-- <script src="http://cdn.opalrb.org/opal/0.10.1/external/opal-browser-0.2.0.js"></script> -->
+    <!-- <script src="http://cdn.opalrb.org/opal/0.10.1/external/opal-jquery-0.4.2.js"></script> -->
 
+    <!-- <script src="https://rawgit.com/ruby-hyperloop/reactrb-express/master/reactrb-express.js" -->
+    <%= javascript_include_tag 'hyperloop.js' %>
 
-
-    <%= javascript_include_tag 'reactrb-express.min.js' %>
 
     <script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
 
@@ -41,7 +43,7 @@
     <!-- Components are compiled by Hyperloop Express -->
     <%= partial "/components/_code_mirror" %>
     <%= partial "/components/_live_edit" %>
-    
+
 
     <%= stylesheet_link_tag 'bootstrap.min.css' %>
     <%= stylesheet_link_tag 'typography.css' %>
@@ -77,7 +79,7 @@
         <div class="row hidden-xs-down">
           <div class="col-md-2">
             <div class="hyperlooplogo">
-            </div>   
+            </div>
           </div>
           <div class="col-md-10">
 
@@ -111,7 +113,7 @@
 
     <div class="page-header-underline">
       <div class="container">
-        
+
       </div>
     </div>
 
@@ -129,7 +131,7 @@
 
     <div class="page-footer-upperline">
       <div class="container">
-        
+
       </div>
     </div>
 

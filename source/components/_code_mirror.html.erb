@@ -1,6 +1,6 @@
 <script type="text/ruby">
 
-class CodeMirror < React::Component::Base
+class CodeMirror < Hyperloop::Component
   param :code, type: String
   param :heading, default: "Code"
   param :rows, type: Integer, default: 0
@@ -32,10 +32,10 @@ class CodeMirror < React::Component::Base
     div.card {
       div.card_header { params.heading }
       div(id: @div_code)
-      div.card_header do 
+      div.card_header do
         img(src:'../images/hyperloop-logo-small-white.png', width:'25')
         span { ' ' }
-        'Hyperloop playground :' 
+        'Hyperloop playground :'
       end
       div.card_block(id: @div_result)
     }
