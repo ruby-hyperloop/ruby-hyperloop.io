@@ -113,8 +113,8 @@ Lets experiment with an example:
   data-top-level-component="StateExample">
 <pre>
 class StateExample < Hyperloop::Component
-  define_state show_field: false
-  define_state field_value: ""
+  state show_field: false
+  state field_value: ""
 
   render(DIV) do
     show_button
@@ -144,7 +144,7 @@ end</pre></div>
 
 A few things to notice in the code above:
 
-+ We define state using the `define_state` macro. Notice how we set the initial value.
++ We define state using the `state` macro. Notice how we set the initial value.
 + To reference state we use `state.something` and `state.mutate.something =` (or previously `state.something!`) is used to update state
 + Components are just Ruby classes which have methods.
 + Here is the most important part - notice how React automatically updates the user interface as state changes. This is the very heart of React thinking.
@@ -221,8 +221,8 @@ Take the simple Component below which displays an initial discount then gives th
   data-top-level-component="OfferLuckyDip">
 <pre>
 class OfferLuckyDip < Hyperloop::Component
-  define_state discount: 30
-  define_state lucky_dip_taken: false
+  state discount: 30
+  state lucky_dip_taken: false
 
   def render
     DIV do
