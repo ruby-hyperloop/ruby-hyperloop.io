@@ -10,12 +10,6 @@
     <meta charset="UTF-8">
     <title>Hyperloop<%= ' - ' + current_page.data.title unless current_page.data.title.nil? %></title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'> -->
-
-    <!-- <%= stylesheet_link_tag 'base' %>
-    <%= stylesheet_link_tag 'normalize' %>
-    <%= stylesheet_link_tag 'stylesheet' %>
-    <%= stylesheet_link_tag 'github-light' %> -->
 
     <script src="https://unpkg.com/react@15/dist/react.min.js"></script>
     <script src="https://unpkg.com/react-dom@15/dist/react-dom.min.js"></script>
@@ -23,11 +17,13 @@
     <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.5/marked.min.js"></script>
 
-    <script src="https://rawgit.com/ruby-hyperloop/reactrb-express/name-update/opal-compiler.min.js"></script>
-    <script src="https://rawgit.com/ruby-hyperloop/reactrb-express/name-update/hyperloop.min.js"></script>
+    <!-- Opal and Hyperloop -->
+    <script src="https://rawgit.com/ruby-hyperloop/hyperloop-js/master/opal-compiler.min.js"></script>
+    <script src="https://rawgit.com/ruby-hyperloop/hyperloop-js/master/hyperloop.min.js"></script>
 
-    <!-- <%= javascript_include_tag 'opal-compiler.js' %>
-    <%= javascript_include_tag 'hyperloop.js' %> -->
+    <!-- If you want local copies... -->
+    <!-- <%= javascript_include_tag 'opal-compiler.js' %> -->
+    <!-- <%= javascript_include_tag 'hyperloop.js' %> -->
 
     <script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
 
