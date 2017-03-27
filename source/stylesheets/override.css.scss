@@ -103,6 +103,7 @@ ul.nav {
 
 nav .navbar-nav .nav-item .nav-link {
   color: #f8f8f8 !important;
+  //padding: 0 10px 0 10px;
 }
 
 nav .navbar-nav .nav-item .nav-link:hover {
@@ -245,9 +246,14 @@ h1 {
   max-width: 100%; }
 .main-content h1 {
   font-family: 'raleway-semibold';
+  padding-bottom: 0.3em;
+  border-bottom: 1px solid #90bcb7; 
 }
 .main-content h2 {
   font-family: 'raleway-regular';
+  padding-bottom: 0.3em;
+  border-bottom: 1px solid #eaecef;
+  
 }
 .main-content h1, .main-content h2, .main-content h3, .main-content h4, .main-content h5, .main-content h6 {
   margin-top: 2.8rem;
