@@ -51,6 +51,7 @@ class CodeMirror < Hyperloop::Component
       puts code
       code += "\nElement['##{@div_result}'].render(#{params.top_level_component})"
       compiled_code = Opal::Compiler.new(code).compile
+      Hyperloop::Context.reset!
       `ReactDOM.unmountComponentAtNode(document.getElementById(#{@div_result}));`
       `eval(#{compiled_code})`
       component = Module.const_get params.top_level_component

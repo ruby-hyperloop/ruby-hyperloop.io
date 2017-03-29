@@ -22,7 +22,7 @@ This is another great way to experiment with Hyperloop. You don't need any setup
 
 First add React, JQuery, `hyperloop.js` and `opal-compiler.js` to your HTML page:
 
-```
+```html
 <head>
   <!-- React and JQuery -->
   <script src="https://unpkg.com/react@15/dist/react.min.js"></script>
@@ -39,7 +39,7 @@ First add React, JQuery, `hyperloop.js` and `opal-compiler.js` to your HTML page
 
 Next, specify your ruby code inside script tags or link to your ruby code using the src attribute `<script type="text/ruby" src=.../>`
 
-```
+```ruby
   <script type="text/ruby">
     
     class Helloworld < Hyperloop::Component
@@ -58,7 +58,7 @@ Next, specify your ruby code inside script tags or link to your ruby code using 
 
 Finally, mount your Component(s) as a DOM element and specify the Component and parameters using data-tags:
 
-```
+```html
 <body>
   <div data-hyperloop-mount="Helloworld"
        data-name="">
@@ -112,7 +112,7 @@ The generator creates the hyperloop structure inside the `/app` directory :
 
 And updates your `app/assets/javascripts/application.js` file adding this line:
 
-```
+```javascript
 //= require hyperloop-loader
 ```
 
@@ -121,7 +121,7 @@ And updates your `app/assets/javascripts/application.js` file adding this line:
 
 You can now test it by creating a very simple Component by running the hyperloop generator :
 
-```ruby
+```
 rails g hyper:component Helloworld
 ```
 
@@ -129,7 +129,7 @@ You can view the new Component created in `/app/hyperloop/components/`
 
 Then you create a `home_controller.rb` file:
 
-```
+```ruby
 #app/controllers/home_controller.rb
 
 class HomeController < ApplicationController
@@ -152,7 +152,7 @@ You should see `Hello world` displayed by the Component.
 Note:
 Instead of rendering your component from a controller, you can also render it from a view like this:
 
-```
+```ruby
 #app/views/home/helloworld.rb
 
 <%= react_component '::Helloworld', {}, { prerender: true } %>
@@ -169,7 +169,7 @@ You can start by the first tutorial of the Hyperloop series here :
 
 ### Advanced configuration
 
-You can find detailed information about Hyperloop configuration files and the advanced option on this page <br>[{ Advanced configuration }](/advancedconfig)
+You can find detailed information about Hyperloop configuration files and the advanced options on this page <br>[{ Advanced configuration }](/advancedconfig)
 
 
 ## With Sinatra

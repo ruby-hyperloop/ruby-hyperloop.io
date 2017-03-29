@@ -2,8 +2,116 @@
 title: Advanced configuration with Ruby On Rails
 ---
 
-# Advanced configuration with Ruby On Rails.
+
+# Advanced configuration with Ruby On Rails/
 
 config.hyperloop.auto_config = false
 
-TODO
+## Initializer
+
+
+
+```ruby
+#config/initializers/hyperloop.rb
+
+Hyperloop.configuration do |config|
+  config.transport = :simple_poller
+  config.import 'reactrb/auto-import'
+end
+```
+
+```
+config.transport = :simple_poller
+```
+Hyperloop implements push notifications (via a number of possible technologies) so changes to records on the server are dynamically pushed to all authorized clients.
+
+More detail in the documentation: [{ Configuring the Transport }](/docs/models/configuring-transport)
+
+
+## Policy
+
+```ruby
+#app/policies/application_policy.rb
+
+class Hyperloop::ApplicationPolicy
+  # Allow any session to connect:
+  always_allow_connection
+  # Send all attributes from all public models
+  regulate_all_broadcasts { |policy| policy.send_all }
+  # Allow all changes to public models
+  allow_change(to: :all, on: [:create, :update, :destroy]) { true }
+end unless Rails.env.production?
+```
+
+Hyperloop uses Policies to regulate what connections are opened between clients and the server and what data is distributed over those connections.
+
+More detail in the documentation: [{ Configuring the policies }](/docs/policies/authorization)
+
+## Auto config OFF
+
+By default the hyperloop install generator creates the hyperloop structure inside the `/app` directory :
+
+```
+/app/hyperloop/
+/app/hyperloop/components
+/app/hyperloop/models
+/app/hyperloop/operations
+/app/hyperloop/stores
+```
+
+
+config/application.rb
+config.hyperloop.auto_config = false
+
+app/assets/javascripts/application.js
+//= require 'react_ujs'
+//= require 'jquery'
+//= require 'jquery_ujs'
+
+//= require 'turbolinks'
+//= require_tree .
+
+
+//= require 'components'
+Opal.load('components');
+
+
+
+app/views/components.rb
+require 'opal'
+
+#require 'reactrb/auto-import'
+require 'react/react-source-browser'
+require 'react/react-source-server'
+#require 'webpack/client_and_server.js'
+
+require 'hyper-component'
+
+if React::IsomorphicHelpers.on_opal_client?
+  require 'opal-jquery'
+  require 'browser'
+  require 'browser/interval'
+  require 'browser/delay'
+  #require 'opal_hot_reloader'
+  #OpalHotReloader.listen(25222, true)
+  # add any additional requires that can ONLY run on client here
+end
+
+require 'hyper-model'
+require 'hyper-store'
+require 'hyper-operation'
+
+#require 'models'
+
+require_tree './components'
+
+app/views/components/home/helloworld.rb
+
+module Components
+  module Home
+
+	end
+end
+
+
+
