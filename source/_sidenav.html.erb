@@ -55,6 +55,13 @@
     <li class="nav-item"><a href="#deployment">Deployment</a></br></li>
   </ul>
 
+<% when current_page.path.include?("advancedconfig") %>
+  <ul class="nav">
+    <li class="nav-item"><a href="/advancedconfig#initializer">Initializer</a></br></li>
+    <li class="nav-item"><a href="/advancedconfig#policies">Policies</a></br></li>
+    <li class="nav-item"><a href="/advancedconfig#hyperloop-architectures">Hyperloop architectures</a></br></li>
+  </ul>
+
 <% when current_page.path.include?("tools") %>
   <ul class="nav">
     <li class="nav-item"><a href="#testing">Testing</a></br></li>

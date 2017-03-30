@@ -116,6 +116,13 @@ And updates your `app/assets/javascripts/application.js` file adding this line:
 //= require hyperloop-loader
 ```
 
+Finally Hyperloop needs to create tables in your database. 
+just run the command:
+
+```ruby
+rails db:migrate
+```
+
 ### Simple HelloWorld
 
 
