@@ -26,7 +26,7 @@ class StrippedBackComponent < Hyperloop::Component
 end
 ```
 
-As you can see, a Component is just a Ruby class which inherits from `React::Component::Base`. At a minimum, a Component must implement a `render` macro that returns just one HTML element. Under the covers, HyperReact uses Opal to compile this Component into JavaScript then hands it to React to mount as a regular JavaScript React Component.
+As you can see, a Component is just a Ruby class which inherits from `Hyperloop::Component`. At a minimum, a Component must implement a `render` macro that returns just one HTML element. Under the covers, HyperReact uses Opal to compile this Component into JavaScript then hands it to React to mount as a regular JavaScript React Component.
 
 As with React, there are no templates in Hyperloop, your user interface is made up of Components which mix conditional logic and HTML elements to build the user interface. Unlike React, where you code in JSX and JavaScript, Hyperloop lets you keep all your code in Ruby.
 
@@ -103,7 +103,9 @@ You will notice a couple of things in the code above:
 
 ### State and Conditional Execution
 
-One of the greatest things about React is that it encourages you to write code in a declarative way with Components that manage their own state. As state changes, React works out how to render the user interface without you having to worry about the DOM. As state changes, the user interface re-renders itself.
+One of the greatest things about React is that it encourages you to write code in a declarative way with Components that manage their own state (or defer their state to Stores, but we will cover that later). As state changes, React works out how to render the user interface without you having to worry about the DOM - the user interface re-renders itself when it needs to.
+
+The best way to think about this is to imagine your code constantly looping and the program execution changing as the state variables and conditional logic changes. This is pretty much what is going on under the covers, with React being clever about which parts of the UI need to change and be re-rendered.
 
 Lets experiment with an example:
 
@@ -127,13 +129,13 @@ class StateExample < Hyperloop::Component
   def show_button
     BUTTON do
       state.show_field ? "Hide" : "Show"
-    end.on(:click) { state.show_field! !state.show_field }
+    end.on(:click) { mutate.show_field !state.show_field }
   end
 
   def show_input
     BR {}
     INPUT(type: :text).on(:change) do |e|
-      state.field_value! e.target.value
+      mutate.field_value e.target.value
     end
   end
 
@@ -145,13 +147,18 @@ end</pre></div>
 A few things to notice in the code above:
 
 + We define state using the `state` macro. Notice how we set the initial value.
-+ To reference state we use `state.something` and `state.mutate.something =` (or previously `state.something!`) is used to update state
-+ Components are just Ruby classes which have methods.
-+ Here is the most important part - notice how React automatically updates the user interface as state changes. This is the very heart of React thinking.
++ To reference state we use `state.foo` and to mutate (change it) we use mutate `mutate.foo(true)`
 
 ### Stylish Components
 
-Conditional logic, HTML elements, state and style all intermingle in a Hyperloop Component. This website uses Bootstrap CSS, so we have complete access to the Bootstrap CSS from within our Components.
+Conditional logic, HTML elements, state and style all intermingle in a Hyperloop Component. CSS specifically blends with HTML elements so for example, the following two lines are equivalent:
+
+```
+BUTTON(class: 'my-class') { "Press me" }
+button.my_class { "Press me" }
+```
+
+This website uses Bootstrap CSS, so we have complete access to the Bootstrap CSS from within our Components.
 
 <div class="codemirror-live-edit"
   data-heading="Using CSS"
@@ -183,7 +190,9 @@ end</pre></div>
 
 As you can see above, CSS is mixed into HTML elements. `div.something` becomes `<div class="something">`. Also note that `btn-primary` becomes `btn_primary` as '-' is disallowed in Ruby.
 
-### Using JavaScript Libraries
+Also note that you have a choice of uppercase `BUTTON` or lowercase `button` HTML elements. You can use whichever you think reads better.
+
+### JavaScript Libraries
 
 JavaScript components are accessed directly from within your Ruby code!
 
@@ -191,7 +200,7 @@ As a final point on Components, it is important to understand that Hyperloop giv
 
 There are a few ways of accomplishing this, one of which is demonstrated below. Here we wrap a JavaScript library `ReactPlayer` with a Ruby class `Player` so that it is accessible in our Ruby code.
 
-We have tutorials which will show you exactly how this works.
+You can also import JavaScript libraries using NPM/Yarn and Webpack/Webpacker and have them available to your Hyperloop Components. We have tutorials which will show you exactly how this works.
 
 <div class="codemirror-live-edit"
   data-heading="Using JavaScript Components"
