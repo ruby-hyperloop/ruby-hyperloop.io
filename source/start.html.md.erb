@@ -185,19 +185,31 @@ As you can see above, CSS is mixed into HTML elements. `div.something` becomes `
 
 ### Using JavaScript Libraries
 
-As a final point on Components, it is important to understand that Hyperloop gives you full access to **all JavaScript libraries and components from directly within your Ruby code.** Everything you can do in JavaScript is simple to do in ruby, this includes passing parameters between Ruby and JavaScript and even passing in Ruby lambdas as JavaScript callbacks. All of this magic comes from Opal.
+JavaScript components are accessed directly from within your Ruby code!
 
-JavaScript components are accessed directly from within your Ruby code. We have a tutorial which will show you exactly how this works.
+As a final point on Components, it is important to understand that Hyperloop gives you full access to **all JavaScript libraries and components from directly within your Ruby code.** Everything you can do in JavaScript is simple to do in ruby, this includes passing parameters between Ruby and JavaScript and even passing in Ruby lambdas as JavaScript callbacks.
 
-```ruby
-class ExampleComponent < Hyperloop::Component
+There are a few ways of accomplishing this, one of which is demonstrated below. Here we wrap a JavaScript library `ReactPlayer` with a Ruby class `Player` so that it is accessible in our Ruby code.
+
+We have tutorials which will show you exactly how this works.
+
+<div class="codemirror-live-edit"
+  data-heading="Using JavaScript Components"
+  data-rows=13
+  data-top-level-component="LiftOff">
+<pre>
+class Player < React::Component::Base
+  imports 'ReactPlayer'
+end
+
+class LiftOff < Hyperloop::Component
   render(DIV) do
-    ReactPlayer(url:  'https://www.youtube.com/embed/FzCsDVfPQqk',
+    Player(url:  'https://www.youtube.com/embed/Czrc1JfIBRw',
       playing: false
     )
   end
 end
-```
+</pre></div>
 
 That concludes the introduction to Components. To learn more about Components please see the [Tutorials](/tutorials) and also the comprehensive [Docs](/docs/architecture)
 
