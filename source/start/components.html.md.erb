@@ -1,0 +1,227 @@
+# Getting Started with Hyperloop
+
+
+This introduction will take you through most of what you need to know to get started with Hyperloop. There are live code examples, so please feel free to experiment as you read.
+
+There are five important ingredients to the Hyperloop architecture (COMPS for short):
+
+<%= partial "docs/comps_table"%>
+
+This Getting Started guide will introduce you to Hyperloop. After reading this you might like to try some of the [Tutorials](/tutorials) or jump into the [Docs](/docs/architecture) for a comprehensive overview of the Hyperloop architecture.
+
+---------------------------------
+
+<h2><div class="hyperlogoalone" id="components"><%= image_tag "HyperComponents.png", width: '35'%></div>
+Components
+</h2>
+
+Hyperloop user interfaces are composed of React Components written in Ruby.
+
+Here is the basic structure of a Component:
+
+```ruby
+class StrippedBackComponent < Hyperloop::Component
+  render(DIV) do
+  end
+end
+```
+
+As you can see, a Component is just a Ruby class which inherits from `Hyperloop::Component`. At a minimum, a Component must implement a `render` macro that returns just one HTML element. Under the covers, HyperReact uses Opal to compile this Component into JavaScript then hands it to React to mount as a regular JavaScript React Component.
+
+As with React, there are no templates in Hyperloop, your user interface is made up of Components which mix conditional logic and HTML elements to build the user interface. Unlike React, where you code in JSX and JavaScript, Hyperloop lets you keep all your code in Ruby.
+
+Let's add a little functionality to this Component - you can edit this code if you would like to experiment.
+
+<div class="codemirror-live-edit"
+  data-heading="A simple Component rendering a Button"
+  data-rows=9
+  data-top-level-component="SimpleComponent">
+<pre>
+class SimpleComponent < Hyperloop::Component
+  state show_field: false
+  render(DIV) do
+    BUTTON { 'Push the button' }.on(:click) do
+     alert 'You did it!'
+    end
+  end
+end
+</pre></div>
+
+
+There are a few things to notice in the code above.
+
++ Every Component must have a `render` macro which must return just one HTML element. The syntax of `render(DIV)` is a shorthand for this which will return one div.
++ HTML elements (DIV, BUTTON, etc) can be in uppercase or lowercase.
++ We added an event handler to the button. You can do this for any HTML element in the same way.
+
+### Rendering Components
+
+Hyperloop's architecture encourages you to write simple Components that perform single tasks and render other Components.
+
+```ruby
+class App < Hyperloop::Component
+  render(DIV) do
+    MainNavigation {}
+    PageContents {}
+    Footer {}
+  end
+end
+```
+
+This simple approach allows you to build complicated user interfaces yet encapsulate functionality into reusable contained entities.
+
+### Passing parameters
+
+Data is passed downward from a parent Component to its children. There are various techniques for passing data upward and (better still) keeping data in **Stores** independently of Components but we will address that later.
+
+For now, let's experiment with passing parameters:
+
+<div class="codemirror-live-edit"
+  data-heading="Passing parameters"
+  data-top-level-component="MeeterGreeter">
+<pre>
+class MeeterGreeter < Hyperloop::Component
+  render(DIV) do
+    SayHelloTo(name: "John")
+    SayHelloTo(name: "Sally")
+  end
+end
+
+class SayHelloTo < Hyperloop::Component
+  param :name, type: String
+
+  render(DIV) do
+    H4 { "Hello #{params.name}!" }
+  end
+end
+</pre></div>
+
+You will notice a couple of things in the code above:
+
++ The syntax for adding components is either `MyComponent()` or `MyComponent {}` but never just `MyComponent`. Sometimes you use both - `button(style: default) { "Click Me" }`. Everything in the brackets is passed to the Component as a parameter and everything in the curly brace is rendered within the Component.
++ Parameters can be strongly typed `param :name, type: String` and considering this code will be compiled to JavaScript this is a good idea.
+
+### State and Conditional Execution
+
+One of the greatest things about React is that it encourages you to write code in a declarative way with Components that manage their own state (or defer their state to Stores, but we will cover that later). As state changes, React works out how to render the user interface without you having to worry about the DOM - the user interface re-renders itself when it needs to.
+
+The best way to think about this is to imagine your code constantly looping and the program execution changing as the state variables and conditional logic changes. This is pretty much what is going on under the covers, with React being clever about which parts of the UI need to change and be re-rendered.
+
+Lets experiment with an example:
+
+<div class="codemirror-live-edit"
+  data-heading="Using state"
+  data-rows=30
+  data-top-level-component="StateExample">
+<pre>
+class StateExample < Hyperloop::Component
+  state show_field: false
+  state field_value: ""
+
+  render(DIV) do
+    show_button
+    DIV do
+      show_input
+      H1 { "#{state.field_value}" }
+    end if state.show_field
+  end
+
+  def show_button
+    BUTTON do
+      state.show_field ? "Hide" : "Show"
+    end.on(:click) { mutate.show_field !state.show_field }
+  end
+
+  def show_input
+    BR {}
+    INPUT(type: :text).on(:change) do |e|
+      mutate.field_value e.target.value
+    end
+  end
+
+  def show_text
+    H1 { "#{state.field_value}" }
+  end
+end</pre></div>
+
+A few things to notice in the code above:
+
++ We define state using the `state` macro. Notice how we set the initial value.
++ To reference state we use `state.foo` and to mutate (change it) we use mutate `mutate.foo(true)`
+
+### Stylish Components
+
+Conditional logic, HTML elements, state and style all intermingle in a Hyperloop Component. CSS specifically blends with HTML elements so for example, the following two lines are equivalent:
+
+```
+BUTTON(class: 'my-class') { "Press me" }
+button.my_class { "Press me" }
+```
+
+This website uses Bootstrap CSS, so we have complete access to the Bootstrap CSS from within our Components.
+
+<div class="codemirror-live-edit"
+  data-heading="Using CSS"
+  data-rows=23
+  data-top-level-component="StylishTable">
+<pre>
+class StylishTable < Hyperloop::Component
+  render(DIV) do
+    table.table.table_bordered do
+      thead do
+        tr do
+          th { "First Name" }
+          th { "Last Name" }
+          th { "Username" }
+          th { }
+        end
+      end
+      tbody do
+        tr do
+          td { "Mark" }
+          td { "Otto" }
+          td.text_success { "@odm" }
+          td { button.btn.btn_primary.btn_sm { "Edit" } }
+        end
+      end
+    end
+  end
+end</pre></div>
+
+As you can see above, CSS is mixed into HTML elements. `div.something` becomes `<div class="something">`. Also note that `btn-primary` becomes `btn_primary` as '-' is disallowed in Ruby.
+
+Also note that you have a choice of uppercase `BUTTON` or lowercase `button` HTML elements. You can use whichever you think reads better.
+
+### JavaScript Libraries
+
+JavaScript components are accessed directly from within your Ruby code!
+
+It is important to emphasise that Hyperloop gives you full access to **all JavaScript libraries and components from directly within your Ruby code.** Everything you can do in JavaScript is simple to do in Ruby, this includes passing parameters between Ruby and JavaScript and even passing in Ruby lambdas as JavaScript callbacks.
+
+There are a few ways of accomplishing this, one of which is demonstrated below. Here we wrap a JavaScript library `ReactPlayer` with a Ruby class `Player` so that it is accessible in our Ruby code.
+
+You can also import JavaScript libraries using NPM/Yarn and Webpack/Webpacker and have them available to your Hyperloop Components. We have tutorials which will show you exactly how this works.
+
+<div class="codemirror-live-edit"
+  data-heading="Using JavaScript Components"
+  data-rows=13
+  data-top-level-component="LiftOff">
+<pre>
+class Player < React::Component::Base
+  imports 'ReactPlayer'
+end
+
+class LiftOff < Hyperloop::Component
+  render(DIV) do
+    Player(url:  'https://www.youtube.com/embed/Czrc1JfIBRw',
+      playing: false
+    )
+  end
+end
+</pre></div>
+
+That concludes the introduction to Components. To learn more about Components please see the [Tutorials](/tutorials) and also the comprehensive [Docs](/docs/architecture)
+
+-------------------------------
+
+[Next let's learn about Stores](/start/stores)

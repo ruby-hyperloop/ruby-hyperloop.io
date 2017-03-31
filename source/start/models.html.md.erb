@@ -1,0 +1,26 @@
+### Hyperloop Models
+
+Your ActiveRecord Models are accessible in your client-side code as simply as this:
+
+```ruby
+class BookList < Hyperloop::Component
+  render(UL) do
+    Book.all.each do |book|
+      LI { "#{book.name}" }
+    end
+  end
+end
+```
+
+**No boilerplate API, no serialisation, no de-serialisation.** Much like Relay and GraphQL, when rendering, Hyperloop parses through each Component and establishes which fields are necessary then queries just for those fields which are returned as JSON and then inserted into each Component. The key difference with Relay is that both the client and server code is provided by Hyperloop so the entire process is seamless for the developer.
+
+Hyperloop has a few important advantages over Relay and GraphQL:
+
++ Hyperloop is fully integrated with Rails out the box, so there is no need to build and maintain a GraphQL server or an API.
++ Your server side Models are available to your client side code, so there is no need to recreate an abstracted version of the Models client-side.
++ Unlike Relay and GraphQL, Hyperloop has built in push notifications to magically push changes to underlying server-side Models to any connected client with a Component rendering that Model
++ Access to Models and synchronized changes are controlled neatly by Policy classes
++ Just like Relay and GraphQL, only the records needed to render Components are transferred
++ Everything in beautiful, simple Ruby!
+
+-----------------------------------

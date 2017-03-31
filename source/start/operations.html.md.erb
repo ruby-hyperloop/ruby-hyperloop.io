@@ -1,0 +1,116 @@
+<h2><div class="hyperlogoalone" id="operations"><%= image_tag "HyperOperations.png", width: '35'%></div>
+Operations
+</h2>
+
+In a traditional MCV architecture, there is no defined place to keep business logic. You can overload your Controllers, Views or Models and unless you follow a defined pattern like Trailblazer you generally end up with your business logic all over the place. Our vision of building a 'Complete Ruby Isomorphic Framework' meant that we had to address that problem head on, so we created Operations.
+
+The design of our Operations has been inspired by a few sources:
+
++ We liked the way the [Mutations Gem](https://github.com/cypriss/mutations) handles parameters and validation
++ [Trailblazer](https://github.com/trailblazer/trailblazer#operation) inspired the idea of Operations and we like the `step` method
++ The [Flux](https://facebook.github.io/flux/) pattern taught us that unidirectional data flow is a good idea and Stores should be able to `receive` dispatches from Operations.
+
+**Operations execute on the clients or the server.** This simple principal radically simplifies application design and testing.
+
+To demonstrate the power of Operations and the various ways in which you can use them, we are going to use three use case example and employ Operations in three different ways:
+
+### Operations and Stores
+
+Firstly we will create a ShoppingCart Store and mutate the Store's data through methods on the Store, much like we did in the Store discount example above, but improved by adding an Operation to the Store's namespace.
+
+Stores hold state and Operations mutate a Store's state. In the Store section above, we demonstrated how a class method on the Store could be used to mutate the state. In this example, we will go one further and add an Operation to the Store's namespace:
+
+```ruby
+class ShoppingCart < Hyperloop::Store
+  state items: [], scope: :class, reader: true
+
+  class AddItem < Hyperloop::Operation
+    validate( !state.items.include?(params.item) )
+    step( mutate.items << params.item )
+  end
+end
+```
+
+You will notice in the code above:
+
++ The AddItem Operation is included in the ShoppingCart Store's namespace. To invoke this Operation would would use `ShoppingCart.AddItem(items: item)`
++ Notice how we validate the incoming params. If `validate` returns falsy then th OPeration
+
+### Dispatchers and Receivers
+
+Next we will write an Operation for login the user out which will dispatch a message that our ShoppingCart will receive. This will be following a Flux pattern.
+
+**All Operations dispatch but it up to a Store to receive a dispatch.** We have implemented the Flux pattern into Operations and Stores. Operations are dispatchers and Stores are receivers.
+
+
+XXX
+
+### Server Operations
+
+There are some Operations that simply do not make sense to run on the client as (for example) the resources they depend on may not be available on the client. Consider an Operation that needs to send an email - there is no mailer on the client so the Operation has to execute from the server.
+
+That said, with our highest goal being developer productivity, it should be as invisible as possible to the developer where the Operation will execute. To complete the example, a developer writing front-end code should be able to invoke a server-side resource (like a mailer) just as easily as they might invoke a client-side resource.
+
+**ServerOps execute only on the server but are invokable from your Isomorphic code** No need for boilerplate APIs just to execute a server side Operation. ServerOps are just like any normal Operations and invokable from any part of your code.
+
+Finally we will use a server Operation to sign a user up to a mailing list and send them an email. This will show how to use ServerOps and also how `step` works.
+
+XXX
+
+
+
+```ruby
+class Discounter < Hyperloop::Store
+   state discount: 30, scope: :class, reader: true
+   state lucky_dip_taken: false, scope: :class, reader: true
+
+  # Note these two lines are essentially "noise" at this point, however
+  # they will future proof the API.    They also provide a very clear declaration
+  # of the API.
+  class LuckyDip < Hyperloop::Operation; end
+  class Bumper < Hyperloop::Operation; end
+end
+
+# we can take advantage of the way Ruby deals with classes and close the the
+# class definition above as the 'public' interface, and open the class up in another
+# file (if we want)
+
+class Discounter
+
+  # likewise because Operations are classes we can open them up here and add implementation:
+
+  class LuckyDip < Hyperloop::Operation
+    outbound :dip_or_slip
+    validate { !Discounter.lucky_dip_taken }
+    fail { puts '**** attempted to take two lucky dips *****' }
+    step { params.dip_or_slip = rand(-5..5) }
+    # or for more fun we could of course make it a ServerOp and grab the lucky dip based on
+    # some global algorithm ensuring the luck dip average across all users 0
+  end
+
+  receives LuckyDip do |params|
+    mutate.discount( state.discount + params.dip_or_slip )
+    mutate.lucky_dip_taken true
+  end
+
+  receives Bumper do
+    mutate.discount( state.discount * 10 )
+  end
+end
+
+class OfferLuckyDip < Hyperloop::Component
+  def render
+    DIV do
+      H1 {"Your discount is #{Discounter.discount}%"}
+      BUTTON { "Lucky Dip" }.on(:click) do
+        Discounter::LuckyDip.run # note should be able to say Discounter::LuckyDip() but there is a bug :-)
+      end unless Discounter.lucky_dip_taken
+    end
+    BUTTON { "Bump" }.on(:click) do
+      Discounter::Bumper.run
+    end
+  end
+end
+
+
+```
