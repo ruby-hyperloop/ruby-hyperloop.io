@@ -84,27 +84,5 @@ Stores can also receive dispatches from Operations - we will come to that later 
 That concludes the introduction to Stores. To learn more about Stores please see the [Tutorials](/tutorials) and also the comprehensive [Docs](/docs/architecture)
 
 ------------------------------------
-<h2><div class="hyperlogoalone" id="models"><%= image_tag "HyperModels.png", width: '35'%></div>
-Models
-</h2>
 
-Hyperloop Models give your access to your server side Rails ActiveRecord Models from the client. In addition, Hyperloop implements push notifications (via a number of possible technologies) so changes to records on the server are dynamically pushed to all authorized clients.
-
-+ No need for a boilerplate API just to move JSON between the client and server
-+ Changes are automatically synchronized between connected clients
-+ You do not need to maintain one Model for the server and one Model for the client
-
-**One set of Models used by the client and the server code. Isomorphic Ruby in action.**
-
-Models act like Stores in that they contain state, which is linked to the underlying ActiveRecord Models on the server. Changes make to the server-side Models are pushed to the client depending on the configured Policy for the current user.
-
-### ActiveRecord Models
-
-Our Models are linked to ActiveRecord Models so for this part of the Hyperloop architecture we have a dependancy on Rails and Active Record. If you are not using Rails you can still take advantage of Hyperloop's Components & Stores (which do not depend on Rails) to create stunning interactive user interfaces.
-
-Let's assume we have an ActiveRecord Model called Books:
-
-```ruby
-class Book < ApplicationRecord
-end
-```
+<button type="button" class="btn btn-primary btn-lg btn-hyperlooppink" onclick="location.href='/start/models';">Next we cover Models</button>
