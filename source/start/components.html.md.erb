@@ -153,12 +153,14 @@ A few things to notice in the code above:
 
 Conditional logic, HTML elements, state and style all intermingle in a Hyperloop Component. CSS specifically blends with HTML elements so for example, the following two lines are equivalent:
 
-```
-BUTTON(class: 'my-class') { "Press me" }
-button.my_class { "Press me" }
+```ruby
+BUTTON(class: 'btn-primary') { "Press me" }
+button.btn_primary { "Press me" }
 ```
 
-This website uses Bootstrap CSS, so we have complete access to the Bootstrap CSS from within our Components.
+Note that `btn-primary` becomes `btn_primary` as '-' is disallowed in Ruby.
+
+As an example, this Hyperloop website uses Bootstrap CSS, so we have complete access to the Bootstrap CSS from within our Components:
 
 <div class="codemirror-live-edit"
   data-heading="Using CSS"
@@ -188,15 +190,13 @@ class StylishTable < Hyperloop::Component
   end
 end</pre></div>
 
-As you can see above, CSS is mixed into HTML elements. `div.something` becomes `<div class="something">`. Also note that `btn-primary` becomes `btn_primary` as '-' is disallowed in Ruby.
-
-Also note that you have a choice of uppercase `BUTTON` or lowercase `button` HTML elements. You can use whichever you think reads better.
+You have a choice of uppercase `BUTTON` or lowercase `button` HTML elements. You can use whichever you think reads better.
 
 ### JavaScript Libraries
 
 JavaScript components are accessed directly from within your Ruby code!
 
-It is important to emphasise that Hyperloop gives you full access to **all JavaScript libraries and components from directly within your Ruby code.** Everything you can do in JavaScript is simple to do in Ruby, this includes passing parameters between Ruby and JavaScript and even passing in Ruby lambdas as JavaScript callbacks.
+It is important to emphasize that Hyperloop gives you full access to **all JavaScript libraries and components from directly within your Ruby code.** Everything you can do in JavaScript is simple to do in Ruby, this includes passing parameters between Ruby and JavaScript and even passing in Ruby lambdas as JavaScript callbacks.
 
 There are a few ways of accomplishing this, one of which is demonstrated below. Here we wrap a JavaScript library `ReactPlayer` with a Ruby class `Player` so that it is accessible in our Ruby code.
 
@@ -224,4 +224,4 @@ That concludes the introduction to Components. To learn more about Components pl
 
 -------------------------------
 
-[Next let's learn about Stores](/start/stores)
+[Next we will learn about Stores](/start/stores)
