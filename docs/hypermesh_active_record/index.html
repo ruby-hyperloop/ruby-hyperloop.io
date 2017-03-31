@@ -1,0 +1,469 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv='X-UA-Compatible' content='IE=edge;chrome=1' />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <meta name="google-site-verification" content="qjqVOvRhHfsuDbLOvaAnj2mkUZJ9Xwzg84TMVXduvUc" />
+
+    <meta charset="UTF-8">
+    <title>Hyperloop - Hyper-Mesh Docs</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+
+    <!-- <link href="/stylesheets/base.css" rel="stylesheet" />
+    <link href="/stylesheets/normalize.css" rel="stylesheet" />
+    <link href="/stylesheets/stylesheet.css" rel="stylesheet" />
+    <link href="/stylesheets/github-light.css" rel="stylesheet" /> -->
+
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.5/marked.min.js"></script>
+    <script src="https://rawgit.com/reactrb/reactrb-express/master/reactrb-express.js"></script>
+
+    <script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
+
+    <script src="/javascripts/bootstrap.min.js"></script>
+    <script src="/javascripts/codemirror.js"></script>
+    <script src="/javascripts/ruby.js"></script>
+    <script src="/javascripts/matchbrackets.js"></script>
+
+    <link href="/stylesheets/bootstrap.min.css" rel="stylesheet" />
+    <link href="/stylesheets/override.css" rel="stylesheet" />
+    <!-- <link href="/stylesheets/code.css" rel="stylesheet" /> -->
+    <link href="/stylesheets/github.css" rel="stylesheet" />
+    <link href="/stylesheets/highlighting.css" rel="stylesheet" />
+    <link href="/stylesheets/codemirror.css" rel="stylesheet" />
+
+    <link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/feed.xml" />
+
+    <!-- Favicons -->
+    <link rel="apple-touch-icon" sizes="57x57" href="/images/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/images/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/images/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/images/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/images/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/images/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/images/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/images/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192"  href="/images/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/images/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/images/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+
+  </head>
+
+  <body>
+    <div class="container">
+      <nav class="navbar navbar-ligh">
+  <button class="navbar-toggler hidden-sm-up" type="button" data-toggle="collapse" data-target="#exCollapsingNavbar2" aria-controls="exCollapsingNavbar2" aria-expanded="false" aria-label="Toggle navigation">
+    &#9776;
+  </button>
+  <div class="collapse navbar-toggleable-xs" id="exCollapsingNavbar2">
+    <ul class="nav navbar-nav">
+      <li class="nav-item">
+        <a href="/" class="nav-link">Hyperloop</a>
+      </li>
+      <li class="nav-item">
+        <a href="/get_started" class="nav-link active">Get Started</a>
+      </li>
+      <li class="nav-item">
+        <a href="/tutorials" class="nav-link">Tutorials</a>
+      </li>
+      <li class="nav-item">
+        <a href="/installation" class="nav-link">Installation</a>
+      </li>
+      <li class="nav-item">
+        <a href="/gems" class="nav-link">Gems</a>
+      </li>
+      <li class="nav-item">
+        <a href="https://github.com/ruby-hyperloop" class="nav-link">Github</a>
+      </li>
+      <li class="nav-item">
+        <a href="/tools" class="nav-link">Tools</a>
+      </li>
+      <li class="nav-item">
+        <a href="/docs/dsl_overview" class="nav-link">Docs</a>
+      </li>
+      <li class="nav-item">
+        <a href="/support" class="nav-link">Support</a>
+      </li>
+      <li class="nav-item">
+        <a href="/blog" class="nav-link">Blog</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+    </div>
+
+    <div class="jumbotron page-header">
+      <div class="container">
+        <div class="row hidden-xs-down">
+          <div class="col-md-3 center-text">
+            <img src="/images/hyperloop_white.svg" width="180" alt="Hyperloop white" />
+          </div>
+          <div class="col-md-9">
+            <h1 class="display-4 project-name">Hyperloop</h1>
+            </br>
+            <h2 class="display-7 project-tagline">
+              HYPER-MESH DOCS
+            </h2>
+          </div>
+        </div>
+        <div class="row hidden-sm-up">
+          <div class="col-md-3 center-text">
+            <img src="/images/hyperloop_white.svg" width="120" alt="Hyperloop white" />
+          </div>
+          <div class="col-md-9">
+            <h1 class="h1 project-name center-text">Hyperloop</h1>
+            </br>
+            <h2 class="h4 project-tagline center-text">
+              HYPER-MESH DOCS
+            </h2>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-md-3">
+            <ul class="nav">
+    <li class="nav-item"><strong><a href="/docs/dsl_overview">HyperReact Overview</a></strong></br></li>
+    <li class="nav-item"><a href="/docs/components_and_state">Components and State</a></br></li>
+    <li class="nav-item"><a href="/docs/lifecycle_callbacks">Lifecycle Callbacks</a></br></li>
+    <li class="nav-item"><a href="/docs/lifecycle_methods">Lifecycle Methods</a></br></li>
+    <li class="nav-item"><a href="/docs/event_handelers">Event Handelers</a></br></li>
+    <li class="nav-item"><a href="/docs/elements_rendering">Elements and Rendering</a></br></li>
+    <li class="nav-item"><a href="/docs/javascript_components">Javascript Components</a></br></li>
+    <li class="nav-item"><a href="/docs/further_reading">Further Reading</a></br></li>
+  </ul>
+  <br>
+  <ul class="nav">
+    <li class="nav-item"><strong><a href="/docs/hypermesh_overview">HyperMesh Overview</a></strong></li>
+    <li class="nav-item"><a href="/docs/hypermesh_active_record">ActiveRecord API</a></br></li>
+    <li class="nav-item"><a href="/docs/hypermesh_scoping">Scoping</a></br></li>
+    <li class="nav-item"><a href="/docs/hypermesh_authorization">Authorization</a></br></li>
+    <li class="nav-item"><a href="/docs/hypermesh_debugging">Debugging</a></br></li>
+  </ul>
+
+          <br>
+        </div>
+        <div class="col-md-9 main-content">
+          <h2 id="activerecord-api">ActiveRecord API</h2>
+
+<p>HyperMesh uses a large subset of the ActiveRecord API modified only when necessary to accommodate the asynchronous nature of the client.  You can access your ActiveRecord models just like you would in models, controllers, or in ERB or HAML view templates. As much as possible, HyperMesh follows the syntax and semantics of ActiveRecord.  </p>
+
+<h3 id="interfacing-to-react">Interfacing to React</h3>
+
+<p>HyperMesh integrates with React to deliver your model data to the client without you having to create extra APIs or specialized controllers.  The key idea of React is that when state (or params) change, the portions of the display effected by this data will be updated.</p>
+
+<p>HyperMesh automatically creates react state objects that will be updated as server side data is loaded or changes.  When these states change, the associated parts of the display will be updated.</p>
+
+<h4 id="rendering-cycle">Rendering Cycle</h4>
+
+<p>On the UI you will be reading models in order to display data.</p>
+
+<p>If during the rendering of the display the model data is not yet loaded, placeholder values (the default values from the <code>columns_hash</code>) will be returned by HyperMesh.  </p>
+
+<p>HyperMesh then keeps track of where these placeholders (or <code>DummyValue</code>s) are displayed, and when they do get loaded, those parts of the display will re-render.</p>
+
+<p>If later the data changes (either due to local user actions, or receiving push updates) then again any parts of the display that were dependent on the current values will be re-rendered.</p>
+
+<p>You normally do not have to be aware of this.  Just access your models using the normal scopes and finders, then compute values and display attributes as you would on the server.  Initially the display will show the placeholder values and then will be replaced with the real values.</p>
+
+<h4 id="prerendering">Prerendering</h4>
+
+<p>During server-side pre-rendering, HyperMesh has direct access to the server so on initial page load all the values will be loaded and present.  </p>
+
+<h4 id="lazy-loading">Lazy Loading</h4>
+
+<p>HyperMesh lazy loads values, and does not load any thing until an explicit displayable value is requested.  For example, <code>Todo.all</code> will have no action, but <code>Todo.all.pluck[:title]</code> will return an array of titles.</p>
+
+<p>At the end of the rendering cycle the set of all values requested will be merged into a tree structure and sent to the server, returning the minimum amount of data needed.</p>
+
+<h4 id="load-cycle-methods">Load Cycle Methods</h4>
+
+<p>There are a number of methods that allow you to interact with this load cycle when needed.  These are documented <a href="#other-methods-for-interacting-with-the-load-and-render-cycle">below</a>.</p>
+
+<h3 id="class-methods">Class Methods</h3>
+
+<h4 id="new-and-create">New and Create</h4>
+
+<p><code>new</code>: Takes a hash of attributes and initializes a new unsaved record.  The values of any attributes not specified in the hash will be taken from the models default values specified in the <code>columns_hash</code>.</p>
+
+<p>If <code>new</code> is passed a native javascript object it will be treated as a hash and converted accordingly.</p>
+
+<p><code>create</code>: Short hand for <code>new(...).save</code>.  See the <code>save</code> instance method for details on how saving is done.</p>
+
+<h4 id="scoping-and-finding">Scoping and Finding</h4>
+
+<p><code>scope</code> and <code>default_scope</code>:  HyperMesh adds four new options to these methods: <code>joins</code>, <code>client</code>, <code>select</code> and <code>server</code>.  The <code>joins</code> option provides information on how the scope will be joined with other models.  The <code>client</code> and <code>select</code> options allow scoping to be done on the client side to offload this from the server, and the <code>server</code> option is just there for symmetry with the other options.  See the <a href="/docs/client_side_scoping.md">Client Side Scoping</a> page for more details.</p>
+<pre class="highlight ruby"><code><span class="c1"># the active scope proc is executed on the server</span>
+<span class="n">scope</span> <span class="ss">:active</span><span class="p">,</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="p">{</span> <span class="n">where</span><span class="p">(</span><span class="ss">completed: </span><span class="kp">true</span><span class="p">)</span> <span class="p">}</span>
+
+<span class="c1"># if the scope does a join (or include) this must be indicated</span>
+<span class="c1"># using the joins: option.</span>
+<span class="n">scope</span> <span class="ss">:with_recent_comments</span><span class="p">,</span>
+      <span class="o">-&gt;</span> <span class="p">{</span> <span class="n">joins</span><span class="p">(</span><span class="ss">:comments</span><span class="p">).</span><span class="nf">where</span><span class="p">(</span><span class="s1">'comment.created_at &gt;= ?'</span><span class="p">,</span> <span class="no">Time</span><span class="p">.</span><span class="nf">now</span><span class="o">-</span><span class="mi">1</span><span class="p">.</span><span class="nf">week</span><span class="p">)</span> <span class="p">},</span>
+      <span class="ss">joins: </span><span class="p">[</span><span class="s1">'comments'</span><span class="p">]</span> <span class="c1"># or joins: 'comments'</span>
+
+<span class="c1"># the server side proc can be indicated by the server: option</span>
+<span class="c1"># an optional client side proc can be provided to compute the scope</span>
+<span class="c1"># locally at the client</span>
+<span class="n">scope</span> <span class="ss">:completed</span><span class="p">,</span>
+      <span class="ss">server: </span><span class="o">-&gt;</span> <span class="p">{</span> <span class="n">where</span><span class="p">(</span><span class="ss">complete: </span><span class="kp">true</span><span class="p">)</span> <span class="p">}</span>
+      <span class="ss">client: </span><span class="o">-&gt;</span> <span class="p">{</span> <span class="n">complete</span> <span class="p">}</span> <span class="c1"># return true if the record should be included</span>
+</code></pre>
+<p><code>unscoped</code> and <code>all</code>: These builtin scopes work just like standard ActiveRecord.</p>
+<pre class="highlight ruby"><code><span class="no">Word</span><span class="p">.</span><span class="nf">all</span><span class="p">.</span><span class="nf">each</span> <span class="p">{</span> <span class="o">|</span><span class="n">word</span><span class="o">|</span> <span class="no">LI</span> <span class="p">{</span> <span class="n">word</span><span class="p">.</span><span class="nf">text</span> <span class="p">}}</span>
+</code></pre>
+<p>BTW: to save typing you can skip the <code>all</code>:  Models will respond like enumerators</p>
+
+<p><code>find</code>: takes an id and delivers the corresponding record.</p>
+
+<p><code>find_by</code>: takes a single item hash indicating an attribute value pair to find.</p>
+
+<p><code>find_by_...</code>: i.e. <code>find_by_first_name</code> these methods will find the first record with a matching attribute.</p>
+<pre class="highlight ruby"><code><span class="no">Word</span><span class="p">.</span><span class="nf">find_by_text</span><span class="p">(</span><span class="s1">'hello'</span><span class="p">)</span> <span class="c1"># short for Word.find_by(text: 'hello')</span>
+</code></pre>
+<p><code>limit</code> and <code>offset</code>: These built-in scopes behave as they do on the server:</p>
+<pre class="highlight ruby"><code><span class="no">Word</span><span class="p">.</span><span class="nf">offset</span><span class="p">(</span><span class="mi">500</span><span class="p">).</span><span class="nf">limit</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span> <span class="c1"># get words 500-519</span>
+</code></pre>
+<h4 id="relationships-and-aggregations">Relationships and Aggregations</h4>
+
+<p><code>belongs_to, has_many, has_one</code>:  These all work as on the server.  However it is important that you fully specify both sides of the relationship.  </p>
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">Todo</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+  <span class="n">belongs_to</span> <span class="ss">:assigned_to</span><span class="p">,</span> <span class="ss">class_name: </span><span class="s1">'User'</span>
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nc">User</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+  <span class="n">has_many</span> <span class="ss">:todos</span><span class="p">,</span> <span class="ss">foreign_key: </span><span class="s1">'assigned_to_id'</span>
+<span class="k">end</span>
+</code></pre>
+<p>Note that on the client the linkages between relationships are live and direct.  In the above example this works:</p>
+<pre class="highlight ruby"><code><span class="no">Todo</span><span class="p">.</span><span class="nf">create</span><span class="p">(</span><span class="ss">assigned_to: </span><span class="n">some_user</span><span class="p">)</span>
+</code></pre>
+<p>but this may not:</p>
+<pre class="highlight ruby"><code><span class="no">Todo</span><span class="p">.</span><span class="nf">create</span><span class="p">(</span><span class="ss">assigned_to_id: </span><span class="n">some_user</span><span class="p">.</span><span class="nf">id</span><span class="p">)</span>
+</code></pre>
+<p><code>composed_of</code>: You can create aggregate models like ActiveRecord.</p>
+
+<p>Similar to the linkages in relationships, aggregate records are represented on the client as actual independent objects.</p>
+
+<h4 id="defining-server-methods">Defining server methods</h4>
+
+<p>Normally an application defined instance method will run on the client and the server:</p>
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">User</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+  <span class="k">def</span> <span class="nf">full_name</span>
+    <span class="s2">"</span><span class="si">#{</span><span class="n">first_name</span><span class="si">}</span><span class="s2"> </span><span class="si">#{</span><span class="n">last_name</span><span class="si">}</span><span class="s2">"</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<p>Sometimes it is desirable to only run the method on the server.  This can be done using the <code>server_method</code> macro:</p>
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">User</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+  <span class="n">server_method</span> <span class="ss">:full_name</span><span class="p">,</span> <span class="ss">default: </span><span class="s1">''</span> <span class="k">do</span>
+    <span class="s2">"</span><span class="si">#{</span><span class="n">first_name</span><span class="si">}</span><span class="s2"> </span><span class="si">#{</span><span class="n">last_name</span><span class="si">}</span><span class="s2">"</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<p>When the method is first called on the client the default value will be returned and there will be a reactive update when the true value is returned from the server.</p>
+
+<p>To force the value to be recomputed at the server append a  <code>!</code> to the end of the name, otherwise the last value returned from the server will continue to be returned.</p>
+
+<h4 id="model-information">Model Information</h4>
+
+<p><code>column_names</code>: returns a list of the database columns.</p>
+
+<p><code>columns_hash</code>: returns the details of the columns specification.  Note that on the server <code>columns_hash</code> returns a hash of objects specifying column information.  On the client the entire structure is just one big hash of hashes.</p>
+
+<p><code>abstract_class=</code>, <code>abstract_class?</code>, <code>primary_key</code>, <code>primary_key=</code>, <code>inheritance_column</code>, <code>inheritance_column=</code>, <code>model_name</code>:  All work as on the server.  See ActiveRecord documentation for more info.</p>
+
+<h3 id="instance-methods">Instance Methods</h3>
+
+<h4 id="attribute-and-relationship-getter-and-setters">Attribute and Relationship Getter and Setters</h4>
+
+<p>All attributes have an associated getter and setter. All relationships have a getter.  All <code>belongs_to</code> relationships also have a setter.  <code>has_many</code> relationships can be updated using the push (<code>&lt;&lt;</code>) operator or using the <code>delete</code> method.</p>
+<pre class="highlight ruby"><code>  <span class="nb">puts</span> <span class="n">my_todo</span><span class="p">.</span><span class="nf">title</span>
+  <span class="n">my_todo</span><span class="p">.</span><span class="nf">title</span> <span class="o">=</span> <span class="s2">"neutitle"</span>
+  <span class="n">my_todo</span><span class="p">.</span><span class="nf">comments</span> <span class="o">&lt;&lt;</span> <span class="n">a_new_comment</span>
+  <span class="n">a_new_comment</span><span class="p">.</span><span class="nf">todo</span> <span class="o">==</span> <span class="n">my_todo</span> <span class="c1"># true!</span>
+</code></pre>
+<p>In addition if the attribute getter ends with a bang (!) then this will force a fetch of the attribute from the server.  This is typically not necessary if push updates are configured.</p>
+
+<h4 id="saving">Saving</h4>
+
+<p>The <code>save</code> method works like ActiveRecord save, <em>except</em> it returns a promise that is resolved when the save completes (or fails.)</p>
+<pre class="highlight ruby"><code><span class="n">my_todo</span><span class="p">.</span><span class="nf">save</span><span class="p">(</span><span class="ss">validate: </span><span class="kp">false</span><span class="p">).</span><span class="nf">then</span> <span class="k">do</span> <span class="o">|</span><span class="n">result</span><span class="o">|</span>
+  <span class="c1"># result is a hash with {success: ..., message: , models: ....}</span>
+<span class="k">end</span>
+</code></pre>
+<p>After a save operation completes, the models will have an <code>errors</code> hash (just like on the server) with any validation problems.</p>
+
+<p>During the save operation, the method <code>saving?</code> will return <code>true</code>.  This can be used instead of (or with) the promise to update the screen:</p>
+<pre class="highlight ruby"><code><span class="n">render</span> <span class="k">do</span>
+  <span class="p">.</span><span class="nf">.</span><span class="p">.</span>
+  <span class="nf">if</span> <span class="n">some_model</span><span class="p">.</span><span class="nf">saving?</span>
+    <span class="p">.</span><span class="nf">.</span><span class="p">.</span> <span class="nf">display</span> <span class="n">please</span> <span class="n">wait</span> <span class="p">.</span><span class="nf">.</span><span class="p">.</span>
+  <span class="nf">elsif</span> <span class="n">some_model</span><span class="p">.</span><span class="nf">errors</span><span class="p">.</span><span class="nf">any?</span>
+    <span class="p">.</span><span class="nf">.</span><span class="p">.</span> <span class="nf">highlight</span> <span class="n">the</span> <span class="n">errors</span> <span class="p">.</span><span class="nf">.</span><span class="p">.</span>
+  <span class="nf">else</span>
+    <span class="p">.</span><span class="nf">.</span><span class="p">.</span> <span class="nf">display</span> <span class="n">data</span> <span class="p">.</span><span class="nf">.</span><span class="p">.</span>
+  <span class="nf">end</span>
+  <span class="p">.</span><span class="nf">.</span><span class="p">.</span>
+<span class="nf">end</span>
+</code></pre>
+<h4 id="destroy">Destroy</h4>
+
+<p>Like <code>save</code>, destroy returns a promise that is resolved when the destroy completes.</p>
+
+<p>After the destroy completes the record&#39;s <code>destroyed?</code> method will return true.</p>
+
+<h4 id="other-instance-methods">Other Instance Methods</h4>
+
+<p><code>new?</code> returns true if the model is new and not yet saved.</p>
+
+<p><code>primary_key</code> returns the primary key for the model</p>
+
+<p><code>id</code> returns the value of the primary key for this instance</p>
+
+<p><code>model_name</code> returns the model_name.</p>
+
+<p><code>revert</code> Undoes any unsaved changes to the instance.</p>
+
+<p><code>changed?</code> returns true if any attributes have changed (always true for a new model)</p>
+
+<p><code>dup</code> duplicate the instance.</p>
+
+<p><code>==</code> two instances are the same if it is known that they reference the same underlying table row.  </p>
+
+<p><code>..._changed?</code> (i.e. name_changed?) returns true if the specific attribute has changed.</p>
+
+<p><code>itself</code> returns the record, but will override lazy loading and force a load of at least the model&#39;s id.</p>
+
+<h3 id="other-methods-for-interacting-with-the-load-and-render-cycle">Other Methods for Interacting with the Load and Render Cycle</h3>
+
+<h4 id="loading-and-loaded"><code>loading?</code> and <code>loaded?</code></h4>
+
+<p>All Ruby objects will respond to these methods.  If you want to put up a &quot;Please Wait&quot; message, spinner, etc., you can use the <code>loaded?</code> or <code>loading?</code> method to determine if the object represents a real loaded value or not.  Any value for which <code>loaded?</code> returns <code>false</code> (or <code>loading?</code> returns <code>true</code>) will eventually load and cause a re-render.</p>
+
+<h4 id="the-hypermesh-load-method">The <code>HyperMesh.load</code> Method</h4>
+
+<p>Sometimes it is necessary to insure values are loaded outside of the rendering cycle.  For this you can use the <code>HyperMesh.load</code> method:</p>
+<pre class="highlight ruby"><code><span class="no">HyperMesh</span><span class="p">.</span><span class="nf">load</span> <span class="k">do</span>
+  <span class="n">x</span> <span class="o">=</span> <span class="n">my_model</span><span class="p">.</span><span class="nf">some_attribute</span>
+  <span class="no">OtherModel</span><span class="p">.</span><span class="nf">find</span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="mi">12</span><span class="p">).</span><span class="nf">other_attribute</span>
+  <span class="c1"># code in here can be arbitrarily complex and load</span>
+  <span class="c1"># will re-execute it until all values are loaded</span>
+  <span class="c1"># the final expression is passed to the promise</span>
+<span class="k">end</span><span class="p">.</span><span class="nf">then</span> <span class="o">|</span><span class="n">result</span><span class="o">|</span>
+  <span class="nb">puts</span> <span class="n">result</span>
+<span class="k">end</span>
+</code></pre>
+<h4 id="force-loading-attributes">Force Loading Attributes</h4>
+
+<p>Normally you will simply display attributes as part of the render method and, when the values are loaded from the server, the component will re-render.</p>
+
+<p>Sometimes outside of the render method you may need to insure an attribute (or a server side method) is loaded before proceeding.  This is typically when you are building some kind of higher level store.  </p>
+
+<p>The <code>load</code> method takes a list of attributes (symbols) and will insure these are loaded.  Load returns a promise that is resolved when the load completes, or can be passed a block that will execute when the load completes.</p>
+<pre class="highlight ruby"><code><span class="n">before_mount</span> <span class="k">do</span>
+  <span class="no">Todo</span><span class="p">.</span><span class="nf">find</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="nf">load</span><span class="p">(</span><span class="ss">:name</span><span class="p">).</span><span class="nf">then</span> <span class="k">do</span> <span class="o">|</span><span class="nb">name</span><span class="o">|</span>
+    <span class="vi">@name</span> <span class="o">=</span> <span class="nb">name</span><span class="p">;</span>
+    <span class="n">state</span><span class="p">.</span><span class="nf">loaded!</span> <span class="kp">true</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<p>Think hard about how you are using this, as HyperMesh already acts as flux store, and is managing state for you.  It may be you are just creating a redundant store!</p>
+
+<p><strong>Warning</strong> currently the <code>attributes</code> method is supported, but please do not use it as some details of the semantics will be changing in an upcoming release.  Instead of <code>foo.attributes[:xyz]</code> use <code>foo.send(&#39;xyz&#39;)</code> for now.</p>
+
+        </div>
+      </div>
+    </div>
+
+    <script>
+      (function(Opal) {
+        var self = Opal.top, $scope = Opal, nil = Opal.nil, $breaker = Opal.breaker, $slice = Opal.slice;
+        Opal.add_stubs(['$puts']);
+        return self.$puts("Opal ok")
+      })(Opal);
+    </script>
+
+    <!-- <script   src="http://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script> -->
+
+    <script type="text/ruby">puts "Hyperloop Express ok"</script>
+
+    <script type="text/ruby">
+
+class CodeMirror < React::Component::Base
+  param :code, type: String
+  define_state :error_message
+
+  before_mount do
+    state.error_message! ""
+  end
+
+  after_mount do
+    @editor = `CodeMirror(document.getElementById("code"), {
+      value: #{params.code},
+      mode: "text/x-ruby",
+      matchBrackets: true,
+      lineNumbers: true,
+      indentUnit: 2,
+      theme: 'github'
+    });`
+    `#{@editor}.on('change', #{lambda {on_change} })`
+    execute_code
+  end
+
+  render(DIV) do
+    div(id: 'code')
+    br
+    div(id: 'result')
+    p { state.error_message }
+  end
+
+  def on_change
+    state.error_message! ""
+    execute_code
+  end
+
+  after_mount   :execute_code
+  after_update  :execute_code
+
+  def execute_code
+    compiled_code = Opal::Compiler.new(`#{@editor}.getValue()`).compile
+    `ReactDOM.unmountComponentAtNode(document.getElementById("result"));`
+    `eval(#{compiled_code})`
+    Element['#result'].render{ Alfie() }
+    rescue Exception => e
+    @time_out = after(0.5) do
+      state.error_message! e.message
+    end
+  end
+
+end
+
+class TestApp < React::Component::Base
+  param :name
+  before_mount { @timer = every(1) { force_update! } }
+  render(DIV) do
+    h1 {"The current time is #{Time.now}"}
+    h2 { "here hello #{params.name}" }.on(:click) do
+     alert "you clicked"
+    end
+  end
+end
+
+</script>
+
+
+  </body>
+</html>

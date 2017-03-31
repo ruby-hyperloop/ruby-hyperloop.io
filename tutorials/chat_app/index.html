@@ -10,21 +10,16 @@
     <meta charset="UTF-8">
     <title>Hyperloop - Chat App Tutorial</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
 
-    <script src="https://unpkg.com/react@15/dist/react.min.js"></script>
-    <script src="https://unpkg.com/react-dom@15/dist/react-dom.min.js"></script>
+    <!-- <link href="/stylesheets/base.css" rel="stylesheet" />
+    <link href="/stylesheets/normalize.css" rel="stylesheet" />
+    <link href="/stylesheets/stylesheet.css" rel="stylesheet" />
+    <link href="/stylesheets/github-light.css" rel="stylesheet" /> -->
 
     <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.5/marked.min.js"></script>
-
-
-    <!-- Opal and Hyperloop -->
-    <script src="https://rawgit.com/ruby-hyperloop/hyperloop-js/master/opal-compiler.min.js"></script>
-    <script src="https://rawgit.com/ruby-hyperloop/hyperloop-js/master/hyperloop.min.js"></script>
-
-    <!-- If you want local copies... -->
-    <!-- <script src="/javascripts/opal-compiler.js"></script> -->
-    <!-- <script src="/javascripts/hyperloop.js"></script> -->
+    <script src="https://rawgit.com/reactrb/reactrb-express/master/reactrb-express.js"></script>
 
     <script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
 
@@ -32,121 +27,9 @@
     <script src="/javascripts/codemirror.js"></script>
     <script src="/javascripts/ruby.js"></script>
     <script src="/javascripts/matchbrackets.js"></script>
-    <script src="/javascripts/react_player.js"></script>
-
-    <!-- Components are compiled by Hyperloop Express -->
-    <script type="text/ruby">
-
-class CodeMirror < Hyperloop::Component
-  param :code, type: String
-  param :heading, default: "Code"
-  param :rows, type: Integer, default: 0
-  param :top_level_component, type: String
-
-  before_mount do
-    r=rand(2**256).to_s(36)[0..7]
-    @div_code = "code_#{r}"
-    @div_result = "result_#{r}"
-  end
-
-  after_mount do
-  puts params.code
-    @editor = `CodeMirror(document.getElementById(#{@div_code}), {
-      value: #{params.code.to_s},
-      mode: 'text/x-ruby',
-      matchBrackets: true,
-      lineNumbers: true,
-      indentUnit: 2,
-      theme: 'github'
-    });`
-
-    `#{@editor}.on('change', #{lambda {on_change} })`
-    `#{@editor}.setSize(null, #{@editor}.defaultTextHeight()*#{params.rows})` unless params.rows == 0
-    execute_code
-  end
-
-  render(DIV) do
-    div.card {
-      div.card_header { params.heading }
-      div(id: @div_code)
-      div.card_header do
-        img(src:'../images/hyperloop-logo-small-white.png', width:'25')
-        span { ' ' }
-        'Hyperloop playground :'
-      end
-      div.card_block(id: @div_result)
-    }
-  end
-
-  def on_change
-    execute_code
-  end
-
-  def execute_code
-    begin
-      code = `#{@editor}.getValue()`
-      puts code
-      code += "\nElement['##{@div_result}'].render(#{params.top_level_component})"
-      compiled_code = Opal::Compiler.new(code).compile
-      Hyperloop::Context.reset!
-      `ReactDOM.unmountComponentAtNode(document.getElementById(#{@div_result}));`
-      `eval(#{compiled_code})`
-      component = Module.const_get params.top_level_component
-      # we need to see if the component is valid - try checking if it can render static markup
-      # the following line generates: `undefined method to_n for SimpleComponent`
-      # if React.render_to_static_markup( component ).empty?
-      #   invalid_component_message
-      # end
-    rescue Exception => e
-      @time_out = after(0.1) do
-        unable_to_compile_message e.message
-      end
-    end
-  end
-
-  def invalid_component_message
-    message = div.text_danger do
-      h3.text_danger {"Oops, invalid Component..."}
-      p { "Your Component has been rejected by React. A valid Component must have a render macro and return just one HTML element." }
-    end
-    Element["##{@div_result}"].render{ message }
-  end
-
-  def unable_to_compile_message reason
-    message = div.text_danger do
-      h3.text_danger {"Can't compile..."}
-      p { reason }
-    end
-    Element["##{@div_result}"].render{ message }
-  end
-
-end
-
-</script>
-
-    <script type="text/ruby">
-
-Document.ready? do
-   Element.find('div.codemirror-live-edit').each do |mount_point|
-     heading = mount_point.attr('data-heading')
-     rows = mount_point.attr('data-rows')
-     top_level_component = mount_point.attr('data-top-level-component')
-     code = Element[mount_point].find('pre').text.strip
-     params = {code: code, top_level_component: top_level_component}
-     params = params.merge({heading: heading}) if heading
-     params = params.merge({rows: rows.to_i}) if rows
-     codemirror_component = Object.const_get('CodeMirror')
-     React.render(React.create_element(codemirror_component, params ), mount_point)
-   end
-end
-
-</script>
-
 
     <link href="/stylesheets/bootstrap.min.css" rel="stylesheet" />
-    <link href="/stylesheets/typography.css" rel="stylesheet" />
     <link href="/stylesheets/override.css" rel="stylesheet" />
-    <link href="/stylesheets/divtable.css" rel="stylesheet" />
     <!-- <link href="/stylesheets/code.css" rel="stylesheet" /> -->
     <link href="/stylesheets/github.css" rel="stylesheet" />
     <link href="/stylesheets/highlighting.css" rel="stylesheet" />
@@ -155,20 +38,29 @@ end
     <link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/feed.xml" />
 
     <!-- Favicons -->
-
-    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
-    <link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
-    <link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
-    <link rel="manifest" href="/images/manifest.json">
-    <link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#e81176">
+    <link rel="apple-touch-icon" sizes="57x57" href="/images/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/images/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/images/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/images/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/images/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/images/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/images/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/images/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192"  href="/images/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/images/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/images/ms-icon-144x144.png">
     <meta name="theme-color" content="#ffffff">
 
   </head>
 
   <body>
-    <div class="navbarbackgroundcolor">
-      <div class="container">
-        <nav class="navbar navbar-ligh">
+    <div class="container">
+      <nav class="navbar navbar-ligh">
   <button class="navbar-toggler hidden-sm-up" type="button" data-toggle="collapse" data-target="#exCollapsingNavbar2" aria-controls="exCollapsingNavbar2" aria-expanded="false" aria-label="Toggle navigation">
     &#9776;
   </button>
@@ -178,13 +70,13 @@ end
         <a href="/" class="nav-link">Hyperloop</a>
       </li>
       <li class="nav-item">
-        <a href="/start" class="nav-link active">Start</a>
+        <a href="/get_started" class="nav-link active">Get Started</a>
+      </li>
+      <li class="nav-item">
+        <a href="/tutorials" class="nav-link">Tutorials</a>
       </li>
       <li class="nav-item">
         <a href="/installation" class="nav-link">Installation</a>
-      </li>
-      <li class="nav-item">
-        <a href="/tutorials" class="nav-link">Learn</a>
       </li>
       <li class="nav-item">
         <a href="/gems" class="nav-link">Gems</a>
@@ -196,10 +88,10 @@ end
         <a href="/tools" class="nav-link">Tools</a>
       </li>
       <li class="nav-item">
-        <a href="/docs/architecture" class="nav-link">Docs</a>
+        <a href="/docs/dsl_overview" class="nav-link">Docs</a>
       </li>
       <li class="nav-item">
-        <a href="/support" class="nav-link">Help</a>
+        <a href="/support" class="nav-link">Support</a>
       </li>
       <li class="nav-item">
         <a href="/blog" class="nav-link">Blog</a>
@@ -208,53 +100,42 @@ end
   </div>
 </nav>
 
-      </div>
     </div>
 
     <div class="jumbotron page-header">
       <div class="container">
         <div class="row hidden-xs-down">
-          <div class="col-md-2">
-            <div class="hyperlooplogo">
-            </div>
+          <div class="col-md-3 center-text">
+            <img src="/images/hyperloop_white.svg" width="180" alt="Hyperloop white" />
           </div>
-          <div class="col-md-10">
-
-
-
+          <div class="col-md-9">
             <h1 class="display-4 project-name">Hyperloop</h1>
-
-            <h4 class="display-7 project-tagline">
-              Chat App Tutorial
+            </br>
+            <h2 class="display-7 project-tagline">
+              CHAT APP TUTORIAL
             </h2>
           </div>
         </div>
         <div class="row hidden-sm-up">
           <div class="col-md-3 center-text">
-            <img src="/images/hyperloop-logo-small-white.png" width="100" alt="Hyperloop logo small white" />
+            <img src="/images/hyperloop_white.svg" width="120" alt="Hyperloop white" />
           </div>
           <div class="col-md-9">
             <h1 class="h1 project-name center-text">Hyperloop</h1>
             </br>
-            <h2 class="h5 project-tagline center-text">
-              Chat App Tutorial
+            <h2 class="h4 project-tagline center-text">
+              CHAT APP TUTORIAL
             </h2>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="page-header-underline">
-      <div class="container">
-
-      </div>
-    </div>
-
     <div class="container">
       <div class="row">
-        <div class="col-md-3 sidenavcol">
+        <div class="col-md-3">
             <ul class="nav">
-    <li class="nav-item"><a href="/tutorials/chat_app">Chat-App Tutorial</a></li>
+    <li class="nav-item"><strong><a href="/tutorials/chat_app">Chat-App Tutorial</a></strong></li>
     <ul class="nav">
       <li class="nav-item"><a href="/tutorials/chat_app#application-structure">Application Structure</a></li>
       <li class="nav-item"><a href="/tutorials/chat_app#adding-parameters">Adding Parameters</a></li>
@@ -267,7 +148,6 @@ end
       <li class="nav-item"><a href="/tutorials/chat_app#styling-the-app">Styling the App</a></li>
       <li class="nav-item"><a href="/tutorials/chat_app#source-code-of-the-steps-up-until-detecting-loged-in-user">Source Code</a></li>
     </ul>
-
   </br>
     <li class="nav-item"><strong><a href="/tutorials/hyperreact_with_rails">HyperReact and Rails Tutorial</a></strong></li>
     <ul class="nav">
@@ -275,7 +155,6 @@ end
       <li class="nav-item"><a href="/tutorials/hyperreact_with_rails#adding-a-component">Adding a component</a></li>
       <li class="nav-item"><a href="/tutorials/hyperreact_with_rails#controller-rendering">Controller Rendering</a></li>
     </ul>
-
   </br>
     <li class="nav-item"><strong><a href="/tutorials/hyperreact_with_webpack">NPM and Webpack Tutorial</a></strong></li>
     <ul class="nav">
@@ -283,7 +162,6 @@ end
       <li class="nav-item"><a href="/tutorials/hyperreact_with_webpack#usage">Usage</a></li>
       <li class="nav-item"><a href="/tutorials/hyperreact_with_webpack#example">Example</a></li>
     </ul>
-
   </br>
     <li class="nav-item"><strong><a href="/tutorials/flux_store">Flux Store Tutorial</a></strong></li>
   </br>
@@ -291,12 +169,13 @@ end
   </br>
   </ul>
 
+
           <br>
         </div>
         <div class="col-md-9 main-content">
-          <h2 id="chat-app-tutorial">Chat-App Tutorial</h2>
+          <h2 id="hyperreact-chat-app-tutorial">HyperReact Chat-App Tutorial</h2>
 
-<p>We&#39;ll be building a simple but realistic chat application, a basic version of a chat room offered by a service like gitter.im.</p>
+<p>We&#39;ll be building a simple but realistic chat application, a basic version of a chat room offered by a service like gitter.im.  </p>
 
 <p>We will be building the app from the ground up, but if you want to see the <a href="#source-code-of-the-steps-up-until-detecting-loged-in-user">final source code it is here</a></p>
 
@@ -319,80 +198,121 @@ end
 <li><strong>Uses Bootstrap:</strong> for styling</li>
 </ul>
 
-<p><strong>NOTE:</strong> This tutorial uses Hyperloop Express for in-browser compilation and a live-editing Component which compiles with each key press and loads the result as you are typing. Each live-editing Component contains a copy of the example code up until that point in the tutorial. If you are making edits you wish to preserve between chapters then just copy the code out of the editing session and paste it into the next one.</p>
-
 <h3 id="lets-get-started">Let&#39;s Get Started!</h3>
 
+<ol>
+<li>open up a file named <code>chatrb.html</code> (or whatever you want)</li>
+<li>copy in the following content and save it.<br></li>
+<li>point your browser to <code>file://...your directory path.../chatrb.html</code> and you should see the current time.</li>
+</ol>
+<pre class="highlight html"><code><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="nt">&lt;html&gt;</span>
+  <span class="nt">&lt;head&gt;</span>
+    <span class="nt">&lt;meta</span> <span class="na">charset=</span><span class="s">"UTF-8"</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;title&gt;</span>Hello React<span class="nt">&lt;/title&gt;</span>
+    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"https://code.jquery.com/jquery-2.1.4.min.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.5/marked.min.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"https://rawgit.com/reactrb/reactrb-express/master/reactrb-express.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"http://ruby-hyperloop.io/javascripts/test_chat_service.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+    <span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">"stylesheet"</span> <span class="na">href=</span><span class="s">"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"</span> <span class="na">integrity=</span><span class="s">"sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7"</span> <span class="na">crossorigin=</span><span class="s">"anonymous"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">"stylesheet"</span> <span class="na">href=</span><span class="s">"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css"</span> <span class="na">integrity=</span><span class="s">"sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r"</span> <span class="na">crossorigin=</span><span class="s">"anonymous"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"</span> <span class="na">integrity=</span><span class="s">"sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"</span> <span class="na">crossorigin=</span><span class="s">"anonymous"</span><span class="nt">&gt;&lt;/script&gt;</span>
+
+    <span class="nt">&lt;style </span><span class="na">type=</span><span class="s">"text/css"</span><span class="nt">&gt;</span>
+      <span class="c">/* most styles will come from bootstrap, but we will be adding a
+        few extra styles here */</span>
+    <span class="nt">&lt;/style&gt;</span>
+
+    <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">"text/ruby"</span><span class="nt">&gt;</span>
+      <span class="err">#</span> <span class="nx">Our</span> <span class="nx">ruby</span> <span class="nx">code</span> <span class="nx">will</span> <span class="nx">go</span> <span class="nx">here</span><span class="p">.</span>  <span class="nx">For</span> <span class="nx">now</span> <span class="nx">lets</span> <span class="nx">use</span> <span class="nx">a</span> <span class="nx">simple</span> <span class="nx">component</span>
+      <span class="err">#</span> <span class="nx">to</span> <span class="nx">make</span> <span class="nx">sure</span> <span class="nx">things</span> <span class="nx">are</span> <span class="nx">working</span><span class="p">.</span>  <span class="nx">For</span> <span class="nx">the</span> <span class="nx">rest</span> <span class="nx">of</span> <span class="nx">the</span> <span class="nx">tutorial</span>
+      <span class="err">#</span> <span class="nx">all</span> <span class="nx">the</span> <span class="nx">code</span> <span class="nx">we</span> <span class="nx">write</span> <span class="nx">will</span> <span class="nx">go</span> <span class="k">in</span> <span class="k">this</span> <span class="nx">section</span><span class="p">.</span>
+      <span class="kr">class</span> <span class="nx">App</span> <span class="o">&lt;</span> <span class="nx">React</span><span class="p">::</span><span class="nx">Component</span><span class="p">::</span><span class="nx">Base</span>
+        <span class="nx">before_mount</span> <span class="p">{</span> <span class="err">@</span><span class="nx">timer</span> <span class="o">=</span> <span class="nx">every</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span> <span class="nx">force_update</span><span class="o">!</span> <span class="p">}</span> <span class="p">}</span>
+        <span class="nx">def</span> <span class="nx">render</span>
+          <span class="s2">"The current time is #{Time.now}"</span>
+        <span class="nx">end</span>
+      <span class="nx">end</span>  
+    <span class="nt">&lt;/script&gt;</span>
+  <span class="nt">&lt;/head&gt;</span>
+  <span class="nt">&lt;body&gt;</span>
+    <span class="c">&lt;!-- Tell inline reactive ruby to mount App here --&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">data-reactrb-mount=</span><span class="s">"App"</span><span class="nt">&gt;&lt;/div&gt;</span>
+  <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</code></pre>
 <h3 id="application-structure">Application Structure</h3>
 
-<p>React is all about modular, composable components. For our chat app, we&#39;ll have the following structure which will be mirrored by 6 corresponding Hyperloop Components:</p>
-<pre class="highlight ruby"><code><span class="no">App</span>
-  <span class="no">Nav</span>
-  <span class="no">Messages</span>
-    <span class="no">Message</span>
-      <span class="no">FormattedDiv</span>
-    <span class="no">Message</span>
-      <span class="no">FormattedDiv</span>
-    <span class="p">.</span><span class="nf">.</span><span class="p">.</span> <span class="nf">repeat</span> <span class="k">for</span> <span class="n">each</span> <span class="p">.</span><span class="nf">.</span><span class="p">.</span> <span class="nf">message</span>
-  <span class="no">InputBox</span>
-    <span class="no">FormattedDiv</span>
+<p>React is all about modular, composable components. For our chat app, we&#39;ll have the following structure which will be mirrored by 6 corresponding Reactrb components:</p>
+<pre class="highlight plaintext"><code>App
+  Nav
+  Messages
+    Message
+      FormattedDiv
+    Message
+      FormattedDiv
+    ... repeat for each ... message
+  InputBox
+    FormattedDiv
 </code></pre>
-<p>Each component will render the corresponding portion of the UI and is described by a Ruby class that inherits from <code>React::Component::Base</code>.</p>
+<p>Each component will render the corresponding portion of the UI and is described by a Ruby class that inherits from React::Component::Base.</p>
 
-<p>Let&#39;s stub out all of classes right now and replace the contents of the stubs above with working code:</p>
+<p>Let&#39;s stub out all of classes right now.  Replace the contents inside  the
+<code>&lt;script type=&quot;text/ruby&quot;&gt;...&lt;/script&gt;</code> tag with the following ruby code.</p>
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">App</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
+  <span class="k">def</span> <span class="nf">render</span>
+    <span class="n">div</span> <span class="k">do</span>
+      <span class="no">Nav</span><span class="p">()</span>
+      <span class="no">Messages</span><span class="p">()</span>
+      <span class="no">InputBox</span><span class="p">()</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
 
-<div class="codemirror-live-edit"
-  data-heading="1. Chat Application structure"
-  data-rows=46>
-<pre>
-class ExampleComponent < React::Component::Base
-  def render
-    div do
-      Nav()
-      Messages()
-      InputBox()
-    end
-  end
-end
+<span class="k">class</span> <span class="nc">Nav</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
+  <span class="k">def</span> <span class="nf">render</span>
+    <span class="n">div</span> <span class="p">{</span><span class="s2">"Our Nav Bar Goes Here including a login box"</span><span class="p">}</span>
+  <span class="k">end</span>
+<span class="k">end</span>
 
-class Nav < React::Component::Base
-  def render
-    div {"Our Nav Bar Goes Here including a login box"}
-  end
-end
+<span class="k">class</span> <span class="nc">Messages</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
+  <span class="k">def</span> <span class="nf">render</span>
+    <span class="c1"># eventually we will loop and display each message</span>
+    <span class="c1"># for now we will just display one as an example</span>
+    <span class="no">Message</span><span class="p">()</span>
+  <span class="k">end</span>
+<span class="k">end</span>
 
-class Messages < React::Component::Base
-  def render
-    # eventually we will loop and display each message
-    # for now we will just display one as an example
-    Message()
-  end
-end
+<span class="k">class</span> <span class="nc">Message</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
+  <span class="k">def</span> <span class="nf">render</span>
+    <span class="no">FormattedDiv</span><span class="p">()</span>
+  <span class="k">end</span>
+<span class="k">end</span>
 
-class Message < React::Component::Base
-  def render
-    FormattedDiv()
-  end
-end
+<span class="k">class</span> <span class="nc">InputBox</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
+  <span class="k">def</span> <span class="nf">render</span>
+    <span class="n">div</span> <span class="k">do</span>
+      <span class="s2">"An input box to send new messages will"</span><span class="p">.</span><span class="nf">br</span>
+      <span class="s2">"go here plus a display of the formatted markdown"</span><span class="p">.</span><span class="nf">br</span>
+      <span class="no">FormattedDiv</span><span class="p">()</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
 
-class InputBox < React::Component::Base
-  def render
-    div do
-      "An input box to send new messages will".br
-      "go here plus a display of the formatted markdown".br
-      FormattedDiv()
-    end
-  end
-end
-
-class FormattedDiv < React::Component::Base
-  def render
-    "convert and display markdown"
-  end
-end
-</pre></div>
-
-<p>Before going on lets understand the basic features of the Hyperloop Component DSL</p>
+<span class="k">class</span> <span class="nc">FormattedDiv</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
+  <span class="k">def</span> <span class="nf">render</span>
+    <span class="s2">"convert and display markdown"</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<p>Refresh your page, and you should see this:</p>
+<pre class="highlight plaintext"><code>Our Nav Bar Goes Here including a login box
+convert and display markdown
+An input box to send new messages will
+go here plus a display of the formatted markdown
+convert and display markdown
+</code></pre>
+<p>Before going on lets understand the basic features of the Reactrb DSL</p>
 
 <ul>
 <li><h4 id="every-component-has-a-render-method">Every component has a <code>render</code> method</h4>
@@ -405,7 +325,7 @@ end
 </code></pre></li>
 <li><h4 id="html-tags-are-ruby-methods">HTML tags are Ruby methods</h4>
 
-<p>Within the <code>render</code> method each html tag has a corresponding Ruby method.  Each of these methods generates a single <code>React::Element</code>, which contains component type plus parameters, plus any nested elements.</p>
+<p>Within the <code>render</code> method each html tag has a corresponding Ruby method.  Each of these methods generates a single <code>React::Element</code>, which contains component type plus parameters, plus any nested elements.  </p>
 
 <p>All HTML tags have lower case names matching their HTML counter parts.</p></li>
 <li><h4 id="application-components-also-define-ruby-methods">Application components also define Ruby methods</h4>
@@ -428,86 +348,46 @@ end
 
 <p>Components have parameters just like methods.  Now that we have the basic App structure, understanding a component&#39;s params is a good next step.  Lets start by adding the <code>markdown</code> parameter to the <code>FormattedDiv</code> component.</p>
 
-<p>Let&#39;s update the <code>Message, InputBox</code> and <code>FormattedDiv</code> components so they look like this:</p>
-<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">InputBox</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
-  <span class="p">.</span><span class="nf">.</span><span class="o">.</span>
-  <span class="no">FormattedDiv</span><span class="p">(</span><span class="ss">markdown: </span><span class="s2">"This **Markdown** will get updated as the user types"</span><span class="p">)</span>
-  <span class="p">.</span><span class="nf">.</span><span class="p">.</span>
-<span class="nf">end</span>
+<p>Update the <code>Message, InputBox</code> and <code>FormattedDiv</code> components so they look like this:</p>
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">Message</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
+
+  <span class="k">def</span> <span class="nf">render</span>
+    <span class="no">FormattedDiv</span><span class="p">(</span><span class="ss">markdown: </span><span class="s2">"This **Markdown** will eventually be a message"</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nc">InputBox</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
+  <span class="k">def</span> <span class="nf">render</span>
+    <span class="n">div</span> <span class="k">do</span>
+      <span class="s2">"An input box to send new messages will"</span><span class="p">.</span><span class="nf">br</span>
+      <span class="s2">"go here plus a display of the formatted markdown"</span><span class="p">.</span><span class="nf">br</span>
+      <span class="no">FormattedDiv</span><span class="p">(</span><span class="ss">markdown: </span><span class="s2">"This **Markdown** will get updated as the user types"</span><span class="p">)</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
 
 <span class="k">class</span> <span class="nc">FormattedDiv</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
-  <span class="p">.</span><span class="nf">.</span><span class="p">.</span>
-  <span class="nf">param</span> <span class="ss">:markdown</span><span class="p">,</span> <span class="ss">type: </span><span class="no">String</span>
-  <span class="p">.</span><span class="nf">.</span><span class="p">.</span>
-<span class="nf">end</span>
+
+  <span class="n">param</span> <span class="ss">:markdown</span><span class="p">,</span> <span class="ss">type: </span><span class="no">String</span>
+
+  <span class="k">def</span> <span class="nf">render</span>
+    <span class="n">div</span> <span class="k">do</span>
+      <span class="n">params</span><span class="p">.</span><span class="nf">markdown</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
 </code></pre>
-<div class="codemirror-live-edit"
-  data-heading="2. Chat Application - Adding Parameters"
-  data-rows=52>
-<pre>
-class ExampleComponent < React::Component::Base
-  def render
-    div do
-      Nav()
-      Messages()
-      InputBox()
-    end
-  end
-end
-
-class Nav < React::Component::Base
-  def render
-    div {"Our Nav Bar Goes Here including a login box"}
-  end
-end
-
-class Messages < React::Component::Base
-  def render
-    # eventually we will loop and display each message
-    # for now we will just display one as an example
-    Message()
-  end
-end
-
-class Message < React::Component::Base
-  def render
-    FormattedDiv(markdown: "This **Markdown** will eventually be a message")
-  end
-end
-
-class InputBox < React::Component::Base
-  def render
-    div do
-      "An input box to send new messages will".br
-      "go here plus a display of the formatted markdown".br
-      FormattedDiv(markdown: "This **Markdown** will get updated as the user types")
-    end
-  end
-end
-
-class FormattedDiv < React::Component::Base
-
-  param :markdown, type: String
-
-  def render
-    div do
-      params.markdown
-    end
-  end
-end
-</pre></div>
-
 <ul>
 <li><h4 id="the-param-macro-describes-the-inputs-to-a-component">The <code>param</code> <em>macro</em> describes the <em>inputs</em> to a component.</h4>
 
 <p>In our case the <code>FormattedDiv</code> component will <em>receive</em> the <code>markdown</code> param from either the
-<code>Message</code> or <code>InputBox</code> components.</p></li>
+<code>Message</code> or <code>InputBox</code> components.  </p></li>
 <li><h4 id="params-can-have-an-optional-type">Params can have an optional type.</h4>
 
 <p>In our case we declare <code>markdown</code> to be a <code>String</code>.  If the incoming parameter does not match the type a warning will be displayed on the console.  While typing your params is optional its highly recommended.</p></li>
 <li><h4 id="params-are-accessed-using-the-params-object">Params are accessed using the <code>params</code> object.</h4>
 
-<p>Each <code>param</code> you declare in a component will have a corresponding method on the <code>params</code> object.  Component parameters are accessible by any instance method within your component using the <code>params</code> object.</p></li>
+<p>Each <code>param</code> you declare in a component will have a corresponding method on the <code>params</code> object.  Component parameters are accessible by any instance method within your component using the <code>params</code> object.  </p></li>
 </ul>
 
 <h3 id="adding-an-event-handler">Adding An Event Handler</h3>
@@ -538,67 +418,6 @@ end
 </code></pre>
 <p>Replace the <code>Nav</code> component with the above code, and refresh your browser.  You should now be able to &quot;login&quot;.</p>
 
-<div class="codemirror-live-edit"
-  data-heading="3. Chat Application - Adding An Event Handler"
-  data-rows=9>
-<pre>
-class ExampleComponent < React::Component::Base
-  def render
-    div do
-      Nav()
-      Messages()
-      InputBox()
-    end
-  end
-end
-
-class Nav < React::Component::Base
-  def render
-    div do
-      input(class: :handle, type: :text, placeholder: "Enter Your Handle")
-      button(type: :button) { "login!" }.on(:click) do
-        alert("#{Element['input.handle'].value} logs in!")
-      end
-    end
-  end
-end
-
-class Messages < React::Component::Base
-  def render
-    # eventually we will loop and display each message
-    # for now we will just display one as an example
-    Message()
-  end
-end
-
-class Message < React::Component::Base
-  def render
-    FormattedDiv(markdown: "This **Markdown** will eventually be a message")
-  end
-end
-
-class InputBox < React::Component::Base
-  def render
-    div do
-      "An input box to send new messages will".br
-      "go here plus a display of the formatted markdown".br
-      FormattedDiv(markdown: "This **Markdown** will get updated as the user types")
-    end
-  end
-end
-
-class FormattedDiv < React::Component::Base
-
-  param :markdown, type: String
-
-  def render
-    div do
-      params.markdown
-    end
-  end
-end
-</pre></div>
-
 <p>Things to notice:</p>
 
 <ul>
@@ -607,16 +426,16 @@ end
 <p>The <code>on</code> method takes the event name and a block.  The block is called when the event occurs.</p></li>
 <li><h4 id="tag-attributes-are-passed-just-like-params">Tag attributes are passed just like params.</h4>
 
-<p><code>input(class: :handle, type: :text, placeholder: &quot;Enter Your Handle&quot;)</code>
-generates
+<p><code>input(class: :handle, type: :text, placeholder: &quot;Enter Your Handle&quot;)</code><br>
+generates<br>
 <code>&lt;input class=&quot;handle&quot;, type=&quot;text&quot;, placeholder=&quot;Enter Your Handle&quot; /&gt;</code></p></li>
 <li><h4 id="strings-and-symbols-are-the-same-type-in-opal">Strings and Symbols are the same type in Opal.</h4>
 
-<p>For effeciency the Opal-Ruby transpiler treats Ruby symbols as strings.  So
+<p>For effeciency the Opal-Ruby transpiler treats Ruby symbols as strings.  So<br>
 <code>:text == &#39;text&#39;</code></p></li>
 <li><h4 id="element-is-the-opal-ruby-jquery-compatible-wrapper"><code>Element</code> is the Opal-Ruby jQuery compatible wrapper.</h4>
 
-<p><code>Element[&#39;input.handle&#39;].value</code> translates to <code>$(&#39;input.handle&#39;).value()</code>
+<p><code>Element[&#39;input.handle&#39;].value</code> translates to <code>$(&#39;input.handle&#39;).value()</code><br>
 Be aware that <code>React::Element</code> which we refer to as <em>elements</em> through out the tutorial is not the same as Opal&#39;s <code>Element</code> wrapper.</p></li>
 </ul>
 
@@ -624,9 +443,9 @@ Be aware that <code>React::Element</code> which we refer to as <em>elements</em>
 
 <p>Our improved <code>Nav</code> component is still pretty dull, and having to directly access the DOM using <code>Element</code> is not a great idea either.</p>
 
-<p>To add some intelligence to our <code>Nav</code> component it needs <em>state</em>.  Reactrb provides <em>state variables</em> that work like <em>reactive</em> instance variables.  When a state variable is updated, it will cause components to re-render.</p>
+<p>To add some intelligence to our <code>Nav</code> component it needs <em>state</em>.  Reactrb provides <em>state variables</em> that work like <em>reactive</em> instance variables.  When a state variable is updated, it will cause components to re-render.  </p>
 
-<p>We are going to add two state variables to our component:  <code>current_user_name</code> and <code>user_name_input</code>.</p>
+<p>We are going to add two state variables to our component:  <code>current_user_name</code> and <code>user_name_input</code>.  </p>
 
 <p><code>current_user_name</code> is either <code>nil</code> (meaning there is no valid user name) or contains the user name string.</p>
 
@@ -661,87 +480,7 @@ Be aware that <code>React::Element</code> which we refer to as <em>elements</em>
 
 <span class="k">end</span>
 </code></pre>
-<p>Once again, update the <code>Nav</code> component, and make sure it works.</p>
-
-<div class="codemirror-live-edit"
-  data-heading="4. Chat Application - Adding State"
-  data-rows=9>
-<pre>
-class ExampleComponent < React::Component::Base
-  def render
-    div do
-      Nav()
-      Messages()
-      InputBox()
-    end
-  end
-end
-
-class Nav < React::Component::Base
-
-  before_mount do
-    state.current_user_name! nil
-    state.user_name_input! ""
-  end
-
-  def render
-    div do
-      input(type: :text, value: state.user_name_input, placeholder: "Enter Your Handle"
-      ).on(:change) do |e|
-        state.user_name_input! e.target.value
-      end
-      button(type: :button) { "login!" }.on(:click) do
-        login!
-      end if valid_new_input?
-    end
-  end
-
-  def valid_new_input?
-    state.user_name_input.present? && state.user_name_input != state.current_user_name
-  end
-
-  def login!
-    state.current_user_name! state.user_name_input
-    puts "*** #{state.current_user_name} has logged in"
-  end
-
-end
-
-class Messages < React::Component::Base
-  def render
-    # eventually we will loop and display each message
-    # for now we will just display one as an example
-    Message()
-  end
-end
-
-class Message < React::Component::Base
-  def render
-    FormattedDiv(markdown: "This **Markdown** will eventually be a message")
-  end
-end
-
-class InputBox < React::Component::Base
-  def render
-    div do
-      "An input box to send new messages will".br
-      "go here plus a display of the formatted markdown".br
-      FormattedDiv(markdown: "This **Markdown** will get updated as the user types")
-    end
-  end
-end
-
-class FormattedDiv < React::Component::Base
-
-  param :markdown, type: String
-
-  def render
-    div do
-      params.markdown
-    end
-  end
-end
-</pre></div>
+<p>Once again, update the <code>Nav</code> component, and make sure it works.  </p>
 
 <p>Things to notice:</p>
 
@@ -763,7 +502,7 @@ render is called, so its the place to initialize your state variables.</p>
 <p>More on the <em>lifecycle</em> callbacks later.</p></li>
 <li><h4 id="event-handlers-are-passed-the-event-object">Event handlers are passed the event object</h4>
 
-<p>As each character is typed we use the event object to update <code>state.user_name_input</code>.</p>
+<p>As each character is typed we use the event object to update <code>state.user_name_input</code>.  </p>
 
 <p>Besides giving us dynamic access to the state of the user input as its changing, <code>state.user_name_input</code> also frees us from having to tag and interrogate DOM objects directly.</p></li>
 <li><h4 id="as-state-changes-the-component-will-rerender">As state changes, the component will rerender.</h4>
@@ -791,7 +530,7 @@ update is performed.</p></li>
 
 <p>We don&#39;t want to clutter up our <code>Nav</code> component with this logic so we need some way to communicate that we have a new user name upwards to the parent.</p>
 
-<p>There are quite a few different ways to do this, depending on your specific needs.  A straight forward way is for the parent to provide a <em>callback</em> that the <code>Nav</code> component will use to signal that a new user has logged in.</p>
+<p>There are quite a few different ways to do this, depending on your specific needs.  A straight forward way is for the parent to provide a <em>callback</em> that the <code>Nav</code> component will use to signal that a new user has logged in.  </p>
 
 <p>Add the following <code>param</code> declaration at the top of the <code>Nav</code> component:</p>
 <pre class="highlight ruby"><code>  <span class="n">param</span> <span class="ss">:login</span><span class="p">,</span> <span class="ss">type: </span><span class="no">Proc</span>
@@ -803,92 +542,10 @@ update is performed.</p></li>
   <span class="k">end</span>
 </code></pre>
 <p>Again reload your browser and try logging in.  You will notice in the console that there is a new warning:</p>
-
-<div class="codemirror-live-edit"
-  data-heading="5. Chat Application - Talking to Your Parents"
-  data-rows=9>
-<pre>
-class ExampleComponent < React::Component::Base
-  def render
-    div do
-      Nav()
-      Messages()
-      InputBox()
-    end
-  end
-end
-
-class Nav < React::Component::Base
-
-  param :login, type: Proc
-
-  before_mount do
-    state.current_user_name! nil
-    state.user_name_input! ""
-  end
-
-  def render
-    div do
-      input(type: :text, value: state.user_name_input, placeholder: "Enter Your Handle"
-      ).on(:change) do |e|
-        state.user_name_input! e.target.value
-      end
-      button(type: :button) { "login!" }.on(:click) do
-        login!
-      end if valid_new_input?
-    end
-  end
-
-  def valid_new_input?
-    state.user_name_input.present? && state.user_name_input != state.current_user_name
-  end
-
-  def login!
-    state.current_user_name! state.user_name_input
-    params.login(state.user_name_input)
-  end
-
-end
-
-class Messages < React::Component::Base
-  def render
-    # eventually we will loop and display each message
-    # for now we will just display one as an example
-    Message()
-  end
-end
-
-class Message < React::Component::Base
-  def render
-    FormattedDiv(markdown: "This **Markdown** will eventually be a message")
-  end
-end
-
-class InputBox < React::Component::Base
-  def render
-    div do
-      "An input box to send new messages will".br
-      "go here plus a display of the formatted markdown".br
-      FormattedDiv(markdown: "This **Markdown** will get updated as the user types")
-    end
-  end
-end
-
-class FormattedDiv < React::Component::Base
-
-  param :markdown, type: String
-
-  def render
-    div do
-      params.markdown
-    end
-  end
-end
-</pre></div>
 <pre class="highlight shell_session"><code>Warning: Failed propType: In component `Nav`
 Required prop `login` was not specified Check the render method of `App`.
 </code></pre>
-<p>Which makes sense, as we specified that <code>Nav</code> wants a <code>login</code> parameter, but <code>App</code> did not provide one.</p>
+<p>Which makes sense, as we specified that <code>Nav</code> wants a <code>login</code> parameter, but <code>App</code> did not provide one.  </p>
 
 <p>Lets go ahead and add the callback to the <code>App</code> component.  Add the following method to the bottom of the <code>App</code>:</p>
 <pre class="highlight ruby"><code>  <span class="k">def</span> <span class="nf">login</span><span class="p">(</span><span class="n">user_name</span><span class="p">)</span>
@@ -903,102 +560,14 @@ Required prop `login` was not specified Check the render method of `App`.
 </code></pre>
 <p>Reload your browser, and login, and the warning will be gone, and the login message will be back.</p>
 
-<div class="codemirror-live-edit"
-  data-heading="6. Chat Application - Talking to Your Parents"
-  data-rows=9>
-<pre>
-class ExampleComponent < React::Component::Base
-
-  def render
-    div do
-      Nav(login: method(:login).to_proc)
-      Messages()
-      InputBox()
-    end
-  end
-
-  def login(user_name)
-    puts "*** #{user_name} has logged in"
-  end
-
-end
-
-class Nav < React::Component::Base
-
-  param :login, type: Proc
-
-  before_mount do
-    state.current_user_name! nil
-    state.user_name_input! ""
-  end
-
-  def render
-    div do
-      input(type: :text, value: state.user_name_input, placeholder: "Enter Your Handle"
-      ).on(:change) do |e|
-        state.user_name_input! e.target.value
-      end
-      button(type: :button) { "login!" }.on(:click) do
-        login!
-      end if valid_new_input?
-    end
-  end
-
-  def valid_new_input?
-    state.user_name_input.present? && state.user_name_input != state.current_user_name
-  end
-
-  def login!
-    state.current_user_name! state.user_name_input
-    params.login(state.user_name_input)
-  end
-
-end
-
-class Messages < React::Component::Base
-  def render
-    # eventually we will loop and display each message
-    # for now we will just display one as an example
-    Message()
-  end
-end
-
-class Message < React::Component::Base
-  def render
-    FormattedDiv(markdown: "This **Markdown** will eventually be a message")
-  end
-end
-
-class InputBox < React::Component::Base
-  def render
-    div do
-      "An input box to send new messages will".br
-      "go here plus a display of the formatted markdown".br
-      FormattedDiv(markdown: "This **Markdown** will get updated as the user types")
-    end
-  end
-end
-
-class FormattedDiv < React::Component::Base
-
-  param :markdown, type: String
-
-  def render
-    div do
-      params.markdown
-    end
-  end
-end
-</pre></div>
-
 <p>Lets review these changes:</p>
 
 <ul>
 <li><h4 id="callbacks-are-a-simple-way-to-communicate-upwards">Callbacks are a simple way to communicate upwards</h4>
 
-<p>As we will see there are other mechanisms which are often more appropriate but in this case a call back <code>Proc</code> is the perfect solution.</p>
+<p>As we will see there are other mechanisms which are often more appropriate but in this case a call back <code>Proc</code> is the perfect solution.  </p>
 
-<p>To implement a callback you declare the param type as <code>Proc</code>.  This tells the <code>params</code> object to treat the param as a method call, rather than just returning its value.</p>
+<p>To implement a callback you declare the param type as <code>Proc</code>.  This tells the <code>params</code> object to treat the param as a method call, rather than just returning its value.  </p>
 
 <p>Meanwhile in the parent component you will need to pass a <code>Proc</code> to the component.  Ruby lets you create and access <code>Proc</code>s in several ways, in our case we converted the instance method <code>login</code> to a <code>Proc</code> using <code>method</code>.</p></li>
 <li><h4 id="react-takes-the-approach-of-warning-vs-errors-when-things-go-wrong">React takes the approach of warning vs. errors when things go wrong</h4>
@@ -1020,7 +589,7 @@ have additional state to track and report the progress of the login process.</p>
 <pre class="highlight ruby"><code>  <span class="n">chat</span> <span class="o">=</span> <span class="no">ChatService</span><span class="p">.</span><span class="nf">new</span> <span class="k">do</span> <span class="o">|</span> <span class="n">messages</span> <span class="o">|</span>
     <span class="c1"># After a user logs in, a (possibly empty) initial</span>
     <span class="c1"># array of current messages will be sent to this block.</span>
-    <span class="c1"># As new messages arrive the block will be called again.</span>
+    <span class="c1"># As new messages arrive the block will be called again.  </span>
   <span class="k">end</span>
 </code></pre>
 <p>The object returned by <code>ChatService.new</code> has three methods:  <code>login, id</code> and <code>send</code>.</p>
@@ -1038,7 +607,7 @@ the message string, and the time that the message was sent:</p>
 
 <h3 id="lifecycle-callbacks">Lifecycle Callbacks</h3>
 
-<p>A react component has a well defined life cycle, and your components can hook into the lifecycle using the callback macros.  In our application we will use three of the most common callbacks <code>before_mount, after_mount</code> and <code>after_update</code>.</p>
+<p>A react component has a well defined life cycle, and your components can hook into the lifecycle using the callback macros.  In our application we will use three of the most common callbacks <code>before_mount, after_mount</code> and <code>after_update</code>.  </p>
 
 <p>Each call back takes a block or the name of a method, which will be called as the component passes through each stage in its lifecycle.</p>
 
@@ -1056,114 +625,15 @@ the message string, and the time that the message was sent:</p>
     <span class="k">end</span>
   <span class="k">end</span>
 </code></pre>
-<p>Before the component mounts our callback will execute and it creates a new <code>ChatService</code> instance.</p>
+<p>Before the component mounts our callback will execute and it creates a new <code>ChatService</code> instance.  </p>
 
 <p>As each new set of messages arrives the block will execute which will initialize or append the messages to the <code>state.messages</code> state variable.  We know we want to make this a state variable since it clearly is going to change asynchronously overtime, and we will want to update the UI when that occurs.</p>
 
 <p>Refresh your browser, and make sure nothing is broken, but notice nothing is changing.  <em>Why Not?</em> - because we have not logged in yet.</p>
 
-<div class="codemirror-live-edit"
-  data-heading="7. Chat Application - Lifecycle Callbacks"
-  data-rows=9>
-<pre>
-class ExampleComponent < React::Component::Base
-
-  before_mount do
-    ChatService.new do | messages |
-      if state.messages
-        state.messages! state.messages + messages
-      else
-        state.messages! messages
-      end
-      puts "state messages updated.  state.messages: #{state.messages}"
-    end
-  end
-
-  def render
-    div do
-      Nav(login: method(:login).to_proc)
-      Messages()
-      InputBox()
-    end
-  end
-
-  def login(user_name)
-    puts "*** #{user_name} has logged in"
-  end
-
-end
-
-class Nav < React::Component::Base
-
-  param :login, type: Proc
-
-  before_mount do
-    state.current_user_name! nil
-    state.user_name_input! ""
-  end
-
-  def render
-    div do
-      input(type: :text, value: state.user_name_input, placeholder: "Enter Your Handle"
-      ).on(:change) do |e|
-        state.user_name_input! e.target.value
-      end
-      button(type: :button) { "login!" }.on(:click) do
-        login!
-      end if valid_new_input?
-    end
-  end
-
-  def valid_new_input?
-    state.user_name_input.present? && state.user_name_input != state.current_user_name
-  end
-
-  def login!
-    state.current_user_name! state.user_name_input
-    params.login(state.user_name_input)
-  end
-
-end
-
-class Messages < React::Component::Base
-  def render
-    # eventually we will loop and display each message
-    # for now we will just display one as an example
-    Message()
-  end
-end
-
-class Message < React::Component::Base
-  def render
-    FormattedDiv(markdown: "This **Markdown** will eventually be a message")
-  end
-end
-
-class InputBox < React::Component::Base
-  def render
-    div do
-      "An input box to send new messages will".br
-      "go here plus a display of the formatted markdown".br
-      FormattedDiv(markdown: "This **Markdown** will get updated as the user types")
-    end
-  end
-end
-
-class FormattedDiv < React::Component::Base
-
-  param :markdown, type: String
-
-  def render
-    div do
-      params.markdown
-    end
-  end
-end
-</pre></div>
-
 <h3 id="instance-and-state-variables">Instance and State Variables</h3>
 
-<p>Okay so while we can initialize the chat service when <code>App</code> mounts, nothing will happen until the user logs in.</p>
+<p>Okay so while we can initialize the chat service when <code>App</code> mounts, nothing will happen until the user logs in.  </p>
 
 <p>We have our login method already defined, so we just want to change it so that it passes the login to the chat service.  To do this we have to save the chat service object in the <code>before_mount</code> callback so that we can use it in the <code>login</code> method.</p>
 
@@ -1183,126 +653,6 @@ end
 <p>With this in place refresh your browser, and watch the console as you login.  You should see an array of messages that looks like this:</p>
 <pre class="highlight shell_session"><code>state messages updated.  state.messages: {"from"=&gt;"user1", "time"=&gt;1449089985, "message"=&gt;"A 2 point message: \n+ point 1\n+ point 2\nGot it?"},{"from"=&gt;"user2", "time"=&gt;1449262785, "message"=&gt;"message sent 8 days ago, by user 2"},{"from"=&gt;"user3", "time"=&gt;1449521985, "message"=&gt;"message sent in the last week"},{"from"=&gt;"user2", "time"=&gt;1449608385, "message"=&gt;"message sent **also** in the last week"},{"from"=&gt;"user1", "time"=&gt;1449950385, "message"=&gt;"Was sent within the last hour!"},{"from"=&gt;"user2", "time"=&gt;1449952185, "message"=&gt;"Was sent 30 minutes ago"},{"from"=&gt;"user3", "time"=&gt;1449953385, "message"=&gt;"Was just sent\n\n\n\n\n\n\n\n\nwith a lot of blanks"},{"from"=&gt;"user1", "time"=&gt;1449953985, "message"=&gt;"just now"}
 </code></pre>
-<div class="codemirror-live-edit"
-  data-heading="8. Chat Application - Instance and State Variables"
-  data-rows=9>
-<pre>
-class ChatService
-
-  def initialize(&block)
-    @block = block
-    @messages = {"from"=>"user1", "time"=>1449089985, "message"=>"A 2 point message: \n+ point 1\n+ point 2\nGot it?"},{"from"=>"user2", "time"=>1449262785, "message"=>"message sent 8 days ago, by user 2"},{"from"=>"user3", "time"=>1449521985, "message"=>"message sent in the last week"},{"from"=>"user2", "time"=>1449608385, "message"=>"message sent **also** in the last week"},{"from"=>"user1", "time"=>1449950385, "message"=>"Was sent within the last hour!"},{"from"=>"user2", "time"=>1449952185, "message"=>"Was sent 30 minutes ago"},{"from"=>"user3", "time"=>1449953385, "message"=>"Was just sent\n\n\n\n\n\n\n\n\nwith a lot of blanks"},{"from"=>"user1", "time"=>1449953985, "message"=>"just now"}
-  end
-
-  def login(user_name)
-    @user_name = user_name
-    @block.call @messages
-  end
-
-  def id
-    @user_name
-  end
-
-  def send(data = {})
-    @messages << data
-    @block.call [data]
-  end
-
-end
-
-class ExampleComponent < React::Component::Base
-
-  before_mount do
-    @chat_service = ChatService.new do | messages |
-      state.messages! ((state.messages || []) + messages)
-      puts "state messages updated.  state.messages: #{state.messages}"
-    end
-  end
-
-  def render
-    div do
-      Nav(login: method(:login).to_proc)
-      Messages()
-      InputBox()
-    end
-  end
-
-  def login(user_name)
-    @chat_service.login(user_name)
-  end
-
-end
-
-
-
-class Nav < React::Component::Base
-
-  param :login, type: Proc
-
-  before_mount do
-    state.current_user_name! nil
-    state.user_name_input! ""
-  end
-
-  def render
-    div do
-      input(type: :text, value: state.user_name_input, placeholder: "Enter Your Handle"
-      ).on(:change) do |e|
-        state.user_name_input! e.target.value
-      end
-      button(type: :button) { "login!" }.on(:click) do
-        login!
-      end if valid_new_input?
-    end
-  end
-
-  def valid_new_input?
-    state.user_name_input.present? && state.user_name_input != state.current_user_name
-  end
-
-  def login!
-    state.current_user_name! state.user_name_input
-    params.login(state.user_name_input)
-  end
-
-end
-
-class Messages < React::Component::Base
-  def render
-    # eventually we will loop and display each message
-    # for now we will just display one as an example
-    Message()
-  end
-end
-
-class Message < React::Component::Base
-  def render
-    FormattedDiv(markdown: "This **Markdown** will eventually be a message")
-  end
-end
-
-class InputBox < React::Component::Base
-  def render
-    div do
-      "An input box to send new messages will".br
-      "go here plus a display of the formatted markdown".br
-      FormattedDiv(markdown: "This **Markdown** will get updated as the user types")
-    end
-  end
-end
-
-class FormattedDiv < React::Component::Base
-
-  param :markdown, type: String
-
-  def render
-    div do
-      params.markdown
-    end
-  end
-end
-</pre></div>
-
 <p>There is an important point here:</p>
 
 <ul>
@@ -1360,138 +710,6 @@ end
 </code></pre>
 <p>Save everything, and refresh your browser.  Login and you should see a very rough but functional display of your messages!</p>
 
-<div class="codemirror-live-edit"
-  data-heading="9. Chat Application - Not everything has to be a state variable"
-  data-rows=9>
-<pre>
-class ChatService
-
-  def initialize(&block)
-    @block = block
-    @messages = {"from"=>"user1", "time"=>1449089985, "message"=>"A 2 point message: \n+ point 1\n+ point 2\nGot it?"},{"from"=>"user2", "time"=>1449262785, "message"=>"message sent 8 days ago, by user 2"},{"from"=>"user3", "time"=>1449521985, "message"=>"message sent in the last week"},{"from"=>"user2", "time"=>1449608385, "message"=>"message sent **also** in the last week"},{"from"=>"user1", "time"=>1449950385, "message"=>"Was sent within the last hour!"},{"from"=>"user2", "time"=>1449952185, "message"=>"Was sent 30 minutes ago"},{"from"=>"user3", "time"=>1449953385, "message"=>"Was just sent\n\n\n\n\n\n\n\n\nwith a lot of blanks"},{"from"=>"user1", "time"=>1449953985, "message"=>"just now"}
-  end
-
-  def login(user_name)
-    @user_name = user_name
-    @block.call @messages
-  end
-
-  def id
-    @user_name
-  end
-
-  def send(data = {})
-    @messages << data
-    @block.call [data]
-  end
-
-end
-
-class ExampleComponent < React::Component::Base
-
-  before_mount do
-    @chat_service = ChatService.new do | messages |
-      state.messages! ((state.messages || []) + messages)
-      puts "state messages updated.  state.messages: #{state.messages}"
-    end
-  end
-
-  def render
-    div do
-      Nav login: method(:login).to_proc
-      Messages messages: state.messages
-      InputBox()
-    end
-  end
-
-  def login(user_name)
-    @chat_service.login(user_name)
-  end
-
-end
-
-
-
-class Nav < React::Component::Base
-
-  param :login, type: Proc
-
-  before_mount do
-    state.current_user_name! nil
-    state.user_name_input! ""
-  end
-
-  def render
-    div do
-      input(type: :text, value: state.user_name_input, placeholder: "Enter Your Handle"
-      ).on(:change) do |e|
-        state.user_name_input! e.target.value
-      end
-      button(type: :button) { "login!" }.on(:click) do
-        login!
-      end if valid_new_input?
-    end
-  end
-
-  def valid_new_input?
-    state.user_name_input.present? && state.user_name_input != state.current_user_name
-  end
-
-  def login!
-    state.current_user_name! state.user_name_input
-    params.login(state.user_name_input)
-  end
-
-end
-
-class Messages < React::Component::Base
-
-  param :messages, type: [Hash]
-
-  def render
-    div do
-      params.messages.each do |message|
-        Message message: message
-      end
-    end
-  end
-end
-
-class Message < React::Component::Base
-
-  param :message, type: Hash
-
-  def render
-    div do
-      div { params.message[:from] }
-      FormattedDiv markdown: params.message[:message]
-      div { Time.at(params.message[:time]).to_s }
-    end
-  end
-end
-
-class InputBox < React::Component::Base
-  def render
-    div do
-      "An input box to send new messages will".br
-      "go here plus a display of the formatted markdown".br
-      FormattedDiv(markdown: "This **Markdown** will get updated as the user types")
-    end
-  end
-end
-
-class FormattedDiv < React::Component::Base
-
-  param :markdown, type: String
-
-  def render
-    div do
-      params.markdown
-    end
-  end
-end
-</pre></div>
-
 <ul>
 <li><h4 id="array-type-params">Array type params</h4>
 
@@ -1504,7 +722,7 @@ end
 
 <p>Take a look at the console log, and you will see a big red error like this:</p>
 
-<p><code>Exception raised while rendering #&lt;Messages:0x16fa&gt;</code>
+<p><code>Exception raised while rendering #&lt;Messages:0x16fa&gt;</code><br>
 <code>NoMethodError: undefined method &#39;each&#39; for nil</code></p>
 
 <p>Lets think about this.  When we first render <code>Messages</code>, there are no messages, so trying to send <code>each</code> to <code>nil</code> fails.</p>
@@ -1516,7 +734,7 @@ end
     <span class="n">state</span><span class="p">.</span><span class="nf">messages</span>
   <span class="k">end</span>
 </code></pre>
-<p>For our simple App we are going to figure that we are logged in <strong>if</strong> <code>state.messages</code> is not <code>nil</code>.</p>
+<p>For our simple App we are going to figure that we are logged in <strong>if</strong> <code>state.messages</code> is not <code>nil</code>.  </p>
 
 <p>Now update the <code>App</code>s <code>render</code> method so that we don&#39;t display the <code>Messages</code> or the <code>InputBox</code> unless we are logged in.</p>
 <pre class="highlight ruby"><code>  <span class="k">def</span> <span class="nf">render</span>
@@ -1531,149 +749,11 @@ end
 </code></pre>
 <p>Refresh the page and the error should be gone.</p>
 
-<div class="codemirror-live-edit"
-  data-heading="10. Chat Application - Some Cleanup"
-  data-rows=9>
-<pre>
-class ChatService
-
-  def initialize(&block)
-    @block = block
-    @messages = {"from"=>"user1", "time"=>1449089985, "message"=>"A 2 point message: \n+ point 1\n+ point 2\nGot it?"},{"from"=>"user2", "time"=>1449262785, "message"=>"message sent 8 days ago, by user 2"},{"from"=>"user3", "time"=>1449521985, "message"=>"message sent in the last week"},{"from"=>"user2", "time"=>1449608385, "message"=>"message sent **also** in the last week"},{"from"=>"user1", "time"=>1449950385, "message"=>"Was sent within the last hour!"},{"from"=>"user2", "time"=>1449952185, "message"=>"Was sent 30 minutes ago"},{"from"=>"user3", "time"=>1449953385, "message"=>"Was just sent\n\n\n\n\n\n\n\n\nwith a lot of blanks"},{"from"=>"user1", "time"=>1449953985, "message"=>"just now"}
-  end
-
-  def login(user_name)
-    @user_name = user_name
-    @block.call @messages
-  end
-
-  def id
-    @user_name
-  end
-
-  def send(data = {})
-    @messages << data
-    @block.call [data]
-  end
-
-end
-
-class ExampleComponent < React::Component::Base
-
-  before_mount do
-    @chat_service = ChatService.new do | messages |
-      state.messages! ((state.messages || []) + messages)
-      puts "state messages updated.  state.messages: #{state.messages}"
-    end
-  end
-
-  def render
-    div do
-      Nav login: method(:login).to_proc
-      if online?
-        Messages messages: state.messages
-        InputBox()
-      end
-    end
-  end
-
-  def login(user_name)
-    @chat_service.login(user_name)
-  end
-
-  def online?
-    state.messages
-  end
-
-end
-
-
-
-class Nav < React::Component::Base
-
-  param :login, type: Proc
-
-  before_mount do
-    state.current_user_name! nil
-    state.user_name_input! ""
-  end
-
-  def render
-    div do
-      input(type: :text, value: state.user_name_input, placeholder: "Enter Your Handle"
-      ).on(:change) do |e|
-        state.user_name_input! e.target.value
-      end
-      button(type: :button) { "login!" }.on(:click) do
-        login!
-      end if valid_new_input?
-    end
-  end
-
-  def valid_new_input?
-    state.user_name_input.present? && state.user_name_input != state.current_user_name
-  end
-
-  def login!
-    state.current_user_name! state.user_name_input
-    params.login(state.user_name_input)
-  end
-
-end
-
-class Messages < React::Component::Base
-
-  param :messages, type: [Hash]
-
-  def render
-    div do
-      params.messages.each do |message|
-        Message message: message
-      end
-    end
-  end
-end
-
-class Message < React::Component::Base
-
-  param :message, type: Hash
-
-  def render
-    div do
-      div { params.message[:from] }
-      FormattedDiv markdown: params.message[:message]
-      div { Time.at(params.message[:time]).to_s }
-    end
-  end
-end
-
-class InputBox < React::Component::Base
-  def render
-    div do
-      "An input box to send new messages will".br
-      "go here plus a display of the formatted markdown".br
-      FormattedDiv(markdown: "This **Markdown** will get updated as the user types")
-    end
-  end
-end
-
-class FormattedDiv < React::Component::Base
-
-  param :markdown, type: String
-
-  def render
-    div do
-      params.markdown
-    end
-  end
-end
-</pre></div>
-
 <h3 id="sending-messages">Sending Messages</h3>
 
 <p>Next lets send some messages.  To do this the InputBox component will need to communicate when the user sends a new message.  We could add a callback like we did with the <code>Nav</code> component, but it might be more appropriate to use a different mechanism here.</p>
 
-<p>We know we can send a message by doing a <code>@chat_service.send</code>, so if we just pass the <code>@chat_service</code> down to the InputBox we should be all set.</p>
+<p>We know we can send a message by doing a <code>@chat_service.send</code>, so if we just pass the <code>@chat_service</code> down to the InputBox we should be all set.  </p>
 
 <p>So first update the <code>App</code> render method to pass the <code>@chat_service</code> to the InputBox:</p>
 <pre class="highlight ruby"><code>   <span class="p">.</span><span class="nf">.</span><span class="o">.</span>
@@ -1713,7 +793,7 @@ end
 
 <span class="k">end</span>
 </code></pre>
-<p>While we have done almost nothing new here, lets walk through so we are sure we understand everything.</p>
+<p>While we have done almost nothing new here, lets walk through so we are sure we understand everything.  </p>
 
 <p>The <code>InputBox</code> receives a <code>ChatService</code> which it will use to get the current user id, and send each new chat message.</p>
 
@@ -1723,166 +803,6 @@ end
 
 <p>The current value of<code>state.composition</code> is passed along to the <code>FormattedDiv</code> which will (eventually) display the formatted markdown.</p>
 
-<div class="codemirror-live-edit"
-  data-heading="11. Chat Application - Sending Messages"
-  data-rows=9>
-<pre>
-class ChatService
-
-  def initialize(&block)
-    @block = block
-    @messages = {"from"=>"user1", "time"=>1449089985, "message"=>"A 2 point message: \n+ point 1\n+ point 2\nGot it?"},{"from"=>"user2", "time"=>1449262785, "message"=>"message sent 8 days ago, by user 2"},{"from"=>"user3", "time"=>1449521985, "message"=>"message sent in the last week"},{"from"=>"user2", "time"=>1449608385, "message"=>"message sent **also** in the last week"},{"from"=>"user1", "time"=>1449950385, "message"=>"Was sent within the last hour!"},{"from"=>"user2", "time"=>1449952185, "message"=>"Was sent 30 minutes ago"},{"from"=>"user3", "time"=>1449953385, "message"=>"Was just sent\n\n\n\n\n\n\n\n\nwith a lot of blanks"},{"from"=>"user1", "time"=>1449953985, "message"=>"just now"}
-  end
-
-  def login(user_name)
-    @user_name = user_name
-    @block.call @messages
-  end
-
-  def id
-    @user_name
-  end
-
-  def send(data = {})
-    @messages << data
-    @block.call [data]
-  end
-
-end
-
-class ExampleComponent < React::Component::Base
-
-  before_mount do
-    @chat_service = ChatService.new do | messages |
-      state.messages! ((state.messages || []) + messages)
-      puts "state messages updated.  state.messages: #{state.messages}"
-    end
-  end
-
-  def render
-    div do
-      Nav login: method(:login).to_proc
-      if online?
-        Messages messages: state.messages
-        InputBox chat_service: @chat_service
-      end
-    end
-  end
-
-  def login(user_name)
-    @chat_service.login(user_name)
-  end
-
-  def online?
-    state.messages
-  end
-
-end
-
-
-
-class Nav < React::Component::Base
-
-  param :login, type: Proc
-
-  before_mount do
-    state.current_user_name! nil
-    state.user_name_input! ""
-  end
-
-  def render
-    div do
-      input(type: :text, value: state.user_name_input, placeholder: "Enter Your Handle"
-      ).on(:change) do |e|
-        state.user_name_input! e.target.value
-      end
-      button(type: :button) { "login!" }.on(:click) do
-        login!
-      end if valid_new_input?
-    end
-  end
-
-  def valid_new_input?
-    state.user_name_input.present? && state.user_name_input != state.current_user_name
-  end
-
-  def login!
-    state.current_user_name! state.user_name_input
-    params.login(state.user_name_input)
-  end
-
-end
-
-class Messages < React::Component::Base
-
-  param :messages, type: [Hash]
-
-  def render
-    div do
-      params.messages.each do |message|
-        Message message: message
-      end
-    end
-  end
-end
-
-class Message < React::Component::Base
-
-  param :message, type: Hash
-
-  def render
-    div do
-      div { params.message[:from] }
-      FormattedDiv markdown: params.message[:message]
-      div { Time.at(params.message[:time]).to_s }
-    end
-  end
-end
-
-class InputBox < React::Component::Base
-
-  param :chat_service, type: ChatService
-
-  before_mount { state.composition! "" }
-
-  def render
-    div do
-      div {"Say Something: "}
-      input(value: state.composition).on(:change) do |e|
-        state.composition! e.target.value
-      end.on(:key_down) do |e|
-        send_message if is_send_key?(e)
-      end
-      FormattedDiv markdown: state.composition
-    end
-  end
-
-  def is_send_key?(e)
-    (e.char_code == 13 || e.key_code == 13)
-  end
-
-  def send_message
-    params.chat_service.send(
-      message: state.composition!(""),
-      time: Time.now.to_i,
-      from: params.chat_service.id
-    )
-  end
-
-end
-
-class FormattedDiv < React::Component::Base
-
-  param :markdown, type: String
-
-  def render
-    div do
-      params.markdown
-    end
-  end
-end
-</pre></div>
-
 <ul>
 <li><h4 id="updating-state-variables-returns-the-current-value">Updating state variables returns the current value</h4>
 
@@ -1891,7 +811,7 @@ end
 
 <h3 id="formatting-the-markdown">Formatting The Markdown</h3>
 
-<p>Lets get the <code>FormattedDiv</code> working.  The header loads the marked.js library which will convert markdown to html.  React will normally escape any raw html, but there is a special escape mechanism which we will use in our component.</p>
+<p>Lets get the <code>FormattedDiv</code> working.  The header loads the marked.js library which will convert markdown to html.  React will normally escape any raw html, but there is a special escape mechanism which we will use in our component.  </p>
 
 <p>We will also use Opal-Ruby&#39;s native escape mechanism to insert raw javascript code so we can call the <code>marked</code> function.</p>
 
@@ -1906,343 +826,16 @@ end
 
 <p>For more fun type some markdown into the input box and the formatted version will update as you type.</p>
 
-<div class="codemirror-live-edit"
-  data-heading="12. Chat Application - Formatting The Markdown"
-  data-rows=9>
-<pre>
-class ChatService
-
-  def initialize(&block)
-    @block = block
-    @messages = {"from"=>"user1", "time"=>1449089985, "message"=>"A 2 point message: \n+ point 1\n+ point 2\nGot it?"},{"from"=>"user2", "time"=>1449262785, "message"=>"message sent 8 days ago, by user 2"},{"from"=>"user3", "time"=>1449521985, "message"=>"message sent in the last week"},{"from"=>"user2", "time"=>1449608385, "message"=>"message sent **also** in the last week"},{"from"=>"user1", "time"=>1449950385, "message"=>"Was sent within the last hour!"},{"from"=>"user2", "time"=>1449952185, "message"=>"Was sent 30 minutes ago"},{"from"=>"user3", "time"=>1449953385, "message"=>"Was just sent\n\n\n\n\n\n\n\n\nwith a lot of blanks"},{"from"=>"user1", "time"=>1449953985, "message"=>"just now"}
-  end
-
-  def login(user_name)
-    @user_name = user_name
-    @block.call @messages
-  end
-
-  def id
-    @user_name
-  end
-
-  def send(data = {})
-    @messages << data
-    @block.call [data]
-  end
-
-end
-
-class ExampleComponent < React::Component::Base
-
-  before_mount do
-    @chat_service = ChatService.new do | messages |
-      state.messages! ((state.messages || []) + messages)
-      puts "state messages updated.  state.messages: #{state.messages}"
-    end
-  end
-
-  def render
-    div do
-      Nav login: method(:login).to_proc
-      if online?
-        Messages messages: state.messages
-        InputBox chat_service: @chat_service
-      end
-    end
-  end
-
-  def login(user_name)
-    @chat_service.login(user_name)
-  end
-
-  def online?
-    state.messages
-  end
-
-end
-
-
-
-class Nav < React::Component::Base
-
-  param :login, type: Proc
-
-  before_mount do
-    state.current_user_name! nil
-    state.user_name_input! ""
-  end
-
-  def render
-    div do
-      input(type: :text, value: state.user_name_input, placeholder: "Enter Your Handle"
-      ).on(:change) do |e|
-        state.user_name_input! e.target.value
-      end
-      button(type: :button) { "login!" }.on(:click) do
-        login!
-      end if valid_new_input?
-    end
-  end
-
-  def valid_new_input?
-    state.user_name_input.present? && state.user_name_input != state.current_user_name
-  end
-
-  def login!
-    state.current_user_name! state.user_name_input
-    params.login(state.user_name_input)
-  end
-
-end
-
-class Messages < React::Component::Base
-
-  param :messages, type: [Hash]
-
-  def render
-    div do
-      params.messages.each do |message|
-        Message message: message
-      end
-    end
-  end
-end
-
-class Message < React::Component::Base
-
-  param :message, type: Hash
-
-  def render
-    div do
-      div { params.message[:from] }
-      FormattedDiv markdown: params.message[:message]
-      div { Time.at(params.message[:time]).to_s }
-    end
-  end
-end
-
-class InputBox < React::Component::Base
-
-  param :chat_service, type: ChatService
-
-  before_mount { state.composition! "" }
-
-  def render
-    div do
-      div {"Say Something: "}
-      input(value: state.composition).on(:change) do |e|
-        state.composition! e.target.value
-      end.on(:key_down) do |e|
-        send_message if is_send_key?(e)
-      end
-      FormattedDiv markdown: state.composition
-    end
-  end
-
-  def is_send_key?(e)
-    (e.char_code == 13 || e.key_code == 13)
-  end
-
-  def send_message
-    params.chat_service.send(
-      message: state.composition!(""),
-      time: Time.now.to_i,
-      from: params.chat_service.id
-    )
-  end
-
-end
-
-class FormattedDiv < React::Component::Base
-
-  param :markdown, type: String
-
-  def render
-    div do
-      div({dangerously_set_inner_HTML: { __html: `marked(#{params.markdown}, {sanitize: true})`}})
-    end
-  end
-end
-</pre></div>
-
 <ul>
 <li><h4 id="inserting-raw-html">Inserting raw HTML</h4>
 
 <p>React makes this hard because its dangerous. The above syntax can be used whenever you need to directly insert some raw HTML.</p></li>
 <li><h4 id="opal-javascript-native">Opal Javascript Native</h4>
 
-<p>In the above example we insert some raw javascript using the backquote literal.  Within the literal you can escape back out to Ruby using the <code>#{}</code> operator.</p></li>
+<p>In the above example we insert some raw javascript using the backquote literal.  Within the literal you can escape back out to Ruby using the <code>#{}</code> operator.  </p></li>
 </ul>
 
 <p>Congratulations your chat app is basically working.  If you want change <code>test_chat_service.js</code> to <code>chat_service.js</code> and you can now run your client in several windows and watch things update nicely.</p>
-
-<div class="codemirror-live-edit"
-  data-heading="13. Chat Application - Changed to chat_service"
-  data-rows=9>
-<pre>
-class ChatService
-
-  def initialize(&block)
-    @block = block
-    @messages = []
-    @user_id = nil
-    @socket = Browser::Socket.new("wss://ruby-websockets-chat.herokuapp.com/") do |socket|
-      socket.on :message do |e|
-        data = JSON.parse(`unescape(#{JSON.parse(e.data)[:text]})`)
-        @messages << data
-        @block.call [data] if id
-      end
-    end
-  end
-
-  def login(user_id)
-    @user_id = user_id
-    @block.call @messages
-  end
-
-  def id
-    @user_id
-  end
-
-  def send(data = {})
-    @socket.send({handle: id, text: `escape(#{data.to_json})`}.to_json)
-  end
-
-end
-
-class ExampleComponent < React::Component::Base
-
-  before_mount do
-    @chat_service = ChatService.new do | messages |
-      state.messages! ((state.messages || []) + messages)
-      puts "state messages updated.  state.messages: #{state.messages}"
-    end
-  end
-
-  def render
-    div do
-      Nav login: method(:login).to_proc
-      if online?
-        Messages messages: state.messages
-        InputBox chat_service: @chat_service
-      end
-    end
-  end
-
-  def login(user_name)
-    @chat_service.login(user_name)
-  end
-
-  def online?
-    state.messages
-  end
-
-end
-
-
-
-class Nav < React::Component::Base
-
-  param :login, type: Proc
-
-  before_mount do
-    state.current_user_name! nil
-    state.user_name_input! ""
-  end
-
-  def render
-    div do
-      input(type: :text, value: state.user_name_input, placeholder: "Enter Your Handle"
-      ).on(:change) do |e|
-        state.user_name_input! e.target.value
-      end
-      button(type: :button) { "login!" }.on(:click) do
-        login!
-      end if valid_new_input?
-    end
-  end
-
-  def valid_new_input?
-    state.user_name_input.present? && state.user_name_input != state.current_user_name
-  end
-
-  def login!
-    state.current_user_name! state.user_name_input
-    params.login(state.user_name_input)
-  end
-
-end
-
-class Messages < React::Component::Base
-
-  param :messages, type: [Hash]
-
-  def render
-    div do
-      params.messages.each do |message|
-        Message message: message
-      end
-    end
-  end
-end
-
-class Message < React::Component::Base
-
-  param :message, type: Hash
-
-  def render
-    div do
-      div { params.message[:from] }
-      FormattedDiv markdown: params.message[:message]
-      div { Time.at(params.message[:time]).to_s }
-    end
-  end
-end
-
-class InputBox < React::Component::Base
-
-  param :chat_service, type: ChatService
-
-  before_mount { state.composition! "" }
-
-  def render
-    div do
-      div {"Say Something: "}
-      input(value: state.composition).on(:change) do |e|
-        state.composition! e.target.value
-      end.on(:key_down) do |e|
-        send_message if is_send_key?(e)
-      end
-      FormattedDiv markdown: state.composition
-    end
-  end
-
-  def is_send_key?(e)
-    (e.char_code == 13 || e.key_code == 13)
-  end
-
-  def send_message
-    params.chat_service.send(
-      message: state.composition!(""),
-      time: Time.now.to_i,
-      from: params.chat_service.id
-    )
-  end
-
-end
-
-class FormattedDiv < React::Component::Base
-
-  param :markdown, type: String
-
-  def render
-    div do
-      div({dangerously_set_inner_HTML: { __html: `marked(#{params.markdown}, {sanitize: true})`}})
-    end
-  end
-end
-</pre></div>
 
 <h3 id="styling-the-app">Styling the App</h3>
 
@@ -2324,7 +917,7 @@ end
 </code></pre>
 <p>Now add the <code>row, alternating</code> and <code>message</code> classes to the outer div of the Message component, and the <code>col-sm-2</code> class to the sender and time divs.  (Remember to change dashes to underscores.)</p>
 
-<p>Now add the <code>class: &quot;col-sm-8&quot;</code> to the <code>FormattedDiv</code> element.  Notice that you can not use the short hand syntax with application defined components.</p>
+<p>Now add the <code>class: &quot;col-sm-8&quot;</code> to the <code>FormattedDiv</code> element.  Notice that you can not use the short hand syntax with application defined components.  </p>
 
 <p>Your <code>Message</code> render method should look like this:</p>
 <pre class="highlight ruby"><code><span class="k">def</span> <span class="nf">render</span>
@@ -2383,7 +976,7 @@ end
 
 <p>First change the <code>input</code> element to a <code>textarea</code> element which will allow us to display multiple lines.</p>
 
-<p>Now go back and change the expression in the <code>is_send_key?</code>` method to also check for a ctrl or meta key.</p>
+<p>Now go back and change the expression in the <code>is_send_key?</code>` method to also check for a ctrl or meta key.  </p>
 
 <p><strong>Note:</strong> You will need to press Ctrl-Enter to submit.</p>
 <pre class="highlight ruby"><code><span class="k">def</span> <span class="nf">is_send_key?</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
@@ -2410,8 +1003,8 @@ end
 
 <ul>
 <li><p>Where possible compute values rather than adding state</p></li>
-<li><p>You might be tempted to create a state variable called rows that is updated whenever the text area changes.</p></li>
-<li><p>This may (or may not) be slightly more effecient, but it introduces a lot of complexity.</p></li>
+<li><p>You might be tempted to create a state variable called rows that is updated whenever the text area changes.  </p></li>
+<li><p>This may (or may not) be slightly more effecient, but it introduces a lot of complexity.  </p></li>
 <li><p>Instead where ever possible compute values from existing state.</p></li>
 </ul>
 
@@ -2480,7 +1073,7 @@ from <code>Messages</code> to <code>Message</code>.  Once you have added the par
 
 <p>Try logging in, and then logging in again, either as the same or different user.  Notice that the list of messages is duplicated.</p>
 
-<p>Our chat service supplies us with all existing messages when somebody logs in.  And our <code>App</code> component happily appends all the incoming messages.</p>
+<p>Our chat service supplies us with all existing messages when somebody logs in.  And our <code>App</code> component happily appends all the incoming messages.  </p>
 
 <p>What we need to do is clear the messages during the login process.</p>
 
@@ -2708,84 +1301,6 @@ from <code>Messages</code> to <code>Message</code>.  Once you have added the par
       </div>
     </div>
 
-    <div class="page-footer-upperline">
-      <div class="container">
-
-      </div>
-    </div>
-
-    <footer class="nav-footer">
-  <section class="sitemap">
-
-    <a href="/" class="nav-home"></a>
-    
-    <div>
-      <h6><a href="/start">Start</a></h6>
-      <a href="/start#components">Components</a>
-      <a href="/start#stores">Stores</a>
-      <a href="/start#operations">Operations</a>
-      <a href="/start#policies">Policies</a>
-    </div>
-    <div>
-      <h6><a href="/tutorials">Learn</a></h6>
-      <a href="/tutorials/chat_app">Chat-App Tutorial</a>
-      <a href="/tutorials/hyperreact_with_rails">HyperReact and Rails Tutorial</a>
-      <a href="/tutorials/hyperreact_with_webpack">NPM and Webpack Tutorial</a>
-      <a href="/tutorials/flux_store">Flux Store Tutorial</a>
-      <a href="/tutorials/file_uploader">File Uploader Tutorial</a>
-    </div>
-    <div>
-      <h6><a href="/installation">Install</a></h6>
-      <a href="#opal-playground">Opal Playground</a>
-	  <a href="#using-hyperloop-express">Using Hyperloop Express</a>
-	  <a href="#with-rails">With Rails</a>
-	  <a href="#manual-rails-install">Manual Rails Install</a>
-	  <a href="#with-sinatra">With Sinatra</a>
-	  <a href="#building-with-rake">Building with Rake</a>
-	  <a href="#deployment">Deployment</a>
-    </div>
-    <div>
-      <h6><a href="/gems">Gems</a></h6>
-      <a href="https://github.com/ruby-hyperloop/hyper-rails">hyper-rails</a>
-      <a href="https://github.com/ruby-hyperloop/reactrb-express">hyperloop-express</a>
-      <a href="https://github.com/ruby-hyperloop/hyper-react">hyper-component</a>
-      <a href="https://github.com/ruby-hyperloop/hyper-store">hyper-store</a>
-      <a href="https://github.com/ruby-hyperloop/hyper-mesh">hyper-model</a>
-      <a href="https://github.com/ruby-hyperloop/hyper-operation">hyper-operation</a>
-      <a href="https://github.com/ruby-hyperloop/reactrb-router/tree/v2-4-0">hyper-router</a>
-      <a href="https://github.com/ruby-hyperloop/hyper-spec">hyper-spec</a>
-      <a href="https://github.com/ruby-hyperloop/hyper-trace">hyper-trace</a>
-    </div>
-    <div>
-      <h6><a href="/tools">Tools</a></h6>
-      <a href="#testing">Testing</a>
-    	<a href="#tools">Tools</a>
-    	<a href="#debugging">Debugging</a>
-    </div>
-    <div>
-      <h6><a href="/docs/architecture">Docs</a></h6>
-      <a href="/docs/architecture">Hyperloop Architecture</a>
-      <a href="/docs/components/dsl-overview">Components</a>
-      <a href="/docs/stores/overview">Stores</a>
-      <a href="/docs/models/overview">Models</a>
-      <a href="/docs/operations/overview">Operations</a>
-      <a href="/docs/policies/authorization">Policies</a>
-    </div>
-
-  </section>
-  
-  <section class="otherlinks">
-    <a href="https://github.com/ruby-hyperloop">Github</a>
-    <a href="/support">Help</a>
-    <a href="/blog">Blog</a>
-  </section>
-
-  <section class="copyright">
-    Copyright © 2017 Hyperloop.
-  </section>
-</footer>
-
-
     <script>
       (function(Opal) {
         var self = Opal.top, $scope = Opal, nil = Opal.nil, $breaker = Opal.breaker, $slice = Opal.slice;
@@ -2797,6 +1312,71 @@ from <code>Messages</code> to <code>Message</code>.  Once you have added the par
     <!-- <script   src="http://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script> -->
 
     <script type="text/ruby">puts "Hyperloop Express ok"</script>
+
+    <script type="text/ruby">
+
+class CodeMirror < React::Component::Base
+  param :code, type: String
+  define_state :error_message
+
+  before_mount do
+    state.error_message! ""
+  end
+
+  after_mount do
+    @editor = `CodeMirror(document.getElementById("code"), {
+      value: #{params.code},
+      mode: "text/x-ruby",
+      matchBrackets: true,
+      lineNumbers: true,
+      indentUnit: 2,
+      theme: 'github'
+    });`
+    `#{@editor}.on('change', #{lambda {on_change} })`
+    execute_code
+  end
+
+  render(DIV) do
+    div(id: 'code')
+    br
+    div(id: 'result')
+    p { state.error_message }
+  end
+
+  def on_change
+    state.error_message! ""
+    execute_code
+  end
+
+  after_mount   :execute_code
+  after_update  :execute_code
+
+  def execute_code
+    compiled_code = Opal::Compiler.new(`#{@editor}.getValue()`).compile
+    `ReactDOM.unmountComponentAtNode(document.getElementById("result"));`
+    `eval(#{compiled_code})`
+    Element['#result'].render{ Alfie() }
+    rescue Exception => e
+    @time_out = after(0.5) do
+      state.error_message! e.message
+    end
+  end
+
+end
+
+class TestApp < React::Component::Base
+  param :name
+  before_mount { @timer = every(1) { force_update! } }
+  render(DIV) do
+    h1 {"The current time is #{Time.now}"}
+    h2 { "here hello #{params.name}" }.on(:click) do
+     alert "you clicked"
+    end
+  end
+end
+
+</script>
+
 
   </body>
 </html>

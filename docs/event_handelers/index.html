@@ -1,0 +1,425 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv='X-UA-Compatible' content='IE=edge;chrome=1' />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <meta name="google-site-verification" content="qjqVOvRhHfsuDbLOvaAnj2mkUZJ9Xwzg84TMVXduvUc" />
+
+    <meta charset="UTF-8">
+    <title>Hyperloop - Hyper-React Docs</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+
+    <!-- <link href="/stylesheets/base.css" rel="stylesheet" />
+    <link href="/stylesheets/normalize.css" rel="stylesheet" />
+    <link href="/stylesheets/stylesheet.css" rel="stylesheet" />
+    <link href="/stylesheets/github-light.css" rel="stylesheet" /> -->
+
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.5/marked.min.js"></script>
+    <script src="https://rawgit.com/reactrb/reactrb-express/master/reactrb-express.js"></script>
+
+    <script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
+
+    <script src="/javascripts/bootstrap.min.js"></script>
+    <script src="/javascripts/codemirror.js"></script>
+    <script src="/javascripts/ruby.js"></script>
+    <script src="/javascripts/matchbrackets.js"></script>
+
+    <link href="/stylesheets/bootstrap.min.css" rel="stylesheet" />
+    <link href="/stylesheets/override.css" rel="stylesheet" />
+    <!-- <link href="/stylesheets/code.css" rel="stylesheet" /> -->
+    <link href="/stylesheets/github.css" rel="stylesheet" />
+    <link href="/stylesheets/highlighting.css" rel="stylesheet" />
+    <link href="/stylesheets/codemirror.css" rel="stylesheet" />
+
+    <link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/feed.xml" />
+
+    <!-- Favicons -->
+    <link rel="apple-touch-icon" sizes="57x57" href="/images/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/images/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/images/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/images/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/images/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/images/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/images/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/images/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192"  href="/images/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/images/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/images/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+
+  </head>
+
+  <body>
+    <div class="container">
+      <nav class="navbar navbar-ligh">
+  <button class="navbar-toggler hidden-sm-up" type="button" data-toggle="collapse" data-target="#exCollapsingNavbar2" aria-controls="exCollapsingNavbar2" aria-expanded="false" aria-label="Toggle navigation">
+    &#9776;
+  </button>
+  <div class="collapse navbar-toggleable-xs" id="exCollapsingNavbar2">
+    <ul class="nav navbar-nav">
+      <li class="nav-item">
+        <a href="/" class="nav-link">Hyperloop</a>
+      </li>
+      <li class="nav-item">
+        <a href="/get_started" class="nav-link active">Get Started</a>
+      </li>
+      <li class="nav-item">
+        <a href="/tutorials" class="nav-link">Tutorials</a>
+      </li>
+      <li class="nav-item">
+        <a href="/installation" class="nav-link">Installation</a>
+      </li>
+      <li class="nav-item">
+        <a href="/gems" class="nav-link">Gems</a>
+      </li>
+      <li class="nav-item">
+        <a href="https://github.com/ruby-hyperloop" class="nav-link">Github</a>
+      </li>
+      <li class="nav-item">
+        <a href="/tools" class="nav-link">Tools</a>
+      </li>
+      <li class="nav-item">
+        <a href="/docs/dsl_overview" class="nav-link">Docs</a>
+      </li>
+      <li class="nav-item">
+        <a href="/support" class="nav-link">Support</a>
+      </li>
+      <li class="nav-item">
+        <a href="/blog" class="nav-link">Blog</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+    </div>
+
+    <div class="jumbotron page-header">
+      <div class="container">
+        <div class="row hidden-xs-down">
+          <div class="col-md-3 center-text">
+            <img src="/images/hyperloop_white.svg" width="180" alt="Hyperloop white" />
+          </div>
+          <div class="col-md-9">
+            <h1 class="display-4 project-name">Hyperloop</h1>
+            </br>
+            <h2 class="display-7 project-tagline">
+              HYPER-REACT DOCS
+            </h2>
+          </div>
+        </div>
+        <div class="row hidden-sm-up">
+          <div class="col-md-3 center-text">
+            <img src="/images/hyperloop_white.svg" width="120" alt="Hyperloop white" />
+          </div>
+          <div class="col-md-9">
+            <h1 class="h1 project-name center-text">Hyperloop</h1>
+            </br>
+            <h2 class="h4 project-tagline center-text">
+              HYPER-REACT DOCS
+            </h2>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-md-3">
+            <ul class="nav">
+    <li class="nav-item"><strong><a href="/docs/dsl_overview">HyperReact Overview</a></strong></br></li>
+    <li class="nav-item"><a href="/docs/components_and_state">Components and State</a></br></li>
+    <li class="nav-item"><a href="/docs/lifecycle_callbacks">Lifecycle Callbacks</a></br></li>
+    <li class="nav-item"><a href="/docs/lifecycle_methods">Lifecycle Methods</a></br></li>
+    <li class="nav-item"><a href="/docs/event_handelers">Event Handelers</a></br></li>
+    <li class="nav-item"><a href="/docs/elements_rendering">Elements and Rendering</a></br></li>
+    <li class="nav-item"><a href="/docs/javascript_components">Javascript Components</a></br></li>
+    <li class="nav-item"><a href="/docs/further_reading">Further Reading</a></br></li>
+  </ul>
+  <br>
+  <ul class="nav">
+    <li class="nav-item"><strong><a href="/docs/hypermesh_overview">HyperMesh Overview</a></strong></li>
+    <li class="nav-item"><a href="/docs/hypermesh_active_record">ActiveRecord API</a></br></li>
+    <li class="nav-item"><a href="/docs/hypermesh_scoping">Scoping</a></br></li>
+    <li class="nav-item"><a href="/docs/hypermesh_authorization">Authorization</a></br></li>
+    <li class="nav-item"><a href="/docs/hypermesh_debugging">Debugging</a></br></li>
+  </ul>
+
+          <br>
+        </div>
+        <div class="col-md-9 main-content">
+          <h2 id="event-handelers">Event Handelers</h2>
+
+<h3 id="event-handling-and-synthetic-events">Event Handling and Synthetic Events</h3>
+
+<p>With React you attach event handlers to elements using the <code>on</code> method. React ensures that all events behave identically in IE8 and above by implementing a synthetic event system. That is, React knows how to bubble and capture events according to the spec, and the events passed to your event handler are guaranteed to be consistent with <a href="http://www.w3.org/TR/DOM-Level-3-Events/">the W3C spec</a>, regardless of which browser you&#39;re using.</p>
+
+<h3 id="under-the-hood-event-delegation">Under the Hood: Event Delegation</h3>
+
+<p>React doesn&#39;t actually attach event handlers to the nodes themselves. When React starts up, it starts listening for all events at the top level using a single event listener. When a component is mounted or unmounted, the event handlers are simply added or removed from an internal mapping. When an event occurs, React knows how to dispatch it using this mapping. When there are no event handlers left in the mapping, React&#39;s event handlers are simple no-ops. To learn more about why this is fast, see <a href="http://davidwalsh.name/event-delegate">David Walsh&#39;s excellent blog post</a>.</p>
+
+<h2 id="react-event">React::Event</h2>
+
+<p>Your event handlers will be passed instances of <code>React::Event</code>, a wrapper around react.js&#39;s <code>SyntheticEvent</code> which in turn is a cross browser wrapper around the browser&#39;s native event. It has the same interface as the browser&#39;s native event, including <code>stopPropagation()</code> and <code>preventDefault()</code>, except the events work identically across all browsers.</p>
+
+<p>For example:</p>
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">YouSaid</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
+  <span class="k">def</span> <span class="nf">render</span>
+    <span class="n">input</span><span class="p">(</span><span class="ss">value: </span><span class="n">state</span><span class="p">.</span><span class="nf">value</span><span class="p">).</span>
+    <span class="nf">on</span><span class="p">(</span><span class="ss">:key_down</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">e</span><span class="o">|</span>
+      <span class="n">alert</span> <span class="s2">"You said: </span><span class="si">#{</span><span class="n">state</span><span class="p">.</span><span class="nf">value</span><span class="si">}</span><span class="s2">"</span> <span class="k">if</span> <span class="n">e</span><span class="p">.</span><span class="nf">key_code</span> <span class="o">==</span> <span class="mi">13</span>
+    <span class="k">end</span><span class="p">.</span>
+    <span class="nf">on</span><span class="p">(</span><span class="ss">:change</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">e</span><span class="o">|</span>
+      <span class="n">state</span><span class="p">.</span><span class="nf">value!</span> <span class="n">e</span><span class="p">.</span><span class="nf">target</span><span class="p">.</span><span class="nf">value</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<p>If you find that you need the underlying browser event for some reason use the <code>native_event</code>.  </p>
+
+<p>In the following responses shown as (native ...) indicate the value returned is a native object with an Opal wrapper.  In some cases there will be opal methods available (i.e. for native DOMNode values) and in other cases you will have to convert to the native value
+with <code>.to_n</code> and then use javascript directly.</p>
+
+<p>Every <code>React::Event</code> has the following methods:</p>
+<pre class="highlight ruby"><code><span class="n">bubbles</span>                <span class="o">-&gt;</span> <span class="no">Boolean</span>
+<span class="n">cancelable</span>             <span class="o">-&gt;</span> <span class="no">Boolean</span>
+<span class="n">current_target</span>         <span class="o">-&gt;</span> <span class="p">(</span><span class="n">native</span> <span class="no">DOM</span> <span class="n">node</span><span class="p">)</span>
+<span class="n">default_prevented</span>      <span class="o">-&gt;</span> <span class="no">Boolean</span>
+<span class="n">event_phase</span>            <span class="o">-&gt;</span> <span class="no">Integer</span>
+<span class="n">is_trusted</span>             <span class="o">-&gt;</span> <span class="no">Boolean</span>
+<span class="n">native_event</span>           <span class="o">-&gt;</span> <span class="p">(</span><span class="n">native</span> <span class="no">Event</span><span class="p">)</span>
+<span class="n">prevent_default</span>        <span class="o">-&gt;</span> <span class="no">Proc</span>
+<span class="n">is_default_prevented</span>   <span class="o">-&gt;</span> <span class="no">Boolean</span>
+<span class="n">stop_propagation</span>       <span class="o">-&gt;</span> <span class="no">Proc</span>
+<span class="n">is_propagation_stopped</span> <span class="o">-&gt;</span> <span class="no">Boolean</span>
+<span class="n">target</span>                 <span class="o">-&gt;</span> <span class="p">(</span><span class="n">native</span> <span class="no">DOMEventTarget</span><span class="p">)</span>
+<span class="n">timestamp</span>              <span class="o">-&gt;</span> <span class="no">Integer</span> <span class="p">(</span><span class="n">use</span> <span class="no">Time</span><span class="p">.</span><span class="nf">at</span> <span class="n">to</span> <span class="n">convert</span> <span class="n">to</span> <span class="no">Time</span><span class="p">)</span>
+<span class="n">type</span>                   <span class="o">-&gt;</span> <span class="no">String</span>
+</code></pre>
+<h3 id="event-pooling">Event pooling</h3>
+
+<p>The underlying React <code>SyntheticEvent</code> is pooled. This means that the <code>SyntheticEvent</code> object will be reused and all properties will be nullified after the event callback has been invoked. This is for performance reasons. As such, you cannot access the event in an asynchronous way.</p>
+
+<h3 id="supported-events">Supported Events</h3>
+
+<p>React normalizes events so that they have consistent properties across
+different browsers.</p>
+
+<h4 id="clipboard-events">Clipboard Events</h4>
+
+<p>Event names:</p>
+<pre class="highlight ruby"><code><span class="ss">:copy</span><span class="p">,</span> <span class="ss">:cut</span><span class="p">,</span> <span class="ss">:paste</span>
+</code></pre>
+<p>Available Methods:</p>
+<pre class="highlight ruby"><code><span class="n">clipboard_data</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="n">native</span> <span class="no">DOMDataTransfer</span><span class="p">)</span>
+</code></pre>
+<h4 id="composition-events-not-tested">Composition Events (not tested)</h4>
+
+<p>Event names:</p>
+<pre class="highlight ruby"><code><span class="ss">:composition_end</span><span class="p">,</span> <span class="ss">:composition_start</span><span class="p">,</span> <span class="ss">:composition_update</span>
+</code></pre>
+<p>Available Methods:</p>
+<pre class="highlight ruby"><code><span class="n">data</span> <span class="o">-&gt;</span> <span class="no">String</span>
+</code></pre>
+<h4 id="keyboard-events">Keyboard Events</h4>
+
+<p>Event names:</p>
+<pre class="highlight ruby"><code><span class="ss">:key_down</span><span class="p">,</span> <span class="ss">:key_press</span><span class="p">,</span> <span class="ss">:key_up</span>
+</code></pre>
+<p>Available Methods:</p>
+<pre class="highlight ruby"><code><span class="n">alt_key</span>                 <span class="o">-&gt;</span> <span class="no">Boolean</span>
+<span class="n">char_code</span>               <span class="o">-&gt;</span> <span class="no">Integer</span>
+<span class="n">ctrl_key</span>                <span class="o">-&gt;</span> <span class="no">Boolean</span>
+<span class="n">get_modifier_state</span><span class="p">(</span><span class="n">key</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="no">Boolean</span> <span class="p">(</span><span class="n">i</span><span class="p">.</span><span class="nf">e</span><span class="p">.</span> <span class="nf">get_modifier_key</span><span class="p">(</span><span class="ss">:Shift</span><span class="p">)</span>
+<span class="n">key</span>                     <span class="o">-&gt;</span> <span class="no">String</span>
+<span class="n">key_code</span>                <span class="o">-&gt;</span> <span class="no">Integer</span>
+<span class="n">locale</span>                  <span class="o">-&gt;</span> <span class="no">String</span>
+<span class="n">location</span>                <span class="o">-&gt;</span> <span class="no">Integer</span>
+<span class="n">meta_key</span>                <span class="o">-&gt;</span> <span class="no">Boolean</span>
+<span class="n">repeat</span>                  <span class="o">-&gt;</span> <span class="no">Boolean</span>
+<span class="n">shift_key</span>               <span class="o">-&gt;</span> <span class="no">Boolean</span>
+<span class="n">which</span>                   <span class="o">-&gt;</span> <span class="no">Integer</span>
+</code></pre>
+<h4 id="focus-events">Focus Events</h4>
+
+<p>Event names:</p>
+<pre class="highlight ruby"><code><span class="ss">:focus</span><span class="p">,</span> <span class="ss">:blur</span>
+</code></pre>
+<p>Available Methods:</p>
+<pre class="highlight ruby"><code><span class="n">related_target</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="no">Native</span> <span class="no">DOMEventTarget</span><span class="p">)</span>
+</code></pre>
+<p>These focus events work on all elements in the React DOM, not just form elements.</p>
+
+<h4 id="form-events">Form Events</h4>
+
+<p>Event names:</p>
+<pre class="highlight ruby"><code><span class="ss">:change</span><span class="p">,</span> <span class="ss">:input</span><span class="p">,</span> <span class="ss">:submit</span>
+</code></pre>
+<h4 id="mouse-events">Mouse Events</h4>
+
+<p>Event names:</p>
+<pre class="highlight ruby"><code><span class="ss">:click</span><span class="p">,</span> <span class="ss">:context_menu</span><span class="p">,</span> <span class="ss">:double_click</span><span class="p">,</span> <span class="ss">:drag</span><span class="p">,</span> <span class="ss">:drag_end</span><span class="p">,</span> <span class="ss">:drag_enter</span><span class="p">,</span> <span class="ss">:drag_exit</span>
+<span class="ss">:drag_leave</span><span class="p">,</span> <span class="ss">:drag_over</span><span class="p">,</span> <span class="ss">:drag_start</span><span class="p">,</span> <span class="ss">:drop</span><span class="p">,</span> <span class="ss">:mouse_down</span><span class="p">,</span> <span class="ss">:mouse_enter</span><span class="p">,</span>
+<span class="ss">:mouse_leave</span><span class="p">,</span> <span class="ss">:mouse_move</span><span class="p">,</span> <span class="ss">:mouse_out</span><span class="p">,</span> <span class="ss">:mouse_over</span><span class="p">,</span> <span class="ss">:mouse_up</span>
+</code></pre>
+<p>The <code>:mouse_enter</code> and <code>:mouse_leave</code> events propagate from the element being left to the one being entered instead of ordinary bubbling and do not have a capture phase.</p>
+
+<p>Available Methods:</p>
+<pre class="highlight ruby"><code><span class="n">alt_key</span>                 <span class="o">-&gt;</span> <span class="no">Boolean</span>
+<span class="n">button</span>                  <span class="o">-&gt;</span> <span class="no">Integer</span>
+<span class="n">buttons</span>                 <span class="o">-&gt;</span> <span class="no">Integer</span>
+<span class="n">client_x</span>                <span class="o">-&gt;</span> <span class="no">Integer</span>
+<span class="n">number</span> <span class="n">client_y</span>         <span class="o">-&gt;</span> <span class="no">Integer</span>
+<span class="n">ctrl_key</span>                <span class="o">-&gt;</span> <span class="no">Boolean</span>
+<span class="n">get_modifier_state</span><span class="p">(</span><span class="n">key</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="no">Boolean</span>
+<span class="n">meta_key</span>                <span class="o">-&gt;</span> <span class="no">Boolean</span>
+<span class="n">page_x</span>                  <span class="o">-&gt;</span> <span class="no">Integer</span>
+<span class="n">page_y</span>                  <span class="o">-&gt;</span> <span class="no">Integer</span>
+<span class="n">related_target</span>          <span class="o">-&gt;</span> <span class="p">(</span><span class="no">Native</span> <span class="no">DOMEventTarget</span><span class="p">)</span>
+<span class="n">screen_x</span>                <span class="o">-&gt;</span> <span class="no">Integer</span>
+<span class="n">screen_y</span>                <span class="o">-&gt;</span> <span class="no">Integer</span>
+<span class="n">shift_key</span>               <span class="o">-&gt;</span> <span class="no">Boolean</span>
+</code></pre>
+<h4 id="selection-events">Selection events</h4>
+
+<p>Event names:</p>
+<pre class="highlight ruby"><code><span class="n">onSelect</span>
+</code></pre>
+<h4 id="touch-events">Touch events</h4>
+
+<p>Event names:</p>
+<pre class="highlight ruby"><code><span class="ss">:touch_cancel</span><span class="p">,</span> <span class="ss">:touch_end</span><span class="p">,</span> <span class="ss">:touch_move</span><span class="p">,</span> <span class="ss">:touch_start</span>
+</code></pre>
+<p>Available Methods:</p>
+<pre class="highlight ruby"><code><span class="n">alt_key</span>                 <span class="o">-&gt;</span> <span class="no">Boolean</span>
+<span class="n">changed_touches</span>         <span class="o">-&gt;</span> <span class="p">(</span><span class="no">Native</span> <span class="no">DOMTouchList</span><span class="p">)</span>
+<span class="n">ctrl_key</span>                <span class="o">-&gt;</span> <span class="no">Boolean</span>
+<span class="n">get_modifier_state</span><span class="p">(</span><span class="n">key</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="no">Boolean</span>
+<span class="n">meta_key</span>                <span class="o">-&gt;</span> <span class="no">Boolean</span>
+<span class="n">shift_key</span>               <span class="o">-&gt;</span> <span class="no">Boolean</span>
+<span class="n">target_touches</span>          <span class="o">-&gt;</span> <span class="p">(</span><span class="no">Native</span> <span class="no">DOMTouchList</span><span class="p">)</span>
+<span class="n">touches</span>                 <span class="o">-&gt;</span> <span class="p">(</span><span class="no">Native</span> <span class="no">DomTouchList</span><span class="p">)</span>
+</code></pre>
+<h4 id="ui-events">UI Events</h4>
+
+<p>Event names:</p>
+<pre class="highlight ruby"><code><span class="ss">:scroll</span>
+</code></pre>
+<p>Available Methods:</p>
+<pre class="highlight ruby"><code><span class="n">detail</span> <span class="o">-&gt;</span> <span class="no">Integer</span>
+<span class="n">view</span>   <span class="o">-&gt;</span> <span class="p">(</span><span class="no">Native</span> <span class="no">DOMAbstractView</span><span class="p">)</span>
+</code></pre>
+<h4 id="wheel-events">Wheel Events</h4>
+
+<p>Event names:</p>
+<pre class="highlight ruby"><code><span class="n">wheel</span>
+</code></pre>
+<p>Available Methods:</p>
+<pre class="highlight ruby"><code><span class="n">delta_mode</span> <span class="o">-&gt;</span> <span class="no">Integer</span>
+<span class="n">delta_x</span>    <span class="o">-&gt;</span> <span class="no">Integer</span>
+<span class="n">delta_y</span>    <span class="o">-&gt;</span> <span class="no">Integer</span>
+<span class="n">delta_z</span>    <span class="o">-&gt;</span> <span class="no">Integer</span>
+</code></pre>
+<h4 id="media-events">Media Events</h4>
+
+<p>Event names:</p>
+<pre class="highlight ruby"><code><span class="ss">:abort</span><span class="p">,</span> <span class="ss">:can_play</span><span class="p">,</span> <span class="ss">:can_play_through</span><span class="p">,</span> <span class="ss">:duration_change</span><span class="p">,</span><span class="ss">:emptied</span><span class="p">,</span> <span class="ss">:encrypted</span><span class="p">,</span> <span class="ss">:ended</span><span class="p">,</span> <span class="ss">:error</span><span class="p">,</span> <span class="ss">:loaded_data</span><span class="p">,</span>
+<span class="ss">:loaded_metadata</span><span class="p">,</span> <span class="ss">:load_start</span><span class="p">,</span> <span class="ss">:pause</span><span class="p">,</span> <span class="ss">:play</span><span class="p">,</span> <span class="ss">:playing</span><span class="p">,</span> <span class="ss">:progress</span><span class="p">,</span> <span class="ss">:rate_change</span><span class="p">,</span> <span class="ss">:seeked</span><span class="p">,</span> <span class="ss">:seeking</span><span class="p">,</span> <span class="ss">:stalled</span><span class="p">,</span>
+<span class="ss">:on_suspend</span><span class="p">,</span> <span class="ss">:time_update</span><span class="p">,</span> <span class="ss">:volume_change</span><span class="p">,</span> <span class="ss">:waiting</span>
+</code></pre>
+<h4 id="image-events">Image Events</h4>
+
+<p>Event names:</p>
+<pre class="highlight ruby"><code><span class="ss">:load</span><span class="p">,</span> <span class="ss">:error</span>
+</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      (function(Opal) {
+        var self = Opal.top, $scope = Opal, nil = Opal.nil, $breaker = Opal.breaker, $slice = Opal.slice;
+        Opal.add_stubs(['$puts']);
+        return self.$puts("Opal ok")
+      })(Opal);
+    </script>
+
+    <!-- <script   src="http://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script> -->
+
+    <script type="text/ruby">puts "Hyperloop Express ok"</script>
+
+    <script type="text/ruby">
+
+class CodeMirror < React::Component::Base
+  param :code, type: String
+  define_state :error_message
+
+  before_mount do
+    state.error_message! ""
+  end
+
+  after_mount do
+    @editor = `CodeMirror(document.getElementById("code"), {
+      value: #{params.code},
+      mode: "text/x-ruby",
+      matchBrackets: true,
+      lineNumbers: true,
+      indentUnit: 2,
+      theme: 'github'
+    });`
+    `#{@editor}.on('change', #{lambda {on_change} })`
+    execute_code
+  end
+
+  render(DIV) do
+    div(id: 'code')
+    br
+    div(id: 'result')
+    p { state.error_message }
+  end
+
+  def on_change
+    state.error_message! ""
+    execute_code
+  end
+
+  after_mount   :execute_code
+  after_update  :execute_code
+
+  def execute_code
+    compiled_code = Opal::Compiler.new(`#{@editor}.getValue()`).compile
+    `ReactDOM.unmountComponentAtNode(document.getElementById("result"));`
+    `eval(#{compiled_code})`
+    Element['#result'].render{ Alfie() }
+    rescue Exception => e
+    @time_out = after(0.5) do
+      state.error_message! e.message
+    end
+  end
+
+end
+
+class TestApp < React::Component::Base
+  param :name
+  before_mount { @timer = every(1) { force_update! } }
+  render(DIV) do
+    h1 {"The current time is #{Time.now}"}
+    h2 { "here hello #{params.name}" }.on(:click) do
+     alert "you clicked"
+    end
+  end
+end
+
+</script>
+
+
+  </body>
+</html>

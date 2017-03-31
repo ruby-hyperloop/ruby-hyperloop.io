@@ -8,23 +8,18 @@
     <meta name="google-site-verification" content="qjqVOvRhHfsuDbLOvaAnj2mkUZJ9Xwzg84TMVXduvUc" />
 
     <meta charset="UTF-8">
-    <title>Hyperloop - Tutorials, Videos & Quickstarts</title>
+    <title>Hyperloop - Tutorials & Quickstarts</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
 
-    <script src="https://unpkg.com/react@15/dist/react.min.js"></script>
-    <script src="https://unpkg.com/react-dom@15/dist/react-dom.min.js"></script>
+    <!-- <link href="/stylesheets/base.css" rel="stylesheet" />
+    <link href="/stylesheets/normalize.css" rel="stylesheet" />
+    <link href="/stylesheets/stylesheet.css" rel="stylesheet" />
+    <link href="/stylesheets/github-light.css" rel="stylesheet" /> -->
 
     <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.5/marked.min.js"></script>
-
-
-    <!-- Opal and Hyperloop -->
-    <script src="https://rawgit.com/ruby-hyperloop/hyperloop-js/master/opal-compiler.min.js"></script>
-    <script src="https://rawgit.com/ruby-hyperloop/hyperloop-js/master/hyperloop.min.js"></script>
-
-    <!-- If you want local copies... -->
-    <!-- <script src="/javascripts/opal-compiler.js"></script> -->
-    <!-- <script src="/javascripts/hyperloop.js"></script> -->
+    <script src="https://rawgit.com/reactrb/reactrb-express/master/reactrb-express.js"></script>
 
     <script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
 
@@ -32,121 +27,9 @@
     <script src="/javascripts/codemirror.js"></script>
     <script src="/javascripts/ruby.js"></script>
     <script src="/javascripts/matchbrackets.js"></script>
-    <script src="/javascripts/react_player.js"></script>
-
-    <!-- Components are compiled by Hyperloop Express -->
-    <script type="text/ruby">
-
-class CodeMirror < Hyperloop::Component
-  param :code, type: String
-  param :heading, default: "Code"
-  param :rows, type: Integer, default: 0
-  param :top_level_component, type: String
-
-  before_mount do
-    r=rand(2**256).to_s(36)[0..7]
-    @div_code = "code_#{r}"
-    @div_result = "result_#{r}"
-  end
-
-  after_mount do
-  puts params.code
-    @editor = `CodeMirror(document.getElementById(#{@div_code}), {
-      value: #{params.code.to_s},
-      mode: 'text/x-ruby',
-      matchBrackets: true,
-      lineNumbers: true,
-      indentUnit: 2,
-      theme: 'github'
-    });`
-
-    `#{@editor}.on('change', #{lambda {on_change} })`
-    `#{@editor}.setSize(null, #{@editor}.defaultTextHeight()*#{params.rows})` unless params.rows == 0
-    execute_code
-  end
-
-  render(DIV) do
-    div.card {
-      div.card_header { params.heading }
-      div(id: @div_code)
-      div.card_header do
-        img(src:'../images/hyperloop-logo-small-white.png', width:'25')
-        span { ' ' }
-        'Hyperloop playground :'
-      end
-      div.card_block(id: @div_result)
-    }
-  end
-
-  def on_change
-    execute_code
-  end
-
-  def execute_code
-    begin
-      code = `#{@editor}.getValue()`
-      puts code
-      code += "\nElement['##{@div_result}'].render(#{params.top_level_component})"
-      compiled_code = Opal::Compiler.new(code).compile
-      Hyperloop::Context.reset!
-      `ReactDOM.unmountComponentAtNode(document.getElementById(#{@div_result}));`
-      `eval(#{compiled_code})`
-      component = Module.const_get params.top_level_component
-      # we need to see if the component is valid - try checking if it can render static markup
-      # the following line generates: `undefined method to_n for SimpleComponent`
-      # if React.render_to_static_markup( component ).empty?
-      #   invalid_component_message
-      # end
-    rescue Exception => e
-      @time_out = after(0.1) do
-        unable_to_compile_message e.message
-      end
-    end
-  end
-
-  def invalid_component_message
-    message = div.text_danger do
-      h3.text_danger {"Oops, invalid Component..."}
-      p { "Your Component has been rejected by React. A valid Component must have a render macro and return just one HTML element." }
-    end
-    Element["##{@div_result}"].render{ message }
-  end
-
-  def unable_to_compile_message reason
-    message = div.text_danger do
-      h3.text_danger {"Can't compile..."}
-      p { reason }
-    end
-    Element["##{@div_result}"].render{ message }
-  end
-
-end
-
-</script>
-
-    <script type="text/ruby">
-
-Document.ready? do
-   Element.find('div.codemirror-live-edit').each do |mount_point|
-     heading = mount_point.attr('data-heading')
-     rows = mount_point.attr('data-rows')
-     top_level_component = mount_point.attr('data-top-level-component')
-     code = Element[mount_point].find('pre').text.strip
-     params = {code: code, top_level_component: top_level_component}
-     params = params.merge({heading: heading}) if heading
-     params = params.merge({rows: rows.to_i}) if rows
-     codemirror_component = Object.const_get('CodeMirror')
-     React.render(React.create_element(codemirror_component, params ), mount_point)
-   end
-end
-
-</script>
-
 
     <link href="/stylesheets/bootstrap.min.css" rel="stylesheet" />
-    <link href="/stylesheets/typography.css" rel="stylesheet" />
     <link href="/stylesheets/override.css" rel="stylesheet" />
-    <link href="/stylesheets/divtable.css" rel="stylesheet" />
     <!-- <link href="/stylesheets/code.css" rel="stylesheet" /> -->
     <link href="/stylesheets/github.css" rel="stylesheet" />
     <link href="/stylesheets/highlighting.css" rel="stylesheet" />
@@ -155,20 +38,29 @@ end
     <link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/feed.xml" />
 
     <!-- Favicons -->
-
-    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
-    <link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
-    <link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
-    <link rel="manifest" href="/images/manifest.json">
-    <link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#e81176">
+    <link rel="apple-touch-icon" sizes="57x57" href="/images/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/images/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/images/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/images/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/images/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/images/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/images/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/images/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192"  href="/images/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/images/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/images/ms-icon-144x144.png">
     <meta name="theme-color" content="#ffffff">
 
   </head>
 
   <body>
-    <div class="navbarbackgroundcolor">
-      <div class="container">
-        <nav class="navbar navbar-ligh">
+    <div class="container">
+      <nav class="navbar navbar-ligh">
   <button class="navbar-toggler hidden-sm-up" type="button" data-toggle="collapse" data-target="#exCollapsingNavbar2" aria-controls="exCollapsingNavbar2" aria-expanded="false" aria-label="Toggle navigation">
     &#9776;
   </button>
@@ -178,13 +70,13 @@ end
         <a href="/" class="nav-link">Hyperloop</a>
       </li>
       <li class="nav-item">
-        <a href="/start" class="nav-link active">Start</a>
+        <a href="/get_started" class="nav-link active">Get Started</a>
+      </li>
+      <li class="nav-item">
+        <a href="/tutorials" class="nav-link">Tutorials</a>
       </li>
       <li class="nav-item">
         <a href="/installation" class="nav-link">Installation</a>
-      </li>
-      <li class="nav-item">
-        <a href="/tutorials" class="nav-link">Learn</a>
       </li>
       <li class="nav-item">
         <a href="/gems" class="nav-link">Gems</a>
@@ -196,10 +88,10 @@ end
         <a href="/tools" class="nav-link">Tools</a>
       </li>
       <li class="nav-item">
-        <a href="/docs/architecture" class="nav-link">Docs</a>
+        <a href="/docs/dsl_overview" class="nav-link">Docs</a>
       </li>
       <li class="nav-item">
-        <a href="/support" class="nav-link">Help</a>
+        <a href="/support" class="nav-link">Support</a>
       </li>
       <li class="nav-item">
         <a href="/blog" class="nav-link">Blog</a>
@@ -208,53 +100,42 @@ end
   </div>
 </nav>
 
-      </div>
     </div>
 
     <div class="jumbotron page-header">
       <div class="container">
         <div class="row hidden-xs-down">
-          <div class="col-md-2">
-            <div class="hyperlooplogo">
-            </div>
+          <div class="col-md-3 center-text">
+            <img src="/images/hyperloop_white.svg" width="180" alt="Hyperloop white" />
           </div>
-          <div class="col-md-10">
-
-
-
+          <div class="col-md-9">
             <h1 class="display-4 project-name">Hyperloop</h1>
-
-            <h4 class="display-7 project-tagline">
-              Tutorials, Videos & Quickstarts
+            </br>
+            <h2 class="display-7 project-tagline">
+              TUTORIALS & QUICKSTARTS
             </h2>
           </div>
         </div>
         <div class="row hidden-sm-up">
           <div class="col-md-3 center-text">
-            <img src="/images/hyperloop-logo-small-white.png" width="100" alt="Hyperloop logo small white" />
+            <img src="/images/hyperloop_white.svg" width="120" alt="Hyperloop white" />
           </div>
           <div class="col-md-9">
             <h1 class="h1 project-name center-text">Hyperloop</h1>
             </br>
-            <h2 class="h5 project-tagline center-text">
-              Tutorials, Videos & Quickstarts
+            <h2 class="h4 project-tagline center-text">
+              TUTORIALS & QUICKSTARTS
             </h2>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="page-header-underline">
-      <div class="container">
-
-      </div>
-    </div>
-
     <div class="container">
       <div class="row">
-        <div class="col-md-3 sidenavcol">
+        <div class="col-md-3">
             <ul class="nav">
-    <li class="nav-item"><a href="/tutorials/chat_app">Chat-App Tutorial</a></li>
+    <li class="nav-item"><strong><a href="/tutorials/chat_app">Chat-App Tutorial</a></strong></li>
     <ul class="nav">
       <li class="nav-item"><a href="/tutorials/chat_app#application-structure">Application Structure</a></li>
       <li class="nav-item"><a href="/tutorials/chat_app#adding-parameters">Adding Parameters</a></li>
@@ -267,7 +148,6 @@ end
       <li class="nav-item"><a href="/tutorials/chat_app#styling-the-app">Styling the App</a></li>
       <li class="nav-item"><a href="/tutorials/chat_app#source-code-of-the-steps-up-until-detecting-loged-in-user">Source Code</a></li>
     </ul>
-
   </br>
     <li class="nav-item"><strong><a href="/tutorials/hyperreact_with_rails">HyperReact and Rails Tutorial</a></strong></li>
     <ul class="nav">
@@ -275,7 +155,6 @@ end
       <li class="nav-item"><a href="/tutorials/hyperreact_with_rails#adding-a-component">Adding a component</a></li>
       <li class="nav-item"><a href="/tutorials/hyperreact_with_rails#controller-rendering">Controller Rendering</a></li>
     </ul>
-
   </br>
     <li class="nav-item"><strong><a href="/tutorials/hyperreact_with_webpack">NPM and Webpack Tutorial</a></strong></li>
     <ul class="nav">
@@ -283,7 +162,6 @@ end
       <li class="nav-item"><a href="/tutorials/hyperreact_with_webpack#usage">Usage</a></li>
       <li class="nav-item"><a href="/tutorials/hyperreact_with_webpack#example">Example</a></li>
     </ul>
-
   </br>
     <li class="nav-item"><strong><a href="/tutorials/flux_store">Flux Store Tutorial</a></strong></li>
   </br>
@@ -291,191 +169,66 @@ end
   </br>
   </ul>
 
+
           <br>
         </div>
         <div class="col-md-9 main-content">
-          <h1 id="todo-change-page-to-follow-comps-and-update-tutorials-to-speak-to-about-compoennts-operations-etc-remove-hyperanything-also-need-new-gem-names-and-install-instructions-for-new-gems-in-tutorials">TODO change page to follow COMPS and update tutorials to speak to about Compoennts, Operations, etc (remove HyperAnything). Also need new gem names and install instructions for new gems in tutorials.</h1>
+          <h1> Tutorials and Quickstarts</h1>
 
-<h1 id="videos">Videos</h1>
-
-<p>Watch Loïc Boutet at Rails Israel speaking about the front end aspects of Hyperloop.</p>
-
-<div class="embed-responsive embed-responsive-16by9">
-  <iframe class="embed-responsive-item" src="//www.youtube.com/embed/OiybfzRlNdg?rel=0" allowfullscreen></iframe>
+<br>
+<div class="card">
+  <h3 class="card-header"><a href="https://github.com/ruby-hyperloop/quickstart">Quickstarts</a></h3>
+  <div class="card-block">
+    <p>Clone the repo and you will have everything you need to get up and runnign quickly. Each quickstart branch contains the source of a working application.</p>
+    <ul>
+      <li>HyperReact and Rails Quickstart</li>
+      <li>HyperReact, NPM and Webpack Quickstart</li>
+    </ul>
+  </div>
 </div>
-
-<h1 id="hyperloop-comp-architecture-tutorials">Hyperloop COMP architecture tutorials</h1>
-
-<p>This site contains a number of Tutorials and Quickstarts. The tutorials are arranged in accordance with the architectural aspect they cover, though some are not limited only to that aspect. The Quickstarts are fully working and configured applications you can clone and run.</p>
-
-<p>Keeping the tutorials current is quite a task so please raise any issues you find or better still, issue a pull request against the source branch of the website. All help and contribution is most welcome and valued.</p>
-
-<p>Teaching is a fantastic way to learn, so if you find that a topic is not well covered, please feel free to write a tutorial of your own which we can include here.</p>
-
-<h2><div class="hyperlogoalone"><img src="/images/HyperComponents.png" width="35" alt="Hypercomponents" /></div>Components</h2>
-
-<blockquote>
-<h5 id="chat-app-tutorial"><a href="/tutorials/chat_app">Chat-App Tutorial</a></h5>
-
-<p>This tutorial will teach you the basics of building a HyperReact application that <strong>runs purely in your browser</strong> with no need for any back end system (like Rails, Node or Sinatra).
-This work-along tutorial is an excellent place to start to learn the HyperReact DSL without needing to learn how to install it. If you have not used the HyperReact DSL before, this tutorial will get you going with minimal setup</p>
-
-<h5 id="npm-and-webpack-tutorial"><a href="/tutorials/hyperreact_with_webpack">NPM and Webpack Tutorial</a></h5>
-
-<p>In an Isomorphic Ruby world, we need a good way of including <strong>Ruby and JavaScript components</strong> so they co-exist and play nicely together.
-This tutorial will show you how to setup and use NPM and Webpack with HyperReact.
-The source of this tutorial is available as a <a href="https://github.com/ruby-hyperloop/quickstart">Quickstart</a> which you can clone.</p>
-
-<h5 id="file-uploader-tutorial"><a href="/tutorials/file_uploader">File Uploader Tutorial</a></h5>
-
-<p>A brief tutorial will show you how to combine Ruby and JavaScript code and take you through the steps to build a Image Uploader using HTML5 FileReader and Hyperloop.</p>
-</blockquote>
-
-<h2><div class="hyperlogoalone"><img src="/images/HyperStores.png" width="35" alt="Hyperstores" /></div>Stores</h2>
-
-<blockquote>
-<p>Coming soon. Looking for contributors - could it be you?</p>
-</blockquote>
-
-<h2><div class="hyperlogoalone"><img src="/images/HyperModels.png" width="35" alt="Hypermodels" /></div>Models</h2>
-
-<blockquote>
-<h5 id="hyperreact-and-rails-tutorial"><a href="/tutorials/hyperreact_with_rails">HyperReact and Rails Tutorial</a></h5>
-
-<p>A <strong>short tutorial</strong> which will show you how to add HyperReact to a Rails app and render a basic component. All you need to know to get started with HyperReact and Rails.
-The source of this tutorial is available as a  <a href="https://github.com/ruby-hyperloop/quickstart">Quickstart</a> which you can clone.</p>
-</blockquote>
-
-<h2><div class="hyperlogoalone"><img src="/images/HyperOperations.png" width="35" alt="Hyperoperations" /></div>Operations</h2>
-
-<blockquote>
-<p>Coming soon. Looking for contributors - could it be you?</p>
-</blockquote>
-
-<h2><div class="hyperlogoalone"><img src="/images/HyperPolicies.png" width="35" alt="Hyperpolicies" /></div>Policies</h2>
-
-<blockquote>
-<p>Coming soon. Looking for contributors - could it be you?</p>
-</blockquote>
-
-<h1 id="quickstarts">Quickstarts</h1>
-
-<blockquote>
-<p>Clone the <a href="https://github.com/ruby-hyperloop/quickstart">Quickstart repo</a> and you will have everything you need to get up and runnign quickly. Each quickstart branch contains the source of a working application.</p>
-
-<ul>
-<li>HyperReact and Rails Quickstart</li>
-<li>HyperReact, NPM and Webpack Quickstart</li>
-</ul>
-</blockquote>
-
-<h1 id="other-tutorials">Other Tutorials</h1>
-
-<blockquote>
-<h5 id="hyperloop-showcase-tutorial"><a href="https://github.com/fzingg/hyperloop-showcase">Hyperloop Showcase Tutorial</a></h5>
-
-<p>This is a simple Rails application showcasing HyperReact (a wrapper for the React.js library for creating user interfaces), Opal, NPM, Webpack, React-Bootstrap, HyperMesh (gives your HyperReact components CRUD access to your server-side ActiveRecord models and implements push notifications) and other associated technologies.</p>
-
-<p>This Showcase application will mix native React and HyperReact components, be styled by Bootstrap CSS (using React-Bootstrap), display a video (using a native React component) and use HyperMesh to handle data for an Events feed app.</p>
-
-<h5 id="frederic-zinggs-hyperloop-heroku-tutorial"><a href="https://github.com/fzingg/hyperloop-showcase-heroku">Frederic ZINGG&#39;s Hyperloop/Heroku Tutorial</a></h5>
-
-<p>This tutorial is a very detailed list of commands and files modification to achieve a complete working deployment of the Hyperloop showcase on a HEROKU Server.</p>
-
-<p>Of course the HEROKU deployment can be faster but this tutorial allows programmers to check step by step where an error could happen.</p>
-</blockquote>
-
-<h2 id="learning-opal">Learning Opal</h2>
-
-<p>Hyperloop uses Opal to compile Ruby code to ES5 native JavaScript. If you have not used Opal before then you should at a minimum read the excellent guides as they will give you a working understanding of Opal.</p>
-
-<ul>
-<li><a href="http://opalrb.org/">Opal</a></li>
-<li><a href="http://opalrb.org/docs/guides/v0.9.2/index.html">Opal Guides</a></li>
-<li><a href="https://www.youtube.com/watch?v=vhIrrlcWphU">To see the full power of Opal in action watch this video</a></li>
-</ul>
+<br>
+<div class="card">
+  <h3 class="card-header"><a href="/tutorials/chat_app">Chat-App Tutorial</a></h3>
+  <div class="card-block">
+    <p>This tutorial will teach you the basics of building a HyperReact application that runs purely in your browser with no need for any back end system (like Rails, Node or Sinatra).</p>
+    <p>This work-along tutorial is an excellent place to start to learn the HyperReact DSL without needing to learn how to install it. If you have not used the HyperReact DSL before, this tutorial will <strong>get you going with minimal setup</strong>.</p>
+  </div>
+</div>
+<br>
+<div class="card">
+  <h3 class="card-header"><a href="/tutorials/hyperreact_with_rails">HyperReact and Rails Tutorial</a></h3>
+  <div class="card-block">
+    <p>A <strong>short tutorial</strong> which will show you how to add HyperReact to a Rails app and render a basic component. All you need to know to get started with HyperReact and Rails.</p>
+    <p>The source of this tutorial is avaiable as a <a href="https://github.com/ruby-hyperloop/quickstart">Quickstart</a> which you can clone.</p>
+  </div>
+</div>
+<br>
+<div class="card">
+  <h3 class="card-header"><a href="/tutorials/hyperreact_with_webpack">HyperReact, NPM and Webpack Tutorial</a></h3>
+  <div class="card-block">
+    <p>In an Isomorphic Ruby world, we need a good way of including <strong>Ruby and JavaScript components</strong> so they co-exist and play nicely together.</p>
+    <p>This tutorial will show you how to setup and use NPM and Webpack with HyperReact.</p>
+    <p>The source of this tutorial is avaiable as a <a href="https://github.com/ruby-hyperloop/quickstart">Quickstart</a> which you can clone.</p>
+  </div>
+</div>
+<br>
+<div class="card">
+  <h3 class="card-header"><a href="/tutorials/flux_store">Flux Store Tutorial</a></h3>
+  <div class="card-block">
+    <p>This short tutorial will show you how to implement a Flux store pattern in Hyperloop. This is extremely useful when you have deeply nested components which need to communicate with each other.</p>
+  </div>
+</div>
+<br>
+<div class="card">
+  <h3 class="card-header"><a href="/tutorials/file_uploader">File Uploader Tutorial</a></h3>
+  <div class="card-block">
+    <p>A brief tutorial will show you how to combine Ruby and JavaScript code and take you through the steps to build a Image Uploader using HTML5 FileReader and Hyperloop.</p>
+  </div>
+</div>
 
         </div>
       </div>
     </div>
-
-    <div class="page-footer-upperline">
-      <div class="container">
-
-      </div>
-    </div>
-
-    <footer class="nav-footer">
-  <section class="sitemap">
-
-    <a href="/" class="nav-home"></a>
-    
-    <div>
-      <h6><a href="/start">Start</a></h6>
-      <a href="/start#components">Components</a>
-      <a href="/start#stores">Stores</a>
-      <a href="/start#operations">Operations</a>
-      <a href="/start#policies">Policies</a>
-    </div>
-    <div>
-      <h6><a href="/tutorials">Learn</a></h6>
-      <a href="/tutorials/chat_app">Chat-App Tutorial</a>
-      <a href="/tutorials/hyperreact_with_rails">HyperReact and Rails Tutorial</a>
-      <a href="/tutorials/hyperreact_with_webpack">NPM and Webpack Tutorial</a>
-      <a href="/tutorials/flux_store">Flux Store Tutorial</a>
-      <a href="/tutorials/file_uploader">File Uploader Tutorial</a>
-    </div>
-    <div>
-      <h6><a href="/installation">Install</a></h6>
-      <a href="#opal-playground">Opal Playground</a>
-	  <a href="#using-hyperloop-express">Using Hyperloop Express</a>
-	  <a href="#with-rails">With Rails</a>
-	  <a href="#manual-rails-install">Manual Rails Install</a>
-	  <a href="#with-sinatra">With Sinatra</a>
-	  <a href="#building-with-rake">Building with Rake</a>
-	  <a href="#deployment">Deployment</a>
-    </div>
-    <div>
-      <h6><a href="/gems">Gems</a></h6>
-      <a href="https://github.com/ruby-hyperloop/hyper-rails">hyper-rails</a>
-      <a href="https://github.com/ruby-hyperloop/reactrb-express">hyperloop-express</a>
-      <a href="https://github.com/ruby-hyperloop/hyper-react">hyper-component</a>
-      <a href="https://github.com/ruby-hyperloop/hyper-store">hyper-store</a>
-      <a href="https://github.com/ruby-hyperloop/hyper-mesh">hyper-model</a>
-      <a href="https://github.com/ruby-hyperloop/hyper-operation">hyper-operation</a>
-      <a href="https://github.com/ruby-hyperloop/reactrb-router/tree/v2-4-0">hyper-router</a>
-      <a href="https://github.com/ruby-hyperloop/hyper-spec">hyper-spec</a>
-      <a href="https://github.com/ruby-hyperloop/hyper-trace">hyper-trace</a>
-    </div>
-    <div>
-      <h6><a href="/tools">Tools</a></h6>
-      <a href="#testing">Testing</a>
-    	<a href="#tools">Tools</a>
-    	<a href="#debugging">Debugging</a>
-    </div>
-    <div>
-      <h6><a href="/docs/architecture">Docs</a></h6>
-      <a href="/docs/architecture">Hyperloop Architecture</a>
-      <a href="/docs/components/dsl-overview">Components</a>
-      <a href="/docs/stores/overview">Stores</a>
-      <a href="/docs/models/overview">Models</a>
-      <a href="/docs/operations/overview">Operations</a>
-      <a href="/docs/policies/authorization">Policies</a>
-    </div>
-
-  </section>
-  
-  <section class="otherlinks">
-    <a href="https://github.com/ruby-hyperloop">Github</a>
-    <a href="/support">Help</a>
-    <a href="/blog">Blog</a>
-  </section>
-
-  <section class="copyright">
-    Copyright © 2017 Hyperloop.
-  </section>
-</footer>
-
 
     <script>
       (function(Opal) {
@@ -488,6 +241,71 @@ The source of this tutorial is available as a  <a href="https://github.com/ruby-
     <!-- <script   src="http://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script> -->
 
     <script type="text/ruby">puts "Hyperloop Express ok"</script>
+
+    <script type="text/ruby">
+
+class CodeMirror < React::Component::Base
+  param :code, type: String
+  define_state :error_message
+
+  before_mount do
+    state.error_message! ""
+  end
+
+  after_mount do
+    @editor = `CodeMirror(document.getElementById("code"), {
+      value: #{params.code},
+      mode: "text/x-ruby",
+      matchBrackets: true,
+      lineNumbers: true,
+      indentUnit: 2,
+      theme: 'github'
+    });`
+    `#{@editor}.on('change', #{lambda {on_change} })`
+    execute_code
+  end
+
+  render(DIV) do
+    div(id: 'code')
+    br
+    div(id: 'result')
+    p { state.error_message }
+  end
+
+  def on_change
+    state.error_message! ""
+    execute_code
+  end
+
+  after_mount   :execute_code
+  after_update  :execute_code
+
+  def execute_code
+    compiled_code = Opal::Compiler.new(`#{@editor}.getValue()`).compile
+    `ReactDOM.unmountComponentAtNode(document.getElementById("result"));`
+    `eval(#{compiled_code})`
+    Element['#result'].render{ Alfie() }
+    rescue Exception => e
+    @time_out = after(0.5) do
+      state.error_message! e.message
+    end
+  end
+
+end
+
+class TestApp < React::Component::Base
+  param :name
+  before_mount { @timer = every(1) { force_update! } }
+  render(DIV) do
+    h1 {"The current time is #{Time.now}"}
+    h2 { "here hello #{params.name}" }.on(:click) do
+     alert "you clicked"
+    end
+  end
+end
+
+</script>
+
 
   </body>
 </html>

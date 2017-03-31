@@ -14,7 +14,6 @@
 }
 .CodeMirror pre {
   padding: 0 4px; /* Horizontal padding of content */
-  color: white;
 }
 
 .CodeMirror-scrollbar-filler, .CodeMirror-gutter-filler {
@@ -25,7 +24,7 @@
 
 .CodeMirror-gutters {
   border-right: 1px solid #ddd;
-  background-color: #CDE9FF;
+  background-color: #f7f7f7;
   white-space: nowrap;
 }
 .CodeMirror-linenumbers {}
@@ -153,7 +152,7 @@ div.CodeMirror span.CodeMirror-nonmatchingbracket {color: #f22;}
 .CodeMirror {
   position: relative;
   overflow: hidden;
-  background: #272822;
+  background: white;
 }
 
 .CodeMirror-scroll {
@@ -245,7 +244,7 @@ div.CodeMirror span.CodeMirror-nonmatchingbracket {color: #f22;}
   white-space: pre;
   word-wrap: normal;
   line-height: inherit;
-  color: white;
+  color: inherit;
   z-index: 2;
   position: relative;
   overflow: visible;
