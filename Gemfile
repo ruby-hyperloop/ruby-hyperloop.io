@@ -9,11 +9,12 @@ gem 'wdm', '~> 0.1.0', platforms: [:mswin, :mingw]
 gem 'tzinfo-data', platforms: [:mswin, :mingw, :jruby]
 
 # Middleman Gems
-gem "middleman", "~> 4.1"
+gem "middleman", "4.1.10"
 gem "middleman-blog"
 gem "middleman-livereload"
 gem 'middleman-gh-pages'
 gem "middleman-syntax"
+gem "middleman-deploy", '~> 2.0.0.pre.alpha'
 gem "nokogiri"
 
 
