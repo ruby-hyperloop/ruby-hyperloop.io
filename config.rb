@@ -106,3 +106,9 @@ set :markdown, :tables => true, :autolink => true,
   :gh_blockcode => false, :fenced_code_blocks => true,
   :smartypants => false,  with_toc_data: true
 
+activate :deploy do |deploy|
+  deploy.deploy_method   = :sftp
+  deploy.host            = 'pixagency.com'
+  deploy.port            = 22
+  deploy.path            = '/home/fcooker/apps/hyperloop'
+end

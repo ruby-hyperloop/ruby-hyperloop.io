@@ -190,7 +190,9 @@
     <li class="nav-item"><a href="/start/pradgmatic#pragmatic-thinking">Pragmatic Thinking</a></li>
   </ul>
 
-<% when current_page.path.include?("tutorials") %>
+
+
+  <% when current_page.path.include?("chat_app") %>
   <ul class="nav">
     <li class="nav-item"><a href="/tutorials/chat_app">Chat-App Tutorial</a></li>
     <ul class="nav">
@@ -206,31 +208,34 @@
       <li class="nav-item"><a href="/tutorials/chat_app#source-code-of-the-steps-up-until-detecting-loged-in-user">Source Code</a></li>
     </ul>
 
-  </br>
-    <li class="nav-item"><strong><a href="/tutorials/hyperreact_with_rails">HyperReact and Rails Tutorial</a></strong></li>
-    <ul class="nav">
-      <li class="nav-item"><a href="/tutorials/hyperreact_with_rails#using-hyperrails">Using HyperRails</a></li>
-      <li class="nav-item"><a href="/tutorials/hyperreact_with_rails#adding-a-component">Adding a component</a></li>
-      <li class="nav-item"><a href="/tutorials/hyperreact_with_rails#controller-rendering">Controller Rendering</a></li>
-    </ul>
+
+
+
+
+  <% when current_page.path.include?("tutorials") %>
+  <ul class="nav">
+    
+    <li class="nav-item"><strong><a href="/tutorials/hyperloopcomp">Hyperloop COMP</a></strong></li>
 
   </br>
-    <li class="nav-item"><strong><a href="/tutorials/hyperreact_with_webpack">NPM and Webpack Tutorial</a></strong></li>
-    <ul class="nav">
-      <li class="nav-item"><a href="/tutorials/hyperreact_with_webpack#setup">Setup</a></li>
-      <li class="nav-item"><a href="/tutorials/hyperreact_with_webpack#usage">Usage</a></li>
-      <li class="nav-item"><a href="/tutorials/hyperreact_with_webpack#example">Example</a></li>
-    </ul>
+    <li class="nav-item"><strong><a href="/tutorials/hyperloopjs">Hyperloop.js</a></strong></li>
+    
 
   </br>
-    <li class="nav-item"><strong><a href="/tutorials/flux_store">Flux Store Tutorial</a></strong></li>
+    <li class="nav-item"><strong><a href="/tutorials/flux_store">Hyperloop and Rails</a></strong></li>
   </br>
-    <li class="nav-item"><strong><a href="/tutorials/file_uploader">File Uploader Tutorial</a></strong></li>
-  </br>
+    <li class="nav-item"><strong><a href="/tutorials/file_uploader">Videos</a></strong></li>
+  
+    
   </ul>
+
+
   <% when current_page.path.include?("index") %>
     <div class="getstarted">
       <p>Get Started with Hyperloop right now, no installation necessary, <strong>code</strong> in your browser.</p>
       <button type="button" class="btn btn-primary btn-lg btn-hyperlooppink" onclick="location.href='/start';">Start Here</button>
     </div>
+
+
+  
 <% end %>
