@@ -29,10 +29,11 @@ This release consists of:
 + Introduction of Hyper-Spec gem
 + Introduction of a centralized Hyperloop configuration gem
 + Renaming of HyperMesh gem to Hyper-Model
++ Renaming of Express gem to Hyperloop-JS
 + Changes to state syntax from bang(!) notation to mutate method
 + Changes to all base class names (Hyperloop::Component, Hyperloop::Model, etc) for consistency
 + Changes to the location of files in a Rails project
-+ New Hyperloop Express based on latest gems
++ New Hyperloop JS based on latest gems
 + New HyperRails gem
 + New website documentation, lived-code editing, new styling and new branding
 
@@ -42,10 +43,11 @@ This release consists of:
 | gem | version | notes |
 |-----------------|---------|-------|
 | hyper-loop | 0.8 | initial release |
-| hyper-store | 0.8 | initial release |
-| hyper-operation | 0.8 | initial release |
-| hyper-component | 0.12 | hyper-react 0.11 + pending fixes + compatibility `requires` (see below) |
-| hyper-model | 0.6 | hyper-mesh 0.5.x + fixes + dependence on hyper-store and hyper-operation gems |
+| hyper-store | 0.2.2 | initial release |
+| hyper-operation | 0.5.4 | initial release |
+| hyper-component | 0.12.5 | latest hyper-react + pending fixes + compatibility `requires` (see below) |
+| hyper-model | 0.6.0 | hyper-mesh 0.5.x + fixes + dependence on hyper-store and hyper-operation gems |
+| hyperloop-js | 0.1 | latest gems + decoupling of Hyperloop and Opal |
 
 #### Hyper-Component compatibility
 The hyper-component gem will include 3 compatibility modes, determined by which file you require in `components.rb.`
