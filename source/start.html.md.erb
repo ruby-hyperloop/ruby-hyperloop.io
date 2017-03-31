@@ -215,11 +215,7 @@ Hyperloop Stores (similar to Flux Stores) exist to hold local application state.
 
 Take the simple Component below which displays an initial discount then gives the user the option of taking a once only 'Lucky Dip' that will either increase or decrease their discount.
 
-<div class="codemirror-live-edit"
-  data-heading="An overloaded Component"
-  data-rows=15
-  data-top-level-component="OfferLuckyDip">
-<pre>
+```ruby
 class OfferLuckyDip < Hyperloop::Component
   state discount: 30
   state lucky_dip_taken: false
@@ -234,9 +230,9 @@ class OfferLuckyDip < Hyperloop::Component
     end
   end
 end
-</pre></div>
+```
 
-The Component works as expected but there are two fundamental problems with the architecture:
+The Component will work as expected but there are two fundamental problems with this pattern:
 
 + Firstly, the discount (state) is tied to the Component itself. This is a problem as we might have other Components on the page which need to also see and interact with the discount. **We need a better place than in our Components to keep application state.**
 + Our business logic (discounts start at 30% and the lucky dip increases or decreases by 5%) is all wrapped up with our presentational code. This makes our application fragile and difficult to evolve. **Our application logic should be separate from our display logic.**
@@ -247,17 +243,6 @@ We will fix these problems but first implementing a Hyperloop Store to keep our 
 
 First let's add the Store:
 
-```ruby
-class Discounter < Hyperloop::Store
-   state discount: 30, scope: :class, reader: true
-   state lucky_dip_taken: false, scope: :class, reader: true
-
-  def self.lucky_dip!
-    mutate.discount( state.discount + rand(-5..5) )
-    mutate.lucky_dip_taken true
-  end
-end
-```
 
 You will notice a few things in the code above:
 
@@ -268,7 +253,21 @@ You will notice a few things in the code above:
 
 Next we will refactor our Component to use the Store:
 
-```ruby
+<div class="codemirror-live-edit"
+  data-heading="An overloaded Component"
+  data-rows=22
+  data-top-level-component="OfferLuckyDip">
+<pre>
+class Discounter < Hyperloop::Store
+   state discount: 30, scope: :class, reader: true
+   state lucky_dip_taken: false, scope: :class, reader: true
+
+  def self.lucky_dip!
+    mutate.discount( state.discount + rand(-5..5) )
+    mutate.lucky_dip_taken true
+  end
+end
+
 class OfferLuckyDip < Hyperloop::Component
   def render
     DIV do
@@ -279,7 +278,7 @@ class OfferLuckyDip < Hyperloop::Component
     end
   end
 end
-```
+</pre></div>
 
 + Notice that we do not create an instance of the Discounter class but instead access the class methods of the Store `Discounter.lucky_dip!` so that all Components will be using the same 'class instance' of the Store.
 + `Discounter.discount` is a reader class method that was added to the Store for us by `state discount: 30, scope: :class, reader: true` which saved us a lot of typing!

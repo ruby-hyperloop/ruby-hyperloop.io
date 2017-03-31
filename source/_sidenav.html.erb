@@ -19,14 +19,47 @@
     <li class="nav-item"><a href="/tools">Tools and Debugging</a></br></li>
   </ul>
 <% when current_page.path.include?("installation") %>
+  
   <ul class="nav">
-    <li class="nav-item"><a href="#opal-playground">Opal Playground</a></br></li>
-    <li class="nav-item"><a href="#using-hyperloop-express">Using Hyperloop Express</a></br></li>
-    <li class="nav-item"><a href="#with-rails">With Rails</a></br></li>
-    <li class="nav-item"><a href="#manual-rails-install">Manual Rails Install</a></br></li>
+    <li class="nav-item"><a href="#hyperloop.js">Hyperloop.js</a></li>
+    <ul class="nav">
+      <li class="nav-item"><a href="">Setup</a></li>
+      <li class="nav-item"><a href="">Simple 
+      HelloWorld</a></li>
+      <li class="nav-item"><a href="">Tutorials</a></li>
+    </ul>
+  </ul>
+
+  <br>
+
+  <ul class="nav">
+    <li class="nav-item"><a href="#with-ruby-on-rails">With Ruby On Rails</a></li>
+    <ul class="nav">
+      <li class="nav-item"><a href="">Setup</a></li>
+      <li class="nav-item"><a href="">Simple 
+      HelloWorld</a></li>
+      <li class="nav-item"><a href="">Tutorials</a></li>
+      <li class="nav-item"><a href="#advanced-configuration">Advanced configuration</a></li>
+    </ul>
+  </ul>
+
+  <br>
+
+  <ul class="nav">
     <li class="nav-item"><a href="#with-sinatra">With Sinatra</a></br></li>
-    <li class="nav-item"><a href="#building-with-rake">Building with Rake</a></br></li>
+  </ul>
+
+  <br>
+
+  <ul class="nav">
     <li class="nav-item"><a href="#deployment">Deployment</a></br></li>
+  </ul>
+
+<% when current_page.path.include?("advancedconfig") %>
+  <ul class="nav">
+    <li class="nav-item"><a href="/advancedconfig#initializer">Initializer</a></br></li>
+    <li class="nav-item"><a href="/advancedconfig#policies">Policies</a></br></li>
+    <li class="nav-item"><a href="/advancedconfig#hyperloop-architectures">Hyperloop architectures</a></br></li>
   </ul>
 
 <% when current_page.path.include?("tools") %>
