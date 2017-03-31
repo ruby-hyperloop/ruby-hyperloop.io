@@ -5,10 +5,653 @@
   <id>http://blog.url.com/</id>
   <link href="http://blog.url.com/"/>
   <link href="http://blog.url.com/feed.xml" rel="self"/>
-  <updated>2016-09-08T06:50:00+01:00</updated>
+  <updated>2017-02-28T00:00:00+00:00</updated>
   <author>
     <name>Blog Author</name>
   </author>
+  <entry>
+    <title>Spring 2017 COMPS Release</title>
+    <link rel="alternate" href="http://blog.url.com/blog/2017/02/28/spring-2017-comps-release/"/>
+    <id>http://blog.url.com/blog/2017/02/28/spring-2017-comps-release/</id>
+    <published>2017-02-28T00:00:00+00:00</published>
+    <updated>2017-03-08T17:38:21+00:00</updated>
+    <author>
+      <name>Article Author</name>
+    </author>
+    <content type="html">&lt;h1 id="spring-2017-comps-release"&gt;Spring 2017 COMPS Release&lt;/h1&gt;
+
+&lt;p&gt;TODO: Change data of this article to actual release date&lt;/p&gt;
+
+&lt;p&gt;Spring 2017 heralds a major Hyperloop release. This release will be the first where we have introduced the 5 architectural constructs focused on making it easier to write Isomorphic applications.&lt;/p&gt;
+
+&lt;p&gt;This release includes a new version and renaming of all of the Hyperloop gems as well as several new concepts and gems.&lt;/p&gt;
+
+&lt;p&gt;These release notes cover the following topics:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="#release-overview"&gt;Release Overview&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#gem-changes"&gt;Gem changes&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#new-folder-layout"&gt;New folder layout&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#base-class-names"&gt;Base class names&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id="release-overview"&gt;Release Overview&lt;/h2&gt;
+
+&lt;p&gt;This release consists of:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Introduction of COMPS (Components, Operations, Models, Policies and Stores) architectural concepts&lt;/li&gt;
+&lt;li&gt;Introduction of Hyper-Operation gem&lt;/li&gt;
+&lt;li&gt;Introduction of Hyper-Store gem&lt;/li&gt;
+&lt;li&gt;Introduction of Hyper-Spec gem&lt;/li&gt;
+&lt;li&gt;Introduction of a centralized Hyperloop configuration gem&lt;/li&gt;
+&lt;li&gt;Renaming of HyperMesh gem to Hyper-Model&lt;/li&gt;
+&lt;li&gt;Changes to state syntax from bang(!) notation to mutate method&lt;/li&gt;
+&lt;li&gt;Changes to all base class names (Hyperloop::Component, Hyperloop::Model, etc) for consistency&lt;/li&gt;
+&lt;li&gt;Changes to the location of files in a Rails project&lt;/li&gt;
+&lt;li&gt;New Hyperloop Express based on latest gems&lt;/li&gt;
+&lt;li&gt;New HyperRails gem&lt;/li&gt;
+&lt;li&gt;New website documentation, lived-code editing, new styling and new branding&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id="gem-changes"&gt;Gem changes&lt;/h2&gt;
+
+&lt;h4 id="version-numbers-and-content"&gt;Version Numbers and Content&lt;/h4&gt;
+
+&lt;table&gt;&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;gem&lt;/th&gt;
+&lt;th&gt;version&lt;/th&gt;
+&lt;th&gt;notes&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;hyper-loop&lt;/td&gt;
+&lt;td&gt;0.8&lt;/td&gt;
+&lt;td&gt;initial release&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;hyper-store&lt;/td&gt;
+&lt;td&gt;0.8&lt;/td&gt;
+&lt;td&gt;initial release&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;hyper-operation&lt;/td&gt;
+&lt;td&gt;0.8&lt;/td&gt;
+&lt;td&gt;initial release&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;hyper-component&lt;/td&gt;
+&lt;td&gt;0.12&lt;/td&gt;
+&lt;td&gt;hyper-react 0.11 + pending fixes + compatibility &lt;code&gt;requires&lt;/code&gt; (see below)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;hyper-model&lt;/td&gt;
+&lt;td&gt;0.6&lt;/td&gt;
+&lt;td&gt;hyper-mesh 0.5.x + fixes + dependence on hyper-store and hyper-operation gems&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;&lt;/table&gt;
+
+&lt;h4 id="hyper-component-compatibility"&gt;Hyper-Component compatibility&lt;/h4&gt;
+
+&lt;p&gt;The hyper-component gem will include 3 compatibility modes, determined by which file you require in &lt;code&gt;components.rb.&lt;/code&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Hyperloop Standard&lt;/strong&gt;: (&lt;code&gt;require &amp;#39;hyper-component&amp;#39;&lt;/code&gt;) In this mode you will use the new hyperloop syntax for all names, macros etc.  I.e. components are defined as subclasses of &lt;code&gt;Hyperloop::Component&lt;/code&gt; or using &lt;code&gt;Hyperloop::Component::Mixin&lt;/code&gt;.   States are changed using the &lt;code&gt;mutate&lt;/code&gt; objectrather than the exclamation notation.  States are declared using the &lt;code&gt;state&lt;/code&gt; macro.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;HyperReact Compatibility&lt;/strong&gt;: (&lt;code&gt;require &amp;#39;hyper-react&amp;#39;&lt;/code&gt;) In this mode you can use either syntax, but you will get deprecation warnings, as this mode &lt;em&gt;will&lt;/em&gt; go away.  This mode will be provided as a bridge so developers can use Operations and Stores without having to make changes to existing components.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;DSL Only&lt;/strong&gt; (&lt;code&gt;require &amp;#39;hyper-react-dsl&amp;#39;&lt;/code&gt;)  In this mode you will use the new syntax, however, the DSL will be limited to the base feature set provided by react.js.  This mainly applies to states acting as stores.  The advantage will be smaller payload size.  Initially, this mode not exist but the code will be set up to support it easily in the future&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;In addition, we will make one more release to the hyper-react and hyper-mesh gems that simply provides the hyper-component and hyper-model functionality, plus a deprecation warning.  The intent is that the next time you update these gems, you will get the warning, and will know to change to the new gem names.&lt;/p&gt;
+
+&lt;h4 id="store-and-operation-interoperability"&gt;Store and Operation interoperability&lt;/h4&gt;
+
+&lt;p&gt;Stores depend on &lt;code&gt;Hyperloop::Application::Boot&lt;/code&gt;, which is an operation defined in the Operation gem.  So that you can use stores without operations, the store gem will define a very basic boot operation &lt;em&gt;unless&lt;/em&gt; Hyperloop::Application::Boot is already defined.&lt;/p&gt;
+
+&lt;h4 id="hyperloop-express"&gt;Hyperloop Express&lt;/h4&gt;
+
+&lt;p&gt;Hyperloop Express now supports Operations and Stores.&lt;/p&gt;
+
+&lt;p&gt;TODO: update as to how it ends up....&lt;/p&gt;
+
+&lt;p&gt;There is no gem here, just JS files.  We will have two: hyperloop-express.js which includes hyper-component (and therefore hyper-store) and hyperloop-express-operation.js which brings in the &lt;code&gt;Hyperloop::Operation&lt;/code&gt; class (but not the &lt;code&gt;Hyperloop::ServerOp&lt;/code&gt; class)&lt;/p&gt;
+
+&lt;p&gt;To support this the &lt;code&gt;hyper-operation&lt;/code&gt; gem will have a &lt;code&gt;hyper-operation/client_only&lt;/code&gt; require file.&lt;/p&gt;
+
+&lt;h2 id="new-folder-layout"&gt;New folder layout&lt;/h2&gt;
+
+&lt;p&gt;There is a folder layout within a Rails project.&lt;/p&gt;
+
+&lt;p&gt;Old folder layout:&lt;/p&gt;
+&lt;pre class="highlight plaintext"&gt;&lt;code&gt;/app/views/components          &amp;lt;-- HyperReact components
+/app/models/public             &amp;lt;-- HyperMesh models
+/app/models                    &amp;lt;-- server-only models
+/app/views/components.rb       &amp;lt;-- component manifest
+/app/policies                  &amp;lt;-- HyperMesh policies
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;New folder layout:&lt;/p&gt;
+&lt;pre class="highlight plaintext"&gt;&lt;code&gt;/app/hyperloop/components      &amp;lt;-- components
+/app/hyperloop/models          &amp;lt;-- isomorphic models
+/app/models                    &amp;lt;-- server-only models
+/app/hyperloop/operations      &amp;lt;-- isomorphic operations
+/app/operations                &amp;lt;-- server-only operations
+/app/hyperloop/stores          &amp;lt;-- stores
+/app/hyperloop/hyperloop.rb    &amp;lt;-- hyperloop manifest
+/app/policies                  &amp;lt;-- policies
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id="base-classes-and-mixins"&gt;Base classes and Mixins&lt;/h2&gt;
+
+&lt;p&gt;Hyperloop base classes follow a consistent naming convention:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;Hyperloop::Operation&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Hyperloop::Store&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Hyperloop::Policy&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;You can inherit from the class:&lt;/p&gt;
+&lt;pre class="highlight ruby"&gt;&lt;code&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Cart&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="no"&gt;Hyperloop&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="no"&gt;Store&lt;/span&gt;
+  &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;.&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;
+&lt;span class="nf"&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Or mixin the module:&lt;/p&gt;
+&lt;pre class="highlight ruby"&gt;&lt;code&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Cart&lt;/span&gt;
+  &lt;span class="kp"&gt;include&lt;/span&gt; &lt;span class="no"&gt;Hyperloop&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="no"&gt;Store&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="no"&gt;Mixin&lt;/span&gt;
+  &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;.&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;
+&lt;span class="nf"&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Mixins available:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;Hyperloop::Store::Mixin&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Hyperloop::Policy::Mixin&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+  </entry>
+  <entry>
+    <title>Editing Flux Loop verses Decoupling</title>
+    <link rel="alternate" href="http://blog.url.com/blog/2017/01/28/editing-flux-loop-verses-decoupling/"/>
+    <id>http://blog.url.com/blog/2017/01/28/editing-flux-loop-verses-decoupling/</id>
+    <published>2017-01-28T00:00:00+00:00</published>
+    <updated>2017-03-08T17:38:21+00:00</updated>
+    <author>
+      <name>Article Author</name>
+    </author>
+    <content type="html">&lt;p&gt;@catmando&lt;/p&gt;
+
+&lt;p&gt;This started as some thoughts about when to use notation like&lt;/p&gt;
+&lt;pre class="highlight ruby"&gt;&lt;code&gt;&lt;span class="no"&gt;AddItemToCart&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="ss"&gt;item: &lt;/span&gt;&lt;span class="n"&gt;sku&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;qty: &lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="c1"&gt;# Use an operation&lt;/span&gt;
+&lt;span class="c1"&gt;# vs&lt;/span&gt;
+&lt;span class="no"&gt;Cart&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;addItem&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="ss"&gt;item: &lt;/span&gt;&lt;span class="n"&gt;sku&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;qty: &lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="c1"&gt;# Use a method on the Store&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Which in thinking it through (the answer is &amp;#39;always use the Operation&amp;#39;, read on for details) led me to understand what I think is the real truth about the &amp;quot;flux loop.&amp;quot;  And the answer to that is, it is nothing really to do with the &amp;quot;data flow&amp;quot; but with the coupling between parts of the system.&lt;/p&gt;
+
+&lt;p&gt;Actions (and Operations, Mutations, and to some extent decorators - maybe) provide a way to decouple elements of the system.&lt;/p&gt;
+
+&lt;p&gt;In the above example, why is the Operation better?  Sometime in the future, you may want to note that the current user showed interest in an SKU whenever that SKU gets added to the cart.  Where does this additional code go?  If you have gone down the path of directly calling &lt;code&gt;Cart.addItem&lt;/code&gt; you have no place to logically add this code.  You can add it the Cart, but this now couples the Cart to some other model like UserInterests.  The two are pretty unrelated.  So you would end up moving the logic upwards and that puts it where it belonged in the first place: the AddItemToCart Operation.&lt;/p&gt;
+
+&lt;p&gt;Having Operations (which are basically the same as Actions + Action Creators + the Dispatcher) and using them &lt;em&gt;whenever data is mutated&lt;/em&gt;  is a really good rule of thumb which is simple to understand, helps structure the code in a way that leaves it more maintainable, less brittle, and more reusable.&lt;/p&gt;
+
+&lt;p&gt;It also creates a &amp;quot;one-way data flow&amp;quot; but the problem is that I can create a system with one-way data flow that does not provide me with good decoupling between parts of the system.  I can also in perfectly good flux architecture still make dumb design decisions.&lt;/p&gt;
+
+&lt;p&gt;Here are three good things that having a central point like the Dispatcher or Operations solves:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;Decoupling Interface from Implementation&lt;/strong&gt;
+The flux Action paradigm decouples the Action protocol from the implementation completely.  An Action is a separate object from the Store receiving the action.  Some event handler calls the action, and the Store registers with the action.  In fact, you can have multiple Stores respond to the same Action.  Cool!&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;But even without a Dispatcher you get all the biggest benefit which is the decoupling.  So I think its important to understand the first goal is to give a separate name to the Action (or Operation) and which can then be associated whatever Stores need to be updated.&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Debuggability&lt;/strong&gt;*
+Running everything through the Action-Dispatcher (or an Operation base class) means that you can easily trace all actions/operations.  If you are using immutable data you can have even more fun.  This is good!&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Keeping Store Concerns Clean&lt;/strong&gt;
+Without some entity such as Actions to decouple Stores from &lt;em&gt;each other&lt;/em&gt; you end up with Store A, knowing too much about Store B. So to emphasize the earlier example: we have a cart, we want to add an item.  Great.  But now you also want to update a &amp;quot;User Interest List&amp;quot; with any item a user has added to a cart.  So the naive implementation would probably have the Cart &amp;quot;add item&amp;quot; mechanism call some method on the UserInterestList Store.  Now the Cart which seems like the more &amp;quot;fundamental&amp;quot; class, is linked to the UserInterestList, and the spagetti begins to tangle.  &lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;This is a huge problem everywhere.  The &amp;quot;Action&amp;quot; solution is a simplified version of the TrailBlazer Operation, which itself is derived from the Mutation gem.  So the problem has been around for a while, and the solutions that work are similiar.&lt;/p&gt;
+
+&lt;p&gt;And here is and example of something Actions or Operations and having a central dispatcher does not solve:&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Bad class protocol design&lt;/strong&gt;&lt;br&gt;
+We can describe how to &amp;quot;kill&amp;quot; a role playing character many ways.   &lt;/p&gt;
+&lt;pre class="highlight ruby"&gt;&lt;code&gt;&lt;span class="no"&gt;Person&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;set_is_alive&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;id&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;boolean&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="c1"&gt;# normal method call&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="ss"&gt;type: :set_is_alive&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;payload: &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="ss"&gt;id: &lt;/span&gt;&lt;span class="nb"&gt;id&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;boolean: &lt;/span&gt;&lt;span class="n"&gt;boolean&lt;/span&gt;&lt;span class="p"&gt;}}&lt;/span&gt; &lt;span class="c1"&gt;# flux action&lt;/span&gt;
+&lt;span class="no"&gt;SetIsAlive&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;id&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;boolean&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="c1"&gt;# Operation / Action Creator&lt;/span&gt;
+&lt;span class="c1"&gt;# BAD! what if u change "alive-ness" to be a scale instead of yes/no?&lt;/span&gt;
+&lt;span class="no"&gt;Person&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;set_life_level&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;id&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;integer&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="c1"&gt;# normal method call&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="ss"&gt;type: :set_life_level&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;payload: &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="ss"&gt;id: &lt;/span&gt;&lt;span class="nb"&gt;id&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;level: &lt;/span&gt;&lt;span class="n"&gt;level&lt;/span&gt;&lt;span class="p"&gt;}}&lt;/span&gt; &lt;span class="c1"&gt;# flux action&lt;/span&gt;
+&lt;span class="no"&gt;SetLifeLevel&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;id&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;level&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="c1"&gt;# Operation / Action Creator&lt;/span&gt;
+&lt;span class="c1"&gt;# STILL BAD! Its less brittle but it still reveals too much implemenation&lt;/span&gt;
+&lt;span class="no"&gt;Person&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;kill&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;id&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="ss"&gt;type: :kill&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;data: &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="ss"&gt;id: &lt;/span&gt;&lt;span class="nb"&gt;id&lt;/span&gt;&lt;span class="p"&gt;}}&lt;/span&gt;
+&lt;span class="no"&gt;Kill&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;id&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="c1"&gt;# Operation / Action Creator&lt;/span&gt;
+&lt;span class="c1"&gt;# This is a much better protocol!!!&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Regardless of whether I think of my system in terms of Classes and methods, actions, or operations, I can build good protocols or bad protocols.  Just declaring that I use &amp;quot;actions&amp;quot; to define my system does not solve this problem.  People must realize that &amp;quot;Actions&amp;quot; are just another way to describe messages to move data between elements of the system.  Just changing terminology from methods, classes or procedure calls to &amp;#39;Actions&amp;#39; and &amp;#39;Stores&amp;#39; solves nothing.&lt;/p&gt;
+
+&lt;p&gt;So there are three good reasons to use an architecture that centralizes the mutation of stores to a single point (or a single class) plus one thing such an architecture does not solve.  &lt;strong&gt;But note:  No place in that discussion did we say anything about one-way data flow.&lt;/strong&gt;  That is a side effect and frankly a distraction I think.  There are going to be times where its best to violate the &amp;quot;one-way data flow&amp;quot; but that does not mean you have to in any way give up good design principles.&lt;/p&gt;
+
+&lt;p&gt;I think its much easier and clearer to think in terms of who mutates the stores.  Providing an answer like &amp;quot;in general it should be the Operations&amp;quot;, is a good starting point to discovering the best way to decouple the system.  I don&amp;#39;t think saying &amp;quot;make the data flow one way&amp;quot; is as helpful.&lt;/p&gt;
+
+&lt;h4 id="how-is-this-going-to-work-in-hyperloop"&gt;How is this going to work in Hyperloop&lt;/h4&gt;
+
+&lt;p&gt;Here is the basic approach:&lt;/p&gt;
+&lt;pre class="highlight ruby"&gt;&lt;code&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;AddItemToCart&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="no"&gt;HyperOperation&lt;/span&gt;
+  &lt;span class="n"&gt;param&lt;/span&gt; &lt;span class="ss"&gt;:sku&lt;/span&gt;
+  &lt;span class="n"&gt;param&lt;/span&gt; &lt;span class="ss"&gt;qty: &lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+
+&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Cart&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="no"&gt;HyperStore&lt;/span&gt;
+  &lt;span class="n"&gt;state_reader&lt;/span&gt; &lt;span class="ss"&gt;items: &lt;/span&gt;&lt;span class="no"&gt;Hash&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;new&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt;&lt;span class="n"&gt;h&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;k&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="n"&gt;h&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;k&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt; &lt;span class="p"&gt;},&lt;/span&gt; &lt;span class="ss"&gt;scope: :class&lt;/span&gt;
+
+  &lt;span class="n"&gt;receives&lt;/span&gt; &lt;span class="no"&gt;AddItemToCart&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;scope: :class&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt;
+    &lt;span class="n"&gt;state&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;items!&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;params&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;sku&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;+=&lt;/span&gt; &lt;span class="n"&gt;params&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;qty&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;(+) Nice and easy&lt;br&gt;
+  (-) Adds (maybe) 2 lines to every mutator (&lt;code&gt;class ... end&lt;/code&gt;)&lt;br&gt;
+  (+) Allows for other stores to participate in the Operation&lt;br&gt;
+  (+) Clearly corresponds to the Flux model (i.e. Operation == Action + Action Creator + Dispatcher)  &lt;/p&gt;
+
+&lt;h3 id="improving-on-the-above"&gt;Improving on the above&lt;/h3&gt;
+
+&lt;p&gt;In many cases there is a &amp;quot;default&amp;quot; association between the Operation and the Store.  You can see this in the names &lt;code&gt;Cart&lt;/code&gt; and &lt;code&gt;AddItemToCart&lt;/code&gt;. This is very common in real world examples.  Given this it makes sense to namespace the actions with the store:&lt;/p&gt;
+&lt;pre class="highlight ruby"&gt;&lt;code&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Cart&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="no"&gt;HyperStore&lt;/span&gt;
+  &lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;AddItem&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="no"&gt;HyperOperation&lt;/span&gt;
+    &lt;span class="n"&gt;param&lt;/span&gt; &lt;span class="ss"&gt;:sku&lt;/span&gt;
+    &lt;span class="n"&gt;param&lt;/span&gt; &lt;span class="ss"&gt;qty: &lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+  &lt;span class="n"&gt;state_reader&lt;/span&gt; &lt;span class="ss"&gt;items: &lt;/span&gt;&lt;span class="no"&gt;Hash&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;new&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt;&lt;span class="n"&gt;h&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;k&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="n"&gt;h&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;k&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt; &lt;span class="p"&gt;},&lt;/span&gt; &lt;span class="ss"&gt;scope: :class&lt;/span&gt;
+  &lt;span class="n"&gt;receives&lt;/span&gt; &lt;span class="no"&gt;AddItem&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;scope: :class&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt;
+    &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;.&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;
+  &lt;span class="nf"&gt;end&lt;/span&gt;
+
+&lt;span class="k"&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;We have not changed much, but things look much logical.  You would say:&lt;/p&gt;
+&lt;pre class="highlight ruby"&gt;&lt;code&gt;  &lt;span class="no"&gt;Cart&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;items&lt;/span&gt; &lt;span class="c1"&gt;# works just like a scope&lt;/span&gt;
+  &lt;span class="no"&gt;Cart&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="no"&gt;AddItem&lt;/span&gt;&lt;span class="p"&gt;(.&lt;/span&gt;&lt;span class="nf"&gt;.&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  &lt;span class="c1"&gt;# stands out!!! must be a mutator&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;You can still have other unrelated Stores receive AddItem:&lt;/p&gt;
+&lt;pre class="highlight ruby"&gt;&lt;code&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;UserInterestList&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="no"&gt;HyperStore&lt;/span&gt;
+  &lt;span class="n"&gt;receives&lt;/span&gt; &lt;span class="no"&gt;Cart&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="no"&gt;AddItem&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;scope: :class&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt;
+    &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;.&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;
+  &lt;span class="nf"&gt;end&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;And because we know that Cart is by default related to AddItem, we can make sure that Cart always receives AddItem first, thus doing away with a common reason for needing to explicitly specify the order that Stores should receive an action.&lt;/p&gt;
+
+&lt;p&gt;If it&amp;#39;s not obvious which class the Operation belongs (you can probably see it right in the name) to then it really is its own thing and should be placed in its own namespace.  So for example:
+&lt;code&gt;ruby
+class ResetToDefaults &amp;lt; HyperOperation
+end
+&lt;/code&gt;
+Clearly there is no associated Store, so ResetToDefaults stands alone.&lt;/p&gt;
+
+&lt;p&gt;While it&amp;#39;s a little more typing (2 lines) you now can give a robust specification to the parameters coming into the Operation.  This seems important if the rule of thumb is that Operations are controlling mutations of our Stores&lt;/p&gt;
+&lt;pre class="highlight ruby"&gt;&lt;code&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Cart&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="no"&gt;HyperStore&lt;/span&gt;  
+  &lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;AddItem&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="no"&gt;HyperOperation&lt;/span&gt;
+    &lt;span class="n"&gt;param&lt;/span&gt; &lt;span class="ss"&gt;:sku&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;type: &lt;/span&gt;&lt;span class="no"&gt;String&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;matches: &lt;/span&gt;&lt;span class="no"&gt;SKU_PATTERN&lt;/span&gt;    
+    &lt;span class="n"&gt;param&lt;/span&gt; &lt;span class="ss"&gt;qty: &lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;type: &lt;/span&gt;&lt;span class="no"&gt;Numeric&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;minimum: &lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;   
+  &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;.&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;
+&lt;span class="nf"&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Finally note that nesting the declaration of the Operation inside a Store, does not prevent you from adding special logic not related to the Store elsewhere:&lt;/p&gt;
+&lt;pre class="highlight ruby"&gt;&lt;code&gt;&lt;span class="c1"&gt;# some where else in the code:&lt;/span&gt;
+&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Cart&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="no"&gt;AddItem&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="no"&gt;HyperOperation&lt;/span&gt;
+  &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;execute&lt;/span&gt;
+    &lt;span class="no"&gt;ConfirmItemAvailability&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="ss"&gt;sku: &lt;/span&gt;&lt;span class="n"&gt;sku&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nf"&gt;then&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="k"&gt;super&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Other questions:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Can Stores Invoke Operations&lt;/strong&gt;
+In general no.  Stores should be kept as simple as possible.  If possible move invocation of the Operation upwards into another Operation&amp;#39;s execute method.  The obvious exception would be if the Store is providing a stream of data from an asynchronous source.  In this case, a Store&amp;#39;s &amp;#39;getter&amp;#39; is going to detect the Data has run out, and can invoke an Operation to get more.  The Operation will be asynchronous and when it resolves can inform the Store that it can update its state with new data.  The way Operations, states, and promises work together make this straight forward to do.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Can Operations Read From Stores&lt;/strong&gt;
+Yes.  Often an Operation will read from one Store to determine if it should update another store.  &lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Can Operations Invoke Other Operations&lt;/strong&gt;
+Yes.  Note that Operations return promises, so asynchronous operation is assumed, Operations can be easily chained.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+  </entry>
+  <entry>
+    <title>Comparing Redux with Hyperloop</title>
+    <link rel="alternate" href="http://blog.url.com/blog/2017/01/17/comparing-redux-with-hyperloop/"/>
+    <id>http://blog.url.com/blog/2017/01/17/comparing-redux-with-hyperloop/</id>
+    <published>2017-01-17T00:00:00+00:00</published>
+    <updated>2017-03-08T17:38:21+00:00</updated>
+    <author>
+      <name>Article Author</name>
+    </author>
+    <content type="html">&lt;p&gt;@catmando&lt;/p&gt;
+
+&lt;p&gt;In trying to find how Hyperloop models and flux-stores relate, I was rereading the Redux tutorials.  After having been away from that for a while I was amazed how clean Hyperloop&amp;#39;s HyperReact DSL is compared to the typical JSX code.&lt;/p&gt;
+
+&lt;p&gt;For example here is a comparison of &lt;a href="https://github.com/reactjs/redux/tree/master/examples/todomvc"&gt;Redux TodoMVC&lt;/a&gt; and &lt;a href="https://github.com/ruby-hyperloop/todo-tutorial"&gt;Hyperloop TodoMVC&lt;/a&gt; which provide the same Todo UI and function.  (* &lt;em&gt;note that the code presented is slightly different from the linked Hyperloop tutorial as it uses the most recent version of the DSL.&lt;/em&gt;)&lt;/p&gt;
+
+&lt;p&gt;Here are the component code files, which are roughly divided the same way between the two apps.&lt;/p&gt;
+
+&lt;table&gt;&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;JS files&lt;/th&gt;
+&lt;th&gt;React/Redux size&lt;/th&gt;
+&lt;th&gt;Hyperloop size&lt;/th&gt;
+&lt;th&gt;Ruby Files&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Footer.js&lt;/td&gt;
+&lt;td&gt;71&lt;/td&gt;
+&lt;td&gt;29&lt;/td&gt;
+&lt;td&gt;footer_link.rb, footer.rb&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Header.js, MainSection.js&lt;/td&gt;
+&lt;td&gt;103&lt;/td&gt;
+&lt;td&gt;25&lt;/td&gt;
+&lt;td&gt;index.rb&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;TodoItem.js&lt;/td&gt;
+&lt;td&gt;65&lt;/td&gt;
+&lt;td&gt;21&lt;/td&gt;
+&lt;td&gt;todo_item.rb&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;TodoTextInput.js&lt;/td&gt;
+&lt;td&gt;53&lt;/td&gt;
+&lt;td&gt;20&lt;/td&gt;
+&lt;td&gt;edit_item.rb&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Total&lt;/td&gt;
+&lt;td&gt;292&lt;/td&gt;
+&lt;td&gt;95&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;&lt;/table&gt;
+
+&lt;p&gt;In addition there are the following &amp;quot;store/action/model&amp;quot; definition files.&lt;/p&gt;
+
+&lt;table&gt;&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;JS files&lt;/th&gt;
+&lt;th&gt;React/Redux size&lt;/th&gt;
+&lt;th&gt;Hyperloop size&lt;/th&gt;
+&lt;th&gt;Ruby Files&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;action/index.js&lt;/td&gt;
+&lt;td&gt;8&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;constants/...&lt;/td&gt;
+&lt;td&gt;9&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;reducers/todos.js&lt;/td&gt;
+&lt;td&gt;55&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;4&lt;/td&gt;
+&lt;td&gt;models/public/todo.rb&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;total&lt;/td&gt;
+&lt;td&gt;72&lt;/td&gt;
+&lt;td&gt;4&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;&lt;/table&gt;
+
+&lt;table&gt;&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;&lt;/th&gt;
+&lt;th&gt;React/Redux&lt;/th&gt;
+&lt;th&gt;Hyperloop&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Total&lt;/td&gt;
+&lt;td&gt;364&lt;/td&gt;
+&lt;td&gt;99&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;&lt;/table&gt;
+
+&lt;p&gt;Note that not only is the Hyperloop version less than 1/3 the size, it is persisting and synchronizing the todo list across multiple browsers!  &lt;/p&gt;
+
+&lt;p&gt;There is nothing wrong with more lines of code, as long as the extra code is adding extra comprehension and making the code easier to maintain.  Unfortunately, I would say this is not the case!&lt;/p&gt;
+
+&lt;p&gt;I looked specifically at the TodoItem.js (65 SLOC) file and compared it to todo_item.rb (21 SLOC) file.&lt;/p&gt;
+
+&lt;p&gt;First, there is a preamble in the JS file (4 lines) which does not exist in the ruby file.&lt;/p&gt;
+&lt;pre class="highlight javascript"&gt;&lt;code&gt;&lt;span class="kr"&gt;import&lt;/span&gt; &lt;span class="nx"&gt;React&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="nx"&gt;Component&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;PropTypes&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt; &lt;span class="nx"&gt;from&lt;/span&gt; &lt;span class="s1"&gt;'react'&lt;/span&gt;
+&lt;span class="kr"&gt;import&lt;/span&gt; &lt;span class="nx"&gt;classnames&lt;/span&gt; &lt;span class="nx"&gt;from&lt;/span&gt; &lt;span class="s1"&gt;'classnames'&lt;/span&gt;
+&lt;span class="kr"&gt;import&lt;/span&gt; &lt;span class="nx"&gt;TodoTextInput&lt;/span&gt; &lt;span class="nx"&gt;from&lt;/span&gt; &lt;span class="s1"&gt;'./TodoTextInput'&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Then we have the class wrapper which is essentially the same 2 lines in JS vs Ruby:&lt;/p&gt;
+&lt;pre class="highlight javascript"&gt;&lt;code&gt;&lt;span class="kr"&gt;export&lt;/span&gt; &lt;span class="k"&gt;default&lt;/span&gt; &lt;span class="kr"&gt;class&lt;/span&gt; &lt;span class="nx"&gt;TodoItem&lt;/span&gt; &lt;span class="kr"&gt;extends&lt;/span&gt; &lt;span class="nx"&gt;Component&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="p"&gt;...&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;pre class="highlight ruby"&gt;&lt;code&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;TodoItem&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="no"&gt;React&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="no"&gt;Component&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="no"&gt;Base&lt;/span&gt;
+&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;.&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;
+&lt;span class="nf"&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Then we define the properties, and state (11 lines in JSX vs 3 in Ruby)&lt;/p&gt;
+&lt;pre class="highlight javascript"&gt;&lt;code&gt;  &lt;span class="kr"&gt;static&lt;/span&gt; &lt;span class="nx"&gt;propTypes&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="na"&gt;todo&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nx"&gt;PropTypes&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;object&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;isRequired&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="na"&gt;editTodo&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nx"&gt;PropTypes&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;func&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;isRequired&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="na"&gt;deleteTodo&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nx"&gt;PropTypes&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;func&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;isRequired&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="na"&gt;completeTodo&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nx"&gt;PropTypes&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;func&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;isRequired&lt;/span&gt;
+  &lt;span class="p"&gt;}&lt;/span&gt;
+
+  &lt;span class="nx"&gt;state&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="na"&gt;editing&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="kc"&gt;false&lt;/span&gt;
+  &lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;/code&gt;&lt;/pre&gt;&lt;pre class="highlight ruby"&gt;&lt;code&gt;    &lt;span class="n"&gt;param&lt;/span&gt; &lt;span class="ss"&gt;:todo&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;type: &lt;/span&gt;&lt;span class="no"&gt;Todo&lt;/span&gt;
+    &lt;span class="n"&gt;define_state&lt;/span&gt; &lt;span class="ss"&gt;editing: &lt;/span&gt;&lt;span class="kp"&gt;false&lt;/span&gt;
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The JS version is simply more verbose.  In addition the JS code has an additional 3 declarations for the &lt;code&gt;deleteTodo&lt;/code&gt;, &lt;code&gt;editTodo&lt;/code&gt; and &lt;code&gt;completeTodo&lt;/code&gt; params.  Because Hyperloop uses ActiveRecord,  reactive (read flux) methods like &lt;code&gt;delete&lt;/code&gt; and the &lt;code&gt;complete&lt;/code&gt; accessor are built into the &lt;code&gt;Todo&lt;/code&gt; model - no extra charge!  &lt;/p&gt;
+
+&lt;p&gt;In the JS file we now have 2 helper methods (13 SLOC) which don&amp;#39;t exist in the Ruby version:&lt;/p&gt;
+&lt;pre class="highlight javascript"&gt;&lt;code&gt;  &lt;span class="nx"&gt;handleDoubleClick&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="k"&gt;this&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;setState&lt;/span&gt;&lt;span class="p"&gt;({&lt;/span&gt; &lt;span class="na"&gt;editing&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="kc"&gt;true&lt;/span&gt; &lt;span class="p"&gt;})&lt;/span&gt;
+  &lt;span class="p"&gt;}&lt;/span&gt;
+
+  &lt;span class="nx"&gt;handleSave&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;id&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;text&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;text&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;length&lt;/span&gt; &lt;span class="o"&gt;===&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+      &lt;span class="k"&gt;this&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;props&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;deleteTodo&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;id&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt; &lt;span class="k"&gt;else&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+      &lt;span class="k"&gt;this&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;props&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;editTodo&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;id&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;text&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="k"&gt;this&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;setState&lt;/span&gt;&lt;span class="p"&gt;({&lt;/span&gt; &lt;span class="na"&gt;editing&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="kc"&gt;false&lt;/span&gt; &lt;span class="p"&gt;})&lt;/span&gt;
+  &lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;These methods are defined in blocks directly in the Ruby render method, so there is a bit of a stylistic choice here.  If we had pulled them out as methods &lt;code&gt;handleDoubleClick&lt;/code&gt; would also be three lines long, but &lt;code&gt;handleSave&lt;/code&gt; would only be four lines, as once again ActiveRecord is going to make handling the Todo&amp;#39;s internal state easier.&lt;/p&gt;
+
+&lt;p&gt;Finally we get to the &lt;code&gt;render&lt;/code&gt; method.  In React/Redux it looks like this:
+```javascript
+  render() {
+    const { todo, completeTodo, deleteTodo } = this.props&lt;/p&gt;
+&lt;pre class="highlight plaintext"&gt;&lt;code&gt;let element
+if (this.state.editing) {
+  element = (
+    &amp;lt;TodoTextInput text={todo.text}
+                   editing={this.state.editing}
+                   onSave={(text) =&amp;gt; this.handleSave(todo.id, text)} /&amp;gt;
+  )
+} else {
+  element = (
+    &amp;lt;div className="view"&amp;gt;
+      &amp;lt;input className="toggle"
+             type="checkbox"
+             checked={todo.completed}
+             onChange={() =&amp;gt; completeTodo(todo.id)} /&amp;gt;
+      &amp;lt;label onDoubleClick={this.handleDoubleClick}&amp;gt;
+        {todo.text}
+      &amp;lt;/label&amp;gt;
+      &amp;lt;button className="destroy"
+              onClick={() =&amp;gt; deleteTodo(todo.id)} /&amp;gt;
+    &amp;lt;/div&amp;gt;
+  )
+}
+
+return (
+  &amp;lt;li className={classnames({
+    completed: todo.completed,
+    editing: this.state.editing
+  })}&amp;gt;
+    {element}
+  &amp;lt;/li&amp;gt;
+)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;}
+```&lt;/p&gt;
+
+&lt;p&gt;Before we look at the details of these 34 lines (vs 15 in Ruby) there are some JS statements which are simply not needed in Ruby, and which really clutter up reading the code.  These are:&lt;/p&gt;
+&lt;pre class="highlight javascript"&gt;&lt;code&gt;    &lt;span class="kr"&gt;const&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="nx"&gt;todo&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;completeTodo&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;deleteTodo&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;this&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;props&lt;/span&gt;
+
+    &lt;span class="kd"&gt;let&lt;/span&gt; &lt;span class="nx"&gt;element&lt;/span&gt;
+    &lt;span class="p"&gt;...&lt;/span&gt;
+      &lt;span class="nx"&gt;element&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;
+      &lt;span class="p"&gt;...&lt;/span&gt;
+      &lt;span class="p"&gt;)&lt;/span&gt;
+      &lt;span class="p"&gt;...&lt;/span&gt;
+      &lt;span class="nx"&gt;element&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;
+      &lt;span class="p"&gt;...&lt;/span&gt;
+      &lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;...&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;
+      &lt;span class="p"&gt;...&lt;/span&gt;
+    &lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;These 8 lines which are almost 25% of the JS render method, and add very little clarity to the method.  What do these 8 lines do?&lt;/p&gt;
+
+&lt;p&gt;First we reassign the props to intermediate constants presumably to save a little time, and to make it so we can shorten &lt;code&gt;this.props[:todo]&lt;/code&gt; to just &lt;code&gt;todo&lt;/code&gt;.  In Hyperloop you access props more directly using the &lt;code&gt;params&lt;/code&gt; object which takes care of accessing and caching the property, so you would say &lt;code&gt;params.todo&lt;/code&gt;.  &lt;em&gt;A note:  originally you could just say &lt;code&gt;todo&lt;/code&gt; without the &lt;code&gt;params.&lt;/code&gt; prefix, but it was determined that made the code harder to read.  So this behavior is being deprecated.  A case where more typing is helpful.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Then (for stylistic reasons I assume) we compute the child of the &lt;code&gt;li&lt;/code&gt; element before actually generating the element.  Perhaps the mix of JSX and JS code would quickly get confusing if nested too deeply?&lt;/p&gt;
+
+&lt;p&gt;Finally, you have to wrap the whole thing in a return statement, which is just an artifact of JS.&lt;/p&gt;
+
+&lt;p&gt;Basically what I see happening here is that JS/JSX is more verbose, so in order to add comprehension, the flow of the code is broken up, methods are added, and intermediate values are introduced.  The result is a snowball effect.&lt;/p&gt;
+
+&lt;p&gt;Here is complete ruby class for comparison.
+```ruby
+class TodoItem &amp;lt; React::Component::Base&lt;/p&gt;
+
+&lt;p&gt;param :todo, type: Todo
+  define_state editing: false&lt;/p&gt;
+
+&lt;p&gt;render(LI, class: &amp;#39;todo-item&amp;#39;) do
+    if state.editing
+      EditItem(todo: todo).
+      on(:save) do
+        todo.delete if todo.text.blank?
+        state.editing! false
+      end.
+      on(:cancel) { state.editing! false }
+    else
+      INPUT(class: :toggle, type: :checkbox, checked: params.todo.completed).
+      on(:click) { params.todo.update(completed: !params.todo.completed }
+      LABEL { params.todo.title }.on(:doubleClick) { state.editing! true }
+      A(class: :destroy).on(:click) { params.todo.destroy }
+    end
+  end
+end
+```&lt;/p&gt;
+
+&lt;p&gt;and here is the complete JSX class:
+```jsx
+import React, { Component, PropTypes } from &amp;#39;react&amp;#39;
+import classnames from &amp;#39;classnames&amp;#39;
+import TodoTextInput from &amp;#39;./TodoTextInput&amp;#39;&lt;/p&gt;
+
+&lt;p&gt;export default class TodoItem extends Component {
+  static propTypes = {
+    todo: PropTypes.object.isRequired,
+    editTodo: PropTypes.func.isRequired,
+    deleteTodo: PropTypes.func.isRequired,
+    completeTodo: PropTypes.func.isRequired
+  }&lt;/p&gt;
+
+&lt;p&gt;state = {
+    editing: false
+  }&lt;/p&gt;
+
+&lt;p&gt;handleDoubleClick = () =&amp;gt; {
+    this.setState({ editing: true })
+  }&lt;/p&gt;
+
+&lt;p&gt;handleSave = (id, text) =&amp;gt; {
+    if (text.length === 0) {
+      this.props.deleteTodo(id)
+    } else {
+      this.props.editTodo(id, text)
+    }
+    this.setState({ editing: false })
+  }&lt;/p&gt;
+
+&lt;p&gt;render() {
+    const { todo, completeTodo, deleteTodo } = this.props&lt;/p&gt;
+&lt;pre class="highlight plaintext"&gt;&lt;code&gt;let element
+if (this.state.editing) {
+  element = (
+    &amp;lt;TodoTextInput text={todo.text}
+                   editing={this.state.editing}
+                   onSave={(text) =&amp;gt; this.handleSave(todo.id, text)} /&amp;gt;
+  )
+} else {
+  element = (
+    &amp;lt;div className="view"&amp;gt;
+      &amp;lt;input className="toggle"
+             type="checkbox"
+             checked={todo.completed}
+             onChange={() =&amp;gt; completeTodo(todo.id)} /&amp;gt;
+      &amp;lt;label onDoubleClick={this.handleDoubleClick}&amp;gt;
+        {todo.text}
+      &amp;lt;/label&amp;gt;
+      &amp;lt;button className="destroy"
+              onClick={() =&amp;gt; deleteTodo(todo.id)} /&amp;gt;
+    &amp;lt;/div&amp;gt;
+  )
+}
+
+return (
+  &amp;lt;li className={classnames({
+    completed: todo.completed,
+    editing: this.state.editing
+  })}&amp;gt;
+    {element}
+  &amp;lt;/li&amp;gt;
+)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;}
+}
+```&lt;/p&gt;
+
+&lt;p&gt;I didn&amp;#39;t intend this to be such a rant, and it probably sounds more negative than I intend this to be.&lt;/p&gt;
+
+&lt;p&gt;Hyperloop is built on top of React, which is a great library.  The problem is that JS just doesn&amp;#39;t have the expressive power especially when it comes to meta-programming and creating DSLs that Ruby does.  Instead of a nice clean syntax the mix of HTML and JS presented by JSX is confusing, and to de-confuse things you add more code.  Furthermore, because Hyperloop is also built on tried and true of ActiveRecord, again you have an increase in comprehension with a reduction in code.&lt;/p&gt;
+</content>
+  </entry>
   <entry>
     <title>Hyperloop is born</title>
     <link rel="alternate" href="http://blog.url.com/blog/2016/09/08/Hyperloop-is-born/"/>
@@ -69,7 +712,7 @@
     <link rel="alternate" href="http://blog.url.com/blog/2016/06/29/reactrb-v0-8-5/"/>
     <id>http://blog.url.com/blog/2016/06/29/reactrb-v0-8-5/</id>
     <published>2016-06-29T01:00:00+01:00</published>
-    <updated>2016-11-04T06:07:48+00:00</updated>
+    <updated>2017-03-04T06:08:16+00:00</updated>
     <author>
       <name>Article Author</name>
     </author>
@@ -171,7 +814,7 @@
     <link rel="alternate" href="http://blog.url.com/blog/2016/01/26/getting-started-with-reactrb-and-rails/"/>
     <id>http://blog.url.com/blog/2016/01/26/getting-started-with-reactrb-and-rails/</id>
     <published>2016-01-26T16:29:00+00:00</published>
-    <updated>2016-10-07T12:27:44+01:00</updated>
+    <updated>2017-03-04T06:08:16+00:00</updated>
     <author>
       <name>Article Author</name>
     </author>
@@ -601,69 +1244,6 @@ application.js, as below.  Use of application.rb will automatically load the fil
 &lt;span class="c1"&gt;// etc.&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;div class="footdef"&gt;&lt;sup&gt;&lt;a id="fn.3" class="footnum" href="#fnr.3"&gt;3&lt;/a&gt;&lt;/sup&gt; &lt;div class="footpara"&gt;While the pattern is that universal will be taking the place of isomorphic, I will use the term isomorphic here because the react.rb docs refer to it as isomorphic&lt;/div&gt;&lt;/div&gt;
-</content>
-  </entry>
-  <entry>
-    <title>Reactive-Ruby v0.7.32</title>
-    <link rel="alternate" href="http://blog.url.com/blog/2015/12/01/reactive-ruby/"/>
-    <id>http://blog.url.com/blog/2015/12/01/reactive-ruby/</id>
-    <published>2015-12-01T00:00:00+00:00</published>
-    <updated>2016-10-07T12:27:44+01:00</updated>
-    <author>
-      <name>Article Author</name>
-    </author>
-    <content type="html">&lt;p&gt;As we march towards the next official release of react.rb, we wanted to make some syntactic improvements to the component macros and methods.  The overall
-intent is to make react.rb more &lt;em&gt;ruby&lt;/em&gt; like, and reduce syntactic noise, while maintaining ties to react.js.&lt;/p&gt;
-
-&lt;p&gt;While we are very close to being ready to make an official react.rb release we are still maintaining these changes as the master branch of react.rb, and distributing the changes via the reactive-ruby gem.  &lt;/p&gt;
-
-&lt;p&gt;Here is a summary of the changes in v0.7.32&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;h4 id="inheriting-from-react-component-base"&gt;Inheriting from &lt;code&gt;React::Component::Base&lt;/code&gt;&lt;/h4&gt;
-
-&lt;p&gt;You can now define components by inheriting from &lt;code&gt;React::Component::Base&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;For example:&lt;/p&gt;
-&lt;pre class="highlight ruby"&gt;&lt;code&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Widget&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="no"&gt;React&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="no"&gt;Component&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="no"&gt;Base&lt;/span&gt;  
-  &lt;span class="c1"&gt;# etc&lt;/span&gt;
-&lt;span class="k"&gt;end&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Note you can still use &lt;code&gt;include React::Component&lt;/code&gt; to define components as well.&lt;/p&gt;
-
-&lt;p&gt;As part of this change you can also subclass any component.  Any lifecycle macros in child classes will execute before the parent class.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;h4 id="state-and-params-component-methods"&gt;&lt;code&gt;state&lt;/code&gt; and &lt;code&gt;params&lt;/code&gt; component methods&lt;/h4&gt;
-
-&lt;p&gt;To access state variables and params you must now prefix with the &lt;code&gt;state&lt;/code&gt;and &lt;code&gt;param&lt;/code&gt; methods.&lt;/p&gt;
-
-&lt;p&gt;While adding some typing it solves two problems:  First it avoids shadowing dsl methods such as &lt;code&gt;label&lt;/code&gt;, and secondly it makes the code more readable.&lt;/p&gt;
-&lt;pre class="highlight ruby"&gt;&lt;code&gt;&lt;span class="n"&gt;state&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;items&lt;/span&gt;  &lt;span class="c1"&gt;# items without the state prefix is deprecated&lt;/span&gt;
-&lt;span class="n"&gt;state&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;items!&lt;/span&gt; &lt;span class="c1"&gt;# likewise for updating state&lt;/span&gt;
-&lt;span class="n"&gt;params&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;user&lt;/span&gt;  &lt;span class="c1"&gt;# user without the params prefix is deprecated&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-&lt;li&gt;&lt;h4 id="simplified-param-declarations"&gt;Simplified Param Declarations&lt;/h4&gt;
-
-&lt;p&gt;Instead of &lt;code&gt;optional_param&lt;/code&gt;, and &lt;code&gt;required_param&lt;/code&gt;, both macros have been replaced by &lt;code&gt;param&lt;/code&gt;.&lt;/p&gt;
-&lt;pre class="highlight ruby"&gt;&lt;code&gt;&lt;span class="n"&gt;param&lt;/span&gt; &lt;span class="ss"&gt;:foo&lt;/span&gt;             &lt;span class="c1"&gt;# instead of required_param :foo&lt;/span&gt;
-&lt;span class="n"&gt;param&lt;/span&gt; &lt;span class="ss"&gt;bar: &lt;/span&gt;&lt;span class="mi"&gt;12&lt;/span&gt;          &lt;span class="c1"&gt;# instead of optional_param :foo, default: 12&lt;/span&gt;
-&lt;span class="n"&gt;param&lt;/span&gt; &lt;span class="ss"&gt;:bar&lt;/span&gt; &lt;span class="ss"&gt;default: &lt;/span&gt;&lt;span class="mi"&gt;12&lt;/span&gt; &lt;span class="c1"&gt;# slightly longer but more explicit&lt;/span&gt;
-&lt;span class="n"&gt;param&lt;/span&gt; &lt;span class="ss"&gt;:foo&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;type: &lt;/span&gt;&lt;span class="no"&gt;Hash&lt;/span&gt; &lt;span class="c1"&gt;# type spec works the same&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Both &lt;code&gt;optional_param&lt;/code&gt; and &lt;code&gt;required_param&lt;/code&gt; (and the plural aliases) are deprecated.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;h4 id="implicit-state-variable-creation"&gt;Implicit State Variable Creation&lt;/h4&gt;
-
-&lt;p&gt;When you reference a state variable (via the &lt;code&gt;state&lt;/code&gt; method described above) the state will be automatically created.  &lt;/p&gt;
-
-&lt;p&gt;The rationale is to make state variables more like instance variables.  And like instance variables, good style would ask that all state variables be initialized in the &lt;code&gt;before_mount&lt;/code&gt; callback. At this time it has not been determined if define_state will be deprecated, but you are strongly encouraged not to use it, or provide feedback.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;h4 id="simplified-component-mounting-with-jquery"&gt;Simplified Component Mounting with JQuery&lt;/h4&gt;
-
-&lt;p&gt;The jQuery wrapper class &lt;code&gt;Element&lt;/code&gt; now has a &lt;code&gt;render&lt;/code&gt; method.&lt;/p&gt;
-&lt;pre class="highlight ruby"&gt;&lt;code&gt;&lt;span class="no"&gt;Element&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;'#container'&lt;/span&gt;&lt;span class="p"&gt;].&lt;/span&gt;&lt;span class="nf"&gt;render&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="n"&gt;div&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="s2"&gt;"hello"&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;The &lt;code&gt;render&lt;/code&gt; method takes a block, and mounts the react element generated by the block into the first dom element in the jQuery result.&lt;/p&gt;
-
-&lt;p&gt;React does not depend on opal-jquery and so opal-jquery must be required before the reactive-ruby gem, for the &lt;code&gt;render&lt;/code&gt; method to be added to the &lt;code&gt;Element&lt;/code&gt; class.&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
 </content>
   </entry>
 </feed>
