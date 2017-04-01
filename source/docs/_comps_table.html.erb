@@ -9,23 +9,7 @@
           <b>Components</b> describe how the UI will display the current application state and how it will handle user actions.  Using React, Components automatically rerender parts of the display as state changes due to local or remote activities.
         </div>
       </div>
-      <div class="divTableRow">
-        <div class="divTableCell">
-          <%= image_tag "HyperStores.png", width: '170' %>
-        </div>
-        <div class="divTableCell">
-          <b>Stores</b> hold the local application state. Stores are Ruby classes that keep the dynamic parts of the state in special state variables. We use Stores to share state between Components.
-        </div>
-      </div>
-      </div>
-      <div class="divTableRow">
-        <div class="divTableCell">
-          <%= image_tag "HyperModels.png", width: '170' %>
-        </div>
-        <div class="divTableCell">
-          Your ActiveRecord <b>Models</b> are available in your Isomorphic code. Components, Operations, and Stores have CRUD access to your server side Models, using the standard ActiveRecord API. Amazingly, we automatically synchronize data between connected clients.
-      </div>
-      </div>
+
       <div class="divTableRow">
         <div class="divTableCell">
           <%= image_tag "HyperOperations.png", width: '170' %>
@@ -34,6 +18,16 @@
           <b>Operations</b> encapsulate business logic. In a traditional MVC architecture, Operations end up either in Controllers, Models or some other secondary construct such as service objects, helpers, or concerns. Here they are first class objects. Their job is to mutate state in the Stores and Models.
         </div>
       </div>
+
+      <div class="divTableRow">
+        <div class="divTableCell">
+          <%= image_tag "HyperModels.png", width: '170' %>
+        </div>
+        <div class="divTableCell">
+          Your ActiveRecord <b>Models</b> are available in your Isomorphic code. Components, Operations, and Stores have CRUD access to your server side Models, using the standard ActiveRecord API. Amazingly, we automatically synchronize data between connected clients.
+        </div>
+      </div>
+
       <div class="divTableRow">
         <div class="divTableCell">
           <%= image_tag "HyperPolicies.png", width: '170' %>
@@ -42,5 +36,15 @@
           <b>Policies</b> keep authorization logic out of Models, and Operations, and also allows the isomorphic transport mechanism to know what and when to communicate between client and server.
         </div>
       </div>
+
+      <div class="divTableRow">
+        <div class="divTableCell">
+          <%= image_tag "HyperStores.png", width: '170' %>
+        </div>
+        <div class="divTableCell">
+          <b>Stores</b> hold the local application state. Stores are Ruby classes that keep the dynamic parts of the state in special state variables. We use Stores to share state between Components.
+        </div>
+      </div>
+
   </div>
 </div>
