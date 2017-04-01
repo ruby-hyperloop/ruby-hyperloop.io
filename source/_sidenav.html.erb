@@ -150,6 +150,11 @@
 
 <% when current_page.path.include?("start") %>
   <ul class="nav">
+    <li class="nav-item"><a href="/start/introduction">Introduction</a></li>
+  </ul>
+  <br>
+
+  <ul class="nav">
     <li class="nav-item"><a href="/start/components">Components</a></li>
     <ul class="nav">
       <li class="nav-item"><a href="/start/components#rendering-components">Rendering Components</a></li>
@@ -214,19 +219,19 @@
 
   <% when current_page.path.include?("tutorials") %>
   <ul class="nav">
-    
+
     <li class="nav-item"><strong><a href="/tutorials/hyperloopcomp">Hyperloop COMP</a></strong></li>
 
   </br>
     <li class="nav-item"><strong><a href="/tutorials/hyperloopjs">Hyperloop.js</a></strong></li>
-    
+
 
   </br>
     <li class="nav-item"><strong><a href="/tutorials/flux_store">Hyperloop and Rails</a></strong></li>
   </br>
     <li class="nav-item"><strong><a href="/tutorials/file_uploader">Videos</a></strong></li>
-  
-    
+
+
   </ul>
 
 
@@ -237,5 +242,5 @@
     </div>
 
 
-  
+
 <% end %>
