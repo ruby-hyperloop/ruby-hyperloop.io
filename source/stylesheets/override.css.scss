@@ -1,9 +1,10 @@
- 
+
 // COLORS USED IN WEB SITE :
 
 .hyperloop-pink { color: #e81176;}
 .hyperloop-green { color: #149c8e;}
 .hyperloop-background { color: #f8f8f8;}
+.hyperloop-white { color: white; }
 
 .component-blue { color: #0071C1;}
 .store-green { color: #9ad45c;}
@@ -75,8 +76,8 @@
   font-size: 3.4rem;
   line-height: 1 !important;
   margin-top: 0.5rem;
-  
-  
+
+
 }
 
 .project-tagline {
@@ -192,7 +193,7 @@ body {
   font-family: "opensans-regular";
   font-size: 16px;
   line-height: 1.5;
-  color: #606c71; 
+  color: #606c71;
   background-color: #f8f8f8;
 }
 
@@ -227,15 +228,15 @@ h1 {
   -webkit-animation-duration:15s;
   -webkit-animation-iteration-count:infinite;
   -webkit-animation-timing-function: ease-in-out;
-  
+
   -moz-animation-name: rotate;
   -moz-animation-duration:15s;
   -moz-animation-iteration-count:infinite;
   -moz-animation-timing-function: ease-in-out;
-  
+
  }
 
-  
+
 
 .main-content {
   margin-bottom: 4em;
@@ -247,13 +248,13 @@ h1 {
 .main-content h1 {
   font-family: 'raleway-semibold';
   padding-bottom: 0.3em;
-  border-bottom: 1px solid #90bcb7; 
+  border-bottom: 1px solid #90bcb7;
 }
 .main-content h2 {
   font-family: 'raleway-regular';
   padding-bottom: 0.3em;
   border-bottom: 1px solid #eaecef;
-  
+
 }
 .main-content h1, .main-content h2, .main-content h3, .main-content h4, .main-content h5, .main-content h6 {
   margin-top: 2.8rem;
