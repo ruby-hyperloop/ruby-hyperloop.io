@@ -1,4 +1,6 @@
-Hyperloop provides all the architectural constructs you need for a well designed, modern web application but we are **not strongly opinionated** as to how you use it. We would like you to find your own way through this architecture, to use the parts that make the most sense for your application and coding style. Here are a few pragmatic pointers which might help you:  
+Hyperloop provides all the architectural constructs you need for a well designed, modern web application but we are **not strongly opinionated** as to how you use it. We would like you to find your own way through this architecture, to use the parts that make the most sense for your application and coding style.
+
+Here are a few pragmatic pointers which might help you:  
 
 + If state is only mutated inside of a Component then leave it as a state in the Component. For example a state that is tracking the current value of some input.
 + Otherwise if it is a single application wide state object (like a cart), then use a Store, and group Operations in the Store's namespace.
