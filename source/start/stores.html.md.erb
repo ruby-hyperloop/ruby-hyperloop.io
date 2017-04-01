@@ -34,7 +34,7 @@ We will fix these problems but first implementing a Hyperloop Store to keep our 
 
 Later in this overview we will go one step further and move our business logic out of the Store into an Operation but for now the first step will be a big improvement.
 
-### Using Stores
+### A simple Store
 
 Stores are where the state of your Application lives. Anything but a completely static web page will have dynamic states that change because of user inputs, the passage of time, or other external events.
 
@@ -77,13 +77,15 @@ You will notice a few things in the code above:
 
 Stores can also receive dispatches from Operations - we will come to that later in this overview. In Hyperloop it is perfectly legitimate to interact with a Store through its class methods as we have done above.
 
+### Sharing Stores
+
 Components share state through Stores. Without the Store architecture, Components would need to pass state between themselves as params and this all becomes very clumsy.
 
 Lets explore and example where Components share a Store:
 
 <div class="codemirror-live-edit"
   data-heading="Components sharing a Store"
-  data-rows=30
+  data-rows=40
   data-top-level-component="TopLevelComponent">
 <pre>
 class TopLevelComponent < Hyperloop::Component
@@ -92,26 +94,6 @@ class TopLevelComponent < Hyperloop::Component
       H1 { "Components sharing a Store" }
       TypeAlong()
       Buttons()
-    end
-  end
-end
-
-class Buttons < Hyperloop::Component
-  render(DIV) do
-    BUTTON(class: 'btn btn-primary') { 'See the value' }.on(:click) do
-      alert "MyStore value is '#{ MyStore.value }'"
-    end
-    BUTTON(class: 'btn btn-link') { 'Clear' }.on(:click) do
-      MyStore.clear!
-    end
-  end
-end
-
-class TypeAlong < Hyperloop::Component
-  render(DIV) do
-    H2 { "#{ MyStore.value }" }
-    INPUT(type: :text, value: MyStore.value ).on(:change) do |e|
-      MyStore.set_value! e.target.value
     end
   end
 end
@@ -125,7 +107,33 @@ class MyStore < Hyperloop::Store
     mutate.value ""
   end
 end
+
+class TypeAlong < Hyperloop::Component
+  render(DIV) do
+    INPUT(type: :text, value: MyStore.value ).on(:change) do |e|
+      MyStore.set_value! e.target.value
+    end
+    h4 { "#{ MyStore.value }" }
+  end
+end
+
+class Buttons < Hyperloop::Component
+  render(DIV) do
+    BUTTON(class: 'btn btn-primary') { 'See the value' }.on(:click) do
+      alert "MyStore value is '#{ MyStore.value }'"
+    end
+    BUTTON(class: 'btn btn-link') { 'Clear' }.on(:click) do
+      MyStore.clear!
+    end
+  end
+end
 </pre></div>
+
+You will notice in the code above:
+
++ We laid our page out using a TopLevelComponent who's job it was to render the other Components. This is a typical pattern in Hyperloop, a HTML page can consist of a simple DIV and one TopLevelComponent and all rendering is done by that Component. Often this will contain a router as each new 'page' will be rendered in this DIV.
++ We are using a class instance of MyStore so all the Components on the page will share the same instance. Note how we defined `state :value, reader: true, scope: :class` and also how the methods are class methods `def self.clear!`
++ The bang notation (!) is a matter of style, but used here to indicate a mutation
 
 
 That concludes the introduction to Stores. To learn more about Stores please see the [Tutorials](/tutorials) and also the comprehensive [Docs](/docs/architecture)
