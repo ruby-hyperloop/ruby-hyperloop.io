@@ -13,7 +13,7 @@ class CodeMirror < Hyperloop::Component
   end
 
   after_mount do
-  puts params.code
+  # puts params.code
     @editor = `CodeMirror(document.getElementById(#{@div_code}), {
       value: #{params.code.to_s},
       mode: 'text/x-ruby',
@@ -48,7 +48,7 @@ class CodeMirror < Hyperloop::Component
   def execute_code
     begin
       code = `#{@editor}.getValue()`
-      puts code
+      # puts code
       code += "\nElement['##{@div_result}'].render(#{params.top_level_component})"
       compiled_code = Opal::Compiler.new(code).compile
       Hyperloop::Context.reset!
