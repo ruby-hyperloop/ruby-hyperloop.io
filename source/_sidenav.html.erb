@@ -21,24 +21,24 @@
 <% when current_page.path.include?("installation") %>
 
   <ul class="nav">
-    <li class="nav-item"><a href="#hyperloop.js">Hyperloop.js</a></li>
+    <li class="nav-item"><a href="installation#hyperloopjs">Hyperloop.js</a></li>
     <ul class="nav">
-      <li class="nav-item"><a href="">Setup</a></li>
-      <li class="nav-item"><a href="">Simple
+      <li class="nav-item"><a href="installation#hyperloopjssetup">Setup</a></li>
+      <li class="nav-item"><a href="installation#hyperloopjssimplehelloworld">Simple
       HelloWorld</a></li>
-      <li class="nav-item"><a href="">Tutorials</a></li>
+      <li class="nav-item"><a href="installation#hyperloopjstutorials">Tutorials</a></li>
     </ul>
   </ul>
 
   <br>
 
   <ul class="nav">
-    <li class="nav-item"><a href="#with-ruby-on-rails">With Ruby On Rails</a></li>
+    <li class="nav-item"><a href="installation#ror">With Ruby On Rails</a></li>
     <ul class="nav">
-      <li class="nav-item"><a href="">Setup</a></li>
-      <li class="nav-item"><a href="">Simple
+      <li class="nav-item"><a href="installation#rorsetup">Setup</a></li>
+      <li class="nav-item"><a href="installation#rorsimplehelloworld">Simple
       HelloWorld</a></li>
-      <li class="nav-item"><a href="">Tutorials</a></li>
+      <li class="nav-item"><a href="installation#rortutorials">Tutorials</a></li>
       <li class="nav-item"><a href="#advanced-configuration">Advanced configuration</a></li>
     </ul>
   </ul>
@@ -57,8 +57,10 @@
 
 <% when current_page.path.include?("advancedconfig") %>
   <ul class="nav">
-    <li class="nav-item"><a href="/advancedconfig#initializer">Initializer</a></br></li>
+    <li class="nav-item"><a href="/advancedconfig#initializer">Initializer</a></li>
+    <br>
     <li class="nav-item"><a href="/advancedconfig#policies">Policies</a></br></li>
+    <br>
     <li class="nav-item"><a href="/advancedconfig#hyperloop-architectures">Hyperloop architectures</a></br></li>
   </ul>
 
@@ -209,6 +211,10 @@
       <li class="nav-item"><a href="/tutorials/chat_app#styling-the-app">Styling the App</a></li>
       <li class="nav-item"><a href="/tutorials/chat_app#source-code-of-the-steps-up-until-detecting-loged-in-user">Source Code</a></li>
     </ul>
+  </ul>
+
+
+
 
 
 
@@ -217,17 +223,12 @@
   <% when current_page.path.include?("tutorials") %>
   <ul class="nav">
 
-    <li class="nav-item"><strong><a href="/tutorials/hyperloopcomp">Hyperloop COMP</a></strong></li>
-
-  </br>
+    <li class="nav-item"><strong><a href="/tutorials/hyperloopcomps">Hyperloop COMPS</a></strong></li>
     <li class="nav-item"><strong><a href="/tutorials/hyperloopjs">Hyperloop.js</a></strong></li>
-
-
-  </br>
-    <li class="nav-item"><strong><a href="/tutorials/flux_store">Hyperloop and Rails</a></strong></li>
-  </br>
-    <li class="nav-item"><strong><a href="/tutorials/file_uploader">Videos</a></strong></li>
-
+    <li class="nav-item"><strong><a href="/tutorials/hyperlooprails">Hyperloop and Rails</a></strong></li>
+    <li class="nav-item"><strong><a href="/tutorials/hyperloopdeploy">Hyperloop deployment</a></strong></li>
+    <li class="nav-item"><strong><a href="/tutorials/opal">Opal</a></strong></li>
+    <li class="nav-item"><strong><a href="/tutorials/videos">Videos</a></strong></li>
 
   </ul>
 
