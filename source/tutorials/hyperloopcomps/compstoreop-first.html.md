@@ -4,7 +4,7 @@ title: Tutorials, Videos & Quickstarts
 
 ## <i class="flaticon-professor-teaching"></i><span class="bigfirstletter">F</span>irst simple app using Components, Stores <br>and Operations Tutorial
 
-A few examples using Hyperloop Components which wrap React, Stores to hold state which is shared between Components and an Operation for mutating the Store's state. Finally, a Clock which demonstrates local state and a callback which triggers every second.
+The code below implements few examples using Hyperloop **Components** which wrap React, **Stores** to hold state which is shared between **Components** and an **Operation** for mutating the **Store**'s state. Finally, a Clock which demonstrates local state and a callback which triggers every second.
 
 To set up your hyperloop environment and run this code, please first follow the [installation](/installation) tutorial.
 

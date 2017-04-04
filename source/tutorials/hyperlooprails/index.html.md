@@ -6,22 +6,39 @@ title: Tutorials, Videos & Quickstarts
 
 ##### <i class="flaticon-professor-teaching"></i> [<span class="bigfirstletter">H</span>elloWorld Tutorial](/tutorials/hyperlooprails/helloworld)
 
+This simple tutorial will teach you the basic of using **Components** within a Ruby On Rails environment. 
+
+**Skills covered**: Components, Opal syntax, Hyperloop GEM
+
 ##### <i class="flaticon-professor-teaching"></i> [<span class="bigfirstletter">C</span>hat-App Tutorial](/tutorials/hyperlooprails/chatapp)
 
-This tutorial will teach you the basics of building a Hyperloop application that **runs purely in your browser** with no need for any back end system (like Rails, Node or Sinatra).
-This work-along tutorial is an excellent place to start to learn the Hyperloop DSL without needing to learn how to install it. If you have not used the Hyperloop DSL before, this tutorial will get you going with minimal setup
+With this tutorial we'll be building a simple but realistic chat application, a basic version of a chat room offered by a service like gitter.im. It will teach how to play with Components, Stores and Operations in a Ruby On Rails application. And you will see how the [**server push notification**](/docs/models/configuring-transport) functionnality is easy to use with Hyperloop.
+
+**Skills covered**: Components, Stores, Operations, Hyperloop GEM, Opal syntax, Server push notification
 
 ##### <i class="flaticon-professor-teaching"></i> [<span class="bigfirstletter">N</span>PM and Webpack Tutorial](/tutorials/hyperlooprails/webpack)
+
 In an Isomorphic Ruby world, we need a good way of including **Ruby and JavaScript components** so they co-exist and play nicely together.
-This tutorial will show you how to setup and use NPM and Webpack with HyperReact.
-The source of this tutorial is available as a [Quickstart](https://github.com/ruby-hyperloop/quickstart) which you can clone.
+This tutorial will show you how to setup and use NPM and Webpack with Hyperloop.
+
+**Skills covered**: Hyperloop GEM, NPM, Webpack
 
 ##### <i class="flaticon-professor-teaching"></i> [<span class="bigfirstletter">W</span>ebpacker GEM Tutorial](/tutorials/hyperlooprails/webpacker)
 
+If you want to set up a Webpack environment co-existing with your Rails application, you can do it as well by installing the Webpacker GEM.
+In this tutorial you learn how to install it and set up it with Hyperloop. 
+
+**Skills covered**: Hyperloop GEM, Webpacker GEM, Yarn, Webpack
+
 ##### <i class="flaticon-professor-teaching"></i> [<span class="bigfirstletter">E</span>vents planner Tutorial](/tutorials/hyperlooprails/eventsplanner)
 
-This is a simple Rails application showcasing HyperReact (a wrapper for the React.js library for creating user interfaces), Opal, NPM, Webpack, React-Bootstrap, HyperMesh (gives your HyperReact components CRUD access to your server-side ActiveRecord models and implements push notifications) and other associated technologies.
+In this tutorial we will implement a concrete example of an Events planner application: add, edit, delete events into an events database. 
+And above all we will learn and see in action the amazing [**Models and Isomorphic ActivRecord API**](/docs/models/active-record) functionnality.
 
-This Showcase application will mix native React and HyperReact components, be styled by Bootstrap CSS (using React-Bootstrap), display a video (using a native React component) and use HyperMesh to handle data for an Events feed app.
+**Skills covered**: Hyperloop GEM, Components, Models and Isomorphic ActivRecord API, Server push notification, Webpacker GEM, Yarn, Webpack
 
 ##### <i class="flaticon-professor-teaching"></i> [<span class="bigfirstletter">F</span>ive letters game Tutorial](/tutorials/hyperlooprails/fivelettergame)
+
+In this tutorial we will implement a simple game where 2 users can play synchroniously together. It will mostly showcasing the power of **Operations** and [**Server push notification**](/docs/models/configuring-transport)
+
+**Skills covered**: Hyperloop GEM, Components, Server push notification
