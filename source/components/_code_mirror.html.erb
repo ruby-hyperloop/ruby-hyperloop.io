@@ -51,9 +51,12 @@ class CodeMirror < Hyperloop::Component
       # puts code
       code += "\nElement['##{@div_result}'].render(#{params.top_level_component})"
       compiled_code = Opal::Compiler.new(code).compile
-      Hyperloop::Context.reset!
       `ReactDOM.unmountComponentAtNode(document.getElementById(#{@div_result}));`
+
+      Hyperloop::Context.reset!
       `eval(#{compiled_code})`
+      Hyperloop::Application::Boot.run()
+      
       component = Module.const_get params.top_level_component
       # we need to see if the component is valid - try checking if it can render static markup
       # the following line generates: `undefined method to_n for SimpleComponent`

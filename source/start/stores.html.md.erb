@@ -50,7 +50,7 @@ First let's add a Store and refactor our Component to use the Store:
   data-top-level-component="OfferLuckyDip">
 <pre>
 class Discounter < Hyperloop::Store
-   state discount: 50, scope: :class, reader: true
+   state discount: 30, scope: :class, reader: true
 
   def self.lucky_dip!
     mutate.discount( state.discount + rand(-5..5) )
@@ -113,7 +113,7 @@ class TypeAlong < Hyperloop::Component
     INPUT(type: :text, value: MyStore.value ).on(:change) do |e|
       MyStore.set_value! e.target.value
     end
-    h4 { "#{ MyStore.value }" }
+    P { "#{ MyStore.value }" }
   end
 end
 
