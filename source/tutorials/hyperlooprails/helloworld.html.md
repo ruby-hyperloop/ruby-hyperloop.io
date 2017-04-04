@@ -110,3 +110,51 @@ root 'home#helloworld'
 
 </div>
 ```
+
+##### Step 6: Styling
+
+We will add a **Hyperloop** logo
+
+```ruby
+#app/vies/home/helloworld.html.erb
+
+<div class="hyperloophelloword">
+
+  <img src="https://rawgit.com/ruby-hyperloop/hyperloop-js-helloworld/master/hyperloop-logo-medium-white.png?raw=true">
+
+  <div>
+  	<%= react_component '::Helloworld', {}, { prerender: true } %>
+  </div>
+
+</div>
+```
+
+And load 2 stylesheets:
+
+```html
+#app/views/layouts/application.html.erb
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>HyperloopRailsHelloworld</title>
+    <%= csrf_meta_tags %>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+
+	<link rel="stylesheet" href="https://rawgit.com/ruby-hyperloop/hyperloop-js-helloworld/master/style.css" >
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body>
+    <%= yield %>
+  </body>
+</html>
+
+```
+
+##### Final step: Running your app:
+
+Start your Rails server and browse `http://localhost:3000`.

@@ -116,12 +116,6 @@ And updates your `app/assets/javascripts/application.js` file adding this line:
 //= require hyperloop-loader
 ```
 
-Finally Hyperloop needs to create tables in your database. 
-just run the command:
-
-```ruby
-rails db:migrate
-```
 
 ### <a name="rorsimplehelloworld">Simple HelloWorld</a>
 
@@ -149,7 +143,6 @@ end
 Don't forget to modify your `routes.rb`:
 
 ```ruby
-#get 'home/helloworld'
 root 'home#helloworld'
 ```
 
@@ -160,7 +153,7 @@ Note:
 Instead of rendering your component from a controller, you can also render it from a view like this:
 
 ```ruby
-#app/views/home/helloworld.rb
+#app/views/home/helloworld.html.erb
 
 <%= react_component '::Helloworld', {}, { prerender: true } %>
 ```

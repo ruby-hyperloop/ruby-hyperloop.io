@@ -42,3 +42,11 @@ And above all we will learn and see in action the amazing [**Models and Isomorph
 In this tutorial we will implement a simple game where 2 users can play synchroniously together. It will mostly showcasing the power of **Operations** and [**Server push notification**](/docs/models/configuring-transport)
 
 **Skills covered**: Hyperloop GEM, Components, Server push notification
+
+##### <i class="flaticon-professor-teaching"></i> [<span class="bigfirstletter">O</span>pal Hot Reloader Tutorial](/tutorials/hyperlooprails/opalhotreloader)
+
+Opal Hot Reloader is for pure programmer joy (not having to reload the page to compile your source) and the Opal Console is incredibly useful to test how Ruby code compiles to JavaScript.
+
+We are also going to add the Foreman gem to run our Rails server and the Hot Reloader service for us.
+
+**Skills covered**: Opal Hot Reloader GEM, Foreman GEM
