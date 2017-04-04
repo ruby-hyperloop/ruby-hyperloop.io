@@ -33,7 +33,7 @@ class CodeMirror < Hyperloop::Component
       div.card_header { params.heading }
       div(id: @div_code)
       div.card_header do
-        img(src:'../images/hyperloop-logo-small-white.png', width:'25')
+        img(src: '<%= hyperlooplogosource %>' , width:'25')
         span { ' ' }
         'Hyperloop playground :'
       end
@@ -51,11 +51,13 @@ class CodeMirror < Hyperloop::Component
       # puts code
       code += "\nElement['##{@div_result}'].render(#{params.top_level_component})"
       compiled_code = Opal::Compiler.new(code).compile
+
       `ReactDOM.unmountComponentAtNode(document.getElementById(#{@div_result}));`
 
       Hyperloop::Context.reset!
       `eval(#{compiled_code})`
       Hyperloop::Application::Boot.run()
+
       
       component = Module.const_get params.top_level_component
       # we need to see if the component is valid - try checking if it can render static markup

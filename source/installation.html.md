@@ -11,14 +11,14 @@ There are several ways to install Hyperloop into your development environment.
 + Integrating with Sinatra
 
 
-## Hyperloop.js
+## <a name="hyperloopjs">Hyperloop.js</a>
 
 For small static sites that don't need a server backend you can use the `hyperloop.js` javascript library.
 Simply include the `hyperloop.js` file with your other javascript code, or access it directly via the CDN, and you are good to go.
 
 This is another great way to experiment with Hyperloop. You don't need any setup or download to get started.
 
-### Setup
+### <a name="hyperloopjssetup">Setup</a>
 
 First add React, JQuery, `hyperloop.js` and `opal-compiler.js` to your HTML page:
 
@@ -35,7 +35,7 @@ First add React, JQuery, `hyperloop.js` and `opal-compiler.js` to your HTML page
 </head>
 ```
 
-### Simple HelloWorld
+### <a name="hyperloopjssimplehelloworld">Simple HelloWorld</a>
 
 Next, specify your ruby code inside script tags or link to your ruby code using the src attribute `<script type="text/ruby" src=.../>`
 
@@ -66,21 +66,21 @@ Finally, mount your Component(s) as a DOM element and specify the Component and 
 </body>
 ```
 
-### Tutorials
+### <a name="hyperloopjstutorials">Tutorials</a>
 
 You are ready now to implement more interesting and complex Components.<br>
 You can start by the first tutorial of the Hyperloop series here :
 
-[{ Hyperloop.js HelloWorld tutorial }](/tutorials)
+[{ Hyperloop.js HelloWorld tutorial }](/tutorials/hyperloopjs/helloworld)
 
-## With Ruby On Rails
+## <a name="ror">With Ruby On Rails</a>
 
 Hyperloop works great with new or existing rails apps, so it's pain free to introduce it to your application.
 
 Hyperloop has been tested with the most recent Ruby On Rails verions:<br> Rails (~> 4.2), Rails (~> 5.0) and the last Rails (5.1.0.rc1).
 
 
-### Setup
+### <a name="rorsetup">Setup</a>
 
 In your `Gemfile`
 
@@ -116,14 +116,8 @@ And updates your `app/assets/javascripts/application.js` file adding this line:
 //= require hyperloop-loader
 ```
 
-Finally Hyperloop needs to create tables in your database. 
-just run the command:
 
-```ruby
-rails db:migrate
-```
-
-### Simple HelloWorld
+### <a name="rorsimplehelloworld">Simple HelloWorld</a>
 
 
 You can now test it by creating a very simple Component by running the hyperloop generator :
@@ -149,7 +143,6 @@ end
 Don't forget to modify your `routes.rb`:
 
 ```ruby
-#get 'home/helloworld'
 root 'home#helloworld'
 ```
 
@@ -160,23 +153,25 @@ Note:
 Instead of rendering your component from a controller, you can also render it from a view like this:
 
 ```ruby
-#app/views/home/helloworld.rb
+#app/views/home/helloworld.html.erb
 
 <%= react_component '::Helloworld', {}, { prerender: true } %>
 ```
 
 
-### Tutorials
+### <a name="rortutorials">Tutorials</a>
 
 You are ready now to implement more interesting and complex Components.<br>
-You can start by the first tutorial of the Hyperloop series here :
+You can start by the first tutorial of the Hyperloop series here:
 
-[{ Hyperloop with Ruby On Rails HelloWorld tutorial }](/tutorials)
+[{ Hyperloop with Ruby On Rails HelloWorld tutorial }](/tutorials/hyperlooprails/helloworld)
 
 
 ### Advanced configuration
 
-You can find detailed information about Hyperloop configuration files and the advanced options on this page <br>[{ Advanced configuration }](/advancedconfig)
+You can find detailed information about Hyperloop configuration files and the advanced options on this page: <br>
+
+[{ Advanced configuration }](/advancedconfig)
 
 
 ## With Sinatra
@@ -187,7 +182,9 @@ TODO
 
 ## Deployment
 
-TODO
+For learning how to deploy a hyperloop application to a production server (particularly when using Rails), you can follow our tutorials: 
+
+[{ Hyperloop deployment }](/tutorials/hyperloopdeploy)
 
 ## Next Steps
 

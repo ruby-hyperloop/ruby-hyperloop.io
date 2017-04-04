@@ -1,3 +1,4 @@
+
 ###
 # Page options, layouts, aliases and proxies
 ###
@@ -66,6 +67,8 @@ page "/feed.xml", layout: false
 # Reload the browser automatically whenever files change
 configure :development do
   activate :livereload
+  # Used for generating absolute URLs
+  
 end
 
 # Methods defined in the helpers block are available in templates
@@ -83,7 +86,7 @@ configure :build do
   # Minify Javascript on build
   # activate :minify_javascript
 
-  # activate :relative_assets
+  #activate :relative_assets
   # set :relative_links, true
   # set :site_url, "/reactrb.org"
   # set :http_prefix, '/reactrb.org'
@@ -96,6 +99,9 @@ end
 
 # Turn this on if you want to make your url's prettier, without the .html
 activate :directory_indexes
+activate :relative_assets
+
+set :images_dir, 'images'
 
 # code highlighting in clogs
 activate :syntax, :line_numbers => false
@@ -105,6 +111,11 @@ set :markdown_engine, :redcarpet
 set :markdown, :tables => true, :autolink => true,
   :gh_blockcode => false, :fenced_code_blocks => true,
   :smartypants => false,  with_toc_data: true
+
+
+
+
+
 
 activate :deploy do |deploy|
   deploy.deploy_method   = :sftp

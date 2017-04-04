@@ -50,6 +50,7 @@ First let's add a Store and refactor our Component to use the Store:
   data-top-level-component="OfferLuckyDip">
 <pre>
 class Discounter < Hyperloop::Store
+
    state discount: 30, scope: :class, reader: true
 
   def self.lucky_dip!
@@ -58,6 +59,7 @@ class Discounter < Hyperloop::Store
 end
 
 class OfferLuckyDip < Hyperloop::Component
+
   def render
     DIV do
       H1 {"Your discount is #{Discounter.discount}%"}

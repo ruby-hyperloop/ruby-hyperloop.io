@@ -1,7 +1,12 @@
 ---
-title: Chat App Tutorial
+title: Tutorials, Videos & Quickstarts
 ---
-## Chat-App Tutorial
+
+## <i class="flaticon-professor-teaching"></i><span class="bigfirstletter">C</span>hat-App Tutorial
+
+### Todo : 
+### Re-Write this tutorial using Operations and Stores. For now it's using only Components. 
+###Remove the live code editor.
 
 We'll be building a simple but realistic chat application, a basic version of a chat room offered by a service like gitter.im.
 
@@ -49,9 +54,10 @@ Let's stub out all of classes right now and replace the contents of the stubs ab
 
 <div class="codemirror-live-edit"
   data-heading="1. Chat Application structure"
-  data-rows=46>
+  data-rows=46
+  data-top-level-component="Chatapp">
 <pre>
-class ExampleComponent < React::Component::Base
+class Chatapp < Hyperloop::Component
   def render
     div do
       Nav()
@@ -61,13 +67,13 @@ class ExampleComponent < React::Component::Base
   end
 end
 
-class Nav < React::Component::Base
+class Nav < Hyperloop::Component
   def render
     div {"Our Nav Bar Goes Here including a login box"}
   end
 end
 
-class Messages < React::Component::Base
+class Messages < Hyperloop::Component
   def render
     # eventually we will loop and display each message
     # for now we will just display one as an example
@@ -75,13 +81,13 @@ class Messages < React::Component::Base
   end
 end
 
-class Message < React::Component::Base
+class Message < Hyperloop::Component
   def render
     FormattedDiv()
   end
 end
 
-class InputBox < React::Component::Base
+class InputBox < Hyperloop::Component
   def render
     div do
       "An input box to send new messages will".br
@@ -91,7 +97,7 @@ class InputBox < React::Component::Base
   end
 end
 
-class FormattedDiv < React::Component::Base
+class FormattedDiv < Hyperloop::Component
   def render
     "convert and display markdown"
   end
@@ -158,9 +164,10 @@ end
 
 <div class="codemirror-live-edit"
   data-heading="2. Chat Application - Adding Parameters"
-  data-rows=52>
+  data-rows=52
+  data-top-level-component="Chatapp">
 <pre>
-class ExampleComponent < React::Component::Base
+class Chatapp < Hyperloop::Component
   def render
     div do
       Nav()
@@ -170,13 +177,13 @@ class ExampleComponent < React::Component::Base
   end
 end
 
-class Nav < React::Component::Base
+class Nav < Hyperloop::Component
   def render
     div {"Our Nav Bar Goes Here including a login box"}
   end
 end
 
-class Messages < React::Component::Base
+class Messages < Hyperloop::Component
   def render
     # eventually we will loop and display each message
     # for now we will just display one as an example
@@ -184,13 +191,13 @@ class Messages < React::Component::Base
   end
 end
 
-class Message < React::Component::Base
+class Message < Hyperloop::Component
   def render
     FormattedDiv(markdown: "This **Markdown** will eventually be a message")
   end
 end
 
-class InputBox < React::Component::Base
+class InputBox < Hyperloop::Component
   def render
     div do
       "An input box to send new messages will".br
@@ -200,7 +207,7 @@ class InputBox < React::Component::Base
   end
 end
 
-class FormattedDiv < React::Component::Base
+class FormattedDiv < Hyperloop::Component
 
   param :markdown, type: String
 
@@ -257,9 +264,10 @@ Replace the `Nav` component with the above code, and refresh your browser.  You 
 
 <div class="codemirror-live-edit"
   data-heading="3. Chat Application - Adding An Event Handler"
-  data-rows=9>
+  data-rows=9
+  data-top-level-component="Chatapp">
 <pre>
-class ExampleComponent < React::Component::Base
+class Chatapp < Hyperloop::Component
   def render
     div do
       Nav()
@@ -269,7 +277,7 @@ class ExampleComponent < React::Component::Base
   end
 end
 
-class Nav < React::Component::Base
+class Nav < Hyperloop::Component
   def render
     div do
       input(class: :handle, type: :text, placeholder: "Enter Your Handle")
@@ -280,7 +288,7 @@ class Nav < React::Component::Base
   end
 end
 
-class Messages < React::Component::Base
+class Messages < Hyperloop::Component
   def render
     # eventually we will loop and display each message
     # for now we will just display one as an example
@@ -288,13 +296,13 @@ class Messages < React::Component::Base
   end
 end
 
-class Message < React::Component::Base
+class Message < Hyperloop::Component
   def render
     FormattedDiv(markdown: "This **Markdown** will eventually be a message")
   end
 end
 
-class InputBox < React::Component::Base
+class InputBox < Hyperloop::Component
   def render
     div do
       "An input box to send new messages will".br
@@ -304,7 +312,7 @@ class InputBox < React::Component::Base
   end
 end
 
-class FormattedDiv < React::Component::Base
+class FormattedDiv < Hyperloop::Component
 
   param :markdown, type: String
 
@@ -388,9 +396,10 @@ Once again, update the `Nav` component, and make sure it works.
 
 <div class="codemirror-live-edit"
   data-heading="4. Chat Application - Adding State"
-  data-rows=9>
+  data-rows=9
+  data-top-level-component="Chatapp">
 <pre>
-class ExampleComponent < React::Component::Base
+class Chatapp < Hyperloop::Component
   def render
     div do
       Nav()
@@ -400,7 +409,7 @@ class ExampleComponent < React::Component::Base
   end
 end
 
-class Nav < React::Component::Base
+class Nav < Hyperloop::Component
 
   before_mount do
     state.current_user_name! nil
@@ -430,7 +439,7 @@ class Nav < React::Component::Base
 
 end
 
-class Messages < React::Component::Base
+class Messages < Hyperloop::Component
   def render
     # eventually we will loop and display each message
     # for now we will just display one as an example
@@ -438,13 +447,13 @@ class Messages < React::Component::Base
   end
 end
 
-class Message < React::Component::Base
+class Message < Hyperloop::Component
   def render
     FormattedDiv(markdown: "This **Markdown** will eventually be a message")
   end
 end
 
-class InputBox < React::Component::Base
+class InputBox < Hyperloop::Component
   def render
     div do
       "An input box to send new messages will".br
@@ -454,7 +463,7 @@ class InputBox < React::Component::Base
   end
 end
 
-class FormattedDiv < React::Component::Base
+class FormattedDiv < Hyperloop::Component
 
   param :markdown, type: String
 
@@ -541,9 +550,10 @@ Again reload your browser and try logging in.  You will notice in the console th
 
 <div class="codemirror-live-edit"
   data-heading="5. Chat Application - Talking to Your Parents"
-  data-rows=9>
+  data-rows=9
+  data-top-level-component="Chatapp">
 <pre>
-class ExampleComponent < React::Component::Base
+class Chatapp < Hyperloop::Component
   def render
     div do
       Nav()
@@ -553,7 +563,7 @@ class ExampleComponent < React::Component::Base
   end
 end
 
-class Nav < React::Component::Base
+class Nav < Hyperloop::Component
 
   param :login, type: Proc
 
@@ -585,7 +595,7 @@ class Nav < React::Component::Base
 
 end
 
-class Messages < React::Component::Base
+class Messages < Hyperloop::Component
   def render
     # eventually we will loop and display each message
     # for now we will just display one as an example
@@ -593,13 +603,13 @@ class Messages < React::Component::Base
   end
 end
 
-class Message < React::Component::Base
+class Message < Hyperloop::Component
   def render
     FormattedDiv(markdown: "This **Markdown** will eventually be a message")
   end
 end
 
-class InputBox < React::Component::Base
+class InputBox < Hyperloop::Component
   def render
     div do
       "An input box to send new messages will".br
@@ -609,7 +619,7 @@ class InputBox < React::Component::Base
   end
 end
 
-class FormattedDiv < React::Component::Base
+class FormattedDiv < Hyperloop::Component
 
   param :markdown, type: String
 
@@ -650,9 +660,10 @@ Reload your browser, and login, and the warning will be gone, and the login mess
 
 <div class="codemirror-live-edit"
   data-heading="6. Chat Application - Talking to Your Parents"
-  data-rows=9>
+  data-rows=9
+  data-top-level-component="Chatapp">
 <pre>
-class ExampleComponent < React::Component::Base
+class Chatapp < Hyperloop::Component
 
   def render
     div do
@@ -668,7 +679,7 @@ class ExampleComponent < React::Component::Base
 
 end
 
-class Nav < React::Component::Base
+class Nav < Hyperloop::Component
 
   param :login, type: Proc
 
@@ -700,7 +711,7 @@ class Nav < React::Component::Base
 
 end
 
-class Messages < React::Component::Base
+class Messages < Hyperloop::Component
   def render
     # eventually we will loop and display each message
     # for now we will just display one as an example
@@ -708,13 +719,13 @@ class Messages < React::Component::Base
   end
 end
 
-class Message < React::Component::Base
+class Message < Hyperloop::Component
   def render
     FormattedDiv(markdown: "This **Markdown** will eventually be a message")
   end
 end
 
-class InputBox < React::Component::Base
+class InputBox < Hyperloop::Component
   def render
     div do
       "An input box to send new messages will".br
@@ -724,7 +735,7 @@ class InputBox < React::Component::Base
   end
 end
 
-class FormattedDiv < React::Component::Base
+class FormattedDiv < Hyperloop::Component
 
   param :markdown, type: String
 
@@ -820,9 +831,34 @@ Refresh your browser, and make sure nothing is broken, but notice nothing is cha
 
 <div class="codemirror-live-edit"
   data-heading="7. Chat Application - Lifecycle Callbacks"
-  data-rows=9>
+  data-rows=9
+  data-top-level-component="Chatapp">
 <pre>
-class ExampleComponent < React::Component::Base
+
+class ChatService
+
+  def initialize(&block)
+    @block = block
+    @messages = {"from"=>"user1", "time"=>1449089985, "message"=>"A 2 point message: \n+ point 1\n+ point 2\nGot it?"},{"from"=>"user2", "time"=>1449262785, "message"=>"message sent 8 days ago, by user 2"},{"from"=>"user3", "time"=>1449521985, "message"=>"message sent in the last week"},{"from"=>"user2", "time"=>1449608385, "message"=>"message sent **also** in the last week"},{"from"=>"user1", "time"=>1449950385, "message"=>"Was sent within the last hour!"},{"from"=>"user2", "time"=>1449952185, "message"=>"Was sent 30 minutes ago"},{"from"=>"user3", "time"=>1449953385, "message"=>"Was just sent\n\n\n\n\n\n\n\n\nwith a lot of blanks"},{"from"=>"user1", "time"=>1449953985, "message"=>"just now"}
+  end
+
+  def login(user_name)
+    @user_name = user_name
+    @block.call @messages
+  end
+
+  def id
+    @user_name
+  end
+
+  def send(data = {})
+    @messages << data
+    @block.call [data]
+  end
+
+end
+
+class Chatapp < Hyperloop::Component
 
   before_mount do
     ChatService.new do | messages |
@@ -849,7 +885,7 @@ class ExampleComponent < React::Component::Base
 
 end
 
-class Nav < React::Component::Base
+class Nav < Hyperloop::Component
 
   param :login, type: Proc
 
@@ -881,7 +917,7 @@ class Nav < React::Component::Base
 
 end
 
-class Messages < React::Component::Base
+class Messages < Hyperloop::Component
   def render
     # eventually we will loop and display each message
     # for now we will just display one as an example
@@ -889,13 +925,13 @@ class Messages < React::Component::Base
   end
 end
 
-class Message < React::Component::Base
+class Message < Hyperloop::Component
   def render
     FormattedDiv(markdown: "This **Markdown** will eventually be a message")
   end
 end
 
-class InputBox < React::Component::Base
+class InputBox < Hyperloop::Component
   def render
     div do
       "An input box to send new messages will".br
@@ -905,7 +941,7 @@ class InputBox < React::Component::Base
   end
 end
 
-class FormattedDiv < React::Component::Base
+class FormattedDiv < Hyperloop::Component
 
   param :markdown, type: String
 
@@ -950,7 +986,8 @@ state messages updated.  state.messages: {"from"=>"user1", "time"=>1449089985, "
 
 <div class="codemirror-live-edit"
   data-heading="8. Chat Application - Instance and State Variables"
-  data-rows=9>
+  data-rows=9
+  data-top-level-component="Chatapp">
 <pre>
 class ChatService
 
@@ -975,7 +1012,7 @@ class ChatService
 
 end
 
-class ExampleComponent < React::Component::Base
+class Chatapp < Hyperloop::Component
 
   before_mount do
     @chat_service = ChatService.new do | messages |
@@ -1000,7 +1037,7 @@ end
 
 
 
-class Nav < React::Component::Base
+class Nav < Hyperloop::Component
 
   param :login, type: Proc
 
@@ -1032,7 +1069,7 @@ class Nav < React::Component::Base
 
 end
 
-class Messages < React::Component::Base
+class Messages < Hyperloop::Component
   def render
     # eventually we will loop and display each message
     # for now we will just display one as an example
@@ -1040,13 +1077,13 @@ class Messages < React::Component::Base
   end
 end
 
-class Message < React::Component::Base
+class Message < Hyperloop::Component
   def render
     FormattedDiv(markdown: "This **Markdown** will eventually be a message")
   end
 end
 
-class InputBox < React::Component::Base
+class InputBox < Hyperloop::Component
   def render
     div do
       "An input box to send new messages will".br
@@ -1056,7 +1093,7 @@ class InputBox < React::Component::Base
   end
 end
 
-class FormattedDiv < React::Component::Base
+class FormattedDiv < Hyperloop::Component
 
   param :markdown, type: String
 
@@ -1137,7 +1174,8 @@ Save everything, and refresh your browser.  Login and you should see a very roug
 
 <div class="codemirror-live-edit"
   data-heading="9. Chat Application - Not everything has to be a state variable"
-  data-rows=9>
+  data-rows=9
+  data-top-level-component="Chatapp">
 <pre>
 class ChatService
 
@@ -1162,7 +1200,7 @@ class ChatService
 
 end
 
-class ExampleComponent < React::Component::Base
+class Chatapp < Hyperloop::Component
 
   before_mount do
     @chat_service = ChatService.new do | messages |
@@ -1187,7 +1225,7 @@ end
 
 
 
-class Nav < React::Component::Base
+class Nav < Hyperloop::Component
 
   param :login, type: Proc
 
@@ -1219,7 +1257,7 @@ class Nav < React::Component::Base
 
 end
 
-class Messages < React::Component::Base
+class Messages < Hyperloop::Component
 
   param :messages, type: [Hash]
 
@@ -1232,7 +1270,7 @@ class Messages < React::Component::Base
   end
 end
 
-class Message < React::Component::Base
+class Message < Hyperloop::Component
 
   param :message, type: Hash
 
@@ -1245,7 +1283,7 @@ class Message < React::Component::Base
   end
 end
 
-class InputBox < React::Component::Base
+class InputBox < Hyperloop::Component
   def render
     div do
       "An input box to send new messages will".br
@@ -1255,7 +1293,7 @@ class InputBox < React::Component::Base
   end
 end
 
-class FormattedDiv < React::Component::Base
+class FormattedDiv < Hyperloop::Component
 
   param :markdown, type: String
 
@@ -1311,8 +1349,10 @@ Now update the `App`s `render` method so that we don't display the `Messages` or
 Refresh the page and the error should be gone.
 
 <div class="codemirror-live-edit"
-  data-heading="10. Chat Application - Some Cleanup"
-  data-rows=9>
+  data-heading="1
+  10. Chat Application - Some Cleanup"
+  data-rows=9
+  data-top-level-component="Chatapp">
 <pre>
 class ChatService
 
@@ -1337,7 +1377,7 @@ class ChatService
 
 end
 
-class ExampleComponent < React::Component::Base
+class Chatapp < Hyperloop::Component
 
   before_mount do
     @chat_service = ChatService.new do | messages |
@@ -1368,7 +1408,7 @@ end
 
 
 
-class Nav < React::Component::Base
+class Nav < Hyperloop::Component
 
   param :login, type: Proc
 
@@ -1400,7 +1440,7 @@ class Nav < React::Component::Base
 
 end
 
-class Messages < React::Component::Base
+class Messages < Hyperloop::Component
 
   param :messages, type: [Hash]
 
@@ -1413,7 +1453,7 @@ class Messages < React::Component::Base
   end
 end
 
-class Message < React::Component::Base
+class Message < Hyperloop::Component
 
   param :message, type: Hash
 
@@ -1426,7 +1466,7 @@ class Message < React::Component::Base
   end
 end
 
-class InputBox < React::Component::Base
+class InputBox < Hyperloop::Component
   def render
     div do
       "An input box to send new messages will".br
@@ -1436,7 +1476,7 @@ class InputBox < React::Component::Base
   end
 end
 
-class FormattedDiv < React::Component::Base
+class FormattedDiv < Hyperloop::Component
 
   param :markdown, type: String
 
@@ -1510,7 +1550,8 @@ The current value of`state.composition` is passed along to the `FormattedDiv` wh
 
 <div class="codemirror-live-edit"
   data-heading="11. Chat Application - Sending Messages"
-  data-rows=9>
+  data-rows=9
+  data-top-level-component="Chatapp">
 <pre>
 class ChatService
 
@@ -1535,7 +1576,7 @@ class ChatService
 
 end
 
-class ExampleComponent < React::Component::Base
+class Chatapp < Hyperloop::Component
 
   before_mount do
     @chat_service = ChatService.new do | messages |
@@ -1566,7 +1607,7 @@ end
 
 
 
-class Nav < React::Component::Base
+class Nav < Hyperloop::Component
 
   param :login, type: Proc
 
@@ -1598,7 +1639,7 @@ class Nav < React::Component::Base
 
 end
 
-class Messages < React::Component::Base
+class Messages < Hyperloop::Component
 
   param :messages, type: [Hash]
 
@@ -1624,7 +1665,7 @@ class Message < React::Component::Base
   end
 end
 
-class InputBox < React::Component::Base
+class InputBox < Hyperloop::Component
 
   param :chat_service, type: ChatService
 
@@ -1656,7 +1697,7 @@ class InputBox < React::Component::Base
 
 end
 
-class FormattedDiv < React::Component::Base
+class FormattedDiv < Hyperloop::Component
 
   param :markdown, type: String
 
@@ -1694,7 +1735,8 @@ For more fun type some markdown into the input box and the formatted version wil
 
 <div class="codemirror-live-edit"
   data-heading="12. Chat Application - Formatting The Markdown"
-  data-rows=9>
+  data-rows=9
+  data-top-level-component="Chatapp">
 <pre>
 class ChatService
 
@@ -1719,7 +1761,7 @@ class ChatService
 
 end
 
-class ExampleComponent < React::Component::Base
+class Chatapp < Hyperloop::Component
 
   before_mount do
     @chat_service = ChatService.new do | messages |
@@ -1750,7 +1792,7 @@ end
 
 
 
-class Nav < React::Component::Base
+class Nav < Hyperloop::Component
 
   param :login, type: Proc
 
@@ -1782,7 +1824,7 @@ class Nav < React::Component::Base
 
 end
 
-class Messages < React::Component::Base
+class Messages < Hyperloop::Component
 
   param :messages, type: [Hash]
 
@@ -1795,7 +1837,7 @@ class Messages < React::Component::Base
   end
 end
 
-class Message < React::Component::Base
+class Message < Hyperloop::Component
 
   param :message, type: Hash
 
@@ -1808,7 +1850,7 @@ class Message < React::Component::Base
   end
 end
 
-class InputBox < React::Component::Base
+class InputBox < Hyperloop::Component
 
   param :chat_service, type: ChatService
 
@@ -1840,7 +1882,7 @@ class InputBox < React::Component::Base
 
 end
 
-class FormattedDiv < React::Component::Base
+class FormattedDiv < Hyperloop::Component
 
   param :markdown, type: String
 
@@ -1864,7 +1906,8 @@ Congratulations your chat app is basically working.  If you want change `test_ch
 
 <div class="codemirror-live-edit"
   data-heading="13. Chat Application - Changed to chat_service"
-  data-rows=9>
+  data-rows=9
+  data-top-level-component="Chatapp">
 <pre>
 class ChatService
 
@@ -1896,7 +1939,7 @@ class ChatService
 
 end
 
-class ExampleComponent < React::Component::Base
+class Chatapp < Hyperloop::Component
 
   before_mount do
     @chat_service = ChatService.new do | messages |
@@ -1927,7 +1970,7 @@ end
 
 
 
-class Nav < React::Component::Base
+class Nav < Hyperloop::Component
 
   param :login, type: Proc
 
@@ -1959,7 +2002,7 @@ class Nav < React::Component::Base
 
 end
 
-class Messages < React::Component::Base
+class Messages < Hyperloop::Component
 
   param :messages, type: [Hash]
 
@@ -1972,7 +2015,7 @@ class Messages < React::Component::Base
   end
 end
 
-class Message < React::Component::Base
+class Message < Hyperloop::Component
 
   param :message, type: Hash
 
@@ -1985,7 +2028,7 @@ class Message < React::Component::Base
   end
 end
 
-class InputBox < React::Component::Base
+class InputBox < Hyperloop::Component
 
   param :chat_service, type: ChatService
 
@@ -2017,7 +2060,7 @@ class InputBox < React::Component::Base
 
 end
 
-class FormattedDiv < React::Component::Base
+class FormattedDiv < Hyperloop::Component
 
   param :markdown, type: String
 
