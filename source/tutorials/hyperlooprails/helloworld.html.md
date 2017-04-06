@@ -93,7 +93,8 @@ end
 ##### Step 4: Updating the routes.rb file
 
 ```ruby
-#get 'home/helloworld'
+#config/routes.rb
+
 root 'home#helloworld'
 ``` 
 
