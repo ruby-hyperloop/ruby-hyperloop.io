@@ -1,8 +1,10 @@
-<h2><div class="hyperlogoalone" id="operations"><%= image_tag "HyperOperations.png", width: '35'%></div>
-Operations
-</h2>
+<h1><div class="hyperlogoalone" id="operations"><%= image_tag "HyperOperations.png", width: '35'%></div>
+<span class="bigfirstletter">O</span>perations
+</h1>
 
-In a traditional MCV architecture, there is no defined place to keep business logic. You can overload your Controllers, Views or Models and unless you follow a defined pattern like Trailblazer you generally end up with your business logic all over the place. Our vision of building a 'Complete Ruby Isomorphic Framework' meant that we had to address that problem head on, so we created Operations.
+Operations are the engine rooms of Hyperloop. They drive processes and they orchestrate events. Components interact wth Operations to mutate Stores. **Operations are where your business logic lives.**
+
+In a traditional MCV architecture, there is no defined place to keep business logic. You can overload your Controllers, Views or Models and (unless you follow a defined pattern like Trailblazer) you generally end up with your business logic all over the place. Our vision of building a 'Complete Ruby Isomorphic Framework' meant that we had to address that problem head on, so we created Operations.
 
 The design of our Operations has been inspired by a few sources:
 
@@ -14,11 +16,15 @@ The design of our Operations has been inspired by a few sources:
 
 To demonstrate the power of Operations and the various ways in which you can use them, we are going to use three use case example and employ Operations in three different ways:
 
-### Operations and Stores
+Hyperloop Operations work in three ways:
 
-Firstly we will create a ShoppingCart Store and mutate the Store's data through methods on the Store, much like we did in the Store discount example above, but improved by adding an Operation to the Store's namespace.
+1. They `run` a sequence of `step`'s. Each step is a progressive step in a workflow, mutating state in stores and only continuing to the next step if the current step proceeds. This mode borrows from Trailblazer's concept of an Operation.
+2. Much like Flux Actions, Stores can `receive` Operations so a Store can look out for an Operation being run and act accordingly. This shifts the responsibility to the Store to look out for an Operation being run.
+3. `ServerOps` are Operations which look (to your Isomorphic code) like normal Operations but are guaranteed to only run on the server, even when they are invoked from the client. A good reason for this type of Operation would be when resources needed by the Operation are bound to the server - for example invoking a Mailer or updating a database. ServerOps do away with the need for an API layer (unless you specifically want an API).
 
-Stores hold state and Operations mutate a Store's state. In the Store section above, we demonstrated how a class method on the Store could be used to mutate the state. In this example, we will go one further and add an Operation to the Store's namespace:
+### 1. Operations with Steps
+
+Stores hold state and Operations mutate a Store's state. In the Store section, we demonstrated how a class method on the Store could be used to mutate the state. In this example, we will go one further and have an Operation mutate the Stores state:
 
 ```ruby
 class ShoppingCart < Hyperloop::Store
@@ -26,15 +32,16 @@ class ShoppingCart < Hyperloop::Store
 
   class AddItem < Hyperloop::Operation
     validate( !state.items.include?(params.item) )
-    step( mutate.items << params.item )
+    step { mutate.items << params.item }
   end
 end
 ```
 
 You will notice in the code above:
 
++ This approach is very similar to simply adding a method to the Store to mutate the state, but there are some advantages. Firstly, we can take advantage of the validation of incoming params and secondly we can use `step`'s to ensure that each part of the operation only executes if the previous part was successful.
++ Notice how we validate the incoming params. If `validate` returns falsy then the Operation will not run
 + The AddItem Operation is included in the ShoppingCart Store's namespace. To invoke this Operation would would use `ShoppingCart.AddItem(items: item)`
-+ Notice how we validate the incoming params. If `validate` returns falsy then th OPeration
 
 ### Dispatchers and Receivers
 
