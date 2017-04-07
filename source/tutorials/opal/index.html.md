@@ -2,7 +2,7 @@
 title: Tutorials, Videos & Quickstarts
 ---
 
-## <i class="flaticon-professor-teaching"></i><span class="bigfirstletter">O</span>pal Hot Reloader Tutorial
+## <span class="bigfirstletter">O</span>pal Hot Reloader Tutorial
 
 Hyperloop uses Opal to compile Ruby code to ES5 native JavaScript. If you have not used Opal before then you should at a minimum read the excellent guides as they will give you a working understanding of Opal.
 

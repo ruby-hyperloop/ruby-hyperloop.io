@@ -2,7 +2,7 @@
 title: Tutorials, Videos & Quickstarts
 ---
 
-# Hyperloop.js tutorials
+## <span class="bigfirstletter">H</span>yperloop.js tutorials
 
 ##### <i class="flaticon-professor-teaching"></i> [<span class="bigfirstletter">H</span>elloWorld Tutorial](/tutorials/hyperloopjs/helloworld)
 

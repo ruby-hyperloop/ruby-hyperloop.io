@@ -1,4 +1,4 @@
-# Videos
+## <span class="bigfirstletter">V</span>ideos
 
 Watch Loïc Boutet at Rails Israel speaking about the front end aspects of Hyperloop.
 
