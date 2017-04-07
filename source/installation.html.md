@@ -2,7 +2,7 @@
 title: Installation
 ---
 
-# Installation
+# <span class="bigfirstletter">I</span>nstallation
 
 There are several ways to install Hyperloop into your development environment.
 

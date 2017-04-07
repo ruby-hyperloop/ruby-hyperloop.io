@@ -239,8 +239,14 @@ h1 {
 
 .bigfirstletter {
   font-size: 1.5em;
+  display: inline-block;
+  line-height: 1;
 }
 
+.chaptertitle {
+  display: inline-block;
+  vertical-align: bottom;
+}
 
 .main-content {
   margin-bottom: 4em;
