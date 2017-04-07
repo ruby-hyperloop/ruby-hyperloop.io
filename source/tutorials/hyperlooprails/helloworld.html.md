@@ -79,7 +79,7 @@ end
 
 ##### Step 3: Creating the controller
 
-Create a `home_controller.rb` file:
+Create a `home_controller.rb` file, manually or with the command `rails g controller Home helloworld --skip-javascripts`:
 
 ```ruby
 #app/controllers/home_controller.rb
@@ -100,7 +100,7 @@ root 'home#helloworld'
 
 ##### Step 5: Creating the helloworld view file:
 
-```ruby
+```erb
 #app/vies/home/helloworld.html.erb
 
 <div class="hyperloophelloword">
@@ -116,7 +116,7 @@ root 'home#helloworld'
 
 We will add a **Hyperloop** logo
 
-```ruby
+```erb
 #app/vies/home/helloworld.html.erb
 
 <div class="hyperloophelloword">
@@ -132,7 +132,7 @@ We will add a **Hyperloop** logo
 
 And load 2 stylesheets:
 
-```html
+```erb
 #app/views/layouts/application.html.erb
 
 <!DOCTYPE html>
