@@ -2,7 +2,7 @@
 title: Tutorials, Videos & Quickstarts
 ---
 
-# Hyperloop and Rails tutorials
+## <span class="bigfirstletter">H</span>yperloop and Rails tutorials
 
 ##### <i class="flaticon-professor-teaching"></i> [<span class="bigfirstletter">H</span>elloWorld Tutorial](/tutorials/hyperlooprails/helloworld)
 

@@ -19,9 +19,9 @@ After **Hyperloop** has been installed properly we can go further:
 
 We are going to setup the [Webpacker GEM](https://github.com/rails/webpacker) and implement a simple HelloWorld app to show how Hyperloop and [webpack](https://webpack.js.org/) are running well together.
 
-#### Part 1: Webpacker GEM
+#### Part 1 - Webpacker GEM
 
-##### Step 1.1: Installing and setting up the Webpacker GEM:
+##### Step 1.1 - Installing and setting up the Webpacker GEM:
 
 Update your Gemfile file:
 
@@ -44,7 +44,7 @@ Run the webpacker install generator:
 bin/rails webpacker:install
 ```
 
-##### Step 1.2: Adding libraries into Webpack:
+##### Step 1.2 - Adding libraries into Webpack:
 
 [Webpacker GEM](https://github.com/rails/webpacker) comes with the the [YARN](https://yarnpkg.com/en/) package manager in order to install needed libraries.
 
@@ -60,7 +60,7 @@ yarn add bootstrap react-bootstrap
 yarn add bootswatch
 ```
 
-##### Step 1.3: Requiring the libraires
+##### Step 1.3 - Requiring the libraires
 
 In the `app/javascript/packs` add the following two files:
 
@@ -79,7 +79,7 @@ require('bootswatch/superhero/bootstrap.min.css');
 ```
 
 
-##### Step 1.4: Updating webpack bundle
+##### Step 1.4 - Updating webpack bundle
 
 Before updating our webpack bundle, let's modify a configuration parameter.
 For our sample app we will not serve pack files from a Webpack-dev-server (`http://localhost:8080`). So we will modify a webpack configuration file like this:
@@ -99,7 +99,7 @@ Then finally we can run the command:
 bin/webpack
 ```
 
-##### Step 1.5: Configuring Rails asset pipeline:
+##### Step 1.5 - Configuring Rails asset pipeline:
 
 ```ruby
 #config/application.rb
@@ -107,7 +107,7 @@ bin/webpack
 config.assets.paths << ::Rails.root.join('public', 'packs').to_s
 ```
 
-##### Step 1.6: Adding pack files to the asset pipeline:
+##### Step 1.6 - Adding pack files to the asset pipeline:
 
 By using the Hyperloop configuration file we can directly tell our app to include the pack files in the asset pipeline:
 
@@ -119,7 +119,7 @@ Hyperloop.configuration do |config|
 end
 ```
 
-##### Step 1.7: Adding CSS pack files to the asset pipeline
+##### Step 1.7 - Adding CSS pack files to the asset pipeline
 
 Add this line:
 
@@ -133,11 +133,11 @@ Note: if you prefer that your CSS pack files being directly packed into the `cli
 
 
 
-#### Part 2: Implementing the helloworld app
+#### Part 2 - Implementing the helloworld app
 
 
 
-##### Step 2.1: Creating the Helloworld component
+##### Step 2.1 - Creating the Helloworld component
 
 Run the hyperloop generator:
 
@@ -149,7 +149,7 @@ You can view the new Component created in `/app/hyperloop/components/`
 
 
 
-##### Step 2.2: Updating Helloworld component code
+##### Step 2.2 - Updating Helloworld component code
 
 Copy and paste this code into the component file you've just generated:
 
@@ -200,7 +200,7 @@ end
 ```
 
 
-##### Step 2.3: Creating the controller
+##### Step 2.3 - Creating the controller
 
 Create a `home_controller.rb` file, manually or with the command `rails g controller Home helloworld --skip-javascripts`:
 
@@ -213,7 +213,7 @@ class HomeController < ApplicationController
 end
 ```
 
-##### Step 2.4: Updating the routes.rb file
+##### Step 2.4 - Updating the routes.rb file
 
 ```ruby
 #config/routes.rb
@@ -221,7 +221,7 @@ end
 root 'home#helloworld'
 ``` 
 
-##### Step 2.5: Creating the helloworld view file:
+##### Step 2.5 - Creating the helloworld view file:
 
 ```erb
 #app/vies/home/helloworld.html.erb
@@ -235,7 +235,7 @@ root 'home#helloworld'
 </div>
 ```
 
-##### Step 2.6: Styling
+##### Step 2.6 - Styling
 
 We will add a **Hyperloop** logo
 
