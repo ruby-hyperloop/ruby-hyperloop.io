@@ -1,13 +1,13 @@
 ---
 title: Support & Contributing
 ---
-# Contributing
+# <span class="bigfirstletter">C</span>ontributing
 
 > **Hyperloop** is developed by a team of contributors. Many features and concepts are a result of early adopters like you.  Please get in touch, there is so much to do!
 
 > [Code of Conduct for Contributors](/code_of_conduct.html)
 
-# Support
+# <span class="bigfirstletter">S</span>upport
 
 > Need help? Reach out to us on one of these channels:
 

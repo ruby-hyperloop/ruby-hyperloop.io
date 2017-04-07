@@ -2,7 +2,7 @@
 title: Installation
 ---
 
-# Installation
+# <span class="bigfirstletter">I</span>nstallation
 
 There are several ways to install Hyperloop into your development environment.
 
@@ -128,7 +128,7 @@ rails g hyper:component Helloworld
 
 You can view the new Component created in `/app/hyperloop/components/`
 
-Then you create a `home_controller.rb` file:
+Then you create a `home_controller.rb` file, manually or with the command `rails g controller Home helloworld --skip-javascripts`, and updtate it as following:
 
 ```ruby
 #app/controllers/home_controller.rb
@@ -152,7 +152,7 @@ You should see `Hello world` displayed by the Component.
 Note:
 Instead of rendering your component from a controller, you can also render it from a view like this:
 
-```ruby
+```erb
 #app/views/home/helloworld.html.erb
 
 <%= react_component '::Helloworld', {}, { prerender: true } %>
@@ -171,7 +171,7 @@ You can start by the first tutorial of the Hyperloop series here:
 
 You can find detailed information about Hyperloop configuration files and the advanced options on this page: <br>
 
-[{ Advanced configuration }](/advancedconfig)
+[{ Advanced configuration }](/docs/advancedconfiguration)
 
 
 ## With Sinatra
