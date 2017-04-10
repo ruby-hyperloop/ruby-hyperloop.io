@@ -12,14 +12,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
 
-    <!-- <link href="/stylesheets/base.css" rel="stylesheet" />
-    <link href="/stylesheets/normalize.css" rel="stylesheet" />
-    <link href="/stylesheets/stylesheet.css" rel="stylesheet" />
-    <link href="/stylesheets/github-light.css" rel="stylesheet" /> -->
+    <!-- <link href="../stylesheets/base.css" rel="stylesheet" />
+    <link href="../stylesheets/normalize.css" rel="stylesheet" />
+    <link href="../stylesheets/stylesheet.css" rel="stylesheet" />
+    <link href="../stylesheets/github-light.css" rel="stylesheet" /> -->
 
-    <link href="/stylesheets/bootstrap.min.css" rel="stylesheet" />
-    <link href="/stylesheets/override.css" rel="stylesheet" />
-    <link href="/stylesheets/code.css" rel="stylesheet" />
+    <link href="../stylesheets/bootstrap.min.css" rel="stylesheet" />
+    <link href="../stylesheets/override.css" rel="stylesheet" />
+    <link href="../stylesheets/code.css" rel="stylesheet" />
 
     <title>Reactrb</title>
     <link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/feed.xml" />
@@ -35,9 +35,9 @@
     <link rel="apple-touch-icon" sizes="152x152" href="/images/apple-icon-152x152.png">
     <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-icon-180x180.png">
     <link rel="icon" type="image/png" sizes="192x192"  href="/images/android-icon-192x192.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../images/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="96x96" href="/images/favicon-96x96.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../images/favicon-16x16.png">
     <link rel="manifest" href="/manifest.json">
     <meta name="msapplication-TileColor" content="#ffffff">
     <meta name="msapplication-TileImage" content="/images/ms-icon-144x144.png">
@@ -57,13 +57,13 @@
         <a href="/" class="nav-link">Hyperloop</a>
       </li>
       <li class="nav-item">
-        <a href="/get_started" class="nav-link active">Get Started</a>
-      </li>
-      <li class="nav-item">
-        <a href="/tutorials" class="nav-link">Tutorials</a>
+        <a href="/start/components" class="nav-link active">Start</a>
       </li>
       <li class="nav-item">
         <a href="/installation" class="nav-link">Installation</a>
+      </li>
+      <li class="nav-item">
+        <a href="/tutorials" class="nav-link">Tutorials</a>
       </li>
       <li class="nav-item">
         <a href="/gems" class="nav-link">Gems</a>
@@ -75,10 +75,10 @@
         <a href="/tools" class="nav-link">Tools</a>
       </li>
       <li class="nav-item">
-        <a href="/docs/dsl_overview" class="nav-link">Docs</a>
+        <a href="/docs/architecture" class="nav-link">Docs</a>
       </li>
       <li class="nav-item">
-        <a href="/support" class="nav-link">Support</a>
+        <a href="/help" class="nav-link">Help</a>
       </li>
       <li class="nav-item">
         <a href="/blog" class="nav-link">Blog</a>
@@ -93,7 +93,7 @@
       <div class="container">
         <div class="row">
           <div class="col-md-3 center-text">
-            <img src="/images/hyperloop_white.svg" width="200" alt="Hyperloop white" />
+            <img src="../images/hyperloop_white.svg" width="200" alt="Hyperloop white" />
           </div>
           <div class="col-md-9">
             <br>
@@ -118,17 +118,45 @@
           <p>
             Follow one of the links above to proceed to the new site. <b>Welcome to Hyperloop!</b>
           </p>
-          <h2 id="pure-ruby">Pure Ruby</h2>
+          <h1 id="simplicity"><span class="bigfirstletter">S</span>implicity</h1>
 
-<p>Hyperloop lets you build beautiful interactive user interfaces using the same Ruby language running your server side code. Hyperloop replaces JS code, JSX, HTML, templating languages, and complex frameworks with one simple system.</p>
+<p>Build interactive Web applications quickly. <strong>Hyperloop</strong> encourages rapid development with clean, pragmatic design. With developer productivity as our highest goal, <strong>Hyperloop</strong> takes care of much of the hassle of Web development, so you can focus on innovation and delivering end-user value.</p>
 
-<h2 id="simplicity">Simplicity</h2>
+<h1 id="isomorphic-ruby"><span class="bigfirstletter">I</span>somorphic Ruby</h1>
 
-<p>One language. One simple model. Under the hood the Hyperloop gems takes care of all the details for you. The same Ruby code runs on the server to deliver pages fast, and then keeps running on the client to handle your user interactions, data flow and data synchronisation.</p>
+<p>One language. One model. One set of tests. The same business logic and domain models running on the clients and the server. Hyperloop is fully integrated with Rails and also gives you unfettered access to the complete universe of JavaScript libraries (including React) from within your Ruby code. Hyperloop lets you build beautiful interactive user interfaces in Ruby.</p>
 
-<h2 id="hyperreact-react-ruby">HyperReact = React + Ruby</h2>
+<h1>
+    <span class="bigfirstletter">C</span>omplete Architecture
+    
+    <div class="homepageTable">
+        <div class="divTableCell">
+          <img src="../images/HyperComponents.png" width="40" alt="Hypercomponents" />
+        </div>
 
-<p>The power and simplicity of React with a great easy to use Ruby DSL. HyperReact frees you up to do what you do best - building great apps.HyperReact is a wrapper for the React.js library for creating user interfaces.  HyperReact provides all the goodness of React combined with the expressiveness of the Ruby language. React was built to solve one problem: building large applications with data that changes over time. HyperReact takes this one step further.  Because it uses Ruby, you can think in one language on the server and the client.  Because it uses React.js you get a simple, declarative, structured way to build your UI.</p>
+        <div class="divTableCell">
+          <img src="../images/HyperOperations.png" width="40" alt="Hyperoperations" />
+        </div>
+
+
+        <div class="divTableCell">
+          <img src="../images/HyperModels.png" width="40" alt="Hypermodels" />
+        </div>
+
+
+        <div class="divTableCell">
+          <img src="../images/HyperPolicies.png" width="40" alt="Hyperpolicies" />
+        </div>
+
+
+        <div class="divTableCell">
+          <img src="../images/HyperStores.png" width="40" alt="Hyperstores" />
+        </div>
+    </div>
+
+</h1>
+
+<p>Everything has a place in our architecture. <strong>C</strong>omponents deliver interactive user experiences, <strong>O</strong>perations encapsulate business logic, <strong>M</strong>odels magically synchronize data between clients and servers, <strong>P</strong>olicies govern authorization and <strong>S</strong>tores hold local state.</p>
 
         </div>
       </div>

@@ -1,0 +1,584 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv='X-UA-Compatible' content='IE=edge;chrome=1' />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <meta name="google-site-verification" content="qjqVOvRhHfsuDbLOvaAnj2mkUZJ9Xwzg84TMVXduvUc" />
+
+    <meta charset="UTF-8">
+    <title>Hyperloop</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <script src="https://unpkg.com/react@15/dist/react.min.js"></script>
+    <script src="https://unpkg.com/react-dom@15/dist/react-dom.min.js"></script>
+
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.5/marked.min.js"></script>
+
+
+    <!-- Opal and Hyperloop -->
+    <script src="https://rawgit.com/ruby-hyperloop/hyperloop-js/master/opal-compiler.min.js"></script>
+    <script src="https://rawgit.com/ruby-hyperloop/hyperloop-js/master/hyperloop.min.js"></script>
+
+    <!-- If you want local copies... -->
+    <!-- <script src="../../javascripts/opal-compiler.js"></script> -->
+    <!-- <script src="../../javascripts/hyperloop.js"></script> -->
+
+    <script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
+
+    <script src="../../javascripts/bootstrap.min.js"></script>
+    <script src="../../javascripts/codemirror.js"></script>
+    <script src="../../javascripts/ruby.js"></script>
+    <script src="../../javascripts/matchbrackets.js"></script>
+    <script src="../../javascripts/react_player.js"></script>
+
+    <!-- Components are compiled by Hyperloop Express -->
+    <script type="text/ruby">
+
+class CodeMirror < Hyperloop::Component
+  param :code, type: String
+  param :heading, default: "Code"
+  param :rows, type: Integer, default: 0
+  param :top_level_component, type: String
+
+  before_mount do
+    r=rand(2**256).to_s(36)[0..7]
+    @div_code = "code_#{r}"
+    @div_result = "result_#{r}"
+  end
+
+  after_mount do
+  # puts params.code
+    @editor = `CodeMirror(document.getElementById(#{@div_code}), {
+      value: #{params.code.to_s},
+      mode: 'text/x-ruby',
+      matchBrackets: true,
+      lineNumbers: true,
+      indentUnit: 2,
+      theme: 'github'
+    });`
+
+    `#{@editor}.on('change', #{lambda {on_change} })`
+    `#{@editor}.setSize(null, #{@editor}.defaultTextHeight()*#{params.rows})` unless params.rows == 0
+    execute_code
+  end
+
+  render(DIV) do
+    div.card {
+      div.card_header { params.heading }
+      div(id: @div_code)
+      div.card_header do
+        img(src: '../../images/hyperloop-logo-small-white.png' , width:'25')
+        span { ' ' }
+        'Hyperloop playground :'
+      end
+      div.card_block(id: @div_result)
+    }
+  end
+
+  def on_change
+    execute_code
+  end
+
+  def execute_code
+    begin
+      code = `#{@editor}.getValue()`
+      # puts code
+      code += "\nElement['##{@div_result}'].render(#{params.top_level_component})"
+      compiled_code = Opal::Compiler.new(code).compile
+
+      `ReactDOM.unmountComponentAtNode(document.getElementById(#{@div_result}));`
+
+      Hyperloop::Context.reset!
+      `eval(#{compiled_code})`
+      Hyperloop::Application::Boot.run()
+
+      
+      component = Module.const_get params.top_level_component
+      # we need to see if the component is valid - try checking if it can render static markup
+      # the following line generates: `undefined method to_n for SimpleComponent`
+      # if React.render_to_static_markup( component ).empty?
+      #   invalid_component_message
+      # end
+    rescue Exception => e
+      @time_out = after(0.1) do
+        unable_to_compile_message e.message
+      end
+    end
+  end
+
+  def invalid_component_message
+    message = div.text_danger do
+      h3.text_danger {"Oops, invalid Component..."}
+      p { "Your Component has been rejected by React. A valid Component must have a render macro and return just one HTML element." }
+    end
+    Element["##{@div_result}"].render{ message }
+  end
+
+  def unable_to_compile_message reason
+    message = div.text_danger do
+      h3.text_danger {"Can't compile..."}
+      p { reason }
+    end
+    Element["##{@div_result}"].render{ message }
+  end
+
+end
+
+</script>
+
+    <script type="text/ruby">
+
+Document.ready? do
+   Element.find('div.codemirror-live-edit').each do |mount_point|
+     heading = mount_point.attr('data-heading')
+     rows = mount_point.attr('data-rows')
+     top_level_component = mount_point.attr('data-top-level-component')
+     code = Element[mount_point].find('pre').text.strip
+     params = {code: code, top_level_component: top_level_component}
+     params = params.merge({heading: heading}) if heading
+     params = params.merge({rows: rows.to_i}) if rows
+     codemirror_component = Object.const_get('CodeMirror')
+     React.render(React.create_element(codemirror_component, params ), mount_point)
+   end
+end
+
+</script>
+
+
+    <link href="../../stylesheets/bootstrap.min.css" rel="stylesheet" />
+    <link href="../../stylesheets/typography.css" rel="stylesheet" />
+    <link href="../../stylesheets/override.css" rel="stylesheet" />
+    <link href="../../stylesheets/divtable.css" rel="stylesheet" />
+    <!-- <link href="../../stylesheets/code.css" rel="stylesheet" /> -->
+    <link href="../../stylesheets/github.css" rel="stylesheet" />
+    <link href="../../stylesheets/highlighting.css" rel="stylesheet" />
+    <link href="../../stylesheets/codemirror.css" rel="stylesheet" />
+
+    <link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/feed.xml" />
+
+    <!-- Favicons -->
+
+    <link rel="apple-touch-icon" sizes="180x180" href="../../images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" href="../../images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="../../images/favicon-16x16.png" sizes="16x16">
+    <link rel="manifest" href="/images/manifest.json">
+    <link rel="mask-icon" href="../../images/safari-pinned-tab.svg" color="#e81176">
+    <meta name="theme-color" content="#ffffff">
+
+  </head>
+
+  <body>
+    <div class="navbarbackgroundcolor">
+      <div class="container">
+        <nav class="navbar navbar-ligh">
+  <button class="navbar-toggler hidden-sm-up" type="button" data-toggle="collapse" data-target="#exCollapsingNavbar2" aria-controls="exCollapsingNavbar2" aria-expanded="false" aria-label="Toggle navigation">
+    &#9776;
+  </button>
+  <div class="collapse navbar-toggleable-xs" id="exCollapsingNavbar2">
+    <ul class="nav navbar-nav">
+      <li class="nav-item">
+        <a href="/" class="nav-link">Hyperloop</a>
+      </li>
+      <li class="nav-item">
+        <a href="/start/components" class="nav-link active">Start</a>
+      </li>
+      <li class="nav-item">
+        <a href="/installation" class="nav-link">Installation</a>
+      </li>
+      <li class="nav-item">
+        <a href="/tutorials" class="nav-link">Tutorials</a>
+      </li>
+      <li class="nav-item">
+        <a href="/gems" class="nav-link">Gems</a>
+      </li>
+      <li class="nav-item">
+        <a href="https://github.com/ruby-hyperloop" class="nav-link">Github</a>
+      </li>
+      <li class="nav-item">
+        <a href="/tools" class="nav-link">Tools</a>
+      </li>
+      <li class="nav-item">
+        <a href="/docs/architecture" class="nav-link">Docs</a>
+      </li>
+      <li class="nav-item">
+        <a href="/help" class="nav-link">Help</a>
+      </li>
+      <li class="nav-item">
+        <a href="/blog" class="nav-link">Blog</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+      </div>
+    </div>
+
+    <div class="jumbotron page-header">
+      <div class="container">
+
+        <div class="row hidden-sm-down">
+          <div class="col-md-2">
+            <div class="hyperlooplogo">
+            </div>
+          </div>
+          <div class="col-md-6">
+
+            <h1 class="display-4 project-name">Hyperloop</h1>
+
+            <h4 class="display-7 project-tagline">
+              The Complete Isomorphic Ruby Framework
+            </h4>
+          </div>
+          <div class="col-md-4">
+            <div class="row underconstruction">
+              <div class="col-sm-4">
+                <img src="../../images/underconstruction.png" width="120" alt="Underconstruction" />
+              </div>
+              <div class="col-sm-8 underconstructiontext">
+                 Docs and Tutorials are under construction but GEMS are released and all passing tests
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row hidden-md-up">
+          <div class="col-md-3 center-text">
+            <img src="../../images/hyperloop-logo-small-white.png" width="100" alt="Hyperloop logo small white" />
+          </div>
+          <div class="col-md-9">
+            <h1 class="h1 project-name center-text">Hyperloop</h1>
+            </br>
+            <h2 class="h5 project-tagline center-text">
+              The Complete Isomorphic Ruby Framework
+            </h2>
+          </div>
+          <div class="col-sm-12">
+          <br>
+            <div class="row underconstruction">
+              <div class="col-sm-4">
+                <img src="../../images/underconstruction.png" width="120" alt="Underconstruction" />
+              </div>
+              <div class="col-sm-8 underconstructiontext">
+                 Docs and Tutorials are under construction but GEMS are released and all passing tests
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+
+    <div class="page-header-underline">
+      <div class="container">
+
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-md-3 sidenavcol">
+            <ul class="nav">
+    <li class="nav-item"><a href="/start/components">Components</a></li>
+    <ul class="nav">
+      <li class="nav-item"><a href="/start/components#rendering-components">Rendering Components</a></li>
+      <li class="nav-item"><a href="/start/components#passing-paramaters">Passing Paramaters</a></li>
+      <li class="nav-item"><a href="/start/components#state-and-conditional-execution">State and conditional execution</a></li>
+      <li class="nav-item"><a href="/start/components#stylish-components">Stylish Components</a></li>
+      <li class="nav-item"><a href="/start/components#javascript-libraries">JavaScript Libraries</a></li>
+    </ul>
+    <br>
+
+    <li class="nav-item"><a href="/start/stores">Stores</a></li>
+    <ul class="nav">
+      <li class="nav-item"><a href="/start/stores#overloaded-components">Overloaded Components</a></li>
+      <li class="nav-item"><a href="/start/stores#a-simple-store">A simple Store</a></li>
+      <li class="nav-item"><a href="/start/stores#sharing-stores">Sharing Stores</a></li>
+    </ul>
+    <br>
+
+    <li class="nav-item"><a href="/start/operations">Operations</a></li>
+    <ul class="nav">
+      <li class="nav-item"><a href="/start/operations#operations-and-stores">Operations and Stores</a></li>
+      <li class="nav-item"><a href="/start/operations#ispatchers-and-receivers">Dispatchers and Receivers</a></li>
+      <li class="nav-item"><a href="/start/operations#server-operations">Server Operations</a></li>
+    </ul>
+    <br>
+
+    <li class="nav-item"><a href="/start/models">Models</a></li>
+    <ul class="nav">
+      <li class="nav-item"><a href="/start/models#activerecord-models">Active Record Models</a></li>
+      <li class="nav-item"><a href="/start/models#hyperloop-models">Hyperloop Models</a></li>
+    </ul>
+    <br>
+
+    <li class="nav-item"><a href="/start/policies">Policies</a></li>
+    <ul class="nav">
+      <li class="nav-item"><a href="/start/policies#using-policies">Using Policies</a></li>
+    </ul>
+    <br>
+
+    <li class="nav-item"><a href="/start/pradgmatic">Pragmatic Architecture</a></li>
+  </ul>
+
+
+
+
+
+
+
+
+          <br>
+        </div>
+        <div class="col-md-9 main-content">
+          <h1><div class="hyperlogoalone" id="stores"><img src="../../images/HyperStores.png" width="50" alt="Hyperstores" /></div>
+<div class="chaptertitle"><span class="bigfirstletter">S</span>tores</div>
+</h1>
+
+<p>Hyperloop Stores (similar to Flux Stores) exist to hold local application state. Components read state from Stores and render accordingly. This separation of concerns is an improvement in the overall architecture and makes your application easier to maintain.</p>
+
+<p><strong>Why would we have Stores?</strong> Let&#39;s examine that question through an example.</p>
+
+<h3 id="overloaded-components">Overloaded Components</h3>
+
+<p>Take the simple Component below which displays an initial discount then gives the user the option of taking a once only &#39;Lucky Dip&#39; that will either increase or decrease their discount.</p>
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">OfferLuckyDip</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Component</span>
+  <span class="n">state</span> <span class="ss">discount: </span><span class="mi">30</span>
+
+  <span class="k">def</span> <span class="nf">render</span>
+    <span class="no">DIV</span> <span class="k">do</span>
+      <span class="no">H1</span> <span class="p">{</span><span class="s2">"Your discount is </span><span class="si">#{</span><span class="n">state</span><span class="p">.</span><span class="nf">discount</span><span class="si">}</span><span class="s2">%"</span><span class="p">}</span>
+      <span class="no">BUTTON</span> <span class="p">{</span> <span class="s2">"Lucky Dip"</span> <span class="p">}.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:click</span><span class="p">)</span> <span class="k">do</span>
+        <span class="n">mutate</span><span class="p">.</span><span class="nf">discount</span><span class="p">(</span><span class="n">state</span><span class="p">.</span><span class="nf">discount</span> <span class="o">+</span> <span class="nb">rand</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">.</span><span class="nf">.</span><span class="mi">5</span><span class="p">))</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<p>The Component will work as you would expect but there are two fundamental problems with this design:</p>
+
+<ul>
+<li>Firstly, the discount (state) is tied to the Component itself. This is a problem as we might have other Components on the page which need to also see and interact with the discount. <strong>We need a better place than in our Components to keep application state.</strong></li>
+<li>Our business logic (discounts start at 30% and the lucky dip increases or decreases by 5%) is all wrapped up with our presentational code. This makes our application fragile and difficult to evolve. <strong>Our application logic should be separate from our display logic.</strong></li>
+</ul>
+
+<p>We will fix these problems but first implementing a Hyperloop Store to keep our application state and business logic out of our Components.</p>
+
+<p>Later in this overview we will go one step further and move our business logic out of the Store into an Operation but for now the first step will be a big improvement.</p>
+
+<h3 id="a-simple-store">A simple Store</h3>
+
+<p>Stores are where the state of your Application lives. Anything but a completely static web page will have dynamic states that change because of user inputs, the passage of time, or other external events.</p>
+
+<p>You can also create Stores by subclassing <code>Hyperloop::Store</code> or <code>Hyperloop::Store::Mixin</code> can be mixed in to any class to turn it into a Flux Store.</p>
+
+<p>Components that read a Store&#39;s state will automatically update when the state changes. Stores are simply Ruby classes that keep the dynamic parts of the state in special state variables.</p>
+
+<p>First let&#39;s add a Store and refactor our Component to use the Store:</p>
+
+<div class="codemirror-live-edit"
+  data-heading="Using Stores"
+  data-rows=20
+  data-top-level-component="OfferLuckyDip">
+<pre>
+class Discounter < Hyperloop::Store
+   state discount: 30, scope: :class, reader: true
+  def self.lucky_dip!
+    mutate.discount( state.discount + rand(-5..5) )
+  end
+end
+
+class OfferLuckyDip < Hyperloop::Component
+  def render
+    DIV do
+      H1 {"Your discount is #{Discounter.discount}%"}
+      BUTTON { "Lucky Dip" }.on(:click) do
+        Discounter.lucky_dip!
+      end
+    end
+  end
+end
+</pre></div>
+
+<p>You will notice a few things in the code above:</p>
+
+<ul>
+<li>Notice how we use <code>mutate</code> to change the value of a state variable.</li>
+<li>We do not create an instance of the Discounter class but instead access the class methods of the Store <code>Discounter.lucky_dip!</code> so that all Components will be using the same &#39;class instance&#39; of the Store.</li>
+<li><code>Discounter.discount</code> is a reader class method that was added to the Store for us by <code>state discount: 30, scope: :class, reader: true</code> which saved us a lot of typing!</li>
+</ul>
+
+<p>Stores can also receive dispatches from Operations - we will come to that later in this overview. In Hyperloop it is perfectly legitimate to interact with a Store through its class methods as we have done above.</p>
+
+<h3 id="sharing-stores">Sharing Stores</h3>
+
+<p>Components share state through Stores. Without the Store architecture, Components would need to pass state between themselves as params and this all becomes very clumsy.</p>
+
+<p>Lets explore and example where Components share a Store:</p>
+
+<div class="codemirror-live-edit"
+  data-heading="Components sharing a Store"
+  data-rows=40
+  data-top-level-component="TopLevelComponent">
+<pre>
+class TopLevelComponent < Hyperloop::Component
+  render(DIV) do
+    div.container do
+      H1 { "Components sharing a Store" }
+      TypeAlong()
+      Buttons()
+    end
+  end
+end
+
+class MyStore < Hyperloop::Store
+  state :value, reader: true, scope: :class
+  def self.set_value! value
+    mutate.value value
+  end
+  def self.clear!
+    mutate.value ""
+  end
+end
+
+class TypeAlong < Hyperloop::Component
+  render(DIV) do
+    INPUT(type: :text, value: MyStore.value ).on(:change) do |e|
+      MyStore.set_value! e.target.value
+    end
+    P { "#{ MyStore.value }" }
+  end
+end
+
+class Buttons < Hyperloop::Component
+  render(DIV) do
+    BUTTON(class: 'btn btn-primary') { 'See the value' }.on(:click) do
+      alert "MyStore value is '#{ MyStore.value }'"
+    end
+    BUTTON(class: 'btn btn-link') { 'Clear' }.on(:click) do
+      MyStore.clear!
+    end
+  end
+end
+</pre></div>
+
+<p>You will notice in the code above:</p>
+
+<ul>
+<li>We laid our page out using a TopLevelComponent who&#39;s job it was to render the other Components. This is a typical pattern in Hyperloop, a HTML page can consist of a simple DIV and one TopLevelComponent and all rendering is done by that Component. Often this will contain a router as each new &#39;page&#39; will be rendered in this DIV.</li>
+<li>We are using a class instance of MyStore so all the Components on the page will share the same instance. Note how we defined <code>state :value, reader: true, scope: :class</code> and also how the methods are class methods <code>def self.clear!</code></li>
+<li>The bang notation (!) is a matter of style, but used here to indicate a mutation</li>
+</ul>
+
+<p>That concludes the introduction to Stores. To learn more about Stores please see the <a href="/tutorials">Tutorials</a> and also the comprehensive <a href="/docs/architecture">Docs</a></p>
+
+<hr>
+
+<p>Next we are going to look at Operations. If you accept that a Store&#39;s job is to keep state and share it with the Components, an Operations&#39;s job is to mutate (change) state.</p>
+
+<p>Operations are where you business logic lives, your procedures that mutate state and data.</p>
+
+<p><button type="button" class="btn btn-primary btn-lg btn-hyperlooppink" onclick="location.href='/start/operations';">Let&#39;s have a look at Operations</button></p>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="page-footer-upperline">
+      <div class="container">
+
+      </div>
+    </div>
+
+    <footer class="nav-footer">
+  <section class="sitemap">
+
+    <a href="/" class="nav-home"></a>
+
+    <div>
+      <h6><a href="/start/components" class="hyperloop-white">Start</a></h6>
+      <a href="/start/components#components">Components</a>
+      <a href="/start/stores#stores">Stores</a>
+      <a href="/start/operations#operations">Operations</a>
+      <a href="/start/policies#policies">Policies</a>
+      <a href="/start/pradgmatic">Pragmatic Thinking</a>
+    </div>
+    <div>
+
+    
+      <h6><a href="/tutorials" class="hyperloop-white">Tutorials</a></h6>
+      <a href="/tutorials/hyperloopcomps">Hyperloop COMPS</a>
+      <a href="/tutorials/hyperloopjs">Hyperloop.js</a>
+      <a href="/tutorials/hyperlooprails">Hyperloop and Rails</a>
+      <a href="/tutorials/hyperloopdeploy">Hyperloop deployment</a>
+      <a href="/tutorials/opal">Opal</a>
+      <a href="/tutorials/videos">Videos</a>
+    </div>
+    <div>
+      <h6><a href="/installation" class="hyperloop-white">Installation</a></h6>
+      <a href="installation#opal-playground">Hyperloop.js</a>
+  	  <a href="installation#ror">With Ruby On Rails</a>
+  	  <a href="installation#with-sinatra">With Sinatra</a>
+  	  <a href="installation#deployment">Deployment</a>
+    </div>
+    <div>
+      <h6><a href="/gems" class="hyperloop-white">Gems</a></h6>
+      <a href="https://github.com/ruby-hyperloop/hyperloop">hyperloop</a>
+      <a href="https://github.com/ruby-hyperloop/hyperloop-js">hyperloop-js</a>
+      <a href="https://github.com/ruby-hyperloop/hyper-react">hyper-component</a>
+      <a href="https://github.com/ruby-hyperloop/hyper-store">hyper-store</a>
+      <a href="https://github.com/ruby-hyperloop/hyper-mesh">hyper-model</a>
+      <a href="https://github.com/ruby-hyperloop/hyper-operation">hyper-operation</a>
+      <a href="https://github.com/ruby-hyperloop/reactrb-router/tree/v2-4-0">hyper-router</a>
+      <a href="https://github.com/ruby-hyperloop/hyper-spec">hyper-spec</a>
+      <a href="https://github.com/ruby-hyperloop/hyper-trace">hyper-trace</a>
+    </div>
+    <div>
+      <h6><a href="/tools" class="hyperloop-white">Tools</a></h6>
+      <a href="#testing">Testing</a>
+    	<a href="#tools">Tools</a>
+    	<a href="#debugging">Debugging</a>
+    </div>
+    <div>
+      <h6><a href="/docs/architecture" class="hyperloop-white">Docs</a></h6>
+      <a href="/docs/architecture">Hyperloop Architecture</a>
+      <a href="/docs/components/dsl-overview">Components</a>
+      <a href="/docs/stores/overview">Stores</a>
+      <a href="/docs/models/overview">Models</a>
+      <a href="/docs/operations/overview">Operations</a>
+      <a href="/docs/policies/authorization">Policies</a>
+    </div>
+
+  </section>
+
+  <section class="otherlinks">
+    <a href="https://github.com/ruby-hyperloop" class="hyperloop-white">Github</a>
+    <a href="/support" class="hyperloop-white">Help</a>
+    <a href="/blog" class="hyperloop-white">Blog</a>
+  </section>
+
+  <section class="copyright">
+    Copyright © 2017 Hyperloop.
+  </section>
+</footer>
+
+
+    <script>
+      (function(Opal) {
+        var self = Opal.top, $scope = Opal, nil = Opal.nil, $breaker = Opal.breaker, $slice = Opal.slice;
+        Opal.add_stubs(['$puts']);
+        return self.$puts("Opal ok")
+      })(Opal);
+    </script>
+
+    <!-- <script   src="http://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script> -->
+
+
+    <script type="text/ruby">puts "Hyperloop JS ok"</script>
+
+
+  </body>
+</html>

@@ -1,0 +1,642 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv='X-UA-Compatible' content='IE=edge;chrome=1' />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <meta name="google-site-verification" content="qjqVOvRhHfsuDbLOvaAnj2mkUZJ9Xwzg84TMVXduvUc" />
+
+    <meta charset="UTF-8">
+    <title>Hyperloop - Tutorials, Videos & Quickstarts</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <script src="https://unpkg.com/react@15/dist/react.min.js"></script>
+    <script src="https://unpkg.com/react-dom@15/dist/react-dom.min.js"></script>
+
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.5/marked.min.js"></script>
+
+
+    <!-- Opal and Hyperloop -->
+    <script src="https://rawgit.com/ruby-hyperloop/hyperloop-js/master/opal-compiler.min.js"></script>
+    <script src="https://rawgit.com/ruby-hyperloop/hyperloop-js/master/hyperloop.min.js"></script>
+
+    <!-- If you want local copies... -->
+    <!-- <script src="../../../javascripts/opal-compiler.js"></script> -->
+    <!-- <script src="../../../javascripts/hyperloop.js"></script> -->
+
+    <script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
+
+    <script src="../../../javascripts/bootstrap.min.js"></script>
+    <script src="../../../javascripts/codemirror.js"></script>
+    <script src="../../../javascripts/ruby.js"></script>
+    <script src="../../../javascripts/matchbrackets.js"></script>
+    <script src="../../../javascripts/react_player.js"></script>
+
+    <!-- Components are compiled by Hyperloop Express -->
+    <script type="text/ruby">
+
+class CodeMirror < Hyperloop::Component
+  param :code, type: String
+  param :heading, default: "Code"
+  param :rows, type: Integer, default: 0
+  param :top_level_component, type: String
+
+  before_mount do
+    r=rand(2**256).to_s(36)[0..7]
+    @div_code = "code_#{r}"
+    @div_result = "result_#{r}"
+  end
+
+  after_mount do
+  # puts params.code
+    @editor = `CodeMirror(document.getElementById(#{@div_code}), {
+      value: #{params.code.to_s},
+      mode: 'text/x-ruby',
+      matchBrackets: true,
+      lineNumbers: true,
+      indentUnit: 2,
+      theme: 'github'
+    });`
+
+    `#{@editor}.on('change', #{lambda {on_change} })`
+    `#{@editor}.setSize(null, #{@editor}.defaultTextHeight()*#{params.rows})` unless params.rows == 0
+    execute_code
+  end
+
+  render(DIV) do
+    div.card {
+      div.card_header { params.heading }
+      div(id: @div_code)
+      div.card_header do
+        img(src: '../../../images/hyperloop-logo-small-white.png' , width:'25')
+        span { ' ' }
+        'Hyperloop playground :'
+      end
+      div.card_block(id: @div_result)
+    }
+  end
+
+  def on_change
+    execute_code
+  end
+
+  def execute_code
+    begin
+      code = `#{@editor}.getValue()`
+      # puts code
+      code += "\nElement['##{@div_result}'].render(#{params.top_level_component})"
+      compiled_code = Opal::Compiler.new(code).compile
+
+      `ReactDOM.unmountComponentAtNode(document.getElementById(#{@div_result}));`
+
+      Hyperloop::Context.reset!
+      `eval(#{compiled_code})`
+      Hyperloop::Application::Boot.run()
+
+      
+      component = Module.const_get params.top_level_component
+      # we need to see if the component is valid - try checking if it can render static markup
+      # the following line generates: `undefined method to_n for SimpleComponent`
+      # if React.render_to_static_markup( component ).empty?
+      #   invalid_component_message
+      # end
+    rescue Exception => e
+      @time_out = after(0.1) do
+        unable_to_compile_message e.message
+      end
+    end
+  end
+
+  def invalid_component_message
+    message = div.text_danger do
+      h3.text_danger {"Oops, invalid Component..."}
+      p { "Your Component has been rejected by React. A valid Component must have a render macro and return just one HTML element." }
+    end
+    Element["##{@div_result}"].render{ message }
+  end
+
+  def unable_to_compile_message reason
+    message = div.text_danger do
+      h3.text_danger {"Can't compile..."}
+      p { reason }
+    end
+    Element["##{@div_result}"].render{ message }
+  end
+
+end
+
+</script>
+
+    <script type="text/ruby">
+
+Document.ready? do
+   Element.find('div.codemirror-live-edit').each do |mount_point|
+     heading = mount_point.attr('data-heading')
+     rows = mount_point.attr('data-rows')
+     top_level_component = mount_point.attr('data-top-level-component')
+     code = Element[mount_point].find('pre').text.strip
+     params = {code: code, top_level_component: top_level_component}
+     params = params.merge({heading: heading}) if heading
+     params = params.merge({rows: rows.to_i}) if rows
+     codemirror_component = Object.const_get('CodeMirror')
+     React.render(React.create_element(codemirror_component, params ), mount_point)
+   end
+end
+
+</script>
+
+
+    <link href="../../../stylesheets/bootstrap.min.css" rel="stylesheet" />
+    <link href="../../../stylesheets/typography.css" rel="stylesheet" />
+    <link href="../../../stylesheets/override.css" rel="stylesheet" />
+    <link href="../../../stylesheets/divtable.css" rel="stylesheet" />
+    <!-- <link href="../../../stylesheets/code.css" rel="stylesheet" /> -->
+    <link href="../../../stylesheets/github.css" rel="stylesheet" />
+    <link href="../../../stylesheets/highlighting.css" rel="stylesheet" />
+    <link href="../../../stylesheets/codemirror.css" rel="stylesheet" />
+
+    <link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/feed.xml" />
+
+    <!-- Favicons -->
+
+    <link rel="apple-touch-icon" sizes="180x180" href="../../../images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" href="../../../images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="../../../images/favicon-16x16.png" sizes="16x16">
+    <link rel="manifest" href="/images/manifest.json">
+    <link rel="mask-icon" href="../../../images/safari-pinned-tab.svg" color="#e81176">
+    <meta name="theme-color" content="#ffffff">
+
+  </head>
+
+  <body>
+    <div class="navbarbackgroundcolor">
+      <div class="container">
+        <nav class="navbar navbar-ligh">
+  <button class="navbar-toggler hidden-sm-up" type="button" data-toggle="collapse" data-target="#exCollapsingNavbar2" aria-controls="exCollapsingNavbar2" aria-expanded="false" aria-label="Toggle navigation">
+    &#9776;
+  </button>
+  <div class="collapse navbar-toggleable-xs" id="exCollapsingNavbar2">
+    <ul class="nav navbar-nav">
+      <li class="nav-item">
+        <a href="/" class="nav-link">Hyperloop</a>
+      </li>
+      <li class="nav-item">
+        <a href="/start/components" class="nav-link active">Start</a>
+      </li>
+      <li class="nav-item">
+        <a href="/installation" class="nav-link">Installation</a>
+      </li>
+      <li class="nav-item">
+        <a href="/tutorials" class="nav-link">Tutorials</a>
+      </li>
+      <li class="nav-item">
+        <a href="/gems" class="nav-link">Gems</a>
+      </li>
+      <li class="nav-item">
+        <a href="https://github.com/ruby-hyperloop" class="nav-link">Github</a>
+      </li>
+      <li class="nav-item">
+        <a href="/tools" class="nav-link">Tools</a>
+      </li>
+      <li class="nav-item">
+        <a href="/docs/architecture" class="nav-link">Docs</a>
+      </li>
+      <li class="nav-item">
+        <a href="/help" class="nav-link">Help</a>
+      </li>
+      <li class="nav-item">
+        <a href="/blog" class="nav-link">Blog</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+      </div>
+    </div>
+
+    <div class="jumbotron page-header">
+      <div class="container">
+
+        <div class="row hidden-sm-down">
+          <div class="col-md-2">
+            <div class="hyperlooplogo">
+            </div>
+          </div>
+          <div class="col-md-6">
+
+            <h1 class="display-4 project-name">Hyperloop</h1>
+
+            <h4 class="display-7 project-tagline">
+              Tutorials, Videos & Quickstarts
+            </h4>
+          </div>
+          <div class="col-md-4">
+            <div class="row underconstruction">
+              <div class="col-sm-4">
+                <img src="../../../images/underconstruction.png" width="120" alt="Underconstruction" />
+              </div>
+              <div class="col-sm-8 underconstructiontext">
+                 Docs and Tutorials are under construction but GEMS are released and all passing tests
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row hidden-md-up">
+          <div class="col-md-3 center-text">
+            <img src="../../../images/hyperloop-logo-small-white.png" width="100" alt="Hyperloop logo small white" />
+          </div>
+          <div class="col-md-9">
+            <h1 class="h1 project-name center-text">Hyperloop</h1>
+            </br>
+            <h2 class="h5 project-tagline center-text">
+              Tutorials, Videos & Quickstarts
+            </h2>
+          </div>
+          <div class="col-sm-12">
+          <br>
+            <div class="row underconstruction">
+              <div class="col-sm-4">
+                <img src="../../../images/underconstruction.png" width="120" alt="Underconstruction" />
+              </div>
+              <div class="col-sm-8 underconstructiontext">
+                 Docs and Tutorials are under construction but GEMS are released and all passing tests
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+
+    <div class="page-header-underline">
+      <div class="container">
+
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-md-3 sidenavcol">
+            <ul class="nav">
+
+    <li class="nav-item"><strong><a href="/tutorials/hyperloopcomps">Hyperloop COMPS</a></strong></li>
+    <li class="nav-item"><strong><a href="/tutorials/hyperloopjs">Hyperloop.js</a></strong></li>
+    <li class="nav-item"><strong><a href="/tutorials/hyperlooprails">Hyperloop and Rails</a></strong></li>
+    <li class="nav-item"><strong><a href="/tutorials/hyperloopdeploy">Hyperloop deployment</a></strong></li>
+    <li class="nav-item"><strong><a href="/tutorials/opal">Opal</a></strong></li>
+    <li class="nav-item"><strong><a href="/tutorials/videos">Videos</a></strong></li>
+
+  </ul>
+
+
+
+          <br>
+        </div>
+        <div class="col-md-9 main-content">
+          <h2 id="npm-and-webpack-tutorial"><i class="flaticon-professor-teaching"></i><span class="bigfirstletter">N</span>pm and Webpack Tutorial</h2>
+
+<p><img src="https://raw.githubusercontent.com/ruby-hyperloop/hyperloop-rails-webpackergem-helloworld/master/hyperlooprailswebpackergemhelloworldscreenshot.png" alt="Screen" /></p>
+
+<p>You can find the complete source code of this tutorial here: <a href="https://github.com/ruby-hyperloop/hyperloop-rails-webpacker-helloworld">Hyperloop with Rails Webpack app</a></p>
+
+<h3 id="tutorial">Tutorial</h3>
+
+<p>To set up your <strong>Hyperloop</strong> environment and continue this tutorial, please first follow the <a href="/installation#rorsetup">Hyperloop installation with Ruby On Rails</a> tutorial.</p>
+
+<p>After <strong>Hyperloop</strong> has been installed properly we can go further:</p>
+
+<p>We are going to setup <a href="https://webpack.js.org/">webpack</a> and implement a simple HelloWorld app to show how Hyperloop and <a href="https://webpack.js.org/">webpack</a> are running well together.</p>
+
+<h4 id="part-1-webpack">Part 1 - Webpack</h4>
+
+<h5 id="step-1-1-installing-and-setting-up-webpack">Step 1.1 - Installing and setting up Webpack:</h5>
+
+<p>Run these three commands:</p>
+<pre class="highlight plaintext"><code>npm init
+</code></pre>
+<p>Press enter at each prompt to leave the fields empty. Agree when asked if it is okay to write the package.json file. This will create an empty package.json (which is similar to a Gemfile) in your root folder.</p>
+<pre class="highlight plaintext"><code>npm install webpack --save-dev
+</code></pre>
+<p>This installs Webpack and creates a node_modules folder. This folder contains hundreds of JavaScript dependencies.</p>
+<pre class="highlight plaintext"><code>npm install webpack -g
+</code></pre>
+<p>This enables us to run Webpack from the command line.</p>
+
+<h5 id="step-1-2-adding-libraries-into-webpack">Step 1.2 - Adding libraries into Webpack:</h5>
+
+<p>We are going to install 4 libraries required by our application:
+React, React-dom, Bootstrap and Bootswatch theme.</p>
+
+<p>Run these commands:</p>
+<pre class="highlight ruby"><code><span class="n">npm</span> <span class="n">install</span> <span class="n">react</span> <span class="o">--</span><span class="n">save</span>
+<span class="n">npm</span> <span class="n">install</span> <span class="n">react</span><span class="o">-</span><span class="n">dom</span> <span class="o">--</span><span class="n">save</span>
+<span class="n">npm</span> <span class="n">install</span> <span class="n">css</span><span class="o">-</span><span class="n">loader</span> <span class="n">file</span><span class="o">-</span><span class="n">loader</span> <span class="n">style</span><span class="o">-</span><span class="n">loader</span> <span class="n">url</span><span class="o">-</span><span class="n">loader</span> <span class="o">--</span><span class="n">save</span><span class="o">-</span><span class="n">dev</span>
+<span class="n">npm</span> <span class="n">install</span> <span class="n">bootstrap</span> <span class="n">react</span><span class="o">-</span><span class="n">bootstrap</span> <span class="o">--</span><span class="n">save</span>
+<span class="n">npm</span> <span class="n">install</span> <span class="n">bootswatch</span>
+</code></pre>
+<h5 id="step-1-3-requiring-the-libraires">Step 1.3 - Requiring the libraires</h5>
+
+<p>Create a <code>webpack</code> directory and then create 2 files:</p>
+<pre class="highlight javascript"><code><span class="c1">//webpack/client_and_server.js</span>
+
+<span class="nx">ReactDOM</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'react-dom'</span><span class="p">);</span>
+<span class="nx">React</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'react'</span><span class="p">);</span>
+<span class="nx">ReactBootstrap</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'react-bootstrap'</span><span class="p">);</span>
+</code></pre><pre class="highlight javascript"><code><span class="c1">//webpack/client_only.js</span>
+
+<span class="nx">require</span><span class="p">(</span><span class="s1">'bootswatch/superhero/bootstrap.min.css'</span><span class="p">);</span>
+</code></pre>
+<h5 id="step-1-4-updating-webpack-configuration-file">Step 1.4 - Updating webpack configuration file</h5>
+<pre class="highlight javascript"><code><span class="c1">//webpack.config.js</span>
+
+<span class="kd">var</span> <span class="nx">path</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"path"</span><span class="p">);</span>
+
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="na">context</span><span class="p">:</span> <span class="nx">__dirname</span><span class="p">,</span>
+    <span class="na">entry</span><span class="p">:</span> <span class="p">{</span>
+      <span class="na">client_only</span><span class="p">:</span>  <span class="s2">"./webpack/client_only.js"</span><span class="p">,</span>
+      <span class="na">client_and_server</span><span class="p">:</span> <span class="s2">"./webpack/client_and_server.js"</span>
+    <span class="p">},</span>
+    <span class="na">output</span><span class="p">:</span> <span class="p">{</span>
+      <span class="na">path</span><span class="p">:</span> <span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="nx">__dirname</span><span class="p">,</span> <span class="s1">'public'</span><span class="p">,</span> <span class="s1">'packs'</span><span class="p">),</span>
+      <span class="na">filename</span><span class="p">:</span> <span class="s2">"[name].js"</span><span class="p">,</span>
+      <span class="na">publicPath</span><span class="p">:</span> <span class="s2">""</span>
+    <span class="p">},</span>
+    <span class="na">module</span><span class="p">:</span> <span class="p">{</span>
+      <span class="na">rules</span><span class="p">:</span> <span class="p">[</span>
+      <span class="p">{</span> <span class="na">test</span><span class="p">:</span> <span class="sr">/</span><span class="se">\.</span><span class="sr">css$/</span><span class="p">,</span>
+        <span class="na">use</span><span class="p">:</span> <span class="p">[</span>
+          <span class="p">{</span>
+            <span class="na">loader</span><span class="p">:</span> <span class="s2">"style-loader"</span>
+          <span class="p">},</span>
+          <span class="p">{</span>
+            <span class="na">loader</span><span class="p">:</span> <span class="s2">"css-loader"</span>
+          <span class="p">}</span>
+        <span class="p">]</span>
+      <span class="p">},</span>
+      <span class="p">{</span> <span class="na">test</span><span class="p">:</span> <span class="sr">/</span><span class="se">\.(</span><span class="sr">woff|woff2</span><span class="se">)(\?</span><span class="sr">v=</span><span class="se">\d</span><span class="sr">+</span><span class="se">\.\d</span><span class="sr">+</span><span class="se">\.\d</span><span class="sr">+</span><span class="se">)?</span><span class="sr">$/</span><span class="p">,</span>
+        <span class="na">loader</span><span class="p">:</span> <span class="s1">'url-loader?limit=10000&amp;mimetype=application/font-woff'</span>
+      <span class="p">},</span>
+      <span class="p">{</span> <span class="na">test</span><span class="p">:</span> <span class="sr">/</span><span class="se">\.</span><span class="sr">ttf</span><span class="se">(\?</span><span class="sr">v=</span><span class="se">\d</span><span class="sr">+</span><span class="se">\.\d</span><span class="sr">+</span><span class="se">\.\d</span><span class="sr">+</span><span class="se">)?</span><span class="sr">$/</span><span class="p">,</span>
+        <span class="na">loader</span><span class="p">:</span> <span class="s1">'url-loader?limit=10000&amp;mimetype=application/octet-stream'</span>
+      <span class="p">},</span>
+      <span class="p">{</span> <span class="na">test</span><span class="p">:</span> <span class="sr">/</span><span class="se">\.</span><span class="sr">eot</span><span class="se">(\?</span><span class="sr">v=</span><span class="se">\d</span><span class="sr">+</span><span class="se">\.\d</span><span class="sr">+</span><span class="se">\.\d</span><span class="sr">+</span><span class="se">)?</span><span class="sr">$/</span><span class="p">,</span>
+        <span class="na">loader</span><span class="p">:</span> <span class="s1">'file-loader'</span>
+      <span class="p">},</span>
+      <span class="p">{</span> <span class="na">test</span><span class="p">:</span> <span class="sr">/</span><span class="se">\.</span><span class="sr">svg</span><span class="se">(\?</span><span class="sr">v=</span><span class="se">\d</span><span class="sr">+</span><span class="se">\.\d</span><span class="sr">+</span><span class="se">\.\d</span><span class="sr">+</span><span class="se">)?</span><span class="sr">$/</span><span class="p">,</span>
+        <span class="na">loader</span><span class="p">:</span> <span class="s1">'url-loader?limit=10000&amp;mimetype=image/svg+xml'</span>
+      <span class="p">}</span>
+    <span class="p">]</span>
+    <span class="p">},</span>
+    <span class="na">resolve</span><span class="p">:</span> <span class="p">{</span>
+  <span class="na">modules</span><span class="p">:</span> <span class="p">[</span>
+  <span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="nx">__dirname</span><span class="p">,</span> <span class="s2">"src"</span><span class="p">),</span>
+  <span class="s2">"node_modules"</span>
+  <span class="p">]</span>
+  <span class="p">},</span>
+<span class="p">};</span>
+</code></pre>
+<h5 id="step-1-5-updating-webpack-bundle">Step 1.5 - Updating webpack bundle</h5>
+
+<p>Run the command:</p>
+<pre class="highlight plaintext"><code>webpack
+</code></pre>
+<h5 id="step-1-6-configuring-rails-asset-pipeline">Step 1.6 - Configuring Rails asset pipeline:</h5>
+<pre class="highlight ruby"><code><span class="c1">#config/application.rb</span>
+
+<span class="n">config</span><span class="p">.</span><span class="nf">assets</span><span class="p">.</span><span class="nf">paths</span> <span class="o">&lt;&lt;</span> <span class="o">::</span><span class="no">Rails</span><span class="p">.</span><span class="nf">root</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="s1">'public'</span><span class="p">,</span> <span class="s1">'packs'</span><span class="p">).</span><span class="nf">to_s</span>
+</code></pre>
+<h5 id="step-1-7-adding-pack-files-to-the-asset-pipeline">Step 1.7 - Adding pack files to the asset pipeline:</h5>
+
+<p>By using the Hyperloop configuration file we can directly tell our app to include the pack files in the asset pipeline:</p>
+<pre class="highlight ruby"><code><span class="no">Hyperloop</span><span class="p">.</span><span class="nf">configuration</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
+  <span class="n">config</span><span class="p">.</span><span class="nf">transport</span> <span class="o">=</span> <span class="ss">:simple_poller</span>
+  <span class="n">config</span><span class="p">.</span><span class="nf">import</span> <span class="s1">'client_and_server'</span>
+  <span class="n">config</span><span class="p">.</span><span class="nf">import</span> <span class="s1">'client_only'</span><span class="p">,</span> <span class="ss">client_only: </span><span class="kp">true</span>
+<span class="k">end</span>
+</code></pre>
+<h4 id="part-2-implementing-the-helloworld-app">Part 2 - Implementing the helloworld app</h4>
+
+<h5 id="step-2-1-creating-the-helloworld-component">Step 2.1 - Creating the Helloworld component</h5>
+
+<p>Run the hyperloop generator:</p>
+<pre class="highlight plaintext"><code>rails g hyper:component Helloworld
+</code></pre>
+<p>You can view the new Component created in <code>/app/hyperloop/components/</code></p>
+
+<h5 id="step-2-2-updating-helloworld-component-code">Step 2.2 - Updating Helloworld component code</h5>
+
+<p>Copy and paste this code into the component file you&#39;ve just generated:</p>
+<pre class="highlight ruby"><code><span class="c1">#/app/hyperloop/components/helloworld.rb</span>
+
+<span class="k">class</span> <span class="nc">Helloworld</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Component</span>
+
+  <span class="n">state</span> <span class="ss">show_field: </span><span class="kp">false</span>
+  <span class="n">state</span> <span class="ss">field_value: </span><span class="s2">""</span>
+
+  <span class="n">render</span><span class="p">(</span><span class="no">DIV</span><span class="p">)</span> <span class="k">do</span>
+    <span class="n">show_button</span>
+    <span class="no">DIV</span><span class="p">(</span><span class="ss">class: </span><span class="s1">'formdiv'</span><span class="p">)</span> <span class="k">do</span>
+      <span class="n">show_input</span>
+      <span class="no">H1</span> <span class="p">{</span> <span class="s2">"</span><span class="si">#{</span><span class="n">state</span><span class="p">.</span><span class="nf">field_value</span><span class="si">}</span><span class="s2">"</span> <span class="p">}</span>
+    <span class="k">end</span> <span class="k">if</span> <span class="n">state</span><span class="p">.</span><span class="nf">show_field</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">show_button</span>
+    <span class="no">BUTTON</span><span class="p">(</span><span class="ss">class: </span><span class="s1">'btn btn-info'</span><span class="p">)</span> <span class="k">do</span>
+      <span class="n">state</span><span class="p">.</span><span class="nf">show_field</span> <span class="p">?</span> <span class="s2">"Click to hide HelloWorld input field"</span> <span class="p">:</span> <span class="s2">"Click to show HelloWorld input field"</span>
+    <span class="k">end</span><span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:click</span><span class="p">)</span> <span class="p">{</span> <span class="n">mutate</span><span class="p">.</span><span class="nf">show_field</span> <span class="o">!</span><span class="n">state</span><span class="p">.</span><span class="nf">show_field</span> <span class="p">}</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">show_input</span>
+
+    <span class="no">H4</span> <span class="k">do</span> 
+      <span class="n">span</span><span class="p">{</span><span class="s1">'Please type '</span><span class="p">}</span>
+      <span class="n">span</span><span class="p">.</span><span class="nf">colored</span> <span class="p">{</span><span class="s1">'Hello World'</span><span class="p">}</span>
+      <span class="n">span</span><span class="p">{</span><span class="s1">' in the input field below :'</span><span class="p">}</span>
+      <span class="n">br</span> <span class="p">{}</span>
+      <span class="n">span</span><span class="p">{</span><span class="s1">'Or anything you want (^̮^)'</span><span class="p">}</span>
+    <span class="k">end</span>
+
+    <span class="no">INPUT</span><span class="p">(</span><span class="ss">type: :text</span><span class="p">,</span> <span class="ss">class: </span><span class="s1">'form-control'</span><span class="p">).</span><span class="nf">on</span><span class="p">(</span><span class="ss">:change</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">e</span><span class="o">|</span>
+      <span class="n">state</span><span class="p">.</span><span class="nf">field_value!</span> <span class="n">e</span><span class="p">.</span><span class="nf">target</span><span class="p">.</span><span class="nf">value</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">show_text</span>
+    <span class="no">H1</span> <span class="p">{</span> <span class="s2">"</span><span class="si">#{</span><span class="n">state</span><span class="p">.</span><span class="nf">field_value</span><span class="si">}</span><span class="s2">"</span> <span class="p">}</span>
+  <span class="k">end</span>
+
+<span class="k">end</span>
+
+
+</code></pre>
+<h5 id="step-2-3-creating-the-controller">Step 2.3 - Creating the controller</h5>
+
+<p>Create a <code>home_controller.rb</code> file, manually or with the command <code>rails g controller Home helloworld --skip-javascripts</code>:</p>
+<pre class="highlight ruby"><code><span class="c1">#app/controllers/home_controller.rb</span>
+
+<span class="k">class</span> <span class="nc">HomeController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+  <span class="k">def</span> <span class="nf">helloworld</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<h5 id="step-2-4-updating-the-routes-rb-file">Step 2.4 - Updating the routes.rb file</h5>
+<pre class="highlight ruby"><code><span class="c1">#config/routes.rb</span>
+
+<span class="n">root</span> <span class="s1">'home#helloworld'</span>
+</code></pre>
+<h5 id="step-2-5-creating-the-helloworld-view-file">Step 2.5 - Creating the helloworld view file:</h5>
+<pre class="highlight erb"><code>#app/vies/home/helloworld.html.erb
+
+<span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"hyperloophelloword"</span><span class="nt">&gt;</span>
+
+  <span class="nt">&lt;div&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">react_component</span> <span class="s1">'::Helloworld'</span><span class="p">,</span> <span class="p">{},</span> <span class="p">{</span> <span class="ss">prerender: </span><span class="kp">true</span> <span class="p">}</span> <span class="cp">%&gt;</span>
+  <span class="nt">&lt;/div&gt;</span>
+
+<span class="nt">&lt;/div&gt;</span>
+</code></pre>
+<h5 id="step-2-6-styling">Step 2.6 - Styling</h5>
+
+<p>We will add a <strong>Hyperloop</strong> logo</p>
+<pre class="highlight erb"><code>#app/vies/home/helloworld.html.erb
+
+<span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"hyperloophelloword"</span><span class="nt">&gt;</span>
+
+  <span class="nt">&lt;img</span> <span class="na">src=</span><span class="s">"https://rawgit.com/ruby-hyperloop/hyperloop-js-helloworld/master/hyperloop-logo-medium-white.png?raw=true"</span><span class="nt">&gt;</span>
+
+  <span class="nt">&lt;div&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">react_component</span> <span class="s1">'::Helloworld'</span><span class="p">,</span> <span class="p">{},</span> <span class="p">{</span> <span class="ss">prerender: </span><span class="kp">true</span> <span class="p">}</span> <span class="cp">%&gt;</span>
+  <span class="nt">&lt;/div&gt;</span>
+
+<span class="nt">&lt;/div&gt;</span>
+</code></pre>
+<p>And load 1 small sample stylesheet :</p>
+<pre class="highlight erb"><code>#app/views/layouts/application.html.erb
+
+<span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="nt">&lt;html&gt;</span>
+  <span class="nt">&lt;head&gt;</span>
+    <span class="nt">&lt;title&gt;</span>HyperloopRailsHelloworld<span class="nt">&lt;/title&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">csrf_meta_tags</span> <span class="cp">%&gt;</span>
+
+    <span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">"stylesheet"</span> <span class="na">href=</span><span class="s">"https://rawgit.com/ruby-hyperloop/hyperloop-js-helloworld/master/style.css"</span> <span class="nt">&gt;</span>
+
+    <span class="cp">&lt;%=</span> <span class="n">stylesheet_link_tag</span>    <span class="s1">'application'</span><span class="p">,</span> <span class="ss">media: </span><span class="s1">'all'</span><span class="p">,</span> <span class="s1">'data-turbolinks-track'</span><span class="p">:</span> <span class="s1">'reload'</span> <span class="cp">%&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">javascript_include_tag</span> <span class="s1">'application'</span><span class="p">,</span> <span class="s1">'data-turbolinks-track'</span><span class="p">:</span> <span class="s1">'reload'</span> <span class="cp">%&gt;</span>
+  <span class="nt">&lt;/head&gt;</span>
+
+  <span class="nt">&lt;body&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="k">yield</span> <span class="cp">%&gt;</span>
+  <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+
+</code></pre>
+<h5 id="final-step-running-your-app">Final step - Running your app:</h5>
+
+<p>Start your Rails server and browse <code>http://localhost:3000</code>.</p>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="page-footer-upperline">
+      <div class="container">
+
+      </div>
+    </div>
+
+    <footer class="nav-footer">
+  <section class="sitemap">
+
+    <a href="/" class="nav-home"></a>
+
+    <div>
+      <h6><a href="/start/components" class="hyperloop-white">Start</a></h6>
+      <a href="/start/components#components">Components</a>
+      <a href="/start/stores#stores">Stores</a>
+      <a href="/start/operations#operations">Operations</a>
+      <a href="/start/policies#policies">Policies</a>
+      <a href="/start/pradgmatic">Pragmatic Thinking</a>
+    </div>
+    <div>
+
+    
+      <h6><a href="/tutorials" class="hyperloop-white">Tutorials</a></h6>
+      <a href="/tutorials/hyperloopcomps">Hyperloop COMPS</a>
+      <a href="/tutorials/hyperloopjs">Hyperloop.js</a>
+      <a href="/tutorials/hyperlooprails">Hyperloop and Rails</a>
+      <a href="/tutorials/hyperloopdeploy">Hyperloop deployment</a>
+      <a href="/tutorials/opal">Opal</a>
+      <a href="/tutorials/videos">Videos</a>
+    </div>
+    <div>
+      <h6><a href="/installation" class="hyperloop-white">Installation</a></h6>
+      <a href="installation#opal-playground">Hyperloop.js</a>
+  	  <a href="installation#ror">With Ruby On Rails</a>
+  	  <a href="installation#with-sinatra">With Sinatra</a>
+  	  <a href="installation#deployment">Deployment</a>
+    </div>
+    <div>
+      <h6><a href="/gems" class="hyperloop-white">Gems</a></h6>
+      <a href="https://github.com/ruby-hyperloop/hyperloop">hyperloop</a>
+      <a href="https://github.com/ruby-hyperloop/hyperloop-js">hyperloop-js</a>
+      <a href="https://github.com/ruby-hyperloop/hyper-react">hyper-component</a>
+      <a href="https://github.com/ruby-hyperloop/hyper-store">hyper-store</a>
+      <a href="https://github.com/ruby-hyperloop/hyper-mesh">hyper-model</a>
+      <a href="https://github.com/ruby-hyperloop/hyper-operation">hyper-operation</a>
+      <a href="https://github.com/ruby-hyperloop/reactrb-router/tree/v2-4-0">hyper-router</a>
+      <a href="https://github.com/ruby-hyperloop/hyper-spec">hyper-spec</a>
+      <a href="https://github.com/ruby-hyperloop/hyper-trace">hyper-trace</a>
+    </div>
+    <div>
+      <h6><a href="/tools" class="hyperloop-white">Tools</a></h6>
+      <a href="#testing">Testing</a>
+    	<a href="#tools">Tools</a>
+    	<a href="#debugging">Debugging</a>
+    </div>
+    <div>
+      <h6><a href="/docs/architecture" class="hyperloop-white">Docs</a></h6>
+      <a href="/docs/architecture">Hyperloop Architecture</a>
+      <a href="/docs/components/dsl-overview">Components</a>
+      <a href="/docs/stores/overview">Stores</a>
+      <a href="/docs/models/overview">Models</a>
+      <a href="/docs/operations/overview">Operations</a>
+      <a href="/docs/policies/authorization">Policies</a>
+    </div>
+
+  </section>
+
+  <section class="otherlinks">
+    <a href="https://github.com/ruby-hyperloop" class="hyperloop-white">Github</a>
+    <a href="/support" class="hyperloop-white">Help</a>
+    <a href="/blog" class="hyperloop-white">Blog</a>
+  </section>
+
+  <section class="copyright">
+    Copyright © 2017 Hyperloop.
+  </section>
+</footer>
+
+
+    <script>
+      (function(Opal) {
+        var self = Opal.top, $scope = Opal, nil = Opal.nil, $breaker = Opal.breaker, $slice = Opal.slice;
+        Opal.add_stubs(['$puts']);
+        return self.$puts("Opal ok")
+      })(Opal);
+    </script>
+
+    <!-- <script   src="http://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script> -->
+
+
+    <script type="text/ruby">puts "Hyperloop JS ok"</script>
+
+
+  </body>
+</html>

@@ -1,0 +1,107 @@
+.homepageTable {
+  display: inline-block;
+  margin-left: 50px; }
+  .homepageTable .divTable {
+    display: table; }
+  .homepageTable .divTableRow {
+    display: table-row;
+    text-align: center; }
+  .homepageTable .divTableHeading {
+    background-color: #EEE;
+    display: table-header-group; }
+  .homepageTable .divTableCell, .homepageTable .divTableHead {
+    border: 0px solid #d9d9d9;
+    display: table-cell;
+    vertical-align: top;
+    display: inline-block; }
+  .homepageTable .divTableFoot {
+    background-color: #EEE;
+    display: table-footer-group;
+    font-weight: bold; }
+  .homepageTable .divTableBody {
+    display: table-row-group; }
+
+.startpageTable .divTable {
+  display: table;
+  width: 100%;
+  margin-top: 30px;
+  margin-bottom: 30px; }
+.startpageTable .divTableRow {
+  display: table-row; }
+.startpageTable .first {
+  width: 20%; }
+.startpageTable .second {
+  width: 80%; }
+@media (min-width: 576px) {
+  .startpageTable .first {
+    width: 20%; }
+  .startpageTable .second {
+    width: 80%; } }
+@media (min-width: 768px) {
+  .startpageTable .first {
+    width: 17%; }
+  .startpageTable .second {
+    width: 83%; } }
+@media (min-width: 992px) {
+  .startpageTable .first {
+    width: 13%; }
+  .startpageTable .second {
+    width: 87%; } }
+@media (min-width: 1200px) {
+  .startpageTable .first {
+    width: 10%; }
+  .startpageTable .second {
+    width: 90%; } }
+.startpageTable .divTableHeading {
+  background-color: #EEE;
+  display: table-header-group; }
+.startpageTable .divTableCell, .startpageTable .divTableHead {
+  border: 0px solid #d9d9d9;
+  display: table-cell;
+  vertical-align: middle;
+  padding: 10px; }
+.startpageTable .divTableCell.img {
+  padding: 8px; }
+.startpageTable .divTableHeading {
+  background-color: #EEE;
+  display: table-header-group;
+  font-weight: bold; }
+.startpageTable .divTableFoot {
+  background-color: #EEE;
+  display: table-footer-group;
+  font-weight: bold; }
+.startpageTable .divTableBody {
+  display: table-row-group; }
+
+.gemsTable .table-header {
+  background-color: #e81176;
+  color: white; }
+  .gemsTable .table-header th {
+    text-align: center;
+    padding: 1rem 0 1rem 0 !important; }
+.gemsTable .table-category {
+  padding: 1rem 1rem !important; }
+.gemsTable .descriptiontext {
+  font-size: 14px; }
+.gemsTable .first {
+  width: 27% !important;
+  text-align: center;
+  vertical-align: middle; }
+.gemsTable .second {
+  width: 25% !important;
+  text-align: center;
+  vertical-align: middle; }
+.gemsTable .third {
+  width: 48% !important; }
+.gemsTable a:hover {
+  color: #149c8e; }
+.gemsTable .gem-cell-1 {
+  background-color: rgba(232, 17, 118, 0.03); }
+.gemsTable .gem-cell-2 {
+  background-color: rgba(21, 158, 144, 0.03); }
+.gemsTable .gem-cell-3 {
+  background-color: rgba(247, 221, 29, 0.03); }
+
+.hyperlogoalone {
+  display: inline-block;
+  margin-right: 10px; }

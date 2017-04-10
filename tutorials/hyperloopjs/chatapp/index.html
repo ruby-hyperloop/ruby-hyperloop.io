@@ -1,0 +1,1468 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv='X-UA-Compatible' content='IE=edge;chrome=1' />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <meta name="google-site-verification" content="qjqVOvRhHfsuDbLOvaAnj2mkUZJ9Xwzg84TMVXduvUc" />
+
+    <meta charset="UTF-8">
+    <title>Hyperloop - Tutorials, Videos & Quickstarts</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <script src="https://unpkg.com/react@15/dist/react.min.js"></script>
+    <script src="https://unpkg.com/react-dom@15/dist/react-dom.min.js"></script>
+
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.5/marked.min.js"></script>
+
+
+    <!-- Opal and Hyperloop -->
+    <script src="https://rawgit.com/ruby-hyperloop/hyperloop-js/master/opal-compiler.min.js"></script>
+    <script src="https://rawgit.com/ruby-hyperloop/hyperloop-js/master/hyperloop.min.js"></script>
+
+    <!-- If you want local copies... -->
+    <!-- <script src="../../../javascripts/opal-compiler.js"></script> -->
+    <!-- <script src="../../../javascripts/hyperloop.js"></script> -->
+
+    <script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
+
+    <script src="../../../javascripts/bootstrap.min.js"></script>
+    <script src="../../../javascripts/codemirror.js"></script>
+    <script src="../../../javascripts/ruby.js"></script>
+    <script src="../../../javascripts/matchbrackets.js"></script>
+    <script src="../../../javascripts/react_player.js"></script>
+
+    <!-- Components are compiled by Hyperloop Express -->
+    <script type="text/ruby">
+
+class CodeMirror < Hyperloop::Component
+  param :code, type: String
+  param :heading, default: "Code"
+  param :rows, type: Integer, default: 0
+  param :top_level_component, type: String
+
+  before_mount do
+    r=rand(2**256).to_s(36)[0..7]
+    @div_code = "code_#{r}"
+    @div_result = "result_#{r}"
+  end
+
+  after_mount do
+  # puts params.code
+    @editor = `CodeMirror(document.getElementById(#{@div_code}), {
+      value: #{params.code.to_s},
+      mode: 'text/x-ruby',
+      matchBrackets: true,
+      lineNumbers: true,
+      indentUnit: 2,
+      theme: 'github'
+    });`
+
+    `#{@editor}.on('change', #{lambda {on_change} })`
+    `#{@editor}.setSize(null, #{@editor}.defaultTextHeight()*#{params.rows})` unless params.rows == 0
+    execute_code
+  end
+
+  render(DIV) do
+    div.card {
+      div.card_header { params.heading }
+      div(id: @div_code)
+      div.card_header do
+        img(src: '../../../images/hyperloop-logo-small-white.png' , width:'25')
+        span { ' ' }
+        'Hyperloop playground :'
+      end
+      div.card_block(id: @div_result)
+    }
+  end
+
+  def on_change
+    execute_code
+  end
+
+  def execute_code
+    begin
+      code = `#{@editor}.getValue()`
+      # puts code
+      code += "\nElement['##{@div_result}'].render(#{params.top_level_component})"
+      compiled_code = Opal::Compiler.new(code).compile
+
+      `ReactDOM.unmountComponentAtNode(document.getElementById(#{@div_result}));`
+
+      Hyperloop::Context.reset!
+      `eval(#{compiled_code})`
+      Hyperloop::Application::Boot.run()
+
+      
+      component = Module.const_get params.top_level_component
+      # we need to see if the component is valid - try checking if it can render static markup
+      # the following line generates: `undefined method to_n for SimpleComponent`
+      # if React.render_to_static_markup( component ).empty?
+      #   invalid_component_message
+      # end
+    rescue Exception => e
+      @time_out = after(0.1) do
+        unable_to_compile_message e.message
+      end
+    end
+  end
+
+  def invalid_component_message
+    message = div.text_danger do
+      h3.text_danger {"Oops, invalid Component..."}
+      p { "Your Component has been rejected by React. A valid Component must have a render macro and return just one HTML element." }
+    end
+    Element["##{@div_result}"].render{ message }
+  end
+
+  def unable_to_compile_message reason
+    message = div.text_danger do
+      h3.text_danger {"Can't compile..."}
+      p { reason }
+    end
+    Element["##{@div_result}"].render{ message }
+  end
+
+end
+
+</script>
+
+    <script type="text/ruby">
+
+Document.ready? do
+   Element.find('div.codemirror-live-edit').each do |mount_point|
+     heading = mount_point.attr('data-heading')
+     rows = mount_point.attr('data-rows')
+     top_level_component = mount_point.attr('data-top-level-component')
+     code = Element[mount_point].find('pre').text.strip
+     params = {code: code, top_level_component: top_level_component}
+     params = params.merge({heading: heading}) if heading
+     params = params.merge({rows: rows.to_i}) if rows
+     codemirror_component = Object.const_get('CodeMirror')
+     React.render(React.create_element(codemirror_component, params ), mount_point)
+   end
+end
+
+</script>
+
+
+    <link href="../../../stylesheets/bootstrap.min.css" rel="stylesheet" />
+    <link href="../../../stylesheets/typography.css" rel="stylesheet" />
+    <link href="../../../stylesheets/override.css" rel="stylesheet" />
+    <link href="../../../stylesheets/divtable.css" rel="stylesheet" />
+    <!-- <link href="../../../stylesheets/code.css" rel="stylesheet" /> -->
+    <link href="../../../stylesheets/github.css" rel="stylesheet" />
+    <link href="../../../stylesheets/highlighting.css" rel="stylesheet" />
+    <link href="../../../stylesheets/codemirror.css" rel="stylesheet" />
+
+    <link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/feed.xml" />
+
+    <!-- Favicons -->
+
+    <link rel="apple-touch-icon" sizes="180x180" href="../../../images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" href="../../../images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="../../../images/favicon-16x16.png" sizes="16x16">
+    <link rel="manifest" href="/images/manifest.json">
+    <link rel="mask-icon" href="../../../images/safari-pinned-tab.svg" color="#e81176">
+    <meta name="theme-color" content="#ffffff">
+
+  </head>
+
+  <body>
+    <div class="navbarbackgroundcolor">
+      <div class="container">
+        <nav class="navbar navbar-ligh">
+  <button class="navbar-toggler hidden-sm-up" type="button" data-toggle="collapse" data-target="#exCollapsingNavbar2" aria-controls="exCollapsingNavbar2" aria-expanded="false" aria-label="Toggle navigation">
+    &#9776;
+  </button>
+  <div class="collapse navbar-toggleable-xs" id="exCollapsingNavbar2">
+    <ul class="nav navbar-nav">
+      <li class="nav-item">
+        <a href="/" class="nav-link">Hyperloop</a>
+      </li>
+      <li class="nav-item">
+        <a href="/start/components" class="nav-link active">Start</a>
+      </li>
+      <li class="nav-item">
+        <a href="/installation" class="nav-link">Installation</a>
+      </li>
+      <li class="nav-item">
+        <a href="/tutorials" class="nav-link">Tutorials</a>
+      </li>
+      <li class="nav-item">
+        <a href="/gems" class="nav-link">Gems</a>
+      </li>
+      <li class="nav-item">
+        <a href="https://github.com/ruby-hyperloop" class="nav-link">Github</a>
+      </li>
+      <li class="nav-item">
+        <a href="/tools" class="nav-link">Tools</a>
+      </li>
+      <li class="nav-item">
+        <a href="/docs/architecture" class="nav-link">Docs</a>
+      </li>
+      <li class="nav-item">
+        <a href="/help" class="nav-link">Help</a>
+      </li>
+      <li class="nav-item">
+        <a href="/blog" class="nav-link">Blog</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+      </div>
+    </div>
+
+    <div class="jumbotron page-header">
+      <div class="container">
+
+        <div class="row hidden-sm-down">
+          <div class="col-md-2">
+            <div class="hyperlooplogo">
+            </div>
+          </div>
+          <div class="col-md-6">
+
+            <h1 class="display-4 project-name">Hyperloop</h1>
+
+            <h4 class="display-7 project-tagline">
+              Tutorials, Videos & Quickstarts
+            </h4>
+          </div>
+          <div class="col-md-4">
+            <div class="row underconstruction">
+              <div class="col-sm-4">
+                <img src="../../../images/underconstruction.png" width="120" alt="Underconstruction" />
+              </div>
+              <div class="col-sm-8 underconstructiontext">
+                 Docs and Tutorials are under construction but GEMS are released and all passing tests
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row hidden-md-up">
+          <div class="col-md-3 center-text">
+            <img src="../../../images/hyperloop-logo-small-white.png" width="100" alt="Hyperloop logo small white" />
+          </div>
+          <div class="col-md-9">
+            <h1 class="h1 project-name center-text">Hyperloop</h1>
+            </br>
+            <h2 class="h5 project-tagline center-text">
+              Tutorials, Videos & Quickstarts
+            </h2>
+          </div>
+          <div class="col-sm-12">
+          <br>
+            <div class="row underconstruction">
+              <div class="col-sm-4">
+                <img src="../../../images/underconstruction.png" width="120" alt="Underconstruction" />
+              </div>
+              <div class="col-sm-8 underconstructiontext">
+                 Docs and Tutorials are under construction but GEMS are released and all passing tests
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+
+    <div class="page-header-underline">
+      <div class="container">
+
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-md-3 sidenavcol">
+            <ul class="nav">
+
+    <li class="nav-item"><strong><a href="/tutorials/hyperloopcomps">Hyperloop COMPS</a></strong></li>
+    <li class="nav-item"><strong><a href="/tutorials/hyperloopjs">Hyperloop.js</a></strong></li>
+    <li class="nav-item"><strong><a href="/tutorials/hyperlooprails">Hyperloop and Rails</a></strong></li>
+    <li class="nav-item"><strong><a href="/tutorials/hyperloopdeploy">Hyperloop deployment</a></strong></li>
+    <li class="nav-item"><strong><a href="/tutorials/opal">Opal</a></strong></li>
+    <li class="nav-item"><strong><a href="/tutorials/videos">Videos</a></strong></li>
+
+  </ul>
+
+
+
+          <br>
+        </div>
+        <div class="col-md-9 main-content">
+          <h2 id="chat-app-tutorial"><i class="flaticon-professor-teaching"></i><span class="bigfirstletter">C</span>hat-App Tutorial</h2>
+
+<p>We&#39;ll be building a simple but realistic chat application, a basic version of a chat room offered by a service like gitter.im.</p>
+
+<p><img src="https://raw.githubusercontent.com/ruby-hyperloop/hyperloop-js-chatapp/master/hyperloopjschatappscreenshot.png" alt="Screen" /></p>
+
+<p>You can find the complete source code of this tutorial here: <a href="https://github.com/ruby-hyperloop/hyperloop-js-chatapp">Hyperloop.js ChatApp</a></p>
+
+<p>Our Chat app will provide:</p>
+
+<ul>
+<li>A login window to register your chat handle</li>
+<li>A view of the current chat conversation</li>
+<li>An input box to submit a chat</li>
+</ul>
+
+<p>It will also have a few neat features:</p>
+
+<ul>
+<li><strong>Live updates:</strong> other users&#39; chats are popped into the conversation view in real time.</li>
+<li><strong>Dynamic Time Formatting:</strong> the time format changes as that chat ages.</li>
+<li><strong>Markdown formatting:</strong> users can use Markdown to format their text.</li>
+<li><strong>Uses Bootstrap:</strong> for styling</li>
+</ul>
+
+<h3 id="tutorial">Tutorial</h3>
+
+<p>To set up your <strong>Hyperloop</strong> environment and continue this tutorial, please first follow the <a href="/installation#hyperloopjssetup">Hyperloop.js installation</a> tutorial.</p>
+
+<h5 id="step-1-preparation">Step 1 - Preparation</h5>
+
+<p>After following the installation tutorial, you should have a HTML file looking like this:</p>
+<pre class="highlight html"><code><span class="c">&lt;!-- hyperloopjs-chatapp.html --&gt;</span>
+
+<span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="nt">&lt;html&gt;</span>
+  <span class="nt">&lt;head&gt;</span>
+
+    <span class="nt">&lt;meta</span> <span class="na">charset=</span><span class="s">"UTF-8"</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;title&gt;</span>Hyperloop Chat App<span class="nt">&lt;/title&gt;</span>
+
+    <span class="c">&lt;!-- React and JQuery --&gt;</span>
+    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"https://unpkg.com/react@15/dist/react.min.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"https://unpkg.com/react-dom@15/dist/react-dom.min.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"https://code.jquery.com/jquery-2.1.4.min.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+
+    <span class="c">&lt;!-- Opal and Hyperloop --&gt;</span>
+    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"https://rawgit.com/ruby-hyperloop/hyperloop-js/master/opal-compiler.min.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"https://rawgit.com/ruby-hyperloop/hyperloop-js/master/hyperloop.min.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+  <span class="nt">&lt;/head&gt;</span>
+
+  <span class="nt">&lt;body&gt;</span>
+
+    <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">"text/ruby"</span><span class="nt">&gt;</span>
+
+      <span class="kr">class</span> <span class="nx">Helloworld</span> <span class="o">&lt;</span> <span class="nx">Hyperloop</span><span class="p">::</span><span class="nx">Component</span>
+        <span class="nx">def</span> <span class="nx">render</span>
+          <span class="nx">div</span> <span class="k">do</span>
+            <span class="s2">"hello world !"</span>
+          <span class="nx">end</span>
+        <span class="nx">end</span>
+      <span class="nx">end</span>
+
+    <span class="nt">&lt;/script&gt;</span>
+
+
+    <span class="nt">&lt;div</span> <span class="na">data-hyperloop-mount=</span><span class="s">"Helloworld"</span>
+       <span class="na">data-name=</span><span class="s">""</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;/div&gt;</span>
+
+  <span class="nt">&lt;/body&gt;</span>
+
+
+<span class="nt">&lt;/html&gt;</span>
+
+</code></pre>
+<p>We are going to add 3 external libraires needed for our sample ChatApp (Bootstrap and markedown):</p>
+<pre class="highlight html"><code><span class="c">&lt;!-- hyperloopjs-chatapp.html --&gt;</span>
+
+  <span class="nt">&lt;head&gt;</span>
+
+    ...
+
+    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.5/marked.min.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+
+    <span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">"stylesheet"</span> <span class="na">href=</span><span class="s">"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"</span><span class="nt">&gt;</span>
+
+  <span class="nt">&lt;/head&gt;</span>
+
+<span class="nt">&lt;/html&gt;</span>
+</code></pre>
+<h5 id="step-2-application-structure">Step 2 - Application Structure</h5>
+
+<p>Hyperloop is all about modular, composable components. For our chat app, we&#39;ll have the following structure which will be mirrored by 6 corresponding Hyperloop components:</p>
+<pre class="highlight plaintext"><code>ChatApp
+  Nav
+  Messages
+    Message
+      FormattedDiv
+    Message
+      FormattedDiv
+    ... repeat for each ... message
+  InputBox
+    FormattedDiv
+</code></pre>
+<p>Each component will render the corresponding portion of the UI and is described by a Ruby class that inherits from Hyperloop::Component.</p>
+
+<p>Let&#39;s stub out all of classes right now.  Replace the contents inside  the
+<code>&lt;script type=&quot;text/ruby&quot;&gt;...&lt;/script&gt;</code> tag with the following ruby code.</p>
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">ChatApp</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Component</span>
+  <span class="k">def</span> <span class="nf">render</span>
+    <span class="n">div</span> <span class="k">do</span>
+      <span class="no">Nav</span><span class="p">()</span>
+      <span class="no">Messages</span><span class="p">()</span>
+      <span class="no">InputBox</span><span class="p">()</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nc">Nav</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Component</span>
+  <span class="k">def</span> <span class="nf">render</span>
+    <span class="n">div</span> <span class="p">{</span><span class="s2">"Our Nav Bar Goes Here including a login box"</span><span class="p">}</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nc">Messages</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Component</span>
+  <span class="k">def</span> <span class="nf">render</span>
+    <span class="c1"># eventually we will loop and display each message</span>
+    <span class="c1"># for now we will just display one as an example</span>
+    <span class="no">Message</span><span class="p">()</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nc">Message</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Component</span>
+  <span class="k">def</span> <span class="nf">render</span>
+    <span class="no">FormattedDiv</span><span class="p">()</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nc">InputBox</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Component</span>
+  <span class="k">def</span> <span class="nf">render</span>
+    <span class="n">div</span> <span class="k">do</span>
+      <span class="s2">"An input box to send new messages will"</span><span class="p">.</span><span class="nf">br</span>
+      <span class="s2">"go here plus a display of the formatted markdown"</span><span class="p">.</span><span class="nf">br</span>
+      <span class="no">FormattedDiv</span><span class="p">()</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nc">FormattedDiv</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Component</span>
+  <span class="k">def</span> <span class="nf">render</span>
+    <span class="s2">"convert and display markdown"</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<p>Refresh your page, and you should see this:</p>
+<pre class="highlight plaintext"><code>Our Nav Bar Goes Here including a login box
+convert and display markdown
+An input box to send new messages will
+go here plus a display of the formatted markdown
+convert and display markdown
+</code></pre>
+<p>Before going on lets understand the basic features of the Hyperloop DSL</p>
+
+<ul>
+<li><h6 id="every-component-has-a-render-method">Every component has a <code>render</code> method</h6>
+
+<p>Each component is a class that inherits from <code>Hyperloop::Component</code> and defines a <code>render</code> method.</p></li>
+<li><h6 id="the-render-method-must-generate-a-single-react-element">The <code>render</code> method must generate a single <code>React::Element</code></h6>
+
+<p>Look at the <code>ChatApp</code> component: it wraps its three <em>children</em> in a <code>div</code>.  If you forgot this wrapper <code>div</code> you would get this error in the browser&#39;s javascript console:</p>
+<pre class="highlight plaintext"><code>RuntimeError: a components render method must generate and return exactly 1 element or a string
+</code></pre></li>
+<li><h6 id="html-tags-are-ruby-methods">HTML tags are Ruby methods</h6>
+
+<p>Within the <code>render</code> method each html tag has a corresponding Ruby method.  Each of these methods generates a single <code>React::Element</code>, which contains component type plus parameters, plus any nested elements.  </p>
+
+<p>All HTML tags have lower case names matching their HTML counter parts.</p></li>
+<li><h6 id="application-components-also-define-ruby-methods">Application components also define Ruby methods</h6>
+
+<p>You generate a <code>Message</code> component by calling the <code>Message()</code> method</p>
+
+<p>Because the component class and the component method share the same name you must include either (possibly empty) parenthesis, or block literal following the component name, so Ruby knows you mean to call a method.</p>
+
+<p><code>Message</code> &lt;- a class name
+<code>Message()</code> &lt;- generate a <code>Message</code> element.</p></li>
+<li><h6 id="by-default-strings-are-wrapped-by-span-tags">By default strings are wrapped by <code>span</code> tags</h6>
+
+<p>Now go all the way down to the <code>FormattedDiv</code> component.  If a string appears as the last expression (the returned value) of either a render method or a component&#39;s block, the string is wrapped in a <code>span</code> as if you had typed <code>span { &quot;some string&quot; }</code>.</p></li>
+<li><h6 id="strings-also-respond-to-br-span-para-th-and-td">Strings also respond to <code>br, span, para, th</code> and <code>td</code></h6>
+
+<p>Strings also respond to several element generating methods: <code>br, span, para</code> (for <code>p</code>), <code>td</code> and <code>th</code>.  Again this is just short hand, so <code>&quot;foo&quot;.td</code> is short for <code>td { &quot;foo&quot; }</code></p></li>
+</ul>
+
+<h5 id="step-3-adding-parameters">Step 3 - Adding Parameters:</h5>
+
+<p>Components have parameters just like methods.  Now that we have the basic ChatApp structure, understanding a component&#39;s params is a good next step.  Lets start by adding the <code>markdown</code> parameter to the <code>FormattedDiv</code> component.</p>
+
+<p>Update the <code>Message, InputBox</code> and <code>FormattedDiv</code> components so they look like this:</p>
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">Message</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Component</span>
+
+  <span class="k">def</span> <span class="nf">render</span>
+    <span class="no">FormattedDiv</span><span class="p">(</span><span class="ss">markdown: </span><span class="s2">"This **Markdown** will eventually be a message"</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nc">InputBox</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Component</span>
+  <span class="k">def</span> <span class="nf">render</span>
+    <span class="n">div</span> <span class="k">do</span>
+      <span class="s2">"An input box to send new messages will"</span><span class="p">.</span><span class="nf">br</span>
+      <span class="s2">"go here plus a display of the formatted markdown"</span><span class="p">.</span><span class="nf">br</span>
+      <span class="no">FormattedDiv</span><span class="p">(</span><span class="ss">markdown: </span><span class="s2">"This **Markdown** will get updated as the user types"</span><span class="p">)</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nc">FormattedDiv</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Component</span>
+
+  <span class="n">param</span> <span class="ss">:markdown</span><span class="p">,</span> <span class="ss">type: </span><span class="no">String</span>
+
+  <span class="k">def</span> <span class="nf">render</span>
+    <span class="n">div</span> <span class="k">do</span>
+      <span class="n">params</span><span class="p">.</span><span class="nf">markdown</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<ul>
+<li><h6 id="the-param-macro-describes-the-inputs-to-a-component">The <code>param</code> <em>macro</em> describes the <em>inputs</em> to a component.</h6>
+
+<p>In our case the <code>FormattedDiv</code> component will <em>receive</em> the <code>markdown</code> param from either the
+<code>Message</code> or <code>InputBox</code> components.  </p></li>
+<li><h6 id="params-can-have-an-optional-type">Params can have an optional type.</h6>
+
+<p>In our case we declare <code>markdown</code> to be a <code>String</code>.  If the incoming parameter does not match the type a warning will be displayed on the console.  While typing your params is optional its highly recommended.</p></li>
+<li><h6 id="params-are-accessed-using-the-params-object">Params are accessed using the <code>params</code> object.</h6>
+
+<p>Each <code>param</code> you declare in a component will have a corresponding method on the <code>params</code> object.  Component parameters are accessible by any instance method within your component using the <code>params</code> object.  </p></li>
+</ul>
+
+<h5 id="step-4-adding-an-event-handler">Step 4 -  Adding An Event Handler:</h5>
+
+<p>Our application will need to respond to three types of events:</p>
+
+<ul>
+<li>A user logs in</li>
+<li>A user sends a chat</li>
+<li>Receiving chat messages.</li>
+</ul>
+
+<p>We will start by adding a basic user login handler.</p>
+
+<p>We decided up front that the login box will be part of the top nav bar, so that is where we will add it:</p>
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">Nav</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Component</span>
+
+  <span class="k">def</span> <span class="nf">render</span>
+    <span class="n">div</span> <span class="k">do</span>
+      <span class="n">input</span><span class="p">(</span><span class="ss">class: :handle</span><span class="p">,</span> <span class="ss">type: :text</span><span class="p">,</span> <span class="ss">placeholder: </span><span class="s2">"Enter Your Handle"</span><span class="p">)</span>
+      <span class="n">button</span><span class="p">(</span><span class="ss">type: :button</span><span class="p">)</span> <span class="p">{</span> <span class="s2">"login!"</span> <span class="p">}.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:click</span><span class="p">)</span> <span class="k">do</span>
+        <span class="n">alert</span><span class="p">(</span><span class="s2">"</span><span class="si">#{</span><span class="no">Element</span><span class="p">[</span><span class="s1">'input.handle'</span><span class="p">].</span><span class="nf">value</span><span class="si">}</span><span class="s2"> logs in!"</span><span class="p">)</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+
+<span class="k">end</span>
+</code></pre>
+<p>Replace the <code>Nav</code> component with the above code, and refresh your browser.  You should now be able to &quot;login&quot;.</p>
+
+<p>Things to notice:</p>
+
+<ul>
+<li><h6 id="event-handlers-are-attached-to-any-element-using-the-on-method">Event handlers are attached to any element using the <code>on</code> method.</h6>
+
+<p>The <code>on</code> method takes the event name and a block.  The block is called when the event occurs.</p></li>
+<li><h6 id="tag-attributes-are-passed-just-like-params">Tag attributes are passed just like params.</h6>
+
+<p><code>input(class: :handle, type: :text, placeholder: &quot;Enter Your Handle&quot;)</code><br>
+generates<br>
+<code>&lt;input class=&quot;handle&quot;, type=&quot;text&quot;, placeholder=&quot;Enter Your Handle&quot; /&gt;</code></p></li>
+<li><h6 id="strings-and-symbols-are-the-same-type-in-opal">Strings and Symbols are the same type in Opal.</h6>
+
+<p>For effeciency the Opal-Ruby transpiler treats Ruby symbols as strings.  So<br>
+<code>:text == &#39;text&#39;</code></p></li>
+<li><h6 id="element-is-the-opal-ruby-jquery-compatible-wrapper"><code>Element</code> is the Opal-Ruby jQuery compatible wrapper.</h6>
+
+<p><code>Element[&#39;input.handle&#39;].value</code> translates to <code>$(&#39;input.handle&#39;).value()</code><br>
+Be aware that <code>React::Element</code> which we refer to as <em>elements</em> through out the tutorial is not the same as Opal&#39;s <code>Element</code> wrapper.</p></li>
+</ul>
+
+<h5 id="step-5-adding-state">Step 5 - Adding State:</h5>
+
+<p>Our improved <code>Nav</code> component is still pretty dull, and having to directly access the DOM using <code>Element</code> is not a great idea either.</p>
+
+<p>To add some intelligence to our <code>Nav</code> component it needs <em>state</em>.  Hyperloop provides <em>state variables</em> that work like <em>reactive</em> instance variables.  When a state variable is updated, it will cause components to re-render.  </p>
+
+<p>We are going to add two state variables to our component:  <code>current_user_name</code> and <code>user_name_input</code>.  </p>
+
+<p><code>current_user_name</code> is either <code>nil</code> (meaning there is no valid user name) or contains the user name string.</p>
+
+<p><code>user_name_input</code> will track the user name as it is typed allowing us to dynamically update the UI based on what the user has typed.</p>
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">Nav</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Component</span>
+
+  <span class="n">before_mount</span> <span class="k">do</span>
+    <span class="n">mutate</span><span class="p">.</span><span class="nf">current_user_name!</span> <span class="kp">nil</span>
+    <span class="n">mutate</span><span class="p">.</span><span class="nf">user_name_input!</span> <span class="s2">""</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">render</span>
+    <span class="n">div</span> <span class="k">do</span>
+      <span class="n">input</span><span class="p">(</span><span class="ss">type: :text</span><span class="p">,</span> <span class="ss">value: </span><span class="n">state</span><span class="p">.</span><span class="nf">user_name_input</span><span class="p">,</span> <span class="ss">placeholder: </span><span class="s2">"Enter Your Handle"</span>
+      <span class="p">).</span><span class="nf">on</span><span class="p">(</span><span class="ss">:change</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">e</span><span class="o">|</span>
+        <span class="n">mutate</span><span class="p">.</span><span class="nf">user_name_input</span> <span class="n">e</span><span class="p">.</span><span class="nf">target</span><span class="p">.</span><span class="nf">value</span>
+      <span class="k">end</span>
+      <span class="n">button</span><span class="p">(</span><span class="ss">type: :button</span><span class="p">)</span> <span class="p">{</span> <span class="s2">"login!"</span> <span class="p">}.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:click</span><span class="p">)</span> <span class="k">do</span>
+        <span class="n">login!</span>
+      <span class="k">end</span> <span class="k">if</span> <span class="n">valid_new_input?</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">valid_new_input?</span>
+    <span class="n">state</span><span class="p">.</span><span class="nf">user_name_input</span><span class="p">.</span><span class="nf">present?</span> <span class="o">&amp;&amp;</span> <span class="n">state</span><span class="p">.</span><span class="nf">user_name_input</span> <span class="o">!=</span> <span class="n">state</span><span class="p">.</span><span class="nf">current_user_name</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">login!</span>
+    <span class="n">mutate</span><span class="p">.</span><span class="nf">current_user_name</span> <span class="n">state</span><span class="p">.</span><span class="nf">user_name_input</span>
+    <span class="nb">puts</span> <span class="s2">"*** </span><span class="si">#{</span><span class="n">state</span><span class="p">.</span><span class="nf">current_user_name</span><span class="si">}</span><span class="s2"> has logged in"</span>
+  <span class="k">end</span>
+
+<span class="k">end</span>
+</code></pre>
+<p>Once again, update the <code>Nav</code> component, and make sure it works.  </p>
+
+<p>Things to notice:</p>
+
+<ul>
+<li><h6 id="state-variables-are-read-through-the-state-object">State variables are read through the <code>state</code> object.</h6>
+
+<p>Each state variable has a read accessor on the state object:
+<code>state.user_name_input</code></p></li>
+<li><h6 id="state-variables-are-written-through-the-mutate-object">State variables are written through the <code>mutate</code> object.</h6>
+
+<p>The method <code>mutate</code> will update state and cause re-rendering of the component.</p></li>
+<li><h6 id="there-is-no-assignment-method-for-state-variables">There is no <em>assignment</em> method for state variables.</h6>
+
+<p>There are several reasons for this, that we will discuss later, but for now you can
+consider the write accessor (or <code>mutate</code> method) to be equivalent to assignment.</p></li>
+<li><h6 id="initialize-state-in-the-before_mount-callback">Initialize state in the <code>before_mount</code> callback.</h6>
+
+<p>The <code>before_mount</code> <em>lifecycle</em> callback is called after <code>params</code> are first initialized, but before
+render is called, so its the place to initialize your state variables.</p>
+
+<p>More on the <em>lifecycle</em> callbacks later.</p></li>
+<li><h6 id="event-handlers-are-passed-the-event-object">Event handlers are passed the event object</h6>
+
+<p>As each character is typed we use the event object to update <code>state.user_name_input</code>.  </p>
+
+<p>Besides giving us dynamic access to the state of the user input as its changing, <code>state.user_name_input</code> also frees us from having to tag and interrogate DOM objects directly.</p></li>
+<li><h6 id="as-state-changes-the-component-will-rerender">As state changes, the component will rerender.</h6>
+
+<p>For example the login button is only rendered if there is valid new input.</p>
+
+<p>In React you think declaratively about the UI.  At any point in time the
+<code>render</code> method simply draws the UI based on params and the current state of the
+component.  As the component state changes, or when it receives new params, <code>render</code>
+is called to deliver the updated UI.</p>
+
+<p>Under the hood React.js has efficient algorithms to insure that the minimum DOM
+update is performed.</p></li>
+<li><h6 id="use-helper-methods-to-keep-render-simple">Use helper methods to keep <code>render</code> simple.</h6>
+
+<p>For example we created the <code>is_valid_new_input?</code> method, and moved the login logic to the <code>login!</code> method.</p>
+
+<p>This helps to understand the core logic and layout of the <code>render</code> method.</p></li>
+<li><h6 id="the-puts-method-logs-on-the-js-debug-console">The <code>puts</code> method logs on the js debug console</h6></li>
+</ul>
+
+<h5 id="step-6-talking-to-your-parents">Step 6 - Talking to Your Parents</h5>
+
+<p>We will add some other nice features  of our <code>Nav</code> component later but right now we need to think about what happens when the user logs in.</p>
+
+<p>We don&#39;t want to clutter up our <code>Nav</code> component with this logic so we need some way to communicate that we have a new user name upwards to the parent.</p>
+
+<p>There are quite a few different ways to do this, depending on your specific needs.  A straight forward way is for the parent to provide a <em>callback</em> that the <code>Nav</code> component will use to signal that a new user has logged in.  </p>
+
+<p>Add the following <code>param</code> declaration at the top of the <code>Nav</code> component:</p>
+<pre class="highlight ruby"><code>  <span class="n">param</span> <span class="ss">:login</span><span class="p">,</span> <span class="ss">type: </span><span class="no">Proc</span>
+</code></pre>
+<p>and update the <code>login!</code> method so it looks like this:</p>
+<pre class="highlight ruby"><code>  <span class="k">def</span> <span class="nf">login!</span>
+    <span class="n">mutate</span><span class="p">.</span><span class="nf">current_user_name</span> <span class="n">state</span><span class="p">.</span><span class="nf">user_name_input</span>
+    <span class="n">params</span><span class="p">.</span><span class="nf">login</span><span class="p">(</span><span class="n">state</span><span class="p">.</span><span class="nf">user_name_input</span><span class="p">)</span>
+  <span class="k">end</span>
+</code></pre>
+<p>Again reload your browser and try logging in.  You will notice in the console that there is a new warning:</p>
+<pre class="highlight shell_session"><code>Warning: Failed propType: In component `Nav`
+Required prop `login` was not specified Check the render method of `ChatApp`.
+</code></pre>
+<p>Which makes sense, as we specified that <code>Nav</code> wants a <code>login</code> parameter, but <code>App</code> did not provide one.  </p>
+
+<p>Lets go ahead and add the callback to the <code>ChatApp</code> component.  Add the following method to the bottom of the <code>ChatApp</code>:</p>
+<pre class="highlight ruby"><code>  <span class="k">def</span> <span class="nf">login</span><span class="p">(</span><span class="n">user_name</span><span class="p">)</span>
+    <span class="nb">puts</span> <span class="s2">"*** </span><span class="si">#{</span><span class="n">user_name</span><span class="si">}</span><span class="s2"> has logged in"</span>
+  <span class="k">end</span>
+</code></pre>
+<p>and pass the <code>login</code> method to the <code>Nav</code> component like so</p>
+<pre class="highlight ruby"><code>  <span class="k">def</span> <span class="nf">render</span>
+    <span class="no">Nav</span><span class="p">(</span><span class="ss">login: </span><span class="nb">method</span><span class="p">(</span><span class="ss">:login</span><span class="p">).</span><span class="nf">to_proc</span><span class="p">)</span>
+    <span class="p">.</span><span class="nf">.</span><span class="p">.</span>
+  <span class="nf">end</span>
+</code></pre>
+<p>Reload your browser, and login, and the warning will be gone, and the login message will be back.</p>
+
+<p>Lets review these changes:</p>
+
+<ul>
+<li><h6 id="callbacks-are-a-simple-way-to-communicate-upwards">Callbacks are a simple way to communicate upwards</h6>
+
+<p>As we will see there are other mechanisms which are often more appropriate but in this case a call back <code>Proc</code> is the perfect solution.  </p>
+
+<p>To implement a callback you declare the param type as <code>Proc</code>.  This tells the <code>params</code> object to treat the param as a method call, rather than just returning its value.  </p>
+
+<p>Meanwhile in the parent component you will need to pass a <code>Proc</code> to the component.  Ruby lets you create and access <code>Proc</code>s in several ways, in our case we converted the instance method <code>login</code> to a <code>Proc</code> using <code>method</code>.</p></li>
+<li><h6 id="react-takes-the-approach-of-warning-vs-errors-when-things-go-wrong">React takes the approach of warning vs. errors when things go wrong</h6>
+
+<p>The good thing is this allows you some wiggle room as you are building and testing your components.</p>
+
+<p>The downside is that you need to keep an eye on the console log, and find and remove unexpected warnings.</p></li>
+</ul>
+
+<p>Before we go on note that this is an example application.  In a real world app we would probably
+not use this mechanism for logging on.  A real login component would need to check credentials and would
+have additional state to track and report the progress of the login process.</p>
+
+<h5 id="step-7-the-chat-service">Step 7 - The Chat Service</h5>
+
+<p>For this tutorial purpose we are going, for now, implement a <strong>Chat service</strong> emulation, all written in Opal. So you just have to include this code into the HTMl page we are working on: </p>
+<pre class="highlight ruby"><code><span class="o">&lt;</span><span class="n">script</span> <span class="n">type</span><span class="o">=</span><span class="s2">"text/ruby"</span><span class="o">&gt;</span>
+
+<span class="k">class</span> <span class="nc">ChatService</span>
+
+  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="o">&amp;</span><span class="n">block</span><span class="p">)</span>
+    <span class="vi">@block</span> <span class="o">=</span> <span class="n">block</span>
+    <span class="vi">@messages</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"from"</span><span class="o">=&gt;</span><span class="s2">"user1"</span><span class="p">,</span> <span class="s2">"time"</span><span class="o">=&gt;</span><span class="mi">1449089985</span><span class="p">,</span> <span class="s2">"message"</span><span class="o">=&gt;</span><span class="s2">"A 2 point message: </span><span class="se">\n</span><span class="s2">+ point 1</span><span class="se">\n</span><span class="s2">+ point 2</span><span class="se">\n</span><span class="s2">Got it?"</span><span class="p">},{</span><span class="s2">"from"</span><span class="o">=&gt;</span><span class="s2">"user2"</span><span class="p">,</span> <span class="s2">"time"</span><span class="o">=&gt;</span><span class="mi">1449262785</span><span class="p">,</span> <span class="s2">"message"</span><span class="o">=&gt;</span><span class="s2">"message sent 8 days ago, by user 2"</span><span class="p">},{</span><span class="s2">"from"</span><span class="o">=&gt;</span><span class="s2">"user3"</span><span class="p">,</span> <span class="s2">"time"</span><span class="o">=&gt;</span><span class="mi">1449521985</span><span class="p">,</span> <span class="s2">"message"</span><span class="o">=&gt;</span><span class="s2">"message sent in the last week"</span><span class="p">},{</span><span class="s2">"from"</span><span class="o">=&gt;</span><span class="s2">"user2"</span><span class="p">,</span> <span class="s2">"time"</span><span class="o">=&gt;</span><span class="mi">1449608385</span><span class="p">,</span> <span class="s2">"message"</span><span class="o">=&gt;</span><span class="s2">"message sent **also** in the last week"</span><span class="p">},{</span><span class="s2">"from"</span><span class="o">=&gt;</span><span class="s2">"user1"</span><span class="p">,</span> <span class="s2">"time"</span><span class="o">=&gt;</span><span class="mi">1449950385</span><span class="p">,</span> <span class="s2">"message"</span><span class="o">=&gt;</span><span class="s2">"Was sent within the last hour!"</span><span class="p">},{</span><span class="s2">"from"</span><span class="o">=&gt;</span><span class="s2">"user2"</span><span class="p">,</span> <span class="s2">"time"</span><span class="o">=&gt;</span><span class="mi">1449952185</span><span class="p">,</span> <span class="s2">"message"</span><span class="o">=&gt;</span><span class="s2">"Was sent 30 minutes ago"</span><span class="p">},{</span><span class="s2">"from"</span><span class="o">=&gt;</span><span class="s2">"user3"</span><span class="p">,</span> <span class="s2">"time"</span><span class="o">=&gt;</span><span class="mi">1449953385</span><span class="p">,</span> <span class="s2">"message"</span><span class="o">=&gt;</span><span class="s2">"Was just sent</span><span class="se">\n\n\n\n\n\n\n\n\n</span><span class="s2">with a lot of blanks"</span><span class="p">},{</span><span class="s2">"from"</span><span class="o">=&gt;</span><span class="s2">"user1"</span><span class="p">,</span> <span class="s2">"time"</span><span class="o">=&gt;</span><span class="mi">1449953985</span><span class="p">,</span> <span class="s2">"message"</span><span class="o">=&gt;</span><span class="s2">"just now"</span><span class="p">}</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">login</span><span class="p">(</span><span class="n">user_name</span><span class="p">)</span>
+    <span class="vi">@user_name</span> <span class="o">=</span> <span class="n">user_name</span>
+    <span class="vi">@block</span><span class="p">.</span><span class="nf">call</span> <span class="vi">@messages</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">id</span>
+    <span class="vi">@user_name</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">send</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="p">{})</span>
+    <span class="vi">@messages</span> <span class="o">&lt;&lt;</span> <span class="n">data</span>
+    <span class="vi">@block</span><span class="p">.</span><span class="nf">call</span> <span class="p">[</span><span class="n">data</span><span class="p">]</span>
+  <span class="k">end</span>
+
+<span class="k">end</span>
+
+<span class="o">&lt;</span><span class="sr">/script&gt;
+</span></code></pre>
+<p>As you can see, we have now 2 usefull method: <code>login</code> and <code>send</code>. And the hash <code>messages</code> is initialized with sample data.</p>
+
+<p>Armed with this, we are ready to start displaying chat messages.</p>
+
+<h5 id="step-8-lifecycle-callbacks">Step 8 - Lifecycle Callbacks</h5>
+
+<p>A react component has a well defined life cycle, and your components can hook into the lifecycle using the callback macros.  In our application we will use three of the most common callbacks <code>before_mount, after_mount</code> and <code>after_update</code>.  </p>
+
+<p>Each call back takes a block or the name of a method, which will be called as the component passes through each stage in its lifecycle.</p>
+
+<p>When our App starts (<strong>mounts</strong> in React terms) we need to initialize the chat service.</p>
+
+<p>Add this code to the beginning of the <code>ChatApp</code> component:</p>
+<pre class="highlight ruby"><code>  <span class="n">before_mount</span> <span class="k">do</span>
+    <span class="no">ChatService</span><span class="p">.</span><span class="nf">new</span> <span class="k">do</span> <span class="o">|</span> <span class="n">messages</span> <span class="o">|</span>
+      <span class="k">if</span> <span class="n">state</span><span class="p">.</span><span class="nf">messages</span>
+        <span class="n">mutate</span><span class="p">.</span><span class="nf">messages</span> <span class="n">state</span><span class="p">.</span><span class="nf">messages</span> <span class="o">+</span> <span class="n">messages</span>
+      <span class="k">else</span>
+        <span class="n">mutate</span><span class="p">.</span><span class="nf">messages</span> <span class="n">messages</span>
+      <span class="k">end</span>
+      <span class="nb">puts</span> <span class="s2">"state messages updated.  state.messages: </span><span class="si">#{</span><span class="n">state</span><span class="p">.</span><span class="nf">messages</span><span class="si">}</span><span class="s2">"</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+</code></pre>
+<p>Before the component mounts our callback will execute and it creates a new <code>ChatService</code> instance.  </p>
+
+<p>As each new set of messages arrives the block will execute which will initialize or append the messages to the <code>state.messages</code> state variable.  We know we want to make this a state variable since it clearly is going to change asynchronously overtime, and we will want to update the UI when that occurs.</p>
+
+<p>Refresh your browser, and make sure nothing is broken, but notice nothing is changing.  <em>Why Not?</em> - because we have not logged in yet.</p>
+
+<h5 id="step-9-instance-and-state-variables">Step 9 - Instance and State Variables</h5>
+
+<p>Okay so while we can initialize the chat service when <code>ChatApp</code> mounts, nothing will happen until the user logs in.  </p>
+
+<p>We have our login method already defined, so we just want to change it so that it passes the login to the chat service.  To do this we have to save the chat service object in the <code>before_mount</code> callback so that we can use it in the <code>login</code> method.</p>
+
+<p>Change the <code>before_mount</code> callback to be:</p>
+<pre class="highlight ruby"><code>  <span class="n">before_mount</span> <span class="k">do</span>
+    <span class="vi">@chat_service</span> <span class="o">=</span> <span class="no">ChatService</span><span class="p">.</span><span class="nf">new</span> <span class="k">do</span> <span class="o">|</span> <span class="n">messages</span> <span class="o">|</span>
+      <span class="n">mutate</span><span class="p">.</span><span class="nf">messages</span> <span class="p">((</span><span class="n">state</span><span class="p">.</span><span class="nf">messages</span> <span class="o">||</span> <span class="p">[])</span> <span class="o">+</span> <span class="n">messages</span><span class="p">)</span>
+      <span class="nb">puts</span> <span class="s2">"state messages updated.  state.messages: </span><span class="si">#{</span><span class="n">state</span><span class="p">.</span><span class="nf">messages</span><span class="si">}</span><span class="s2">"</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+</code></pre>
+<p>Now that we have saved our new <code>ChatService</code> object in <code>@chat_service</code> we can use it in the <code>login</code> method like this:</p>
+<pre class="highlight ruby"><code>  <span class="k">def</span> <span class="nf">login</span><span class="p">(</span><span class="n">user_name</span><span class="p">)</span>
+    <span class="vi">@chat_service</span><span class="p">.</span><span class="nf">login</span><span class="p">(</span><span class="n">user_name</span><span class="p">)</span>
+  <span class="k">end</span>
+</code></pre>
+<p>With this in place refresh your browser, and watch the console as you login.  You should see an array of messages that looks like this:</p>
+<pre class="highlight shell_session"><code>state messages updated.  state.messages: {"from"=&gt;"user1", "time"=&gt;1449089985, "message"=&gt;"A 2 point message: \n+ point 1\n+ point 2\nGot it?"},{"from"=&gt;"user2", "time"=&gt;1449262785, "message"=&gt;"message sent 8 days ago, by user 2"},{"from"=&gt;"user3", "time"=&gt;1449521985, "message"=&gt;"message sent in the last week"},{"from"=&gt;"user2", "time"=&gt;1449608385, "message"=&gt;"message sent **also** in the last week"},{"from"=&gt;"user1", "time"=&gt;1449950385, "message"=&gt;"Was sent within the last hour!"},{"from"=&gt;"user2", "time"=&gt;1449952185, "message"=&gt;"Was sent 30 minutes ago"},{"from"=&gt;"user3", "time"=&gt;1449953385, "message"=&gt;"Was just sent\n\n\n\n\n\n\n\n\nwith a lot of blanks"},{"from"=&gt;"user1", "time"=&gt;1449953985, "message"=&gt;"just now"}
+</code></pre>
+<p>There is an important point here:</p>
+
+<ul>
+<li><h6 id="not-everything-has-to-be-a-state-variable">Not everything has to be a state variable</h6>
+
+<p><code>@chat_service</code> is an instance variable, while <code>state.messages</code> is a state variable.</p>
+
+<p>We can see that as time passes new messages will come in, and we will want to re-render when this happens.  This led us to define <code>messages</code> as a state variable.  Because <code>messages</code> is a state variable as it changes re-rendering of the ChatApp component will automatically occur.</p>
+
+<p>But so far we have no reason to make <code>@chat_service</code> into a state variable, so we use a plain old instance variable.</p>
+
+<p>For our simple component the messages themselves are the only state we care about.</p>
+
+<p>We will come back to this discussion as we flesh out the rest of our application.</p></li>
+</ul>
+
+<p>Now that we are logging in, connecting to the (test) chat service and updating our <code>messages</code> state variable, we are ready to display those messages.</p>
+
+<p>Hopefully by this time you&#39;ve got a rough idea how we are going to do this!</p>
+
+<p>First update the <code>ChatApp</code> render method like this:</p>
+<pre class="highlight ruby"><code>  <span class="k">def</span> <span class="nf">render</span>
+    <span class="n">div</span> <span class="k">do</span>
+      <span class="no">Nav</span> <span class="ss">login: </span><span class="nb">method</span><span class="p">(</span><span class="ss">:login</span><span class="p">).</span><span class="nf">to_proc</span>
+      <span class="no">Messages</span> <span class="ss">messages: </span><span class="n">state</span><span class="p">.</span><span class="nf">messages</span>
+      <span class="no">InputBox</span><span class="p">()</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+</code></pre>
+<p>Then add the corresponding <code>messages</code> parameter to the <code>Messages</code> component:</p>
+<pre class="highlight ruby"><code>  <span class="n">param</span> <span class="ss">:messages</span><span class="p">,</span> <span class="ss">type: </span><span class="p">[</span><span class="no">Hash</span><span class="p">]</span>
+</code></pre>
+<p>And update the <code>Messages</code> render method to iterate through all the messages displaying <code>Message</code> for each one:</p>
+<pre class="highlight ruby"><code>  <span class="k">def</span> <span class="nf">render</span>
+    <span class="n">div</span> <span class="k">do</span>
+      <span class="n">params</span><span class="p">.</span><span class="nf">messages</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">message</span><span class="o">|</span>
+        <span class="no">Message</span> <span class="ss">message: </span><span class="n">message</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+</code></pre>
+<p>Likewise the <code>Message</code> component needs to receive and display a message.  Replace the whole component with the following:</p>
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">Message</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Component</span>
+
+  <span class="n">param</span> <span class="ss">:message</span><span class="p">,</span> <span class="ss">type: </span><span class="no">Hash</span>
+
+  <span class="k">def</span> <span class="nf">render</span>
+    <span class="n">div</span> <span class="k">do</span>
+      <span class="n">div</span> <span class="p">{</span> <span class="n">params</span><span class="p">.</span><span class="nf">message</span><span class="p">[</span><span class="ss">:from</span><span class="p">]</span> <span class="p">}</span>
+      <span class="no">FormattedDiv</span> <span class="ss">markdown: </span><span class="n">params</span><span class="p">.</span><span class="nf">message</span><span class="p">[</span><span class="ss">:message</span><span class="p">]</span>
+      <span class="n">div</span> <span class="p">{</span> <span class="no">Time</span><span class="p">.</span><span class="nf">at</span><span class="p">(</span><span class="n">params</span><span class="p">.</span><span class="nf">message</span><span class="p">[</span><span class="ss">:time</span><span class="p">]).</span><span class="nf">to_s</span> <span class="p">}</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<p>Save everything, and refresh your browser.  Login and you should see a very rough but functional display of your messages!</p>
+
+<ul>
+<li><h6 id="array-type-params">Array type params</h6>
+
+<p>Notice how we declared the <code>messages</code> param as type <code>[Hash]</code> this notation means &quot;Array of Hash&quot;.</p>
+
+<p>You can also say <code>type: []</code> which means array of anything and is shorthand for <code>type: Array</code>.</p></li>
+</ul>
+
+<h5 id="step-9-some-cleanup">Step 9 - Some Cleanup</h5>
+
+<p>Take a look at the console log, and you will see a big red error like this:</p>
+
+<p><code>Exception raised while rendering #&lt;Messages:0x16fa&gt;</code><br>
+<code>NoMethodError: undefined method &#39;each&#39; for nil</code></p>
+
+<p>Lets think about this.  When we first render <code>Messages</code>, there are no messages, so trying to send <code>each</code> to <code>nil</code> fails.</p>
+
+<p>One nice thing about React is that it is very robust.  Even though we had this error, things still work.  Once we are logged in, we do have messages, and everything worked.</p>
+
+<p>Anyway we need to fix this!  Add the following method to the bottom of the <code>ChatApp</code> class:</p>
+<pre class="highlight ruby"><code>  <span class="k">def</span> <span class="nf">online?</span>
+    <span class="n">state</span><span class="p">.</span><span class="nf">messages</span>
+  <span class="k">end</span>
+</code></pre>
+<p>For our simple App we are going to figure that we are logged in <strong>if</strong> <code>state.messages</code> is not <code>nil</code>.  </p>
+
+<p>Now update the <code>ChatApp</code>s <code>render</code> method so that we don&#39;t display the <code>Messages</code> or the <code>InputBox</code> unless we are logged in.</p>
+<pre class="highlight ruby"><code>  <span class="k">def</span> <span class="nf">render</span>
+    <span class="n">div</span> <span class="k">do</span>
+      <span class="no">Nav</span> <span class="ss">login: </span><span class="nb">method</span><span class="p">(</span><span class="ss">:login</span><span class="p">).</span><span class="nf">to_proc</span>
+      <span class="k">if</span> <span class="n">online?</span>
+        <span class="no">Messages</span> <span class="ss">messages: </span><span class="n">state</span><span class="p">.</span><span class="nf">messages</span>
+        <span class="no">InputBox</span><span class="p">()</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+</code></pre>
+<p>Refresh the page and the error should be gone.</p>
+
+<h5 id="step-10-sending-messages">Step 10 - Sending Messages</h5>
+
+<p>Next lets send some messages.  To do this the InputBox component will need to communicate when the user sends a new message.  We could add a callback like we did with the <code>Nav</code> component, but it might be more appropriate to use a different mechanism here.</p>
+
+<p>We know we can send a message by doing a <code>@chat_service.send</code>, so if we just pass the <code>@chat_service</code> down to the InputBox we should be all set.  </p>
+
+<p>So first update the <code>ChatApp</code> render method to pass the <code>@chat_service</code> to the InputBox:</p>
+<pre class="highlight ruby"><code>   <span class="p">.</span><span class="nf">.</span><span class="o">.</span>
+   <span class="no">InputBox</span> <span class="ss">chat_service: </span><span class="vi">@chat_service</span>
+   <span class="p">.</span><span class="nf">.</span><span class="o">.</span>
+</code></pre>
+<p>Now update the InputBox like this:</p>
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">InputBox</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Component</span>
+
+  <span class="n">param</span> <span class="ss">:chat_service</span><span class="p">,</span> <span class="ss">type: </span><span class="no">ChatService</span>
+
+  <span class="n">before_mount</span> <span class="p">{</span> <span class="n">mutate</span><span class="p">.</span><span class="nf">composition</span> <span class="s2">""</span> <span class="p">}</span>
+
+  <span class="k">def</span> <span class="nf">render</span>
+    <span class="n">div</span> <span class="k">do</span>
+      <span class="n">div</span> <span class="p">{</span><span class="s2">"Say Something: "</span><span class="p">}</span>
+      <span class="n">input</span><span class="p">(</span><span class="ss">value: </span><span class="n">state</span><span class="p">.</span><span class="nf">composition</span><span class="p">).</span><span class="nf">on</span><span class="p">(</span><span class="ss">:change</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">e</span><span class="o">|</span>
+        <span class="n">mutate</span><span class="p">.</span><span class="nf">composition</span> <span class="n">e</span><span class="p">.</span><span class="nf">target</span><span class="p">.</span><span class="nf">value</span>
+      <span class="k">end</span><span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:key_down</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">e</span><span class="o">|</span>
+        <span class="n">send_message</span> <span class="k">if</span> <span class="n">is_send_key?</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+      <span class="k">end</span>
+      <span class="no">FormattedDiv</span> <span class="ss">markdown: </span><span class="n">state</span><span class="p">.</span><span class="nf">composition</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">is_send_key?</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+    <span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="nf">char_code</span> <span class="o">==</span> <span class="mi">13</span> <span class="o">||</span> <span class="n">e</span><span class="p">.</span><span class="nf">key_code</span> <span class="o">==</span> <span class="mi">13</span><span class="p">)</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">send_message</span>
+    <span class="n">params</span><span class="p">.</span><span class="nf">chat_service</span><span class="p">.</span><span class="nf">send</span><span class="p">(</span>
+      <span class="ss">message: </span><span class="n">mutate</span><span class="p">.</span><span class="nf">composition</span><span class="p">(</span><span class="s2">""</span><span class="p">),</span>
+      <span class="ss">time: </span><span class="no">Time</span><span class="p">.</span><span class="nf">now</span><span class="p">.</span><span class="nf">to_i</span><span class="p">,</span>
+      <span class="ss">from: </span><span class="n">params</span><span class="p">.</span><span class="nf">chat_service</span><span class="p">.</span><span class="nf">id</span>
+    <span class="p">)</span>
+  <span class="k">end</span>
+
+<span class="k">end</span>
+</code></pre>
+<p>While we have done almost nothing new here, lets walk through so we are sure we understand everything.  </p>
+
+<p>The <code>InputBox</code> receives a <code>ChatService</code> which it will use to get the current user id, and send each new chat message.</p>
+
+<p>The <code>InputBox</code> has one state variable <code>state.composition</code> which just keeps track of the current message as the user types, just like we did with the <code>Nav</code> component.</p>
+
+<p>Instead of a &quot;send&quot; button, we just wait till the user hits the Enter Key.</p>
+
+<p>The current value of<code>state.composition</code> is passed along to the <code>FormattedDiv</code> which will (eventually) display the formatted markdown.</p>
+
+<ul>
+<li><h6 id="updating-state-variables-returns-the-current-value">Updating state variables returns the current value</h6>
+
+<p>Unlike the assignment operator, when you update a state variable you get back the <em>current</em> value of the state.  Thus we can write <code>mutate.composition(&quot;&quot;)</code> to clear the composition, while returning its current value.</p></li>
+</ul>
+
+<h5 id="step-11-formatting-the-markdown">Step 11 - Formatting The Markdown</h5>
+
+<p>Lets get the <code>FormattedDiv</code> working.  The header loads the marked.js library which will convert markdown to html.  React will normally escape any raw html, but there is a special escape mechanism which we will use in our component.  </p>
+
+<p>We will also use Opal-Ruby&#39;s native escape mechanism to insert raw javascript code so we can call the <code>marked</code> function.</p>
+
+<p>Replace <code>FormattedDiv</code>&#39;s <code>render</code> method with the following:</p>
+<pre class="highlight ruby"><code><span class="k">def</span> <span class="nf">render</span>
+  <span class="n">div</span> <span class="k">do</span>
+    <span class="n">div</span><span class="p">({</span><span class="ss">dangerously_set_inner_HTML: </span><span class="p">{</span> <span class="ss">__html: </span><span class="sb">`marked(</span><span class="si">#{</span><span class="n">params</span><span class="p">.</span><span class="nf">markdown</span><span class="si">}</span><span class="sb">, {sanitize: true})`</span><span class="p">}})</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<p>Save your file, refresh, and login, and you should see the test messages as formatted html.</p>
+
+<p>For more fun type some markdown into the input box and the formatted version will update as you type.</p>
+
+<ul>
+<li><h6 id="inserting-raw-html">Inserting raw HTML</h6>
+
+<p>React makes this hard because its dangerous. The above syntax can be used whenever you need to directly insert some raw HTML.</p></li>
+<li><h6 id="opal-javascript-native">Opal Javascript Native</h6>
+
+<p>In the above example we insert some raw javascript using the backquote literal.  Within the literal you can escape back out to Ruby using the <code>#{}</code> operator.  </p></li>
+</ul>
+
+<p>Congratulations your chat app is basically working.  </p>
+
+<h5 id="step-12-styling-the-app">Step 12 - Styling the App</h5>
+
+<p>We have a few more features to add, and if you have been observant you have noticed some bugs, but lets take a break and add some styling to our application.</p>
+
+<p>We will use <strong>Bootstrap</strong> styles, which has already been included.  We just need a few additional styles so lets add those now to the inline style sheet at the top of your HTML file:</p>
+<pre class="highlight css"><code>  <span class="nt">body</span> <span class="p">{</span>
+    <span class="nl">padding-top</span><span class="p">:</span> <span class="m">100px</span><span class="p">;</span>
+    <span class="nl">padding-bottom</span><span class="p">:</span> <span class="m">100px</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="nt">div</span><span class="nc">.alternating</span><span class="nd">:nth-of-type</span><span class="o">(</span><span class="nt">odd</span><span class="o">)</span> <span class="p">{</span>
+    <span class="nl">background-color</span><span class="p">:</span> <span class="m">#ddd</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="nt">div</span><span class="nc">.alternating</span><span class="nd">:nth-of-type</span><span class="o">(</span><span class="nt">even</span><span class="o">)</span> <span class="p">{</span>
+    <span class="nl">background-color</span><span class="p">:</span> <span class="m">#ccc</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="nc">.input-box</span> <span class="p">{</span>
+    <span class="nl">padding</span><span class="p">:</span> <span class="m">10px</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="nc">.saytext</span> <span class="p">{</span>
+    <span class="nl">color</span><span class="p">:</span> <span class="no">white</span><span class="p">;</span>
+    <span class="nl">font-size</span><span class="p">:</span> <span class="m">2em</span><span class="p">;</span>
+    <span class="nl">margin-left</span><span class="p">:</span> <span class="m">2em</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="nc">.message</span> <span class="p">{</span>
+    <span class="nl">padding-top</span><span class="p">:</span> <span class="m">10px</span><span class="p">;</span>
+    <span class="nl">margin-top</span><span class="p">:</span> <span class="m">10px</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="nt">textarea</span> <span class="p">{</span>
+    <span class="nl">width</span><span class="p">:</span> <span class="m">100%</span><span class="p">;</span>
+    <span class="nl">padding-top</span><span class="p">:</span> <span class="m">1em</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="nt">div</span><span class="nc">.hyperloop-icon</span> <span class="p">{</span>
+    <span class="nl">float</span><span class="p">:</span> <span class="nb">left</span><span class="p">;</span>
+    <span class="nl">width</span><span class="p">:</span> <span class="m">50px</span><span class="p">;</span>
+    <span class="nl">height</span><span class="p">:</span> <span class="m">50px</span><span class="p">;</span>
+    <span class="nl">margin-right</span><span class="p">:</span> <span class="m">8px</span><span class="p">;</span>
+    <span class="nl">background-size</span><span class="p">:</span> <span class="n">contain</span><span class="p">;</span>
+    <span class="nl">background-image</span><span class="p">:</span> <span class="sx">url("hyperloop-logo-small-white.png")</span><span class="p">;</span>
+      <span class="nl">background-repeat</span><span class="p">:</span> <span class="nb">no-repeat</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="nc">.navbar-inverse</span> <span class="p">{</span>
+    <span class="nl">background-color</span><span class="p">:</span> <span class="m">#149c8e</span><span class="p">;</span>
+    <span class="nl">background-image</span><span class="p">:</span> <span class="nb">none</span><span class="p">;</span>
+    <span class="nl">border-color</span><span class="p">:</span> <span class="m">#e81176</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="nt">div</span><span class="nc">.navbar</span> <span class="p">{</span>
+    <span class="nl">padding-top</span><span class="p">:</span> <span class="m">1.5em</span><span class="p">;</span>
+    <span class="nl">padding-bottom</span><span class="p">:</span> <span class="m">2em</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="nc">.navbar-brand</span> <span class="p">{</span>
+    <span class="nl">font-size</span><span class="p">:</span> <span class="m">2.5em</span><span class="p">;</span>
+    <span class="nl">font-weight</span><span class="p">:</span> <span class="nb">normal</span><span class="p">;</span>
+  <span class="p">}</span>
+</code></pre>
+<p>In Hyperloop and Opal syntax you can add classes to elements using css dot notation.</p>
+
+<p>So instead of saying <code>div(class: &quot;foo bar&quot;)</code> you can say <code>div.foo.bar</code></p>
+
+<p>Any dashes in class names should be translated to underscores.  For example:</p>
+
+<p><code>div.navbar.navbar_inverse.navbar_fixed_top</code> is the same as <code>div(class: &quot;navbar navbar-inverse navbar-fixed-top&quot;)</code></p>
+
+<p>With this we are ready to beautify our <code>Nav</code> component.  Replace the render method with the following code.</p>
+<pre class="highlight ruby"><code><span class="k">def</span> <span class="nf">render</span>
+  <span class="n">div</span><span class="p">.</span><span class="nf">navbar</span><span class="p">.</span><span class="nf">navbar_inverse</span><span class="p">.</span><span class="nf">navbar_fixed_top</span> <span class="k">do</span>
+    <span class="n">div</span><span class="p">.</span><span class="nf">container</span> <span class="k">do</span>
+      <span class="n">div</span><span class="p">.</span><span class="nf">collapse</span><span class="p">.</span><span class="nf">navbar_collapse</span><span class="p">(</span><span class="ss">id: </span><span class="s2">"navbar"</span><span class="p">)</span> <span class="k">do</span>
+        <span class="n">form</span><span class="p">.</span><span class="nf">navbar_form</span><span class="p">.</span><span class="nf">navbar_left</span><span class="p">(</span><span class="ss">role: :search</span><span class="p">)</span> <span class="k">do</span>
+          <span class="n">div</span><span class="p">.</span><span class="nf">form_group</span> <span class="k">do</span>
+            <span class="n">input</span><span class="p">.</span><span class="nf">form_control</span><span class="p">(</span><span class="ss">type: :text</span><span class="p">,</span> <span class="ss">value: </span><span class="n">state</span><span class="p">.</span><span class="nf">user_name_input</span><span class="p">,</span> <span class="ss">placeholder: </span><span class="s2">"Enter Your Handle"</span>
+            <span class="p">).</span><span class="nf">on</span><span class="p">(</span><span class="ss">:change</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">e</span><span class="o">|</span>
+              <span class="n">mutate</span><span class="p">.</span><span class="nf">user_name_input</span> <span class="n">e</span><span class="p">.</span><span class="nf">target</span><span class="p">.</span><span class="nf">value</span>
+            <span class="k">end</span>
+            <span class="n">button</span><span class="p">.</span><span class="nf">btn</span><span class="p">.</span><span class="nf">btn_default</span><span class="p">(</span><span class="ss">type: :button</span><span class="p">)</span> <span class="p">{</span> <span class="s2">"login!"</span> <span class="p">}.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:click</span><span class="p">)</span> <span class="k">do</span>
+              <span class="n">login!</span>
+            <span class="k">end</span> <span class="k">if</span> <span class="n">valid_new_input?</span>
+          <span class="k">end</span>
+        <span class="k">end</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<p>While this looks complicated notice that in the middle is our original input tag.  We have just added wrappers around it, and added the <code>form_control</code> class to the input, and the <code>btn</code> and <code>btn-default</code> classes to the login button.</p>
+
+<p>Refresh you browser and things should start looking better already.</p>
+
+<p>Lets move on to the <code>Message</code> and <code>Messages</code> components.  First add the class <code>container</code> to the <code>Messages</code> div.  The <code>Messages</code> render method should now look like this:</p>
+<pre class="highlight ruby"><code><span class="k">def</span> <span class="nf">render</span>
+  <span class="n">div</span><span class="p">.</span><span class="nf">container</span> <span class="k">do</span> <span class="c1"># add the bootstrap .container class here.</span>
+    <span class="n">params</span><span class="p">.</span><span class="nf">messages</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">message</span><span class="o">|</span>
+      <span class="no">Message</span> <span class="ss">message: </span><span class="n">message</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<p>Now add the <code>row, alternating</code> and <code>message</code> classes to the outer div of the Message component, and the <code>col-sm-2</code> class to the sender and time divs.  (Remember to change dashes to underscores.)</p>
+
+<p>Now add the <code>class: &quot;col-sm-8&quot;</code> to the <code>FormattedDiv</code> element.  Notice that you can not use the short hand syntax with application defined components.  </p>
+
+<p>Your <code>Message</code> render method should look like this:</p>
+<pre class="highlight ruby"><code><span class="k">def</span> <span class="nf">render</span>
+  <span class="n">div</span><span class="p">.</span><span class="nf">row</span><span class="p">.</span><span class="nf">alternating</span><span class="p">.</span><span class="nf">message</span> <span class="k">do</span>
+    <span class="n">div</span><span class="p">.</span><span class="nf">col_sm_2</span> <span class="p">{</span> <span class="n">params</span><span class="p">.</span><span class="nf">message</span><span class="p">[</span><span class="ss">:from</span><span class="p">]</span> <span class="p">}</span>
+    <span class="no">FormattedDiv</span> <span class="ss">class: </span><span class="s2">"col-sm-8"</span><span class="p">,</span> <span class="ss">markdown: </span><span class="n">params</span><span class="p">.</span><span class="nf">message</span><span class="p">[</span><span class="ss">:message</span><span class="p">]</span>
+    <span class="n">div</span><span class="p">.</span><span class="nf">col_sm_2</span> <span class="p">{</span> <span class="no">Time</span><span class="p">.</span><span class="nf">at</span><span class="p">(</span><span class="n">params</span><span class="p">.</span><span class="nf">message</span><span class="p">[</span><span class="ss">:time</span><span class="p">]).</span><span class="nf">to_s</span> <span class="p">}</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<p>Finally we need to update <code>FormattedDiv</code> so that it accepts all the normal html attributes uses them in the outer div.  This will allow us to specify different style classes for the <code>FormattedDiv</code> in the message display and in the input box.</p>
+
+<p>The <code>collect_other_params_as</code> macro is used to gather up any params not specified in param declarations and save them in a hash.  This can then be passed along to children components (in our case the outer div) as their attributes.</p>
+
+<p>Update the <code>FormattedDiv</code> <code>render</code> method so it looks like this:</p>
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">FormattedDiv</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
+
+  <span class="n">param</span> <span class="ss">:markdown</span><span class="p">,</span> <span class="ss">type: </span><span class="no">String</span>
+  <span class="n">collect_other_params_as</span> <span class="ss">:attributes</span>
+
+  <span class="k">def</span> <span class="nf">render</span>
+    <span class="n">div</span><span class="p">(</span><span class="n">params</span><span class="p">.</span><span class="nf">attributes</span><span class="p">)</span> <span class="k">do</span> <span class="c1"># send whatever class is specified on to the outer div</span>
+      <span class="n">div</span><span class="p">({</span><span class="ss">dangerously_set_inner_HTML: </span><span class="p">{</span> <span class="ss">__html: </span><span class="sb">`marked(</span><span class="si">#{</span><span class="n">params</span><span class="p">.</span><span class="nf">markdown</span><span class="si">}</span><span class="sb">, {sanitize: true })`</span><span class="p">}})</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<p><strong>Okay</strong> refresh your browser, and login, and things should be looking pretty good.</p>
+
+<p>Lets continue on, and update the <code>InputBox</code> component.</p>
+
+<p>Add the <code>row, form-group, input-box, navbar, navbar-inverse, navbar-fixed-bottom</code> classes to the outer <code>div</code>.</p>
+
+<p>Add the <code>col-sm-1</code> and <code>saytext</code> classes to the &quot;Say Something&quot; div.</p>
+
+<p>Add the <code>col-sm-5</code> class to the <code>input</code></p>
+
+<p>Finally add <code>class: &quot;col-sm-5 saytext&quot;</code> to the <code>FormattedDiv</code> element.</p>
+
+<p>Your updated render method should look like this:</p>
+<pre class="highlight ruby"><code><span class="k">def</span> <span class="nf">render</span>
+  <span class="n">div</span><span class="p">.</span><span class="nf">row</span><span class="p">.</span><span class="nf">form_group</span><span class="p">.</span><span class="nf">input_box</span><span class="p">.</span><span class="nf">navbar</span><span class="p">.</span><span class="nf">navbar_inverse</span><span class="p">.</span><span class="nf">navbar_fixed_bottom</span> <span class="k">do</span>
+    <span class="n">div</span><span class="p">.</span><span class="nf">col_sm_1</span><span class="p">.</span><span class="nf">white</span> <span class="p">{</span><span class="s2">"Say: "</span><span class="p">}</span>
+    <span class="n">input</span><span class="p">.</span><span class="nf">col_sm_5</span><span class="p">(</span><span class="ss">value: </span><span class="n">state</span><span class="p">.</span><span class="nf">composition</span><span class="p">).</span><span class="nf">on</span><span class="p">(</span><span class="ss">:change</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">e</span><span class="o">|</span>
+      <span class="n">state</span><span class="p">.</span><span class="nf">composition!</span> <span class="n">e</span><span class="p">.</span><span class="nf">target</span><span class="p">.</span><span class="nf">value</span>
+    <span class="k">end</span><span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:key_down</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">e</span><span class="o">|</span>
+      <span class="n">send_message</span> <span class="k">if</span> <span class="n">is_send_key?</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+    <span class="k">end</span>
+    <span class="no">FormattedDiv</span> <span class="ss">class: </span><span class="s2">"col-sm-5 white"</span><span class="p">,</span> <span class="ss">markdown: </span><span class="n">state</span><span class="p">.</span><span class="nf">composition</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<h5 id="step-13-multiline-inputs">Step 13 - Multiline Inputs</h5>
+
+<p>Now that our app looks better, we are motivated to clean up the remaining problems.  First off our <code>InputBox</code> only lets us enter single lines.  Lets fix that!</p>
+
+<p>First change the <code>input</code> element to a <code>textarea</code> element which will allow us to display multiple lines.</p>
+
+<p>Now go back and change the expression in the <code>is_send_key?</code>` method to also check for a ctrl or meta key.  </p>
+
+<p><strong>Note:</strong> You will need to press Ctrl-Enter to submit.</p>
+<pre class="highlight ruby"><code><span class="k">def</span> <span class="nf">is_send_key?</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="nf">char_code</span> <span class="o">==</span> <span class="mi">13</span> <span class="o">||</span> <span class="n">e</span><span class="p">.</span><span class="nf">key_code</span> <span class="o">==</span> <span class="mi">13</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="nf">meta_key</span> <span class="o">||</span> <span class="n">e</span><span class="p">.</span><span class="nf">ctrl_key</span><span class="p">)</span>
+<span class="k">end</span>
+</code></pre>
+<p>Try it out in your browser.  You should now be able to enter multiple line inputs.</p>
+
+<p>Its still not quite perfect.  If you type more than two lines it gets hard to see our text.  We would like the text box to expand as more lines are typed up to some maximum.</p>
+
+<p>All we need to do is add the <code>rows</code> attribute to the <code>textarea</code> and calculate the rows based on the current number of lines in the text area box.</p>
+
+<p>Add this method right after the <code>render</code> method:</p>
+<pre class="highlight ruby"><code><span class="k">def</span> <span class="nf">rows</span>
+  <span class="p">[</span><span class="n">state</span><span class="p">.</span><span class="nf">composition</span><span class="p">.</span><span class="nf">count</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span><span class="mi">20</span><span class="p">].</span><span class="nf">min</span>
+<span class="k">end</span>
+</code></pre>
+<p>and pass the value of our new <code>rows</code> method to the <code>rows</code> attribute of the <code>textarea</code>:</p>
+<pre class="highlight ruby"><code>  <span class="n">textarea</span><span class="p">.</span><span class="nf">col_sm_5</span><span class="p">(</span><span class="ss">rows: </span><span class="n">rows</span><span class="p">,</span> <span class="ss">value: </span><span class="n">state</span><span class="p">.</span><span class="nf">composition</span><span class="p">).</span><span class="nf">.</span><span class="o">.</span>
+</code></pre>
+<p>Refresh and you should be see the textarea dynamically grow as you type more text, and then collapse when you send a message.</p>
+
+<p>This brings up a very important point about states:</p>
+
+<ul>
+<li><p>Where possible compute values rather than adding state</p></li>
+<li><p>You might be tempted to create a state variable called rows that is updated whenever the text area changes.  </p></li>
+<li><p>This may (or may not) be slightly more effecient, but it introduces a lot of complexity.  </p></li>
+<li><p>Instead where ever possible compute values from existing state.</p></li>
+</ul>
+
+<h5 id="step-14-automatic-scroll-position">Step 14 - Automatic Scroll Position</h5>
+
+<p>You may have noticed that when you enter a message, you can&#39;t see it until you scroll down.  We would like to automatically scroll down when a message is sent so you can see it.  While we are at it, we will also make any new incoming messages do the same thing.</p>
+
+<p>Displaying the messages is the responsibility of the <code>Messages</code> component so that is where this fix will go.</p>
+
+<p>First add this method to the bottom of the <code>Messages</code> component:</p>
+<pre class="highlight ruby"><code><span class="k">def</span> <span class="nf">scroll_to_bottom</span>
+  <span class="no">Element</span><span class="p">[</span><span class="s1">'html, body'</span><span class="p">].</span><span class="nf">animate</span><span class="p">({</span><span class="ss">scrollTop: </span><span class="no">Element</span><span class="p">[</span><span class="no">Document</span><span class="p">].</span><span class="nf">height</span><span class="p">},</span> <span class="ss">:slow</span><span class="p">)</span>
+<span class="k">end</span>
+</code></pre>
+<p>Now all we need to do is call <code>scroll_to_bottom</code> whenever our message data changes.  What we need to do is hook into the <code>after_mount</code>, and <code>after_update</code> callbacks.  <code>after_mount</code> runs after the initial rendering of a component, and likewise <code>after_update</code> runs after every subsequent update.</p>
+
+<p>Add these two lines right after the param declaration in the <code>Messages</code> component:</p>
+<pre class="highlight ruby"><code><span class="n">after_mount</span> <span class="ss">:scroll_to_bottom</span>
+<span class="n">after_update</span> <span class="ss">:scroll_to_bottom</span>
+</code></pre>
+<p>Notice that instead of providing a block to the callbacks we are providing the name of a method to call, which is handy in this case since we want to use the same method twice.</p>
+
+<p>After making these changes you will see that after any update to the message display the window is scrolled to the bottom.</p>
+
+<h5 id="step-15-detecting-the-logged-in-user">Step 15 - Detecting the Logged In User</h5>
+
+<p>The display is a bit impersonal.  If I am logged in, then messages from me should say &quot;You&quot; instead of my login name.</p>
+
+<p>Lets fix this.</p>
+
+<p>Add this method to the bottom of the <code>Message</code> component:</p>
+<pre class="highlight ruby"><code><span class="k">def</span> <span class="nf">sender</span>
+  <span class="k">if</span> <span class="n">params</span><span class="p">.</span><span class="nf">message</span><span class="p">[</span><span class="ss">:from</span><span class="p">]</span> <span class="o">==</span> <span class="n">params</span><span class="p">.</span><span class="nf">user_id</span>
+    <span class="s2">"you: "</span>
+  <span class="k">else</span>
+    <span class="s2">"</span><span class="si">#{</span><span class="n">params</span><span class="p">.</span><span class="nf">message</span><span class="p">[</span><span class="ss">:from</span><span class="p">]</span><span class="si">}</span><span class="s2">:"</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<p>and replace <code>params.message[:from]</code> in the <code>render</code> method with <code>sender</code>.</p>
+<pre class="highlight ruby"><code><span class="k">def</span> <span class="nf">render</span>
+  <span class="n">div</span><span class="p">.</span><span class="nf">row</span><span class="p">.</span><span class="nf">alternating</span><span class="p">.</span><span class="nf">message</span> <span class="k">do</span>
+    <span class="n">div</span><span class="p">.</span><span class="nf">col_sm_2</span> <span class="p">{</span> <span class="n">sender</span> <span class="p">}</span>
+    <span class="no">FormattedDiv</span> <span class="ss">class: </span><span class="s2">"col-sm-8"</span><span class="p">,</span> <span class="ss">markdown: </span><span class="n">params</span><span class="p">.</span><span class="nf">message</span><span class="p">[</span><span class="ss">:message</span><span class="p">]</span>
+    <span class="n">div</span><span class="p">.</span><span class="nf">col_sm_2</span> <span class="p">{</span> <span class="n">formatted_time</span> <span class="p">}</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<p>But we have to pass the <code>user_id</code> down from the ChatApp component (<code>@chat_service.id</code>) to <code>Messages</code>, and
+from <code>Messages</code> to <code>Message</code>.  Once you have added the params and passed them along, refresh your browser.</p>
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">Messages</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Component</span>
+  <span class="n">param</span> <span class="ss">:messages</span><span class="p">,</span> <span class="ss">type: </span><span class="p">[</span><span class="no">Hash</span><span class="p">]</span>
+  <span class="n">param</span> <span class="ss">:user_id</span>
+
+  <span class="k">def</span> <span class="nf">render</span>
+    <span class="n">div</span><span class="p">.</span><span class="nf">container</span> <span class="k">do</span> <span class="c1"># add the bootstrap .container class here.</span>
+      <span class="n">params</span><span class="p">.</span><span class="nf">messages</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">message</span><span class="o">|</span>
+        <span class="no">Message</span> <span class="ss">message: </span><span class="n">message</span><span class="p">,</span> <span class="ss">user_id: </span><span class="n">params</span><span class="p">.</span><span class="nf">user_id</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+
+<span class="k">end</span>
+</code></pre><pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">Message</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Component</span>
+  <span class="n">param</span> <span class="ss">:message</span><span class="p">,</span> <span class="ss">type: </span><span class="no">Hash</span>
+  <span class="n">param</span> <span class="ss">:user_id</span>
+
+  <span class="n">after_mount</span> <span class="ss">:scroll_to_bottom</span>
+  <span class="n">after_update</span> <span class="ss">:scroll_to_bottom</span>
+
+  <span class="k">def</span> <span class="nf">render</span>
+    <span class="n">div</span><span class="p">.</span><span class="nf">row</span><span class="p">.</span><span class="nf">alternating</span><span class="p">.</span><span class="nf">message</span> <span class="k">do</span>
+      <span class="n">div</span><span class="p">.</span><span class="nf">col_sm_2</span> <span class="p">{</span> <span class="n">sender</span> <span class="p">}</span>
+      <span class="no">FormattedDiv</span> <span class="ss">class: </span><span class="s2">"col-sm-8"</span><span class="p">,</span> <span class="ss">markdown: </span><span class="n">params</span><span class="p">.</span><span class="nf">message</span><span class="p">[</span><span class="ss">:message</span><span class="p">]</span>
+      <span class="n">div</span><span class="p">.</span><span class="nf">col_sm_2</span> <span class="p">{</span> <span class="n">formatted_time</span> <span class="p">}</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">scroll_to_bottom</span>
+    <span class="no">Element</span><span class="p">[</span><span class="s1">'html, body'</span><span class="p">].</span><span class="nf">animate</span><span class="p">({</span><span class="ss">scrollTop: </span><span class="no">Element</span><span class="p">[</span><span class="no">Document</span><span class="p">].</span><span class="nf">height</span><span class="p">},</span> <span class="ss">:slow</span><span class="p">)</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">sender</span>
+    <span class="k">if</span> <span class="n">params</span><span class="p">.</span><span class="nf">message</span><span class="p">[</span><span class="ss">:from</span><span class="p">]</span> <span class="o">==</span> <span class="n">params</span><span class="p">.</span><span class="nf">user_id</span>
+      <span class="s2">"you: "</span>
+    <span class="k">else</span>
+      <span class="s2">"</span><span class="si">#{</span><span class="n">params</span><span class="p">.</span><span class="nf">message</span><span class="p">[</span><span class="ss">:from</span><span class="p">]</span><span class="si">}</span><span class="s2">:"</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+
+<span class="k">end</span>
+</code></pre>
+<p>If you are still using the test fixture then login as <code>user1</code> and see the results.</p>
+
+<h5 id="step-16-formatting-the-time-stamp">Step 16 - Formatting The Time Stamp</h5>
+
+<p>While we are fixing the <code>Message</code> component lets clean up the time stamp column.  The time stamp is not only ugly, its also not informative.  Lets make it so it progressively changes formats the older the message gets.</p>
+
+<p>Add this method to the bottom of the <code>Message</code> component:</p>
+<pre class="highlight ruby"><code><span class="k">def</span> <span class="nf">formatted_time</span>
+  <span class="n">time</span> <span class="o">=</span> <span class="no">Time</span><span class="p">.</span><span class="nf">at</span><span class="p">(</span><span class="n">params</span><span class="p">.</span><span class="nf">message</span><span class="p">[</span><span class="ss">:time</span><span class="p">])</span>
+  <span class="k">if</span> <span class="no">Time</span><span class="p">.</span><span class="nf">now</span> <span class="o">&lt;</span> <span class="n">time</span><span class="o">+</span><span class="mi">1</span><span class="p">.</span><span class="nf">day</span>
+    <span class="n">time</span><span class="p">.</span><span class="nf">strftime</span><span class="p">(</span><span class="s2">"%I:%M %p"</span><span class="p">)</span>
+  <span class="k">elsif</span> <span class="no">Time</span><span class="p">.</span><span class="nf">now</span> <span class="o">&lt;</span> <span class="n">time</span><span class="o">+</span><span class="mi">7</span><span class="p">.</span><span class="nf">days</span>
+    <span class="n">time</span><span class="p">.</span><span class="nf">strftime</span><span class="p">(</span><span class="s2">"%A"</span><span class="p">)</span>
+  <span class="k">else</span>
+    <span class="n">time</span><span class="p">.</span><span class="nf">strftime</span><span class="p">(</span><span class="s2">"%D %I:%M %p"</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<p>and then call <code>formatted_time</code> instead of just displaying the raw time.</p>
+
+<h5 id="step-17-a-final-bug-fix">Step 17 - A Final Bug Fix</h5>
+
+<p>Try logging in, and then logging in again, either as the same or different user.  Notice that the list of messages is duplicated.</p>
+
+<p>Our chat service supplies us with all existing messages when somebody logs in.  And our <code>ChatApp</code> component happily appends all the incoming messages.  </p>
+
+<p>What we need to do is clear the messages during the login process.</p>
+
+<p>Add this line at the beginning of the <code>ChatApp</code> login method:</p>
+<pre class="highlight ruby"><code><span class="p">.</span><span class="nf">.</span><span class="p">.</span>
+<span class="nf">mutate</span><span class="p">.</span><span class="nf">messages</span> <span class="kp">nil</span>
+<span class="p">.</span><span class="nf">.</span><span class="o">.</span>
+</code></pre>
+<p>Make sure you do this before sending the credentials to the chat service.</p>
+
+<h5 id="step-18-final-touches">Step 18 - Final Touches</h5>
+
+<p>You may notice that you can&#39;t hit the enter key to login.  Instead the enter key refreshes the page.</p>
+
+<p>To fix this the <code>Nav</code> component will need to two additional event handlers, one to track the <code>key_down</code> event, and the other to clear the <code>submit</code> event for the form.</p>
+
+<p>Add this handler to the <code>input</code> element:</p>
+<pre class="highlight ruby"><code><span class="n">on</span><span class="p">(</span><span class="ss">:key_down</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">e</span><span class="o">|</span>
+  <span class="n">login!</span> <span class="k">if</span> <span class="n">valid_new_input?</span> <span class="o">&amp;&amp;</span> <span class="n">e</span><span class="p">.</span><span class="nf">key_code</span> <span class="o">==</span> <span class="mi">13</span>
+<span class="k">end</span>
+</code></pre>
+<p>and add this handler to the <code>form</code>.</p>
+<pre class="highlight ruby"><code><span class="n">on</span><span class="p">(</span><span class="ss">:submit</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span><span class="n">e</span><span class="o">|</span> <span class="n">e</span><span class="p">.</span><span class="nf">prevent_default</span> <span class="p">}</span>
+</code></pre>
+<p>While we are in there lets add the Hyperloop logo and a title to the nav bar.  Add</p>
+<pre class="highlight ruby"><code><span class="n">div</span><span class="p">.</span><span class="nf">navbar_header</span> <span class="k">do</span>
+  <span class="n">div</span><span class="p">.</span><span class="nf">hyperloop_icon</span>
+  <span class="n">a</span><span class="p">.</span><span class="nf">navbar_brand</span><span class="p">(</span><span class="ss">href: </span><span class="s2">"#"</span><span class="p">,</span> <span class="ss">style: </span><span class="p">{</span><span class="ss">color: </span><span class="s2">"white"</span><span class="p">})</span> <span class="p">{</span> <span class="s2">"Hyperloop Chat Room "</span> <span class="p">}</span>
+<span class="k">end</span>
+</code></pre>
+<p>inside the <code>container</code> <code>div</code>.</p>
+
+<p>Finally lets use one of the standard bootstrap login icons instead of the words &quot;Login!&quot;.</p>
+
+<p>Replace <code>{ &quot;Login!&quot; }</code> with <code>{ span.glyphicon.glyphicon_log_in }</code></p>
+
+<p>Now the completed <code>Nav</code> <code>render</code> method will look like this:</p>
+<pre class="highlight ruby"><code><span class="k">def</span> <span class="nf">render</span>
+  <span class="n">div</span><span class="p">.</span><span class="nf">navbar</span><span class="p">.</span><span class="nf">navbar_inverse</span><span class="p">.</span><span class="nf">navbar_fixed_top</span> <span class="k">do</span>
+    <span class="n">div</span><span class="p">.</span><span class="nf">container</span> <span class="k">do</span>
+      <span class="n">div</span><span class="p">.</span><span class="nf">navbar_header</span> <span class="k">do</span>
+        <span class="n">div</span><span class="p">.</span><span class="nf">hyperloop_icon</span>
+        <span class="n">a</span><span class="p">.</span><span class="nf">navbar_brand</span><span class="p">(</span><span class="ss">href: </span><span class="s2">"#"</span><span class="p">,</span> <span class="ss">style: </span><span class="p">{</span><span class="ss">color: </span><span class="s2">"white"</span><span class="p">})</span> <span class="p">{</span> <span class="s2">"Hyperloop Chat Room "</span> <span class="p">}</span>
+      <span class="k">end</span>
+      <span class="n">div</span><span class="p">.</span><span class="nf">collapse</span><span class="p">.</span><span class="nf">navbar_collapse</span><span class="p">(</span><span class="ss">id: </span><span class="s2">"navbar"</span><span class="p">)</span> <span class="k">do</span>
+        <span class="n">form</span><span class="p">.</span><span class="nf">navbar_form</span><span class="p">.</span><span class="nf">navbar_left</span><span class="p">(</span><span class="ss">role: :search</span><span class="p">)</span> <span class="k">do</span>
+          <span class="n">div</span><span class="p">.</span><span class="nf">form_group</span> <span class="k">do</span>
+            <span class="n">input</span><span class="p">.</span><span class="nf">form_control</span><span class="p">(</span><span class="ss">type: :text</span><span class="p">,</span> <span class="ss">value: </span><span class="n">state</span><span class="p">.</span><span class="nf">user_name_input</span><span class="p">,</span> <span class="ss">placeholder: </span><span class="s2">"Enter Your Handle"</span>
+            <span class="p">).</span><span class="nf">on</span><span class="p">(</span><span class="ss">:change</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">e</span><span class="o">|</span>
+              <span class="n">mutate</span><span class="p">.</span><span class="nf">user_name_input</span> <span class="n">e</span><span class="p">.</span><span class="nf">target</span><span class="p">.</span><span class="nf">value</span>
+            <span class="k">end</span><span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:key_down</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">e</span><span class="o">|</span>
+              <span class="n">login!</span> <span class="k">if</span> <span class="n">valid_new_input?</span> <span class="o">&amp;&amp;</span> <span class="n">e</span><span class="p">.</span><span class="nf">key_code</span> <span class="o">==</span> <span class="mi">13</span>
+            <span class="k">end</span>
+            <span class="n">button</span><span class="p">.</span><span class="nf">btn</span><span class="p">.</span><span class="nf">btn_default</span><span class="p">(</span><span class="ss">type: :button</span><span class="p">)</span> <span class="p">{</span> <span class="n">span</span><span class="p">.</span><span class="nf">glyphicon</span><span class="p">.</span><span class="nf">glyphicon_log_in</span> <span class="p">}.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:click</span><span class="p">)</span> <span class="k">do</span>
+              <span class="n">login!</span>
+            <span class="k">end</span> <span class="k">if</span> <span class="n">valid_new_input?</span>
+          <span class="k">end</span>
+        <span class="k">end</span><span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:submit</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span><span class="n">e</span><span class="o">|</span> <span class="n">e</span><span class="p">.</span><span class="nf">prevent_default</span> <span class="p">}</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<p><strong>Congratulations</strong></p>
+
+<p>You have built a very nice functional application.   We hope you have enjoyed the process.  Happy Coding!</p>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="page-footer-upperline">
+      <div class="container">
+
+      </div>
+    </div>
+
+    <footer class="nav-footer">
+  <section class="sitemap">
+
+    <a href="/" class="nav-home"></a>
+
+    <div>
+      <h6><a href="/start/components" class="hyperloop-white">Start</a></h6>
+      <a href="/start/components#components">Components</a>
+      <a href="/start/stores#stores">Stores</a>
+      <a href="/start/operations#operations">Operations</a>
+      <a href="/start/policies#policies">Policies</a>
+      <a href="/start/pradgmatic">Pragmatic Thinking</a>
+    </div>
+    <div>
+
+    
+      <h6><a href="/tutorials" class="hyperloop-white">Tutorials</a></h6>
+      <a href="/tutorials/hyperloopcomps">Hyperloop COMPS</a>
+      <a href="/tutorials/hyperloopjs">Hyperloop.js</a>
+      <a href="/tutorials/hyperlooprails">Hyperloop and Rails</a>
+      <a href="/tutorials/hyperloopdeploy">Hyperloop deployment</a>
+      <a href="/tutorials/opal">Opal</a>
+      <a href="/tutorials/videos">Videos</a>
+    </div>
+    <div>
+      <h6><a href="/installation" class="hyperloop-white">Installation</a></h6>
+      <a href="installation#opal-playground">Hyperloop.js</a>
+  	  <a href="installation#ror">With Ruby On Rails</a>
+  	  <a href="installation#with-sinatra">With Sinatra</a>
+  	  <a href="installation#deployment">Deployment</a>
+    </div>
+    <div>
+      <h6><a href="/gems" class="hyperloop-white">Gems</a></h6>
+      <a href="https://github.com/ruby-hyperloop/hyperloop">hyperloop</a>
+      <a href="https://github.com/ruby-hyperloop/hyperloop-js">hyperloop-js</a>
+      <a href="https://github.com/ruby-hyperloop/hyper-react">hyper-component</a>
+      <a href="https://github.com/ruby-hyperloop/hyper-store">hyper-store</a>
+      <a href="https://github.com/ruby-hyperloop/hyper-mesh">hyper-model</a>
+      <a href="https://github.com/ruby-hyperloop/hyper-operation">hyper-operation</a>
+      <a href="https://github.com/ruby-hyperloop/reactrb-router/tree/v2-4-0">hyper-router</a>
+      <a href="https://github.com/ruby-hyperloop/hyper-spec">hyper-spec</a>
+      <a href="https://github.com/ruby-hyperloop/hyper-trace">hyper-trace</a>
+    </div>
+    <div>
+      <h6><a href="/tools" class="hyperloop-white">Tools</a></h6>
+      <a href="#testing">Testing</a>
+    	<a href="#tools">Tools</a>
+    	<a href="#debugging">Debugging</a>
+    </div>
+    <div>
+      <h6><a href="/docs/architecture" class="hyperloop-white">Docs</a></h6>
+      <a href="/docs/architecture">Hyperloop Architecture</a>
+      <a href="/docs/components/dsl-overview">Components</a>
+      <a href="/docs/stores/overview">Stores</a>
+      <a href="/docs/models/overview">Models</a>
+      <a href="/docs/operations/overview">Operations</a>
+      <a href="/docs/policies/authorization">Policies</a>
+    </div>
+
+  </section>
+
+  <section class="otherlinks">
+    <a href="https://github.com/ruby-hyperloop" class="hyperloop-white">Github</a>
+    <a href="/support" class="hyperloop-white">Help</a>
+    <a href="/blog" class="hyperloop-white">Blog</a>
+  </section>
+
+  <section class="copyright">
+    Copyright © 2017 Hyperloop.
+  </section>
+</footer>
+
+
+    <script>
+      (function(Opal) {
+        var self = Opal.top, $scope = Opal, nil = Opal.nil, $breaker = Opal.breaker, $slice = Opal.slice;
+        Opal.add_stubs(['$puts']);
+        return self.$puts("Opal ok")
+      })(Opal);
+    </script>
+
+    <!-- <script   src="http://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script> -->
+
+
+    <script type="text/ruby">puts "Hyperloop JS ok"</script>
+
+
+  </body>
+</html>

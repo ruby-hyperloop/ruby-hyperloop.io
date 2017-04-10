@@ -10,57 +10,170 @@
     <meta charset="UTF-8">
     <title>Hyperloop - Installation</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
 
-    <!-- <link href="/stylesheets/base.css" rel="stylesheet" />
-    <link href="/stylesheets/normalize.css" rel="stylesheet" />
-    <link href="/stylesheets/stylesheet.css" rel="stylesheet" />
-    <link href="/stylesheets/github-light.css" rel="stylesheet" /> -->
+    <script src="https://unpkg.com/react@15/dist/react.min.js"></script>
+    <script src="https://unpkg.com/react-dom@15/dist/react-dom.min.js"></script>
 
     <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.5/marked.min.js"></script>
-    <script src="https://rawgit.com/reactrb/reactrb-express/master/reactrb-express.js"></script>
+
+
+    <!-- Opal and Hyperloop -->
+    <script src="https://rawgit.com/ruby-hyperloop/hyperloop-js/master/opal-compiler.min.js"></script>
+    <script src="https://rawgit.com/ruby-hyperloop/hyperloop-js/master/hyperloop.min.js"></script>
+
+    <!-- If you want local copies... -->
+    <!-- <script src="../javascripts/opal-compiler.js"></script> -->
+    <!-- <script src="../javascripts/hyperloop.js"></script> -->
 
     <script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
 
-    <script src="/javascripts/bootstrap.min.js"></script>
-    <script src="/javascripts/codemirror.js"></script>
-    <script src="/javascripts/ruby.js"></script>
-    <script src="/javascripts/matchbrackets.js"></script>
+    <script src="../javascripts/bootstrap.min.js"></script>
+    <script src="../javascripts/codemirror.js"></script>
+    <script src="../javascripts/ruby.js"></script>
+    <script src="../javascripts/matchbrackets.js"></script>
+    <script src="../javascripts/react_player.js"></script>
 
-    <link href="/stylesheets/bootstrap.min.css" rel="stylesheet" />
-    <link href="/stylesheets/override.css" rel="stylesheet" />
-    <!-- <link href="/stylesheets/code.css" rel="stylesheet" /> -->
-    <link href="/stylesheets/github.css" rel="stylesheet" />
-    <link href="/stylesheets/highlighting.css" rel="stylesheet" />
-    <link href="/stylesheets/codemirror.css" rel="stylesheet" />
+    <!-- Components are compiled by Hyperloop Express -->
+    <script type="text/ruby">
+
+class CodeMirror < Hyperloop::Component
+  param :code, type: String
+  param :heading, default: "Code"
+  param :rows, type: Integer, default: 0
+  param :top_level_component, type: String
+
+  before_mount do
+    r=rand(2**256).to_s(36)[0..7]
+    @div_code = "code_#{r}"
+    @div_result = "result_#{r}"
+  end
+
+  after_mount do
+  # puts params.code
+    @editor = `CodeMirror(document.getElementById(#{@div_code}), {
+      value: #{params.code.to_s},
+      mode: 'text/x-ruby',
+      matchBrackets: true,
+      lineNumbers: true,
+      indentUnit: 2,
+      theme: 'github'
+    });`
+
+    `#{@editor}.on('change', #{lambda {on_change} })`
+    `#{@editor}.setSize(null, #{@editor}.defaultTextHeight()*#{params.rows})` unless params.rows == 0
+    execute_code
+  end
+
+  render(DIV) do
+    div.card {
+      div.card_header { params.heading }
+      div(id: @div_code)
+      div.card_header do
+        img(src: '../images/hyperloop-logo-small-white.png' , width:'25')
+        span { ' ' }
+        'Hyperloop playground :'
+      end
+      div.card_block(id: @div_result)
+    }
+  end
+
+  def on_change
+    execute_code
+  end
+
+  def execute_code
+    begin
+      code = `#{@editor}.getValue()`
+      # puts code
+      code += "\nElement['##{@div_result}'].render(#{params.top_level_component})"
+      compiled_code = Opal::Compiler.new(code).compile
+
+      `ReactDOM.unmountComponentAtNode(document.getElementById(#{@div_result}));`
+
+      Hyperloop::Context.reset!
+      `eval(#{compiled_code})`
+      Hyperloop::Application::Boot.run()
+
+      
+      component = Module.const_get params.top_level_component
+      # we need to see if the component is valid - try checking if it can render static markup
+      # the following line generates: `undefined method to_n for SimpleComponent`
+      # if React.render_to_static_markup( component ).empty?
+      #   invalid_component_message
+      # end
+    rescue Exception => e
+      @time_out = after(0.1) do
+        unable_to_compile_message e.message
+      end
+    end
+  end
+
+  def invalid_component_message
+    message = div.text_danger do
+      h3.text_danger {"Oops, invalid Component..."}
+      p { "Your Component has been rejected by React. A valid Component must have a render macro and return just one HTML element." }
+    end
+    Element["##{@div_result}"].render{ message }
+  end
+
+  def unable_to_compile_message reason
+    message = div.text_danger do
+      h3.text_danger {"Can't compile..."}
+      p { reason }
+    end
+    Element["##{@div_result}"].render{ message }
+  end
+
+end
+
+</script>
+
+    <script type="text/ruby">
+
+Document.ready? do
+   Element.find('div.codemirror-live-edit').each do |mount_point|
+     heading = mount_point.attr('data-heading')
+     rows = mount_point.attr('data-rows')
+     top_level_component = mount_point.attr('data-top-level-component')
+     code = Element[mount_point].find('pre').text.strip
+     params = {code: code, top_level_component: top_level_component}
+     params = params.merge({heading: heading}) if heading
+     params = params.merge({rows: rows.to_i}) if rows
+     codemirror_component = Object.const_get('CodeMirror')
+     React.render(React.create_element(codemirror_component, params ), mount_point)
+   end
+end
+
+</script>
+
+
+    <link href="../stylesheets/bootstrap.min.css" rel="stylesheet" />
+    <link href="../stylesheets/typography.css" rel="stylesheet" />
+    <link href="../stylesheets/override.css" rel="stylesheet" />
+    <link href="../stylesheets/divtable.css" rel="stylesheet" />
+    <!-- <link href="../stylesheets/code.css" rel="stylesheet" /> -->
+    <link href="../stylesheets/github.css" rel="stylesheet" />
+    <link href="../stylesheets/highlighting.css" rel="stylesheet" />
+    <link href="../stylesheets/codemirror.css" rel="stylesheet" />
 
     <link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/feed.xml" />
 
     <!-- Favicons -->
-    <link rel="apple-touch-icon" sizes="57x57" href="/images/apple-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="60x60" href="/images/apple-icon-60x60.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="/images/apple-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="/images/apple-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="/images/apple-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="/images/apple-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="/images/apple-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="/images/apple-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-icon-180x180.png">
-    <link rel="icon" type="image/png" sizes="192x192"  href="/images/android-icon-192x192.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="/images/favicon-96x96.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
-    <link rel="manifest" href="/manifest.json">
-    <meta name="msapplication-TileColor" content="#ffffff">
-    <meta name="msapplication-TileImage" content="/images/ms-icon-144x144.png">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="../images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" href="../images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="../images/favicon-16x16.png" sizes="16x16">
+    <link rel="manifest" href="/images/manifest.json">
+    <link rel="mask-icon" href="../images/safari-pinned-tab.svg" color="#e81176">
     <meta name="theme-color" content="#ffffff">
 
   </head>
 
   <body>
-    <div class="container">
-      <nav class="navbar navbar-ligh">
+    <div class="navbarbackgroundcolor">
+      <div class="container">
+        <nav class="navbar navbar-ligh">
   <button class="navbar-toggler hidden-sm-up" type="button" data-toggle="collapse" data-target="#exCollapsingNavbar2" aria-controls="exCollapsingNavbar2" aria-expanded="false" aria-label="Toggle navigation">
     &#9776;
   </button>
@@ -70,13 +183,13 @@
         <a href="/" class="nav-link">Hyperloop</a>
       </li>
       <li class="nav-item">
-        <a href="/get_started" class="nav-link active">Get Started</a>
-      </li>
-      <li class="nav-item">
-        <a href="/tutorials" class="nav-link">Tutorials</a>
+        <a href="/start/components" class="nav-link active">Start</a>
       </li>
       <li class="nav-item">
         <a href="/installation" class="nav-link">Installation</a>
+      </li>
+      <li class="nav-item">
+        <a href="/tutorials" class="nav-link">Tutorials</a>
       </li>
       <li class="nav-item">
         <a href="/gems" class="nav-link">Gems</a>
@@ -88,10 +201,10 @@
         <a href="/tools" class="nav-link">Tools</a>
       </li>
       <li class="nav-item">
-        <a href="/docs/dsl_overview" class="nav-link">Docs</a>
+        <a href="/docs/architecture" class="nav-link">Docs</a>
       </li>
       <li class="nav-item">
-        <a href="/support" class="nav-link">Support</a>
+        <a href="/help" class="nav-link">Help</a>
       </li>
       <li class="nav-item">
         <a href="/blog" class="nav-link">Blog</a>
@@ -100,339 +213,258 @@
   </div>
 </nav>
 
+      </div>
     </div>
 
     <div class="jumbotron page-header">
       <div class="container">
-        <div class="row hidden-xs-down">
-          <div class="col-md-3 center-text">
-            <img src="/images/hyperloop_white.svg" width="180" alt="Hyperloop white" />
+
+        <div class="row hidden-sm-down">
+          <div class="col-md-2">
+            <div class="hyperlooplogo">
+            </div>
           </div>
-          <div class="col-md-9">
+          <div class="col-md-6">
+
             <h1 class="display-4 project-name">Hyperloop</h1>
-            </br>
-            <h2 class="display-7 project-tagline">
-              INSTALLATION
-            </h2>
+
+            <h4 class="display-7 project-tagline">
+              Installation
+            </h4>
+          </div>
+          <div class="col-md-4">
+            <div class="row underconstruction">
+              <div class="col-sm-4">
+                <img src="../images/underconstruction.png" width="120" alt="Underconstruction" />
+              </div>
+              <div class="col-sm-8 underconstructiontext">
+                 Docs and Tutorials are under construction but GEMS are released and all passing tests
+              </div>
+            </div>
           </div>
         </div>
-        <div class="row hidden-sm-up">
+
+        <div class="row hidden-md-up">
           <div class="col-md-3 center-text">
-            <img src="/images/hyperloop_white.svg" width="120" alt="Hyperloop white" />
+            <img src="../images/hyperloop-logo-small-white.png" width="100" alt="Hyperloop logo small white" />
           </div>
           <div class="col-md-9">
             <h1 class="h1 project-name center-text">Hyperloop</h1>
             </br>
-            <h2 class="h4 project-tagline center-text">
-              INSTALLATION
+            <h2 class="h5 project-tagline center-text">
+              Installation
             </h2>
           </div>
+          <div class="col-sm-12">
+          <br>
+            <div class="row underconstruction">
+              <div class="col-sm-4">
+                <img src="../images/underconstruction.png" width="120" alt="Underconstruction" />
+              </div>
+              <div class="col-sm-8 underconstructiontext">
+                 Docs and Tutorials are under construction but GEMS are released and all passing tests
+              </div>
+            </div>
+          </div>
         </div>
+
+
+      </div>
+    </div>
+
+    <div class="page-header-underline">
+      <div class="container">
+
       </div>
     </div>
 
     <div class="container">
       <div class="row">
-        <div class="col-md-3">
-            <ul class="nav">
-    <li class="nav-item"><a href="#opal-playground">Opal Playground</a></br></li>
-    <li class="nav-item"><a href="#using-hyperloop-express">Using Hyperloop Express</a></br></li>
-    <li class="nav-item"><a href="#with-rails">With Rails</a></br></li>
-    <li class="nav-item"><a href="#manual-rails-install">Manual Rails Install</a></br></li>
+        <div class="col-md-3 sidenavcol">
+          
+  <ul class="nav">
+    <li class="nav-item"><a href="installation#hyperloopjs">Hyperloop.js</a></li>
+    <ul class="nav">
+      <li class="nav-item"><a href="installation#hyperloopjssetup">Setup</a></li>
+      <li class="nav-item"><a href="installation#hyperloopjssimplehelloworld">Simple
+      HelloWorld</a></li>
+      <li class="nav-item"><a href="installation#hyperloopjstutorials">Tutorials</a></li>
+    </ul>
+  </ul>
+
+  <br>
+
+  <ul class="nav">
+    <li class="nav-item"><a href="installation#ror">With Ruby On Rails</a></li>
+    <ul class="nav">
+      <li class="nav-item"><a href="installation#rorsetup">Setup</a></li>
+      <li class="nav-item"><a href="installation#rorsimplehelloworld">Simple
+      HelloWorld</a></li>
+      <li class="nav-item"><a href="installation#rortutorials">Tutorials</a></li>
+      <li class="nav-item"><a href="#advanced-configuration">Advanced configuration</a></li>
+    </ul>
+  </ul>
+
+  <br>
+
+  <ul class="nav">
     <li class="nav-item"><a href="#with-sinatra">With Sinatra</a></br></li>
-    <li class="nav-item"><a href="#building-with-rake">Building with Rake</a></br></li>
+  </ul>
+
+  <br>
+
+  <ul class="nav">
     <li class="nav-item"><a href="#deployment">Deployment</a></br></li>
   </ul>
+
+
+
 
           <br>
         </div>
         <div class="col-md-9 main-content">
-          <h1 id="installation">Installation</h1>
+          <h1 id="installation"><span class="bigfirstletter">I</span>nstallation</h1>
 
 <p>There are several ways to install Hyperloop into your development environment.</p>
 
 <ul>
-<li>Experimenting online in the Opal playground</li>
-<li>Running exclusively in your browser with Hyperloop Express</li>
+<li>Running exclusively in your browser with Hyperloop.js</li>
 <li>Integrating with the Rails Asset Pipeline</li>
-<li>Building a single <code>application.js</code> with Rake</li>
-<li>Using NPM and Webpack to require all your JavaScript components</li>
+<li>Integrating with Sinatra</li>
 </ul>
 
-<h2 id="opal-playground">Opal Playground</h2>
+<h2 id="hyperloop-js"><a name="hyperloopjs">Hyperloop.js</a></h2>
 
-<p>A great way to start learning HyperReact is use OpalPlayground.</p>
+<p>For small static sites that don&#39;t need a server backend you can use the <code>hyperloop.js</code> javascript library.
+Simply include the <code>hyperloop.js</code> file with your other javascript code, or access it directly via the CDN, and you are good to go.</p>
 
-<p>Here is a simple HelloWorld example to get you started.</p>
+<p>This is another great way to experiment with Hyperloop. You don&#39;t need any setup or download to get started.</p>
 
-<p><strong><a href="http://fkchang.github.io/opal-playground/?code:class%20HelloWorld%20%3C%20React%3A%3AComponent%3A%3ABase%0A%20%20param%20%3Avisitor%0A%0A%20%20def%20render%0A%20%20%20%20%22Hello%20there%20%23%7Bparams.visitor%7D%22%0A%20%20end%0Aend%0A%0A%0AElement%5B%27%23content%27%5D.render%20do%0A%20%20HelloWorld%20visitor%3A%20%22world%22%0Aend%0A%0A%0A&amp;html_code=%3Cdiv%20id%3D%27content%27%3E%3C%2Fdiv%3E&amp;css_code=body%20%7B%0A%20%20background%3A%20%23eeeeee%3B%0A%7D%0A">HelloWorld</a></strong></p>
+<h3 id="setup"><a name="hyperloopjssetup">Setup</a></h3>
 
-<h2 id="using-hyperloop-express">Using Hyperloop Express</h2>
+<p>First add React, JQuery, <code>hyperloop.js</code> and <code>opal-compiler.js</code> to your HTML page:</p>
+<pre class="highlight html"><code><span class="nt">&lt;head&gt;</span>
+  <span class="c">&lt;!-- React and JQuery --&gt;</span>
+  <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"https://unpkg.com/react@15/dist/react.min.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+  <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"https://unpkg.com/react-dom@15/dist/react-dom.min.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+  <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"https://code.jquery.com/jquery-2.1.4.min.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
 
-<p>For small static sites that don&#39;t need a server backend you can use the reactrb-express javascript library.
-Simply include the reactrb-express.js file with your other javascript code, or access it directly via the CDN, and you are good to go.</p>
+  <span class="c">&lt;!-- Opal and Hyperloop --&gt;</span>
+  <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"https://rawgit.com/ruby-hyperloop/hyperloop-js/master/opal-compiler.min.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+  <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"https://rawgit.com/ruby-hyperloop/hyperloop-js/master/hyperloop.min.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+</code></pre>
+<h3 id="simple-helloworld"><a name="hyperloopjssimplehelloworld">Simple HelloWorld</a></h3>
 
-<p>This is another great way to experiment with HyperReact.  You don&#39;t need any setup or download to get started.</p>
+<p>Next, specify your ruby code inside script tags or link to your ruby code using the src attribute <code>&lt;script type=&quot;text/ruby&quot; src=.../&gt;</code></p>
+<pre class="highlight ruby"><code>  <span class="o">&lt;</span><span class="n">script</span> <span class="n">type</span><span class="o">=</span><span class="s2">"text/ruby"</span><span class="o">&gt;</span>
 
-<p><a href="https://github.com/reactrb/reactrb-express">Hyperloop Express</a></p>
+    <span class="k">class</span> <span class="nc">Helloworld</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Component</span>
 
-<h2 id="with-rails">With Rails</h2>
+      <span class="k">def</span> <span class="nf">render</span>
+        <span class="n">div</span> <span class="k">do</span>
+          <span class="s2">"hello world !"</span>
+        <span class="k">end</span>
+      <span class="k">end</span>
 
-<p>HyperReact works great with new or existing rails apps, and HyperReact plays well with other frameworks, so it&#39;s pain free to introduce React to your application.</p>
+    <span class="k">end</span>
 
-<p>We recommend you use the <a href="https://github.com/ruby-hyperloop/hyper-rails">HyperRails</a> gem to do a transparent install of everything you need in a new or existing rails app.</p>
+  <span class="o">&lt;</span><span class="sr">/script&gt;
+
+</span></code></pre>
+<p>Finally, mount your Component(s) as a DOM element and specify the Component and parameters using data-tags:</p>
+<pre class="highlight html"><code><span class="nt">&lt;body&gt;</span>
+  <span class="nt">&lt;div</span> <span class="na">data-hyperloop-mount=</span><span class="s">"Helloworld"</span>
+       <span class="na">data-name=</span><span class="s">""</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+</code></pre>
+<h3 id="tutorials"><a name="hyperloopjstutorials">Tutorials</a></h3>
+
+<p>You are ready now to implement more interesting and complex Components.<br>
+You can start by the first tutorial of the Hyperloop series here :</p>
+
+<p><a href="/tutorials/hyperloopjs/helloworld">{ Hyperloop.js HelloWorld tutorial }</a></p>
+
+<h2 id="with-ruby-on-rails"><a name="ror">With Ruby On Rails</a></h2>
+
+<p>Hyperloop works great with new or existing rails apps, so it&#39;s pain free to introduce it to your application.</p>
+
+<p>Hyperloop has been tested with the most recent Ruby On Rails verions:<br> Rails (~&gt; 4.2), Rails (~&gt; 5.0) and the last Rails (5.1.0.rc1).</p>
+
+<h3 id="setup"><a name="rorsetup">Setup</a></h3>
 
 <p>In your <code>Gemfile</code></p>
-<pre class="highlight ruby"><code><span class="n">gem</span> <span class="s2">"hyper-rails"</span>
+<pre class="highlight ruby"><code><span class="n">gem</span> <span class="s1">'hyperloop'</span>
 </code></pre>
 <p>then</p>
 <pre class="highlight ruby"><code><span class="n">bundle</span> <span class="n">install</span>
-<span class="n">rails</span> <span class="n">g</span> <span class="n">hyperloop</span><span class="ss">:install</span>
-<span class="n">bundle</span> <span class="n">update</span>
 </code></pre>
-<p>If you need any help with your installation please contact us on <a href="https://gitter.im/reactrb/chat">gitter.im</a></p>
-
-<p>Within a Rails app React Components are by convention stored in the <code>app/views/components</code> directory.</p>
-
-<p>Your Rails controllers, and layouts access your top level components using the <code>render_component</code> method.</p>
-
-<p>During server-side-rendering your components will be called on to generate the resulting HTML just like ERB or HAML templates.  The resulting HTML is delivered to the client like any other rails view, but in addition all the code needed to keep the component dynamically updating is delivered as well.  So now as events occur on the client the code is re-rendered client side with no server action required.</p>
-
-<p>Because React plays well with others, you can start with a single aspect of a page or layout (a dynamic chat widget for example) and add a React component to implement that functionality.</p>
-
-<h4 id="rendering-components">Rendering Components</h4>
-
-<p>Once you are setup (i.e. <code>rails g hyperloop:install</code>) components may be rendered directly from a controller action by simply following a naming convention.</p>
-
-<p>To render a component from the <code>home#show</code> action, create a component class named <code>Show</code>.  Note: You can use the <code>rails g hyperloop:component Home::Show</code> command to generate a component template.</p>
-<pre class="highlight ruby"><code><span class="c1"># app/views/components/home/show.rb</span>
-<span class="k">module</span> <span class="nn">Components</span>
-  <span class="k">module</span> <span class="nn">Home</span>
-    <span class="k">class</span> <span class="nc">Show</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
-
-      <span class="n">param</span> <span class="ss">:say_hello_to</span>
-
-      <span class="k">def</span> <span class="nf">render</span>
-        <span class="nb">puts</span> <span class="s2">"Rendering my first component!"</span>
-        <span class="s2">"hello </span><span class="si">#{</span><span class="n">params</span><span class="p">.</span><span class="nf">say_hello_to</span> <span class="k">if</span> <span class="n">params</span><span class="p">.</span><span class="nf">say_hello_to</span><span class="si">}</span><span class="s2">"</span>
-      <span class="k">end</span>
-    <span class="k">end</span>
-  <span class="k">end</span>
-<span class="k">end</span>
+<p>Once the Hyperloop Gem and all its dependencies have been installed, it&#39;s time to run the hyperloop install generator.</p>
+<pre class="highlight ruby"><code><span class="n">rails</span> <span class="n">g</span> <span class="n">hyperloop</span><span class="ss">:install</span>
 </code></pre>
-<p>To render the component call <code>render_component</code> in the controller action passing along any params:</p>
-<pre class="highlight ruby"><code><span class="c1"># controllers/home_controller.rb</span>
+<p>The generator creates the hyperloop structure inside the <code>/app</code> directory :</p>
+<pre class="highlight plaintext"><code>/app/hyperloop/
+/app/hyperloop/components
+/app/hyperloop/models
+/app/hyperloop/operations
+/app/hyperloop/stores
+</code></pre>
+<p>And updates your <code>app/assets/javascripts/application.js</code> file adding this line:</p>
+<pre class="highlight javascript"><code><span class="c1">//= require hyperloop-loader</span>
+</code></pre>
+<h3 id="simple-helloworld"><a name="rorsimplehelloworld">Simple HelloWorld</a></h3>
+
+<p>You can now test it by creating a very simple Component by running the hyperloop generator :</p>
+<pre class="highlight plaintext"><code>rails g hyper:component Helloworld
+</code></pre>
+<p>You can view the new Component created in <code>/app/hyperloop/components/</code></p>
+
+<p>Then you create a <code>home_controller.rb</code> file, manually or with the command <code>rails g controller Home helloworld --skip-javascripts</code>, and updtate it as following:</p>
+<pre class="highlight ruby"><code><span class="c1">#app/controllers/home_controller.rb</span>
+
 <span class="k">class</span> <span class="nc">HomeController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
-  <span class="k">def</span> <span class="nf">show</span>
-    <span class="c1"># render_component uses the controller name to find the 'show' component.</span>
-    <span class="n">render_component</span> <span class="ss">say_hello_to: </span><span class="n">params</span><span class="p">[</span><span class="ss">:say_hello_to</span><span class="p">]</span>
-  <span class="k">end</span>
-<span class="k">end</span>
-</code></pre>
-<p>Or from a view:</p>
-<pre class="highlight ruby"><code><span class="o">&lt;</span><span class="sx">%= react_component('Home::Show', say_hello_to: "Sally") %&gt;
-</span></code></pre>
-<p>Make sure your routes file has a route to your home#show action. Visit that route in your browser and you should see &#39;Hello&#39; rendered.</p>
-
-<p>Open up the js console in the browser and you will see a log showing what went on during rendering.</p>
-
-<p>Have a look at the sources in the console, and notice your ruby code is there, and you can set break points etc.</p>
-
-<h3 id="manual-rails-install">Manual Rails Install</h3>
-
-<p>The following can easily be achieved by using the generators in <a href="https://github.com/ruby-hyperloop/hyper-rails">hyper-rails</a> gem but the steps are simple if you prefer to do them yourself.</p>
-
-<p>To start using HyperReact within a new or existing Rails 4.x or Rails 5.x app, follow these steps:</p>
-
-<h4 id="step-1-add-the-gems">Step 1 - Add the gems</h4>
-
-<p>In your Gemfile:</p>
-<pre class="highlight ruby"><code><span class="c1"># Gemfile</span>
-<span class="n">gem</span> <span class="s1">'opal-rails'</span>
-<span class="n">gem</span> <span class="s1">'opal-browser'</span>
-<span class="n">gem</span> <span class="s1">'hyper-react'</span>
-<span class="n">gem</span> <span class="s1">'therubyracer'</span><span class="p">,</span> <span class="ss">platforms: :ruby</span>
-<span class="n">gem</span> <span class="s1">'react-router-rails'</span><span class="p">,</span> <span class="s1">'~&gt; 0.13.3'</span>
-<span class="n">gem</span> <span class="s1">'hyper-router'</span>
-<span class="n">gem</span> <span class="s1">'hyper-mesh'</span>
-</code></pre>
-<p>Run <code>bundle install</code> and restart your rails server.</p>
-
-<h4 id="step-2-add-the-components-directory-and-manifest">Step 2 - Add the components directory and manifest</h4>
-
-<p>Your react components will go into the <code>app/views/components/</code> directory of your rails app.</p>
-
-<p>Within your <code>app/views</code> directory you need to create a <code>components.rb</code> manifest.</p>
-
-<p>Files required in <code>app/views/components.rb</code> will be made available to the server side rendering system as well as the browser.</p>
-<pre class="highlight ruby"><code><span class="c1"># app/views/components.rb</span>
-<span class="nb">require</span> <span class="s1">'opal'</span>
-<span class="nb">require</span> <span class="s1">'react/react-source'</span>
-<span class="nb">require</span> <span class="s1">'hyper-react'</span>
-<span class="k">if</span> <span class="no">React</span><span class="o">::</span><span class="no">IsomorphicHelpers</span><span class="p">.</span><span class="nf">on_opal_client?</span>
-  <span class="nb">require</span> <span class="s1">'opal-jquery'</span>
-  <span class="nb">require</span> <span class="s1">'browser'</span>
-  <span class="nb">require</span> <span class="s1">'browser/interval'</span>
-  <span class="nb">require</span> <span class="s1">'browser/delay'</span>
-  <span class="c1"># add any additional requires that can ONLY run on client here</span>
-<span class="k">end</span>
-<span class="nb">require</span> <span class="s1">'hyper-router'</span>
-<span class="nb">require</span> <span class="s1">'react_router'</span>
-<span class="nb">require</span> <span class="s1">'hyper-mesh'</span>
-<span class="nb">require</span> <span class="s1">'models'</span>
-<span class="n">require_tree</span> <span class="s1">'./components'</span>
-</code></pre>
-<h4 id="step-3-client-side-assets">Step 3 - Client Side Assets</h4>
-
-<p>Typically the client will need all the above assets, plus other files that are client only. Notably jQuery is a client only asset.</p>
-
-<p>NOTE: You can update your existing application.js file, or convert it to ruby syntax and name it application.rb. The example below assumes you are using ruby syntax. However if you are using <code>application.js</code> then use the standard <code>//= require &#39;...&#39;</code> format and load your components with <code>Opal.load(&#39;components&#39;);</code></p>
-
-<p>Assuming you are using the ruby syntax (application.rb), in <code>assets/javascript/application.rb</code> require your components manifest as well as any additional browser only assets.</p>
-<pre class="highlight ruby"><code><span class="c1"># assets/javascript/application.rb</span>
-
-<span class="c1"># Add React and make components available by requiring your components.rb manifest.</span>
-<span class="nb">require</span> <span class="s1">'react/react-source'</span>
-<span class="nb">require</span> <span class="s1">'components'</span>
-
-<span class="c1"># 'react_ujs' tells react in the browser to mount rendered components.</span>
-<span class="nb">require</span> <span class="s1">'react_ujs'</span>
-
-<span class="c1"># Require your other javascript assets. jQuery for example...</span>
-<span class="nb">require</span> <span class="s1">'jquery'</span>      <span class="c1"># You need both these files to access jQuery from Opal.</span>
-<span class="nb">require</span> <span class="s1">'opal-jquery'</span> <span class="c1"># They must be in this order.</span>
-<span class="nb">require</span> <span class="s1">'opal-browser'</span>
-
-<span class="c1"># Finally have Opal load your components.rb</span>
-<span class="no">Opal</span><span class="p">.</span><span class="nf">load</span><span class="p">(</span><span class="s1">'components'</span><span class="p">)</span>
-</code></pre>
-<h4 id="step-4-update-application-rb">Step 4 - Update application.rb</h4>
-
-<p>Finally you will need to update your <code>application.rb</code> to ensure everything works in production:</p>
-<pre class="highlight ruby"><code><span class="n">config</span><span class="p">.</span><span class="nf">eager_load_paths</span> <span class="o">+=</span> <span class="sx">%W(</span><span class="si">#{</span><span class="n">config</span><span class="p">.</span><span class="nf">root</span><span class="si">}</span><span class="sx">/app/models/public)</span>
-<span class="n">config</span><span class="p">.</span><span class="nf">eager_load_paths</span> <span class="o">+=</span> <span class="sx">%W(</span><span class="si">#{</span><span class="n">config</span><span class="p">.</span><span class="nf">root</span><span class="si">}</span><span class="sx">/app/views/components)</span>
-<span class="n">config</span><span class="p">.</span><span class="nf">autoload_paths</span> <span class="o">+=</span> <span class="sx">%W(</span><span class="si">#{</span><span class="n">config</span><span class="p">.</span><span class="nf">root</span><span class="si">}</span><span class="sx">/app/models/public)</span>
-<span class="n">config</span><span class="p">.</span><span class="nf">autoload_paths</span> <span class="o">+=</span> <span class="sx">%W(</span><span class="si">#{</span><span class="n">config</span><span class="p">.</span><span class="nf">root</span><span class="si">}</span><span class="sx">/app/views/components)</span>
-<span class="n">config</span><span class="p">.</span><span class="nf">assets</span><span class="p">.</span><span class="nf">paths</span> <span class="o">&lt;&lt;</span> <span class="o">::</span><span class="no">Rails</span><span class="p">.</span><span class="nf">root</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="s1">'app'</span><span class="p">,</span> <span class="s1">'models'</span><span class="p">).</span><span class="nf">to_s</span>
-</code></pre>
-<h3 id="rendering-components">Rendering components</h3>
-
-<p>There are two ways to render a component - either directly from a controller or from a view. If you opt to render a component from a controller, pre-rendering is done by default, but if you opt to render the component via a view then pre-rendering is not done by default. There are limitations to pre-rendering (for example you cannot use JQuery) so it is up to you to decide which approach you prefer.</p>
-
-<h4 id="mounting-a-component-from-a-controller">Mounting a component from a controller:</h4>
-<pre class="highlight ruby"><code><span class="c1"># controllers/home_controller.rb</span>
-<span class="k">class</span> <span class="nc">HomeController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
-  <span class="k">def</span> <span class="nf">show</span>
-    <span class="c1"># render_component uses the controller name to find the 'show' component.</span>
-    <span class="n">render_component</span> <span class="ss">say_hello_to: </span><span class="n">params</span><span class="p">[</span><span class="ss">:say_hello_to</span><span class="p">]</span>
-  <span class="k">end</span>
-
-  <span class="k">def</span> <span class="nf">index</span>
-    <span class="c1"># or just simply with no params</span>
+  <span class="k">def</span> <span class="nf">helloworld</span>
     <span class="n">render_component</span>
   <span class="k">end</span>
+<span class="k">end</span>
 </code></pre>
-<h4 id="mounting-a-component-from-a-view">Mounting a component from a view:</h4>
-<pre class="highlight ruby"><code><span class="c1"># views/home/show.html.erb</span>
-<span class="o">&lt;</span><span class="sx">%= react_component('Home::Show', say_hello_to: params[:say_hello_to]) %&gt;
-</span></code></pre>
+<p>Don&#39;t forget to modify your <code>routes.rb</code>:</p>
+<pre class="highlight ruby"><code><span class="n">root</span> <span class="s1">'home#helloworld'</span>
+</code></pre>
+<p>Start your Rails server and browse <code>http://localhost:3000</code>.<br>
+You should see <code>Hello world</code> displayed by the Component.</p>
+
+<p>Note:
+Instead of rendering your component from a controller, you can also render it from a view like this:</p>
+<pre class="highlight erb"><code>#app/views/home/helloworld.html.erb
+
+<span class="cp">&lt;%=</span> <span class="n">react_component</span> <span class="s1">'::Helloworld'</span><span class="p">,</span> <span class="p">{},</span> <span class="p">{</span> <span class="ss">prerender: </span><span class="kp">true</span> <span class="p">}</span> <span class="cp">%&gt;</span>
+</code></pre>
+<h3 id="tutorials"><a name="rortutorials">Tutorials</a></h3>
+
+<p>You are ready now to implement more interesting and complex Components.<br>
+You can start by the first tutorial of the Hyperloop series here:</p>
+
+<p><a href="/tutorials/hyperlooprails/helloworld">{ Hyperloop with Ruby On Rails HelloWorld tutorial }</a></p>
+
+<h3 id="advanced-configuration">Advanced configuration</h3>
+
+<p>You can find detailed information about Hyperloop configuration files and the advanced options on this page: <br></p>
+
+<p><a href="/docs/advancedconfiguration">{ Advanced configuration }</a></p>
+
 <h2 id="with-sinatra">With Sinatra</h2>
 
-<p>HyperReact works fine with Sinatra.  Use this <a href="https://github.com/reactrb/reactrb-examples">Sinatra Example App</a> to get started.</p>
+<p>Hyperloop works fine with Sinatra.  Use this <a href="https://github.com/reactrb/reactrb-examples">Sinatra Example App</a> to get started.</p>
 
-<h2 id="building-with-rake">Building With Rake</h2>
-
-<p>You can also build a simple front end application with no back end consisting of one JS file, one CSS file and and index.html.</p>
-
-<p>In the example below we will build a simple app.js file from a Hyper-react components using Opal.</p>
-
-<p>Add the following gems, and run <code>bundle install</code>.</p>
-<pre class="highlight ruby"><code><span class="c1"># Gemfile</span>
-<span class="n">gem</span> <span class="s1">'opal'</span>
-<span class="n">gem</span> <span class="s1">'opal-browser'</span> <span class="c1"># optional</span>
-<span class="n">gem</span> <span class="s1">'hyper-react'</span>
-<span class="n">gem</span> <span class="s1">'opal-jquery'</span>  <span class="c1"># optional</span>
-</code></pre>
-<p>Your rake file task will look like this:</p>
-<pre class="highlight ruby"><code><span class="c1">#rake.rb</span>
-<span class="nb">require</span> <span class="s1">'opal'</span>
-<span class="nb">require</span> <span class="s1">'hyper-react'</span>
-
-<span class="n">desc</span> <span class="s2">"Build app.js"</span>
-<span class="n">task</span> <span class="ss">:build</span> <span class="k">do</span>
-   <span class="no">Opal</span><span class="p">.</span><span class="nf">append_path</span> <span class="s2">"react_lib"</span>
-    <span class="no">File</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="s2">"app.js"</span><span class="p">,</span> <span class="s2">"w+"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">out</span><span class="o">|</span>
-      <span class="n">out</span> <span class="o">&lt;&lt;</span> <span class="no">Opal</span><span class="o">::</span><span class="no">Builder</span><span class="p">.</span><span class="nf">build</span><span class="p">(</span><span class="s2">"application"</span><span class="p">).</span><span class="nf">to_s</span>
-    <span class="k">end</span>
-<span class="k">end</span>
-</code></pre>
-<p>Your main <code>application.rb</code> file will look like this:</p>
-<pre class="highlight ruby"><code><span class="c1">#react_lib/application.rb</span>
-
-<span class="nb">require</span> <span class="s1">'opal'</span>
-<span class="nb">require</span> <span class="s1">'browser/interval'</span> <span class="c1"># optional</span>
-<span class="nb">require</span> <span class="s1">'browser/delay'</span>    <span class="c1"># optional</span>
-<span class="c1"># you can pull in the jQuery.js file here, or separately</span>
-<span class="c1"># but in must be loaded BEFORE opal-jquery</span>
-<span class="nb">require</span> <span class="s1">'opal-jquery'</span>      <span class="c1"># optional</span>
-<span class="nb">require</span> <span class="s1">'react/react-source'</span>
-<span class="nb">require</span> <span class="s1">'hyper-react'</span>
-<span class="c1"># here you can require other files, do a require_tree, or</span>
-<span class="c1"># just add some components inline right here...</span>
-<span class="k">class</span> <span class="nc">Clock</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
-
-  <span class="k">def</span> <span class="nf">render</span>
-    <span class="s2">"Hello there - Its </span><span class="si">#{</span><span class="no">Time</span><span class="p">.</span><span class="nf">now</span><span class="si">}</span><span class="s2">"</span>
-  <span class="k">end</span>
-<span class="k">end</span>
-
-<span class="no">Document</span><span class="p">.</span><span class="nf">ready?</span> <span class="k">do</span>
-  <span class="no">Element</span><span class="p">[</span><span class="s1">'#content'</span><span class="p">].</span><span class="nf">render</span><span class="p">{</span> <span class="no">Clock</span><span class="p">()</span> <span class="p">}</span>
-<span class="k">end</span>
-</code></pre>
-<p>Run <code>bundle exec rake build</code></p>
-
-<p>This should build <code>app.js</code> which can be included in your main html file.</p>
-
-<p>Your <code>index.html</code> will look like this:</p>
-<pre class="highlight html"><code><span class="cp">&lt;!DOCTYPE html&gt;</span>
-<span class="nt">&lt;html&gt;</span>
-  <span class="nt">&lt;head&gt;</span>
-    <span class="nt">&lt;meta</span> <span class="na">charset=</span><span class="s">"UTF-8"</span><span class="nt">&gt;</span>
-
-    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"http://code.jquery.com/jquery-1.11.0.min.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
-    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"http://code.jquery.com/jquery-migrate-1.2.1.min.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
-    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"https://unpkg.com/react@15/dist/react.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
-    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"https://unpkg.com/react-dom@15/dist/react-dom.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
-
-    <span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">"stylesheet"</span> <span class="na">href=</span><span class="s">"styles.css"</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"app.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
-
-  <span class="nt">&lt;/head&gt;</span>
-  <span class="nt">&lt;body&gt;</span>
-    <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"content"</span><span class="nt">&gt;&lt;/div&gt;</span>
-  <span class="nt">&lt;/body&gt;</span>
-<span class="nt">&lt;/html&gt;</span>
-</code></pre>
-<p>Two things to note about the code above:</p>
-
-<ul>
-<li><code>&lt;meta charset=&quot;UTF-8&quot;&gt;</code> is important as this is required by Opal</li>
-<li><code>&lt;div id=&quot;content&quot;&gt;&lt;/div&gt;</code> is where our Clock component will be rendered from <code>Element[&#39;#content&#39;].render{ Clock() }</code></li>
-</ul>
-
-<p>As a final note, the resulting JS file may be a little large, so you might want to Gzip or uglify it.</p>
+<p>TODO</p>
 
 <h2 id="deployment">Deployment</h2>
 
-<p>There are a few deployment specific considerations:</p>
+<p>For learning how to deploy a hyperloop application to a production server (particularly when using Rails), you can follow our tutorials: </p>
 
-<ul>
-<li>The resulting compiled JavaScript files can be quite large, so you might want to add a minimise, uglify or gzip step</li>
-<li>Some free deployment PaaS (Heroku for example) include low levels of memory and system resources. HyperReact may be configured in such a way that it is pre-rendering all pages before they are delivered to the browser and this can be an issue to the PaaS in a low memory environment. If the server is constrained it is better to turn pre-rendering off.</li>
-</ul>
-
-<p>There is a most excellent <a href="https://github.com/fzingg/hyperloop-showcase-heroku">Tutorial written by Frederic ZINGG</a> which takes you through a step by step guid to deploying on Heroku.</p>
+<p><a href="/tutorials/hyperloopdeploy">{ Hyperloop deployment }</a></p>
 
 <h2 id="next-steps">Next Steps</h2>
 
@@ -444,6 +476,85 @@ Simply include the reactrb-express.js file with your other javascript code, or a
       </div>
     </div>
 
+    <div class="page-footer-upperline">
+      <div class="container">
+
+      </div>
+    </div>
+
+    <footer class="nav-footer">
+  <section class="sitemap">
+
+    <a href="/" class="nav-home"></a>
+
+    <div>
+      <h6><a href="/start/components" class="hyperloop-white">Start</a></h6>
+      <a href="/start/components#components">Components</a>
+      <a href="/start/stores#stores">Stores</a>
+      <a href="/start/operations#operations">Operations</a>
+      <a href="/start/policies#policies">Policies</a>
+      <a href="/start/pradgmatic">Pragmatic Thinking</a>
+    </div>
+    <div>
+
+    
+      <h6><a href="/tutorials" class="hyperloop-white">Tutorials</a></h6>
+      <a href="/tutorials/hyperloopcomps">Hyperloop COMPS</a>
+      <a href="/tutorials/hyperloopjs">Hyperloop.js</a>
+      <a href="/tutorials/hyperlooprails">Hyperloop and Rails</a>
+      <a href="/tutorials/hyperloopdeploy">Hyperloop deployment</a>
+      <a href="/tutorials/opal">Opal</a>
+      <a href="/tutorials/videos">Videos</a>
+    </div>
+    <div>
+      <h6><a href="/installation" class="hyperloop-white">Installation</a></h6>
+      <a href="installation#opal-playground">Hyperloop.js</a>
+  	  <a href="installation#ror">With Ruby On Rails</a>
+  	  <a href="installation#with-sinatra">With Sinatra</a>
+  	  <a href="installation#deployment">Deployment</a>
+    </div>
+    <div>
+      <h6><a href="/gems" class="hyperloop-white">Gems</a></h6>
+      <a href="https://github.com/ruby-hyperloop/hyperloop">hyperloop</a>
+      <a href="https://github.com/ruby-hyperloop/hyperloop-js">hyperloop-js</a>
+      <a href="https://github.com/ruby-hyperloop/hyper-react">hyper-component</a>
+      <a href="https://github.com/ruby-hyperloop/hyper-store">hyper-store</a>
+      <a href="https://github.com/ruby-hyperloop/hyper-mesh">hyper-model</a>
+      <a href="https://github.com/ruby-hyperloop/hyper-operation">hyper-operation</a>
+      <a href="https://github.com/ruby-hyperloop/reactrb-router/tree/v2-4-0">hyper-router</a>
+      <a href="https://github.com/ruby-hyperloop/hyper-spec">hyper-spec</a>
+      <a href="https://github.com/ruby-hyperloop/hyper-trace">hyper-trace</a>
+    </div>
+    <div>
+      <h6><a href="/tools" class="hyperloop-white">Tools</a></h6>
+      <a href="#testing">Testing</a>
+    	<a href="#tools">Tools</a>
+    	<a href="#debugging">Debugging</a>
+    </div>
+    <div>
+      <h6><a href="/docs/architecture" class="hyperloop-white">Docs</a></h6>
+      <a href="/docs/architecture">Hyperloop Architecture</a>
+      <a href="/docs/components/dsl-overview">Components</a>
+      <a href="/docs/stores/overview">Stores</a>
+      <a href="/docs/models/overview">Models</a>
+      <a href="/docs/operations/overview">Operations</a>
+      <a href="/docs/policies/authorization">Policies</a>
+    </div>
+
+  </section>
+
+  <section class="otherlinks">
+    <a href="https://github.com/ruby-hyperloop" class="hyperloop-white">Github</a>
+    <a href="/support" class="hyperloop-white">Help</a>
+    <a href="/blog" class="hyperloop-white">Blog</a>
+  </section>
+
+  <section class="copyright">
+    Copyright © 2017 Hyperloop.
+  </section>
+</footer>
+
+
     <script>
       (function(Opal) {
         var self = Opal.top, $scope = Opal, nil = Opal.nil, $breaker = Opal.breaker, $slice = Opal.slice;
@@ -454,71 +565,8 @@ Simply include the reactrb-express.js file with your other javascript code, or a
 
     <!-- <script   src="http://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script> -->
 
-    <script type="text/ruby">puts "Hyperloop Express ok"</script>
 
-    <script type="text/ruby">
-
-class CodeMirror < React::Component::Base
-  param :code, type: String
-  define_state :error_message
-
-  before_mount do
-    state.error_message! ""
-  end
-
-  after_mount do
-    @editor = `CodeMirror(document.getElementById("code"), {
-      value: #{params.code},
-      mode: "text/x-ruby",
-      matchBrackets: true,
-      lineNumbers: true,
-      indentUnit: 2,
-      theme: 'github'
-    });`
-    `#{@editor}.on('change', #{lambda {on_change} })`
-    execute_code
-  end
-
-  render(DIV) do
-    div(id: 'code')
-    br
-    div(id: 'result')
-    p { state.error_message }
-  end
-
-  def on_change
-    state.error_message! ""
-    execute_code
-  end
-
-  after_mount   :execute_code
-  after_update  :execute_code
-
-  def execute_code
-    compiled_code = Opal::Compiler.new(`#{@editor}.getValue()`).compile
-    `ReactDOM.unmountComponentAtNode(document.getElementById("result"));`
-    `eval(#{compiled_code})`
-    Element['#result'].render{ Alfie() }
-    rescue Exception => e
-    @time_out = after(0.5) do
-      state.error_message! e.message
-    end
-  end
-
-end
-
-class TestApp < React::Component::Base
-  param :name
-  before_mount { @timer = every(1) { force_update! } }
-  render(DIV) do
-    h1 {"The current time is #{Time.now}"}
-    h2 { "here hello #{params.name}" }.on(:click) do
-     alert "you clicked"
-    end
-  end
-end
-
-</script>
+    <script type="text/ruby">puts "Hyperloop JS ok"</script>
 
 
   </body>

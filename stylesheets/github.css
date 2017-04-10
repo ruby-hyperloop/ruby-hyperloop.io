@@ -17,7 +17,7 @@
 	border: none;
 }
 .cm-s-github div.CodeMirror-cursor {
-	border-left: 3px solid #000000;
+	border-left: 1px solid white;
 }
 .CodeMirror-scroll {
 }
@@ -35,31 +35,31 @@
 	color: null;
 }
 .cm-s-github .cm-atom {
-	color: #567482;
+	color: #9e75bf;
 }
 .cm-s-github .cm-string {
-	color: #DD1144;
+	color: #e6db5f;
 }
 .cm-s-github .cm-variable-2 {
-	color: #121289;
+	color: #ffffff;
 }
 .cm-s-github .cm-variable {
-	color: #567482;
+	color: #96c726;
 }
 .cm-s-github .cm-property {
-	color: #990000;
+	color: #49c4ef;
   font-weight: bold;
 }
 .cm-s-github .cm-keyword {
-	color: null;
+	color: #e42369;
   font-weight: bold;
 }
 .cm-s-github .cm-tag {
-	color: #567482;
+	color: #96c726;
 }
 
 .cm-s-github .cm-operator {
-	color: null;
+	color: white;
 }
 .cm-s-github .CodeMirror-linenumber {
 	color: italic;
