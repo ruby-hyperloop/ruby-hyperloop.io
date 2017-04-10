@@ -60,17 +60,45 @@ end
 
 You will notice in the code above:
 
-+ This approach is very similar to simply adding a method to the Store to mutate the state, but there are some advantages. Firstly, we can take advantage of the validation of incoming params and secondly we can use `step`'s to ensure that each part of the operation only executes if the previous part was successful
++ This approach is very similar to simply adding a method to the Store to mutate the state, but there are some advantages. Firstly, we can take advantage of the validation of incoming params and secondly we can use `step`'s to ensure that each part of the operation only executes if the previous part was successful. Notice how we called `abort!` to stop the Operation
 + The LuckyDipOp Operation is included in the Store's namespace. This is optional but a good way to group Operations with the Stores they operate on
 
 ### Dispatchers and Receivers
 
-Next we will write an Operation for login the user out which will dispatch a message that our ShoppingCart will receive. This will be following a Flux pattern.
+Next we will write an Operation for login the user out. This example will dispatch a message that a Store will receive. This will be following a Flux pattern. We have implemented the Flux pattern into Operations and Stores. Operations are dispatchers and Stores are receivers.
 
-**All Operations dispatch but it up to a Store to receive a dispatch.** We have implemented the Flux pattern into Operations and Stores. Operations are dispatchers and Stores are receivers.
+**All Operations dispatch but it up to a Store to receive a dispatch.**
+
+<div class="codemirror-live-edit"
+  data-heading="Dispatchers and Receivers"
+  data-rows=23
+  data-top-level-component="UserPage">
+<pre>
+class Logout < Hyperloop::Operation
+  # do the actual logout
+end
+
+class CurrentUserStore < Hyperloop::Store
+  state user_name: "Fred", scope: :class, reader: true
+  receives Logout do
+    # this Store is listening for Logout
+    mutate.user_name "No user"
+  end
+end
+
+class UserPage < Hyperloop::Component
+  def render
+    DIV do
+      P { "Current user: #{CurrentUserStore.user_name}" }
+      BUTTON { "Logout" }.on(:click) do
+        Logout.run
+      end
+    end
+  end
+end
+</pre></div>
 
 
-XXX
 
 ### Server Operations
 
