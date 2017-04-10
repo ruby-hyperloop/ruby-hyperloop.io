@@ -413,9 +413,7 @@ end
 
 <h4 id="scoping-and-finding">Scoping and Finding</h4>
 
-<p><code>scope</code> and <code>default_scope</code>:  Hyperloop adds four new options to these methods: <code>joins</code>, <code>client</code>, <code>select</code> and <code>server</code>.  The <code>joins</code> option provides information on how the scope will be joined with other models.  The <code>client</code> and <code>select</code> options allow scoping to be done on the client side to offload this from the server, and the <code>server</code> option is there just for symmetry with the other options.  See the <a href="/docs/client_side_scoping.md">Client Side Scoping</a> page for more details.</p>
-
-<p>TODO check link above</p>
+<p><code>scope</code> and <code>default_scope</code>:  Hyperloop adds four new options to these methods: <code>joins</code>, <code>client</code>, <code>select</code> and <code>server</code>.  The <code>joins</code> option provides information on how the scope will be joined with other models.  The <code>client</code> and <code>select</code> options allow scoping to be done on the client side to offload this from the server, and the <code>server</code> option is there just for symmetry with the other options.</p>
 <pre class="highlight ruby"><code><span class="c1"># the active scope proc is executed on the server</span>
 <span class="n">scope</span> <span class="ss">:active</span><span class="p">,</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="p">{</span> <span class="n">where</span><span class="p">(</span><span class="ss">completed: </span><span class="kp">true</span><span class="p">)</span> <span class="p">}</span>
 
