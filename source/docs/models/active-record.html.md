@@ -37,8 +37,6 @@ At the end of the rendering cycle the set of all values requested will be merged
 
 #### Load Cycle Methods
 
-TODO check link below
-
 There are a number of methods that allow you to interact with this load cycle when needed.  These are documented [below](#other-methods-for-interacting-with-the-load-and-render-cycle).
 
 ### Class Methods

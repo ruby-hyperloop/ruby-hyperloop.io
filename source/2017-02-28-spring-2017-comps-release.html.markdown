@@ -6,8 +6,6 @@ tags:
 
 # Spring 2017 COMPS Release
 
-TODO: Change data of this article to actual release date
-
 Spring 2017 heralds a major Hyperloop release. This release will be the first where we have introduced the 5 architectural constructs focused on making it easier to write Isomorphic applications.
 
 This release includes a new version and renaming of all of the Hyperloop gems as well as several new concepts and gems.
