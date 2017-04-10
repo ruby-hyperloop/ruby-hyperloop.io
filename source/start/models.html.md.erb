@@ -2,7 +2,16 @@
 <div class="chaptertitle"><span class="bigfirstletter">M</span>odels
 </div></h1>
 
-Your ActiveRecord Models are accessible in your client-side code as simply as this:
+<div class = "row">
+  <div class = "col-md-8">
+    Components, Operations and Stores have no backend dependancy, but Models and Policies are integrated with Rails and require a Rails backend.
+    <br><br>
+    Your ActiveRecord Models are accessible in your client-side code.
+  </div>
+  <div class = "col-md-4">
+    <%= image_tag "rails.png", width: 200 %>
+  </div>
+</div>
 
 ```ruby
 class BookList < Hyperloop::Component
