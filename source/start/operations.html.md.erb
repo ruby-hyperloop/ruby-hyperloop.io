@@ -20,7 +20,7 @@ Hyperloop Operations work in three ways:
 2. Much like Flux Actions, Stores can `receive` Operations so a Store can look out for an Operation being run and act accordingly. This shifts the responsibility to the Store to look out for an Operation being run.
 3. `ServerOps` are Operations which, to your Isomorphic code, look like normal Operations but are guaranteed to only run on the server, even when they are invoked from the client. A good reason for this type of Operation would be when resources needed by the Operation are bound to the server - for example invoking a Mailer or updating a database. ServerOps do away with the need for an API layer (unless you specifically want an API).
 
-### 1. Operations with Steps
+### Operations with Steps
 
 Stores hold state and Operations orchestrate the mutation of state. In the Store section, we demonstrated how a class method on the Store could be used to mutate the state. In this example, we will have an Operation mutate the Store's state:
 
@@ -78,7 +78,7 @@ class Logout < Hyperloop::Operation
   # do the actual logout
 end
 
-class CurrentUserStore < Hyperloop::Store
+class NavBarStore < Hyperloop::Store
   state user_name: "Fred", scope: :class, reader: true
   receives Logout do
     # this Store is listening for Logout
@@ -89,7 +89,7 @@ end
 class UserPage < Hyperloop::Component
   def render
     DIV do
-      P { "Current user: #{CurrentUserStore.user_name}" }
+      P { "Current user: #{NavBarStore.user_name}" }
       BUTTON { "Logout" }.on(:click) do
         Logout.run
       end
@@ -98,72 +98,46 @@ class UserPage < Hyperloop::Component
 end
 </pre></div>
 
-
+In the example above, you will notice that the Logout Operation does not specifically interact with the NavBarStore Store, but the Store receives the Operation when it is dispatched.
 
 ### Server Operations
 
-There are some Operations that simply do not make sense to run on the client as (for example) the resources they depend on may not be available on the client. Consider an Operation that needs to send an email - there is no mailer on the client so the Operation has to execute from the server.
+There are some Operations that simply do not make sense to run on the client as the resources they depend on may not be available on the client. For example, consider an Operation that needs to send an email - there is no mailer on the client so the Operation has to execute from the server.
 
 That said, with our highest goal being developer productivity, it should be as invisible as possible to the developer where the Operation will execute. To complete the example, a developer writing front-end code should be able to invoke a server-side resource (like a mailer) just as easily as they might invoke a client-side resource.
 
-**ServerOps execute only on the server but are invokable from your Isomorphic code** No need for boilerplate APIs just to execute a server side Operation. ServerOps are just like any normal Operations and invokable from any part of your code.
-
-Finally we will use a server Operation to sign a user up to a mailing list and send them an email. This will show how to use ServerOps and also how `step` works.
-
-XXX
-
-
+In some cases there might be Operation logic that you want to ensure always runs on the server, as per the example below:
 
 ```ruby
-class Discounter < Hyperloop::Store
-   state discount: 30, scope: :class, reader: true
-   state lucky_dip_taken: false, scope: :class, reader: true
-
-  # Note these two lines are essentially "noise" at this point, however
-  # they will future proof the API.    They also provide a very clear declaration
-  # of the API.
-  class LuckyDip < Hyperloop::Operation; end
-  class Bumper < Hyperloop::Operation; end
-end
-
-# we can take advantage of the way Ruby deals with classes and close the the
-# class definition above as the 'public' interface, and open the class up in another
-# file (if we want)
-
-class Discounter
-
-  # likewise because Operations are classes we can open them up here and add implementation:
-
-  class LuckyDip < Hyperloop::Operation
-    outbound :dip_or_slip
-    validate { !Discounter.lucky_dip_taken }
-    fail { puts '**** attempted to take two lucky dips *****' }
-    step { params.dip_or_slip = rand(-5..5) }
-    # or for more fun we could of course make it a ServerOp and grab the lucky dip based on
-    # some global algorithm ensuring the luck dip average across all users 0
-  end
-
-  receives LuckyDip do |params|
-    mutate.discount( state.discount + params.dip_or_slip )
-    mutate.lucky_dip_taken true
-  end
-
-  receives Bumper do
-    mutate.discount( state.discount * 10 )
+class ValidateUserCredentials < Hyperloop::ServerOp
+  param :acting_user
+  add_error :acting_user, :no_valid_default_cc, "No valid default credit card" do
+    !params.acting_user.has_default_cc?
   end
 end
+```
 
-class OfferLuckyDip < Hyperloop::Component
-  def render
-    DIV do
-      H1 {"Your discount is #{Discounter.discount}%"}
-      BUTTON { "Lucky Dip" }.on(:click) do
-        Discounter::LuckyDip.run # note should be able to say Discounter::LuckyDip() but there is a bug :-)
-      end unless Discounter.lucky_dip_taken
-    end
-    BUTTON { "Bump" }.on(:click) do
-      Discounter::Bumper.run
-    end
+**ServerOps execute only on the server but are invokable from your Isomorphic code** No need for boilerplate APIs just to execute a server side Operation. ServerOps are just like any normal Operations and invokable from any part of your code.
+
+You can also broadcast the dispatch from Server Operations to all authorized clients. The dispatch_to will determine a list of channels to broadcast the dispatch to:
+
+```ruby
+class Announcement < Hyperloop::ServerOp
+  # no acting_user because we don't want clients to invoke the Operation
+  param :message
+  param :duration, type: Float, nils: true
+  # dispatch to the builtin Hyperloop::Application Channel
+  dispatch_to Hyperloop::Application
+end
+
+class CurrentAnnouncements < Hyperloop::Store
+  state_reader all: [], scope: :class
+  receives Announcement do
+    mutate.all << params.message
+    after(params.duration) { delete params.message } if params.duration
+  end
+  def self.delete(message)
+    mutate.all.delete message
   end
 end
 ```
