@@ -3,15 +3,13 @@ title: Models
 ---
 ## Models Overview
 
-Hyperloop **Models** are implemented in the **HyperMesh Gem**.
+Hyperloop **Models** are implemented in the **HyperModel Gem**.
 
 In Hyperloop, your ActiveRecord Models are available in your Isomorphic code.
 
 Components, Operations, and Stores have CRUD access to your server side ActiveRecord Models, using the standard ActiveRecord API.
 
 In addition, Hyperloop implements push notifications (via a number of possible technologies) so changes to records on the server are dynamically pushed to all authorized clients.
-
-*Isomorphic Ruby in action.*
 
 In other words, one browser creates, updates, or destroys a Model, and the changes are persisted in ActiveRecord models and then broadcast to all other authorized clients.
 

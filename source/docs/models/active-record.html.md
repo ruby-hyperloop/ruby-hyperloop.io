@@ -51,9 +51,7 @@ If `new` is passed a native javascript object it will be treated as a hash and c
 
 #### Scoping and Finding
 
-`scope` and `default_scope`:  Hyperloop adds four new options to these methods: `joins`, `client`, `select` and `server`.  The `joins` option provides information on how the scope will be joined with other models.  The `client` and `select` options allow scoping to be done on the client side to offload this from the server, and the `server` option is there just for symmetry with the other options.  See the [Client Side Scoping](/docs/client_side_scoping.md) page for more details.
-
-TODO check link above
+`scope` and `default_scope`:  Hyperloop adds four new options to these methods: `joins`, `client`, `select` and `server`.  The `joins` option provides information on how the scope will be joined with other models.  The `client` and `select` options allow scoping to be done on the client side to offload this from the server, and the `server` option is there just for symmetry with the other options.
 
 ```ruby
 # the active scope proc is executed on the server

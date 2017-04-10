@@ -6,7 +6,9 @@
   <div class = "col-md-8">
     Components, Operations and Stores have no backend dependancy, but Models and Policies are integrated with Rails and require a Rails backend.
     <br><br>
-    Your ActiveRecord Models are accessible in your client-side code.
+    Your ActiveRecord Models are accessible in your isomorphic code. Models are an Isomorphic ActiveRecord wrapper for Hyperloop.
+    <br><br>
+    You access your Models as simply as this:
   </div>
   <div class = "col-md-4">
     <%= image_tag "rails.png", width: 200 %>
@@ -23,16 +25,32 @@ class BookList < Hyperloop::Component
 end
 ```
 
+Admittedly our component is not going to win any awards for great UI, but it is sufficient for our purposes. There are a few important things to notice:
+
++ Firstly let's discuss what's missing - there is no API, no Controllers - no boiler-plate code whose purpose if simply to transfer data from the server to the client.
++  You have full access to your ActiveRecord Models in your client side code as if you were accessing them inside an ERB file.
++ With pre-rendering the page is rendered by the server before being delivered to the client. This rendering process uses ActiveRecord in exactly the same way as rendering an ERB file would do.
++ The key difference is that the same code will run in the browser, the same simple Ruby code will be compiled into JavaScript and Hyperloop will provide all the infrastructure necessary to query the server and deliver the data to the client.
+
 **No boilerplate API, no serialisation, no de-serialisation.** Much like Relay and GraphQL, when rendering, Hyperloop parses through each Component and establishes which fields are necessary then queries just for those fields which are returned as JSON and then inserted into each Component. The key difference with Relay is that both the client and server code is provided by Hyperloop so the entire process is seamless for the developer.
 
-Hyperloop has a few important advantages over Relay and GraphQL:
+### CRUD Access
 
-+ Hyperloop is fully integrated with Rails out the box, so there is no need to build and maintain a GraphQL server or an API.
-+ Your server side Models are available to your client side code, so there is no need to recreate an abstracted version of the Models client-side.
-+ Unlike Relay and GraphQL, Hyperloop has built in push notifications to magically push changes to underlying server-side Models to any connected client with a Component rendering that Model
-+ Access to Models and synchronized changes are controlled neatly by Policy classes
-+ Just like Relay and GraphQL, only the records needed to render Components are transferred
-+ Everything in beautiful, simple Ruby!
+Hyperloop provides full CRUD access to your ActiveRecord models.
+
+The save method works like ActiveRecord save, except it returns a promise that is resolved when the save completes (or fails.)
+
+```ruby
+my_todo.save(validate: false).then do |result|
+  # result is a hash with {success: ..., message: , models: ....}
+end
+```
+
+You govern access through Policy which we will cover in the next chapter.
+
+### Push Notifications
+
+Changes made to Models on a client or server are automatically synchronized to all other authorized connected clients using ActionCable, pusher.com or polling. The synchronization is completely automatic and magical to behold and not something we can demonstrate in this introduction - you will need to see it to believe it. 
 
 -----------------------------------
 
