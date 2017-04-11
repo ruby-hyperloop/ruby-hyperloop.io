@@ -25,12 +25,69 @@ page "/reactrb.html", layout: false
 ###
 
 helpers do
+
   def table_of_contents(resource)
     content = File.read(resource.source_file)
     toc_renderer = Redcarpet::Render::HTML_TOC.new(nesting_level: 1)
     markdown = Redcarpet::Markdown.new(toc_renderer)
     markdown.render(content)
   end
+
+  def componentslink
+    link_to '/docs/components/dsl-overview', :class => 'component-blue' do
+      "<b>C</b>omponents"
+    end
+  end
+
+  def operationslink
+    link_to '/docs/operations/overview', :class => 'operation-purple' do
+      "<b>O</b>perations"
+    end
+  end
+
+  def modelslink
+    link_to '/docs/models/overview', :class => 'model-orange' do
+      "<b>M</b>odels"
+    end
+  end
+
+  def policieslink
+    link_to '/docs/policies/authorization', :class => 'policies-black' do
+      "<b>P</b>olicies"
+    end
+  end
+
+  def storeslink
+    link_to '/docs/stores/overview', :class => 'store-green' do
+      "<b>S</b>tores"
+    end
+  end
+
+  def isomodelsapilink 
+    link_to '/docs/models/active-record', :class => 'model-orange' do
+      "<b>I</b>somorphic models and ActiveRecord API"
+    end
+  end
+
+  def pushnotificationslink 
+    link_to '/docs/models/configuring-transport', :class => 'policies-black' do
+      "<b>P</b>ush notifications"
+    end
+  end
+
+  def broadcastpoliciesslink 
+    link_to '/docs/policies/authorization#details', :class => 'policies-black' do
+      "<b>B</b>roadcast policies"
+    end
+  end
+
+  def hyperloopgemlink
+    link_to 'https://github.com/ruby-hyperloop/hyperloop', :target => '_blank' do
+      "<b>H</b>yperloop Gem"
+    end
+  end
+
+
 
 end
 
