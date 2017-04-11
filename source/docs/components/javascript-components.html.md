@@ -3,9 +3,9 @@ title: Components
 ---
 ## Using Javascript Components
 
-While it is quite possible to develop large applications purely in HyperReact with a ruby back end like rails, you may eventually find you want to use some pre-existing React Javascript library.   Or you may be working with an existing React-JS application, and want to just start adding some HyperReact components.
+While it is quite possible to develop large applications purely in Hyperloop Components with a ruby back end like rails, you may eventually find you want to use some pre-existing React Javascript library.   Or you may be working with an existing React-JS application, and want to just start adding some Hyperloop Components.
 
-Either way you are going to need to import Javascript components into the HyperReact namespace. HyperReact provides both manual and automatic mechanisms to do this depending on the level of control you need.
+Either way you are going to need to import Javascript components into the Hyperloop namespace. Hyperloop provides both manual and automatic mechanisms to do this depending on the level of control you need.
 
 - [Importing Components](#importing-components)
 - [Importing Libraries](#importing-libraries)
@@ -15,7 +15,7 @@ Either way you are going to need to import Javascript components into the HyperR
 
 ## Importing Components
 
-Lets say you have an existing React Component written in javascript that you would like to access from HyperReact.  
+Lets say you have an existing React Component written in javascript that you would like to access from Hyperloop.  
 
 Here is a simple hello world component:
 
@@ -28,7 +28,7 @@ window.SayHello = React.createClass({
 })
 ```
 
-Assuming that this component is loaded some place in your assets, you can then access this from HyperReact by creating a wrapper component:
+Assuming that this component is loaded some place in your assets, you can then access this from Hyperloop by creating a wrapper Component:
 
 ```ruby
 class SayHello < Hyperloop::Component
@@ -37,7 +37,7 @@ end
 
 class MyBigApp < Hyperloop::Component
   def render
-    # SayHello will now act like any other HyperReact component
+    # SayHello will now act like any other Hyperloop component
     SayHello name: 'Matz'
   end
 end
@@ -48,7 +48,7 @@ The `imports` directive takes a string (or a symbol) and will simply evaluate it
 
 ## Importing Libraries
 
-Many React components come in libraries.  The `ReactBootstrap` library is one example.  You can import the whole library at once using the `React::NativeLibrary` class.  Assuming that you have initialized `ReactBootstrap` elsewhere, this is how you would bring it into HyperReact.
+Many React components come in libraries.  The `ReactBootstrap` library is one example.  You can import the whole library at once using the `React::NativeLibrary` class.  Assuming that you have initialized `ReactBootstrap` elsewhere, this is how you would bring it into Hyperloop.
 
 ```ruby
 class RBS < React::NativeLibrary
@@ -71,7 +71,7 @@ module Components
       render RBS::Navbar, bsStyle: :inverse do
         RBS::Nav() do
           RBS::NavbarBrand() do
-            a(href: '#') { 'HyperReact Showcase' }
+            a(href: '#') { 'Hyperloop Showcase' }
           end
           RBS::NavDropdown(eventKey: 1, title: 'Things', id: :drop_down) do
             (1..5).each do |n|
@@ -113,9 +113,9 @@ Note that the `rename` directive can be used to rename both components and subli
 
 ## Auto Import
 
-If you use a lot of libraries and are using a Javascript tool chain with Webpack, having to import the libraries in both HyperReact and Webpack is redundant and just hard work.
+If you use a lot of libraries and are using a Javascript tool chain with Webpack, having to import the libraries in both Hyperloop and Webpack is redundant and just hard work.
 
-Instead you can opt-in for *auto importing* Javascript components into HyperReact as you need them.  Simply `require hyper-react/auto-import` immediately after you `require hyper-react`.  
+Instead you can opt-in for *auto importing* Javascript components into Hyperloop as you need them.  Simply `require hyper-react/auto-import` immediately after you `require hyper-react`.  
 
 For example typically you might have this:
 
@@ -145,7 +145,7 @@ Likewise MyLib::MyComponent would match any of the following in the Javascript n
 
 ## Including React Source  
 
-If you are in the business of importing components with a tool like Webpack, then you will need to let Webpack (or whatever dependency manager you are using) take care of including the React source code.  Just make sure that you are *not* including it on the ruby side of things.  HyperReact is currently tested with React versions 13, 14, and 15, so its not sensitive to the version you use.
+If you are in the business of importing components with a tool like Webpack, then you will need to let Webpack (or whatever dependency manager you are using) take care of including the React source code.  Just make sure that you are *not* including it on the ruby side of things. Hyperloop is currently tested with React versions 13, 14, and 15, so its not sensitive to the version you use.
 
 However it gets a little tricky if you are using the react-rails gem.  Each version of this gem depends on a specific version of React, and so you will need to manually declare this dependency in your Javascript dependency manager.  Consult this [table](https://github.com/reactjs/react-rails/blob/master/VERSIONS.md) to determine which version of React you need. For example assuming you are using `npm` to install modules and you are using version 1.7.2 of react-rails you would say something like this:
 

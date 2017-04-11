@@ -293,7 +293,7 @@ Note: `collect_other_params_as` builds a hash, so you can merge other data in or
 
 ## Mixins and Inheritance
 
-Ruby has a rich set of mechanisms enabling code reuse, and HyperReact is intended to be a team player in your Ruby application.  Components can be subclassed, and they can include (or mixin) other modules.  You can also create a component by including `React::Component` which allows a class to inherit from some other non-react class, and then mixin the React DSL.
+Ruby has a rich set of mechanisms enabling code reuse, and Hyperloop is intended to be a team player in your Ruby application.  Components can be subclassed, and they can include (or mixin) other modules.  You can also create a component by including `React::Component` which allows a class to inherit from some other non-react class, and then mixin the React DSL.
 
 ```ruby
   # make a SuperFoo react component class

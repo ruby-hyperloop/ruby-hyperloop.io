@@ -3,9 +3,9 @@ title: Components
 ---
 ## Components DSL Overview
 
-Hyperloop **Components** are implemented in the **HyperReact Gem**.
+Hyperloop **Components** are implemented in the **HyperComponent Gem**.
 
-The HyperReact DSL (Domain Specific Language) is a set of class and instance methods that are used to describe your React components.
+Hyperloop Component DSL (Domain Specific Language) is a set of class and instance methods that are used to describe your React components.
 
 - [Hyperloop::Component](#hyperloop-component)
 - [Macros (Class Methods)](#macros-class-methods)
@@ -15,7 +15,7 @@ The HyperReact DSL (Domain Specific Language) is a set of class and instance met
 - [HAML style class names](#haml-style-class-names)
 - [Event Handlers](#event-handlers)
 - [Miscellaneous Methods](#miscellaneous-methods)
-- [Ruby and HyperReact](#ruby-and-hyperreact)
+- [Ruby and Hyperloop](#ruby-and-hyperloop)
 - [DSL Gotchas](#dsl-gotchas)
 
 The DSL has the following major areas:  
@@ -247,7 +247,7 @@ end
 
 `force_update!` is a component instance method that causes the component to re-rerender.
 
-`as_node` can be attached to a component or tag, and removes the element from the rendering buffer and returns it.   This is useful when you need store an element in some data structure, or passing to a native JS component.  When passing an element to another HyperReact component `.as_node` will be automatically applied so you normally don't need it.  
+`as_node` can be attached to a component or tag, and removes the element from the rendering buffer and returns it.   This is useful when you need store an element in some data structure, or passing to a native JS component.  When passing an element to another Hyperloop Component `.as_node` will be automatically applied so you normally don't need it.  
 
 `render` can be applied to the objects returned by `as_node` and `children` to actually render the node.
 

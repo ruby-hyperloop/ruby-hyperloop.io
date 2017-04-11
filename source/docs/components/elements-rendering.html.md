@@ -94,6 +94,6 @@ Similar to `render_to_string`, except this doesn't create extra DOM attributes s
 
 **`Hyperloop::Component`**
 
-HyperReact Components are ruby classes that either subclass `Hyperloop::Component`, or mixin `Hyperloop::Component::Mixin`.  Both mechanisms have the same effect.
+Hyperloop Components are ruby classes that either subclass `Hyperloop::Component`, or mixin `Hyperloop::Component::Mixin`.  Both mechanisms have the same effect.
 
 Instances of React Components are created internally by React when rendering. The instances exist through subsequent renders, and although coupled to React, act like normal ruby instances. The only way to get a valid reference to a React Component instance outside of React is by storing the return value of `React.render`.  Inside other Components, you may use refs to achieve the same result.
