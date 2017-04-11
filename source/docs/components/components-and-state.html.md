@@ -18,10 +18,11 @@ title: Hyper-React Docs
 
 <div class="codemirror-live-edit"
   data-heading="A simple Component rendering state"
-  data-rows=11
+  data-rows=12
   data-top-level-component="LikeButton">
 <pre>
 class LikeButton < Hyperloop::Component
+
   render do
     P do
       "You #{state.liked ? 'like' : 'haven\'t liked'} this. Click to toggle."
@@ -176,7 +177,7 @@ When React reconciles the keyed children, it will ensure that any child with `ke
 The `key` should *always* be supplied directly to the components in the array, not to the container HTML child of each component in the array:
 
 ```ruby
-  # WRONG!
+# WRONG!
 class ListItemWrapper < Hyperloop::Component
   param :data
   render do
@@ -195,7 +196,7 @@ class MyComponent < Hyperloop::Component
 end
 ```
 ```ruby
-  # correct
+# CORRECT
 class ListItemWrapper < Hyperloop::Component
   param :data
   render do
@@ -220,7 +221,7 @@ In React, data flows from owner to owned component through the params as discuss
 
 ### Stores
 
-Managing state between components is best done in Stores as many Components can access one store. Please see the [Store documentation](/docs/stores/overview) for details.
+Managing state between components is best done using Stores as many Components can access one store. This saves passing data btween Components. Please see the [Store documentation](/docs/stores/overview) for details.
 
 ## Reusable Components
 
