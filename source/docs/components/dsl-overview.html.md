@@ -22,7 +22,7 @@ The DSL has the following major areas:
 
 + The `React::Component::Base` class and the equivilent `React::Component` mixin.
 + Class methods or *macros* that describe component class level behaviors.
-+ The three data accessors methods: `params`, `state`, and `children`.
++ The four data accessors methods: `params`, `state`, `mutate`, and `children`.
 + The tag and component rendering methods.
 + Event handlers.
 + Miscellaneous methods.
@@ -35,7 +35,7 @@ class Clock < React::Component::Base
   param initial_mode: 12
 
   before_mount do
-    state.mode! params.initial_mode
+    mutate.mode params.initial_mode
   end
 
   after_mount do
@@ -58,7 +58,7 @@ class Clock < React::Component::Base
         option(value: 12) { "12 Hour Clock" }
         option(value: 24) { "24 Hour Clock" }
       end.on(:change) do |e|
-        state.mode!(e.target.value.to_i)
+        mutate.mode(e.target.value.to_i)
       end
     end
   end
@@ -159,11 +159,11 @@ The `before_unmount` macro provides any cleanup actions before the instance is d
 
 The `render` macro defines the render method.
 
-The available macros are: `render, param, export_state, before_mount, after_mount, before_receive_props, before_update, after_update, before_unmount`
+The available macros are: `render, param, state, mutate, before_mount, after_mount, before_receive_props, before_update, after_update, before_unmount`
 
 ### Data Accessor Methods
 
-The three data accessor methods - `params, state, and children` are instance methods that give access to a component's React specific instance data.
+The four data accessor methods - `params, state, mutate, and children` are instance methods that give access to a component's React specific instance data.
 
 The `params` method gives (read only) access to each of the params passed to this instance, the `state` method allows state variables to be read and written, and `children` returns an enumerator of a component's children.
 
@@ -171,11 +171,11 @@ In our example we see
 
 ```ruby
   before_mount do
-    state.mode! params.mode
+    mutate.mode params.mode
   end
 ```
 
-`params.mode` will return the value of the `mode` parameter passed to this instance, and `state.mode!` initializes (or updates) the `mode` state variable.  State variables are like *reactive* instance variables.  They can only be changed using the "!" method, and when they change they will cause a rerender.  
+`params.mode` will return the value of the `mode` parameter passed to this instance, and `mutate.mode` initializes (or updates) the `mode` state variable.  State variables are like *reactive* instance variables.  They can only be changed using the `mutate` method, and when they change they will cause a rerender.  
 
 More on the details of these methods can be found in the [Component API](#top-level-api) section.
 
@@ -243,7 +243,7 @@ Event Handlers are attached to tags and components using the `on` method.
 select ... do
   ...
 end.on(:change) do |e|
-  state.mode!(e.target.value.to_i)
+  mutate.mode(e.target.value.to_i)
 end
 ```
 
