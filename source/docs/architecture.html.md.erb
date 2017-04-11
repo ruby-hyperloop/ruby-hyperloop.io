@@ -2,7 +2,7 @@
 title: Architecture
 ---
 
-# <span class="bigfirstletter">H</span>yperloop Architecture 
+# <span class="bigfirstletter">H</span>yperloop Architecture
 
 Hyperloop's primary goal is to allow you to enjoy quickly building modern interactive web applications.
 
@@ -31,7 +31,7 @@ Hyperloop is an Isomorphic Web Application Framework consisting of Components, O
 You build your UI using React Components described as Ruby classes.  Within your Components, you can display other components, change state, access models, or communicate with third party APIs.  Typically you will want to use Operations to encapsulate these activities.  Here is a simple example using our `AddBookToBasket` operation.
 
 ```ruby
-class BookList < React::Component::Base
+class BookList < Hyperloop::Component
   # Display each book in our catalog unless it's already in the cart basket.
   # When the user clicks on a book, add it to the Basket.
   render(UL) do
@@ -75,8 +75,8 @@ class WorldClock < HyperStore
 
   def WorldClock.gmt
     unless state.gmt
-      every(1) { state.gmt! = Time.now.gmt }
-      state.gmt! = Time.now
+      every(1) { mutate.gmt Time.now.gmt }
+      mutate.gmt Time.now
     end
     state.gmt
   end
@@ -108,7 +108,7 @@ Hyperloop uses Rails ActiveRecord for data persistence.  This allows easy integr
 HyperMesh gives you full access to the ActiveRecord models on the client or the server which means we can use the models directly within our Components without needing the abstraction of an API:
 
 ```ruby
-class BookList < React::Component::Base
+class BookList < Hyperloop::Component
   # Display each book in the catalog
   render(UL) do
     Book.in_catalog.each do |book|
