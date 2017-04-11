@@ -16,19 +16,22 @@ title: Hyper-React Docs
 
 #### A Simple Example
 
-```ruby
-class LikeButton < React::Component::Base
+<div class="codemirror-live-edit"
+  data-heading="A simple Component rendering state"
+  data-rows=11
+  data-top-level-component="LikeButton">
+<pre>
+class LikeButton < Hyperloop::Component
   render do
-    para do
+    P do
       "You #{state.liked ? 'like' : 'haven\'t liked'} this. Click to toggle."
     end.on(:click) do
-      state.liked! !state.liked
+      mutate.liked !state.liked
     end
   end
 end
-```
+</pre></div>
 
-[Try It Out](http://goo.gl/fWUOOe)
 
 ### Components are Just State Machines
 
@@ -38,7 +41,7 @@ In React, you simply update a component's state, and then the new UI will be ren
 
 ### How State Works
 
-Whenever a state variable changes you invoke the corresponding state variable name followed by a "!" method.  For example `state.liked! !state.like` *gets* the current value of like, toggles it, and then *updates* it.  This in turn causes the component to be rerendered. For more details on how this works, and the full syntax of the update method see [the component API reference](#top-level-api)
+To change a state variable you use `mutate.state_variable` and pass the new value.  For example `mutate.liked(!state.like)` *gets* the current value of like, toggles it, and then *updates* it.  This in turn causes the component to be rerendered. For more details on how this works, and the full syntax of the update method see [the component API reference](#top-level-api)
 
 ### What Components Should Have State?
 
@@ -76,7 +79,7 @@ By building modular components that reuse other components with well-defined int
 Let's create a simple Avatar component which shows a profile picture and username using the Facebook Graph API.
 
 ```ruby
-class Avatar < React::Component::Base
+class Avatar < Hyperloop::Component
   param :user_name
   def render
     div do
@@ -86,14 +89,14 @@ class Avatar < React::Component::Base
   end
 end
 
-class ProfilePic < React::Component::Base
+class ProfilePic < Hyperloop::Component
   param :user_name
   def render
     img src: "https://graph.facebook.com/#{params.user_name}/picture"
   end
 end
 
-class ProfileLink < React::Component::Base
+class ProfileLink < Hyperloop::Component
   param :user_name
   def render
     a href: "https://www.facebook.com/#{params.user_name}" do
@@ -125,7 +128,7 @@ Parent { Child() }
 the items will be completely rerendered:
 
 ```ruby
-def render
+render do
   params.items.each do |item|
     para do
       item[:text]
@@ -144,7 +147,7 @@ For most components, this is not a big deal. However, for stateful components th
 In most cases, this can be sidestepped by hiding elements based on some property change:
 
 ```ruby
-def render
+render do
   state.items.each do |item|
     para(style: {display: item[:some_property] == "some state" ? :block : :none}) do
       item[:text]
@@ -159,7 +162,7 @@ The situation gets more complicated when the children are shuffled around (as in
 
 ```ruby
   param :results, type: [Hash] # each result is a hash of the form {id: ..., text: ....}
-  def render
+  render do
     ol do
       params.results.each do |result|
         li(key: result[:id]) { result[:text] }
@@ -174,15 +177,15 @@ The `key` should *always* be supplied directly to the components in the array, n
 
 ```ruby
   # WRONG!
-class ListItemWrapper < React::Component::Base
+class ListItemWrapper < Hyperloop::Component
   param :data
-  def render
+  render do
     li(key: params.data[:id]) { params.data[:text] }
   end
 end    
-class MyComponent < React::Component::Base
+class MyComponent < Hyperloop::Component
   param :results
-  def render
+  render do
     ul do
       params.result.each do |result|
         ListItemWrapper data: result
@@ -193,15 +196,15 @@ end
 ```
 ```ruby
   # correct
-class ListItemWrapper < React::Component::Base
+class ListItemWrapper < Hyperloop::Component
   param :data
-  def render
+  render do
     li{ params.data[:text] }
   end
 end    
-class MyComponent < React::Component::Base
+class MyComponent < Hyperloop::Component
   param :results
-  def render
+  render do
     ul do
       params.result.each do |result|
         ListItemWrapper key: result[:id], data: result
@@ -214,6 +217,10 @@ end
 ### Data Flow
 
 In React, data flows from owner to owned component through the params as discussed above. This is effectively one-way data binding: owners bind their owned component's param to some value the owner has computed based on its `params` or `state`. Since this process happens recursively, data changes are automatically reflected everywhere they are used.
+
+### Stores
+
+Managing state between components is best done in Stores as many Components can access one store. Please see the [Store documentation](/docs/stores/overview) for details.
 
 ## Reusable Components
 
