@@ -55,7 +55,7 @@ class CodeMirror < Hyperloop::Component
       value: #{params.code.to_s},
       mode: 'text/x-ruby',
       matchBrackets: true,
-      lineNumbers: true,
+      lineNumbers: false,
       indentUnit: 2,
       theme: 'github'
     });`
@@ -72,7 +72,7 @@ class CodeMirror < Hyperloop::Component
       div.card_header do
         img(src: '../../../images/hyperloop-logo-small-white.png' , width:'25')
         span { ' ' }
-        'Hyperloop playground :'
+        'Live editor results'
       end
       div.card_block(id: @div_result)
     }
@@ -95,7 +95,7 @@ class CodeMirror < Hyperloop::Component
       `eval(#{compiled_code})`
       Hyperloop::Application::Boot.run()
 
-      
+
       component = Module.const_get params.top_level_component
       # we need to see if the component is valid - try checking if it can render static markup
       # the following line generates: `undefined method to_n for SimpleComponent`
@@ -299,7 +299,13 @@ end
         <div class="col-md-9 main-content">
           <h2 id="chat-app-tutorial"><i class="flaticon-professor-teaching"></i><span class="bigfirstletter">C</span>hat-App Tutorial</h2>
 
+<h4 id="writing-this-tutorial-state-in-progress">Writing this tutorial state : In progress</h4>
+
 <p>We&#39;ll be building a simple but realistic chat application, a basic version of a chat room offered by a service like gitter.im.</p>
+
+<p>During this tutorial we will learn how to use Hyperloop <a href="/docs/components/dsl-overview" class="component-blue"><b>C</b>omponents</a>, <a href="/docs/stores/overview" class="store-green"><b>S</b>tores</a> and <a href="/docs/operations/overview" class="operation-purple"><b>O</b>perations</a>. </p>
+
+<p>We will also see also how the <a href="/docs/models/configuring-transport" class="policies-black"><b>P</b>ush notifications</a> works. So every chatters will se all messages updated in realtime in their browser.  </p>
 
 <p><img src="https://raw.githubusercontent.com/ruby-hyperloop/hyperloop-js-chatapp/master/hyperloopjschatappscreenshot.png" alt="Screen" /></p>
 
@@ -317,7 +323,72 @@ end
 <pre class="highlight plaintext"><code>rails g hyper:component Chatapp
 </code></pre>
 <p>You can view the new Component created in <code>/app/hyperloop/components/</code></p>
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">HomeController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+  <span class="k">def</span> <span class="nf">chatapp</span>
+    <span class="n">render_component</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre><pre class="highlight ruby"><code><span class="c1">#config/routes.rb</span>
 
+<span class="n">root</span> <span class="s1">'home#chatapp'</span>
+</code></pre><pre class="highlight ruby"><code><span class="c1">#/app/hyperloop/components/chatapp.rb</span>
+
+  <span class="k">class</span> <span class="nc">Chatapp</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Component</span>
+
+    <span class="k">def</span> <span class="nf">render</span>
+      <span class="n">div</span> <span class="k">do</span>
+        <span class="no">Nav</span><span class="p">()</span>
+
+      <span class="k">end</span>
+    <span class="k">end</span>
+
+  <span class="k">end</span>
+</code></pre><pre class="highlight ruby"><code> <span class="c1">#/app/hyperloop/components/nav.rb</span>
+
+ <span class="k">class</span> <span class="nc">Nav</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Component</span>
+
+  <span class="n">before_mount</span> <span class="k">do</span>
+    <span class="n">mutate</span><span class="p">.</span><span class="nf">user_name_input</span> <span class="s1">''</span>
+  <span class="k">end</span>
+
+  <span class="n">render</span> <span class="k">do</span>
+    <span class="n">div</span><span class="p">.</span><span class="nf">navbar</span><span class="p">.</span><span class="nf">navbar_inverse</span><span class="p">.</span><span class="nf">navbar_fixed_top</span> <span class="k">do</span>
+      <span class="n">div</span><span class="p">.</span><span class="nf">container</span> <span class="k">do</span>
+        <span class="n">div</span><span class="p">.</span><span class="nf">collapse</span><span class="p">.</span><span class="nf">navbar_collapse</span><span class="p">(</span><span class="ss">id: </span><span class="s1">'navbar'</span><span class="p">)</span> <span class="k">do</span>
+          <span class="n">form</span><span class="p">.</span><span class="nf">navbar_form</span><span class="p">.</span><span class="nf">navbar_left</span><span class="p">(</span><span class="ss">role: :search</span><span class="p">)</span> <span class="k">do</span>
+            <span class="n">div</span><span class="p">.</span><span class="nf">form_group</span> <span class="k">do</span>
+              <span class="n">input</span><span class="p">.</span><span class="nf">form_control</span><span class="p">(</span><span class="ss">type: :text</span><span class="p">,</span> <span class="ss">value: </span><span class="n">state</span><span class="p">.</span><span class="nf">user_name_input</span><span class="p">,</span> <span class="ss">placeholder: </span><span class="s2">"Enter Your Handle"</span>
+              <span class="p">).</span><span class="nf">on</span><span class="p">(</span><span class="ss">:change</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">e</span><span class="o">|</span>
+                <span class="n">mutate</span><span class="p">.</span><span class="nf">user_name_input</span> <span class="n">e</span><span class="p">.</span><span class="nf">target</span><span class="p">.</span><span class="nf">value</span>
+              <span class="k">end</span>
+              <span class="n">button</span><span class="p">.</span><span class="nf">btn</span><span class="p">.</span><span class="nf">btn_default</span><span class="p">(</span><span class="ss">type: :button</span><span class="p">)</span> <span class="p">{</span> <span class="s2">"login!"</span> <span class="p">}.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:click</span><span class="p">)</span> <span class="k">do</span>
+                <span class="no">Operations</span><span class="o">::</span><span class="no">Join</span><span class="p">(</span><span class="ss">user_name: </span><span class="n">state</span><span class="p">.</span><span class="nf">user_name_input</span><span class="p">)</span>
+              <span class="k">end</span> <span class="k">if</span> <span class="n">valid_new_input?</span>
+            <span class="k">end</span>
+          <span class="k">end</span>
+        <span class="k">end</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">valid_new_input?</span>
+    <span class="n">state</span><span class="p">.</span><span class="nf">user_name_input</span><span class="p">.</span><span class="nf">present?</span> <span class="o">&amp;&amp;</span> <span class="n">state</span><span class="p">.</span><span class="nf">user_name_input</span> <span class="o">!=</span> <span class="no">MessageStore</span><span class="p">.</span><span class="nf">user_name</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre><pre class="highlight ruby"><code><span class="c1">#/app/hyperloop/stores/message_store.rb</span>
+
+<span class="k">class</span> <span class="nc">MessageStore</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Store</span>
+
+  <span class="n">state</span> <span class="ss">:user_name</span><span class="p">,</span> <span class="ss">scope: :class</span><span class="p">,</span> <span class="ss">reader: </span><span class="kp">true</span>
+
+  <span class="n">receives</span> <span class="no">Operations</span><span class="o">::</span><span class="no">Join</span> <span class="k">do</span> <span class="o">|</span><span class="n">params</span><span class="o">|</span>
+    <span class="nb">puts</span> <span class="s2">"receiving Operations::Join(</span><span class="si">#{</span><span class="n">params</span><span class="si">}</span><span class="s2">)"</span>
+    <span class="n">mutate</span><span class="p">.</span><span class="nf">user_name</span> <span class="n">params</span><span class="p">.</span><span class="nf">user_name</span>
+  <span class="k">end</span>
+
+
+<span class="k">end</span>
+</code></pre>
         </div>
       </div>
     </div>

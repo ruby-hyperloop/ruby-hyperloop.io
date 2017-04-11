@@ -55,7 +55,7 @@ class CodeMirror < Hyperloop::Component
       value: #{params.code.to_s},
       mode: 'text/x-ruby',
       matchBrackets: true,
-      lineNumbers: true,
+      lineNumbers: false,
       indentUnit: 2,
       theme: 'github'
     });`
@@ -72,7 +72,7 @@ class CodeMirror < Hyperloop::Component
       div.card_header do
         img(src: '../images/hyperloop-logo-small-white.png' , width:'25')
         span { ' ' }
-        'Hyperloop playground :'
+        'Live editor results'
       end
       div.card_block(id: @div_result)
     }
@@ -95,7 +95,7 @@ class CodeMirror < Hyperloop::Component
       `eval(#{compiled_code})`
       Hyperloop::Application::Boot.run()
 
-      
+
       component = Module.const_get params.top_level_component
       # we need to see if the component is valid - try checking if it can render static markup
       # the following line generates: `undefined method to_n for SimpleComponent`
@@ -307,7 +307,7 @@ end
 
 <h5 id="hyperloop-comps"><i class="flaticon-professor-teaching"></i> <a href="/tutorials/hyperloopcomps"><span class="bigfirstletter">H</span>yperloop COMPS</a></h5>
 
-<p>For learning the hyperloop architecture: Components, Operations, Models, Policy and Stores. Those tutorials are independant from web server environment (HTTP, Ruby On Rails, Sinatra, JS, etc...). </p>
+<p>For learning the Hyperloop architecture: <a href="/docs/components/dsl-overview" class="component-blue"><b>C</b>omponents</a>, <a href="/docs/operations/overview" class="operation-purple"><b>O</b>perations</a>, <a href="/docs/models/overview" class="model-orange"><b>M</b>odels</a>, <a href="/docs/policies/authorization" class="policies-black"><b>P</b>olicies</a> and <a href="/docs/stores/overview" class="store-green"><b>S</b>tores</a>. Those tutorials are independant from web server environment (HTTP, Ruby On Rails, Sinatra, JS, etc...). </p>
 
 <h5 id="hyperloop-js"><i class="flaticon-professor-teaching"></i> <a href="/tutorials/hyperloopjs"><span class="bigfirstletter">H</span>yperloop.js</a></h5>
 
@@ -315,11 +315,11 @@ end
 
 <h5 id="hyperloop-and-rails"><i class="flaticon-professor-teaching"></i> <a href="/tutorials/hyperlooprails"><span class="bigfirstletter">H</span>yperloop and Rails</a></h5>
 
-<p>For learning technics when implementing Hyperloop onto Ruby On Rails with the <a href="https://github.com/ruby-hyperloop/hyperloop" class="rails-red">hyperloop GEM</a>. Including the 3 amazing functionnalities coming with it: <a href="/docs/models/active-record">Isomorphic models and ActiveRecord API</a>, <a href="/docs/models/configuring-transport">Push notifications</a> to clients and <a href="/docs/policies/authorization#details">Broadcast policies</a>.</p>
+<p>For learning technics when implementing Hyperloop onto Ruby On Rails with the <a href="https://github.com/ruby-hyperloop/hyperloop" target="_blank"><b>H</b>yperloop Gem</a>. Including the 3 amazing functionnalities coming with it: <a href="/docs/models/active-record" class="model-orange"><b>I</b>somorphic models and ActiveRecord API</a>, <a href="/docs/models/configuring-transport" class="policies-black"><b>P</b>ush notifications</a> to clients and <a href="/docs/policies/authorization#details" class="policies-black"><b>B</b>roadcast policies</a>.</p>
 
 <h5 id="hyperloop-deployment"><i class="flaticon-professor-teaching"></i> <a href="/tutorials/hyperloopdeploy"><span class="bigfirstletter">H</span>yperloop deployment</a></h5>
 
-<p>For learning how to deploy a hyperloop application to a production server (particularly when using Rails). </p>
+<p>For learning how to deploy a Hyperloop application to a production server (particularly when using Rails). </p>
 
 <h5 id="opal"><i class="flaticon-professor-teaching"></i> <a href="/tutorials/opal"><span class="bigfirstletter">O</span>pal</a></h5>
 

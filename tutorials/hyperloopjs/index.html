@@ -55,7 +55,7 @@ class CodeMirror < Hyperloop::Component
       value: #{params.code.to_s},
       mode: 'text/x-ruby',
       matchBrackets: true,
-      lineNumbers: true,
+      lineNumbers: false,
       indentUnit: 2,
       theme: 'github'
     });`
@@ -72,7 +72,7 @@ class CodeMirror < Hyperloop::Component
       div.card_header do
         img(src: '../../images/hyperloop-logo-small-white.png' , width:'25')
         span { ' ' }
-        'Hyperloop playground :'
+        'Live editor results'
       end
       div.card_block(id: @div_result)
     }
@@ -95,7 +95,7 @@ class CodeMirror < Hyperloop::Component
       `eval(#{compiled_code})`
       Hyperloop::Application::Boot.run()
 
-      
+
       component = Module.const_get params.top_level_component
       # we need to see if the component is valid - try checking if it can render static markup
       # the following line generates: `undefined method to_n for SimpleComponent`
@@ -303,14 +303,14 @@ end
 
 <p>This simple tutorial will teach you the basic of using a <strong>Components</strong> within a Hyperloop.js environment. </p>
 
-<p><strong>Skills covered</strong>: Components, Opal syntax</p>
+<p><strong>Skills covered</strong>: <a href="/docs/components/dsl-overview" class="component-blue"><b>C</b>omponents</a>, Opal syntax</p>
 
 <h5 id="chat-app-tutorial"><i class="flaticon-professor-teaching"></i> <a href="/tutorials/hyperloopjs/chatapp"><span class="bigfirstletter">C</span>hat-App Tutorial</a></h5>
 
 <p>This tutorial will teach you the basics of building a Hyperloop application that <strong>runs purely in your browser</strong> with no need for any back end system (like Rails, Node or Sinatra).
 This work-along tutorial is an excellent place to start to learn the <strong>Hyperloop</strong> DSL without needing to learn how to install it. If you have not used the Hyperloop DSL before, this tutorial will get you going with minimal setup</p>
 
-<p><strong>Skills covered</strong>: Components, Opal syntax</p>
+<p><strong>Skills covered</strong>: <a href="/docs/components/dsl-overview" class="component-blue"><b>C</b>omponents</a>, Opal syntax</p>
 
         </div>
       </div>

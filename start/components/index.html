@@ -55,7 +55,7 @@ class CodeMirror < Hyperloop::Component
       value: #{params.code.to_s},
       mode: 'text/x-ruby',
       matchBrackets: true,
-      lineNumbers: true,
+      lineNumbers: false,
       indentUnit: 2,
       theme: 'github'
     });`
@@ -72,7 +72,7 @@ class CodeMirror < Hyperloop::Component
       div.card_header do
         img(src: '../../images/hyperloop-logo-small-white.png' , width:'25')
         span { ' ' }
-        'Hyperloop playground :'
+        'Live editor results'
       end
       div.card_block(id: @div_result)
     }
@@ -95,7 +95,7 @@ class CodeMirror < Hyperloop::Component
       `eval(#{compiled_code})`
       Hyperloop::Application::Boot.run()
 
-      
+
       component = Module.const_get params.top_level_component
       # we need to see if the component is valid - try checking if it can render static markup
       # the following line generates: `undefined method to_n for SimpleComponent`
@@ -354,11 +354,13 @@ end
 
 <div class="codemirror-live-edit"
   data-heading="A simple Component rendering a Button"
-  data-rows=9
+  data-rows=11
   data-top-level-component="SimpleComponent">
 <pre>
 class SimpleComponent < Hyperloop::Component
+
   state show_field: false
+
   render(DIV) do
     BUTTON { 'Push the button' }.on(:click) do
      alert 'You did it!'
@@ -371,7 +373,7 @@ end
 
 <ul>
 <li>Every Component must have a <code>render</code> macro which must return just one HTML element. The syntax of <code>render(DIV)</code> is a shorthand for this which will return one div.</li>
-<li>HTML elements (DIV, BUTTON, etc) can be in uppercase or lowercase.</li>
+<li>HTML built-in elements (DIV, BUTTON, TABLE, etc) are in uppercase, we believe this reads better alongside Components which are in CamelCase and methods in snake_case</li>
 <li>We added an event handler to the button. You can do this for any HTML element in the same way.</li>
 </ul>
 
@@ -396,9 +398,11 @@ end
 
 <div class="codemirror-live-edit"
   data-heading="Passing parameters"
+  data-rows=16
   data-top-level-component="MeeterGreeter">
 <pre>
 class MeeterGreeter < Hyperloop::Component
+
   render(DIV) do
     SayHelloTo(name: "John")
     SayHelloTo(name: "Sally")
@@ -417,7 +421,7 @@ end
 <p>You will notice a couple of things in the code above:</p>
 
 <ul>
-<li>The syntax for adding components is either <code>MyComponent()</code> or <code>MyComponent {}</code> but never just <code>MyComponent</code>. Sometimes you use both - <code>button(style: default) { &quot;Click Me&quot; }</code>. Everything in the brackets is passed to the Component as a parameter and everything in the curly brace is rendered within the Component.</li>
+<li>The syntax for adding components is either <code>MyComponent()</code> or <code>MyComponent {}</code> but never just <code>MyComponent</code>. Sometimes you use both - <code>BUTTON(class: &#39;my-class&#39;) { &quot;Click Me&quot; }</code>. Everything in the brackets is passed to the Component as parameters and everything in the curly brace is rendered within the Component.</li>
 <li>Parameters can be strongly typed <code>param :name, type: String</code> and considering this code will be compiled to JavaScript this is a good idea.</li>
 </ul>
 
@@ -473,11 +477,7 @@ end</pre></div>
 
 <h3 id="stylish-components">Stylish Components</h3>
 
-<p>Conditional logic, HTML elements, state and style all intermingle in a Hyperloop Component. CSS specifically blends with HTML elements so for example, the following two lines are equivalent:</p>
-<pre class="highlight ruby"><code><span class="no">BUTTON</span><span class="p">(</span><span class="ss">class: </span><span class="s1">'btn-primary'</span><span class="p">)</span> <span class="p">{</span> <span class="s2">"Press me"</span> <span class="p">}</span>
-<span class="n">button</span><span class="p">.</span><span class="nf">btn_primary</span> <span class="p">{</span> <span class="s2">"Press me"</span> <span class="p">}</span>
-</code></pre>
-<p>Note that <code>btn-primary</code> becomes <code>btn_primary</code> as &#39;-&#39; is disallowed in Ruby.</p>
+<p>Conditional logic, HTML elements, state and style all intermingle in a Hyperloop Component.</p>
 
 <p>As an example, this Hyperloop website uses Bootstrap CSS, so we have complete access to the Bootstrap CSS from within our Components:</p>
 
@@ -488,28 +488,26 @@ end</pre></div>
 <pre>
 class StylishTable < Hyperloop::Component
   render(DIV) do
-    table.table.table_bordered do
-      thead do
-        tr do
-          th { "First Name" }
-          th { "Last Name" }
-          th { "Username" }
-          th { }
+    TABLE(class: 'table table-bordered') do
+      THEAD do
+        TR do
+          TH { "First Name" }
+          TH { "Last Name" }
+          TH { "Username" }
+          TH { }
         end
       end
-      tbody do
-        tr do
-          td { "Mark" }
-          td { "Otto" }
-          td.text_success { "@odm" }
-          td { button.btn.btn_primary.btn_sm { "Edit" } }
+      TBODY do
+        TR do
+          TD { "Mark" }
+          TD { "Otto" }
+          TD(class: 'text-success') { "@odm" }
+          TD { BUTTON(class: 'btn btn-primary btn_sm') { "Edit" } }
         end
       end
     end
   end
 end</pre></div>
-
-<p>You have a choice of uppercase <code>BUTTON</code> or lowercase <code>button</code> HTML elements. You can use whichever you think reads better.</p>
 
 <h3 id="javascript-libraries">JavaScript Libraries</h3>
 
@@ -531,6 +529,7 @@ class Player < React::Component::Base
 end
 
 class LiftOff < Hyperloop::Component
+
   render(DIV) do
     Player(url:  'https://www.youtube.com/embed/Czrc1JfIBRw',
       playing: false
