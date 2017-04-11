@@ -31,7 +31,7 @@ To understand the DSL we will walk through an example that will cover each of th
 
 <div class="codemirror-live-edit"
   data-heading="Clock"
-  data-rows=25
+  data-rows=35
   data-top-level-component="Clock">
 <pre>
 class Clock < Hyperloop::Component
