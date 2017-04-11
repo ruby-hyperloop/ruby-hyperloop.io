@@ -428,7 +428,7 @@ new_props block parameter contains a hash of the new values.</p>
 
 <p>Normally HyperReact will only update a component if some state variable or param has changed.  To override this behavior you can redefine the <code>should_component_update?</code> instance method.  For example, assume that we have a state called <code>funky</code> that for whatever reason, we
 cannot update using the normal <code>state.funky!</code> update method.  So what we can do is override <code>should_component_update?</code> call <code>super</code>, and then double check if the <code>funky</code> has changed by doing an explicit comparison.</p>
-<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">RerenderMore</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">RerenderMore</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Component</span>
   <span class="k">def</span> <span class="nf">should_component_update?</span><span class="p">(</span><span class="n">new_params_hash</span><span class="p">,</span> <span class="n">new_state_hash</span><span class="p">)</span>
     <span class="k">super</span> <span class="o">||</span> <span class="n">new_state_hash</span><span class="p">[</span><span class="ss">:funky</span><span class="p">]</span> <span class="o">!=</span> <span class="n">state</span><span class="p">.</span><span class="nf">funky</span>
   <span class="k">end</span>

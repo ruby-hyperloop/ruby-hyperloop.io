@@ -390,11 +390,11 @@ end
 <span class="p">})</span>
 </code></pre>
 <p>Assuming that this component is loaded some place in your assets, you can then access this from HyperReact by creating a wrapper component:</p>
-<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">SayHello</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">SayHello</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Component</span>
   <span class="n">imports</span> <span class="s1">'SayHello'</span>
 <span class="k">end</span>
 
-<span class="k">class</span> <span class="nc">MyBigApp</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
+<span class="k">class</span> <span class="nc">MyBigApp</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Component</span>
   <span class="k">def</span> <span class="nf">render</span>
     <span class="c1"># SayHello will now act like any other HyperReact component</span>
     <span class="no">SayHello</span> <span class="ss">name: </span><span class="s1">'Matz'</span>
@@ -414,7 +414,7 @@ end
 <pre class="highlight ruby"><code>  <span class="c1"># taken  from Barrie Hadfield's excellent guide: http://tutorials.pluralsight.com/ruby-ruby-on-rails/reactrb-showcase</span>
 <span class="k">module</span> <span class="nn">Components</span>
   <span class="k">module</span> <span class="nn">Home</span>
-    <span class="k">class</span> <span class="nc">Show</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
+    <span class="k">class</span> <span class="nc">Show</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Component</span>
 
       <span class="k">def</span> <span class="nf">say_hello</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
         <span class="n">alert</span> <span class="s2">"Hello from number </span><span class="si">#{</span><span class="n">i</span><span class="si">}</span><span class="s2">"</span>
@@ -483,7 +483,7 @@ end
 
 <p>Likewise MyLib::MyComponent would match any of the following in the Javascript namespace: <code>MyLib.MyComponent</code>, <code>myLib.MyComponent</code>, <code>MyLib.myComponent</code>, <code>myLib.myComponent</code></p>
 
-<p><em>How it works:  The first time Ruby hits a native library or component name, the constant value will not be defined.  This will trigger a lookup in the javascript name space for the matching component or library name.  This will generate either a new subclass of React::Component::Base or React::NativeLibrary that imports the javascript object, and no further lookups will be needed.</em></p>
+<p><em>How it works:  The first time Ruby hits a native library or component name, the constant value will not be defined.  This will trigger a lookup in the javascript name space for the matching component or library name.  This will generate either a new subclass of Hyperloop::Component or React::NativeLibrary that imports the javascript object, and no further lookups will be needed.</em></p>
 
 <h2 id="including-react-source">Including React Source</h2>
 

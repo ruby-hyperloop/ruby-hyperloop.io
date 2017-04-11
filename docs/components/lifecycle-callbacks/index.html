@@ -378,7 +378,7 @@ end
 </ul>
 
 <p>All the callback macros may take a block or the name of an instance method to be called.</p>
-<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">AComponent</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">AComponent</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Component</span>
   <span class="n">before_mount</span> <span class="k">do</span>
     <span class="c1"># initialize stuff here</span>
   <span class="k">end</span>
@@ -416,7 +416,7 @@ where class_spec is either a class name, or <code>[]</code> (shorthand for Array
 <h4 id="accessing-param-values">Accessing param values</h4>
 
 <p>The component instance method <code>params</code> gives access to all declared params.  So for example</p>
-<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">Hello</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">Hello</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Component</span>
   <span class="n">param</span> <span class="ss">visitor: </span><span class="s2">"World"</span><span class="p">,</span> <span class="ss">type: </span><span class="no">String</span>
   <span class="n">render</span>
     <span class="s2">"Hello </span><span class="si">#{</span><span class="n">params</span><span class="p">.</span><span class="nf">visitor</span><span class="si">}</span><span class="s2">"</span>
@@ -427,7 +427,7 @@ where class_spec is either a class name, or <code>[]</code> (shorthand for Array
 
 <p>A param of type proc (i.e. <code>param :update, type: Proc</code>) gets special treatment that will directly
 call the proc when the param is accessed.</p>
-<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">Alarm</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">Alarm</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Component</span>
   <span class="n">param</span> <span class="ss">:at</span><span class="p">,</span> <span class="ss">type: </span><span class="no">Time</span>
   <span class="n">param</span> <span class="ss">:notify</span><span class="p">,</span> <span class="ss">type: </span><span class="no">Proc</span>
   <span class="n">after_mount</span> <span class="k">do</span>
@@ -491,7 +491,7 @@ call the proc when the param is accessed.</p>
 <p>Along with params components may be passed a block which is used to build the components children.</p>
 
 <p>The instance method <code>children</code> returns an enumerable that is used to access the unrendered children of a component.</p>
-<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">IndentEachLine</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">IndentEachLine</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Component</span>
   <span class="n">param</span> <span class="ss">by: </span><span class="mi">20</span><span class="p">,</span> <span class="ss">type: </span><span class="no">Integer</span>
   <span class="k">def</span> <span class="nf">render</span>
     <span class="n">div</span> <span class="k">do</span>

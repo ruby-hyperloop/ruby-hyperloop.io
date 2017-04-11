@@ -370,7 +370,7 @@ end
 <p>The HyperReact DSL (Domain Specific Language) is a set of class and instance methods that are used to describe your React components.</p>
 
 <ul>
-<li><a href="#react-component-base">React::Component::Base</a></li>
+<li><a href="#hyperloop-component">Hyperloop::Component</a></li>
 <li><a href="#macros-class-methods">Macros (Class Methods)</a></li>
 <li><a href="#data-accessor-methods">Data Accessor Methods</a></li>
 <li><a href="#tag-and-component-rendering">Tag and Component Rendering</a></li>
@@ -385,92 +385,84 @@ end
 <p>The DSL has the following major areas:  </p>
 
 <ul>
-<li>The <code>React::Component::Base</code> class and the equivilent <code>React::Component</code> mixin.</li>
+<li>The <code>Hyperloop::Component</code> class and the equivilent <code>Hyperloop::Component::Mixin</code> mixin.</li>
 <li>Class methods or <em>macros</em> that describe component class level behaviors.</li>
-<li>The three data accessors methods: <code>params</code>, <code>state</code>, and <code>children</code>.</li>
+<li>The four data accessors methods: <code>params</code>, <code>state</code>, <code>mutate</code>, and <code>children</code>.</li>
 <li>The tag and component rendering methods.</li>
 <li>Event handlers.</li>
 <li>Miscellaneous methods.</li>
 </ul>
 
 <p>To understand the DSL we will walk through an example that will cover each of these areas in detail.</p>
-<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">Clock</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
 
-  <span class="n">param</span> <span class="ss">initial_mode: </span><span class="mi">12</span>
+<div class="codemirror-live-edit"
+  data-heading="Clock"
+  data-rows=25
+  data-top-level-component="Clock">
+<pre>
+class Clock < Hyperloop::Component
 
-  <span class="n">before_mount</span> <span class="k">do</span>
-    <span class="n">state</span><span class="p">.</span><span class="nf">mode!</span> <span class="n">params</span><span class="p">.</span><span class="nf">initial_mode</span>
-  <span class="k">end</span>
+  param initial_mode: 12
 
-  <span class="n">after_mount</span> <span class="k">do</span>
-    <span class="vi">@timer</span> <span class="o">=</span> <span class="n">every</span><span class="p">(</span><span class="mi">60</span><span class="p">)</span> <span class="p">{</span> <span class="n">force_update!</span> <span class="p">}</span>
-  <span class="k">end</span>
+  before_mount do
+    mutate.mode params.initial_mode
+  end
 
-  <span class="n">before_unmount</span> <span class="k">do</span>
-    <span class="vi">@timer</span><span class="p">.</span><span class="nf">stop</span>
-  <span class="k">end</span>
+  after_mount do
+    @timer = every(1) { force_update! }
+  end
 
-  <span class="no">FORMATS</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="mi">12</span> <span class="o">=&gt;</span> <span class="s2">"%a, %e %b %Y %I:%M %p"</span><span class="p">,</span>
-    <span class="mi">24</span> <span class="o">=&gt;</span> <span class="s2">"%a, %e %b %Y %H:%M"</span>
-    <span class="p">}</span>
+  before_unmount do
+    @timer.stop
+  end
 
-  <span class="n">render</span> <span class="k">do</span>
-    <span class="n">div</span><span class="p">(</span><span class="ss">class: :time</span><span class="p">)</span> <span class="k">do</span>
-      <span class="no">Time</span><span class="p">.</span><span class="nf">now</span><span class="p">.</span><span class="nf">strftime</span><span class="p">(</span><span class="no">FORMATS</span><span class="p">[</span><span class="n">state</span><span class="p">.</span><span class="nf">mode</span><span class="p">]).</span><span class="nf">span</span>
-      <span class="nb">select</span><span class="p">(</span><span class="ss">style: </span><span class="p">{</span><span class="s2">"margin-left"</span> <span class="o">=&gt;</span> <span class="mi">20</span><span class="p">},</span> <span class="ss">value: </span><span class="n">state</span><span class="p">.</span><span class="nf">mode</span><span class="p">)</span>  <span class="k">do</span>
-        <span class="n">option</span><span class="p">(</span><span class="ss">value: </span><span class="mi">12</span><span class="p">)</span> <span class="p">{</span> <span class="s2">"12 Hour Clock"</span> <span class="p">}</span>
-        <span class="n">option</span><span class="p">(</span><span class="ss">value: </span><span class="mi">24</span><span class="p">)</span> <span class="p">{</span> <span class="s2">"24 Hour Clock"</span> <span class="p">}</span>
-      <span class="k">end</span><span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:change</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">e</span><span class="o">|</span>
-        <span class="n">state</span><span class="p">.</span><span class="nf">mode!</span><span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="nf">target</span><span class="p">.</span><span class="nf">value</span><span class="p">.</span><span class="nf">to_i</span><span class="p">)</span>
-      <span class="k">end</span>
-    <span class="k">end</span>
-  <span class="k">end</span>
-<span class="k">end</span>
-</code></pre>
-<p><a href="http://goo.gl/zN8i9B">Try It Out</a></p>
+  FORMATS = {
+    12 => "%a, %e %b %Y %S %I:%M %p",
+    24 => "%a, %e %b %Y %S %H:%M"
+    }
 
-<h3 id="react-component-base">React::Component::Base</h3>
+  render do
+    div(class: :time) do
+      Time.now.strftime(FORMATS[state.mode]).span
+      select(style: {"margin-left" => 20}, value: state.mode)  do
+        option(value: 12) { "12 Hour Clock" }
+        option(value: 24) { "24 Hour Clock" }
+      end.on(:change) do |e|
+        mutate.mode(e.target.value.to_i)
+      end
+    end
+  end
+end
+</pre></div>
 
-<p>Component classes can be be created by inheriting from <code>React::Component::Base</code>.</p>
-<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">Clock</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
-<span class="p">.</span><span class="nf">.</span><span class="p">.</span>
-<span class="nf">end</span>
-</code></pre>
-<p>You may also create a component class by mixing in the <code>React::Component</code> module:</p>
-<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">Clock2</span>
-  <span class="kp">include</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span>
-  <span class="p">.</span><span class="nf">.</span><span class="p">.</span>
-<span class="nf">end</span>
-</code></pre>
-<p>The <code>React</code> module is the name space for all the React classes and modules.  </p>
+<h3 id="hyperloop-component">Hyperloop::Component</h3>
 
-<p>React components classes either include <code>React::Component</code> or are subclasses of <code>React::Component::Base</code>.  </p>
-<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">Component</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
+<p>Hyperloop Components classes either include <code>Hyperloop::Component::Mixin</code> or are subclasses of <code>Hyperloop::Component</code>.  </p>
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">Component</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Component</span>
 <span class="k">end</span>
 
 <span class="c1"># if subclassing is inappropriate, you can mixin instead</span>
 <span class="k">class</span> <span class="nc">AnotherComponent</span>
-  <span class="kp">include</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span>
+  <span class="kp">include</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Mixin</span>
 <span class="k">end</span>
 </code></pre>
-<p>At a minimum every component class must define a <code>render</code> method which returns <strong>one single</strong> child element. That child may in turn have an arbitrarily deep structure.</p>
-<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">Component</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
-  <span class="k">def</span> <span class="nf">render</span>
-    <span class="n">div</span> <span class="c1"># render an empty div</span>
-  <span class="k">end</span>
-<span class="k">end</span>
-</code></pre>
-<p>You may also use the <code>render</code> macro to define the render method, which has some styling advantages, but is functionally equivilent.</p>
-<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">Component</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
+<p>At a minimum every component class must define a <code>render</code> macro which returns <strong>one single</strong> child element. That child may in turn have an arbitrarily deep structure.</p>
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">Component</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Component</span>
   <span class="n">render</span> <span class="k">do</span>
     <span class="n">div</span> <span class="c1"># render an empty div</span>
   <span class="k">end</span>
 <span class="k">end</span>
 </code></pre>
+<p>You may also include the top level element to be rendered:</p>
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">Component</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Component</span>
+  <span class="n">render</span><span class="p">(</span><span class="no">DIV</span><span class="p">)</span> <span class="k">do</span>
+    <span class="c1"># everything will be rendered in a dic</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
 <p>To render a component, you reference its class name in the DSL as a method call.  This creates a new instance, passes any parameters proceeds with the component lifecycle.  </p>
-<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">AnotherComponent</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
-  <span class="k">def</span> <span class="nf">render</span>
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">AnotherComponent</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Component</span>
+  <span class="n">render</span> <span class="k">do</span>
     <span class="no">Component</span><span class="p">()</span> <span class="c1"># ruby syntax requires either () or {} following the class name</span>
   <span class="k">end</span>
 <span class="k">end</span>
@@ -480,7 +472,7 @@ end
 <h3 id="macros-class-methods">Macros (Class Methods)</h3>
 
 <p>Macros specify class wide behaviors.  In our example we use the five most common macros.</p>
-<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">Clock</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">Clock</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Component</span>
   <span class="n">param</span> <span class="p">.</span><span class="nf">.</span><span class="p">.</span>
   <span class="nf">before_mount</span> <span class="p">.</span><span class="nf">.</span><span class="p">.</span>
   <span class="nf">after_mount</span> <span class="p">.</span><span class="nf">.</span><span class="p">.</span>
@@ -499,20 +491,20 @@ end
 
 <p>The <code>render</code> macro defines the render method.</p>
 
-<p>The available macros are: <code>render, param, export_state, before_mount, after_mount, before_receive_props, before_update, after_update, before_unmount</code></p>
+<p>The available macros are: <code>render, param, state, mutate, before_mount, after_mount, before_receive_props, before_update, after_update, before_unmount</code></p>
 
 <h3 id="data-accessor-methods">Data Accessor Methods</h3>
 
-<p>The three data accessor methods - <code>params, state, and children</code> are instance methods that give access to a component&#39;s React specific instance data.</p>
+<p>The four data accessor methods - <code>params, state, mutate, and children</code> are instance methods that give access to a component&#39;s React specific instance data.</p>
 
 <p>The <code>params</code> method gives (read only) access to each of the params passed to this instance, the <code>state</code> method allows state variables to be read and written, and <code>children</code> returns an enumerator of a component&#39;s children.</p>
 
 <p>In our example we see</p>
 <pre class="highlight ruby"><code>  <span class="n">before_mount</span> <span class="k">do</span>
-    <span class="n">state</span><span class="p">.</span><span class="nf">mode!</span> <span class="n">params</span><span class="p">.</span><span class="nf">mode</span>
+    <span class="n">mutate</span><span class="p">.</span><span class="nf">mode</span> <span class="n">params</span><span class="p">.</span><span class="nf">mode</span>
   <span class="k">end</span>
 </code></pre>
-<p><code>params.mode</code> will return the value of the <code>mode</code> parameter passed to this instance, and <code>state.mode!</code> initializes (or updates) the <code>mode</code> state variable.  State variables are like <em>reactive</em> instance variables.  They can only be changed using the &quot;!&quot; method, and when they change they will cause a rerender.  </p>
+<p><code>params.mode</code> will return the value of the <code>mode</code> parameter passed to this instance, and <code>mutate.mode</code> initializes (or updates) the <code>mode</code> state variable.  State variables are like <em>reactive</em> instance variables.  They can only be changed using the <code>mutate</code> method, and when they change they will cause a rerender.  </p>
 
 <p>More on the details of these methods can be found in the <a href="#top-level-api">Component API</a> section.</p>
 
@@ -562,7 +554,7 @@ method call looks like this:</p>
 <pre class="highlight ruby"><code><span class="nb">select</span> <span class="p">.</span><span class="nf">.</span><span class="p">.</span> <span class="nf">do</span>
   <span class="p">.</span><span class="nf">.</span><span class="p">.</span>
 <span class="nf">end</span><span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:change</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">e</span><span class="o">|</span>
-  <span class="n">state</span><span class="p">.</span><span class="nf">mode!</span><span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="nf">target</span><span class="p">.</span><span class="nf">value</span><span class="p">.</span><span class="nf">to_i</span><span class="p">)</span>
+  <span class="n">mutate</span><span class="p">.</span><span class="nf">mode</span><span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="nf">target</span><span class="p">.</span><span class="nf">value</span><span class="p">.</span><span class="nf">to_i</span><span class="p">)</span>
 <span class="k">end</span>
 </code></pre>
 <p>The <code>on</code> method takes the event name symbol (note that <code>onClick</code> becomes <code>:click</code>) and the block is passed the React.js event object.</p>
@@ -583,7 +575,7 @@ method call looks like this:</p>
 <p><code>as_node</code> can be attached to a component or tag, and removes the element from the rendering buffer and returns it.   This is useful when you need store an element in some data structure, or passing to a native JS component.  When passing an element to another HyperReact component <code>.as_node</code> will be automatically applied so you normally don&#39;t need it.  </p>
 
 <p><code>render</code> can be applied to the objects returned by <code>as_node</code> and <code>children</code> to actually render the node.</p>
-<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">Test</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">Test</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Component</span>
   <span class="n">param</span> <span class="ss">:node</span>
   <span class="n">render</span> <span class="k">do</span>
     <span class="n">div</span> <span class="k">do</span>
@@ -596,9 +588,7 @@ method call looks like this:</p>
   <span class="k">end</span>
 <span class="k">end</span>
 </code></pre>
-<p><a href="http://goo.gl/J6m0PN">Try It Out</a></p>
-
-<h3 id="ruby-and-hyperreact">Ruby and HyperReact</h3>
+<h3 id="ruby-and-hyperloop">Ruby and Hyperloop</h3>
 
 <p>A key design goal of the DSL is to make it work seamlessly with the rest of Ruby.  Notice in the above example, the use of constant declaration (<code>FORMATS</code>), regular instance variables (<code>@timer</code>), and other non-react methods like <code>every</code> (an Opal Browser method).  </p>
 

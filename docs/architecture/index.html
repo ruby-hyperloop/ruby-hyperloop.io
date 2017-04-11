@@ -442,7 +442,7 @@ end
 <h2><div class="hyperlogoalone"><img src="../../images/HyperComponents.png" width="35" alt="Hypercomponents" /></div>Components</h2>
 
 <p>You build your UI using React Components described as Ruby classes.  Within your Components, you can display other components, change state, access models, or communicate with third party APIs.  Typically you will want to use Operations to encapsulate these activities.  Here is a simple example using our <code>AddBookToBasket</code> operation.</p>
-<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">BookList</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">BookList</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Component</span>
   <span class="c1"># Display each book in our catalog unless it's already in the cart basket.</span>
   <span class="c1"># When the user clicks on a book, add it to the Basket.</span>
   <span class="n">render</span><span class="p">(</span><span class="no">UL</span><span class="p">)</span> <span class="k">do</span>
@@ -483,8 +483,8 @@ end
 
   <span class="k">def</span> <span class="nc">WorldClock</span><span class="o">.</span><span class="nf">gmt</span>
     <span class="k">unless</span> <span class="n">state</span><span class="p">.</span><span class="nf">gmt</span>
-      <span class="n">every</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span> <span class="n">state</span><span class="p">.</span><span class="nf">gmt!</span> <span class="o">=</span> <span class="no">Time</span><span class="p">.</span><span class="nf">now</span><span class="p">.</span><span class="nf">gmt</span> <span class="p">}</span>
-      <span class="n">state</span><span class="p">.</span><span class="nf">gmt!</span> <span class="o">=</span> <span class="no">Time</span><span class="p">.</span><span class="nf">now</span>
+      <span class="n">every</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span> <span class="n">mutate</span><span class="p">.</span><span class="nf">gmt</span> <span class="no">Time</span><span class="p">.</span><span class="nf">now</span><span class="p">.</span><span class="nf">gmt</span> <span class="p">}</span>
+      <span class="n">mutate</span><span class="p">.</span><span class="nf">gmt</span> <span class="no">Time</span><span class="p">.</span><span class="nf">now</span>
     <span class="k">end</span>
     <span class="n">state</span><span class="p">.</span><span class="nf">gmt</span>
   <span class="k">end</span>
@@ -507,7 +507,7 @@ end
 <p>Hyperloop uses Rails ActiveRecord for data persistence.  This allows easy integration with existing Rails apps.  Hyperloop Models are implemented in the HyperMesh Gem.</p>
 
 <p>HyperMesh gives you full access to the ActiveRecord models on the client or the server which means we can use the models directly within our Components without needing the abstraction of an API:</p>
-<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">BookList</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">BookList</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Component</span>
   <span class="c1"># Display each book in the catalog</span>
   <span class="n">render</span><span class="p">(</span><span class="no">UL</span><span class="p">)</span> <span class="k">do</span>
     <span class="no">Book</span><span class="p">.</span><span class="nf">in_catalog</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">book</span><span class="o">|</span>

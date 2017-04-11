@@ -378,18 +378,26 @@ end
 <p>Your event handlers will be passed instances of <code>React::Event</code>, a wrapper around react.js&#39;s <code>SyntheticEvent</code> which in turn is a cross browser wrapper around the browser&#39;s native event. It has the same interface as the browser&#39;s native event, including <code>stopPropagation()</code> and <code>preventDefault()</code>, except the events work identically across all browsers.</p>
 
 <p>For example:</p>
-<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">YouSaid</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span><span class="o">::</span><span class="no">Base</span>
-  <span class="k">def</span> <span class="nf">render</span>
-    <span class="n">input</span><span class="p">(</span><span class="ss">value: </span><span class="n">state</span><span class="p">.</span><span class="nf">value</span><span class="p">).</span>
-    <span class="nf">on</span><span class="p">(</span><span class="ss">:key_down</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">e</span><span class="o">|</span>
-      <span class="n">alert</span> <span class="s2">"You said: </span><span class="si">#{</span><span class="n">state</span><span class="p">.</span><span class="nf">value</span><span class="si">}</span><span class="s2">"</span> <span class="k">if</span> <span class="n">e</span><span class="p">.</span><span class="nf">key_code</span> <span class="o">==</span> <span class="mi">13</span>
-    <span class="k">end</span><span class="p">.</span>
-    <span class="nf">on</span><span class="p">(</span><span class="ss">:change</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">e</span><span class="o">|</span>
-      <span class="n">state</span><span class="p">.</span><span class="nf">value!</span> <span class="n">e</span><span class="p">.</span><span class="nf">target</span><span class="p">.</span><span class="nf">value</span>
-    <span class="k">end</span>
-  <span class="k">end</span>
-<span class="k">end</span>
-</code></pre>
+
+<div class="codemirror-live-edit"
+  data-heading="Events"
+  data-rows=13
+  data-top-level-component="YouSaid">
+<pre>
+class YouSaid < Hyperloop::Component
+
+  render do
+    input(value: state.value).
+    on(:key_down) do |e|
+      alert "You said: #{state.value}" if e.key_code == 13
+    end.
+    on(:change) do |e|
+      mutate.value e.target.value
+    end
+  end
+end
+</pre></div>
+
 <p>If you find that you need the underlying browser event for some reason use the <code>native_event</code>.  </p>
 
 <p>In the following responses shown as (native ...) indicate the value returned is a native object with an Opal wrapper.  In some cases there will be opal methods available (i.e. for native DOMNode values) and in other cases you will have to convert to the native value
