@@ -6,7 +6,7 @@ title: Tutorials, Videos & Quickstarts
 
 We'll be building a simple but realistic chat application, a basic version of a chat room offered by a service like gitter.im.
 
-During this tutorial we will learn how to use Hyperloop Components, Operations and Stores. 
+During this tutorial we will learn how to use Hyperloop **Components**, **Operations** and **Stores**. 
 
 We will also see also how the [**Server push notification**](/docs/models/configuring-transport) works. So every chatters will se all messages updated in realtime in their browser.  
 
