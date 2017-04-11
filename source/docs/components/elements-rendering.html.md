@@ -92,8 +92,8 @@ React.render_to_static_markup(element)
 
 Similar to `render_to_string`, except this doesn't create extra DOM attributes such as `data-react-id`, that React uses internally. This is useful if you want to use React as a simple static page generator, as stripping away the extra attributes can save lots of bytes.
 
-**`React::Component::Base`**
+**`Hyperloop::Component`**
 
-HyperReact Components are ruby classes that either subclass `React::Component::Base`, or mixin `React::Component`.  Both mechanisms have the same effect.
+HyperReact Components are ruby classes that either subclass `Hyperloop::Component`, or mixin `Hyperloop::Component::Mixin`.  Both mechanisms have the same effect.
 
 Instances of React Components are created internally by React when rendering. The instances exist through subsequent renders, and although coupled to React, act like normal ruby instances. The only way to get a valid reference to a React Component instance outside of React is by storing the return value of `React.render`.  Inside other Components, you may use refs to achieve the same result.

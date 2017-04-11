@@ -31,11 +31,11 @@ window.SayHello = React.createClass({
 Assuming that this component is loaded some place in your assets, you can then access this from HyperReact by creating a wrapper component:
 
 ```ruby
-class SayHello < React::Component::Base
+class SayHello < Hyperloop::Component
   imports 'SayHello'
 end
 
-class MyBigApp < React::Component::Base
+class MyBigApp < Hyperloop::Component
   def render
     # SayHello will now act like any other HyperReact component
     SayHello name: 'Matz'
@@ -62,7 +62,7 @@ We can now access our bootstrap components as components defined within the RBS 
   # taken  from Barrie Hadfield's excellent guide: http://tutorials.pluralsight.com/ruby-ruby-on-rails/reactrb-showcase
 module Components
   module Home
-    class Show < React::Component::Base
+    class Show < Hyperloop::Component
 
       def say_hello(i)
         alert "Hello from number #{i}"
@@ -141,7 +141,7 @@ In Ruby all module and class names normally begin with an uppercase letter.  How
 
 Likewise MyLib::MyComponent would match any of the following in the Javascript namespace: `MyLib.MyComponent`, `myLib.MyComponent`, `MyLib.myComponent`, `myLib.myComponent`
 
-*How it works:  The first time Ruby hits a native library or component name, the constant value will not be defined.  This will trigger a lookup in the javascript name space for the matching component or library name.  This will generate either a new subclass of React::Component::Base or React::NativeLibrary that imports the javascript object, and no further lookups will be needed.*
+*How it works:  The first time Ruby hits a native library or component name, the constant value will not be defined.  This will trigger a lookup in the javascript name space for the matching component or library name.  This will generate either a new subclass of Hyperloop::Component or React::NativeLibrary that imports the javascript object, and no further lookups will be needed.*
 
 ## Including React Source  
 

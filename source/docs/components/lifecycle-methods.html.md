@@ -89,7 +89,7 @@ Normally HyperReact will only update a component if some state variable or param
 cannot update using the normal `state.funky!` update method.  So what we can do is override `should_component_update?` call `super`, and then double check if the `funky` has changed by doing an explicit comparison.
 
 ```ruby
-class RerenderMore < React::Component::Base
+class RerenderMore < Hyperloop::Component
   def should_component_update?(new_params_hash, new_state_hash)
     super || new_state_hash[:funky] != state.funky
   end

@@ -17,19 +17,24 @@ Your event handlers will be passed instances of `React::Event`, a wrapper around
 
 For example:
 
-```ruby
-class YouSaid < React::Component::Base
-  def render
+<div class="codemirror-live-edit"
+  data-heading="Events"
+  data-rows=13
+  data-top-level-component="YouSaid">
+<pre>
+class YouSaid < Hyperloop::Component
+
+  render do
     input(value: state.value).
     on(:key_down) do |e|
       alert "You said: #{state.value}" if e.key_code == 13
     end.
     on(:change) do |e|
-      state.value! e.target.value
+      mutate.value e.target.value
     end
   end
 end
-```
+</pre></div>
 
 If you find that you need the underlying browser event for some reason use the `native_event`.  
 

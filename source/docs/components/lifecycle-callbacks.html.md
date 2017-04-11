@@ -16,7 +16,7 @@ A component may define callbacks for each phase of the components lifecycle:
 All the callback macros may take a block or the name of an instance method to be called.
 
 ```ruby
-class AComponent < React::Component::Base
+class AComponent < Hyperloop::Component
   before_mount do
     # initialize stuff here
   end
@@ -63,7 +63,7 @@ param foo: [], type: [String]       # foo must be an array of strings, and has a
 The component instance method `params` gives access to all declared params.  So for example
 
 ```ruby
-class Hello < React::Component::Base
+class Hello < Hyperloop::Component
   param visitor: "World", type: String
   render
     "Hello #{params.visitor}"
@@ -77,7 +77,7 @@ A param of type proc (i.e. `param :update, type: Proc`) gets special treatment t
 call the proc when the param is accessed.
 
 ```ruby
-class Alarm < React::Component::Base
+class Alarm < Hyperloop::Component
   param :at, type: Time
   param :notify, type: Proc
   after_mount do
@@ -142,7 +142,7 @@ Along with params components may be passed a block which is used to build the co
 The instance method `children` returns an enumerable that is used to access the unrendered children of a component.
 
 ```ruby
-class IndentEachLine < React::Component::Base
+class IndentEachLine < Hyperloop::Component
   param by: 20, type: Integer
   def render
     div do
