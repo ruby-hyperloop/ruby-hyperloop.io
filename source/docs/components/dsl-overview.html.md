@@ -7,7 +7,7 @@ Hyperloop **Components** are implemented in the **HyperReact Gem**.
 
 The HyperReact DSL (Domain Specific Language) is a set of class and instance methods that are used to describe your React components.
 
-- [React::Component::Base](#react-component-base)
+- [Hyperloop::Component](#hyperloop-component)
 - [Macros (Class Methods)](#macros-class-methods)
 - [Data Accessor Methods](#data-accessor-methods)
 - [Tag and Component Rendering](#tag-and-component-rendering)
@@ -20,7 +20,7 @@ The HyperReact DSL (Domain Specific Language) is a set of class and instance met
 
 The DSL has the following major areas:  
 
-+ The `React::Component::Base` class and the equivilent `React::Component` mixin.
++ The `Hyperloop::Component` class and the equivilent `Hyperloop::Component::Mixin` mixin.
 + Class methods or *macros* that describe component class level behaviors.
 + The four data accessors methods: `params`, `state`, `mutate`, and `children`.
 + The tag and component rendering methods.
@@ -29,7 +29,11 @@ The DSL has the following major areas:
 
 To understand the DSL we will walk through an example that will cover each of these areas in detail.
 
-```ruby
+<div class="codemirror-live-edit"
+  data-heading="Clock"
+  data-rows=25
+  data-top-level-component="Clock">
+<pre>
 class Clock < Hyperloop::Component
 
   param initial_mode: 12
@@ -39,7 +43,7 @@ class Clock < Hyperloop::Component
   end
 
   after_mount do
-    @timer = every(60) { force_update! }
+    @timer = every(1) { force_update! }
   end
 
   before_unmount do
@@ -47,8 +51,8 @@ class Clock < Hyperloop::Component
   end
 
   FORMATS = {
-    12 => "%a, %e %b %Y %I:%M %p",
-    24 => "%a, %e %b %Y %H:%M"
+    12 => "%a, %e %b %Y %S %I:%M %p",
+    24 => "%a, %e %b %Y %S %H:%M"
     }
 
   render do
@@ -63,67 +67,47 @@ class Clock < Hyperloop::Component
     end
   end
 end
-```
+</pre></div>
 
-### React::Component::Base
+### Hyperloop::Component
 
-Component classes can be be created by inheriting from `React::Component::Base`.
-
-```ruby
-class Clock < React::Component::Base
-...
-end
-```
-
-You may also create a component class by mixing in the `React::Component` module:
+Hyperloop Components classes either include `Hyperloop::Component::Mixin` or are subclasses of `Hyperloop::Component`.  
 
 ```ruby
-class Clock2
-  include React::Component
-  ...
-end
-```
-
-The `React` module is the name space for all the React classes and modules.  
-
-React components classes either include `React::Component` or are subclasses of `React::Component::Base`.  
-
-```ruby
-class Component < React::Component::Base
+class Component < Hyperloop::Component
 end
 
 # if subclassing is inappropriate, you can mixin instead
 class AnotherComponent
-  include React::Component
+  include Hyperloop::Component::Mixin
 end
 ```
 
-At a minimum every component class must define a `render` method which returns **one single** child element. That child may in turn have an arbitrarily deep structure.
+At a minimum every component class must define a `render` macro which returns **one single** child element. That child may in turn have an arbitrarily deep structure.
 
 ```ruby
-class Component < React::Component::Base
-  def render
-    div # render an empty div
-  end
-end
-```
-
-You may also use the `render` macro to define the render method, which has some styling advantages, but is functionally equivilent.
-
-```ruby
-class Component < React::Component::Base
+class Component < Hyperloop::Component
   render do
     div # render an empty div
   end
 end
 ```
 
+You may also include the top level element to be rendered:
+
+```ruby
+class Component < Hyperloop::Component
+  render(DIV) do
+    # everything will be rendered in a dic
+  end
+end
+```
 
 To render a component, you reference its class name in the DSL as a method call.  This creates a new instance, passes any parameters proceeds with the component lifecycle.  
 
 ```ruby
-class AnotherComponent < React::Component::Base
-  def render
+class AnotherComponent < Hyperloop::Component
+  render do
     Component() # ruby syntax requires either () or {} following the class name
   end
 end
@@ -137,7 +121,7 @@ Note that you should never redefine the `new` or `initialize` methods, or call t
 Macros specify class wide behaviors.  In our example we use the five most common macros.
 
 ```ruby
-class Clock < React::Component::Base
+class Clock < Hyperloop::Component
   param ...
   before_mount ...
   after_mount ...
@@ -268,7 +252,7 @@ end
 `render` can be applied to the objects returned by `as_node` and `children` to actually render the node.
 
 ```ruby
-class Test < React::Component::Base
+class Test < Hyperloop::Component
   param :node
   render do
     div do
@@ -282,9 +266,7 @@ class Test < React::Component::Base
 end
 ```
 
-[Try It Out](http://goo.gl/J6m0PN)
-
-### Ruby and HyperReact
+### Ruby and Hyperloop
 
 A key design goal of the DSL is to make it work seamlessly with the rest of Ruby.  Notice in the above example, the use of constant declaration (`FORMATS`), regular instance variables (`@timer`), and other non-react methods like `every` (an Opal Browser method).  
 
