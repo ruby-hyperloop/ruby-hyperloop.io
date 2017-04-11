@@ -365,9 +365,9 @@ end
         <div class="col-md-9 main-content">
           <h2 id="using-javascript-components">Using Javascript Components</h2>
 
-<p>While it is quite possible to develop large applications purely in HyperReact with a ruby back end like rails, you may eventually find you want to use some pre-existing React Javascript library.   Or you may be working with an existing React-JS application, and want to just start adding some HyperReact components.</p>
+<p>While it is quite possible to develop large applications purely in Hyperloop Components with a ruby back end like rails, you may eventually find you want to use some pre-existing React Javascript library.   Or you may be working with an existing React-JS application, and want to just start adding some Hyperloop Components.</p>
 
-<p>Either way you are going to need to import Javascript components into the HyperReact namespace. HyperReact provides both manual and automatic mechanisms to do this depending on the level of control you need.</p>
+<p>Either way you are going to need to import Javascript components into the Hyperloop namespace. Hyperloop provides both manual and automatic mechanisms to do this depending on the level of control you need.</p>
 
 <ul>
 <li><a href="#importing-components">Importing Components</a></li>
@@ -379,7 +379,7 @@ end
 
 <h2 id="importing-components">Importing Components</h2>
 
-<p>Lets say you have an existing React Component written in javascript that you would like to access from HyperReact.  </p>
+<p>Lets say you have an existing React Component written in javascript that you would like to access from Hyperloop.  </p>
 
 <p>Here is a simple hello world component:</p>
 <pre class="highlight javascript"><code><span class="nb">window</span><span class="p">.</span><span class="nx">SayHello</span> <span class="o">=</span> <span class="nx">React</span><span class="p">.</span><span class="nx">createClass</span><span class="p">({</span>
@@ -389,14 +389,14 @@ end
   <span class="p">}</span>
 <span class="p">})</span>
 </code></pre>
-<p>Assuming that this component is loaded some place in your assets, you can then access this from HyperReact by creating a wrapper component:</p>
+<p>Assuming that this component is loaded some place in your assets, you can then access this from Hyperloop by creating a wrapper Component:</p>
 <pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">SayHello</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Component</span>
   <span class="n">imports</span> <span class="s1">'SayHello'</span>
 <span class="k">end</span>
 
 <span class="k">class</span> <span class="nc">MyBigApp</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Component</span>
   <span class="k">def</span> <span class="nf">render</span>
-    <span class="c1"># SayHello will now act like any other HyperReact component</span>
+    <span class="c1"># SayHello will now act like any other Hyperloop component</span>
     <span class="no">SayHello</span> <span class="ss">name: </span><span class="s1">'Matz'</span>
   <span class="k">end</span>
 <span class="k">end</span>
@@ -405,7 +405,7 @@ end
 
 <h2 id="importing-libraries">Importing Libraries</h2>
 
-<p>Many React components come in libraries.  The <code>ReactBootstrap</code> library is one example.  You can import the whole library at once using the <code>React::NativeLibrary</code> class.  Assuming that you have initialized <code>ReactBootstrap</code> elsewhere, this is how you would bring it into HyperReact.</p>
+<p>Many React components come in libraries.  The <code>ReactBootstrap</code> library is one example.  You can import the whole library at once using the <code>React::NativeLibrary</code> class.  Assuming that you have initialized <code>ReactBootstrap</code> elsewhere, this is how you would bring it into Hyperloop.</p>
 <pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">RBS</span> <span class="o">&lt;</span> <span class="no">React</span><span class="o">::</span><span class="no">NativeLibrary</span>
   <span class="n">imports</span> <span class="s1">'ReactBootstrap'</span>
 <span class="k">end</span>
@@ -423,7 +423,7 @@ end
       <span class="n">render</span> <span class="no">RBS</span><span class="o">::</span><span class="no">Navbar</span><span class="p">,</span> <span class="ss">bsStyle: :inverse</span> <span class="k">do</span>
         <span class="no">RBS</span><span class="o">::</span><span class="no">Nav</span><span class="p">()</span> <span class="k">do</span>
           <span class="no">RBS</span><span class="o">::</span><span class="no">NavbarBrand</span><span class="p">()</span> <span class="k">do</span>
-            <span class="n">a</span><span class="p">(</span><span class="ss">href: </span><span class="s1">'#'</span><span class="p">)</span> <span class="p">{</span> <span class="s1">'HyperReact Showcase'</span> <span class="p">}</span>
+            <span class="n">a</span><span class="p">(</span><span class="ss">href: </span><span class="s1">'#'</span><span class="p">)</span> <span class="p">{</span> <span class="s1">'Hyperloop Showcase'</span> <span class="p">}</span>
           <span class="k">end</span>
           <span class="no">RBS</span><span class="o">::</span><span class="no">NavDropdown</span><span class="p">(</span><span class="ss">eventKey: </span><span class="mi">1</span><span class="p">,</span> <span class="ss">title: </span><span class="s1">'Things'</span><span class="p">,</span> <span class="ss">id: :drop_down</span><span class="p">)</span> <span class="k">do</span>
             <span class="p">(</span><span class="mi">1</span><span class="p">.</span><span class="nf">.</span><span class="mi">5</span><span class="p">).</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">n</span><span class="o">|</span>
@@ -458,9 +458,9 @@ end
 
 <h2 id="auto-import">Auto Import</h2>
 
-<p>If you use a lot of libraries and are using a Javascript tool chain with Webpack, having to import the libraries in both HyperReact and Webpack is redundant and just hard work.</p>
+<p>If you use a lot of libraries and are using a Javascript tool chain with Webpack, having to import the libraries in both Hyperloop and Webpack is redundant and just hard work.</p>
 
-<p>Instead you can opt-in for <em>auto importing</em> Javascript components into HyperReact as you need them.  Simply <code>require hyper-react/auto-import</code> immediately after you <code>require hyper-react</code>.  </p>
+<p>Instead you can opt-in for <em>auto importing</em> Javascript components into Hyperloop as you need them.  Simply <code>require hyper-react/auto-import</code> immediately after you <code>require hyper-react</code>.  </p>
 
 <p>For example typically you might have this:</p>
 <pre class="highlight ruby"><code>  <span class="c1"># app/views/components.rb</span>
@@ -487,7 +487,7 @@ end
 
 <h2 id="including-react-source">Including React Source</h2>
 
-<p>If you are in the business of importing components with a tool like Webpack, then you will need to let Webpack (or whatever dependency manager you are using) take care of including the React source code.  Just make sure that you are <em>not</em> including it on the ruby side of things.  HyperReact is currently tested with React versions 13, 14, and 15, so its not sensitive to the version you use.</p>
+<p>If you are in the business of importing components with a tool like Webpack, then you will need to let Webpack (or whatever dependency manager you are using) take care of including the React source code.  Just make sure that you are <em>not</em> including it on the ruby side of things. Hyperloop is currently tested with React versions 13, 14, and 15, so its not sensitive to the version you use.</p>
 
 <p>However it gets a little tricky if you are using the react-rails gem.  Each version of this gem depends on a specific version of React, and so you will need to manually declare this dependency in your Javascript dependency manager.  Consult this <a href="https://github.com/reactjs/react-rails/blob/master/VERSIONS.md">table</a> to determine which version of React you need. For example assuming you are using <code>npm</code> to install modules and you are using version 1.7.2 of react-rails you would say something like this:</p>
 <pre class="highlight shell"><code>npm install react@15.0.2 react-dom@15.0.2 --save

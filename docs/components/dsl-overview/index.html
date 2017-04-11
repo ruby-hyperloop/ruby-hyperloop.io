@@ -365,9 +365,9 @@ end
         <div class="col-md-9 main-content">
           <h2 id="components-dsl-overview">Components DSL Overview</h2>
 
-<p>Hyperloop <strong>Components</strong> are implemented in the <strong>HyperReact Gem</strong>.</p>
+<p>Hyperloop <strong>Components</strong> are implemented in the <strong>HyperComponent Gem</strong>.</p>
 
-<p>The HyperReact DSL (Domain Specific Language) is a set of class and instance methods that are used to describe your React components.</p>
+<p>Hyperloop Component DSL (Domain Specific Language) is a set of class and instance methods that are used to describe your React components.</p>
 
 <ul>
 <li><a href="#hyperloop-component">Hyperloop::Component</a></li>
@@ -378,7 +378,7 @@ end
 <li><a href="#haml-style-class-names">HAML style class names</a></li>
 <li><a href="#event-handlers">Event Handlers</a></li>
 <li><a href="#miscellaneous-methods">Miscellaneous Methods</a></li>
-<li><a href="#ruby-and-hyperreact">Ruby and HyperReact</a></li>
+<li><a href="#ruby-and-hyperloop">Ruby and Hyperloop</a></li>
 <li><a href="#dsl-gotchas">DSL Gotchas</a></li>
 </ul>
 
@@ -572,7 +572,7 @@ method call looks like this:</p>
 
 <p><code>force_update!</code> is a component instance method that causes the component to re-rerender.</p>
 
-<p><code>as_node</code> can be attached to a component or tag, and removes the element from the rendering buffer and returns it.   This is useful when you need store an element in some data structure, or passing to a native JS component.  When passing an element to another HyperReact component <code>.as_node</code> will be automatically applied so you normally don&#39;t need it.  </p>
+<p><code>as_node</code> can be attached to a component or tag, and removes the element from the rendering buffer and returns it.   This is useful when you need store an element in some data structure, or passing to a native JS component.  When passing an element to another Hyperloop Component <code>.as_node</code> will be automatically applied so you normally don&#39;t need it.  </p>
 
 <p><code>render</code> can be applied to the objects returned by <code>as_node</code> and <code>children</code> to actually render the node.</p>
 <pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">Test</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Component</span>

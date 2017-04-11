@@ -625,7 +625,7 @@ Intuitively, the paragraph <code>&lt;p&gt;foo&lt;/p&gt;</code> was removed. Inst
 
 <h2 id="mixins-and-inheritance">Mixins and Inheritance</h2>
 
-<p>Ruby has a rich set of mechanisms enabling code reuse, and HyperReact is intended to be a team player in your Ruby application.  Components can be subclassed, and they can include (or mixin) other modules.  You can also create a component by including <code>React::Component</code> which allows a class to inherit from some other non-react class, and then mixin the React DSL.</p>
+<p>Ruby has a rich set of mechanisms enabling code reuse, and Hyperloop is intended to be a team player in your Ruby application.  Components can be subclassed, and they can include (or mixin) other modules.  You can also create a component by including <code>React::Component</code> which allows a class to inherit from some other non-react class, and then mixin the React DSL.</p>
 <pre class="highlight ruby"><code>  <span class="c1"># make a SuperFoo react component class</span>
   <span class="k">class</span> <span class="nc">Foo</span> <span class="o">&lt;</span> <span class="no">SuperFoo</span>
     <span class="kp">include</span> <span class="no">React</span><span class="o">::</span><span class="no">Component</span>
