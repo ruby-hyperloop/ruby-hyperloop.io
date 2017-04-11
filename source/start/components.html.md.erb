@@ -21,11 +21,13 @@ Let's add a little functionality to this Component - you can edit this code if y
 
 <div class="codemirror-live-edit"
   data-heading="A simple Component rendering a Button"
-  data-rows=9
+  data-rows=11
   data-top-level-component="SimpleComponent">
 <pre>
 class SimpleComponent < Hyperloop::Component
+
   state show_field: false
+
   render(DIV) do
     BUTTON { 'Push the button' }.on(:click) do
      alert 'You did it!'
@@ -34,11 +36,10 @@ class SimpleComponent < Hyperloop::Component
 end
 </pre></div>
 
-
 There are a few things to notice in the code above.
 
 + Every Component must have a `render` macro which must return just one HTML element. The syntax of `render(DIV)` is a shorthand for this which will return one div.
-+ HTML elements (DIV, BUTTON, etc) can be in uppercase or lowercase.
++ HTML built-in elements (DIV, BUTTON, TABLE, etc) are in uppercase, we believe this reads better alongside Components which are in CamelCase and methods in snake_case
 + We added an event handler to the button. You can do this for any HTML element in the same way.
 
 ### Rendering Components
@@ -65,9 +66,11 @@ For now, let's experiment with passing parameters:
 
 <div class="codemirror-live-edit"
   data-heading="Passing parameters"
+  data-rows=16
   data-top-level-component="MeeterGreeter">
 <pre>
 class MeeterGreeter < Hyperloop::Component
+
   render(DIV) do
     SayHelloTo(name: "John")
     SayHelloTo(name: "Sally")
@@ -85,7 +88,7 @@ end
 
 You will notice a couple of things in the code above:
 
-+ The syntax for adding components is either `MyComponent()` or `MyComponent {}` but never just `MyComponent`. Sometimes you use both - `button(style: default) { "Click Me" }`. Everything in the brackets is passed to the Component as a parameter and everything in the curly brace is rendered within the Component.
++ The syntax for adding components is either `MyComponent()` or `MyComponent {}` but never just `MyComponent`. Sometimes you use both - `BUTTON(class: 'my-class') { "Click Me" }`. Everything in the brackets is passed to the Component as parameters and everything in the curly brace is rendered within the Component.
 + Parameters can be strongly typed `param :name, type: String` and considering this code will be compiled to JavaScript this is a good idea.
 
 ### State and Conditional Execution
@@ -138,14 +141,7 @@ A few things to notice in the code above:
 
 ### Stylish Components
 
-Conditional logic, HTML elements, state and style all intermingle in a Hyperloop Component. CSS specifically blends with HTML elements so for example, the following two lines are equivalent:
-
-```ruby
-BUTTON(class: 'btn-primary') { "Press me" }
-button.btn_primary { "Press me" }
-```
-
-Note that `btn-primary` becomes `btn_primary` as '-' is disallowed in Ruby.
+Conditional logic, HTML elements, state and style all intermingle in a Hyperloop Component.
 
 As an example, this Hyperloop website uses Bootstrap CSS, so we have complete access to the Bootstrap CSS from within our Components:
 
@@ -156,28 +152,26 @@ As an example, this Hyperloop website uses Bootstrap CSS, so we have complete ac
 <pre>
 class StylishTable < Hyperloop::Component
   render(DIV) do
-    table.table.table_bordered do
-      thead do
-        tr do
-          th { "First Name" }
-          th { "Last Name" }
-          th { "Username" }
-          th { }
+    TABLE(class: 'table table-bordered') do
+      THEAD do
+        TR do
+          TH { "First Name" }
+          TH { "Last Name" }
+          TH { "Username" }
+          TH { }
         end
       end
-      tbody do
-        tr do
-          td { "Mark" }
-          td { "Otto" }
-          td.text_success { "@odm" }
-          td { button.btn.btn_primary.btn_sm { "Edit" } }
+      TBODY do
+        TR do
+          TD { "Mark" }
+          TD { "Otto" }
+          TD(class: 'text-success') { "@odm" }
+          TD { BUTTON(class: 'btn btn-primary btn_sm') { "Edit" } }
         end
       end
     end
   end
 end</pre></div>
-
-You have a choice of uppercase `BUTTON` or lowercase `button` HTML elements. You can use whichever you think reads better.
 
 ### JavaScript Libraries
 
@@ -199,6 +193,7 @@ class Player < React::Component::Base
 end
 
 class LiftOff < Hyperloop::Component
+
   render(DIV) do
     Player(url:  'https://www.youtube.com/embed/Czrc1JfIBRw',
       playing: false
