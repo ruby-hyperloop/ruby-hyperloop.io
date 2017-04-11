@@ -14,12 +14,10 @@ Take the simple Component below which displays an initial discount then gives th
 class OfferLuckyDip < Hyperloop::Component
   state discount: 30
 
-  def render
-    DIV do
-      H1 {"Your discount is #{state.discount}%"}
-      BUTTON { "Lucky Dip" }.on(:click) do
-        mutate.discount(state.discount + rand(-5..5))
-      end
+  render(DIV) do
+    H1 {"Your discount is #{state.discount}%"}
+    BUTTON { "Lucky Dip" }.on(:click) do
+      mutate.discount(state.discount + rand(-5..5))
     end
   end
 end
@@ -46,7 +44,7 @@ First let's add a Store and refactor our Component to use the Store:
 
 <div class="codemirror-live-edit"
   data-heading="Using Stores"
-  data-rows=20
+  data-rows=16
   data-top-level-component="OfferLuckyDip">
 <pre>
 class Discounter < Hyperloop::Store
@@ -57,12 +55,10 @@ class Discounter < Hyperloop::Store
 end
 
 class OfferLuckyDip < Hyperloop::Component
-  def render
-    DIV do
-      H1 {"Your discount is #{Discounter.discount}%"}
-      BUTTON { "Lucky Dip" }.on(:click) do
-        Discounter.lucky_dip!
-      end
+  render(DIV) do
+    H1 {"Your discount is #{Discounter.discount}%"}
+    BUTTON { "Lucky Dip" }.on(:click) do
+      Discounter.lucky_dip!
     end
   end
 end
@@ -88,8 +84,8 @@ Lets explore and example where Components share a Store:
   data-top-level-component="TopLevelComponent">
 <pre>
 class TopLevelComponent < Hyperloop::Component
-  render(DIV) do
-    div.container do
+  render do
+    DIV(class: 'container') do
       H1 { "Components sharing a Store" }
       TypeAlong()
       Buttons()

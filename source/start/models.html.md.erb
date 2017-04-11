@@ -17,6 +17,7 @@
 
 ```ruby
 class BookList < Hyperloop::Component
+
   render(UL) do
     Book.all.each do |book|
       LI { "#{book.name}" }
@@ -50,7 +51,7 @@ You govern access through Policy which we will cover in the next chapter.
 
 ### Push Notifications
 
-Changes made to Models on a client or server are automatically synchronized to all other authorized connected clients using ActionCable, pusher.com or polling. The synchronization is completely automatic and magical to behold and not something we can demonstrate in this introduction - you will need to see it to believe it. 
+Changes made to Models on a client or server are automatically synchronized to all other authorized connected clients using ActionCable, pusher.com or polling. The synchronization is completely automatic and magical to behold and not something we can demonstrate in this introduction - you will need to see it to believe it.
 
 -----------------------------------
 

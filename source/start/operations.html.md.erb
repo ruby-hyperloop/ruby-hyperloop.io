@@ -32,6 +32,7 @@ Stores hold state and Operations orchestrate the mutation of state. In the Store
 class Discounter < Hyperloop::Store
    state discount: 30, scope: :class, reader: true
    state tries: 0, scope: :class, reader: true
+
   def self.lucky_dip!
     mutate.discount( state.discount + rand(-5..5) )
     mutate.tries(state.tries + 1)
@@ -47,12 +48,11 @@ class Discounter < Hyperloop::Store
 end
 
 class OfferLuckyDip < Hyperloop::Component
-  def render
-    DIV do
-      H1 {"Your discount is #{Discounter.discount}%"}
-      BUTTON { "Lucky Dip" }.on(:click) do
-        Discounter.LuckyDipOp
-      end
+
+  render(DIV) do
+    H1 {"Your discount is #{Discounter.discount}%"}
+    BUTTON { "Lucky Dip" }.on(:click) do
+      Discounter.LuckyDipOp
     end
   end
 end
@@ -80,6 +80,7 @@ end
 
 class NavBarStore < Hyperloop::Store
   state user_name: "Fred", scope: :class, reader: true
+
   receives Logout do
     # this Store is listening for Logout
     mutate.user_name "No user"
@@ -87,12 +88,10 @@ class NavBarStore < Hyperloop::Store
 end
 
 class UserPage < Hyperloop::Component
-  def render
-    DIV do
-      P { "Current user: #{NavBarStore.user_name}" }
-      BUTTON { "Logout" }.on(:click) do
-        Logout.run
-      end
+  render(DIV) do
+    P { "Current user: #{NavBarStore.user_name}" }
+    BUTTON { "Logout" }.on(:click) do
+      Logout.run
     end
   end
 end
