@@ -231,7 +231,7 @@ When designing interfaces, break down the common design elements (buttons, form 
 As your app grows it's helpful to ensure that your components are used correctly. We do this by allowing you to specify the expected ruby class of your parameters. When an invalid value is provided for a param, a warning will be shown in the JavaScript console. Note that for performance reasons type checking is only done in development mode. Here is an example showing typical type specifications:
 
 ```ruby
-class ManyParams < React::Component::Base
+class ManyParams < Hyperloop::Component
   param :an_array,         type: [] # or type: Array
   param :a_string,         type: String
   param :array_of_strings, type: [String]
@@ -248,7 +248,7 @@ Note that if the param can be nil, add `allow_nil: true` to the specification.
 React lets you define default values for your `params`:
 
 ```ruby
-class ManyParams < React::Component::Base
+class ManyParams < Hyperloop::Component
   param :an_optional_param, default: "hello", type: String, allow_nil: true
 ```
 
@@ -274,7 +274,7 @@ A common type of React component is one that extends a basic HTML element in a s
 To do this use the `collect_other_params_as` macro which will gather all the params you did not declare into a hash. Then you can pass this hash on to the child component
 
 ```ruby
-class CheckLink < React::Component::Base
+class CheckLink < Hyperloop::Component
   collect_other_params_as :attributes
   def render
     # we just pass along any incoming attributes
@@ -321,7 +321,7 @@ module ReactInterval
   end
 end
 
-class TickTock < React::Component::Base
+class TickTock < Hyperloop::Component
   include ReactInterval
   before_mount do
     state.seconds! 0

@@ -30,7 +30,7 @@ The DSL has the following major areas:
 To understand the DSL we will walk through an example that will cover each of these areas in detail.
 
 ```ruby
-class Clock < React::Component::Base
+class Clock < Hyperloop::Component
 
   param initial_mode: 12
 
@@ -64,8 +64,6 @@ class Clock < React::Component::Base
   end
 end
 ```
-
-[Try It Out](http://goo.gl/zN8i9B)
 
 ### React::Component::Base
 
