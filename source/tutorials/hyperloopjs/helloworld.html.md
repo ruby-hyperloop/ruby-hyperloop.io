@@ -54,11 +54,11 @@ class Helloworld < Hyperloop::Component
 	def show_input
 	  
 	  H4 do 
-	    span{'Please type '}
-	    span.colored {'Hello World'}
-	    span{' in the input field below :'}
-	    br {}
-	    span{'Or anything you want (^̮^)'}
+	    SPAN {'Please type '}
+	    SPAN(class: 'colored') {'Hello World'}
+	    SPAN {' in the input field below :'}
+	    BR {}
+	    SPAN{'Or anything you want (^̮^)'}
 	  end
 	  
 	  INPUT(type: :text, class: 'form-control').on(:change) do |e|
@@ -70,7 +70,7 @@ class Helloworld < Hyperloop::Component
 	  H1 { "#{state.field_value}" }
 	end
 
-	end
+end
 
 </script>
 
