@@ -359,7 +359,7 @@ end
 
       <span class="kr">class</span> <span class="nx">Helloworld</span> <span class="o">&lt;</span> <span class="nx">Hyperloop</span><span class="p">::</span><span class="nx">Component</span>
         <span class="nx">def</span> <span class="nx">render</span>
-          <span class="nx">div</span> <span class="k">do</span>
+          <span class="nx">DIV</span> <span class="k">do</span>
             <span class="s2">"hello world !"</span>
           <span class="nx">end</span>
         <span class="nx">end</span>
@@ -414,7 +414,7 @@ end
 <code>&lt;script type=&quot;text/ruby&quot;&gt;...&lt;/script&gt;</code> tag with the following ruby code.</p>
 <pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">ChatApp</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Component</span>
   <span class="k">def</span> <span class="nf">render</span>
-    <span class="n">div</span> <span class="k">do</span>
+    <span class="no">DIV</span> <span class="k">do</span>
       <span class="no">Nav</span><span class="p">()</span>
       <span class="no">Messages</span><span class="p">()</span>
       <span class="no">InputBox</span><span class="p">()</span>
@@ -424,7 +424,7 @@ end
 
 <span class="k">class</span> <span class="nc">Nav</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Component</span>
   <span class="k">def</span> <span class="nf">render</span>
-    <span class="n">div</span> <span class="p">{</span><span class="s2">"Our Nav Bar Goes Here including a login box"</span><span class="p">}</span>
+    <span class="no">DIV</span> <span class="p">{</span><span class="s2">"Our Nav Bar Goes Here including a login box"</span><span class="p">}</span>
   <span class="k">end</span>
 <span class="k">end</span>
 
@@ -444,7 +444,7 @@ end
 
 <span class="k">class</span> <span class="nc">InputBox</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Component</span>
   <span class="k">def</span> <span class="nf">render</span>
-    <span class="n">div</span> <span class="k">do</span>
+    <span class="no">DIV</span> <span class="k">do</span>
       <span class="s2">"An input box to send new messages will"</span><span class="p">.</span><span class="nf">br</span>
       <span class="s2">"go here plus a display of the formatted markdown"</span><span class="p">.</span><span class="nf">br</span>
       <span class="no">FormattedDiv</span><span class="p">()</span>
@@ -489,12 +489,12 @@ convert and display markdown
 
 <p><code>Message</code> &lt;- a class name
 <code>Message()</code> &lt;- generate a <code>Message</code> element.</p></li>
-<li><h6 id="by-default-strings-are-wrapped-by-span-tags">By default strings are wrapped by <code>span</code> tags</h6>
+<li><h6 id="by-default-strings-are-wrapped-by-span-tags">By default strings are wrapped by <code>SPAN</code> tags</h6>
 
-<p>Now go all the way down to the <code>FormattedDiv</code> component.  If a string appears as the last expression (the returned value) of either a render method or a component&#39;s block, the string is wrapped in a <code>span</code> as if you had typed <code>span { &quot;some string&quot; }</code>.</p></li>
-<li><h6 id="strings-also-respond-to-br-span-para-th-and-td">Strings also respond to <code>br, span, para, th</code> and <code>td</code></h6>
+<p>Now go all the way down to the <code>FormattedDiv</code> component.  If a string appears as the last expression (the returned value) of either a render method or a component&#39;s block, the string is wrapped in a <code>SPAN</code> as if you had typed <code>SPAN { &quot;some string&quot; }</code>.</p></li>
+<li><h6 id="strings-also-respond-to-br-span-para-th-and-td">Strings also respond to <code>BR, SPAN, PARA, TH</code> and <code>TD</code></h6>
 
-<p>Strings also respond to several element generating methods: <code>br, span, para</code> (for <code>p</code>), <code>td</code> and <code>th</code>.  Again this is just short hand, so <code>&quot;foo&quot;.td</code> is short for <code>td { &quot;foo&quot; }</code></p></li>
+<p>Strings also respond to several element generating methods: <code>BR, SPAN, PARA</code> (for <code>P</code>), <code>TD</code> and <code>TH</code>.  Again this is just short hand, so <code>&quot;foo&quot;.TD</code> is short for <code>TD { &quot;foo&quot; }</code></p></li>
 </ul>
 
 <h5 id="step-3-adding-parameters">Step 3 - Adding Parameters:</h5>
@@ -511,9 +511,9 @@ convert and display markdown
 
 <span class="k">class</span> <span class="nc">InputBox</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Component</span>
   <span class="k">def</span> <span class="nf">render</span>
-    <span class="n">div</span> <span class="k">do</span>
-      <span class="s2">"An input box to send new messages will"</span><span class="p">.</span><span class="nf">br</span>
-      <span class="s2">"go here plus a display of the formatted markdown"</span><span class="p">.</span><span class="nf">br</span>
+    <span class="no">DIV</span> <span class="k">do</span>
+      <span class="s2">"An input box to send new messages will"</span><span class="o">.</span><span class="no">BR</span>
+      <span class="s2">"go here plus a display of the formatted markdown"</span><span class="o">.</span><span class="no">BR</span>
       <span class="no">FormattedDiv</span><span class="p">(</span><span class="ss">markdown: </span><span class="s2">"This **Markdown** will get updated as the user types"</span><span class="p">)</span>
     <span class="k">end</span>
   <span class="k">end</span>
@@ -524,7 +524,7 @@ convert and display markdown
   <span class="n">param</span> <span class="ss">:markdown</span><span class="p">,</span> <span class="ss">type: </span><span class="no">String</span>
 
   <span class="k">def</span> <span class="nf">render</span>
-    <span class="n">div</span> <span class="k">do</span>
+    <span class="no">DIV</span> <span class="k">do</span>
       <span class="n">params</span><span class="p">.</span><span class="nf">markdown</span>
     <span class="k">end</span>
   <span class="k">end</span>
@@ -559,9 +559,9 @@ convert and display markdown
 <pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">Nav</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Component</span>
 
   <span class="k">def</span> <span class="nf">render</span>
-    <span class="n">div</span> <span class="k">do</span>
-      <span class="n">input</span><span class="p">(</span><span class="ss">class: :handle</span><span class="p">,</span> <span class="ss">type: :text</span><span class="p">,</span> <span class="ss">placeholder: </span><span class="s2">"Enter Your Handle"</span><span class="p">)</span>
-      <span class="n">button</span><span class="p">(</span><span class="ss">type: :button</span><span class="p">)</span> <span class="p">{</span> <span class="s2">"login!"</span> <span class="p">}.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:click</span><span class="p">)</span> <span class="k">do</span>
+    <span class="no">DIV</span> <span class="k">do</span>
+      <span class="no">INPUT</span><span class="p">(</span><span class="ss">class: :handle</span><span class="p">,</span> <span class="ss">type: :text</span><span class="p">,</span> <span class="ss">placeholder: </span><span class="s2">"Enter Your Handle"</span><span class="p">)</span>
+      <span class="no">BUTTON</span><span class="p">(</span><span class="ss">type: :button</span><span class="p">)</span> <span class="p">{</span> <span class="s2">"login!"</span> <span class="p">}.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:click</span><span class="p">)</span> <span class="k">do</span>
         <span class="n">alert</span><span class="p">(</span><span class="s2">"</span><span class="si">#{</span><span class="no">Element</span><span class="p">[</span><span class="s1">'input.handle'</span><span class="p">].</span><span class="nf">value</span><span class="si">}</span><span class="s2"> logs in!"</span><span class="p">)</span>
       <span class="k">end</span>
     <span class="k">end</span>
@@ -579,7 +579,7 @@ convert and display markdown
 <p>The <code>on</code> method takes the event name and a block.  The block is called when the event occurs.</p></li>
 <li><h6 id="tag-attributes-are-passed-just-like-params">Tag attributes are passed just like params.</h6>
 
-<p><code>input(class: :handle, type: :text, placeholder: &quot;Enter Your Handle&quot;)</code><br>
+<p><code>INPUT(class: :handle, type: :text, placeholder: &quot;Enter Your Handle&quot;)</code><br>
 generates<br>
 <code>&lt;input class=&quot;handle&quot;, type=&quot;text&quot;, placeholder=&quot;Enter Your Handle&quot; /&gt;</code></p></li>
 <li><h6 id="strings-and-symbols-are-the-same-type-in-opal">Strings and Symbols are the same type in Opal.</h6>
@@ -611,8 +611,8 @@ Be aware that <code>React::Element</code> which we refer to as <em>elements</em>
   <span class="k">end</span>
 
   <span class="k">def</span> <span class="nf">render</span>
-    <span class="n">div</span> <span class="k">do</span>
-      <span class="n">input</span><span class="p">(</span><span class="ss">type: :text</span><span class="p">,</span> <span class="ss">value: </span><span class="n">state</span><span class="p">.</span><span class="nf">user_name_input</span><span class="p">,</span> <span class="ss">placeholder: </span><span class="s2">"Enter Your Handle"</span>
+    <span class="no">DIV</span> <span class="k">do</span>
+      <span class="no">INPUT</span><span class="p">(</span><span class="ss">type: :text</span><span class="p">,</span> <span class="ss">value: </span><span class="n">state</span><span class="p">.</span><span class="nf">user_name_input</span><span class="p">,</span> <span class="ss">placeholder: </span><span class="s2">"Enter Your Handle"</span>
       <span class="p">).</span><span class="nf">on</span><span class="p">(</span><span class="ss">:change</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">e</span><span class="o">|</span>
         <span class="n">mutate</span><span class="p">.</span><span class="nf">user_name_input</span> <span class="n">e</span><span class="p">.</span><span class="nf">target</span><span class="p">.</span><span class="nf">value</span>
       <span class="k">end</span>
@@ -840,7 +840,7 @@ have additional state to track and report the progress of the login process.</p>
 
 <p>First update the <code>ChatApp</code> render method like this:</p>
 <pre class="highlight ruby"><code>  <span class="k">def</span> <span class="nf">render</span>
-    <span class="n">div</span> <span class="k">do</span>
+    <span class="no">DIV</span> <span class="k">do</span>
       <span class="no">Nav</span> <span class="ss">login: </span><span class="nb">method</span><span class="p">(</span><span class="ss">:login</span><span class="p">).</span><span class="nf">to_proc</span>
       <span class="no">Messages</span> <span class="ss">messages: </span><span class="n">state</span><span class="p">.</span><span class="nf">messages</span>
       <span class="no">InputBox</span><span class="p">()</span>
@@ -852,7 +852,7 @@ have additional state to track and report the progress of the login process.</p>
 </code></pre>
 <p>And update the <code>Messages</code> render method to iterate through all the messages displaying <code>Message</code> for each one:</p>
 <pre class="highlight ruby"><code>  <span class="k">def</span> <span class="nf">render</span>
-    <span class="n">div</span> <span class="k">do</span>
+    <span class="no">DIV</span> <span class="k">do</span>
       <span class="n">params</span><span class="p">.</span><span class="nf">messages</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">message</span><span class="o">|</span>
         <span class="no">Message</span> <span class="ss">message: </span><span class="n">message</span>
       <span class="k">end</span>
@@ -865,10 +865,10 @@ have additional state to track and report the progress of the login process.</p>
   <span class="n">param</span> <span class="ss">:message</span><span class="p">,</span> <span class="ss">type: </span><span class="no">Hash</span>
 
   <span class="k">def</span> <span class="nf">render</span>
-    <span class="n">div</span> <span class="k">do</span>
-      <span class="n">div</span> <span class="p">{</span> <span class="n">params</span><span class="p">.</span><span class="nf">message</span><span class="p">[</span><span class="ss">:from</span><span class="p">]</span> <span class="p">}</span>
+    <span class="no">DIV</span> <span class="k">do</span>
+      <span class="no">DIV</span> <span class="p">{</span> <span class="n">params</span><span class="p">.</span><span class="nf">message</span><span class="p">[</span><span class="ss">:from</span><span class="p">]</span> <span class="p">}</span>
       <span class="no">FormattedDiv</span> <span class="ss">markdown: </span><span class="n">params</span><span class="p">.</span><span class="nf">message</span><span class="p">[</span><span class="ss">:message</span><span class="p">]</span>
-      <span class="n">div</span> <span class="p">{</span> <span class="no">Time</span><span class="p">.</span><span class="nf">at</span><span class="p">(</span><span class="n">params</span><span class="p">.</span><span class="nf">message</span><span class="p">[</span><span class="ss">:time</span><span class="p">]).</span><span class="nf">to_s</span> <span class="p">}</span>
+      <span class="no">DIV</span> <span class="p">{</span> <span class="no">Time</span><span class="p">.</span><span class="nf">at</span><span class="p">(</span><span class="n">params</span><span class="p">.</span><span class="nf">message</span><span class="p">[</span><span class="ss">:time</span><span class="p">]).</span><span class="nf">to_s</span> <span class="p">}</span>
     <span class="k">end</span>
   <span class="k">end</span>
 <span class="k">end</span>
@@ -903,7 +903,7 @@ have additional state to track and report the progress of the login process.</p>
 
 <p>Now update the <code>ChatApp</code>s <code>render</code> method so that we don&#39;t display the <code>Messages</code> or the <code>InputBox</code> unless we are logged in.</p>
 <pre class="highlight ruby"><code>  <span class="k">def</span> <span class="nf">render</span>
-    <span class="n">div</span> <span class="k">do</span>
+    <span class="no">DIV</span> <span class="k">do</span>
       <span class="no">Nav</span> <span class="ss">login: </span><span class="nb">method</span><span class="p">(</span><span class="ss">:login</span><span class="p">).</span><span class="nf">to_proc</span>
       <span class="k">if</span> <span class="n">online?</span>
         <span class="no">Messages</span> <span class="ss">messages: </span><span class="n">state</span><span class="p">.</span><span class="nf">messages</span>
@@ -933,9 +933,9 @@ have additional state to track and report the progress of the login process.</p>
   <span class="n">before_mount</span> <span class="p">{</span> <span class="n">mutate</span><span class="p">.</span><span class="nf">composition</span> <span class="s2">""</span> <span class="p">}</span>
 
   <span class="k">def</span> <span class="nf">render</span>
-    <span class="n">div</span> <span class="k">do</span>
-      <span class="n">div</span> <span class="p">{</span><span class="s2">"Say Something: "</span><span class="p">}</span>
-      <span class="n">input</span><span class="p">(</span><span class="ss">value: </span><span class="n">state</span><span class="p">.</span><span class="nf">composition</span><span class="p">).</span><span class="nf">on</span><span class="p">(</span><span class="ss">:change</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">e</span><span class="o">|</span>
+    <span class="no">DIV</span> <span class="k">do</span>
+      <span class="no">DIV</span> <span class="p">{</span><span class="s2">"Say Something: "</span><span class="p">}</span>
+      <span class="no">INPUT</span><span class="p">(</span><span class="ss">value: </span><span class="n">state</span><span class="p">.</span><span class="nf">composition</span><span class="p">).</span><span class="nf">on</span><span class="p">(</span><span class="ss">:change</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">e</span><span class="o">|</span>
         <span class="n">mutate</span><span class="p">.</span><span class="nf">composition</span> <span class="n">e</span><span class="p">.</span><span class="nf">target</span><span class="p">.</span><span class="nf">value</span>
       <span class="k">end</span><span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:key_down</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">e</span><span class="o">|</span>
         <span class="n">send_message</span> <span class="k">if</span> <span class="n">is_send_key?</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
@@ -982,8 +982,8 @@ have additional state to track and report the progress of the login process.</p>
 
 <p>Replace <code>FormattedDiv</code>&#39;s <code>render</code> method with the following:</p>
 <pre class="highlight ruby"><code><span class="k">def</span> <span class="nf">render</span>
-  <span class="n">div</span> <span class="k">do</span>
-    <span class="n">div</span><span class="p">({</span><span class="ss">dangerously_set_inner_HTML: </span><span class="p">{</span> <span class="ss">__html: </span><span class="sb">`marked(</span><span class="si">#{</span><span class="n">params</span><span class="p">.</span><span class="nf">markdown</span><span class="si">}</span><span class="sb">, {sanitize: true})`</span><span class="p">}})</span>
+  <span class="no">DIV</span> <span class="k">do</span>
+    <span class="no">DIV</span><span class="p">({</span><span class="ss">dangerously_set_inner_HTML: </span><span class="p">{</span> <span class="ss">__html: </span><span class="sb">`marked(</span><span class="si">#{</span><span class="n">params</span><span class="p">.</span><span class="nf">markdown</span><span class="si">}</span><span class="sb">, {sanitize: true})`</span><span class="p">}})</span>
   <span class="k">end</span>
 <span class="k">end</span>
 </code></pre>
@@ -1056,26 +1056,18 @@ have additional state to track and report the progress of the login process.</p>
     <span class="nl">font-weight</span><span class="p">:</span> <span class="nb">normal</span><span class="p">;</span>
   <span class="p">}</span>
 </code></pre>
-<p>In Hyperloop and Opal syntax you can add classes to elements using css dot notation.</p>
-
-<p>So instead of saying <code>div(class: &quot;foo bar&quot;)</code> you can say <code>div.foo.bar</code></p>
-
-<p>Any dashes in class names should be translated to underscores.  For example:</p>
-
-<p><code>div.navbar.navbar_inverse.navbar_fixed_top</code> is the same as <code>div(class: &quot;navbar navbar-inverse navbar-fixed-top&quot;)</code></p>
-
 <p>With this we are ready to beautify our <code>Nav</code> component.  Replace the render method with the following code.</p>
 <pre class="highlight ruby"><code><span class="k">def</span> <span class="nf">render</span>
-  <span class="n">div</span><span class="p">.</span><span class="nf">navbar</span><span class="p">.</span><span class="nf">navbar_inverse</span><span class="p">.</span><span class="nf">navbar_fixed_top</span> <span class="k">do</span>
-    <span class="n">div</span><span class="p">.</span><span class="nf">container</span> <span class="k">do</span>
-      <span class="n">div</span><span class="p">.</span><span class="nf">collapse</span><span class="p">.</span><span class="nf">navbar_collapse</span><span class="p">(</span><span class="ss">id: </span><span class="s2">"navbar"</span><span class="p">)</span> <span class="k">do</span>
-        <span class="n">form</span><span class="p">.</span><span class="nf">navbar_form</span><span class="p">.</span><span class="nf">navbar_left</span><span class="p">(</span><span class="ss">role: :search</span><span class="p">)</span> <span class="k">do</span>
-          <span class="n">div</span><span class="p">.</span><span class="nf">form_group</span> <span class="k">do</span>
-            <span class="n">input</span><span class="p">.</span><span class="nf">form_control</span><span class="p">(</span><span class="ss">type: :text</span><span class="p">,</span> <span class="ss">value: </span><span class="n">state</span><span class="p">.</span><span class="nf">user_name_input</span><span class="p">,</span> <span class="ss">placeholder: </span><span class="s2">"Enter Your Handle"</span>
-            <span class="p">).</span><span class="nf">on</span><span class="p">(</span><span class="ss">:change</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">e</span><span class="o">|</span>
+  <span class="no">DIV</span><span class="p">(</span><span class="ss">class: </span><span class="s1">'navbar-fixed-top navbar-inverse navbar'</span><span class="p">)</span> <span class="k">do</span>
+    <span class="no">DIV</span><span class="p">(</span><span class="ss">class: </span><span class="s1">'container'</span><span class="p">)</span> <span class="k">do</span>
+      <span class="no">DIV</span><span class="p">(</span><span class="ss">class: </span><span class="s1">'navbar-collapse collapse'</span><span class="p">,</span> <span class="ss">id: </span><span class="s1">'navbar'</span><span class="p">)</span> <span class="k">do</span>
+        <span class="no">FORM</span><span class="p">(</span><span class="ss">class: </span><span class="s1">'navbar-left navbar-form'</span><span class="p">,</span> <span class="ss">role: :search</span><span class="p">)</span> <span class="k">do</span>
+          <span class="no">DIV</span><span class="p">(</span><span class="ss">class: </span><span class="s1">'form-group'</span><span class="p">)</span> <span class="k">do</span>
+            <span class="no">INPUT</span><span class="p">(</span><span class="ss">class: </span><span class="s1">'form-control'</span><span class="p">,</span> <span class="ss">type: :text</span><span class="p">,</span> <span class="ss">value: </span><span class="n">state</span><span class="p">.</span><span class="nf">user_name_input</span><span class="p">,</span> <span class="ss">placeholder: </span><span class="s2">"Enter Your Handle"</span>
+                    <span class="p">).</span><span class="nf">on</span><span class="p">(</span><span class="ss">:change</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">e</span><span class="o">|</span>
               <span class="n">mutate</span><span class="p">.</span><span class="nf">user_name_input</span> <span class="n">e</span><span class="p">.</span><span class="nf">target</span><span class="p">.</span><span class="nf">value</span>
             <span class="k">end</span>
-            <span class="n">button</span><span class="p">.</span><span class="nf">btn</span><span class="p">.</span><span class="nf">btn_default</span><span class="p">(</span><span class="ss">type: :button</span><span class="p">)</span> <span class="p">{</span> <span class="s2">"login!"</span> <span class="p">}.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:click</span><span class="p">)</span> <span class="k">do</span>
+            <span class="no">BUTTON</span><span class="p">(</span><span class="ss">class: </span><span class="s1">'btn-default btn'</span><span class="p">,</span> <span class="ss">type: :button</span><span class="p">)</span> <span class="p">{</span> <span class="s2">"login!"</span> <span class="p">}.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:click</span><span class="p">)</span> <span class="k">do</span>
               <span class="n">login!</span>
             <span class="k">end</span> <span class="k">if</span> <span class="n">valid_new_input?</span>
           <span class="k">end</span>
@@ -1085,29 +1077,29 @@ have additional state to track and report the progress of the login process.</p>
   <span class="k">end</span>
 <span class="k">end</span>
 </code></pre>
-<p>While this looks complicated notice that in the middle is our original input tag.  We have just added wrappers around it, and added the <code>form_control</code> class to the input, and the <code>btn</code> and <code>btn-default</code> classes to the login button.</p>
+<p>While this looks complicated notice that in the middle is our original input tag.  We have just added wrappers around it, and added the <code>form-control</code> class to the INPUT, and the <code>btn</code> and <code>btn-default</code> classes to the login button.</p>
 
 <p>Refresh you browser and things should start looking better already.</p>
 
 <p>Lets move on to the <code>Message</code> and <code>Messages</code> components.  First add the class <code>container</code> to the <code>Messages</code> div.  The <code>Messages</code> render method should now look like this:</p>
 <pre class="highlight ruby"><code><span class="k">def</span> <span class="nf">render</span>
-  <span class="n">div</span><span class="p">.</span><span class="nf">container</span> <span class="k">do</span> <span class="c1"># add the bootstrap .container class here.</span>
+  <span class="no">DIV</span><span class="p">(</span><span class="ss">class: </span><span class="s1">'container'</span><span class="p">)</span> <span class="k">do</span> <span class="c1"># add the bootstrap .container class here.</span>
     <span class="n">params</span><span class="p">.</span><span class="nf">messages</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">message</span><span class="o">|</span>
       <span class="no">Message</span> <span class="ss">message: </span><span class="n">message</span>
     <span class="k">end</span>
   <span class="k">end</span>
 <span class="k">end</span>
 </code></pre>
-<p>Now add the <code>row, alternating</code> and <code>message</code> classes to the outer div of the Message component, and the <code>col-sm-2</code> class to the sender and time divs.  (Remember to change dashes to underscores.)</p>
+<p>Now add the <code>row, alternating</code> and <code>message</code> classes to the outer div of the Message component, and the <code>col-sm-2</code> class to the sender and time divs. </p>
 
 <p>Now add the <code>class: &quot;col-sm-8&quot;</code> to the <code>FormattedDiv</code> element.  Notice that you can not use the short hand syntax with application defined components.  </p>
 
 <p>Your <code>Message</code> render method should look like this:</p>
 <pre class="highlight ruby"><code><span class="k">def</span> <span class="nf">render</span>
-  <span class="n">div</span><span class="p">.</span><span class="nf">row</span><span class="p">.</span><span class="nf">alternating</span><span class="p">.</span><span class="nf">message</span> <span class="k">do</span>
-    <span class="n">div</span><span class="p">.</span><span class="nf">col_sm_2</span> <span class="p">{</span> <span class="n">params</span><span class="p">.</span><span class="nf">message</span><span class="p">[</span><span class="ss">:from</span><span class="p">]</span> <span class="p">}</span>
+  <span class="no">DIV</span><span class="p">(</span><span class="ss">class: </span><span class="s1">'row alternating message'</span><span class="p">)</span> <span class="k">do</span>
+    <span class="no">DIV</span><span class="p">(</span><span class="ss">class: </span><span class="s1">'col-sm-2'</span><span class="p">)</span> <span class="p">{</span> <span class="n">params</span><span class="p">.</span><span class="nf">message</span><span class="p">[</span><span class="ss">:from</span><span class="p">]</span> <span class="p">}</span>
     <span class="no">FormattedDiv</span> <span class="ss">class: </span><span class="s2">"col-sm-8"</span><span class="p">,</span> <span class="ss">markdown: </span><span class="n">params</span><span class="p">.</span><span class="nf">message</span><span class="p">[</span><span class="ss">:message</span><span class="p">]</span>
-    <span class="n">div</span><span class="p">.</span><span class="nf">col_sm_2</span> <span class="p">{</span> <span class="no">Time</span><span class="p">.</span><span class="nf">at</span><span class="p">(</span><span class="n">params</span><span class="p">.</span><span class="nf">message</span><span class="p">[</span><span class="ss">:time</span><span class="p">]).</span><span class="nf">to_s</span> <span class="p">}</span>
+    <span class="no">DIV</span><span class="p">(</span><span class="ss">class: </span><span class="s1">'col-sm-2'</span><span class="p">)</span> <span class="p">{</span> <span class="no">Time</span><span class="p">.</span><span class="nf">at</span><span class="p">(</span><span class="n">params</span><span class="p">.</span><span class="nf">message</span><span class="p">[</span><span class="ss">:time</span><span class="p">]).</span><span class="nf">to_s</span> <span class="p">}</span>
   <span class="k">end</span>
 <span class="k">end</span>
 </code></pre>
@@ -1122,8 +1114,8 @@ have additional state to track and report the progress of the login process.</p>
   <span class="n">collect_other_params_as</span> <span class="ss">:attributes</span>
 
   <span class="k">def</span> <span class="nf">render</span>
-    <span class="n">div</span><span class="p">(</span><span class="n">params</span><span class="p">.</span><span class="nf">attributes</span><span class="p">)</span> <span class="k">do</span> <span class="c1"># send whatever class is specified on to the outer div</span>
-      <span class="n">div</span><span class="p">({</span><span class="ss">dangerously_set_inner_HTML: </span><span class="p">{</span> <span class="ss">__html: </span><span class="sb">`marked(</span><span class="si">#{</span><span class="n">params</span><span class="p">.</span><span class="nf">markdown</span><span class="si">}</span><span class="sb">, {sanitize: true })`</span><span class="p">}})</span>
+    <span class="no">DIV</span><span class="p">(</span><span class="n">params</span><span class="p">.</span><span class="nf">attributes</span><span class="p">)</span> <span class="k">do</span> <span class="c1"># send whatever class is specified on to the outer div</span>
+      <span class="no">DIV</span><span class="p">({</span><span class="ss">dangerously_set_inner_HTML: </span><span class="p">{</span> <span class="ss">__html: </span><span class="sb">`marked(</span><span class="si">#{</span><span class="n">params</span><span class="p">.</span><span class="nf">markdown</span><span class="si">}</span><span class="sb">, {sanitize: true })`</span><span class="p">}})</span>
     <span class="k">end</span>
   <span class="k">end</span>
 <span class="k">end</span>
@@ -1142,9 +1134,9 @@ have additional state to track and report the progress of the login process.</p>
 
 <p>Your updated render method should look like this:</p>
 <pre class="highlight ruby"><code><span class="k">def</span> <span class="nf">render</span>
-  <span class="n">div</span><span class="p">.</span><span class="nf">row</span><span class="p">.</span><span class="nf">form_group</span><span class="p">.</span><span class="nf">input_box</span><span class="p">.</span><span class="nf">navbar</span><span class="p">.</span><span class="nf">navbar_inverse</span><span class="p">.</span><span class="nf">navbar_fixed_bottom</span> <span class="k">do</span>
-    <span class="n">div</span><span class="p">.</span><span class="nf">col_sm_1</span><span class="p">.</span><span class="nf">white</span> <span class="p">{</span><span class="s2">"Say: "</span><span class="p">}</span>
-    <span class="n">input</span><span class="p">.</span><span class="nf">col_sm_5</span><span class="p">(</span><span class="ss">value: </span><span class="n">state</span><span class="p">.</span><span class="nf">composition</span><span class="p">).</span><span class="nf">on</span><span class="p">(</span><span class="ss">:change</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">e</span><span class="o">|</span>
+  <span class="no">DIV</span><span class="p">(</span><span class="ss">class: </span><span class="s1">'row form-group input-box navbar navbar-inverse navbar-fixed-bottom'</span><span class="p">)</span> <span class="k">do</span>
+    <span class="no">DIV</span><span class="p">(</span><span class="ss">class: </span><span class="s1">'col-sm-1 saytext'</span><span class="p">)</span> <span class="p">{</span><span class="s2">"Say: "</span><span class="p">}</span>
+    <span class="no">INPUT</span><span class="p">(</span><span class="ss">class: </span><span class="s1">'col-sm-5'</span><span class="p">,</span> <span class="ss">value: </span><span class="n">state</span><span class="p">.</span><span class="nf">composition</span><span class="p">).</span><span class="nf">on</span><span class="p">(</span><span class="ss">:change</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">e</span><span class="o">|</span>
       <span class="n">state</span><span class="p">.</span><span class="nf">composition!</span> <span class="n">e</span><span class="p">.</span><span class="nf">target</span><span class="p">.</span><span class="nf">value</span>
     <span class="k">end</span><span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:key_down</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">e</span><span class="o">|</span>
       <span class="n">send_message</span> <span class="k">if</span> <span class="n">is_send_key?</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
@@ -1178,7 +1170,7 @@ have additional state to track and report the progress of the login process.</p>
 <span class="k">end</span>
 </code></pre>
 <p>and pass the value of our new <code>rows</code> method to the <code>rows</code> attribute of the <code>textarea</code>:</p>
-<pre class="highlight ruby"><code>  <span class="n">textarea</span><span class="p">.</span><span class="nf">col_sm_5</span><span class="p">(</span><span class="ss">rows: </span><span class="n">rows</span><span class="p">,</span> <span class="ss">value: </span><span class="n">state</span><span class="p">.</span><span class="nf">composition</span><span class="p">).</span><span class="nf">.</span><span class="o">.</span>
+<pre class="highlight ruby"><code>  <span class="no">TEXTAREA</span><span class="p">(</span><span class="ss">class: </span><span class="s1">'col-sm-5'</span><span class="p">,</span> <span class="ss">rows: </span><span class="n">rows</span><span class="p">,</span> <span class="ss">value: </span><span class="n">state</span><span class="p">.</span><span class="nf">composition</span><span class="p">).</span><span class="nf">.</span><span class="o">.</span>
 </code></pre>
 <p>Refresh and you should be see the textarea dynamically grow as you type more text, and then collapse when you send a message.</p>
 
@@ -1229,10 +1221,10 @@ have additional state to track and report the progress of the login process.</p>
 </code></pre>
 <p>and replace <code>params.message[:from]</code> in the <code>render</code> method with <code>sender</code>.</p>
 <pre class="highlight ruby"><code><span class="k">def</span> <span class="nf">render</span>
-  <span class="n">div</span><span class="p">.</span><span class="nf">row</span><span class="p">.</span><span class="nf">alternating</span><span class="p">.</span><span class="nf">message</span> <span class="k">do</span>
-    <span class="n">div</span><span class="p">.</span><span class="nf">col_sm_2</span> <span class="p">{</span> <span class="n">sender</span> <span class="p">}</span>
+  <span class="no">DIV</span><span class="p">(</span><span class="ss">class: </span><span class="s1">'row alternating message'</span><span class="p">)</span> <span class="k">do</span>
+    <span class="no">DIV</span><span class="p">(</span><span class="ss">class: </span><span class="s1">'col-sm-2'</span><span class="p">)</span> <span class="p">{</span> <span class="n">sender</span> <span class="p">}</span>
     <span class="no">FormattedDiv</span> <span class="ss">class: </span><span class="s2">"col-sm-8"</span><span class="p">,</span> <span class="ss">markdown: </span><span class="n">params</span><span class="p">.</span><span class="nf">message</span><span class="p">[</span><span class="ss">:message</span><span class="p">]</span>
-    <span class="n">div</span><span class="p">.</span><span class="nf">col_sm_2</span> <span class="p">{</span> <span class="n">formatted_time</span> <span class="p">}</span>
+    <span class="no">DIV</span><span class="p">(</span><span class="ss">class: </span><span class="s1">'col-sm-2'</span><span class="p">)</span> <span class="p">{</span> <span class="n">formatted_time</span> <span class="p">}</span>
   <span class="k">end</span>
 <span class="k">end</span>
 </code></pre>
@@ -1243,7 +1235,7 @@ from <code>Messages</code> to <code>Message</code>.  Once you have added the par
   <span class="n">param</span> <span class="ss">:user_id</span>
 
   <span class="k">def</span> <span class="nf">render</span>
-    <span class="n">div</span><span class="p">.</span><span class="nf">container</span> <span class="k">do</span> <span class="c1"># add the bootstrap .container class here.</span>
+    <span class="no">DIV</span><span class="p">(</span><span class="ss">class: </span><span class="s1">'container'</span><span class="p">)</span> <span class="k">do</span> <span class="c1"># add the bootstrap .container class here.</span>
       <span class="n">params</span><span class="p">.</span><span class="nf">messages</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">message</span><span class="o">|</span>
         <span class="no">Message</span> <span class="ss">message: </span><span class="n">message</span><span class="p">,</span> <span class="ss">user_id: </span><span class="n">params</span><span class="p">.</span><span class="nf">user_id</span>
       <span class="k">end</span>
@@ -1259,10 +1251,10 @@ from <code>Messages</code> to <code>Message</code>.  Once you have added the par
   <span class="n">after_update</span> <span class="ss">:scroll_to_bottom</span>
 
   <span class="k">def</span> <span class="nf">render</span>
-    <span class="n">div</span><span class="p">.</span><span class="nf">row</span><span class="p">.</span><span class="nf">alternating</span><span class="p">.</span><span class="nf">message</span> <span class="k">do</span>
-      <span class="n">div</span><span class="p">.</span><span class="nf">col_sm_2</span> <span class="p">{</span> <span class="n">sender</span> <span class="p">}</span>
+    <span class="no">DIV</span><span class="p">(</span><span class="ss">class: </span><span class="s1">'row alternating message'</span><span class="p">)</span> <span class="k">do</span>
+      <span class="no">DIV</span><span class="p">(</span><span class="ss">class: </span><span class="s1">'col-sm-2'</span><span class="p">)</span> <span class="p">{</span> <span class="n">sender</span> <span class="p">}</span>
       <span class="no">FormattedDiv</span> <span class="ss">class: </span><span class="s2">"col-sm-8"</span><span class="p">,</span> <span class="ss">markdown: </span><span class="n">params</span><span class="p">.</span><span class="nf">message</span><span class="p">[</span><span class="ss">:message</span><span class="p">]</span>
-      <span class="n">div</span><span class="p">.</span><span class="nf">col_sm_2</span> <span class="p">{</span> <span class="n">formatted_time</span> <span class="p">}</span>
+      <span class="no">DIV</span><span class="p">(</span><span class="ss">class: </span><span class="s1">'col-sm-2'</span><span class="p">)</span> <span class="p">{</span> <span class="n">formatted_time</span> <span class="p">}</span>
     <span class="k">end</span>
   <span class="k">end</span>
 
@@ -1330,35 +1322,35 @@ from <code>Messages</code> to <code>Message</code>.  Once you have added the par
 <pre class="highlight ruby"><code><span class="n">on</span><span class="p">(</span><span class="ss">:submit</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span><span class="n">e</span><span class="o">|</span> <span class="n">e</span><span class="p">.</span><span class="nf">prevent_default</span> <span class="p">}</span>
 </code></pre>
 <p>While we are in there lets add the Hyperloop logo and a title to the nav bar.  Add</p>
-<pre class="highlight ruby"><code><span class="n">div</span><span class="p">.</span><span class="nf">navbar_header</span> <span class="k">do</span>
-  <span class="n">div</span><span class="p">.</span><span class="nf">hyperloop_icon</span>
-  <span class="n">a</span><span class="p">.</span><span class="nf">navbar_brand</span><span class="p">(</span><span class="ss">href: </span><span class="s2">"#"</span><span class="p">,</span> <span class="ss">style: </span><span class="p">{</span><span class="ss">color: </span><span class="s2">"white"</span><span class="p">})</span> <span class="p">{</span> <span class="s2">"Hyperloop Chat Room "</span> <span class="p">}</span>
+<pre class="highlight ruby"><code><span class="no">DIV</span><span class="p">(</span><span class="ss">class: </span><span class="s1">'navbar-header'</span><span class="p">)</span> <span class="k">do</span>
+  <span class="no">DIV</span><span class="p">(</span><span class="ss">class: </span><span class="s1">'hyperloop-icon'</span><span class="p">)</span>
+  <span class="no">A</span><span class="p">(</span><span class="ss">href: </span><span class="s2">"#"</span><span class="p">,</span> <span class="ss">style: </span><span class="p">{</span><span class="ss">color: </span><span class="s2">"white"</span><span class="p">},</span> <span class="ss">class: </span><span class="s1">'navbar-brand'</span><span class="p">)</span> <span class="p">{</span> <span class="s2">"Hyperloop Chat Room "</span> <span class="p">}</span>
 <span class="k">end</span>
 </code></pre>
 <p>inside the <code>container</code> <code>div</code>.</p>
 
 <p>Finally lets use one of the standard bootstrap login icons instead of the words &quot;Login!&quot;.</p>
 
-<p>Replace <code>{ &quot;Login!&quot; }</code> with <code>{ span.glyphicon.glyphicon_log_in }</code></p>
+<p>Replace <code>{ &quot;Login!&quot; }</code> with <code>{ SPAN(class: &#39;glyphicon glyphicon-log-in&#39;) }</code></p>
 
 <p>Now the completed <code>Nav</code> <code>render</code> method will look like this:</p>
 <pre class="highlight ruby"><code><span class="k">def</span> <span class="nf">render</span>
-  <span class="n">div</span><span class="p">.</span><span class="nf">navbar</span><span class="p">.</span><span class="nf">navbar_inverse</span><span class="p">.</span><span class="nf">navbar_fixed_top</span> <span class="k">do</span>
-    <span class="n">div</span><span class="p">.</span><span class="nf">container</span> <span class="k">do</span>
-      <span class="n">div</span><span class="p">.</span><span class="nf">navbar_header</span> <span class="k">do</span>
-        <span class="n">div</span><span class="p">.</span><span class="nf">hyperloop_icon</span>
-        <span class="n">a</span><span class="p">.</span><span class="nf">navbar_brand</span><span class="p">(</span><span class="ss">href: </span><span class="s2">"#"</span><span class="p">,</span> <span class="ss">style: </span><span class="p">{</span><span class="ss">color: </span><span class="s2">"white"</span><span class="p">})</span> <span class="p">{</span> <span class="s2">"Hyperloop Chat Room "</span> <span class="p">}</span>
+  <span class="no">DIV</span><span class="p">(</span><span class="ss">class: </span><span class="s1">'navbar-fixed-top navbar-inverse navbar'</span><span class="p">)</span> <span class="k">do</span>
+    <span class="no">DIV</span><span class="p">(</span><span class="ss">class: </span><span class="s1">'container'</span><span class="p">)</span> <span class="k">do</span>
+      <span class="no">DIV</span><span class="p">(</span><span class="ss">class: </span><span class="s1">'navbar-header'</span><span class="p">)</span> <span class="k">do</span>
+        <span class="no">DIV</span><span class="p">(</span><span class="ss">class: </span><span class="s1">'hyperloop-icon'</span><span class="p">)</span>
+        <span class="no">A</span><span class="p">(</span><span class="ss">href: </span><span class="s2">"#"</span><span class="p">,</span> <span class="ss">style: </span><span class="p">{</span><span class="ss">color: </span><span class="s2">"white"</span><span class="p">},</span> <span class="ss">class: </span><span class="s1">'navbar-brand'</span><span class="p">)</span> <span class="p">{</span> <span class="s2">"Hyperloop Chat Room "</span> <span class="p">}</span>
       <span class="k">end</span>
-      <span class="n">div</span><span class="p">.</span><span class="nf">collapse</span><span class="p">.</span><span class="nf">navbar_collapse</span><span class="p">(</span><span class="ss">id: </span><span class="s2">"navbar"</span><span class="p">)</span> <span class="k">do</span>
-        <span class="n">form</span><span class="p">.</span><span class="nf">navbar_form</span><span class="p">.</span><span class="nf">navbar_left</span><span class="p">(</span><span class="ss">role: :search</span><span class="p">)</span> <span class="k">do</span>
-          <span class="n">div</span><span class="p">.</span><span class="nf">form_group</span> <span class="k">do</span>
-            <span class="n">input</span><span class="p">.</span><span class="nf">form_control</span><span class="p">(</span><span class="ss">type: :text</span><span class="p">,</span> <span class="ss">value: </span><span class="n">state</span><span class="p">.</span><span class="nf">user_name_input</span><span class="p">,</span> <span class="ss">placeholder: </span><span class="s2">"Enter Your Handle"</span>
+      <span class="no">DIV</span><span class="p">(</span><span class="ss">class: </span><span class="s1">'navbar-collapse collapse'</span><span class="p">,</span> <span class="ss">id: </span><span class="s1">'navbar'</span><span class="p">)</span> <span class="k">do</span>
+        <span class="no">FORM</span><span class="p">(</span><span class="ss">class: </span><span class="s1">'navbar-left navbar-form'</span><span class="p">,</span> <span class="ss">role: :search</span><span class="p">)</span> <span class="k">do</span>
+          <span class="no">DIV</span><span class="p">(</span><span class="ss">class: </span><span class="s1">'form-group'</span><span class="p">)</span> <span class="k">do</span>
+            <span class="no">INPUT</span><span class="p">(</span><span class="ss">class: </span><span class="s1">'form-control'</span><span class="p">,</span> <span class="ss">type: :text</span><span class="p">,</span> <span class="ss">value: </span><span class="n">state</span><span class="p">.</span><span class="nf">user_name_input</span><span class="p">,</span> <span class="ss">placeholder: </span><span class="s2">"Enter Your Handle"</span>
             <span class="p">).</span><span class="nf">on</span><span class="p">(</span><span class="ss">:change</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">e</span><span class="o">|</span>
-              <span class="n">mutate</span><span class="p">.</span><span class="nf">user_name_input</span> <span class="n">e</span><span class="p">.</span><span class="nf">target</span><span class="p">.</span><span class="nf">value</span>
+              <span class="n">state</span><span class="p">.</span><span class="nf">user_name_input!</span> <span class="n">e</span><span class="p">.</span><span class="nf">target</span><span class="p">.</span><span class="nf">value</span>
             <span class="k">end</span><span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:key_down</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">e</span><span class="o">|</span>
               <span class="n">login!</span> <span class="k">if</span> <span class="n">valid_new_input?</span> <span class="o">&amp;&amp;</span> <span class="n">e</span><span class="p">.</span><span class="nf">key_code</span> <span class="o">==</span> <span class="mi">13</span>
             <span class="k">end</span>
-            <span class="n">button</span><span class="p">.</span><span class="nf">btn</span><span class="p">.</span><span class="nf">btn_default</span><span class="p">(</span><span class="ss">type: :button</span><span class="p">)</span> <span class="p">{</span> <span class="n">span</span><span class="p">.</span><span class="nf">glyphicon</span><span class="p">.</span><span class="nf">glyphicon_log_in</span> <span class="p">}.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:click</span><span class="p">)</span> <span class="k">do</span>
+            <span class="no">BUTTON</span><span class="p">(</span><span class="ss">class: </span><span class="s1">'btn-default btn'</span><span class="p">,</span> <span class="ss">type: :button</span><span class="p">)</span> <span class="p">{</span> <span class="no">SPAN</span><span class="p">(</span><span class="ss">class: </span><span class="s1">'glyphicon glyphicon-log-in'</span><span class="p">)</span> <span class="p">}.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:click</span><span class="p">)</span> <span class="k">do</span>
               <span class="n">login!</span>
             <span class="k">end</span> <span class="k">if</span> <span class="n">valid_new_input?</span>
           <span class="k">end</span>
