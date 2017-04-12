@@ -302,11 +302,9 @@ end
           <br>
         </div>
         <div class="col-md-9 main-content">
-          <h5 id="opal-hot-reloader-tutorial"><i class="flaticon-professor-teaching"></i> <span class="bigfirstletter">O</span>pal Hot Reloader Tutorial</h5>
+          <h2 id="opal-hot-reloader-tutorial"><i class="flaticon-professor-teaching"></i> <span class="bigfirstletter">O</span>pal Hot Reloader Tutorial</h2>
 
-<p>TODO</p>
-
-<p>Before we go any further, let&#39;s install two fantastic tools written by Forrest Chang:</p>
+<p>In this tutorial we are going to install a fantastic tool written by Forrest Chang:</p>
 
 <ul>
 <li><a href="https://github.com/fkchang/opal-hot-reloader">Opal Hot Reloader</a></li>
@@ -315,7 +313,19 @@ end
 
 <p>Opal Hot Reloader is for pure programmer joy (not having to reload the page to compile your source) and the Opal Console is incredibly useful to test how Ruby code compiles to JavaScript.</p>
 
+<p>Opal Hot Reloader is going to just dynamically (via a websocket connection) chunks of code in the page almost instaneously.</p>
+
 <p>We are also going to add the Foreman gem to run our Rails server and the Hot Reloader service for us.</p>
+
+<h3 id="tutorial">Tutorial</h3>
+
+<p>To set up your <strong>Hyperloop</strong> environment and continue this tutorial, please first follow the <a href="/installation#rorsetup">Hyperloop installation with Ruby On Rails</a> tutorial.</p>
+
+<p>After <strong>Hyperloop</strong> has been installed properly we can go further.</p>
+
+<p>Then in order to test or <code>Opal Hot Reloader</code> Gem, you need to have at least a basic <strong>Hyperloop</strong> appliction. For that you can follow the simple Tutorial: <a href="/tutorials/hyperlooprails/helloworld">HelloWorld Tutorial</a>.</p>
+
+<h5 id="step-1-updating-gemfile">Step 1: Updating Gemfile</h5>
 
 <p>Add the following lines to your <code>gemfile</code> and run <code>bundle</code>:</p>
 <pre class="highlight ruby"><code><span class="c1">#gemfile</span>
@@ -325,32 +335,66 @@ end
 </code></pre>
 <p><code>bundle install</code></p>
 
-<p>Modify your <code>hyperloop.rb</code>, adding the following lines inside the if statement so they only run on the client and not as part of the server pre-rendering process:</p>
-<pre class="highlight ruby"><code><span class="c1">#app/hyperloop/hyperloop.rb</span>
+<h5 id="step-2-configuring-your-application">Step 2: Configuring your application</h5>
 
-<span class="k">if</span> <span class="no">React</span><span class="o">::</span><span class="no">IsomorphicHelpers</span><span class="p">.</span><span class="nf">on_opal_client?</span>
-  <span class="p">.</span><span class="nf">.</span><span class="p">.</span>
-  <span class="nf">require</span> <span class="s1">'opal_hot_reloader'</span>
-  <span class="no">OpalHotReloader</span><span class="p">.</span><span class="nf">listen</span><span class="p">(</span><span class="mi">25222</span><span class="p">,</span> <span class="kp">true</span><span class="p">)</span>
+<p>Modify your <code>hyperloop.rb</code> initializer, adding the following lines inside the if statement so they only run on the client and not as part of the server pre-rendering process:</p>
+<pre class="highlight ruby"><code><span class="c1">#config/initializers/hyperloop.rb</span>
+
+<span class="no">Hyperloop</span><span class="p">.</span><span class="nf">configuration</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
+
+  <span class="n">config</span><span class="p">.</span><span class="nf">transport</span> <span class="o">=</span> <span class="ss">:simple_poller</span>
+
+  <span class="n">config</span><span class="p">.</span><span class="nf">import</span> <span class="s1">'opal_hot_reloader'</span>
+
 <span class="k">end</span>
 </code></pre>
+<h5 id="step-3-creating-the-procfile">Step 3: Creating the Procfile</h5>
+
 <p>Then create a <code>Procfile</code> in your Rails app root so the Hot Reloader service will start whenever you start your server:</p>
 <pre class="highlight plaintext"><code>#Procfile
 
 rails: bundle exec rails server -p 3000
 hotloader: opal-hot-reloader -p 25222 -d app/hyperloop/components
 </code></pre>
+<h5 id="step-4-running-the-application">Step 4: Running the application</h5>
+
 <p>To start both servers:</p>
 
 <p><code>bundle exec foreman start</code></p>
 
-<p>Refresh your browser and edit your <code>planeventslist.rb</code>:
-<code>ruby
-ReactBootstrap::Button(bsStyle: :primary) do
-  &quot;New Event&quot;
-end.on(:click) { save_new_planevent }
-</code>
-Save and you should see the button text change magically in your browser without having to refresh. Pure joy.  </p>
+<h5 id="step-5-playing">Step 5: Playing</h5>
+
+<p>Refresh your browser and edit a Hyperloop Component, for example <code>helloworld.rb</code>:</p>
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">Helloworld</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Component</span>
+
+  <span class="n">state</span> <span class="ss">show_field: </span><span class="kp">false</span>
+  <span class="n">state</span> <span class="ss">field_value: </span><span class="s2">""</span>
+
+  <span class="n">render</span><span class="p">(</span><span class="no">DIV</span><span class="p">)</span> <span class="k">do</span>
+    <span class="n">show_button</span>
+    <span class="no">DIV</span><span class="p">(</span><span class="ss">class: </span><span class="s1">'formdiv'</span><span class="p">)</span> <span class="k">do</span>
+      <span class="n">show_input</span>
+      <span class="no">H1</span> <span class="p">{</span> <span class="s2">"</span><span class="si">#{</span><span class="n">state</span><span class="p">.</span><span class="nf">field_value</span><span class="si">}</span><span class="s2">"</span> <span class="p">}</span>
+    <span class="k">end</span> <span class="k">if</span> <span class="n">state</span><span class="p">.</span><span class="nf">show_field</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">show_button</span>
+    <span class="no">BUTTON</span><span class="p">(</span><span class="ss">class: </span><span class="s1">'btn btn-info'</span><span class="p">)</span> <span class="k">do</span>
+      <span class="n">state</span><span class="p">.</span><span class="nf">show_field</span> <span class="p">?</span> <span class="s2">"Click to hide HelloWorld input field"</span> <span class="p">:</span> <span class="s2">"Click to show HelloWorld input field"</span>
+    <span class="k">end</span><span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:click</span><span class="p">)</span> <span class="p">{</span> <span class="n">mutate</span><span class="p">.</span><span class="nf">show_field</span> <span class="o">!</span><span class="n">state</span><span class="p">.</span><span class="nf">show_field</span> <span class="p">}</span>
+  <span class="k">end</span>
+
+  <span class="p">.</span><span class="nf">.</span><span class="p">.</span>
+
+<span class="nf">end</span>
+</code></pre>
+<p>For example, you modify the line:</p>
+<pre class="highlight ruby"><code><span class="n">state</span><span class="p">.</span><span class="nf">show_field</span> <span class="p">?</span> <span class="s2">"Click to hide HelloWorld input field"</span> <span class="p">:</span> <span class="s2">"Click to show HelloWorld input field"</span>
+</code></pre>
+<p>by</p>
+<pre class="highlight ruby"><code><span class="n">state</span><span class="p">.</span><span class="nf">show_field</span> <span class="p">?</span> <span class="s2">"Click to hide Hello People input field"</span> <span class="p">:</span> <span class="s2">"Click to show People input field"</span>
+</code></pre>
+<p>Save and you should see the text change magically in your browser without having to refresh. Pure joy.  </p>
 
         </div>
       </div>
