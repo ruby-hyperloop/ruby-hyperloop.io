@@ -14,7 +14,7 @@ You can find the complete source code of this tutorial here: [Hyperloop with Rai
 
 To set up your **Hyperloop** environment and continue this tutorial, please first follow the [Hyperloop installation with Ruby On Rails](/installation#rorsetup) tutorial.
 
-After **Hyperloop** has been installed properly we can go further:
+After **Hyperloop** has been installed properly we can go further.
 
 ##### Step 1: Creating the Helloworld component
 
