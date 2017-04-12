@@ -24,8 +24,8 @@ For example:
 <pre>
 class YouSaid < Hyperloop::Component
 
-  render do
-    input(value: state.value).
+  render(DIV) do
+    INPUT(value: state.value).
     on(:key_down) do |e|
       alert "You said: #{state.value}" if e.key_code == 13
     end.

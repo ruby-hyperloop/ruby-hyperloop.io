@@ -56,11 +56,11 @@ class Clock < Hyperloop::Component
     }
 
   render do
-    div(class: :time) do
+    DIV(class: 'time') do
       Time.now.strftime(FORMATS[state.mode]).span
-      select(style: {"margin-left" => 20}, value: state.mode)  do
-        option(value: 12) { "12 Hour Clock" }
-        option(value: 24) { "24 Hour Clock" }
+      SELECT(style: {"margin-left" => 20}, value: state.mode)  do
+        OPTION(value: 12) { "12 Hour Clock" }
+        OPTION(value: 24) { "24 Hour Clock" }
       end.on(:change) do |e|
         mutate.mode(e.target.value.to_i)
       end
@@ -165,13 +165,13 @@ More on the details of these methods can be found in the [Component API](#top-le
 
 ```ruby
   ...
-    div(class: :time) do
+    DIV(class: :time) do
       ...
     end
   ...
 ```
 
-HTML such as `div, a, select, option` etc. each have a corresponding instance method that will render that tag.  For all the tags the
+HTML such as `DIV, A, SELECT, OPTION` etc. each have a corresponding instance method that will render that tag.  For all the tags the
 method call looks like this:
 
 ```ruby
@@ -194,15 +194,15 @@ Strings are treated specially as follows:
 
 If a render method or a nested tag block returns a string, the string is automatically wrapped in a `<span>` tag.
 
-The code `span { "hello" }` can be shortened to `"hello".span`, likewise for `td, para, td, th` tags.
+The code `SPAN { "hello" }` can be shortened to `"hello".SPAN`, likewise for `BR, PARA, TD, TH` tags.
 
-`"some string".br` generates `<span>some string<span><br/>`
+`"some string".BR` generates `<span>some string<span><br/>`
 
 
 ```ruby
-Time.now.strftime(FORMATS[state.mode]).span  # generates <span>...current time formatted...</span>
+Time.now.strftime(FORMATS[state.mode]).SPAN  # generates <span>...current time formatted...</span>
 ...
-  option(value: 12) { "12 Hour Clock" }      # generates <option value=12><span>12 Hour Clock</span></option>
+  OPTION(value: 12) { "12 Hour Clock" }      # generates <option value=12><span>12 Hour Clock</span></option>
 ```
 
 ### HAML style class names
@@ -215,6 +215,15 @@ div.class1.class2
 div(class: "class1 class2")
 ```
 
+In this style, CSS blends with HTML elements. For example, the following two lines are equivalent:		 
+
+
+ ```ruby		
+ BUTTON(class: 'btn-primary') { "Press me" }		
+  # is the same as
+ button.btn_primary { "Press me" }		
+ ```		
+
 Note that underscores are translated to dashes.  So `.foo_bar` will add the `foo-bar` class to the tag.  If you need to use an underscore in a class name use a double underscore which will be translated to a single underscore in the class name.
 
 ### Event Handlers
@@ -222,7 +231,7 @@ Note that underscores are translated to dashes.  So `.foo_bar` will add the `foo
 Event Handlers are attached to tags and components using the `on` method.
 
 ```ruby
-select ... do
+SELECT ... do
   ...
 end.on(:change) do |e|
   mutate.mode(e.target.value.to_i)
@@ -234,7 +243,7 @@ The `on` method takes the event name symbol (note that `onClick` becomes `:click
 Event handlers can be chained like so
 
 ```ruby
-input ... do
+INPUT ... do
   ...
   end.on(:key_up) do |e|
   ...
@@ -254,8 +263,9 @@ end
 ```ruby
 class Test < Hyperloop::Component
   param :node
+
   render do
-    div do
+    DIV do
       children.each do |child|
         params.node.render
         child.render
@@ -291,14 +301,14 @@ React has implemented a browser-independent events and DOM system for performanc
 If you want to display an HTML entity within dynamic content, you will run into double escaping issues as React.js escapes all the strings you are displaying in order to prevent a wide range of XSS attacks by default.
 
 ```ruby
-div {'First &middot; Second' }
+DIV {'First &middot; Second' }
   # Bad: It displays "First &middot; Second"
 ```
 
 To workaround this you have to insert raw HTML.
 
 ```ruby
-div(dangerously_set_inner_HTML: { __html: "First &middot; Second"})
+DIV(dangerously_set_inner_HTML: { __html: "First &middot; Second"})
 ```
 
 #### Custom HTML Attributes
@@ -306,13 +316,13 @@ div(dangerously_set_inner_HTML: { __html: "First &middot; Second"})
 If you pass properties to native HTML elements that do not exist in the HTML specification, React will not render them. If you want to use a custom attribute, you should prefix it with `data-`.
 
 ```ruby
-div("data-custom-attribute" => "foo")
+DIV("data-custom-attribute" => "foo")
 ```
 
 [Web Accessibility](http://www.w3.org/WAI/intro/aria) attributes starting with `aria-` will be rendered properly.
 
 ```ruby
-div("aria-hidden" => true)
+DIV("aria-hidden" => true)
 ```
 
 #### Invoking Application Components

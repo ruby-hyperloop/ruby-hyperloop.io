@@ -19,7 +19,7 @@ end
 The render callback will generate the components render method.  It may optionally take the container component and params:
 
 ```ruby
-render(:div, class: 'my-class') do
+render(:DIV, class: 'my-class') do
   ...
 end
 ```
@@ -27,8 +27,8 @@ end
 which would be equivilent to:
 
 ```ruby
-def render
-  div(class: 'my-class') do
+render do
+  DIV(class: 'my-class') do
     ...
   end
 end

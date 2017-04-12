@@ -36,7 +36,7 @@ class SayHello < Hyperloop::Component
 end
 
 class MyBigApp < Hyperloop::Component
-  def render
+  render(DIV) do
     # SayHello will now act like any other Hyperloop component
     SayHello name: 'Matz'
   end
@@ -59,27 +59,22 @@ end
 We can now access our bootstrap components as components defined within the RBS scope:
 
 ```ruby
-  # taken  from Barrie Hadfield's excellent guide: http://tutorials.pluralsight.com/ruby-ruby-on-rails/reactrb-showcase
-module Components
-  module Home
-    class Show < Hyperloop::Component
+class Show < Hyperloop::Component
 
-      def say_hello(i)
-        alert "Hello from number #{i}"
+  def say_hello(i)
+    alert "Hello from number #{i}"
+  end
+
+  render RBS::Navbar, bsStyle: :inverse do
+    RBS::Nav() do
+      RBS::NavbarBrand() do
+        A(href: '#') { 'Hyperloop Showcase' }
       end
-
-      render RBS::Navbar, bsStyle: :inverse do
-        RBS::Nav() do
-          RBS::NavbarBrand() do
-            a(href: '#') { 'Hyperloop Showcase' }
-          end
-          RBS::NavDropdown(eventKey: 1, title: 'Things', id: :drop_down) do
-            (1..5).each do |n|
-              RBS::MenuItem(href: '#', key: n, eventKey: "1.#{n}") do
-                "Number #{n}"
-              end.on(:click) { say_hello(n) }
-            end
-          end
+      RBS::NavDropdown(eventKey: 1, title: 'Things', id: :drop_down) do
+        (1..5).each do |n|
+          RBS::MenuItem(href: '#', key: n, eventKey: "1.#{n}") do
+            "Number #{n}"
+          end.on(:click) { say_hello(n) }
         end
       end
     end
@@ -101,7 +96,7 @@ class MyLib < React::NativeLibrary
 end
 
 class App < React::NativeLibrary
-  def render  
+  render do  
     ...
     MyLib::MySubLibrary::MyComponent ...
     ...
@@ -116,22 +111,6 @@ Note that the `rename` directive can be used to rename both components and subli
 If you use a lot of libraries and are using a Javascript tool chain with Webpack, having to import the libraries in both Hyperloop and Webpack is redundant and just hard work.
 
 Instead you can opt-in for *auto importing* Javascript components into Hyperloop as you need them.  Simply `require hyper-react/auto-import` immediately after you `require hyper-react`.  
-
-For example typically you might have this:
-
-```ruby
-  # app/views/components.rb
-require 'opal'
-require 'hyper-react'
-require 'hyper-react/auto-import' # this opts into auto-importing javascript components
-if React::IsomorphicHelpers.on_opal_client?
-  require 'opal-jquery'
-  require 'browser'
-  require 'browser/interval'
-  require 'browser/delay'
-end
-require_tree './components'
-```
 
 Now you do not have to use component `imports` directive or `React::NativeLibrary` unless you need to rename a component.
 
@@ -155,6 +134,6 @@ npm install react@15.0.2 react-dom@15.0.2 --save
 
 ## Using Webpack
 
-Just a word on Webpack: If you a Ruby developer who is new to using Javascript libraries then we recommend using Webpack to manage javascript component dependencies.  Webpack is essentially bundler for Javascript.   Barrie Hadfield has put together a very nice [tutorial](http://tutorials.pluralsight.com/ruby-ruby-on-rails/reactrb-showcase) to get you started here.  
+Just a word on Webpack: If you a Ruby developer who is new to using Javascript libraries then we recommend using Webpack to manage javascript component dependencies.  Webpack is essentially bundler for Javascript. Please see our Tutorials section for more information.
 
 There are also good tutorials on integrating Webpack with existing rails apps a google search away.

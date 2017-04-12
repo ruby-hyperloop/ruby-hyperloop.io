@@ -23,7 +23,7 @@ title: Hyper-React Docs
 <pre>
 class LikeButton < Hyperloop::Component
 
-  render do
+  render(DIV) do
     P do
       "You #{state.liked ? 'like' : 'haven\'t liked'} this. Click to toggle."
     end.on(:click) do
@@ -82,25 +82,23 @@ Let's create a simple Avatar component which shows a profile picture and usernam
 ```ruby
 class Avatar < Hyperloop::Component
   param :user_name
-  def render
-    div do
-      ProfilePic  user_name: params.user_name
-      ProfileLink user_name: params.user_name
-    end
+  render(DIV) do
+    ProfilePic  user_name: params.user_name
+    ProfileLink user_name: params.user_name
   end
 end
 
 class ProfilePic < Hyperloop::Component
   param :user_name
-  def render
-    img src: "https://graph.facebook.com/#{params.user_name}/picture"
+  render do
+    IMG src: "https://graph.facebook.com/#{params.user_name}/picture"
   end
 end
 
 class ProfileLink < Hyperloop::Component
   param :user_name
-  def render
-    a href: "https://www.facebook.com/#{params.user_name}" do
+  render do
+    A href: "https://www.facebook.com/#{params.user_name}" do
       params.user_name
     end
   end
@@ -133,7 +131,7 @@ render do
   params.items.each do |item|
     para do
       item[:text]
-    endt
+    end
   end
 end
 ```
@@ -150,7 +148,7 @@ In most cases, this can be sidestepped by hiding elements based on some property
 ```ruby
 render do
   state.items.each do |item|
-    para(style: {display: item[:some_property] == "some state" ? :block : :none}) do
+    PARA(style: {display: item[:some_property] == "some state" ? :block : :none}) do
       item[:text]
     end
   end
@@ -164,9 +162,9 @@ The situation gets more complicated when the children are shuffled around (as in
 ```ruby
   param :results, type: [Hash] # each result is a hash of the form {id: ..., text: ....}
   render do
-    ol do
+    OL do
       params.results.each do |result|
-        li(key: result[:id]) { result[:text] }
+        LI(key: result[:id]) { result[:text] }
       end
     end
   end
@@ -181,13 +179,13 @@ The `key` should *always* be supplied directly to the components in the array, n
 class ListItemWrapper < Hyperloop::Component
   param :data
   render do
-    li(key: params.data[:id]) { params.data[:text] }
+    LI(key: params.data[:id]) { params.data[:text] }
   end
 end    
 class MyComponent < Hyperloop::Component
   param :results
   render do
-    ul do
+    UL do
       params.result.each do |result|
         ListItemWrapper data: result
       end
@@ -200,13 +198,13 @@ end
 class ListItemWrapper < Hyperloop::Component
   param :data
   render do
-    li{ params.data[:text] }
+    LI { params.data[:text] }
   end
-end    
+end
 class MyComponent < Hyperloop::Component
   param :results
   render do
-    ul do
+    UL do
       params.result.each do |result|
         ListItemWrapper key: result[:id], data: result
       end
@@ -277,34 +275,36 @@ To do this use the `collect_other_params_as` macro which will gather all the par
 ```ruby
 class CheckLink < Hyperloop::Component
   collect_other_params_as :attributes
-  def render
+  render do
     # we just pass along any incoming attributes
     a(attributes) { '√ '.span; children.each &:render }
   end
 end
-
-Element['#container'].render { CheckLink(href: "/checked.html") { "Click here!" }}
+# CheckLink(href: "/checked.html")
 ```
-[Try It Out](http://goo.gl/ZG4ZJg)
 
 Note: `collect_other_params_as` builds a hash, so you can merge other data in or even delete elements out as needed.
 
 
-
 ## Mixins and Inheritance
 
-Ruby has a rich set of mechanisms enabling code reuse, and Hyperloop is intended to be a team player in your Ruby application.  Components can be subclassed, and they can include (or mixin) other modules.  You can also create a component by including `React::Component` which allows a class to inherit from some other non-react class, and then mixin the React DSL.
+Ruby has a rich set of mechanisms enabling code reuse, and Hyperloop is intended to be a team player in your Ruby application.  Components can be subclassed, and they can include (or mixin) other modules.  You can also create a component by including `Hyperloop::Component::Mixin` which allows a class to inherit from some other non-react class, and then mixin the React DSL.
 
 ```ruby
   # make a SuperFoo react component class
   class Foo < SuperFoo
-    include React::Component
+    include Hyperloop::Component::Mixin
   end
 ```
 
 One common use case is a component wanting to update itself on a time interval. It's easy to use the kernel method `every`, but it's important to cancel your interval when you don't need it anymore to save memory. React provides [lifecycle methods](/docs/working-with-the-browser.html#component-lifecycle) that let you know when a component is about to be created or destroyed. Let's create a simple mixin that uses these methods to provide a React friendly `every` function that will automatically get cleaned up when your component is destroyed.
 
-```ruby
+
+<div class="codemirror-live-edit"
+  data-heading="Using state"
+  data-rows=33
+  data-top-level-component="TickTock">
+<pre>
 module ReactInterval
 
   def self.included(base)
@@ -324,18 +324,19 @@ end
 
 class TickTock < Hyperloop::Component
   include ReactInterval
+
   before_mount do
     state.seconds! 0
   end
+
   after_mount do
-    every(1) { state.seconds! state.seconds+1}
+    every(1) { mutate.seconds state.seconds+1}
   end
-  def render
-    "React has been running for #{state.seconds} seconds".para
+
+  render(DIV) do
+    "Hyperloop has been running for #{state.seconds} seconds".para
   end
 end
-```
-
-[Try It Out](http://goo.gl/C4IJu0)
+</pre></div>
 
 Notice that TickTock effectively has two before_mount callbacks, one that is called to initialize the `@intervals` array and another to initialize `state.seconds`
