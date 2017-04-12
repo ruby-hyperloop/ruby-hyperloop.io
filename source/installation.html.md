@@ -45,7 +45,7 @@ Next, specify your ruby code inside script tags or link to your ruby code using 
     class Helloworld < Hyperloop::Component
 
       def render
-        div do
+        DIV do
           "hello world !"
         end
       end

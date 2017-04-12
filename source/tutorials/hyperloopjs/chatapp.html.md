@@ -59,7 +59,7 @@ After following the installation tutorial, you should have a HTML file looking l
 
       class Helloworld < Hyperloop::Component
         def render
-          div do
+          DIV do
             "hello world !"
           end
         end
@@ -123,7 +123,7 @@ Let's stub out all of classes right now.  Replace the contents inside  the
 ```ruby
 class ChatApp < Hyperloop::Component
   def render
-    div do
+    DIV do
       Nav()
       Messages()
       InputBox()
@@ -133,7 +133,7 @@ end
 
 class Nav < Hyperloop::Component
   def render
-    div {"Our Nav Bar Goes Here including a login box"}
+    DIV {"Our Nav Bar Goes Here including a login box"}
   end
 end
 
@@ -153,7 +153,7 @@ end
 
 class InputBox < Hyperloop::Component
   def render
-    div do
+    DIV do
       "An input box to send new messages will".br
       "go here plus a display of the formatted markdown".br
       FormattedDiv()
@@ -207,13 +207,13 @@ Before going on lets understand the basic features of the Hyperloop DSL
     `Message  ` <- a class name
     `Message()` <- generate a `Message` element.
 
-- ###### By default strings are wrapped by `span` tags
+- ###### By default strings are wrapped by `SPAN` tags
 
-    Now go all the way down to the `FormattedDiv` component.  If a string appears as the last expression (the returned value) of either a render method or a component's block, the string is wrapped in a `span` as if you had typed `span { "some string" }`.
+    Now go all the way down to the `FormattedDiv` component.  If a string appears as the last expression (the returned value) of either a render method or a component's block, the string is wrapped in a `SPAN` as if you had typed `SPAN { "some string" }`.
 
-- ###### Strings also respond to `br, span, para, th` and `td`
+- ###### Strings also respond to `BR, SPAN, PARA, TH` and `TD`
 
-    Strings also respond to several element generating methods: `br, span, para` (for `p`), `td` and `th`.  Again this is just short hand, so `"foo".td` is short for `td { "foo" }`
+    Strings also respond to several element generating methods: `BR, SPAN, PARA` (for `P`), `TD` and `TH`.  Again this is just short hand, so `"foo".TD` is short for `TD { "foo" }`
 
 ##### Step 3 - Adding Parameters:
 
@@ -231,9 +231,9 @@ end
 
 class InputBox < Hyperloop::Component
   def render
-    div do
-      "An input box to send new messages will".br
-      "go here plus a display of the formatted markdown".br
+    DIV do
+      "An input box to send new messages will".BR
+      "go here plus a display of the formatted markdown".BR
       FormattedDiv(markdown: "This **Markdown** will get updated as the user types")
     end
   end
@@ -244,7 +244,7 @@ class FormattedDiv < Hyperloop::Component
   param :markdown, type: String
 
   def render
-    div do
+    DIV do
       params.markdown
     end
   end
@@ -280,9 +280,9 @@ We decided up front that the login box will be part of the top nav bar, so that 
 class Nav < Hyperloop::Component
 
   def render
-    div do
-      input(class: :handle, type: :text, placeholder: "Enter Your Handle")
-      button(type: :button) { "login!" }.on(:click) do
+    DIV do
+      INPUT(class: :handle, type: :text, placeholder: "Enter Your Handle")
+      BUTTON(type: :button) { "login!" }.on(:click) do
         alert("#{Element['input.handle'].value} logs in!")
       end
     end
@@ -301,7 +301,7 @@ Things to notice:
 
 - ###### Tag attributes are passed just like params.
 
-    `input(class: :handle, type: :text, placeholder: "Enter Your Handle")`  
+    `INPUT(class: :handle, type: :text, placeholder: "Enter Your Handle")`  
     generates  
     `<input class="handle", type="text", placeholder="Enter Your Handle" />`
 
@@ -336,8 +336,8 @@ class Nav < Hyperloop::Component
   end
 
   def render
-    div do
-      input(type: :text, value: state.user_name_input, placeholder: "Enter Your Handle"
+    DIV do
+      INPUT(type: :text, value: state.user_name_input, placeholder: "Enter Your Handle"
       ).on(:change) do |e|
         mutate.user_name_input e.target.value
       end
@@ -600,7 +600,7 @@ First update the `ChatApp` render method like this:
 
 ```ruby
   def render
-    div do
+    DIV do
       Nav login: method(:login).to_proc
       Messages messages: state.messages
       InputBox()
@@ -618,7 +618,7 @@ And update the `Messages` render method to iterate through all the messages disp
 
 ```ruby
   def render
-    div do
+    DIV do
       params.messages.each do |message|
         Message message: message
       end
@@ -634,10 +634,10 @@ class Message < Hyperloop::Component
   param :message, type: Hash
 
   def render
-    div do
-      div { params.message[:from] }
+    DIV do
+      DIV { params.message[:from] }
       FormattedDiv markdown: params.message[:message]
-      div { Time.at(params.message[:time]).to_s }
+      DIV { Time.at(params.message[:time]).to_s }
     end
   end
 end
@@ -676,7 +676,7 @@ Now update the `ChatApp`s `render` method so that we don't display the `Messages
 
 ```ruby
   def render
-    div do
+    DIV do
       Nav login: method(:login).to_proc
       if online?
         Messages messages: state.messages
@@ -712,9 +712,9 @@ class InputBox < Hyperloop::Component
   before_mount { mutate.composition "" }
 
   def render
-    div do
-      div {"Say Something: "}
-      input(value: state.composition).on(:change) do |e|
+    DIV do
+      DIV {"Say Something: "}
+      INPUT(value: state.composition).on(:change) do |e|
         mutate.composition e.target.value
       end.on(:key_down) do |e|
         send_message if is_send_key?(e)
@@ -762,8 +762,8 @@ Replace `FormattedDiv`'s `render` method with the following:
 
 ```ruby
 def render
-  div do
-    div({dangerously_set_inner_HTML: { __html: `marked(#{params.markdown}, {sanitize: true})`}})
+  DIV do
+    DIV({dangerously_set_inner_HTML: { __html: `marked(#{params.markdown}, {sanitize: true})`}})
   end
 end
 ```
@@ -839,28 +839,20 @@ We will use **Bootstrap** styles, which has already been included.  We just need
   }
 ```
 
-In Hyperloop and Opal syntax you can add classes to elements using css dot notation.
-
-So instead of saying `div(class: "foo bar")` you can say `div.foo.bar`
-
-Any dashes in class names should be translated to underscores.  For example:
-
-`div.navbar.navbar_inverse.navbar_fixed_top` is the same as `div(class: "navbar navbar-inverse navbar-fixed-top")`
-
 With this we are ready to beautify our `Nav` component.  Replace the render method with the following code.
 
 ```ruby
 def render
-  div.navbar.navbar_inverse.navbar_fixed_top do
-    div.container do
-      div.collapse.navbar_collapse(id: "navbar") do
-        form.navbar_form.navbar_left(role: :search) do
-          div.form_group do
-            input.form_control(type: :text, value: state.user_name_input, placeholder: "Enter Your Handle"
-            ).on(:change) do |e|
+  DIV(class: 'navbar-fixed-top navbar-inverse navbar') do
+    DIV(class: 'container') do
+      DIV(class: 'navbar-collapse collapse', id: 'navbar') do
+        FORM(class: 'navbar-left navbar-form', role: :search) do
+          DIV(class: 'form-group') do
+            INPUT(class: 'form-control', type: :text, value: state.user_name_input, placeholder: "Enter Your Handle"
+                    ).on(:change) do |e|
               mutate.user_name_input e.target.value
             end
-            button.btn.btn_default(type: :button) { "login!" }.on(:click) do
+            BUTTON(class: 'btn-default btn', type: :button) { "login!" }.on(:click) do
               login!
             end if valid_new_input?
           end
@@ -871,7 +863,7 @@ def render
 end
 ```
 
-While this looks complicated notice that in the middle is our original input tag.  We have just added wrappers around it, and added the `form_control` class to the input, and the `btn` and `btn-default` classes to the login button.
+While this looks complicated notice that in the middle is our original input tag.  We have just added wrappers around it, and added the `form-control` class to the INPUT, and the `btn` and `btn-default` classes to the login button.
 
 Refresh you browser and things should start looking better already.
 
@@ -879,7 +871,7 @@ Lets move on to the `Message` and `Messages` components.  First add the class `c
 
 ```ruby
 def render
-  div.container do # add the bootstrap .container class here.
+  DIV(class: 'container') do # add the bootstrap .container class here.
     params.messages.each do |message|
       Message message: message
     end
@@ -887,7 +879,7 @@ def render
 end
 ```
 
-Now add the `row, alternating` and `message` classes to the outer div of the Message component, and the `col-sm-2` class to the sender and time divs.  (Remember to change dashes to underscores.)
+Now add the `row, alternating` and `message` classes to the outer div of the Message component, and the `col-sm-2` class to the sender and time divs. 
 
 Now add the `class: "col-sm-8"` to the `FormattedDiv` element.  Notice that you can not use the short hand syntax with application defined components.  
 
@@ -895,10 +887,10 @@ Your `Message` render method should look like this:
 
 ```ruby
 def render
-  div.row.alternating.message do
-    div.col_sm_2 { params.message[:from] }
+  DIV(class: 'row alternating message') do
+    DIV(class: 'col-sm-2') { params.message[:from] }
     FormattedDiv class: "col-sm-8", markdown: params.message[:message]
-    div.col_sm_2 { Time.at(params.message[:time]).to_s }
+    DIV(class: 'col-sm-2') { Time.at(params.message[:time]).to_s }
   end
 end
 ```
@@ -916,8 +908,8 @@ class FormattedDiv < React::Component::Base
   collect_other_params_as :attributes
 
   def render
-    div(params.attributes) do # send whatever class is specified on to the outer div
-      div({dangerously_set_inner_HTML: { __html: `marked(#{params.markdown}, {sanitize: true })`}})
+    DIV(params.attributes) do # send whatever class is specified on to the outer div
+      DIV({dangerously_set_inner_HTML: { __html: `marked(#{params.markdown}, {sanitize: true })`}})
     end
   end
 end
@@ -939,9 +931,9 @@ Your updated render method should look like this:
 
 ```ruby
 def render
-  div.row.form_group.input_box.navbar.navbar_inverse.navbar_fixed_bottom do
-    div.col_sm_1.white {"Say: "}
-    input.col_sm_5(value: state.composition).on(:change) do |e|
+  DIV(class: 'row form-group input-box navbar navbar-inverse navbar-fixed-bottom') do
+    DIV(class: 'col-sm-1 saytext') {"Say: "}
+    INPUT(class: 'col-sm-5', value: state.composition).on(:change) do |e|
       state.composition! e.target.value
     end.on(:key_down) do |e|
       send_message if is_send_key?(e)
@@ -984,7 +976,7 @@ end
 and pass the value of our new `rows` method to the `rows` attribute of the `textarea`:
 
 ```ruby
-  textarea.col_sm_5(rows: rows, value: state.composition)...
+  TEXTAREA(class: 'col-sm-5', rows: rows, value: state.composition)...
 ```
 
 Refresh and you should be see the textarea dynamically grow as you type more text, and then collapse when you send a message.
@@ -1049,10 +1041,10 @@ and replace `params.message[:from]` in the `render` method with `sender`.
 
 ```ruby
 def render
-  div.row.alternating.message do
-    div.col_sm_2 { sender }
+  DIV(class: 'row alternating message') do
+    DIV(class: 'col-sm-2') { sender }
     FormattedDiv class: "col-sm-8", markdown: params.message[:message]
-    div.col_sm_2 { formatted_time }
+    DIV(class: 'col-sm-2') { formatted_time }
   end
 end
 ```
@@ -1066,7 +1058,7 @@ class Messages < Hyperloop::Component
   param :user_id
 
   def render
-    div.container do # add the bootstrap .container class here.
+    DIV(class: 'container') do # add the bootstrap .container class here.
       params.messages.each do |message|
         Message message: message, user_id: params.user_id
       end
@@ -1085,10 +1077,10 @@ class Message < Hyperloop::Component
   after_update :scroll_to_bottom
 
   def render
-    div.row.alternating.message do
-      div.col_sm_2 { sender }
+    DIV(class: 'row alternating message') do
+      DIV(class: 'col-sm-2') { sender }
       FormattedDiv class: "col-sm-8", markdown: params.message[:message]
-      div.col_sm_2 { formatted_time }
+      DIV(class: 'col-sm-2') { formatted_time }
     end
   end
 
@@ -1171,9 +1163,9 @@ on(:submit) { |e| e.prevent_default }
 While we are in there lets add the Hyperloop logo and a title to the nav bar.  Add
 
 ```ruby
-div.navbar_header do
-  div.hyperloop_icon
-  a.navbar_brand(href: "#", style: {color: "white"}) { "Hyperloop Chat Room " }
+DIV(class: 'navbar-header') do
+  DIV(class: 'hyperloop-icon')
+  A(href: "#", style: {color: "white"}, class: 'navbar-brand') { "Hyperloop Chat Room " }
 end
 ```
 
@@ -1181,28 +1173,28 @@ inside the `container` `div`.
 
 Finally lets use one of the standard bootstrap login icons instead of the words "Login!".
 
-Replace `{ "Login!" }` with `{ span.glyphicon.glyphicon_log_in }`
+Replace `{ "Login!" }` with `{ SPAN(class: 'glyphicon glyphicon-log-in') }`
 
 Now the completed `Nav` `render` method will look like this:
 
 ```ruby
 def render
-  div.navbar.navbar_inverse.navbar_fixed_top do
-    div.container do
-      div.navbar_header do
-        div.hyperloop_icon
-        a.navbar_brand(href: "#", style: {color: "white"}) { "Hyperloop Chat Room " }
+  DIV(class: 'navbar-fixed-top navbar-inverse navbar') do
+    DIV(class: 'container') do
+      DIV(class: 'navbar-header') do
+        DIV(class: 'hyperloop-icon')
+        A(href: "#", style: {color: "white"}, class: 'navbar-brand') { "Hyperloop Chat Room " }
       end
-      div.collapse.navbar_collapse(id: "navbar") do
-        form.navbar_form.navbar_left(role: :search) do
-          div.form_group do
-            input.form_control(type: :text, value: state.user_name_input, placeholder: "Enter Your Handle"
+      DIV(class: 'navbar-collapse collapse', id: 'navbar') do
+        FORM(class: 'navbar-left navbar-form', role: :search) do
+          DIV(class: 'form-group') do
+            INPUT(class: 'form-control', type: :text, value: state.user_name_input, placeholder: "Enter Your Handle"
             ).on(:change) do |e|
-              mutate.user_name_input e.target.value
+              state.user_name_input! e.target.value
             end.on(:key_down) do |e|
               login! if valid_new_input? && e.key_code == 13
             end
-            button.btn.btn_default(type: :button) { span.glyphicon.glyphicon_log_in }.on(:click) do
+            BUTTON(class: 'btn-default btn', type: :button) { SPAN(class: 'glyphicon glyphicon-log-in') }.on(:click) do
               login!
             end if valid_new_input?
           end
