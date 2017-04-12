@@ -91,10 +91,15 @@ class CodeMirror < Hyperloop::Component
 
       `ReactDOM.unmountComponentAtNode(document.getElementById(#{@div_result}));`
 
-      Hyperloop::Context.reset!
-      `eval(#{compiled_code})`
-      Hyperloop::Application::Boot.run()
+      # Dispatchers and Receivers example works but Steps example breaks
+      # Hyperloop::Context.reset!
+      # `eval(#{compiled_code})`
+      # Hyperloop::Application::Boot.run()
 
+      # Steps example works but Dispatchers and Receivers example breaks
+      `eval(#{compiled_code})`
+      Hyperloop::Context.reset!
+      Hyperloop::Application::Boot.run()
 
       component = Module.const_get params.top_level_component
       # we need to see if the component is valid - try checking if it can render static markup
@@ -366,12 +371,13 @@ end
 
 <div class="codemirror-live-edit"
   data-heading="Operations with steps"
-  data-rows=28
+  data-rows=29
   data-top-level-component="OfferLuckyDip">
 <pre>
 class Discounter < Hyperloop::Store
    state discount: 30, scope: :class, reader: true
    state tries: 0, scope: :class, reader: true
+
   def self.lucky_dip!
     mutate.discount( state.discount + rand(-5..5) )
     mutate.tries(state.tries + 1)
@@ -379,6 +385,7 @@ class Discounter < Hyperloop::Store
 
   class LuckyDipOp < Hyperloop::Operation
     def check_tries
+      puts Discounter.tries
       abort! if Discounter.tries > 2
     end
     step { check_tries }
@@ -387,12 +394,11 @@ class Discounter < Hyperloop::Store
 end
 
 class OfferLuckyDip < Hyperloop::Component
-  def render
-    DIV do
-      H1 {"Your discount is #{Discounter.discount}%"}
-      BUTTON { "Lucky Dip" }.on(:click) do
-        Discounter.LuckyDipOp
-      end
+
+  render(DIV) do
+    H1 {"Your discount is #{Discounter.discount}%"}
+    BUTTON { "Lucky Dip" }.on(:click) do
+      Discounter.LuckyDipOp
     end
   end
 end
@@ -422,6 +428,7 @@ end
 
 class NavBarStore < Hyperloop::Store
   state user_name: "Fred", scope: :class, reader: true
+
   receives Logout do
     # this Store is listening for Logout
     mutate.user_name "No user"
@@ -429,12 +436,10 @@ class NavBarStore < Hyperloop::Store
 end
 
 class UserPage < Hyperloop::Component
-  def render
-    DIV do
-      P { "Current user: #{NavBarStore.user_name}" }
-      BUTTON { "Logout" }.on(:click) do
-        Logout.run
-      end
+  render(DIV) do
+    P { "Current user: #{NavBarStore.user_name}" }
+    BUTTON { "Logout" }.on(:click) do
+      Logout.run
     end
   end
 end

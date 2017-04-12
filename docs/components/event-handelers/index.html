@@ -91,10 +91,15 @@ class CodeMirror < Hyperloop::Component
 
       `ReactDOM.unmountComponentAtNode(document.getElementById(#{@div_result}));`
 
-      Hyperloop::Context.reset!
-      `eval(#{compiled_code})`
-      Hyperloop::Application::Boot.run()
+      # Dispatchers and Receivers example works but Steps example breaks
+      # Hyperloop::Context.reset!
+      # `eval(#{compiled_code})`
+      # Hyperloop::Application::Boot.run()
 
+      # Steps example works but Dispatchers and Receivers example breaks
+      `eval(#{compiled_code})`
+      Hyperloop::Context.reset!
+      Hyperloop::Application::Boot.run()
 
       component = Module.const_get params.top_level_component
       # we need to see if the component is valid - try checking if it can render static markup
@@ -386,8 +391,8 @@ end
 <pre>
 class YouSaid < Hyperloop::Component
 
-  render do
-    input(value: state.value).
+  render(DIV) do
+    INPUT(value: state.value).
     on(:key_down) do |e|
       alert "You said: #{state.value}" if e.key_code == 13
     end.

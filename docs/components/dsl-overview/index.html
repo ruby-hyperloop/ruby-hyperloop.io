@@ -91,10 +91,15 @@ class CodeMirror < Hyperloop::Component
 
       `ReactDOM.unmountComponentAtNode(document.getElementById(#{@div_result}));`
 
-      Hyperloop::Context.reset!
-      `eval(#{compiled_code})`
-      Hyperloop::Application::Boot.run()
+      # Dispatchers and Receivers example works but Steps example breaks
+      # Hyperloop::Context.reset!
+      # `eval(#{compiled_code})`
+      # Hyperloop::Application::Boot.run()
 
+      # Steps example works but Dispatchers and Receivers example breaks
+      `eval(#{compiled_code})`
+      Hyperloop::Context.reset!
+      Hyperloop::Application::Boot.run()
 
       component = Module.const_get params.top_level_component
       # we need to see if the component is valid - try checking if it can render static markup
@@ -422,11 +427,11 @@ class Clock < Hyperloop::Component
     }
 
   render do
-    div(class: :time) do
+    DIV(class: 'time') do
       Time.now.strftime(FORMATS[state.mode]).span
-      select(style: {"margin-left" => 20}, value: state.mode)  do
-        option(value: 12) { "12 Hour Clock" }
-        option(value: 24) { "24 Hour Clock" }
+      SELECT(style: {"margin-left" => 20}, value: state.mode)  do
+        OPTION(value: 12) { "12 Hour Clock" }
+        OPTION(value: 24) { "24 Hour Clock" }
       end.on(:change) do |e|
         mutate.mode(e.target.value.to_i)
       end
@@ -509,13 +514,13 @@ end
 <p>More on the details of these methods can be found in the <a href="#top-level-api">Component API</a> section.</p>
 
 <h3 id="tag-and-component-rendering">Tag and Component Rendering</h3>
-<pre class="highlight ruby"><code>  <span class="p">.</span><span class="nf">.</span><span class="p">.</span>
-    <span class="nf">div</span><span class="p">(</span><span class="ss">class: :time</span><span class="p">)</span> <span class="k">do</span>
+<pre class="highlight ruby"><code>  <span class="p">.</span><span class="nf">.</span><span class="o">.</span>
+    <span class="no">DIV</span><span class="p">(</span><span class="ss">class: :time</span><span class="p">)</span> <span class="k">do</span>
       <span class="p">.</span><span class="nf">.</span><span class="p">.</span>
     <span class="nf">end</span>
   <span class="p">.</span><span class="nf">.</span><span class="o">.</span>
 </code></pre>
-<p>HTML such as <code>div, a, select, option</code> etc. each have a corresponding instance method that will render that tag.  For all the tags the
+<p>HTML such as <code>DIV, A, SELECT, OPTION</code> etc. each have a corresponding instance method that will render that tag.  For all the tags the
 method call looks like this:</p>
 <pre class="highlight ruby"><code><span class="n">tag_name</span><span class="p">(</span><span class="n">attribute1</span> <span class="o">=&gt;</span> <span class="n">value1</span><span class="p">,</span> <span class="n">attribute2</span> <span class="o">=&gt;</span> <span class="n">value2</span> <span class="p">.</span><span class="nf">.</span><span class="o">.</span><span class="p">)</span> <span class="k">do</span>
   <span class="p">.</span><span class="nf">.</span><span class="p">.</span><span class="nf">nested</span> <span class="n">tags</span><span class="p">.</span><span class="nf">.</span><span class="p">.</span>
@@ -532,12 +537,12 @@ method call looks like this:</p>
 
 <p>If a render method or a nested tag block returns a string, the string is automatically wrapped in a <code>&lt;span&gt;</code> tag.</p>
 
-<p>The code <code>span { &quot;hello&quot; }</code> can be shortened to <code>&quot;hello&quot;.span</code>, likewise for <code>td, para, td, th</code> tags.</p>
+<p>The code <code>SPAN { &quot;hello&quot; }</code> can be shortened to <code>&quot;hello&quot;.SPAN</code>, likewise for <code>BR, PARA, TD, TH</code> tags.</p>
 
-<p><code>&quot;some string&quot;.br</code> generates <code>&lt;span&gt;some string&lt;span&gt;&lt;br/&gt;</code></p>
-<pre class="highlight ruby"><code><span class="no">Time</span><span class="p">.</span><span class="nf">now</span><span class="p">.</span><span class="nf">strftime</span><span class="p">(</span><span class="no">FORMATS</span><span class="p">[</span><span class="n">state</span><span class="p">.</span><span class="nf">mode</span><span class="p">]).</span><span class="nf">span</span>  <span class="c1"># generates &lt;span&gt;...current time formatted...&lt;/span&gt;</span>
-<span class="p">.</span><span class="nf">.</span><span class="p">.</span>
-  <span class="nf">option</span><span class="p">(</span><span class="ss">value: </span><span class="mi">12</span><span class="p">)</span> <span class="p">{</span> <span class="s2">"12 Hour Clock"</span> <span class="p">}</span>      <span class="c1"># generates &lt;option value=12&gt;&lt;span&gt;12 Hour Clock&lt;/span&gt;&lt;/option&gt;</span>
+<p><code>&quot;some string&quot;.BR</code> generates <code>&lt;span&gt;some string&lt;span&gt;&lt;br/&gt;</code></p>
+<pre class="highlight ruby"><code><span class="no">Time</span><span class="p">.</span><span class="nf">now</span><span class="p">.</span><span class="nf">strftime</span><span class="p">(</span><span class="no">FORMATS</span><span class="p">[</span><span class="n">state</span><span class="p">.</span><span class="nf">mode</span><span class="p">])</span><span class="o">.</span><span class="no">SPAN</span>  <span class="c1"># generates &lt;span&gt;...current time formatted...&lt;/span&gt;</span>
+<span class="p">.</span><span class="nf">.</span><span class="o">.</span>
+  <span class="no">OPTION</span><span class="p">(</span><span class="ss">value: </span><span class="mi">12</span><span class="p">)</span> <span class="p">{</span> <span class="s2">"12 Hour Clock"</span> <span class="p">}</span>      <span class="c1"># generates &lt;option value=12&gt;&lt;span&gt;12 Hour Clock&lt;/span&gt;&lt;/option&gt;</span>
 </code></pre>
 <h3 id="haml-style-class-names">HAML style class names</h3>
 
@@ -546,12 +551,17 @@ method call looks like this:</p>
   <span class="c1"># short for</span>
 <span class="n">div</span><span class="p">(</span><span class="ss">class: </span><span class="s2">"class1 class2"</span><span class="p">)</span>
 </code></pre>
+<p>In this style, CSS blends with HTML elements. For example, the following two lines are equivalent:       </p>
+<pre class="highlight ruby"><code> <span class="no">BUTTON</span><span class="p">(</span><span class="ss">class: </span><span class="s1">'btn-primary'</span><span class="p">)</span> <span class="p">{</span> <span class="s2">"Press me"</span> <span class="p">}</span>        
+  <span class="c1"># is the same as</span>
+ <span class="n">button</span><span class="p">.</span><span class="nf">btn_primary</span> <span class="p">{</span> <span class="s2">"Press me"</span> <span class="p">}</span>      
+</code></pre>
 <p>Note that underscores are translated to dashes.  So <code>.foo_bar</code> will add the <code>foo-bar</code> class to the tag.  If you need to use an underscore in a class name use a double underscore which will be translated to a single underscore in the class name.</p>
 
 <h3 id="event-handlers">Event Handlers</h3>
 
 <p>Event Handlers are attached to tags and components using the <code>on</code> method.</p>
-<pre class="highlight ruby"><code><span class="nb">select</span> <span class="p">.</span><span class="nf">.</span><span class="p">.</span> <span class="nf">do</span>
+<pre class="highlight ruby"><code><span class="no">SELECT</span> <span class="p">.</span><span class="nf">.</span><span class="p">.</span> <span class="nf">do</span>
   <span class="p">.</span><span class="nf">.</span><span class="p">.</span>
 <span class="nf">end</span><span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:change</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">e</span><span class="o">|</span>
   <span class="n">mutate</span><span class="p">.</span><span class="nf">mode</span><span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="nf">target</span><span class="p">.</span><span class="nf">value</span><span class="p">.</span><span class="nf">to_i</span><span class="p">)</span>
@@ -560,7 +570,7 @@ method call looks like this:</p>
 <p>The <code>on</code> method takes the event name symbol (note that <code>onClick</code> becomes <code>:click</code>) and the block is passed the React.js event object.</p>
 
 <p>Event handlers can be chained like so</p>
-<pre class="highlight ruby"><code><span class="n">input</span> <span class="p">.</span><span class="nf">.</span><span class="p">.</span> <span class="nf">do</span>
+<pre class="highlight ruby"><code><span class="no">INPUT</span> <span class="p">.</span><span class="nf">.</span><span class="p">.</span> <span class="nf">do</span>
   <span class="p">.</span><span class="nf">.</span><span class="p">.</span>
   <span class="nf">end</span><span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:key_up</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">e</span><span class="o">|</span>
   <span class="p">.</span><span class="nf">.</span><span class="p">.</span>
@@ -577,8 +587,9 @@ method call looks like this:</p>
 <p><code>render</code> can be applied to the objects returned by <code>as_node</code> and <code>children</code> to actually render the node.</p>
 <pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">Test</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Component</span>
   <span class="n">param</span> <span class="ss">:node</span>
+
   <span class="n">render</span> <span class="k">do</span>
-    <span class="n">div</span> <span class="k">do</span>
+    <span class="no">DIV</span> <span class="k">do</span>
       <span class="n">children</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">child</span><span class="o">|</span>
         <span class="n">params</span><span class="p">.</span><span class="nf">node</span><span class="p">.</span><span class="nf">render</span>
         <span class="n">child</span><span class="p">.</span><span class="nf">render</span>
@@ -613,19 +624,19 @@ method call looks like this:</p>
 <h4 id="html-entities">HTML Entities</h4>
 
 <p>If you want to display an HTML entity within dynamic content, you will run into double escaping issues as React.js escapes all the strings you are displaying in order to prevent a wide range of XSS attacks by default.</p>
-<pre class="highlight ruby"><code><span class="n">div</span> <span class="p">{</span><span class="s1">'First &amp;middot; Second'</span> <span class="p">}</span>
+<pre class="highlight ruby"><code><span class="no">DIV</span> <span class="p">{</span><span class="s1">'First &amp;middot; Second'</span> <span class="p">}</span>
   <span class="c1"># Bad: It displays "First &amp;middot; Second"</span>
 </code></pre>
 <p>To workaround this you have to insert raw HTML.</p>
-<pre class="highlight ruby"><code><span class="n">div</span><span class="p">(</span><span class="ss">dangerously_set_inner_HTML: </span><span class="p">{</span> <span class="ss">__html: </span><span class="s2">"First &amp;middot; Second"</span><span class="p">})</span>
+<pre class="highlight ruby"><code><span class="no">DIV</span><span class="p">(</span><span class="ss">dangerously_set_inner_HTML: </span><span class="p">{</span> <span class="ss">__html: </span><span class="s2">"First &amp;middot; Second"</span><span class="p">})</span>
 </code></pre>
 <h4 id="custom-html-attributes">Custom HTML Attributes</h4>
 
 <p>If you pass properties to native HTML elements that do not exist in the HTML specification, React will not render them. If you want to use a custom attribute, you should prefix it with <code>data-</code>.</p>
-<pre class="highlight ruby"><code><span class="n">div</span><span class="p">(</span><span class="s2">"data-custom-attribute"</span> <span class="o">=&gt;</span> <span class="s2">"foo"</span><span class="p">)</span>
+<pre class="highlight ruby"><code><span class="no">DIV</span><span class="p">(</span><span class="s2">"data-custom-attribute"</span> <span class="o">=&gt;</span> <span class="s2">"foo"</span><span class="p">)</span>
 </code></pre>
 <p><a href="http://www.w3.org/WAI/intro/aria">Web Accessibility</a> attributes starting with <code>aria-</code> will be rendered properly.</p>
-<pre class="highlight ruby"><code><span class="n">div</span><span class="p">(</span><span class="s2">"aria-hidden"</span> <span class="o">=&gt;</span> <span class="kp">true</span><span class="p">)</span>
+<pre class="highlight ruby"><code><span class="no">DIV</span><span class="p">(</span><span class="s2">"aria-hidden"</span> <span class="o">=&gt;</span> <span class="kp">true</span><span class="p">)</span>
 </code></pre>
 <h4 id="invoking-application-components">Invoking Application Components</h4>
 

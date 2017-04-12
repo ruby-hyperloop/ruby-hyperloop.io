@@ -91,10 +91,15 @@ class CodeMirror < Hyperloop::Component
 
       `ReactDOM.unmountComponentAtNode(document.getElementById(#{@div_result}));`
 
-      Hyperloop::Context.reset!
-      `eval(#{compiled_code})`
-      Hyperloop::Application::Boot.run()
+      # Dispatchers and Receivers example works but Steps example breaks
+      # Hyperloop::Context.reset!
+      # `eval(#{compiled_code})`
+      # Hyperloop::Application::Boot.run()
 
+      # Steps example works but Dispatchers and Receivers example breaks
+      `eval(#{compiled_code})`
+      Hyperloop::Context.reset!
+      Hyperloop::Application::Boot.run()
 
       component = Module.const_get params.top_level_component
       # we need to see if the component is valid - try checking if it can render static markup
@@ -348,12 +353,10 @@ end
 <pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">OfferLuckyDip</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Component</span>
   <span class="n">state</span> <span class="ss">discount: </span><span class="mi">30</span>
 
-  <span class="k">def</span> <span class="nf">render</span>
-    <span class="no">DIV</span> <span class="k">do</span>
-      <span class="no">H1</span> <span class="p">{</span><span class="s2">"Your discount is </span><span class="si">#{</span><span class="n">state</span><span class="p">.</span><span class="nf">discount</span><span class="si">}</span><span class="s2">%"</span><span class="p">}</span>
-      <span class="no">BUTTON</span> <span class="p">{</span> <span class="s2">"Lucky Dip"</span> <span class="p">}.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:click</span><span class="p">)</span> <span class="k">do</span>
-        <span class="n">mutate</span><span class="p">.</span><span class="nf">discount</span><span class="p">(</span><span class="n">state</span><span class="p">.</span><span class="nf">discount</span> <span class="o">+</span> <span class="nb">rand</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">.</span><span class="nf">.</span><span class="mi">5</span><span class="p">))</span>
-      <span class="k">end</span>
+  <span class="n">render</span><span class="p">(</span><span class="no">DIV</span><span class="p">)</span> <span class="k">do</span>
+    <span class="no">H1</span> <span class="p">{</span><span class="s2">"Your discount is </span><span class="si">#{</span><span class="n">state</span><span class="p">.</span><span class="nf">discount</span><span class="si">}</span><span class="s2">%"</span><span class="p">}</span>
+    <span class="no">BUTTON</span> <span class="p">{</span> <span class="s2">"Lucky Dip"</span> <span class="p">}.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:click</span><span class="p">)</span> <span class="k">do</span>
+      <span class="n">mutate</span><span class="p">.</span><span class="nf">discount</span><span class="p">(</span><span class="n">state</span><span class="p">.</span><span class="nf">discount</span> <span class="o">+</span> <span class="nb">rand</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">.</span><span class="nf">.</span><span class="mi">5</span><span class="p">))</span>
     <span class="k">end</span>
   <span class="k">end</span>
 <span class="k">end</span>
@@ -381,7 +384,7 @@ end
 
 <div class="codemirror-live-edit"
   data-heading="Using Stores"
-  data-rows=20
+  data-rows=16
   data-top-level-component="OfferLuckyDip">
 <pre>
 class Discounter < Hyperloop::Store
@@ -392,12 +395,10 @@ class Discounter < Hyperloop::Store
 end
 
 class OfferLuckyDip < Hyperloop::Component
-  def render
-    DIV do
-      H1 {"Your discount is #{Discounter.discount}%"}
-      BUTTON { "Lucky Dip" }.on(:click) do
-        Discounter.lucky_dip!
-      end
+  render(DIV) do
+    H1 {"Your discount is #{Discounter.discount}%"}
+    BUTTON { "Lucky Dip" }.on(:click) do
+      Discounter.lucky_dip!
     end
   end
 end
@@ -425,8 +426,8 @@ end
   data-top-level-component="TopLevelComponent">
 <pre>
 class TopLevelComponent < Hyperloop::Component
-  render(DIV) do
-    div.container do
+  render do
+    DIV(class: 'container') do
       H1 { "Components sharing a Store" }
       TypeAlong()
       Buttons()

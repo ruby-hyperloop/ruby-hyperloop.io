@@ -91,10 +91,15 @@ class CodeMirror < Hyperloop::Component
 
       `ReactDOM.unmountComponentAtNode(document.getElementById(#{@div_result}));`
 
-      Hyperloop::Context.reset!
-      `eval(#{compiled_code})`
-      Hyperloop::Application::Boot.run()
+      # Dispatchers and Receivers example works but Steps example breaks
+      # Hyperloop::Context.reset!
+      # `eval(#{compiled_code})`
+      # Hyperloop::Application::Boot.run()
 
+      # Steps example works but Dispatchers and Receivers example breaks
+      `eval(#{compiled_code})`
+      Hyperloop::Context.reset!
+      Hyperloop::Application::Boot.run()
 
       component = Module.const_get params.top_level_component
       # we need to see if the component is valid - try checking if it can render static markup
@@ -376,13 +381,13 @@ end
 <span class="k">end</span>
 </code></pre>
 <p>The render callback will generate the components render method.  It may optionally take the container component and params:</p>
-<pre class="highlight ruby"><code><span class="n">render</span><span class="p">(</span><span class="ss">:div</span><span class="p">,</span> <span class="ss">class: </span><span class="s1">'my-class'</span><span class="p">)</span> <span class="k">do</span>
+<pre class="highlight ruby"><code><span class="n">render</span><span class="p">(</span><span class="ss">:DIV</span><span class="p">,</span> <span class="ss">class: </span><span class="s1">'my-class'</span><span class="p">)</span> <span class="k">do</span>
   <span class="p">.</span><span class="nf">.</span><span class="p">.</span>
 <span class="nf">end</span>
 </code></pre>
 <p>which would be equivilent to:</p>
-<pre class="highlight ruby"><code><span class="k">def</span> <span class="nf">render</span>
-  <span class="n">div</span><span class="p">(</span><span class="ss">class: </span><span class="s1">'my-class'</span><span class="p">)</span> <span class="k">do</span>
+<pre class="highlight ruby"><code><span class="n">render</span> <span class="k">do</span>
+  <span class="no">DIV</span><span class="p">(</span><span class="ss">class: </span><span class="s1">'my-class'</span><span class="p">)</span> <span class="k">do</span>
     <span class="p">.</span><span class="nf">.</span><span class="p">.</span>
   <span class="nf">end</span>
 <span class="k">end</span>

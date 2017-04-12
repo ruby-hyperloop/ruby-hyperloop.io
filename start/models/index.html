@@ -91,10 +91,15 @@ class CodeMirror < Hyperloop::Component
 
       `ReactDOM.unmountComponentAtNode(document.getElementById(#{@div_result}));`
 
-      Hyperloop::Context.reset!
-      `eval(#{compiled_code})`
-      Hyperloop::Application::Boot.run()
+      # Dispatchers and Receivers example works but Steps example breaks
+      # Hyperloop::Context.reset!
+      # `eval(#{compiled_code})`
+      # Hyperloop::Application::Boot.run()
 
+      # Steps example works but Dispatchers and Receivers example breaks
+      `eval(#{compiled_code})`
+      Hyperloop::Context.reset!
+      Hyperloop::Application::Boot.run()
 
       component = Module.const_get params.top_level_component
       # we need to see if the component is valid - try checking if it can render static markup
@@ -351,6 +356,7 @@ end
   </div>
 </div>
 <pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">BookList</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Component</span>
+
   <span class="n">render</span><span class="p">(</span><span class="no">UL</span><span class="p">)</span> <span class="k">do</span>
     <span class="no">Book</span><span class="p">.</span><span class="nf">all</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">book</span><span class="o">|</span>
       <span class="no">LI</span> <span class="p">{</span> <span class="s2">"</span><span class="si">#{</span><span class="n">book</span><span class="p">.</span><span class="nf">name</span><span class="si">}</span><span class="s2">"</span> <span class="p">}</span>
@@ -382,7 +388,7 @@ end
 
 <h3 id="push-notifications">Push Notifications</h3>
 
-<p>Changes made to Models on a client or server are automatically synchronized to all other authorized connected clients using ActionCable, pusher.com or polling. The synchronization is completely automatic and magical to behold and not something we can demonstrate in this introduction - you will need to see it to believe it. </p>
+<p>Changes made to Models on a client or server are automatically synchronized to all other authorized connected clients using ActionCable, pusher.com or polling. The synchronization is completely automatic and magical to behold and not something we can demonstrate in this introduction - you will need to see it to believe it.</p>
 
 <hr>
 
