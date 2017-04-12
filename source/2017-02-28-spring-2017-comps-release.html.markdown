@@ -4,8 +4,6 @@ date: 2017-02-28
 tags:
 ---
 
-# Spring 2017 COMPS Release
-
 Spring 2017 heralds a major Hyperloop release. This release will be the first where we have introduced the 5 architectural constructs focused on making it easier to write Isomorphic applications.
 
 This release includes a new version and renaming of all of the Hyperloop gems as well as several new concepts and gems.
@@ -60,15 +58,11 @@ In addition, we will make one more release to the hyper-react and hyper-mesh gem
 
 Stores depend on `Hyperloop::Application::Boot`, which is an operation defined in the Operation gem.  So that you can use stores without operations, the store gem will define a very basic boot operation *unless* Hyperloop::Application::Boot is already defined.
 
-#### Hyperloop Express
+#### Hyperloop.JS
 
-Hyperloop Express now supports Operations and Stores.
+Hyperloop.JS now supports Compoennts, Operations and Stores.
 
-TODO: update as to how it ends up....
-
-There is no gem here, just JS files.  We will have two: hyperloop-express.js which includes hyper-component (and therefore hyper-store) and hyperloop-express-operation.js which brings in the `Hyperloop::Operation` class (but not the `Hyperloop::ServerOp` class)
-
-To support this the `hyper-operation` gem will have a `hyper-operation/client_only` require file.
+There is no gem here, just JavaScript files.  We will have two: hyperloop.js which includes Components, Operations and Stores and opal-compiler.js which includes Opal and Opal Compiler.
 
 ## New folder layout
 

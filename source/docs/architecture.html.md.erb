@@ -6,11 +6,11 @@ title: Architecture
 
 Hyperloop's primary goal is to allow you to enjoy quickly building modern interactive web applications.
 
-Hyperloop includes full access to the **entire Rails ecosystem** and **universe of front-end JavaScript libraries** like React and jQuery - all using one great language - Ruby.
+You have full access to the **entire Rails ecosystem** and **universe of front-end JavaScript libraries** like React and jQuery - all using one great language - Ruby.
 
 Hyperloop lets you write code that is directed toward solving the user's needs in the most straightforward manner, without redundant code, unnecessary APIs, or artificial separation between client and server.
 
-Hyperloop is an Isomorphic Web Application Framework consisting of Components, Operations, Models, Policies, and Stores. This structure is analogous to and replaces the older MVC architecture, but with a more logical and finer grained division of labor.
+Our (isomorphic) framework consists of Components, Operations, Models, Policies, and Stores. This structure is analogous to and replaces the older MVC architecture, but with a more logical and finer grained division of labor.
 
 ![](/images/Hyperloop-diagram.png)
 
@@ -18,7 +18,7 @@ Hyperloop is an Isomorphic Web Application Framework consisting of Components, O
 
 ## Benefits of COMPS Architecture
 
-+ The **COMPS** architecture encapsulates functionality for clean, predictable, testable code
++ Encapsulates functionality for clean, predictable, testable code
 + One language - Ruby everywhere - reduces complexity and lets developers build solutions quickly
 + Encourages client-side execution for distributed processing and a rich interactive user experience
 + Full power of Rails, React and the entire JavaScript universe
@@ -103,9 +103,9 @@ This will automatically rerender the contents of the 'new-york' DIV **whenever t
 
 <h2><div class="hyperlogoalone"><%= image_tag "HyperModels.png", width: '35'%></div>Models</h2>
 
-Hyperloop uses Rails ActiveRecord for data persistence.  This allows easy integration with existing Rails apps.  Hyperloop Models are implemented in the HyperMesh Gem.
+Hyperloop uses Rails ActiveRecord for data persistence.  This allows easy integration with existing Rails apps.  Hyperloop Models are implemented in the MyperModel Gem.
 
-HyperMesh gives you full access to the ActiveRecord models on the client or the server which means we can use the models directly within our Components without needing the abstraction of an API:
+Hyperloop gives you full access to the ActiveRecord models on the client or the server which means we can use the models directly within our Components without needing the abstraction of an API:
 
 ```ruby
 class BookList < Hyperloop::Component
@@ -122,7 +122,7 @@ Changes made to Models on a client or server are **automatically synchronized** 
 
 <h2><div class="hyperlogoalone"><%= image_tag "HyperOperations.png", width: '35'%></div>Operations</h2>
 
-Hyperloop *recommends* that only scopes, relations, and validations are described in model classes. All business logic can be encapsulated in reusable *isomorphic* Operations that do not complicate your Models or Components.  Each Operation is a self-contained piece of logic that does one simple thing.
+Hyperloop *recommends* that only scopes, relations, and validations are described in Model classes. All business logic can be encapsulated in reusable *isomorphic* Operations that do not complicate your Models or Components.  Each Operation is a self-contained piece of logic that does one simple thing.
 
 ```ruby
 class AddToActingUsersWatchList < Hyperloop::Operation
