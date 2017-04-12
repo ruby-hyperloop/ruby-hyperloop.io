@@ -4,8 +4,6 @@ title: Policies
 
 ## Authorization
 
-TODO check which parts apply to Models only and which to Operations and then refactor these docs.
-
 Access to your Isomorphic Models is controlled by *Policies* that describe how the current *acting_user* and *channels* may access your Models.
 
 Each browser session has an *acting_user* (which may be nil) and you will define `create`, `update`, and `destroy` policies giving (or denying) the `acting_user` the ability to do these operations.
@@ -138,8 +136,6 @@ end
 
 Note that by default policy classes go in the `app/policies` directory.  Hyperloop will require all the files in this directory.
 
-TODO check the name of the module below
-
 If you wish, you can also add policies directly in your Models by including the `Hyperloop::PolicyMethods` module in your model.  You can then use the `regulate_class_connection`, `regulate_instance_connections`, `regulate_all_broadcasts` and `regulate_broadcast` methods directly in the model.
 
 ```ruby
@@ -167,7 +163,7 @@ class ApplicationPolicy
 end
 ```
 
-#### Channels and the connection policies
+#### Channels and connection policies
 
 Any ruby class that has a connection policy is a Hyperloop channel. The fully scoped name of the class becomes the root of the channel name.
 
@@ -210,7 +206,7 @@ regulate_instance_connections { group }
 regulate_instance_connections { teams }
 ```
 
-#### Class Names, Instances and IDs
+#### Class Names Instances and IDs
 
 While establishing connections, classes are represented as their fully scoped name, and instances are represented as the class name plus the result of calling `id` on the instance.
 
@@ -251,8 +247,6 @@ the application.
 Normally the client will automatically connect to the available channels when a page loads, but you can also
 manually connect on the client in response to some user action like logging in, or the user deciding to
 display a specific team status on their dashboard.
-
-TODO check below Hyperloop.connect
 
 To manually connect a client use the `Hyperloop.connect` method.  
 
@@ -326,8 +320,6 @@ For instance connections:
 Note that the same sequence is used for auto connections and manually invoked connections.
 
 #### Disconnecting
-
-TODO check Hyperloop.disconnect(
 
 Calling `Hyperloop.disconnect(channel)` or `channel.disconnect!` will disconnect from the channel.
 
