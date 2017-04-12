@@ -348,6 +348,21 @@ end
 
 <span class="k">end</span>
 </code></pre>
+<p>Modify your <code>application.js</code> file, adding <strong>OpalHotReloader</strong> configuration:</p>
+<pre class="highlight javascript"><code><span class="c1">//app/assets/javascripts/application.js</span>
+
+<span class="c1">//= require 'react_ujs'</span>
+<span class="c1">//= require 'jquery'</span>
+<span class="c1">//= require 'jquery_ujs'</span>
+
+<span class="c1">//= require 'turbolinks'</span>
+<span class="c1">//= require_tree .</span>
+
+<span class="c1">//= require 'hyperloop-loader'</span>
+
+<span class="nx">Opal</span><span class="p">.</span><span class="nx">OpalHotReloader</span><span class="p">.</span><span class="nx">$listen</span><span class="p">(</span><span class="mi">25222</span><span class="p">,</span> <span class="kc">true</span><span class="p">)</span>
+
+</code></pre>
 <h5 id="step-3-creating-the-procfile">Step 3: Creating the Procfile</h5>
 
 <p>Then create a <code>Procfile</code> in your Rails app root so the Hot Reloader service will start whenever you start your server:</p>
