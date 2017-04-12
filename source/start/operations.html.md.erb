@@ -40,6 +40,7 @@ class Discounter < Hyperloop::Store
 
   class LuckyDipOp < Hyperloop::Operation
     def check_tries
+      puts Discounter.tries
       abort! if Discounter.tries > 2
     end
     step { check_tries }
