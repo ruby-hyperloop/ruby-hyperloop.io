@@ -317,23 +317,18 @@ end
     <ul class="nav">
       <li class="nav-item"><a href="/start/models#crud-access">CRUD Access</a></li>
       <li class="nav-item"><a href="/start/models#push-notifications">Push Notifications</a></li>
+      <li class="nav-item"><a href="/start/models#how-it-works">How it works</a></li>
     </ul>
     <br>
 
-    <li class="nav-item"><a href="/start/policies">Policies</a></li>
+    <li class="nav-item"><a href="/start/models#policies">Policies</a></li>
     <ul class="nav">
-      <li class="nav-item"><a href="/start/policies#using-policies">Using Policies</a></li>
+      <li class="nav-item"><a href="/start/models#policy-classes">Policy Classes</a></li>
     </ul>
     <br>
 
     <li class="nav-item"><a href="/start/pradgmatic">Pragmatic Architecture</a></li>
   </ul>
-
-
-
-
-
-
 
 
           <br>
@@ -343,7 +338,7 @@ end
 <div class="chaptertitle"><span class="bigfirstletter">O</span>perations</div>
 </h1>
 
-<p>Operations are the engine rooms of Hyperloop. They drive processes and they orchestrate events. Operations orchestrate the interactions between components, external services and stores. <strong>Operations are where your business logic lives.</strong></p>
+<p>Operations are the engine rooms of Hyperloop, they orchestrate the interactions between components, external services and stores. <strong>Operations are where your business logic lives.</strong></p>
 
 <p>In a traditional MCV architecture, there is no defined place to keep business logic. You can overload your Controllers, Views or Models and (unless you follow a defined pattern like Trailblazer) you generally end up with your business logic all over the place. Our vision of building a &#39;Complete Ruby Isomorphic Framework&#39; meant that we had to address that problem head on, so we created Operations.</p>
 
@@ -360,14 +355,14 @@ end
 <p>Hyperloop Operations work in three ways:</p>
 
 <ol>
-<li>They <code>run</code> a sequence of <code>step</code>&#39;s. Each step is a progressive step in a workflow, only continuing to the next step if the current step proceeds. This mode borrows from Trailblazer&#39;s concept of an Operation.</li>
-<li>Much like Flux Actions, Stores can <code>receive</code> Operations so a Store can look out for an Operation being run and act accordingly. This shifts the responsibility to the Store to look out for an Operation being run.</li>
-<li><code>ServerOps</code> are Operations which, to your Isomorphic code, look like normal Operations but are guaranteed to only run on the server, even when they are invoked from the client. A good reason for this type of Operation would be when resources needed by the Operation are bound to the server - for example invoking a Mailer or updating a database. ServerOps do away with the need for an API layer (unless you specifically want an API).</li>
+<li>They <code>run</code> a sequence of <code>step</code>&#39;s. Each step is a progressive step in a workflow, only continuing to the next step if the current step succeeds. This mode borrows from Trailblazer&#39;s concept of an Operation.</li>
+<li>Much like Flux Actions, Stores can <code>receive</code> Operations so a Store can watch for an Operation being dispatched and act accordingly. This shifts the responsibility to the Store mutate its state when an Operation is dispatched.</li>
+<li><code>ServerOps</code> are Operations which, to your Isomorphic code, look like normal Operations but are guaranteed to only run on the server, even when they are invoked from the client. A good reason for this type of Operation would be when resources needed by the Operation are bound to the server - for example invoking a Mailer or updating a database. ServerOps do away with the need for a boilerplate API layer (unless you specifically want an API).</li>
 </ol>
 
 <h3 id="operations-with-steps">Operations with Steps</h3>
 
-<p>Stores hold state and Operations orchestrate the mutation of state. In the Store section, we demonstrated how a class method on the Store could be used to mutate the state. In this example, we will have an Operation mutate the Store&#39;s state:</p>
+<p>Stores hold state and Operations orchestrate the mutation of state. In the Store chapter, we demonstrated how a class method on the Store could be used to mutate the state. In this example, we will have an Operation mutate the Store&#39;s state instead:</p>
 
 <div class="codemirror-live-edit"
   data-heading="Operations with steps"
@@ -407,13 +402,15 @@ end
 <p>You will notice in the code above:</p>
 
 <ul>
-<li>This approach is very similar to simply adding a method to the Store to mutate the state, but there are some advantages. Firstly, we can take advantage of the validation of incoming params and secondly we can use <code>step</code>&#39;s to ensure that each part of the operation only executes if the previous part was successful. Notice how we called <code>abort!</code> to stop the Operation</li>
-<li>The LuckyDipOp Operation is included in the Store&#39;s namespace. This is optional but a good way to group Operations with the Stores they operate on</li>
+<li>This approach is very similar to simply adding a method to the Store to mutate the state, but there are some advantages. Firstly, we can take advantage of the validation of incoming params and secondly we can use <code>step</code>&#39;s to ensure that each part of the operation only executes if the previous part was successful. Notice how we called <code>abort!</code> to stop the Operation.</li>
+<li>The LuckyDipOp Operation is included in the Store&#39;s namespace. This is optional but a good way to group Operations with the Stores they operate on.</li>
 </ul>
 
 <h3 id="dispatchers-and-receivers">Dispatchers and Receivers</h3>
 
-<p>Next we will write an Operation for login the user out. This example will dispatch a message that a Store will receive. This will be following a Flux pattern. We have implemented the Flux pattern into Operations and Stores. Operations are dispatchers and Stores are receivers.</p>
+<p>Next let&#39;s look at an Operation that follows the dispatch and receiver (Flux) pattern.</p>
+
+<p>This little example Operation will dispatch a message that a Store will receive. We have implemented the Flux pattern into Operations and Stores where Operations are dispatchers and Stores are receivers.</p>
 
 <p><strong>All Operations dispatch but it up to a Store to receive a dispatch.</strong></p>
 
@@ -445,7 +442,7 @@ class UserPage < Hyperloop::Component
 end
 </pre></div>
 
-<p>In the example above, you will notice that the Logout Operation does not specifically interact with the NavBarStore Store, but the Store receives the Operation when it is dispatched.</p>
+<p>In the code above, you will notice that the Logout Operation does not specifically interact with the NavBarStore Store, but the Store receives the Operation when it is dispatched.</p>
 
 <h3 id="server-operations">Server Operations</h3>
 
@@ -463,7 +460,7 @@ end
 </code></pre>
 <p><strong>ServerOps execute only on the server but are invokable from your Isomorphic code</strong> No need for boilerplate APIs just to execute a server side Operation. ServerOps are just like any normal Operations and invokable from any part of your code.</p>
 
-<p>You can also broadcast the dispatch from Server Operations to all authorized clients. The dispatch_to will determine a list of channels to broadcast the dispatch to:</p>
+<p>You can also broadcast the dispatch from Server Operations to all authorized clients. The <code>dispatch_to</code> method will determine a list of channels to broadcast the dispatch to:</p>
 <pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">Announcement</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">ServerOp</span>
   <span class="c1"># no acting_user because we don't want clients to invoke the Operation</span>
   <span class="n">param</span> <span class="ss">:message</span>
@@ -504,15 +501,16 @@ end
 
     <div>
       <h6><a href="/start/components" class="hyperloop-white">Start</a></h6>
-      <a href="/start/components#components">Components</a>
-      <a href="/start/stores#stores">Stores</a>
-      <a href="/start/operations#operations">Operations</a>
-      <a href="/start/policies#policies">Policies</a>
+      <a href="/start/components">Components</a>
+      <a href="/start/stores">Stores</a>
+      <a href="/start/operations">Operations</a>
+      <a href="/start/models">Models</a>
+      <a href="/start/models#policies">Policies</a>
       <a href="/start/pradgmatic">Pragmatic Thinking</a>
     </div>
     <div>
 
-    
+
       <h6><a href="/tutorials" class="hyperloop-white">Tutorials</a></h6>
       <a href="/tutorials/hyperloopcomps">Hyperloop COMPS</a>
       <a href="/tutorials/hyperloopjs">Hyperloop.js</a>
@@ -523,10 +521,10 @@ end
     </div>
     <div>
       <h6><a href="/installation" class="hyperloop-white">Installation</a></h6>
-      <a href="installation#opal-playground">Hyperloop.js</a>
-  	  <a href="installation#ror">With Ruby On Rails</a>
-  	  <a href="installation#with-sinatra">With Sinatra</a>
-  	  <a href="installation#deployment">Deployment</a>
+      <a href="/installation#opal-playground">Hyperloop.js</a>
+  	  <a href="/installation#ror">With Ruby On Rails</a>
+  	  <a href="/installation#with-sinatra">With Sinatra</a>
+  	  <a href="/installation#deployment">Deployment</a>
     </div>
     <div>
       <h6><a href="/gems" class="hyperloop-white">Gems</a></h6>
@@ -548,11 +546,11 @@ end
     </div>
     <div>
       <h6><a href="/docs/architecture" class="hyperloop-white">Docs</a></h6>
-      <a href="/docs/architecture">Hyperloop Architecture</a>
+      <a href="/docs/architecture">Architecture</a>
       <a href="/docs/components/dsl-overview">Components</a>
       <a href="/docs/stores/overview">Stores</a>
-      <a href="/docs/models/overview">Models</a>
       <a href="/docs/operations/overview">Operations</a>
+      <a href="/docs/models/overview">Models</a>
       <a href="/docs/policies/authorization">Policies</a>
     </div>
 

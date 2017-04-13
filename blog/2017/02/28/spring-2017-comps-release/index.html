@@ -290,9 +290,7 @@ end
           <br>
         </div>
         <div class="col-md-9 main-content">
-          <h1 id="spring-2017-comps-release">Spring 2017 COMPS Release</h1>
-
-<p>Spring 2017 heralds a major Hyperloop release. This release will be the first where we have introduced the 5 architectural constructs focused on making it easier to write Isomorphic applications.</p>
+          <p>Spring 2017 heralds a major Hyperloop release. This release will be the first where we have introduced the 5 architectural constructs focused on making it easier to write Isomorphic applications.</p>
 
 <p>This release includes a new version and renaming of all of the Hyperloop gems as well as several new concepts and gems.</p>
 
@@ -384,15 +382,11 @@ end
 
 <p>Stores depend on <code>Hyperloop::Application::Boot</code>, which is an operation defined in the Operation gem.  So that you can use stores without operations, the store gem will define a very basic boot operation <em>unless</em> Hyperloop::Application::Boot is already defined.</p>
 
-<h4 id="hyperloop-express">Hyperloop Express</h4>
+<h4 id="hyperloop-js">Hyperloop.JS</h4>
 
-<p>Hyperloop Express now supports Operations and Stores.</p>
+<p>Hyperloop.JS now supports Compoennts, Operations and Stores.</p>
 
-<p>TODO: update as to how it ends up....</p>
-
-<p>There is no gem here, just JS files.  We will have two: hyperloop-express.js which includes hyper-component (and therefore hyper-store) and hyperloop-express-operation.js which brings in the <code>Hyperloop::Operation</code> class (but not the <code>Hyperloop::ServerOp</code> class)</p>
-
-<p>To support this the <code>hyper-operation</code> gem will have a <code>hyper-operation/client_only</code> require file.</p>
+<p>There is no gem here, just JavaScript files.  We will have two: hyperloop.js which includes Components, Operations and Stores and opal-compiler.js which includes Opal and Opal Compiler.</p>
 
 <h2 id="new-folder-layout">New folder layout</h2>
 
@@ -460,15 +454,16 @@ end
 
     <div>
       <h6><a href="/start/components" class="hyperloop-white">Start</a></h6>
-      <a href="/start/components#components">Components</a>
-      <a href="/start/stores#stores">Stores</a>
-      <a href="/start/operations#operations">Operations</a>
-      <a href="/start/policies#policies">Policies</a>
+      <a href="/start/components">Components</a>
+      <a href="/start/stores">Stores</a>
+      <a href="/start/operations">Operations</a>
+      <a href="/start/models">Models</a>
+      <a href="/start/models#policies">Policies</a>
       <a href="/start/pradgmatic">Pragmatic Thinking</a>
     </div>
     <div>
 
-    
+
       <h6><a href="/tutorials" class="hyperloop-white">Tutorials</a></h6>
       <a href="/tutorials/hyperloopcomps">Hyperloop COMPS</a>
       <a href="/tutorials/hyperloopjs">Hyperloop.js</a>
@@ -479,10 +474,10 @@ end
     </div>
     <div>
       <h6><a href="/installation" class="hyperloop-white">Installation</a></h6>
-      <a href="installation#opal-playground">Hyperloop.js</a>
-  	  <a href="installation#ror">With Ruby On Rails</a>
-  	  <a href="installation#with-sinatra">With Sinatra</a>
-  	  <a href="installation#deployment">Deployment</a>
+      <a href="/installation#opal-playground">Hyperloop.js</a>
+  	  <a href="/installation#ror">With Ruby On Rails</a>
+  	  <a href="/installation#with-sinatra">With Sinatra</a>
+  	  <a href="/installation#deployment">Deployment</a>
     </div>
     <div>
       <h6><a href="/gems" class="hyperloop-white">Gems</a></h6>
@@ -504,11 +499,11 @@ end
     </div>
     <div>
       <h6><a href="/docs/architecture" class="hyperloop-white">Docs</a></h6>
-      <a href="/docs/architecture">Hyperloop Architecture</a>
+      <a href="/docs/architecture">Architecture</a>
       <a href="/docs/components/dsl-overview">Components</a>
       <a href="/docs/stores/overview">Stores</a>
-      <a href="/docs/models/overview">Models</a>
       <a href="/docs/operations/overview">Operations</a>
+      <a href="/docs/models/overview">Models</a>
       <a href="/docs/policies/authorization">Policies</a>
     </div>
 

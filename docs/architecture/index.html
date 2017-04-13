@@ -323,18 +323,6 @@ end
 
   <br>
   <ul class="nav">
-    <li class="nav-item"><a href="/docs/models/overview">Models</a></li>
-    <ul class="nav">
-      <li class="nav-item"><a href="/docs/models/active-record">ActiveRecord API</a></li>
-      <li class="nav-item"><a href="/docs/models/scoping">Scoping</a></br></li>
-      <li class="nav-item"><a href="/docs/models/configuring-transport">Configuring the Transort</a></li>
-      <li class="nav-item"><a href="/docs/models/debugging">Debugging</a></li>
-      <li class="nav-item"><a href="/docs/models/common-errors">Common Errors</a></li>
-    </ul>
-  </ul>
-
-  <br>
-  <ul class="nav">
     <li class="nav-item"><a href="/docs/operations/overview">Operations</a></li>
     <ul class="nav">
       <li class="nav-item"><a href="/docs/operations/overview#flux-and-operations">Flux and Operations</a></li>
@@ -358,9 +346,32 @@ end
 
   <br>
   <ul class="nav">
+    <li class="nav-item"><a href="/docs/models/overview">Models</a></li>
+    <ul class="nav">
+      <li class="nav-item"><a href="/docs/models/active-record">ActiveRecord API</a></li>
+      <li class="nav-item"><a href="/docs/models/scoping">Scoping</a></br></li>
+      <li class="nav-item"><a href="/docs/models/configuring-transport">Configuring the Transort</a></li>
+      <li class="nav-item"><a href="/docs/models/debugging">Debugging</a></li>
+      <li class="nav-item"><a href="/docs/models/common-errors">Common Errors</a></li>
+    </ul>
+  </ul>
+
+  <br>
+  <ul class="nav">
     <li class="nav-item"><strong><a href="/docs/policies/authorization">Policies</a></strong></li>
     <ul class="nav">
       <li class="nav-item"><a href="/docs/policies/authorization#details">Details</a></li>
+      <li class="nav-item"><a href="/docs/policies/authorization#defining-policies-and-policy-classes">Policy Classes</a></li>
+      <li class="nav-item"><a href="/docs/policies/authorization#channels-and-connection-policies">Channels and connection Policies</a></li>
+      <li class="nav-item"><a href="/docs/policies/authorization#class-names-instances-and-ids">Class Names Instances and IDs</a></li>
+      <li class="nav-item"><a href="/docs/policies/authorization#acting-user">Acting User</a></li>
+      <li class="nav-item"><a href="/docs/policies/authorization#automatic-connection">Automatic Connection</a></li>
+      <li class="nav-item"><a href="/docs/policies/authorization#manually-connecting-to-channels">Manually Connecting to Channels</a></li>
+      <li class="nav-item"><a href="/docs/policies/authorization#connection-sequence-summary">Connection Sequence Summary</a></li>
+      <li class="nav-item"><a href="/docs/policies/authorization#disconnecting">Disconnecting</a></li>
+      <li class="nav-item"><a href="/docs/policies/authorization#broadcasting-and-broadcast-policies">Broadcasting and Broadcast Policies</a></li>
+      <li class="nav-item"><a href="/docs/policies/authorization#browser-initiated-change-policies">Browser Initiated Change policies</a></li>
+      <li class="nav-item"><a href="/docs/policies/authorization#method-summary-and-name-space-conflicts">Method Summary and Name Space Conflicts</a></li>
     </ul>
   </ul>
 
@@ -372,11 +383,11 @@ end
 
 <p>Hyperloop&#39;s primary goal is to allow you to enjoy quickly building modern interactive web applications.</p>
 
-<p>Hyperloop includes full access to the <strong>entire Rails ecosystem</strong> and <strong>universe of front-end JavaScript libraries</strong> like React and jQuery - all using one great language - Ruby.</p>
+<p>You have full access to the <strong>entire Rails ecosystem</strong> and <strong>universe of front-end JavaScript libraries</strong> like React and jQuery - all using one great language - Ruby.</p>
 
 <p>Hyperloop lets you write code that is directed toward solving the user&#39;s needs in the most straightforward manner, without redundant code, unnecessary APIs, or artificial separation between client and server.</p>
 
-<p>Hyperloop is an Isomorphic Web Application Framework consisting of Components, Operations, Models, Policies, and Stores. This structure is analogous to and replaces the older MVC architecture, but with a more logical and finer grained division of labor.</p>
+<p>Our (isomorphic) framework consists of Components, Operations, Models, Policies, and Stores. This structure is analogous to and replaces the older MVC architecture, but with a more logical and finer grained division of labor.</p>
 
 <p><img src="../../images/Hyperloop-diagram.png" alt="Hyperloop diagram" /></p>
 
@@ -435,7 +446,7 @@ end
 <h2 id="benefits-of-comps-architecture">Benefits of COMPS Architecture</h2>
 
 <ul>
-<li>The <strong>COMPS</strong> architecture encapsulates functionality for clean, predictable, testable code</li>
+<li>Encapsulates functionality for clean, predictable, testable code</li>
 <li>One language - Ruby everywhere - reduces complexity and lets developers build solutions quickly</li>
 <li>Encourages client-side execution for distributed processing and a rich interactive user experience</li>
 <li>Full power of Rails, React and the entire JavaScript universe</li>
@@ -509,9 +520,9 @@ end
 
 <h2><div class="hyperlogoalone"><img src="../../images/HyperModels.png" width="35" alt="Hypermodels" /></div>Models</h2>
 
-<p>Hyperloop uses Rails ActiveRecord for data persistence.  This allows easy integration with existing Rails apps.  Hyperloop Models are implemented in the HyperMesh Gem.</p>
+<p>Hyperloop uses Rails ActiveRecord for data persistence.  This allows easy integration with existing Rails apps.  Hyperloop Models are implemented in the MyperModel Gem.</p>
 
-<p>HyperMesh gives you full access to the ActiveRecord models on the client or the server which means we can use the models directly within our Components without needing the abstraction of an API:</p>
+<p>Hyperloop gives you full access to the ActiveRecord models on the client or the server which means we can use the models directly within our Components without needing the abstraction of an API:</p>
 <pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">BookList</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Component</span>
   <span class="c1"># Display each book in the catalog</span>
   <span class="n">render</span><span class="p">(</span><span class="no">UL</span><span class="p">)</span> <span class="k">do</span>
@@ -525,7 +536,7 @@ end
 
 <h2><div class="hyperlogoalone"><img src="../../images/HyperOperations.png" width="35" alt="Hyperoperations" /></div>Operations</h2>
 
-<p>Hyperloop <em>recommends</em> that only scopes, relations, and validations are described in model classes. All business logic can be encapsulated in reusable <em>isomorphic</em> Operations that do not complicate your Models or Components.  Each Operation is a self-contained piece of logic that does one simple thing.</p>
+<p>Hyperloop <em>recommends</em> that only scopes, relations, and validations are described in Model classes. All business logic can be encapsulated in reusable <em>isomorphic</em> Operations that do not complicate your Models or Components.  Each Operation is a self-contained piece of logic that does one simple thing.</p>
 <pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">AddToActingUsersWatchList</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Operation</span>
   <span class="c1"># Add a book to the current acting_user's watch list, and</span>
   <span class="c1"># send an initial email about the book.</span>
@@ -611,15 +622,16 @@ end
 
     <div>
       <h6><a href="/start/components" class="hyperloop-white">Start</a></h6>
-      <a href="/start/components#components">Components</a>
-      <a href="/start/stores#stores">Stores</a>
-      <a href="/start/operations#operations">Operations</a>
-      <a href="/start/policies#policies">Policies</a>
+      <a href="/start/components">Components</a>
+      <a href="/start/stores">Stores</a>
+      <a href="/start/operations">Operations</a>
+      <a href="/start/models">Models</a>
+      <a href="/start/models#policies">Policies</a>
       <a href="/start/pradgmatic">Pragmatic Thinking</a>
     </div>
     <div>
 
-    
+
       <h6><a href="/tutorials" class="hyperloop-white">Tutorials</a></h6>
       <a href="/tutorials/hyperloopcomps">Hyperloop COMPS</a>
       <a href="/tutorials/hyperloopjs">Hyperloop.js</a>
@@ -630,10 +642,10 @@ end
     </div>
     <div>
       <h6><a href="/installation" class="hyperloop-white">Installation</a></h6>
-      <a href="installation#opal-playground">Hyperloop.js</a>
-  	  <a href="installation#ror">With Ruby On Rails</a>
-  	  <a href="installation#with-sinatra">With Sinatra</a>
-  	  <a href="installation#deployment">Deployment</a>
+      <a href="/installation#opal-playground">Hyperloop.js</a>
+  	  <a href="/installation#ror">With Ruby On Rails</a>
+  	  <a href="/installation#with-sinatra">With Sinatra</a>
+  	  <a href="/installation#deployment">Deployment</a>
     </div>
     <div>
       <h6><a href="/gems" class="hyperloop-white">Gems</a></h6>
@@ -655,11 +667,11 @@ end
     </div>
     <div>
       <h6><a href="/docs/architecture" class="hyperloop-white">Docs</a></h6>
-      <a href="/docs/architecture">Hyperloop Architecture</a>
+      <a href="/docs/architecture">Architecture</a>
       <a href="/docs/components/dsl-overview">Components</a>
       <a href="/docs/stores/overview">Stores</a>
-      <a href="/docs/models/overview">Models</a>
       <a href="/docs/operations/overview">Operations</a>
+      <a href="/docs/models/overview">Models</a>
       <a href="/docs/policies/authorization">Policies</a>
     </div>
 

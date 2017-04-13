@@ -317,23 +317,18 @@ end
     <ul class="nav">
       <li class="nav-item"><a href="/start/models#crud-access">CRUD Access</a></li>
       <li class="nav-item"><a href="/start/models#push-notifications">Push Notifications</a></li>
+      <li class="nav-item"><a href="/start/models#how-it-works">How it works</a></li>
     </ul>
     <br>
 
-    <li class="nav-item"><a href="/start/policies">Policies</a></li>
+    <li class="nav-item"><a href="/start/models#policies">Policies</a></li>
     <ul class="nav">
-      <li class="nav-item"><a href="/start/policies#using-policies">Using Policies</a></li>
+      <li class="nav-item"><a href="/start/models#policy-classes">Policy Classes</a></li>
     </ul>
     <br>
 
     <li class="nav-item"><a href="/start/pradgmatic">Pragmatic Architecture</a></li>
   </ul>
-
-
-
-
-
-
 
 
           <br>
@@ -343,15 +338,17 @@ end
 <div class="chaptertitle"><span class="bigfirstletter">M</span>odels
 </div></h1>
 
-<div class = "row">
-  <div class = "col-md-8">
+<p>Much like Stores, Models hold state which Components watch and re-render when the data changes. The key difference between Models and Stores however is that Models are an extension of your server side (Rails) Active Record models. Changes made on the server are pushed to the connected clients who&#39;s Components are rendering that data.</p>
+
+<div class="row">
+  <div class="col-md-8">
     Components, Operations and Stores have no backend dependancy, but Models and Policies are integrated with Rails and require a Rails backend.
     <br><br>
     Your ActiveRecord Models are accessible in your isomorphic code. Models are an Isomorphic ActiveRecord wrapper for Hyperloop.
     <br><br>
     You access your Models as simply as this:
   </div>
-  <div class = "col-md-4">
+  <div class="col-md-4">
     <img src="../../images/rails.png" width="200" alt="Rails" />
   </div>
 </div>
@@ -364,7 +361,7 @@ end
   <span class="k">end</span>
 <span class="k">end</span>
 </code></pre>
-<p>Admittedly our component is not going to win any awards for great UI, but it is sufficient for our purposes. There are a few important things to notice:</p>
+<p>There are a few important things to notice:</p>
 
 <ul>
 <li>Firstly let&#39;s discuss what&#39;s missing - there is no API, no Controllers - no boiler-plate code whose purpose if simply to transfer data from the server to the client.</li>
@@ -390,9 +387,89 @@ end
 
 <p>Changes made to Models on a client or server are automatically synchronized to all other authorized connected clients using ActionCable, pusher.com or polling. The synchronization is completely automatic and magical to behold and not something we can demonstrate in this introduction - you will need to see it to believe it.</p>
 
+<h3 id="how-it-works">How it works</h3>
+
+<p>Components watch Models in order to display data. If during the rendering of the Component the Model data is not yet loaded, placeholder values (the default values from the columns_hash) will be returned by Hyperloop.</p>
+
+<p>Hyperloop then keeps track of where these placeholders (or DummyValues) are displayed, and when they do get loaded, those parts of the display will re-render.</p>
+
+<p>If later the data changes (either due to local user actions, or receiving push updates) then again any parts of the display that were dependent on the current values will be re-rendered.</p>
+
+<p>You normally do not have to be aware of this. Just access your Models using the normal scopes and finders, then compute values and display attributes as you would on the server. Initially the display will show the placeholder values and then will be replaced with the real values.</p>
+
 <hr>
 
-<p><button type="button" class="btn btn-primary btn-lg btn-hyperlooppink" onclick="location.href='/start/policies';">Next we cover Policies</button></p>
+<h1 id="policies">Policies</h1>
+
+<p>Hyperloop uses Policies to regulate what connections are opened between clients and the server and what data is distributed over those connections.</p>
+
+<h3 id="policy-classes">Policy Classes</h3>
+
+<p>Policies are defined through policy classes:</p>
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">UserPolicy</span> <span class="c1"># defines policies for the User class</span>
+  <span class="c1"># The regulate_instance_connections method enables instances of the User</span>
+  <span class="c1"># class to be treated as a channel.</span>
+
+  <span class="c1"># The policy is defined by a block that is executed in the context of the</span>
+  <span class="c1"># current acting_user.</span>
+
+  <span class="c1"># For our User instance connection the policy is that there must be a</span>
+  <span class="c1"># logged-in user, and the connection is made to that user:</span>
+  <span class="n">regulate_instance_connections</span> <span class="p">{</span> <span class="nb">self</span> <span class="p">}</span>
+  <span class="c1"># If there is no logged in user self will be nil, and no connection will be</span>
+  <span class="c1"># made.</span>
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nc">TeamPolicy</span> <span class="c1"># defines policies for the Team class</span>
+  <span class="c1"># Users can only connect to Teams that they belong to</span>
+  <span class="n">regulate_instance_connections</span> <span class="p">{</span> <span class="n">teams</span> <span class="p">}</span>
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nc">AdminUserPolicy</span>
+  <span class="c1"># All AdminUsers share the same connection so we setup a class wide</span>
+  <span class="c1"># connection available to any users who are admins.</span>
+  <span class="n">regulate_class_connection</span> <span class="p">{</span> <span class="n">admin?</span> <span class="p">}</span>
+
+  <span class="c1"># The AdminUser channel will receive all attributes</span>
+  <span class="c1"># of all records, unless the attribute is named :password</span>
+  <span class="n">regulate_all_broadcasts</span> <span class="k">do</span> <span class="o">|</span><span class="n">policy</span><span class="o">|</span>
+    <span class="n">policy</span><span class="p">.</span><span class="nf">send_all_but</span><span class="p">(</span><span class="ss">:password</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nc">TodoPolicy</span>
+  <span class="c1"># Policies can be established for models that are not channels as well.</span>
+
+  <span class="c1"># The regulate_broadcast method will describe what attributes to send</span>
+  <span class="c1"># when a Todo model changes.</span>
+
+  <span class="c1"># The blocks of broadcast policies run in the context of the changed model</span>
+  <span class="c1"># so we have access to all the models methods.  In this case Todo</span>
+  <span class="c1"># belongs to a Team through the 'team' relationship.</span>
+  <span class="n">regulate_broadcast</span> <span class="k">do</span> <span class="o">|</span><span class="n">policy</span><span class="o">|</span>
+    <span class="c1"># send all Todo attributes to the todo's team channel</span>
+    <span class="n">policy</span><span class="p">.</span><span class="nf">send_all</span><span class="p">.</span><span class="nf">to</span><span class="p">(</span><span class="n">team</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nc">MessagePolicy</span>
+  <span class="c1"># Broadcast policies can be arbitrarily complex.  In this case we</span>
+  <span class="c1"># want to broadcast the entire message to the sender and the</span>
+  <span class="c1"># recipient's instance channels.</span>
+  <span class="c1"># In addition if the message is not private, then we want to send to all</span>
+  <span class="c1"># the team instance channels that are shared between the sender and</span>
+  <span class="c1"># recipient's teams.</span>
+  <span class="n">regulate_broadcast</span> <span class="k">do</span> <span class="o">|</span><span class="n">policy</span><span class="o">|</span>
+    <span class="n">policy</span><span class="p">.</span><span class="nf">send_all</span><span class="p">.</span><span class="nf">to</span><span class="p">(</span><span class="n">sender</span><span class="p">,</span> <span class="n">recipient</span><span class="p">)</span>
+    <span class="n">policy</span><span class="p">.</span><span class="nf">send_all</span><span class="p">.</span><span class="nf">to</span><span class="p">(</span><span class="n">sender</span><span class="p">.</span><span class="nf">teams</span><span class="p">.</span><span class="nf">merge</span><span class="p">(</span><span class="n">recipient</span><span class="p">.</span><span class="nf">teams</span><span class="p">))</span> <span class="k">unless</span> <span class="kp">private</span><span class="p">?</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<hr>
+
+<p>That concludes this introduction to Hyperloop, but before you go on to our Tutorials or Docs, please read the next section where we describe our pragmatic approach to architecture.</p>
+
+<p><button type="button" class="btn btn-primary btn-lg btn-hyperlooppink" onclick="location.href='/start/pradgmatic';">Pradgmatic thinking</button></p>
 
         </div>
       </div>
@@ -411,15 +488,16 @@ end
 
     <div>
       <h6><a href="/start/components" class="hyperloop-white">Start</a></h6>
-      <a href="/start/components#components">Components</a>
-      <a href="/start/stores#stores">Stores</a>
-      <a href="/start/operations#operations">Operations</a>
-      <a href="/start/policies#policies">Policies</a>
+      <a href="/start/components">Components</a>
+      <a href="/start/stores">Stores</a>
+      <a href="/start/operations">Operations</a>
+      <a href="/start/models">Models</a>
+      <a href="/start/models#policies">Policies</a>
       <a href="/start/pradgmatic">Pragmatic Thinking</a>
     </div>
     <div>
 
-    
+
       <h6><a href="/tutorials" class="hyperloop-white">Tutorials</a></h6>
       <a href="/tutorials/hyperloopcomps">Hyperloop COMPS</a>
       <a href="/tutorials/hyperloopjs">Hyperloop.js</a>
@@ -430,10 +508,10 @@ end
     </div>
     <div>
       <h6><a href="/installation" class="hyperloop-white">Installation</a></h6>
-      <a href="installation#opal-playground">Hyperloop.js</a>
-  	  <a href="installation#ror">With Ruby On Rails</a>
-  	  <a href="installation#with-sinatra">With Sinatra</a>
-  	  <a href="installation#deployment">Deployment</a>
+      <a href="/installation#opal-playground">Hyperloop.js</a>
+  	  <a href="/installation#ror">With Ruby On Rails</a>
+  	  <a href="/installation#with-sinatra">With Sinatra</a>
+  	  <a href="/installation#deployment">Deployment</a>
     </div>
     <div>
       <h6><a href="/gems" class="hyperloop-white">Gems</a></h6>
@@ -455,11 +533,11 @@ end
     </div>
     <div>
       <h6><a href="/docs/architecture" class="hyperloop-white">Docs</a></h6>
-      <a href="/docs/architecture">Hyperloop Architecture</a>
+      <a href="/docs/architecture">Architecture</a>
       <a href="/docs/components/dsl-overview">Components</a>
       <a href="/docs/stores/overview">Stores</a>
-      <a href="/docs/models/overview">Models</a>
       <a href="/docs/operations/overview">Operations</a>
+      <a href="/docs/models/overview">Models</a>
       <a href="/docs/policies/authorization">Policies</a>
     </div>
 

@@ -323,18 +323,6 @@ end
 
   <br>
   <ul class="nav">
-    <li class="nav-item"><a href="/docs/models/overview">Models</a></li>
-    <ul class="nav">
-      <li class="nav-item"><a href="/docs/models/active-record">ActiveRecord API</a></li>
-      <li class="nav-item"><a href="/docs/models/scoping">Scoping</a></br></li>
-      <li class="nav-item"><a href="/docs/models/configuring-transport">Configuring the Transort</a></li>
-      <li class="nav-item"><a href="/docs/models/debugging">Debugging</a></li>
-      <li class="nav-item"><a href="/docs/models/common-errors">Common Errors</a></li>
-    </ul>
-  </ul>
-
-  <br>
-  <ul class="nav">
     <li class="nav-item"><a href="/docs/operations/overview">Operations</a></li>
     <ul class="nav">
       <li class="nav-item"><a href="/docs/operations/overview#flux-and-operations">Flux and Operations</a></li>
@@ -358,9 +346,32 @@ end
 
   <br>
   <ul class="nav">
+    <li class="nav-item"><a href="/docs/models/overview">Models</a></li>
+    <ul class="nav">
+      <li class="nav-item"><a href="/docs/models/active-record">ActiveRecord API</a></li>
+      <li class="nav-item"><a href="/docs/models/scoping">Scoping</a></br></li>
+      <li class="nav-item"><a href="/docs/models/configuring-transport">Configuring the Transort</a></li>
+      <li class="nav-item"><a href="/docs/models/debugging">Debugging</a></li>
+      <li class="nav-item"><a href="/docs/models/common-errors">Common Errors</a></li>
+    </ul>
+  </ul>
+
+  <br>
+  <ul class="nav">
     <li class="nav-item"><strong><a href="/docs/policies/authorization">Policies</a></strong></li>
     <ul class="nav">
       <li class="nav-item"><a href="/docs/policies/authorization#details">Details</a></li>
+      <li class="nav-item"><a href="/docs/policies/authorization#defining-policies-and-policy-classes">Policy Classes</a></li>
+      <li class="nav-item"><a href="/docs/policies/authorization#channels-and-connection-policies">Channels and connection Policies</a></li>
+      <li class="nav-item"><a href="/docs/policies/authorization#class-names-instances-and-ids">Class Names Instances and IDs</a></li>
+      <li class="nav-item"><a href="/docs/policies/authorization#acting-user">Acting User</a></li>
+      <li class="nav-item"><a href="/docs/policies/authorization#automatic-connection">Automatic Connection</a></li>
+      <li class="nav-item"><a href="/docs/policies/authorization#manually-connecting-to-channels">Manually Connecting to Channels</a></li>
+      <li class="nav-item"><a href="/docs/policies/authorization#connection-sequence-summary">Connection Sequence Summary</a></li>
+      <li class="nav-item"><a href="/docs/policies/authorization#disconnecting">Disconnecting</a></li>
+      <li class="nav-item"><a href="/docs/policies/authorization#broadcasting-and-broadcast-policies">Broadcasting and Broadcast Policies</a></li>
+      <li class="nav-item"><a href="/docs/policies/authorization#browser-initiated-change-policies">Browser Initiated Change policies</a></li>
+      <li class="nav-item"><a href="/docs/policies/authorization#method-summary-and-name-space-conflicts">Method Summary and Name Space Conflicts</a></li>
     </ul>
   </ul>
 
@@ -369,8 +380,6 @@ end
         </div>
         <div class="col-md-9 main-content">
           <h2 id="authorization">Authorization</h2>
-
-<p>TODO check which parts apply to Models only and which to Operations and then refactor these docs.</p>
 
 <p>Access to your Isomorphic Models is controlled by <em>Policies</em> that describe how the current <em>acting_user</em> and <em>channels</em> may access your Models.</p>
 
@@ -495,8 +504,6 @@ end
 </code></pre>
 <p>Note that by default policy classes go in the <code>app/policies</code> directory.  Hyperloop will require all the files in this directory.</p>
 
-<p>TODO check the name of the module below</p>
-
 <p>If you wish, you can also add policies directly in your Models by including the <code>Hyperloop::PolicyMethods</code> module in your model.  You can then use the <code>regulate_class_connection</code>, <code>regulate_instance_connections</code>, <code>regulate_all_broadcasts</code> and <code>regulate_broadcast</code> methods directly in the model.</p>
 <pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">User</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
   <span class="kp">include</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">PolicyMethods</span>
@@ -518,7 +525,7 @@ end
   <span class="n">regulate_broadcast</span><span class="p">(</span><span class="no">Todo</span><span class="p">,</span> <span class="no">Message</span><span class="p">,</span> <span class="no">User</span><span class="p">)</span> <span class="p">{</span> <span class="p">.</span><span class="nf">.</span><span class="o">.</span> <span class="p">}</span>
 <span class="k">end</span>
 </code></pre>
-<h4 id="channels-and-the-connection-policies">Channels and the connection policies</h4>
+<h4 id="channels-and-connection-policies">Channels and connection policies</h4>
 
 <p>Any ruby class that has a connection policy is a Hyperloop channel. The fully scoped name of the class becomes the root of the channel name.</p>
 
@@ -562,7 +569,7 @@ end
 <span class="c1"># create an instance connection for any team the user belongs to</span>
 <span class="n">regulate_instance_connections</span> <span class="p">{</span> <span class="n">teams</span> <span class="p">}</span>
 </code></pre>
-<h4 id="class-names-instances-and-ids">Class Names, Instances and IDs</h4>
+<h4 id="class-names-instances-and-ids">Class Names Instances and IDs</h4>
 
 <p>While establishing connections, classes are represented as their fully scoped name, and instances are represented as the class name plus the result of calling <code>id</code> on the instance.</p>
 
@@ -597,8 +604,6 @@ the application.</p>
 <p>Normally the client will automatically connect to the available channels when a page loads, but you can also
 manually connect on the client in response to some user action like logging in, or the user deciding to
 display a specific team status on their dashboard.</p>
-
-<p>TODO check below Hyperloop.connect</p>
 
 <p>To manually connect a client use the <code>Hyperloop.connect</code> method.  </p>
 
@@ -661,8 +666,6 @@ Hyperloop.connect(AdminUser, current_user)
 <p>Note that the same sequence is used for auto connections and manually invoked connections.</p>
 
 <h4 id="disconnecting">Disconnecting</h4>
-
-<p>TODO check Hyperloop.disconnect(</p>
 
 <p>Calling <code>Hyperloop.disconnect(channel)</code> or <code>channel.disconnect!</code> will disconnect from the channel.</p>
 
@@ -830,15 +833,16 @@ Hyperloop.connect(AdminUser, current_user)
 
     <div>
       <h6><a href="/start/components" class="hyperloop-white">Start</a></h6>
-      <a href="/start/components#components">Components</a>
-      <a href="/start/stores#stores">Stores</a>
-      <a href="/start/operations#operations">Operations</a>
-      <a href="/start/policies#policies">Policies</a>
+      <a href="/start/components">Components</a>
+      <a href="/start/stores">Stores</a>
+      <a href="/start/operations">Operations</a>
+      <a href="/start/models">Models</a>
+      <a href="/start/models#policies">Policies</a>
       <a href="/start/pradgmatic">Pragmatic Thinking</a>
     </div>
     <div>
 
-    
+
       <h6><a href="/tutorials" class="hyperloop-white">Tutorials</a></h6>
       <a href="/tutorials/hyperloopcomps">Hyperloop COMPS</a>
       <a href="/tutorials/hyperloopjs">Hyperloop.js</a>
@@ -849,10 +853,10 @@ Hyperloop.connect(AdminUser, current_user)
     </div>
     <div>
       <h6><a href="/installation" class="hyperloop-white">Installation</a></h6>
-      <a href="installation#opal-playground">Hyperloop.js</a>
-  	  <a href="installation#ror">With Ruby On Rails</a>
-  	  <a href="installation#with-sinatra">With Sinatra</a>
-  	  <a href="installation#deployment">Deployment</a>
+      <a href="/installation#opal-playground">Hyperloop.js</a>
+  	  <a href="/installation#ror">With Ruby On Rails</a>
+  	  <a href="/installation#with-sinatra">With Sinatra</a>
+  	  <a href="/installation#deployment">Deployment</a>
     </div>
     <div>
       <h6><a href="/gems" class="hyperloop-white">Gems</a></h6>
@@ -874,11 +878,11 @@ Hyperloop.connect(AdminUser, current_user)
     </div>
     <div>
       <h6><a href="/docs/architecture" class="hyperloop-white">Docs</a></h6>
-      <a href="/docs/architecture">Hyperloop Architecture</a>
+      <a href="/docs/architecture">Architecture</a>
       <a href="/docs/components/dsl-overview">Components</a>
       <a href="/docs/stores/overview">Stores</a>
-      <a href="/docs/models/overview">Models</a>
       <a href="/docs/operations/overview">Operations</a>
+      <a href="/docs/models/overview">Models</a>
       <a href="/docs/policies/authorization">Policies</a>
     </div>
 

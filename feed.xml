@@ -14,13 +14,11 @@
     <link rel="alternate" href="http://blog.url.com/blog/2017/02/28/spring-2017-comps-release/"/>
     <id>http://blog.url.com/blog/2017/02/28/spring-2017-comps-release/</id>
     <published>2017-02-28T00:00:00+00:00</published>
-    <updated>2017-04-11T18:41:54+01:00</updated>
+    <updated>2017-04-12T20:02:11+01:00</updated>
     <author>
       <name>Article Author</name>
     </author>
-    <content type="html">&lt;h1 id="spring-2017-comps-release"&gt;Spring 2017 COMPS Release&lt;/h1&gt;
-
-&lt;p&gt;Spring 2017 heralds a major Hyperloop release. This release will be the first where we have introduced the 5 architectural constructs focused on making it easier to write Isomorphic applications.&lt;/p&gt;
+    <content type="html">&lt;p&gt;Spring 2017 heralds a major Hyperloop release. This release will be the first where we have introduced the 5 architectural constructs focused on making it easier to write Isomorphic applications.&lt;/p&gt;
 
 &lt;p&gt;This release includes a new version and renaming of all of the Hyperloop gems as well as several new concepts and gems.&lt;/p&gt;
 
@@ -112,15 +110,11 @@
 
 &lt;p&gt;Stores depend on &lt;code&gt;Hyperloop::Application::Boot&lt;/code&gt;, which is an operation defined in the Operation gem.  So that you can use stores without operations, the store gem will define a very basic boot operation &lt;em&gt;unless&lt;/em&gt; Hyperloop::Application::Boot is already defined.&lt;/p&gt;
 
-&lt;h4 id="hyperloop-express"&gt;Hyperloop Express&lt;/h4&gt;
+&lt;h4 id="hyperloop-js"&gt;Hyperloop.JS&lt;/h4&gt;
 
-&lt;p&gt;Hyperloop Express now supports Operations and Stores.&lt;/p&gt;
+&lt;p&gt;Hyperloop.JS now supports Compoennts, Operations and Stores.&lt;/p&gt;
 
-&lt;p&gt;TODO: update as to how it ends up....&lt;/p&gt;
-
-&lt;p&gt;There is no gem here, just JS files.  We will have two: hyperloop-express.js which includes hyper-component (and therefore hyper-store) and hyperloop-express-operation.js which brings in the &lt;code&gt;Hyperloop::Operation&lt;/code&gt; class (but not the &lt;code&gt;Hyperloop::ServerOp&lt;/code&gt; class)&lt;/p&gt;
-
-&lt;p&gt;To support this the &lt;code&gt;hyper-operation&lt;/code&gt; gem will have a &lt;code&gt;hyper-operation/client_only&lt;/code&gt; require file.&lt;/p&gt;
+&lt;p&gt;There is no gem here, just JavaScript files.  We will have two: hyperloop.js which includes Components, Operations and Stores and opal-compiler.js which includes Opal and Opal Compiler.&lt;/p&gt;
 
 &lt;h2 id="new-folder-layout"&gt;New folder layout&lt;/h2&gt;
 
@@ -177,7 +171,7 @@
     <link rel="alternate" href="http://blog.url.com/blog/2017/01/28/editing-flux-loop-verses-decoupling/"/>
     <id>http://blog.url.com/blog/2017/01/28/editing-flux-loop-verses-decoupling/</id>
     <published>2017-01-28T00:00:00+00:00</published>
-    <updated>2017-04-11T18:41:54+01:00</updated>
+    <updated>2017-04-10T17:24:38+01:00</updated>
     <author>
       <name>Article Author</name>
     </author>
@@ -329,7 +323,7 @@ Yes.  Note that Operations return promises, so asynchronous operation is assumed
     <link rel="alternate" href="http://blog.url.com/blog/2017/01/17/comparing-redux-with-hyperloop/"/>
     <id>http://blog.url.com/blog/2017/01/17/comparing-redux-with-hyperloop/</id>
     <published>2017-01-17T00:00:00+00:00</published>
-    <updated>2017-04-11T18:41:54+01:00</updated>
+    <updated>2017-04-10T17:24:38+01:00</updated>
     <author>
       <name>Article Author</name>
     </author>
@@ -661,7 +655,7 @@ return (
     <link rel="alternate" href="http://blog.url.com/blog/2016/09/08/Hyperloop-is-born/"/>
     <id>http://blog.url.com/blog/2016/09/08/Hyperloop-is-born/</id>
     <published>2016-09-08T06:50:00+01:00</published>
-    <updated>2017-04-11T18:41:54+01:00</updated>
+    <updated>2017-01-23T06:47:00+00:00</updated>
     <author>
       <name>Article Author</name>
     </author>
@@ -716,7 +710,7 @@ return (
     <link rel="alternate" href="http://blog.url.com/blog/2016/06/29/reactrb-v0-8-5/"/>
     <id>http://blog.url.com/blog/2016/06/29/reactrb-v0-8-5/</id>
     <published>2016-06-29T01:00:00+01:00</published>
-    <updated>2017-04-11T18:41:54+01:00</updated>
+    <updated>2017-03-04T06:08:16+00:00</updated>
     <author>
       <name>Article Author</name>
     </author>
@@ -818,7 +812,7 @@ return (
     <link rel="alternate" href="http://blog.url.com/blog/2016/01/26/getting-started-with-reactrb-and-rails/"/>
     <id>http://blog.url.com/blog/2016/01/26/getting-started-with-reactrb-and-rails/</id>
     <published>2016-01-26T16:29:00+00:00</published>
-    <updated>2017-04-11T18:41:54+01:00</updated>
+    <updated>2017-03-04T06:08:16+00:00</updated>
     <author>
       <name>Article Author</name>
     </author>
