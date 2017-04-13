@@ -12,7 +12,7 @@ To set up your hyperloop environment and run this code, please first follow the 
 
 class TopLevelComponent < Hyperloop::Component
     render(DIV) do
-      div.container do
+      DIV(class: 'container') do
         H1 { "Components, Stores and Operations" }
         P { "A few examples using Hyperloop Components which wrap React, Stores to hold state which is shared between Components and an Operation for mutating the Store's state. Finally, a Clock which demonstrates local state and a callback which triggers every second." }
         TypeAlong()
@@ -70,19 +70,19 @@ class TopLevelComponent < Hyperloop::Component
   class StylishTable < Hyperloop::Component
   render(DIV) do
   H2 { "A stylish table" }
-    table.table.table_bordered do
-      thead do
-        tr do
-          th { "First Name" }
-          th { "Last Name" }
-          th { "Username" }
+    TABLE(class: 'table table_bordered') do
+      THEAD do
+        TR do
+          TH { "First Name" }
+          TH { "Last Name" }
+          TH { "Username" }
         end
       end
       tbody do
-        tr do
-          td { "Mark" }
-          td { "Otto" }
-          td.text_success { MyStore.value }
+        TR do
+          TD { "Mark" }
+          TD { "Otto" }
+          TD(class: 'text_success') { MyStore.value }
         end
       end
     end

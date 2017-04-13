@@ -14,7 +14,7 @@ You can find the complete source code of this tutorial here: [Hyperloop with Rai
 
 To set up your **Hyperloop** environment and continue this tutorial, please first follow the [Hyperloop installation with Ruby On Rails](/installation#rorsetup) tutorial.
 
-After **Hyperloop** has been installed properly we can go further:
+After **Hyperloop** has been installed properly we can go further.
 
 ##### Step 1: Creating the Helloworld component
 
@@ -55,11 +55,11 @@ class Helloworld < Hyperloop::Component
   def show_input
     
     H4 do 
-      span{'Please type '}
-      span.colored {'Hello World'}
-      span{' in the input field below :'}
-      br {}
-      span{'Or anything you want (^̮^)'}
+      SPAN{'Please type '}
+      SPAN(class: 'colored') {'Hello World'}
+      SPAN{' in the input field below :'}
+      BR {}
+      SPAN{'Or anything you want (^̮^)'}
     end
     
     INPUT(type: :text, class: 'form-control').on(:change) do |e|
