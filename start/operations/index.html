@@ -397,35 +397,28 @@ end
 <p>This little example Operation will dispatch a message that a Store will receive. We have implemented the Flux pattern into Operations and Stores where Operations are dispatchers and Stores are receivers.</p>
 
 <p><strong>All Operations dispatch but it up to a Store to receive a dispatch.</strong></p>
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">Logout</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Operation</span>
+  <span class="c1"># do the actual logout</span>
+<span class="k">end</span>
 
-<div class="codemirror-live-edit"
-  data-heading="Dispatchers and Receivers"
-  data-rows=23
-  data-top-level-component="UserPage">
-<pre>
-class Logout < Hyperloop::Operation
-  # do the actual logout
-end
+<span class="k">class</span> <span class="nc">NavBarStore</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Store</span>
+  <span class="n">state</span> <span class="ss">user_name: </span><span class="s2">"Fred"</span><span class="p">,</span> <span class="ss">scope: :class</span><span class="p">,</span> <span class="ss">reader: </span><span class="kp">true</span>
 
-class NavBarStore < Hyperloop::Store
-  state user_name: "Fred", scope: :class, reader: true
+  <span class="n">receives</span> <span class="no">Logout</span> <span class="k">do</span>
+    <span class="c1"># this Store is listening for Logout</span>
+    <span class="n">mutate</span><span class="p">.</span><span class="nf">user_name</span> <span class="s2">"No user"</span>
+  <span class="k">end</span>
+<span class="k">end</span>
 
-  receives Logout do
-    # this Store is listening for Logout
-    mutate.user_name "No user"
-  end
-end
-
-class UserPage < Hyperloop::Component
-  render(DIV) do
-    P { "Current user: #{NavBarStore.user_name}" }
-    BUTTON { "Logout" }.on(:click) do
-      Logout.run
-    end
-  end
-end
-</pre></div>
-
+<span class="k">class</span> <span class="nc">UserPage</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Component</span>
+  <span class="n">render</span><span class="p">(</span><span class="no">DIV</span><span class="p">)</span> <span class="k">do</span>
+    <span class="no">P</span> <span class="p">{</span> <span class="s2">"Current user: </span><span class="si">#{</span><span class="no">NavBarStore</span><span class="p">.</span><span class="nf">user_name</span><span class="si">}</span><span class="s2">"</span> <span class="p">}</span>
+    <span class="no">BUTTON</span> <span class="p">{</span> <span class="s2">"Logout"</span> <span class="p">}.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:click</span><span class="p">)</span> <span class="k">do</span>
+      <span class="no">Logout</span><span class="p">.</span><span class="nf">run</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
 <p>In the code above, you will notice that the Logout Operation does not specifically interact with the NavBarStore Store, but the Store receives the Operation when it is dispatched.</p>
 
 <h3 id="server-operations">Server Operations</h3>
