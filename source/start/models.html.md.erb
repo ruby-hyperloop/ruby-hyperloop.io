@@ -2,6 +2,8 @@
 <div class="chaptertitle"><span class="bigfirstletter">M</span>odels
 </div></h1>
 
+Much like Stores, Models hold state which Components watch and re-render when the data changes. The key difference between Models and Stores however is that Models are an extension of your server side (Rails) Active Record models. Changes made on the server are pushed to the connected clients who's Components are rendering that data.
+
 <div class="row">
   <div class="col-md-8">
     Components, Operations and Stores have no backend dependancy, but Models and Policies are integrated with Rails and require a Rails backend.
@@ -26,7 +28,7 @@ class BookList < Hyperloop::Component
 end
 ```
 
-Admittedly our component is not going to win any awards for great UI, but it is sufficient for our purposes. There are a few important things to notice:
+There are a few important things to notice:
 
 + Firstly let's discuss what's missing - there is no API, no Controllers - no boiler-plate code whose purpose if simply to transfer data from the server to the client.
 +  You have full access to your ActiveRecord Models in your client side code as if you were accessing them inside an ERB file.
@@ -55,7 +57,7 @@ Changes made to Models on a client or server are automatically synchronized to a
 
 ### How it works
 
-On the UI you will be reading models in order to display data. If during the rendering of the display the Model data is not yet loaded, placeholder values (the default values from the columns_hash) will be returned by Hyperloop.
+Components watch Models in order to display data. If during the rendering of the Component the Model data is not yet loaded, placeholder values (the default values from the columns_hash) will be returned by Hyperloop.
 
 Hyperloop then keeps track of where these placeholders (or DummyValues) are displayed, and when they do get loaded, those parts of the display will re-render.
 
@@ -76,7 +78,7 @@ Policies are defined through policy classes:
 ```ruby
 class UserPolicy # defines policies for the User class
   # The regulate_instance_connections method enables instances of the User
-  # class to be treated as a channel.  
+  # class to be treated as a channel.
 
   # The policy is defined by a block that is executed in the context of the
   # current acting_user.
@@ -88,7 +90,7 @@ class UserPolicy # defines policies for the User class
   # made.
 end
 
-class TeamPolicy # defines policies for the Team class  
+class TeamPolicy # defines policies for the Team class
   # Users can only connect to Teams that they belong to
   regulate_instance_connections { teams }
 end
@@ -109,7 +111,7 @@ class TodoPolicy
   # Policies can be established for models that are not channels as well.
 
   # The regulate_broadcast method will describe what attributes to send
-  # when a Todo model changes.  
+  # when a Todo model changes.
 
   # The blocks of broadcast policies run in the context of the changed model
   # so we have access to all the models methods.  In this case Todo
@@ -123,7 +125,7 @@ end
 class MessagePolicy
   # Broadcast policies can be arbitrarily complex.  In this case we
   # want to broadcast the entire message to the sender and the
-  # recipient's instance channels.  
+  # recipient's instance channels.
   # In addition if the message is not private, then we want to send to all
   # the team instance channels that are shared between the sender and
   # recipient's teams.
