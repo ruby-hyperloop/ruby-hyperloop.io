@@ -72,11 +72,7 @@ This little example Operation will dispatch a message that a Store will receive.
 
 **All Operations dispatch but it up to a Store to receive a dispatch.**
 
-<div class="codemirror-live-edit"
-  data-heading="Dispatchers and Receivers"
-  data-rows=23
-  data-top-level-component="UserPage">
-<pre>
+```ruby
 class Logout < Hyperloop::Operation
   # do the actual logout
 end
@@ -98,7 +94,7 @@ class UserPage < Hyperloop::Component
     end
   end
 end
-</pre></div>
+```
 
 In the code above, you will notice that the Logout Operation does not specifically interact with the NavBarStore Store, but the Store receives the Operation when it is dispatched.
 
