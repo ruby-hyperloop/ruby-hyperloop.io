@@ -136,6 +136,9 @@ nav .navbar-nav .nav-item .nav-link::first-letter {
 nav .navbar-nav .nav-item .nav-link:hover {
   color: #1bd6c3 !important; }
 
+nav .navbar-nav .nav-item .nav-link:hover:first-letter {
+  color: #e81176 !important; }
+
 .sidenavcol ul.nav li.nav-item a {
   color: #e81176;
   font-weight: bold; }
