@@ -30,3 +30,5 @@ Update your `/app/assets/javascripts/application.js` by adding:
 //= require jquery
 //= require jquery_ujs
 ```
+
+Note that these must be added before `//= require hyperloop-loader`
