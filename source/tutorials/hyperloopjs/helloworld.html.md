@@ -62,7 +62,7 @@ class Helloworld < Hyperloop::Component
 	  end
 	  
 	  INPUT(type: :text, class: 'form-control').on(:change) do |e|
-	    state.field_value! e.target.value
+	    mutate.field_value e.target.value
 	  end
 	end
 

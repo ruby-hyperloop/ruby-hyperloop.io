@@ -63,7 +63,7 @@ class Helloworld < Hyperloop::Component
     end
     
     INPUT(type: :text, class: 'form-control').on(:change) do |e|
-      state.field_value! e.target.value
+      mutate.field_value e.target.value
     end
   end
 
@@ -101,7 +101,7 @@ root 'home#helloworld'
 ##### Step 5: Creating the helloworld view file:
 
 ```erb
-#app/vies/home/helloworld.html.erb
+#app/views/home/helloworld.html.erb
 
 <div class="hyperloophelloword">
 
