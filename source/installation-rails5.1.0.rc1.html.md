@@ -19,3 +19,14 @@ by this one:
 ```
 gem 'sass-rails', '~> 5.0'
 ```
+
+### Javascripts libraries
+
+##### JQuery
+
+Update your `/app/assets/javascripts/application.js` by adding:
+
+```javascript
+//= require jquery
+//= require jquery_ujs
+```
