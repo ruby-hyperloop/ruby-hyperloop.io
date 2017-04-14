@@ -311,155 +311,18 @@ end
           <br>
         </div>
         <div class="col-md-9 main-content">
-          <h1 id="installation"><span class="bigfirstletter">I</span>nstallation</h1>
+          <h1 id="installation-with-rails-5-1-0-rc1"><span class="bigfirstletter">I</span>nstallation with Rails 5.1.0.rc1</h1>
 
-<p>There are several ways to install Hyperloop into your development environment.</p>
+<h3 id="gem-dependencies-issues">GEM dependencies issues</h3>
 
-<ul>
-<li>Running exclusively in your browser with Hyperloop.js</li>
-<li>Integrating with the Rails Asset Pipeline</li>
-<li>Integrating with Sinatra</li>
-</ul>
+<h5 id="sass-rails">Sass-rails</h5>
 
-<h2 id="hyperloop-js"><a name="hyperloopjs">Hyperloop.js</a></h2>
-
-<p>For small static sites that don&#39;t need a server backend you can use the <code>hyperloop.js</code> javascript library.
-Simply include the <code>hyperloop.js</code> file with your other javascript code, or access it directly via the CDN, and you are good to go.</p>
-
-<p>This is another great way to experiment with Hyperloop. You don&#39;t need any setup or download to get started.</p>
-
-<h3 id="setup"><a name="hyperloopjssetup">Setup</a></h3>
-
-<p>First add React, JQuery, <code>hyperloop.js</code> and <code>opal-compiler.js</code> to your HTML page:</p>
-<pre class="highlight html"><code><span class="nt">&lt;head&gt;</span>
-  <span class="c">&lt;!-- React and JQuery --&gt;</span>
-  <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"https://unpkg.com/react@15/dist/react.min.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
-  <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"https://unpkg.com/react-dom@15/dist/react-dom.min.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
-  <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"https://code.jquery.com/jquery-2.1.4.min.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
-
-  <span class="c">&lt;!-- Opal and Hyperloop --&gt;</span>
-  <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"https://rawgit.com/ruby-hyperloop/hyperloop-js/master/opal-compiler.min.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
-  <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"https://rawgit.com/ruby-hyperloop/hyperloop-js/master/hyperloop.min.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
-<span class="nt">&lt;/head&gt;</span>
+<p>Replace this line:</p>
+<pre class="highlight plaintext"><code>gem 'sass-rails', 'github: "rails/sass-rails"'
 </code></pre>
-<h3 id="simple-helloworld"><a name="hyperloopjssimplehelloworld">Simple HelloWorld</a></h3>
-
-<p>Next, specify your ruby code inside script tags or link to your ruby code using the src attribute <code>&lt;script type=&quot;text/ruby&quot; src=.../&gt;</code></p>
-<pre class="highlight ruby"><code>  <span class="o">&lt;</span><span class="n">script</span> <span class="n">type</span><span class="o">=</span><span class="s2">"text/ruby"</span><span class="o">&gt;</span>
-
-    <span class="k">class</span> <span class="nc">Helloworld</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Component</span>
-
-      <span class="k">def</span> <span class="nf">render</span>
-        <span class="no">DIV</span> <span class="k">do</span>
-          <span class="s2">"hello world !"</span>
-        <span class="k">end</span>
-      <span class="k">end</span>
-
-    <span class="k">end</span>
-
-  <span class="o">&lt;</span><span class="sr">/script&gt;
-
-</span></code></pre>
-<p>Finally, mount your Component(s) as a DOM element and specify the Component and parameters using data-tags:</p>
-<pre class="highlight html"><code><span class="nt">&lt;body&gt;</span>
-  <span class="nt">&lt;div</span> <span class="na">data-hyperloop-mount=</span><span class="s">"Helloworld"</span>
-       <span class="na">data-name=</span><span class="s">""</span><span class="nt">&gt;</span>
-  <span class="nt">&lt;/div&gt;</span>
-<span class="nt">&lt;/body&gt;</span>
+<p>by this one:</p>
+<pre class="highlight plaintext"><code>gem 'sass-rails', '~&gt; 5.0'
 </code></pre>
-<h3 id="tutorials"><a name="hyperloopjstutorials">Tutorials</a></h3>
-
-<p>You are ready now to implement more interesting and complex Components.<br>
-You can start by the first tutorial of the Hyperloop series here :</p>
-
-<p><a href="/tutorials/hyperloopjs/helloworld">{ Hyperloop.js HelloWorld tutorial }</a></p>
-
-<h2 id="with-ruby-on-rails"><a name="ror">With Ruby On Rails</a></h2>
-
-<p>Hyperloop works great with new or existing rails apps, so it&#39;s pain free to introduce it to your application.</p>
-
-<p>Hyperloop has been tested with the most recent Ruby On Rails verions:<br> Rails (~&gt; 4.2), Rails (~&gt; 5.0) and the last Rails (5.1.0.rc1). Because the final Rails 5.1.0 is not released yet there are still few points to be aware of <a href="/installation-rails5.1.0.rc1">Hyperloop and Rails 5.1.0.rc1</a> </p>
-
-<h3 id="setup"><a name="rorsetup">Setup</a></h3>
-
-<p>In your <code>Gemfile</code></p>
-<pre class="highlight ruby"><code><span class="n">gem</span> <span class="s1">'hyperloop'</span>
-</code></pre>
-<p>then</p>
-<pre class="highlight ruby"><code><span class="n">bundle</span> <span class="n">install</span>
-</code></pre>
-<p>Once the Hyperloop Gem and all its dependencies have been installed, it&#39;s time to run the hyperloop install generator.</p>
-<pre class="highlight ruby"><code><span class="n">rails</span> <span class="n">g</span> <span class="n">hyperloop</span><span class="ss">:install</span>
-</code></pre>
-<p>The generator creates the hyperloop structure inside the <code>/app</code> directory :</p>
-<pre class="highlight plaintext"><code>/app/hyperloop/
-/app/hyperloop/components
-/app/hyperloop/models
-/app/hyperloop/operations
-/app/hyperloop/stores
-</code></pre>
-<p>And updates your <code>app/assets/javascripts/application.js</code> file adding this line:</p>
-<pre class="highlight javascript"><code><span class="c1">//= require hyperloop-loader</span>
-</code></pre>
-<h3 id="simple-helloworld"><a name="rorsimplehelloworld">Simple HelloWorld</a></h3>
-
-<p>You can now test it by creating a very simple Component by running the hyperloop generator :</p>
-<pre class="highlight plaintext"><code>rails g hyper:component Helloworld
-</code></pre>
-<p>You can view the new Component created in <code>/app/hyperloop/components/</code></p>
-
-<p>Then you create a <code>home_controller.rb</code> file, manually or with the command <code>rails g controller Home helloworld --skip-javascripts</code>, and updtate it as following:</p>
-<pre class="highlight ruby"><code><span class="c1">#app/controllers/home_controller.rb</span>
-
-<span class="k">class</span> <span class="nc">HomeController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
-  <span class="k">def</span> <span class="nf">helloworld</span>
-    <span class="n">render_component</span>
-  <span class="k">end</span>
-<span class="k">end</span>
-</code></pre>
-<p>Don&#39;t forget to modify your <code>routes.rb</code>:</p>
-<pre class="highlight ruby"><code><span class="n">root</span> <span class="s1">'home#helloworld'</span>
-</code></pre>
-<p>Start your Rails server and browse <code>http://localhost:3000</code>.<br>
-You should see <code>Hello world</code> displayed by the Component.</p>
-
-<p>Note:
-Instead of rendering your component from a controller, you can also render it from a view like this:</p>
-<pre class="highlight erb"><code>#app/views/home/helloworld.html.erb
-
-<span class="cp">&lt;%=</span> <span class="n">react_component</span> <span class="s1">'::Helloworld'</span><span class="p">,</span> <span class="p">{},</span> <span class="p">{</span> <span class="ss">prerender: </span><span class="kp">true</span> <span class="p">}</span> <span class="cp">%&gt;</span>
-</code></pre>
-<h3 id="tutorials"><a name="rortutorials">Tutorials</a></h3>
-
-<p>You are ready now to implement more interesting and complex Components.<br>
-You can start by the first tutorial of the Hyperloop series here:</p>
-
-<p><a href="/tutorials/hyperlooprails/helloworld">{ Hyperloop with Ruby On Rails HelloWorld tutorial }</a></p>
-
-<h3 id="advanced-configuration">Advanced configuration</h3>
-
-<p>You can find detailed information about Hyperloop configuration files and the advanced options on this page: <br></p>
-
-<p><a href="/docs/advancedconfiguration">{ Advanced configuration }</a></p>
-
-<h2 id="with-sinatra">With Sinatra</h2>
-
-<p>Hyperloop works fine with Sinatra.  Use this <a href="https://github.com/reactrb/reactrb-examples">Sinatra Example App</a> to get started.</p>
-
-<p>TODO</p>
-
-<h2 id="deployment">Deployment</h2>
-
-<p>For learning how to deploy a hyperloop application to a production server (particularly when using Rails), you can follow our tutorials: </p>
-
-<p><a href="/tutorials/hyperloopdeploy">{ Hyperloop deployment }</a></p>
-
-<h2 id="next-steps">Next Steps</h2>
-
-<p>Check out <a href="/tutorials">the tutorials</a> to learn more.</p>
-
-<p>Good luck, and welcome!</p>
-
         </div>
       </div>
     </div>
