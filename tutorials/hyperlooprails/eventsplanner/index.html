@@ -318,6 +318,180 @@ end
 
 <h4 id="writing-this-tutorial-state-in-progress">Writing this tutorial state : In progress</h4>
 
+<p>You can find the complete source code of this tutorial here: <a href="https://github.com/ruby-hyperloop/hyperloop-rails-eventsplanner">Hyperloop with Rails Event planner app</a></p>
+
+<h3 id="tutorial">Tutorial</h3>
+
+<p>To set up your <strong>Hyperloop</strong> environment and continue this tutorial, please first follow the <a href="/installation#rorsetup">Hyperloop installation with Ruby On Rails</a> tutorial.</p>
+
+<p>After <strong>Hyperloop</strong> has been installed properly we can go further.</p>
+
+<h5 id="step-1-creating-the-controller">Step 1: Creating the controller</h5>
+<pre class="highlight ruby"><code><span class="c1">#app/controllers/home_controller.rb</span>
+
+<span class="k">class</span> <span class="nc">HomeController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+  <span class="k">def</span> <span class="nf">show</span>
+
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<h5 id="step-2-creating-the-view">Step 2: Creating the view</h5>
+<pre class="highlight erb"><code>#app/views/home/show.html.erb
+
+<span class="cp">&lt;%=</span> <span class="n">react_component</span> <span class="s1">'::Show'</span><span class="p">,</span> <span class="p">{},</span> <span class="p">{</span> <span class="ss">prerender: </span><span class="kp">false</span> <span class="p">}</span> <span class="cp">%&gt;</span>
+</code></pre>
+<h5 id="step-3-creating-the-route">Step 3: Creating the route</h5>
+
+<p>Add to your <code>routes.rb</code> file</p>
+<pre class="highlight ruby"><code><span class="c1">#config/routes.rb</span>
+
+<span class="n">get</span> <span class="s1">'eventplanner'</span><span class="p">,</span> <span class="ss">to: </span><span class="s1">'home#show'</span> 
+</code></pre>
+<h5 id="step-4-creating-the-model">Step 4: Creating the model</h5>
+
+<p>Run the Rails model generator:</p>
+<pre class="highlight plaintext"><code>rails g model Planevent
+</code></pre>
+<p>And then before you run the migration, let&#39;s flesh them out a little so they look like this:</p>
+<pre class="highlight ruby"><code><span class="c1"># db/migrate/..create_planevents.rb</span>
+
+<span class="k">class</span> <span class="nc">CreatePlanevents</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Migration</span><span class="p">[</span><span class="mi">5</span><span class="o">.</span><span class="mi">0</span><span class="p">]</span>
+  <span class="k">def</span> <span class="nf">change</span>
+    <span class="n">create_table</span> <span class="ss">:planevents</span> <span class="k">do</span> <span class="o">|</span><span class="n">t</span><span class="o">|</span>
+      <span class="n">t</span><span class="p">.</span><span class="nf">string</span> <span class="ss">:planeventtitle</span>
+      <span class="n">t</span><span class="p">.</span><span class="nf">text</span> <span class="ss">:description</span>
+      <span class="n">t</span><span class="p">.</span><span class="nf">timestamps</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<p>Now run the migration:</p>
+<pre class="highlight plaintext"><code>rails db:migrate
+</code></pre>
+<h5 id="step-5-making-your-models-accessible-to-hyperloop-models">Step 5: Making your models accessible to Hyperloop Models</h5>
+
+<p>Hyperloop Models needs to &#39;see&#39; your models because a representation of them gets compiled into JavaScript along with your Hyperloop Components so they are accessible in your client-side code.</p>
+
+<p>Move <code>app/models/planevent.rb</code> to <code>app/hyperloop/models/planevent.rb</code></p>
+
+<p>For Rails 5.x only, copy <code>app/models/application_record.rb</code> to <code>app/hypermodel/models/application_record.rb</code></p>
+
+<h5 id="step-6-creating-components">Step 6: Creating components</h5>
+
+<p>To get started, let&#39;s create a new component which will display a list of Events:</p>
+<pre class="highlight ruby"><code><span class="c1"># app/hyperloop/components/show.rb</span>
+
+<span class="k">class</span> <span class="nc">Show</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Component</span>
+
+  <span class="k">def</span> <span class="nf">render</span>
+    <span class="no">DIV</span> <span class="k">do</span>
+      <span class="no">PlaneventsList</span><span class="p">()</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+
+<span class="k">end</span>
+</code></pre>
+<p>Note that to place a HyperReact Components you either need to include ( ) or { }, so planeventsList() or PlaneventsList { } would be valid but just PlaneventsList would not.</p>
+
+<p>Next let&#39;s create the PlaneventsList component:</p>
+<pre class="highlight ruby"><code><span class="c1">#app/hyperloop/components/planeventslist.rb</span>
+
+
+<span class="k">class</span> <span class="nc">PlaneventsList</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Component</span>
+
+  <span class="n">state</span> <span class="ss">new_planevent: </span><span class="no">Hash</span><span class="p">.</span><span class="nf">new</span> <span class="p">{</span> <span class="o">|</span><span class="n">h</span><span class="p">,</span> <span class="n">k</span><span class="o">|</span> <span class="n">h</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="s1">''</span> <span class="p">}</span>
+
+  <span class="n">before_mount</span> <span class="k">do</span>
+    <span class="c1"># note that this will lazy load posts</span>
+    <span class="c1"># and only the fields that are needed will be requested</span>
+    <span class="vi">@planevents</span> <span class="o">=</span> <span class="no">Planevent</span><span class="p">.</span><span class="nf">all</span>
+    <span class="vi">@planevent_attributes</span> <span class="o">=</span> <span class="no">Hash</span><span class="p">[</span> <span class="s1">'planeventtitle'</span> <span class="o">=&gt;</span> <span class="s1">'Event Name'</span><span class="p">,</span> <span class="s1">'description'</span> <span class="o">=&gt;</span> <span class="s1">'Description'</span><span class="p">]</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">render</span>
+    <span class="no">DIV</span><span class="p">(</span><span class="ss">class: </span><span class="s1">'container'</span><span class="p">)</span> <span class="k">do</span>
+        <span class="no">DIV</span><span class="p">(</span><span class="ss">class: </span><span class="s1">'row'</span><span class="p">)</span> <span class="k">do</span>
+        <span class="n">new_planevent</span>
+      <span class="k">end</span>
+
+      <span class="no">HR</span>
+
+        <span class="no">DIV</span><span class="p">(</span><span class="ss">class: </span><span class="s1">'row'</span><span class="p">)</span> <span class="k">do</span>
+            <span class="n">table_render</span>
+        <span class="k">end</span>
+
+    <span class="k">end</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">table_render</span>
+
+      <span class="no">DIV</span><span class="p">(</span><span class="ss">class: </span><span class="s1">'col_md_12'</span><span class="p">)</span> <span class="k">do</span>
+        <span class="no">BR</span>
+        <span class="no">TABLE</span><span class="p">(</span><span class="ss">class: </span><span class="s2">"table table-hover"</span><span class="p">)</span> <span class="k">do</span>
+          <span class="no">THEAD</span> <span class="k">do</span>
+            <span class="no">TR</span> <span class="k">do</span>
+              <span class="no">TD</span><span class="p">(</span><span class="ss">class: </span><span class="s1">'text_muted small'</span><span class="p">,</span> <span class="ss">width: </span><span class="s1">'33%'</span><span class="p">)</span> <span class="p">{</span> <span class="s2">"NAME"</span> <span class="p">}</span>
+              <span class="no">TD</span><span class="p">(</span><span class="ss">class: </span><span class="s1">'text_muted small'</span><span class="p">,</span> <span class="ss">width: </span><span class="s1">'33%'</span><span class="p">)</span> <span class="p">{</span> <span class="s2">"DESCRIPTION"</span> <span class="p">}</span>
+              <span class="no">TD</span><span class="p">(</span><span class="ss">class: </span><span class="s1">'text_muted small'</span><span class="p">,</span> <span class="ss">width: </span><span class="s1">'33%'</span><span class="p">)</span> <span class="p">{</span> <span class="s2">"DATE"</span> <span class="p">}</span>
+            <span class="k">end</span>
+          <span class="k">end</span>
+          <span class="no">TBODY</span> <span class="k">do</span>
+            <span class="vi">@planevents</span><span class="p">.</span><span class="nf">reverse</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">planevent</span><span class="o">|</span>
+              <span class="no">PlaneventsListItem</span><span class="p">(</span><span class="ss">planevent: </span><span class="n">planevent</span><span class="p">)</span>
+            <span class="k">end</span>
+          <span class="k">end</span>
+        <span class="k">end</span>
+      <span class="k">end</span>
+
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">new_planevent</span>
+
+    <span class="vi">@planevent_attributes</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">attribute</span><span class="p">,</span> <span class="n">value</span><span class="o">|</span>
+
+      <span class="no">DIV</span><span class="p">(</span><span class="ss">class: </span><span class="s1">'form-group'</span><span class="p">)</span> <span class="k">do</span>
+        <span class="no">LABEL</span><span class="p">()</span> <span class="p">{</span> <span class="n">value</span> <span class="p">}</span> 
+        <span class="no">INPUT</span><span class="p">(</span><span class="ss">value: </span><span class="n">state</span><span class="p">.</span><span class="nf">new_planevent</span><span class="p">[</span><span class="n">attribute</span><span class="p">],</span> <span class="ss">type: :text</span><span class="p">,</span>
+              <span class="ss">class: </span><span class="s1">'form-control login-input'</span><span class="p">)</span>
+          <span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:change</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span><span class="n">e</span><span class="o">|</span>
+            <span class="n">mutate</span><span class="p">.</span><span class="nf">new_planevent</span><span class="p">[</span><span class="n">attribute</span><span class="p">]</span> <span class="o">=</span> <span class="n">e</span><span class="p">.</span><span class="nf">target</span><span class="p">.</span><span class="nf">value</span>
+          <span class="p">}</span>
+      <span class="k">end</span>
+
+    <span class="k">end</span>
+
+    <span class="no">BUTTON</span><span class="p">(</span><span class="ss">type: :button</span><span class="p">,</span>
+         <span class="ss">class: </span><span class="s1">'btn btn-success btn-block'</span><span class="p">)</span> <span class="p">{</span> <span class="s1">'Create an new event'</span> <span class="p">}</span>
+    <span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:click</span><span class="p">)</span> <span class="p">{</span> <span class="n">save_new_planevent</span> <span class="p">}</span>
+
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">save_new_planevent</span>
+
+    <span class="no">Planevent</span><span class="p">.</span><span class="nf">create</span><span class="p">(</span><span class="n">state</span><span class="p">.</span><span class="nf">new_planevent</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">result</span><span class="o">|</span>
+      <span class="c1"># note that save is a promise so this code will only run after the save</span>
+      <span class="c1"># yet react will move onto the code after this (before the save happens)</span>
+      <span class="n">alert</span> <span class="s2">"unable to save"</span> <span class="k">unless</span> <span class="n">result</span> <span class="o">==</span> <span class="kp">true</span>
+    <span class="k">end</span>
+    <span class="n">state</span><span class="p">.</span><span class="nf">new_planevent</span><span class="p">.</span><span class="nf">clear</span>
+
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nc">PlaneventsListItem</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Component</span>
+  <span class="n">param</span> <span class="ss">:planevent</span>
+
+  <span class="k">def</span> <span class="nf">render</span>
+    <span class="no">TR</span> <span class="k">do</span>
+      <span class="no">TD</span><span class="p">(</span><span class="ss">width: </span><span class="s1">'33%'</span><span class="p">)</span> <span class="p">{</span> <span class="n">params</span><span class="p">.</span><span class="nf">planevent</span><span class="p">.</span><span class="nf">planeventtitle</span> <span class="p">}</span>
+      <span class="no">TD</span><span class="p">(</span><span class="ss">width: </span><span class="s1">'33%'</span><span class="p">)</span> <span class="p">{</span> <span class="n">params</span><span class="p">.</span><span class="nf">planevent</span><span class="p">.</span><span class="nf">description</span> <span class="p">}</span>
+      <span class="no">TD</span><span class="p">(</span><span class="ss">width: </span><span class="s1">'33%'</span><span class="p">)</span> <span class="p">{</span> <span class="n">params</span><span class="p">.</span><span class="nf">planevent</span><span class="p">.</span><span class="nf">created_at</span><span class="p">.</span><span class="nf">to_s</span> <span class="p">}</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+
+<span class="k">end</span>
+
+</code></pre>
         </div>
       </div>
     </div>
