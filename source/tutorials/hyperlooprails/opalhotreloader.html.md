@@ -17,7 +17,7 @@ To set up your **Hyperloop** environment and continue this tutorial, please firs
 
 After **Hyperloop** has been installed properly we can go further.
 
-Then in order to test or `Opal Hot Reloader` Gem, you need to have at least a basic **Hyperloop** appliction. For that you can follow the simple Tutorial: [HelloWorld Tutorial](/tutorials/hyperlooprails/helloworld).
+Then in order to test or `Opal Hot Reloader` Gem, you need to have at least a basic **Hyperloop** application. For that you can follow the simple Tutorial: [HelloWorld Tutorial](/tutorials/hyperlooprails/helloworld).
 
 ##### Step 1: Updating Gemfile
 
