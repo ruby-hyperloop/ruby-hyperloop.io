@@ -342,9 +342,6 @@ end
   data-top-level-component="SimpleComponent">
 <pre>
 class SimpleComponent < Hyperloop::Component
-
-  state show_field: false
-
   render(DIV) do
     BUTTON { 'Push the button' }.on(:click) do
      alert 'You did it!'
