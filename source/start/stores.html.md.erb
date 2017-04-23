@@ -30,17 +30,17 @@ The Component will work as you would expect but there are two fundamental proble
 
 We will fix these problems but first implementing a Hyperloop Store to keep our application state and business logic out of our Components.
 
-Later in this overview we will go one step further and move our business logic out of the Store into an Operation but for now the first step will be a big improvement.
+Later in this overview, we will go one step further and move our business logic out of the Store into an Operation but for now, the first step will be a big improvement.
 
 ### A simple Store
 
 Stores are where the state of your Application lives. Anything but a completely static web page will have dynamic states that change because of user inputs, the passage of time, or other external events.
 
-You can also create Stores by subclassing `Hyperloop::Store` or `Hyperloop::Store::Mixin` can be mixed in to any class to turn it into a Flux Store.
+You can also create Stores by subclassing `Hyperloop::Store` or `Hyperloop::Store::Mixin` can be mixed into any class to turn it into a Flux Store.
 
 Components that read a Store's state will automatically update when the state changes. Stores are simply Ruby classes that keep the dynamic parts of the state in special state variables.
 
-First let's add a Store and refactor our Component to use the Store:
+First, let's add a Store and refactor our Component to use the Store:
 
 <div class="codemirror-live-edit"
   data-heading="Using Stores"
@@ -126,9 +126,9 @@ end
 
 You will notice in the code above:
 
-+ We laid our page out using a TopLevelComponent who's job it was to render the other Components. This is a typical pattern in Hyperloop, a HTML page can consist of a simple DIV and one TopLevelComponent and all rendering is done by that Component. Often this will contain a router as each new 'page' will be rendered in this DIV.
++ We laid our page out using a TopLevelComponent who's job it was to render the other Components. This is a typical pattern in Hyperloop, an HTML page can consist of a simple DIV and one TopLevelComponent and all rendering is done by that Component. Often this will contain a router as each new 'page' will be rendered in this DIV.
 + We are using a class instance of MyStore so all the Components on the page will share the same instance. Note how we defined `state :value, reader: true, scope: :class` and also how the methods are class methods `def self.clear!`
-+ The bang notation (!) is a matter of style, but used here to indicate a mutation
++ The bang notation (!) is a matter of style, but used here to indicate a mutation.
 
 
 That concludes the introduction to Stores. To learn more about Stores please see the [Tutorials](/tutorials) and also the comprehensive [Docs](/docs/architecture)

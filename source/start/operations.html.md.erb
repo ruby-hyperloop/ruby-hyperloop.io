@@ -16,7 +16,7 @@ The design of our Operations has been inspired by a few sources:
 
 Hyperloop Operations work in three ways:
 
-1. They `run` a sequence of `step`'s. Each step is a progressive step in a workflow, only continuing to the next step if the current step succeeds. This mode borrows from Trailblazer's concept of an Operation.
+1. They `run` a sequence of `steps`. Each step is a progressive step in a workflow, only continuing to the next step if the current step succeeds. This mode borrows from Trailblazer's concept of an Operation.
 2. Much like Flux Actions, Stores can `receive` Operations so a Store can watch for an Operation being dispatched and act accordingly. This shifts the responsibility to the Store mutate its state when an Operation is dispatched.
 3. `ServerOps` are Operations which, to your Isomorphic code, look like normal Operations but are guaranteed to only run on the server, even when they are invoked from the client. A good reason for this type of Operation would be when resources needed by the Operation are bound to the server - for example invoking a Mailer or updating a database. ServerOps do away with the need for a boilerplate API layer (unless you specifically want an API).
 
@@ -66,7 +66,7 @@ You will notice in the code above:
 
 ### Dispatchers and Receivers
 
-Next let's look at an Operation that follows the dispatch and receiver (Flux) pattern.
+Next, let's look at an Operation that follows the dispatch and receiver (Flux) pattern.
 
 This little example Operation will dispatch a message that a Store will receive. We have implemented the Flux pattern into Operations and Stores where Operations are dispatchers and Stores are receivers.
 
@@ -142,4 +142,4 @@ end
 
 --------------------
 
-<button type="button" class="btn btn-primary btn-lg btn-hyperlooppink" onclick="location.href='/start/policies';">Next we cover Policies</button>
+<button type="button" class="btn btn-primary btn-lg btn-hyperlooppink" onclick="location.href='/start/policies';">Next, we cover Policies</button>
