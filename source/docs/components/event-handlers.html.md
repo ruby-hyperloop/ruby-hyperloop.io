@@ -1,7 +1,7 @@
 ---
 title: Components
 ---
-## Event Handelers
+## Event Handlers
 
 ### Event Handling and Synthetic Events
 
