@@ -274,7 +274,7 @@ end
     <li class="nav-item"><a href="/start/components">Components</a></li>
     <ul class="nav">
       <li class="nav-item"><a href="/start/components#rendering-components">Rendering Components</a></li>
-      <li class="nav-item"><a href="/start/components#passing-paramaters">Passing Paramaters</a></li>
+      <li class="nav-item"><a href="/start/components#passing-parameters">Passing Parameters</a></li>
       <li class="nav-item"><a href="/start/components#state-and-conditional-execution">State and conditional execution</a></li>
       <li class="nav-item"><a href="/start/components#stylish-components">Stylish Components</a></li>
       <li class="nav-item"><a href="/start/components#javascript-libraries">JavaScript Libraries</a></li>
@@ -335,7 +335,7 @@ end
   <span class="c1"># current acting_user.</span>
 
   <span class="c1"># For our User instance connection the policy is that there must be a</span>
-  <span class="c1"># logged-in user, and the connection is made to that user:</span>
+  <span class="c1"># logged-in user and the connection is made to that user:</span>
   <span class="n">regulate_instance_connections</span> <span class="p">{</span> <span class="nb">self</span> <span class="p">}</span>
   <span class="c1"># If there is no logged in user self will be nil, and no connection will be</span>
   <span class="c1"># made.</span>
@@ -365,7 +365,7 @@ end
   <span class="c1"># when a Todo model changes.</span>
 
   <span class="c1"># The blocks of broadcast policies run in the context of the changed model</span>
-  <span class="c1"># so we have access to all the models methods.  In this case Todo</span>
+  <span class="c1"># so we have access to all the model's methods.  In this case Todo</span>
   <span class="c1"># belongs to a Team through the 'team' relationship.</span>
   <span class="n">regulate_broadcast</span> <span class="k">do</span> <span class="o">|</span><span class="n">policy</span><span class="o">|</span>
     <span class="c1"># send all Todo attributes to the todo's team channel</span>

@@ -274,7 +274,7 @@ end
     <li class="nav-item"><a href="/start/components">Components</a></li>
     <ul class="nav">
       <li class="nav-item"><a href="/start/components#rendering-components">Rendering Components</a></li>
-      <li class="nav-item"><a href="/start/components#passing-paramaters">Passing Paramaters</a></li>
+      <li class="nav-item"><a href="/start/components#passing-parameters">Passing Parameters</a></li>
       <li class="nav-item"><a href="/start/components#state-and-conditional-execution">State and conditional execution</a></li>
       <li class="nav-item"><a href="/start/components#stylish-components">Stylish Components</a></li>
       <li class="nav-item"><a href="/start/components#javascript-libraries">JavaScript Libraries</a></li>
@@ -322,7 +322,7 @@ end
 <div class="chaptertitle"><span class="bigfirstletter">M</span>odels
 </div></h1>
 
-<p>Much like Stores, Models hold state which Components watch and re-render when the data changes. The key difference between Models and Stores however is that Models are an extension of your server side (Rails) Active Record models. Changes made on the server are pushed to the connected clients who&#39;s Components are rendering that data.</p>
+<p>Much like Stores, Models hold state which Components watch and re-render when the data changes. The key difference between Models and Stores, however, is that Models are an extension of your server side (Rails) Active Record models. Changes made on the server are pushed to the connected clients who&#39;s Components are rendering that data.</p>
 
 <div class="row">
   <div class="col-md-8">
@@ -350,7 +350,7 @@ end
 <ul>
 <li>Firstly let&#39;s discuss what&#39;s missing - there is no API, no Controllers - no boiler-plate code whose purpose if simply to transfer data from the server to the client.</li>
 <li> You have full access to your ActiveRecord Models in your client side code as if you were accessing them inside an ERB file.</li>
-<li>With pre-rendering the page is rendered by the server before being delivered to the client. This rendering process uses ActiveRecord in exactly the same way as rendering an ERB file would do.</li>
+<li>With pre-rendering, the page is rendered by the server before being delivered to the client. This rendering process uses ActiveRecord in exactly the same way as rendering an ERB file would do.</li>
 <li>The key difference is that the same code will run in the browser, the same simple Ruby code will be compiled into JavaScript and Hyperloop will provide all the infrastructure necessary to query the server and deliver the data to the client.</li>
 </ul>
 
@@ -379,15 +379,15 @@ end
 
 <p>If later the data changes (either due to local user actions, or receiving push updates) then again any parts of the display that were dependent on the current values will be re-rendered.</p>
 
-<p>You normally do not have to be aware of this. Just access your Models using the normal scopes and finders, then compute values and display attributes as you would on the server. Initially the display will show the placeholder values and then will be replaced with the real values.</p>
+<p>You normally do not have to be aware of this. Just access your Models using the normal scopes and finders, then compute values and display attributes as you would on the server. Initially, the display will show the placeholder values and then will be replaced with the real values.</p>
 
 <hr>
 
-<p>Next we are going to look at Operations. If you accept that your Store&#39;s and Model&#39;s job is to keep state and share it with the Components, an Operations&#39;s job is to mutate (change) state.</p>
+<p>Next, we are going to look at Operations. If you accept that your Store&#39;s and Model&#39;s job is to keep state and share it with the Components, an Operations&#39;s job is to mutate (change) state.</p>
 
-<p>Operations are where you business logic lives, your procedures that mutate state and data.</p>
+<p>Operations are where your business logic lives, your procedures that mutate state and data.</p>
 
-<p><button type="button" class="btn btn-primary btn-lg btn-hyperlooppink" onclick="location.href='/start/operations';">Next we cover Operations</button></p>
+<p><button type="button" class="btn btn-primary btn-lg btn-hyperlooppink" onclick="location.href='/start/operations';">Next, we cover Operations</button></p>
 
         </div>
       </div>

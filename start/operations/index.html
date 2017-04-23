@@ -274,7 +274,7 @@ end
     <li class="nav-item"><a href="/start/components">Components</a></li>
     <ul class="nav">
       <li class="nav-item"><a href="/start/components#rendering-components">Rendering Components</a></li>
-      <li class="nav-item"><a href="/start/components#passing-paramaters">Passing Paramaters</a></li>
+      <li class="nav-item"><a href="/start/components#passing-parameters">Passing Parameters</a></li>
       <li class="nav-item"><a href="/start/components#state-and-conditional-execution">State and conditional execution</a></li>
       <li class="nav-item"><a href="/start/components#stylish-components">Stylish Components</a></li>
       <li class="nav-item"><a href="/start/components#javascript-libraries">JavaScript Libraries</a></li>
@@ -339,7 +339,7 @@ end
 <p>Hyperloop Operations work in three ways:</p>
 
 <ol>
-<li>They <code>run</code> a sequence of <code>step</code>&#39;s. Each step is a progressive step in a workflow, only continuing to the next step if the current step succeeds. This mode borrows from Trailblazer&#39;s concept of an Operation.</li>
+<li>They <code>run</code> a sequence of <code>steps</code>. Each step is a progressive step in a workflow, only continuing to the next step if the current step succeeds. This mode borrows from Trailblazer&#39;s concept of an Operation.</li>
 <li>Much like Flux Actions, Stores can <code>receive</code> Operations so a Store can watch for an Operation being dispatched and act accordingly. This shifts the responsibility to the Store mutate its state when an Operation is dispatched.</li>
 <li><code>ServerOps</code> are Operations which, to your Isomorphic code, look like normal Operations but are guaranteed to only run on the server, even when they are invoked from the client. A good reason for this type of Operation would be when resources needed by the Operation are bound to the server - for example invoking a Mailer or updating a database. ServerOps do away with the need for a boilerplate API layer (unless you specifically want an API).</li>
 </ol>
@@ -392,7 +392,7 @@ end
 
 <h3 id="dispatchers-and-receivers">Dispatchers and Receivers</h3>
 
-<p>Next let&#39;s look at an Operation that follows the dispatch and receiver (Flux) pattern.</p>
+<p>Next, let&#39;s look at an Operation that follows the dispatch and receiver (Flux) pattern.</p>
 
 <p>This little example Operation will dispatch a message that a Store will receive. We have implemented the Flux pattern into Operations and Stores where Operations are dispatchers and Stores are receivers.</p>
 
@@ -459,7 +459,7 @@ end
 </code></pre>
 <hr>
 
-<p><button type="button" class="btn btn-primary btn-lg btn-hyperlooppink" onclick="location.href='/start/policies';">Next we cover Policies</button></p>
+<p><button type="button" class="btn btn-primary btn-lg btn-hyperlooppink" onclick="location.href='/start/policies';">Next, we cover Policies</button></p>
 
         </div>
       </div>

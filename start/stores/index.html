@@ -274,7 +274,7 @@ end
     <li class="nav-item"><a href="/start/components">Components</a></li>
     <ul class="nav">
       <li class="nav-item"><a href="/start/components#rendering-components">Rendering Components</a></li>
-      <li class="nav-item"><a href="/start/components#passing-paramaters">Passing Paramaters</a></li>
+      <li class="nav-item"><a href="/start/components#passing-parameters">Passing Parameters</a></li>
       <li class="nav-item"><a href="/start/components#state-and-conditional-execution">State and conditional execution</a></li>
       <li class="nav-item"><a href="/start/components#stylish-components">Stylish Components</a></li>
       <li class="nav-item"><a href="/start/components#javascript-libraries">JavaScript Libraries</a></li>
@@ -349,17 +349,17 @@ end
 
 <p>We will fix these problems but first implementing a Hyperloop Store to keep our application state and business logic out of our Components.</p>
 
-<p>Later in this overview we will go one step further and move our business logic out of the Store into an Operation but for now the first step will be a big improvement.</p>
+<p>Later in this overview, we will go one step further and move our business logic out of the Store into an Operation but for now, the first step will be a big improvement.</p>
 
 <h3 id="a-simple-store">A simple Store</h3>
 
 <p>Stores are where the state of your Application lives. Anything but a completely static web page will have dynamic states that change because of user inputs, the passage of time, or other external events.</p>
 
-<p>You can also create Stores by subclassing <code>Hyperloop::Store</code> or <code>Hyperloop::Store::Mixin</code> can be mixed in to any class to turn it into a Flux Store.</p>
+<p>You can also create Stores by subclassing <code>Hyperloop::Store</code> or <code>Hyperloop::Store::Mixin</code> can be mixed into any class to turn it into a Flux Store.</p>
 
 <p>Components that read a Store&#39;s state will automatically update when the state changes. Stores are simply Ruby classes that keep the dynamic parts of the state in special state variables.</p>
 
-<p>First let&#39;s add a Store and refactor our Component to use the Store:</p>
+<p>First, let&#39;s add a Store and refactor our Component to use the Store:</p>
 
 <div class="codemirror-live-edit"
   data-heading="Using Stores"
@@ -448,9 +448,9 @@ end
 <p>You will notice in the code above:</p>
 
 <ul>
-<li>We laid our page out using a TopLevelComponent who&#39;s job it was to render the other Components. This is a typical pattern in Hyperloop, a HTML page can consist of a simple DIV and one TopLevelComponent and all rendering is done by that Component. Often this will contain a router as each new &#39;page&#39; will be rendered in this DIV.</li>
+<li>We laid our page out using a TopLevelComponent who&#39;s job it was to render the other Components. This is a typical pattern in Hyperloop, an HTML page can consist of a simple DIV and one TopLevelComponent and all rendering is done by that Component. Often this will contain a router as each new &#39;page&#39; will be rendered in this DIV.</li>
 <li>We are using a class instance of MyStore so all the Components on the page will share the same instance. Note how we defined <code>state :value, reader: true, scope: :class</code> and also how the methods are class methods <code>def self.clear!</code></li>
-<li>The bang notation (!) is a matter of style, but used here to indicate a mutation</li>
+<li>The bang notation (!) is a matter of style, but used here to indicate a mutation.</li>
 </ul>
 
 <p>That concludes the introduction to Stores. To learn more about Stores please see the <a href="/tutorials">Tutorials</a> and also the comprehensive <a href="/docs/architecture">Docs</a></p>

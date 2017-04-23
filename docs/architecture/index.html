@@ -572,21 +572,21 @@ end
 
 <p>Hyperloop provides all the architectural constructs you need for a well designed, modern web application but we are <strong>not strongly opinionated</strong> as to how you use it. We would like you to find your own way through this architecture, to use the parts that make the most sense for your application and coding style.</p>
 
-<p>Here are a few pragmatic pointers which might help you:  </p>
+<p>Here are a few pragmatic pointers which might help you:</p>
 
 <ul>
-<li>If state is only mutated inside of a Component then leave it as a state in the Component. For example a state that is tracking the current value of some input.</li>
-<li>Otherwise if it is a single application wide state object (like a cart), then use a Store, and group Operations in the Store&#39;s namespace.</li>
-<li>Otherwise if you are going to have instances of the state (like you have a Store that manages a random feed of objects like tweets, github users etc) then use a Store and add accessor, and mutators to the store&#39;s API. Those methods may need Operations (which can be name spaced inside the store) to deal with APIs, server side code etc.</li>
+<li>If a state is only mutated inside of a Component then leave it as a state in the Component. For example, a state that is tracking the current value of some input.</li>
+<li>Otherwise, if it is a single application-wide state object (like a cart), then use a Store, and group Operations in the Store&#39;s namespace.</li>
+<li>Otherwise, if you are going to have instances of the state (like you have a Store that manages a random feed of objects like tweets, GitHub users etc) then use a Store and add accessor and mutators to the store&#39;s API. Those methods may need Operations (which can be name spaced inside the store) to deal with APIs, server side code etc.</li>
 </ul>
 
 <p><strong>Why?</strong></p>
 
 <ul>
-<li>because its simple... don&#39;t use Stores, Operations, or anything else if you don&#39;t need to. Don&#39;t unnecessarily expose internals of a Component.</li>
+<li>because its simple... don&#39;t use Stores, Operations, or anything else if you don&#39;t need to. Don&#39;t unnecessarily expose the internals of a Component.</li>
 <li>because you want to centralize Stores, and using Operations to mutate the store provides a consistent interface to the outside. If mutating the Store becomes more complex the power of the Operation can be used without an API change.</li>
 <li>because in this case trying to use Operations becomes more cumbersome than its worth. You would have to pass the instance variable around to the Operation and simple things like <code>tweet_feed.next!</code> and <code>tweet_feed.avatar</code> would look like <code>StreamStore::Next(feed: tweet_feed)</code> and <code>StreamStore.avatar(tweet_feed)</code>.</li>
-<li>So in this case since you are building more complex Store its reasonable to hide the Operation (which will still exist) in side the <code>StreamStore#next!</code> method</li>
+<li>So in this case, since you are building more complex Store it is reasonable to hide the Operation (which will still exist) inside the <code>StreamStore#next!</code> method</li>
 </ul>
 
         </div>
