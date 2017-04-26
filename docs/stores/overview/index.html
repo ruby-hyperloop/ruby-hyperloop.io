@@ -546,7 +546,7 @@ end
 <p>States like instance variables are created when they are first referenced.</p>
 
 <p>As a convenience you may also explicitly declare states.  This reduces code noise, and improves readability.</p>
-<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">Cart</span> <span class="o">&lt;</span> <span class="no">HyperStore</span><span class="o">::</span><span class="no">Base</span>
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">Cart</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Store</span>
   <span class="n">state</span> <span class="ss">items: </span><span class="no">Hash</span><span class="p">.</span><span class="nf">new</span> <span class="p">{</span> <span class="o">|</span><span class="n">h</span><span class="p">,</span> <span class="n">k</span><span class="o">|</span> <span class="n">h</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">},</span> <span class="ss">scope: :class</span><span class="p">,</span> <span class="ss">reader: </span><span class="kp">true</span>
 <span class="k">end</span>
 </code></pre>
