@@ -28,7 +28,7 @@ All components need to be called `ExampleComponent` (hopefully this will be impr
   data-heading="A simple Component rendering a Button">
   data-rows=10>
 <pre>
-class ExampleComponent < React::Component::Base
+class ExampleComponent < Hyperloop::Component
   render(DIV) do
     BUTTON { 'Push the button' }.on(:click) do
      alert 'you clicked'

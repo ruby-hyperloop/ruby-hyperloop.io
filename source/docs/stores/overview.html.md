@@ -196,7 +196,7 @@ States like instance variables are created when they are first referenced.
 As a convenience you may also explicitly declare states.  This reduces code noise, and improves readability.
 
 ```ruby
-class Cart < HyperStore::Base
+class Cart < Hyperloop::Store
   state items: Hash.new { |h, k| h[k] = 0 }, scope: :class, reader: true
 end
 ```

@@ -54,7 +54,7 @@ title: Tools and Debugging
 > Anywhere in your HyperReact code you can simply `puts any_value` which will display the contents of the value in the browser console. This can help you understand React program flow as well as how data changes over time.
 
 ```ruby
-class Thing < React::Component::Base
+class Thing < Hyperloop::Component
   param initial_mode: 12
 
   before_mount do
