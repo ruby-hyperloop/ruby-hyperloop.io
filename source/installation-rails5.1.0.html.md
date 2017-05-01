@@ -2,7 +2,7 @@
 title: Installation
 ---
 
-# <span class="bigfirstletter">I</span>nstallation with Rails 5.1.0.rc1
+# <span class="bigfirstletter">I</span>nstallation with Rails 5.1.0
 
 ### GEM dependencies issues
 
