@@ -23,16 +23,16 @@
     <script src="https://rawgit.com/ruby-hyperloop/hyperloop-js/master/hyperloop.min.js"></script>
 
     <!-- If you want local copies... -->
-    <!-- <script src="../javascripts/opal-compiler.js"></script> -->
-    <!-- <script src="../javascripts/hyperloop.js"></script> -->
+    <!-- <script src="../../javascripts/opal-compiler.js"></script> -->
+    <!-- <script src="../../javascripts/hyperloop.js"></script> -->
 
     <script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
 
-    <script src="../javascripts/bootstrap.min.js"></script>
-    <script src="../javascripts/codemirror.js"></script>
-    <script src="../javascripts/ruby.js"></script>
-    <script src="../javascripts/matchbrackets.js"></script>
-    <script src="../javascripts/react_player.js"></script>
+    <script src="../../javascripts/bootstrap.min.js"></script>
+    <script src="../../javascripts/codemirror.js"></script>
+    <script src="../../javascripts/ruby.js"></script>
+    <script src="../../javascripts/matchbrackets.js"></script>
+    <script src="../../javascripts/react_player.js"></script>
 
     <!-- Components are compiled by Hyperloop Express -->
     <script type="text/ruby">
@@ -70,7 +70,7 @@ class CodeMirror < Hyperloop::Component
       div.card_header { params.heading }
       div(id: @div_code)
       div.card_header do
-        img(src: '../images/hyperloop-logo-small-white.png' , width:'25')
+        img(src: '../../images/hyperloop-logo-small-white.png' , width:'25')
         span { ' ' }
         'Live editor results'
       end
@@ -153,24 +153,24 @@ end
 </script>
 
 
-    <link href="../stylesheets/bootstrap.min.css" rel="stylesheet" />
-    <link href="../stylesheets/typography.css" rel="stylesheet" />
-    <link href="../stylesheets/override.css" rel="stylesheet" />
-    <link href="../stylesheets/divtable.css" rel="stylesheet" />
-    <!-- <link href="../stylesheets/code.css" rel="stylesheet" /> -->
-    <link href="../stylesheets/github.css" rel="stylesheet" />
-    <link href="../stylesheets/highlighting.css" rel="stylesheet" />
-    <link href="../stylesheets/codemirror.css" rel="stylesheet" />
+    <link href="../../stylesheets/bootstrap.min.css" rel="stylesheet" />
+    <link href="../../stylesheets/typography.css" rel="stylesheet" />
+    <link href="../../stylesheets/override.css" rel="stylesheet" />
+    <link href="../../stylesheets/divtable.css" rel="stylesheet" />
+    <!-- <link href="../../stylesheets/code.css" rel="stylesheet" /> -->
+    <link href="../../stylesheets/github.css" rel="stylesheet" />
+    <link href="../../stylesheets/highlighting.css" rel="stylesheet" />
+    <link href="../../stylesheets/codemirror.css" rel="stylesheet" />
 
     <link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/feed.xml" />
 
     <!-- Favicons -->
 
-    <link rel="apple-touch-icon" sizes="180x180" href="../images/apple-touch-icon.png">
-    <link rel="icon" type="image/png" href="../images/favicon-32x32.png" sizes="32x32">
-    <link rel="icon" type="image/png" href="../images/favicon-16x16.png" sizes="16x16">
+    <link rel="apple-touch-icon" sizes="180x180" href="../../images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" href="../../images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="../../images/favicon-16x16.png" sizes="16x16">
     <link rel="manifest" href="/images/manifest.json">
-    <link rel="mask-icon" href="../images/safari-pinned-tab.svg" color="#e81176">
+    <link rel="mask-icon" href="../../images/safari-pinned-tab.svg" color="#e81176">
     <meta name="theme-color" content="#ffffff">
 
   </head>
@@ -283,55 +283,105 @@ end
           <br>
         </div>
         <div class="col-md-9 main-content">
-          <h1><div class="hyperlogoalone" id="components"><img src="../images/HyperConsole.png" width="50" alt="Hyperconsole" /></div>
-<div class="chaptertitle"><a name="hyper-console"></a><span class="bigfirstletter">H</span>yper-console</div>
+          <h1><div class="hyperlogoalone" id="components"><img src="../../images/HyperTracer.png" width="50" alt="Hypertracer" /></div>
+<div class="chaptertitle"><span class="bigfirstletter">H</span>yper-trace</div>
 </h1>
 
-<p><a href="tools/hyperconsole"><img src="../images/hyperconsole-screenshot.png" width="100%" class="imgborder" alt="Hyperconsole screenshot" /></a></p>
-
-<p><strong>hyper-console</strong> will open a new popup window, that is running an IRB style read-eval loop. The console window will compile what ever ruby code you type, and if it compiles, will send it to your main window for execution. The result (or error message) plus any console output will be displayed in the console window.</p>
-
-<p><button type="button" class="btn btn-primary btn-lg btn-hyperloopconsole" onclick="location.href='tools/hyperconsole';">Hyper-console documentation</button></p>
-
-<h1><div class="hyperlogoalone" id="components"><img src="../images/HyperSpecs.png" width="50" alt="Hyperspecs" /></div>
-<div class="chaptertitle"><a name="hyper-spec"></a><span class="bigfirstletter">H</span>yper-spec</div>
-</h1>
-
-<p>With <strong>Hyper-spec</strong> you can run isomorphic specs for all your Hyperloop code using RSpec. Everything runs as standard RSpec test specs.</p>
-
-<p><strong>Hyperloop</strong> wants to make the server-client divide as transparent to the developer as practical. Given this, it makes sense that the testing should also be done with as little concern for client versus server.</p>
-
-<p><strong>Hyper-spec</strong> allows you to directly use tools like FactoryGirl (or Hyperloop Operations) to setup some test data, then run a spec to make sure that a component correctly displays, or modifies that data. You can use Timecop to manipulate time and keep in sync between the server and client. This makes testing easier and more realistic without writing a lot of redundant code.</p>
-
-<p><button type="button" class="btn btn-primary btn-lg btn-hyperloopspec" onclick="location.href='tools/hyperspec';">Hyper-spec documentation</button></p>
-
-<h1><div class="hyperlogoalone" id="components"><img src="../images/HyperTracer.png" width="50" alt="Hypertracer" /></div>
-<div class="chaptertitle"><a name="hyper-trace"></a><span class="bigfirstletter">H</span>yper-trace</div>
-</h1>
-
-<p>Method tracing and conditional break points for Opal and <strong>Hyperloop</strong> debug.</p>
+<p>Method tracing and conditional break points for <a href="http://opalrb.org/">Opal</a> and <a href="http://ruby-hyperloop.io">Hyperloop</a> debug.</p>
 
 <p>Typically you are going to use this in Capybara or Opal-RSpec examples that you are debugging.</p>
 
-<p><strong>Hyper-trace</strong> adds a <code>hypertrace</code> method to all classes that you will use to switch on tracing and break points.</p>
+<p>HyperTrace adds a <code>hypertrace</code> method to all classes that you will use to switch on tracing and break points.</p>
 
-<p><button type="button" class="btn btn-primary btn-lg btn-hyperlooptrace" onclick="location.href='tools/hypertrace';">Hyper-trace documentation</button></p>
+<p>For example:</p>
+<pre class="highlight ruby"><code><span class="no">SomeClass</span><span class="p">.</span><span class="nf">hypertrace</span> <span class="ss">instrument: :all</span>
+</code></pre>
+<p>Will instrument all methods in <code>SomeClass</code> and you will get a trace like this:</p>
 
-<h1><div class="chaptertitle"><a name="opalhotreloader"></a><span class="bigfirstletter">O</span>pal Hot Reloader</div>
-</h1>
+<p><img width="952" alt="screen shot 2016-10-22 at 11 08 56 pm" src="https://cloud.githubusercontent.com/assets/63146/19624133/48098fce-98b6-11e6-9198-cc5eae836ccf.png"></p>
 
-<p>Opal Hot Reloader is for pure programmer joy (not having to reload the page to compile your source) and the Opal Console is incredibly useful to test how Ruby code compiles to JavaScript.</p>
+<p>The trace log uses the javascript console grouping mechanism, so you can explore in detail the args, return values and state of the instance as each method executes.</p>
 
-<p>Opal Hot Reloader is going to just dynamically (via a websocket connection) chunks of code in the page almost instaneously.</p>
+<p>instead of <code>:all</code> you can specify a single method, or an array of methods.  Use the array notation if you happen to want to trace just the method <code>:all</code>.</p>
 
-<p><button type="button" class="btn btn-primary btn-lg btn-hyperlooppink" onclick="location.href='tutorials/hyperlooprails/opalhotreloader';">Opal hot reloader tutorial </button></p>
+<h4 id="breakpoints">Breakpoints</h4>
+<pre class="highlight ruby"><code><span class="no">SomeClass</span><span class="p">.</span><span class="nf">hypertrace</span> <span class="ss">break_on_enter: :foo</span>
+</code></pre>
+<p>Will break on entry to <code>SomeClass#foo</code> and <code>self</code> will be set the instance. The equivalent <code>break_on_exit</code> method will also store the result in a javascript variable called <code>RESULT</code>.</p>
 
-<h1><div class="chaptertitle"><a name="debuggingtips"></a><span class="bigfirstletter">D</span>ebugging tips</div>
-</h1>
+<h4 id="conditional-breakpoints">Conditional Breakpoints</h4>
+<pre class="highlight ruby"><code><span class="no">SomeClass</span><span class="p">.</span><span class="nf">hypertrace</span> <span class="ss">break_on_enter?: </span><span class="p">{</span><span class="ss">foo: </span><span class="o">-&gt;</span><span class="p">(</span><span class="n">arg1</span><span class="p">,</span> <span class="n">arg2</span> <span class="p">.</span><span class="nf">.</span><span class="o">.</span><span class="p">)</span> <span class="p">{</span> <span class="p">.</span><span class="nf">.</span><span class="o">.</span> <span class="p">}}</span>
+</code></pre>
+<p>The proc will be called before each call to <code>SomeClass#foo</code>, and any args passed to foo will be matched to the args, and the proc&#39;s instance will be set the foo&#39;s instance.  If the proc returns a falsy value the breakpoint will be skipped.</p>
 
-<p>Tips, good practice will help you debugging your Hyperloop application.</p>
+<h4 id="instrumenting-class-methods">Instrumenting Class methods</h4>
 
-<p><button type="button" class="btn btn-primary btn-lg btn-hyperlooppink" onclick="location.href='tools/debuggingtips';">Debugging tips documentation </button></p>
+<p>If the first argument is <code>:class</code> hypertrace will instrument the class methods.</p>
+<pre class="highlight ruby"><code><span class="no">SomeClass</span><span class="p">.</span><span class="nf">hypertrace</span> <span class="ss">:class</span> <span class="ss">instrument: :some_class_method</span>
+</code></pre>
+<h4 id="dsl">DSL</h4>
+
+<p>You can also use a simple DSL:</p>
+<pre class="highlight ruby"><code><span class="no">SomeClass</span><span class="p">.</span><span class="nf">hypertrace</span> <span class="k">do</span>
+  <span class="n">instrument</span>      <span class="p">[</span><span class="ss">:foo</span><span class="p">,</span> <span class="ss">:bar</span><span class="p">]</span>
+  <span class="n">break_on_exit</span>   <span class="ss">:baz</span>
+  <span class="n">break_on_enter?</span> <span class="ss">:ralph</span> <span class="k">do</span> <span class="o">|</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="o">|</span>
+    <span class="c1"># executes with self set the instance, p1, p2 will be the</span>
+    <span class="c1"># first two args passed to ralph</span>
+    <span class="n">p1</span> <span class="o">==</span> <span class="n">p2</span> <span class="c1"># break if p1 == p2</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<h4 id="switching-it-off">Switching it off</h4>
+<pre class="highlight ruby"><code><span class="no">SomeClass</span><span class="p">.</span><span class="nf">hypertrace</span> <span class="ss">instrument: :none</span>
+</code></pre>
+<h4 id="inside-of-classes">Inside of classes</h4>
+
+<p>Of course you can switch hypertrace on inside of your classes for quick debugging.  Just remember that hypertrace applies
+only to currently defined methods.</p>
+<pre class="highlight ruby"><code><span class="no">SomeClass</span>
+  <span class="p">.</span><span class="nf">.</span><span class="p">.</span>
+  <span class="nf">hypertrace</span> <span class="ss">instrument: :all</span>
+<span class="k">end</span>
+</code></pre>
+<h4 id="works-with-hyper-react-reactrb">Works with Hyper-React (Reactrb)</h4>
+
+<p>If you hypertrace a React Component class you will get information on the component lifecycle, and the component state will include react state variables, and params (props) as well as normal instance variables.</p>
+
+<h2 id="installation">Installation</h2>
+
+<p>Add this line to your application&#39;s Gemfile:</p>
+<pre class="highlight ruby"><code><span class="n">gem</span> <span class="s1">'hyper-trace'</span>
+</code></pre>
+<p>And then execute:</p>
+<pre class="highlight plaintext"><code>$ bundle
+</code></pre>
+<p>Or install it yourself as:</p>
+<pre class="highlight plaintext"><code>$ gem install hyper-trace
+</code></pre>
+<p>Once installed add <code>require &#39;hyper-trace&#39;</code> to your application or component manifest file.  This gem works best if you are using Capybara or opal rspec, in which case you can reference the gem in the test application&#39;s manifest.</p>
+
+<h2 id="custom-class-definitions">Custom Class Definitions</h2>
+
+<p>If class instance responds to <code>hypertrace_format_instance</code> then that method will be called to format the state information.</p>
+
+<p>The method will be passed a hypertrace context object that will respond to the following methods:</p>
+
+<ul>
+<li><code>format_instance(instance_vars = nil, &amp;block)</code><br>
+log the default instance header information.  If instance<em>vars is nil then all instance vars will be printed.  Otherwise instance</em>vars should be an array of the instance vars to display.  The block will be executed to provide other details following the instance vars.</li>
+<li><code>safe_i(object)</code>:<br>
+call inspect on an object will work even if the object is a native js object.</li>
+<li><code>safe_s(object)</code>:<br>
+call to_s on an object safely</li>
+<li><code>log(s)</code><br>
+print a s to the log, nested at the current grouping level</li>
+<li><code>group(header, collapsed: false, &amp;block)</code><br>
+create a new nesting group.  If collapsed is true then the group will be initially closed.  If block is present it will provide the contents of the group.</li>
+</ul>
+
+<p>If the method <code>hypertrace_exclusions</code> is defined, it can return an array of methods names that will be not
+be shown unless explicitly named.</p>
 
         </div>
       </div>

@@ -23,16 +23,16 @@
     <script src="https://rawgit.com/ruby-hyperloop/hyperloop-js/master/hyperloop.min.js"></script>
 
     <!-- If you want local copies... -->
-    <!-- <script src="../javascripts/opal-compiler.js"></script> -->
-    <!-- <script src="../javascripts/hyperloop.js"></script> -->
+    <!-- <script src="../../javascripts/opal-compiler.js"></script> -->
+    <!-- <script src="../../javascripts/hyperloop.js"></script> -->
 
     <script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
 
-    <script src="../javascripts/bootstrap.min.js"></script>
-    <script src="../javascripts/codemirror.js"></script>
-    <script src="../javascripts/ruby.js"></script>
-    <script src="../javascripts/matchbrackets.js"></script>
-    <script src="../javascripts/react_player.js"></script>
+    <script src="../../javascripts/bootstrap.min.js"></script>
+    <script src="../../javascripts/codemirror.js"></script>
+    <script src="../../javascripts/ruby.js"></script>
+    <script src="../../javascripts/matchbrackets.js"></script>
+    <script src="../../javascripts/react_player.js"></script>
 
     <!-- Components are compiled by Hyperloop Express -->
     <script type="text/ruby">
@@ -70,7 +70,7 @@ class CodeMirror < Hyperloop::Component
       div.card_header { params.heading }
       div(id: @div_code)
       div.card_header do
-        img(src: '../images/hyperloop-logo-small-white.png' , width:'25')
+        img(src: '../../images/hyperloop-logo-small-white.png' , width:'25')
         span { ' ' }
         'Live editor results'
       end
@@ -153,24 +153,24 @@ end
 </script>
 
 
-    <link href="../stylesheets/bootstrap.min.css" rel="stylesheet" />
-    <link href="../stylesheets/typography.css" rel="stylesheet" />
-    <link href="../stylesheets/override.css" rel="stylesheet" />
-    <link href="../stylesheets/divtable.css" rel="stylesheet" />
-    <!-- <link href="../stylesheets/code.css" rel="stylesheet" /> -->
-    <link href="../stylesheets/github.css" rel="stylesheet" />
-    <link href="../stylesheets/highlighting.css" rel="stylesheet" />
-    <link href="../stylesheets/codemirror.css" rel="stylesheet" />
+    <link href="../../stylesheets/bootstrap.min.css" rel="stylesheet" />
+    <link href="../../stylesheets/typography.css" rel="stylesheet" />
+    <link href="../../stylesheets/override.css" rel="stylesheet" />
+    <link href="../../stylesheets/divtable.css" rel="stylesheet" />
+    <!-- <link href="../../stylesheets/code.css" rel="stylesheet" /> -->
+    <link href="../../stylesheets/github.css" rel="stylesheet" />
+    <link href="../../stylesheets/highlighting.css" rel="stylesheet" />
+    <link href="../../stylesheets/codemirror.css" rel="stylesheet" />
 
     <link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/feed.xml" />
 
     <!-- Favicons -->
 
-    <link rel="apple-touch-icon" sizes="180x180" href="../images/apple-touch-icon.png">
-    <link rel="icon" type="image/png" href="../images/favicon-32x32.png" sizes="32x32">
-    <link rel="icon" type="image/png" href="../images/favicon-16x16.png" sizes="16x16">
+    <link rel="apple-touch-icon" sizes="180x180" href="../../images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" href="../../images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="../../images/favicon-16x16.png" sizes="16x16">
     <link rel="manifest" href="/images/manifest.json">
-    <link rel="mask-icon" href="../images/safari-pinned-tab.svg" color="#e81176">
+    <link rel="mask-icon" href="../../images/safari-pinned-tab.svg" color="#e81176">
     <meta name="theme-color" content="#ffffff">
 
   </head>
@@ -283,55 +283,114 @@ end
           <br>
         </div>
         <div class="col-md-9 main-content">
-          <h1><div class="hyperlogoalone" id="components"><img src="../images/HyperConsole.png" width="50" alt="Hyperconsole" /></div>
-<div class="chaptertitle"><a name="hyper-console"></a><span class="bigfirstletter">H</span>yper-console</div>
+          <h1><div class="hyperlogoalone" id="components"><img src="../../images/HyperConsole.png" width="50" alt="Hyperconsole" /></div>
+<div class="chaptertitle"><span class="bigfirstletter">H</span>yper-console documentation</div>
 </h1>
 
-<p><a href="tools/hyperconsole"><img src="../images/hyperconsole-screenshot.png" width="100%" class="imgborder" alt="Hyperconsole screenshot" /></a></p>
+<p><a href="../../images/hyperconsole-screenshot.png" target="_blank"><img src="../../images/hyperconsole-screenshot.png" width="100%" class="imgborder" alt="Hyperconsole screenshot" /></a></p>
 
-<p><strong>hyper-console</strong> will open a new popup window, that is running an IRB style read-eval loop. The console window will compile what ever ruby code you type, and if it compiles, will send it to your main window for execution. The result (or error message) plus any console output will be displayed in the console window.</p>
+<h3 id="installation">Installation</h3>
 
-<p><button type="button" class="btn btn-primary btn-lg btn-hyperloopconsole" onclick="location.href='tools/hyperconsole';">Hyper-console documentation</button></p>
+<p>Add</p>
+<pre class="highlight ruby"><code><span class="n">gem</span> <span class="s1">'hyper-console'</span>
+</code></pre>
+<p>To the development and test sections of your Gemfile.</p>
 
-<h1><div class="hyperlogoalone" id="components"><img src="../images/HyperSpecs.png" width="50" alt="Hyperspecs" /></div>
-<div class="chaptertitle"><a name="hyper-spec"></a><span class="bigfirstletter">H</span>yper-spec</div>
-</h1>
+<p>Do a <code>bundle install</code>, and <code>rm -rf tmp/cache</code>, then restart the server, hit one of your web pages, and the console will open.</p>
 
-<p>With <strong>Hyper-spec</strong> you can run isomorphic specs for all your Hyperloop code using RSpec. Everything runs as standard RSpec test specs.</p>
+<p><em>Note currently you must have enabled the <code>Hyperloop::Application</code> channel in your policies.  Hopefully we can remove this in the future</em></p>
 
-<p><strong>Hyperloop</strong> wants to make the server-client divide as transparent to the developer as practical. Given this, it makes sense that the testing should also be done with as little concern for client versus server.</p>
+<p><em>Note for Rails 4.x you will also need to add these lines to <code>config/initializer/assets.rb</code>:</em></p>
+<pre class="highlight ruby"><code><span class="no">Rails</span><span class="p">.</span><span class="nf">application</span><span class="p">.</span><span class="nf">config</span><span class="p">.</span><span class="nf">assets</span><span class="p">.</span><span class="nf">precompile</span> <span class="o">+=</span> <span class="sx">%w( hyper-console-client.css )</span>
+<span class="no">Rails</span><span class="p">.</span><span class="nf">application</span><span class="p">.</span><span class="nf">config</span><span class="p">.</span><span class="nf">assets</span><span class="p">.</span><span class="nf">precompile</span> <span class="o">+=</span> <span class="sx">%w( hyper-console-client.min.js )</span>
+</code></pre>
+<h3 id="details">Details</h3>
 
-<p><strong>Hyper-spec</strong> allows you to directly use tools like FactoryGirl (or Hyperloop Operations) to setup some test data, then run a spec to make sure that a component correctly displays, or modifies that data. You can use Timecop to manipulate time and keep in sync between the server and client. This makes testing easier and more realistic without writing a lot of redundant code.</p>
+<p>The <code>hyper-console</code> gem adds the <code>console</code> method to <code>Kernel</code>.  If you call <code>console</code> from anywhere in your client code, it will open a new <em>popup</em> window, that is running an IRB style read-eval loop.  The console window will compile what ever ruby code you type, and if it compiles, will send it to your main window for execution.  The result (or error message) plus any console output will be displayed in the console window.</p>
 
-<p><button type="button" class="btn btn-primary btn-lg btn-hyperloopspec" onclick="location.href='tools/hyperspec';">Hyper-spec documentation</button></p>
+<ul>
+<li>You may use the up/down arrow keys to move to previous expressions, edit them, and resend.<br></li>
+<li>If you are editing a block of code you can send the block immediately without moving to the end of the expression by using command (or ctrl) enter.</li>
+<li>The console history is stored in the popups html local store, so it will be retained across window reloads.</li>
+<li>The expression can be arbitrarily complex.  You can investigate model scopes, and attributes, run Operations, and get the current value of component states.</li>
+<li>You can even create classes, or open existing classes and modify their behavior.</li>
+</ul>
 
-<h1><div class="hyperlogoalone" id="components"><img src="../images/HyperTracer.png" width="50" alt="Hypertracer" /></div>
-<div class="chaptertitle"><a name="hyper-trace"></a><span class="bigfirstletter">H</span>yper-trace</div>
-</h1>
+<h3 id="the-instance-method">The <code>instance</code> method</h3>
 
-<p>Method tracing and conditional break points for Opal and <strong>Hyperloop</strong> debug.</p>
+<p>The console gem adds an <code>instance</code> method to all classes.  This will return an array like object of all the current instances of that class, <em>except instances bound to closures (sorry!)</em>.  </p>
 
-<p>Typically you are going to use this in Capybara or Opal-RSpec examples that you are debugging.</p>
+<p>For example if you have a component named <code>Components::TodoItem</code> then</p>
+<pre class="highlight ruby"><code><span class="no">Components</span><span class="o">::</span><span class="no">TodoItem</span><span class="p">.</span><span class="nf">instance</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># first instance</span>
+<span class="no">Components</span><span class="o">::</span><span class="no">TodoItem</span><span class="p">.</span><span class="nf">instance</span>    <span class="c1"># array of all the instances</span>
+<span class="no">Components</span><span class="o">::</span><span class="no">TodoItem</span><span class="p">.</span><span class="nf">instance</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nf">dom_node</span>  <span class="c1"># returns the mount point</span>
+</code></pre>
+<p>This is all very handy for investigating the state of Components and Stores.  For example assuming your top level component is named <code>App</code> and is using hyper-router, you can do things like this:</p>
+<pre class="highlight ruby"><code><span class="no">App</span><span class="p">.</span><span class="nf">instance</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nf">location</span><span class="p">.</span><span class="nf">pathname</span> <span class="c1"># current path</span>
+<span class="no">App</span><span class="p">.</span><span class="nf">instance</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nf">history</span><span class="p">.</span><span class="nf">push</span> <span class="s1">'/topics'</span> <span class="c1"># change path to `/topics`</span>
+</code></pre>
+<p>Because its common for there to be a single instance of some classes, the expression <code>instance[0]</code> can be shortened to just <code>instance</code> when there is only one instance of a class.  For example in the above example you could just say <code>App.instance.location.pathname</code>.</p>
 
-<p><strong>Hyper-trace</strong> adds a <code>hypertrace</code> method to all classes that you will use to switch on tracing and break points.</p>
+<h3 id="console-context">Console Context</h3>
 
-<p><button type="button" class="btn btn-primary btn-lg btn-hyperlooptrace" onclick="location.href='tools/hypertrace';">Hyper-trace documentation</button></p>
+<p>Each console window (you can have several) has an execution context, which is simply an expression that is used to determine the value of <code>self</code> that console executes in.  </p>
 
-<h1><div class="chaptertitle"><a name="opalhotreloader"></a><span class="bigfirstletter">O</span>pal Hot Reloader</div>
-</h1>
+<p>For example let&#39;s say you have a <code>Todo</code> model.  You could in the console window evaluate</p>
+<pre class="highlight ruby"><code><span class="n">console</span> <span class="ss">context: </span><span class="s1">'Todo.first'</span>
+</code></pre>
+<p>And a new console window will be opened that is &quot;bound&quot; to <code>Todo.first</code> so that in this window you can simply evaluate</p>
+<pre class="highlight ruby"><code><span class="n">title</span>
+</code></pre>
+<p>Instead of <code>Todo.first.title</code></p>
 
-<p>Opal Hot Reloader is for pure programmer joy (not having to reload the page to compile your source) and the Opal Console is incredibly useful to test how Ruby code compiles to JavaScript.</p>
+<p>Combining this with the <code>instance</code> method gives you a way to create a console window on a specific object in your application:</p>
+<pre class="highlight ruby"><code><span class="n">console</span> <span class="ss">context: </span><span class="s1">'App.instance'</span>
+</code></pre>
+<p>Will create a console window whose <code>self</code> is your top level application component.</p>
 
-<p>Opal Hot Reloader is going to just dynamically (via a websocket connection) chunks of code in the page almost instaneously.</p>
+<p><em>Note: if no context is provided, the context will be main opal context.</em></p>
 
-<p><button type="button" class="btn btn-primary btn-lg btn-hyperlooppink" onclick="location.href='tutorials/hyperlooprails/opalhotreloader';">Opal hot reloader tutorial </button></p>
+<h3 id="console-titles">Console Titles</h3>
 
-<h1><div class="chaptertitle"><a name="debuggingtips"></a><span class="bigfirstletter">D</span>ebugging tips</div>
-</h1>
+<p>You can also give console windows a title:</p>
+<pre class="highlight ruby"><code><span class="n">console</span> <span class="ss">text: </span><span class="s1">'App.instance'</span><span class="p">,</span> <span class="ss">title: </span><span class="s1">'App'</span>
+</code></pre>
+<h3 id="loading-reloading-from-javascript">Loading / Reloading from Javascript</h3>
 
-<p>Tips, good practice will help you debugging your Hyperloop application.</p>
+<p>The <code>hyperconsole</code> method is added to the javascript window object, so in your application&#39;s javascript console you can say <code>hyperconsole()</code> to load (or reload) the main hyperconsole window.  When reloading any prior command history will be retained, so this makes a nice escape hatch if things ever become totally confused.</p>
 
-<p><button type="button" class="btn btn-primary btn-lg btn-hyperlooppink" onclick="location.href='tools/debuggingtips';">Debugging tips documentation </button></p>
+<h3 id="loading-at-application-boot">Loading at Application Boot</h3>
+
+<p>By default a console will be created when your page loads.  You can turn this off by setting
+<code>ruby
+config.console_auto_start = false
+</code>
+in your hyperloop rails initializer.</p>
+
+<p>You can still start the console using <code>hyperconsole()</code> as described above.</p>
+
+<h3 id="how-it-works">How it works</h3>
+
+<p>The console and main application window communicate via two Hyperloop Operations: <code>Evaluate</code>, and <code>Response</code>.  </p>
+
+<p>As you type, the console runs the Opal compiler in the console window, and when you have a valid ruby expression, the resulting compiled code is sent to the main window using <code>Evaluate</code>.  The main window receives the Evaluate dispatch, does a javascript eval and returns the result.  </p>
+
+<h2 id="development">Development</h2>
+
+<p>After checking out the repo, run bundle install.</p>
+
+<p>The console assets are packaged into a single JS file, and a single style sheet.  Running <code>rake</code> will build the packages, and put them in the appropriate directories.</p>
+
+<h2 id="todo-help-wanted">TODO (help wanted)</h2>
+
+<ul>
+<li>configurable themes, especially smaller font size</li>
+<li>full keyboard controls (i.e things like ctrl-a moves to beginning of line)</li>
+<li>remove dependency on <code>Hyperloop::Application</code> channel</li>
+<li>Peer to peer communication once initial connection is made</li>
+<li>Chrome extension so that console can be attached physically to main window</li>
+<li>add some kind of test suite, and ability to test without building the asset package</li>
+</ul>
 
         </div>
       </div>

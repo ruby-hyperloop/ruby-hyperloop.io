@@ -40,6 +40,9 @@
 .tracer-green {
   color: #c3d9c2; }
 
+.console-purple {
+  color: #a71d5d; }
+
 .liveedit-lightblue-green {
   color: #CDE9FF; }
 
@@ -185,6 +188,33 @@ nav .navbar-nav .nav-item .nav-link:hover .navfirstletter {
   border-color: #753a88 !important;
   color: #753a88 !important; }
 
+.btn-hyperloopconsole {
+  background-color: #a71d5d !important;
+  border-color: #a71d5d !important; }
+
+.btn-hyperloopconsole:hover {
+  background-color: white !important;
+  border-color: #a71d5d !important;
+  color: #a71d5d !important; }
+
+.btn-hyperloopspec {
+  background-color: #fe4161 !important;
+  border-color: #fe4161 !important; }
+
+.btn-hyperloopspec:hover {
+  background-color: white !important;
+  border-color: #fe4161 !important;
+  color: #fe4161 !important; }
+
+.btn-hyperlooptrace {
+  background-color: #c3d9c2 !important;
+  border-color: #c3d9c2 !important; }
+
+.btn-hyperlooptrace:hover {
+  background-color: white !important;
+  border-color: #c3d9c2 !important;
+  color: #c3d9c2 !important; }
+
 .getstarted > p {
   font-weight: normal;
   font-size: 1rem;
@@ -219,6 +249,9 @@ body {
 
 h1 {
   font-size: 2.2rem; }
+
+.imgborder {
+  border: 1px solid #149c8e; }
 
 .hyperlooplogo {
   width: 150px;
