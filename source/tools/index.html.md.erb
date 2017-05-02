@@ -7,11 +7,11 @@ title: Tools for testing and debugging
 </h1>
 
 
-<%= link_to(image_tag('hyperconsole-screenshot.png', :width => '100%', :class => 'imgborder'),'tools/hyperconsole') %>
+<%= link_to(image_tag('hyperconsole-screenshot.png', :width => '100%', :class => 'imgborder'),'/tools/hyperconsole') %>
 
 **hyper-console** will open a new popup window, that is running an IRB style read-eval loop. The console window will compile what ever ruby code you type, and if it compiles, will send it to your main window for execution. The result (or error message) plus any console output will be displayed in the console window.
 
-<button type="button" class="btn btn-primary btn-lg btn-hyperloopconsole" onclick="location.href='tools/hyperconsole';">Hyper-console documentation</button>
+<button type="button" class="btn btn-primary btn-lg btn-hyperloopconsole" onclick="location.href='/tools/hyperconsole';">Hyper-console documentation</button>
 
 
 <h1><div class="hyperlogoalone" id="components"><%= image_tag "HyperSpecs.png", width: '50'%></div>
@@ -25,7 +25,7 @@ With **Hyper-spec** you can run isomorphic specs for all your Hyperloop code usi
 
 **Hyper-spec** allows you to directly use tools like FactoryGirl (or Hyperloop Operations) to setup some test data, then run a spec to make sure that a component correctly displays, or modifies that data. You can use Timecop to manipulate time and keep in sync between the server and client. This makes testing easier and more realistic without writing a lot of redundant code.
 
-<button type="button" class="btn btn-primary btn-lg btn-hyperloopspec" onclick="location.href='tools/hyperspec';">Hyper-spec documentation</button>
+<button type="button" class="btn btn-primary btn-lg btn-hyperloopspec" onclick="location.href='/tools/hyperspec';">Hyper-spec documentation</button>
 
 
 
@@ -42,7 +42,7 @@ Typically you are going to use this in Capybara or Opal-RSpec examples that you 
 
 **Hyper-trace** adds a `hypertrace` method to all classes that you will use to switch on tracing and break points.
 
-<button type="button" class="btn btn-primary btn-lg btn-hyperlooptrace" onclick="location.href='tools/hypertrace';">Hyper-trace documentation</button>
+<button type="button" class="btn btn-primary btn-lg btn-hyperlooptrace" onclick="location.href='/tools/hypertrace';">Hyper-trace documentation</button>
 
 
 
@@ -54,7 +54,7 @@ Opal Hot Reloader is for pure programmer joy (not having to reload the page to c
 
 Opal Hot Reloader is going to just dynamically (via a websocket connection) chunks of code in the page almost instaneously.
 
-<button type="button" class="btn btn-primary btn-lg btn-hyperlooppink" onclick="location.href='tutorials/hyperlooprails/opalhotreloader';">Opal hot reloader tutorial </button>
+<button type="button" class="btn btn-primary btn-lg btn-hyperlooppink" onclick="location.href='/tutorials/hyperlooprails/opalhotreloader';">Opal hot reloader tutorial </button>
 
 
 
@@ -64,6 +64,6 @@ Opal Hot Reloader is going to just dynamically (via a websocket connection) chun
 
 Tips, good practice will help you debugging your Hyperloop application.
 
-<button type="button" class="btn btn-primary btn-lg btn-hyperlooppink" onclick="location.href='tools/debuggingtips';">Debugging tips documentation </button>
+<button type="button" class="btn btn-primary btn-lg btn-hyperlooppink" onclick="location.href='/tools/debuggingtips';">Debugging tips documentation </button>
 
 
