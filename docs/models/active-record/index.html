@@ -565,10 +565,10 @@ end
 
 <p>TODO check below (was HyperMesh.load)</p>
 
-<h4 id="the-hypermodel-load-method">The <code>HyperModel.load</code> Method</h4>
+<h4 id="the-hyperloop-model-load-method">The <code>Hyperloop::Model.load</code> Method</h4>
 
-<p>Sometimes it is necessary to insure values are loaded outside of the rendering cycle.  For this you can use the <code>HyperModel.load</code> method:</p>
-<pre class="highlight ruby"><code><span class="no">HyperModel</span><span class="p">.</span><span class="nf">load</span> <span class="k">do</span>
+<p>Sometimes it is necessary to insure values are loaded outside of the rendering cycle.  For this you can use the <code>Hyperloop::Model.load</code> method:</p>
+<pre class="highlight ruby"><code><span class="no">Hyperloop</span><span class="o">::</span><span class="no">Model</span><span class="p">.</span><span class="nf">load</span> <span class="k">do</span>
   <span class="n">x</span> <span class="o">=</span> <span class="n">my_model</span><span class="p">.</span><span class="nf">some_attribute</span>
   <span class="no">OtherModel</span><span class="p">.</span><span class="nf">find</span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="mi">12</span><span class="p">).</span><span class="nf">other_attribute</span>
   <span class="c1"># code in here can be arbitrarily complex and load</span>

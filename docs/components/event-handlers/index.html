@@ -504,6 +504,22 @@ different browsers.</p>
 <span class="n">screen_y</span>                <span class="o">-&gt;</span> <span class="no">Integer</span>
 <span class="n">shift_key</span>               <span class="o">-&gt;</span> <span class="no">Boolean</span>
 </code></pre>
+<h5 id="drag-and-drop-example">Drag and Drop example</h5>
+
+<p>Here is a Hyperloop version of this <a href="https://www.w3schools.com/html/html5_draganddrop.asp">w3schools.com</a> example:</p>
+<pre class="highlight ruby"><code><span class="no">DIV</span><span class="p">(</span><span class="ss">id: </span><span class="s2">"div1"</span><span class="p">,</span> <span class="ss">style: </span><span class="p">{</span><span class="ss">width: </span><span class="mi">350</span><span class="p">,</span> <span class="ss">height: </span><span class="mi">70</span><span class="p">,</span> <span class="ss">padding: </span><span class="mi">10</span><span class="p">,</span> <span class="ss">border: </span><span class="s1">'1px solid #aaaaaa'</span><span class="p">})</span>
+  <span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:drop</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">ev</span><span class="o">|</span>
+    <span class="n">ev</span><span class="p">.</span><span class="nf">prevent_default</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="sb">`</span><span class="si">#{</span><span class="n">ev</span><span class="p">.</span><span class="nf">native_event</span><span class="si">}</span><span class="sb">.native.dataTransfer.getData("text")`</span>
+    <span class="sb">`</span><span class="si">#{</span><span class="n">ev</span><span class="p">.</span><span class="nf">target</span><span class="si">}</span><span class="sb">.native.appendChild(document.getElementById(data))`</span>
+  <span class="k">end</span>
+  <span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:drag_over</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span><span class="n">ev</span><span class="o">|</span> <span class="n">ev</span><span class="p">.</span><span class="nf">prevent_default</span> <span class="p">}</span>
+
+<span class="no">IMG</span><span class="p">(</span><span class="ss">id: </span><span class="s2">"drag1"</span><span class="p">,</span> <span class="ss">src: </span><span class="s2">"https://www.w3schools.com/html/img_logo.gif"</span><span class="p">,</span> <span class="ss">draggable: </span><span class="s2">"true"</span><span class="p">,</span> <span class="ss">width: </span><span class="mi">336</span><span class="p">,</span> <span class="ss">height: </span><span class="mi">69</span><span class="p">)</span>
+  <span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:drag_start</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">ev</span><span class="o">|</span>
+    <span class="sb">`</span><span class="si">#{</span><span class="n">ev</span><span class="p">.</span><span class="nf">native_event</span><span class="si">}</span><span class="sb">.native.dataTransfer.setData("text", </span><span class="si">#{</span><span class="n">ev</span><span class="p">.</span><span class="nf">target</span><span class="si">}</span><span class="sb">.native.id)`</span>
+  <span class="k">end</span>
+</code></pre>
 <h4 id="selection-events">Selection events</h4>
 
 <p>Event names:</p>
