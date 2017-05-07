@@ -180,6 +180,25 @@ screen_y                -> Integer
 shift_key               -> Boolean
 ```
 
+##### Drag and Drop example
+
+Here is a Hyperloop version of this [w3schools.com](https://www.w3schools.com/html/html5_draganddrop.asp) example:
+
+```ruby
+DIV(id: "div1", style: {width: 350, height: 70, padding: 10, border: '1px solid #aaaaaa'})
+  .on(:drop) do |ev|
+    ev.prevent_default
+    data = `#{ev.native_event}.native.dataTransfer.getData("text")`
+    `#{ev.target}.native.appendChild(document.getElementById(data))`
+  end
+  .on(:drag_over) { |ev| ev.prevent_default }
+
+IMG(id: "drag1", src: "https://www.w3schools.com/html/img_logo.gif", draggable: "true", width: 336, height: 69)
+  .on(:drag_start) do |ev|
+    `#{ev.native_event}.native.dataTransfer.setData("text", #{ev.target}.native.id)`
+  end
+```
+
 #### Selection events
 
 Event names:
