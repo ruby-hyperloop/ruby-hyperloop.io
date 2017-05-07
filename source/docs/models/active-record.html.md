@@ -238,12 +238,12 @@ All Ruby objects will respond to these methods.  If you want to put up a "Please
 
 TODO check below (was HyperMesh.load)
 
-#### The `HyperModel.load` Method
+#### The `Hyperloop::Model.load` Method
 
-Sometimes it is necessary to insure values are loaded outside of the rendering cycle.  For this you can use the `HyperModel.load` method:
+Sometimes it is necessary to insure values are loaded outside of the rendering cycle.  For this you can use the `Hyperloop::Model.load` method:
 
 ```ruby
-HyperModel.load do
+Hyperloop::Model.load do
   x = my_model.some_attribute
   OtherModel.find(x+12).other_attribute
   # code in here can be arbitrarily complex and load
