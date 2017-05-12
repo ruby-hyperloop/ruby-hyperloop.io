@@ -563,15 +563,21 @@ That is 6 lines of code for the price of 1, plus now the intention of <code>item
     <span class="nf">.</span><span class="p">.</span><span class="nf">.</span> <span class="n">instance</span> <span class="n">depending</span> <span class="n">on</span> <span class="n">the</span> <span class="n">scope</span> <span class="p">.</span><span class="nf">.</span><span class="p">.</span>
   <span class="nf">end</span>
 </code></pre>
-<p>other options to the <code>state</code> declaration are:
-+ <code>scope:</code> either <code>:class</code>, <code>:instance</code>, <code>:shared</code>.  Details below!
-+ <code>reader:</code> either <code>true</code>, or a symbol used to declare a reader (getter) method.
-+ <code>initializer:</code> either a Proc or a Symbol (indicating a method), to be used to initialize the state.</p>
+<p>Other options to the <code>state</code> declaration are:</p>
 
-<p>The value of the <code>scope</code> option determines where the state resides.
-+ A class state has one instance per class and is directly accessible in class methods, and indirectly in instances using <code>self.class.state</code>.
-+ An instance state has a different copy in each instance of the class, and is not accessible by class methods.
-+ A shared state is like a class state, but is also directly accessible in instances.</p>
+<ul>
+<li><code>scope:</code> either <code>:class</code>, <code>:instance</code>, <code>:shared</code>.  Details below!</li>
+<li><code>reader:</code> either <code>true</code>, or a symbol used to declare a reader (getter) method.</li>
+<li><code>initializer:</code> either a Proc or a Symbol (indicating a method), to be used to initialize the state.</li>
+</ul>
+
+<p>The value of the <code>scope</code> option determines where the state resides.</p>
+
+<ul>
+<li>A class state has one instance per class and is directly accessible in class methods, and indirectly in instances using <code>self.class.state</code>.</li>
+<li>An instance state has a different copy in each instance of the class, and is not accessible by class methods.</li>
+<li>A shared state is like a class state, but is also directly accessible in instances.</li>
+</ul>
 
 <p>The default value for <code>scope:</code> depends on where the state is declared:</p>
 <pre class="highlight ruby"><code>  <span class="n">state</span> <span class="ss">:items</span> <span class="c1"># declares an instance state variable, each instance gets its own state</span>
@@ -587,6 +593,7 @@ items for each instance.</p>
   <span class="n">state</span> <span class="ss">:shared_state</span><span class="p">,</span> <span class="ss">scope: :shared</span>
   <span class="n">state</span> <span class="ss">:class_state</span><span class="p">,</span> <span class="ss">scope: :class</span>
   <span class="n">state</span> <span class="ss">:instance_state</span> <span class="c1"># scope: :instance is default here</span>
+
   <span class="k">def</span> <span class="nf">instance_method</span>
     <span class="c1"># shared state makes class states easy to access</span>
     <span class="n">state</span><span class="p">.</span><span class="nf">shared_state</span>
@@ -599,6 +606,7 @@ items for each instance.</p>
     <span class="c1"># results in an error!</span>
     <span class="n">state</span><span class="p">.</span><span class="nf">class_state</span> <span class="c1"># exception!</span>
   <span class="k">end</span>
+
   <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">class_method</span>
     <span class="c1"># this is the same state as was referenced in instance_method</span>
     <span class="n">state</span><span class="p">.</span><span class="nf">shared_state</span>
