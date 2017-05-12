@@ -216,12 +216,14 @@ The `state` declaration has the following flavors, depending on how the state is
   end
 ```
 
-other options to the `state` declaration are:
+Other options to the `state` declaration are:
+
 + `scope:` either `:class`, `:instance`, `:shared`.  Details below!
 + `reader:` either `true`, or a symbol used to declare a reader (getter) method.
 + `initializer:` either a Proc or a Symbol (indicating a method), to be used to initialize the state.
 
 The value of the `scope` option determines where the state resides.
+
 + A class state has one instance per class and is directly accessible in class methods, and indirectly in instances using `self.class.state`.
 + An instance state has a different copy in each instance of the class, and is not accessible by class methods.
 + A shared state is like a class state, but is also directly accessible in instances.
@@ -245,6 +247,7 @@ class MyStore < Hyperloop::Store
   state :shared_state, scope: :shared
   state :class_state, scope: :class
   state :instance_state # scope: :instance is default here
+
   def instance_method
     # shared state makes class states easy to access
     state.shared_state
@@ -257,6 +260,7 @@ class MyStore < Hyperloop::Store
     # results in an error!
     state.class_state # exception!
   end
+  
   def self.class_method
     # this is the same state as was referenced in instance_method
     state.shared_state
