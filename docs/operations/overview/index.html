@@ -639,19 +639,22 @@ end
 
 <h3 id="running-operations">Running Operations</h3>
 
-<p>You can run an Operation by using ...
-+ the Operation class name as a method:<br>
+<p>You can run an Operation by using ...</p>
+
+<ul>
+<li><p>the Operation class name as a method:<br>
 <code>ruby
 MyOperation(...params...)
-</code>
-+ the <code>run</code> method:<br>
+</code></p></li>
+<li><p>the <code>run</code> method:<br>
 <code>ruby
 MyOperation.run ...params...
-</code>
-+ the <code>then</code> and <code>fail</code> methods, which will dispatch the operation and attach a promise handler:<br>
+</code></p></li>
+<li><p>the <code>then</code> and <code>fail</code> methods, which will dispatch the operation and attach a promise handler:<br>
 <code>ruby
 MyOperation.then(...params...) { alert &#39;operation completed&#39; }
-</code></p>
+</code></p></li>
+</ul>
 
 <h3 id="server-operations">Server Operations</h3>
 
@@ -895,7 +898,7 @@ which gives you three class methods: <code>regulate_class_connection</code> <cod
   <span class="n">dispatch</span>
 <span class="k">end</span>
 </code></pre>
-<h3 id="instance-verses-class-execution-context">Instance Verses Class Execution Context</h3>
+<h3 id="instance-versus-class-execution-context">Instance Versus Class Execution Context</h3>
 
 <p>Normally the Operation&#39;s steps are declared and run in the context of an instance of the Operation.  An instance of the Operation is created, runs and is thrown away.  </p>
 
