@@ -286,14 +286,17 @@ end
 ### Running Operations
 
 You can run an Operation by using ...
+
 + the Operation class name as a method:  
 ```ruby
 MyOperation(...params...)
 ```
+
 + the `run` method:  
 ```ruby
 MyOperation.run ...params...
 ```
+
 + the `then` and `fail` methods, which will dispatch the operation and attach a promise handler:  
 ```ruby
 MyOperation.then(...params...) { alert 'operation completed' }
@@ -591,7 +594,7 @@ class AddItemToCart < Hyperloop::Operation
 end
 ```
 
-### Instance Verses Class Execution Context
+### Instance Versus Class Execution Context
 
 Normally the Operation's steps are declared and run in the context of an instance of the Operation.  An instance of the Operation is created, runs and is thrown away.  
 
