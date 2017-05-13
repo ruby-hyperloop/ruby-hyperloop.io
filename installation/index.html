@@ -402,6 +402,15 @@ You can start by the first tutorial of the Hyperloop series here :</p>
 <p>And updates your <code>app/assets/javascripts/application.js</code> file adding this line:</p>
 <pre class="highlight javascript"><code><span class="c1">//= require hyperloop-loader</span>
 </code></pre>
+<p>To be sure everything is setting up correctly, check your <code>app/assets/javascripts/application.js</code>:</p>
+<pre class="highlight javascript"><code><span class="c1">//= require react_ujs</span>
+<span class="c1">//= require jquery</span>
+<span class="c1">//= require jquery_ujs</span>
+<span class="c1">//= require turbolinks</span>
+<span class="c1">//= require_tree .</span>
+<span class="c1">//= require hyperloop-loader</span>
+
+</code></pre>
 <h3 id="simple-helloworld"><a name="rorsimplehelloworld">Simple HelloWorld</a></h3>
 
 <p>You can now test it by creating a very simple Component by running the hyperloop generator :</p>
