@@ -27,6 +27,7 @@ gem 'sass-rails', '~> 5.0'
 Update your `/app/assets/javascripts/application.js` by adding:
 
 ```javascript
+//= require react_ujs
 //= require jquery
 //= require jquery_ujs
 ```

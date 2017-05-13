@@ -116,6 +116,17 @@ And updates your `app/assets/javascripts/application.js` file adding this line:
 //= require hyperloop-loader
 ```
 
+To be sure everything is setting up correctly, check your `app/assets/javascripts/application.js`:
+
+```javascript
+//= require react_ujs
+//= require jquery
+//= require jquery_ujs
+//= require turbolinks
+//= require_tree .
+//= require hyperloop-loader
+
+```
 
 ### <a name="rorsimplehelloworld">Simple HelloWorld</a>
 
