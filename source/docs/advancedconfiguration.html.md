@@ -61,6 +61,8 @@ By default the hyperloop install generator creates the hyperloop structure insid
 
 If for any reasons you want to change those directories places you can do that using the config parameter `config.hyperloop.auto_config = false`.
 
+You can find the complete source code of a Helloworld sample Hyperloop app using the advanced configuration parameters here: [{ Hyperloop with Advanced configuration }](https://github.com/ruby-hyperloop/hyperloop-rails-helloworld-advancedconfig)
+
 For example, let's say you want this architecture:
 
 + Components in the `app/views/components` directory
@@ -96,6 +98,7 @@ config.assets.paths << ::Rails.root.join('app', 'models').to_s
 //= require 'components'
 //= require 'myhyperloop'
 Opal.load('components');
+Opal.load('myhyperloop');
 ```
 
 ```
@@ -103,10 +106,8 @@ Opal.load('components');
 
 require 'opal'
 
-#require 'reactrb/auto-import'
 require 'react/react-source-browser'
 require 'react/react-source-server'
-#require 'webpack/client_and_server.js'
 
 require 'hyper-component'
 
