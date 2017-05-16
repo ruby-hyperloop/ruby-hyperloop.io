@@ -319,6 +319,43 @@ end
 
 <h4 id="writing-this-tutorial-state-in-progress">Writing this tutorial state : In progress</h4>
 
+<h4 id="step-1-running-your-app-in-production-mode">Step 1: Running your app in production mode</h4>
+
+<p>Before deploying your app on a VPS, we will test it locally with the <code>RAILS_ENV=production</code> mode.</p>
+
+<p>Note: For now Hyperloop is not running in production mode with the default configuration parameters. It is needed to use hyperloop with the advanced configuration mode (See here to know to configure: <a href="/docs/advancedconfiguration">{ Advanced configuration }</a>).</p>
+
+<p>Once you setted up your Hyperloop app with the advanced configuration parameters, we will update some files:</p>
+<pre class="highlight ruby"><code><span class="c1">#config/application.rb</span>
+
+    <span class="n">config</span><span class="p">.</span><span class="nf">autoload_paths</span>   <span class="o">-=</span> <span class="sx">%W(</span><span class="si">#{</span><span class="n">config</span><span class="p">.</span><span class="nf">root</span><span class="si">}</span><span class="sx">/app/hyperloop)</span>
+    <span class="n">config</span><span class="p">.</span><span class="nf">eager_load_paths</span> <span class="o">-=</span> <span class="sx">%W(</span><span class="si">#{</span><span class="n">config</span><span class="p">.</span><span class="nf">root</span><span class="si">}</span><span class="sx">/app/hyperloop)</span>
+
+    <span class="n">config</span><span class="p">.</span><span class="nf">eager_load_paths</span> <span class="o">+=</span> <span class="sx">%W(</span><span class="si">#{</span><span class="n">config</span><span class="p">.</span><span class="nf">root</span><span class="si">}</span><span class="sx">/app/models)</span>
+    <span class="n">config</span><span class="p">.</span><span class="nf">autoload_paths</span> <span class="o">+=</span> <span class="sx">%W(</span><span class="si">#{</span><span class="n">config</span><span class="p">.</span><span class="nf">root</span><span class="si">}</span><span class="sx">/app/models)</span>
+
+    <span class="n">config</span><span class="p">.</span><span class="nf">eager_load_paths</span> <span class="o">+=</span> <span class="sx">%W(</span><span class="si">#{</span><span class="n">config</span><span class="p">.</span><span class="nf">root</span><span class="si">}</span><span class="sx">/app/hyperloop/operations)</span>
+    <span class="n">config</span><span class="p">.</span><span class="nf">autoload_paths</span>   <span class="o">+=</span> <span class="sx">%W(</span><span class="si">#{</span><span class="n">config</span><span class="p">.</span><span class="nf">root</span><span class="si">}</span><span class="sx">/app/hyperloop/operations)</span>
+</code></pre><pre class="highlight ruby"><code><span class="c1">#config/environments/production.rb</span>
+
+    <span class="n">config</span><span class="p">.</span><span class="nf">assets</span><span class="p">.</span><span class="nf">digest</span> <span class="o">=</span> <span class="kp">true</span>
+    <span class="n">config</span><span class="p">.</span><span class="nf">public_file_server</span><span class="p">.</span><span class="nf">enabled</span> <span class="o">=</span> <span class="kp">true</span>
+
+</code></pre><pre class="highlight ruby"><code><span class="c1">#config/initializers/assets.rb</span>
+
+    <span class="no">Rails</span><span class="p">.</span><span class="nf">application</span><span class="p">.</span><span class="nf">config</span><span class="p">.</span><span class="nf">assets</span><span class="p">.</span><span class="nf">precompile</span> <span class="o">+=</span> <span class="sx">%w( react-server.js components.js )</span>
+
+</code></pre>
+<p>Then run the command:</p>
+<pre class="highlight plaintext"><code>RAILS_ENV=production rails assets:precompile
+</code></pre>
+<p>When every assets are precompiled, you can run your app:</p>
+<pre class="highlight plaintext"><code>RAILS_ENV=production rails s
+</code></pre>
+<p>You can find the complete source code of a Helloworld sample Hyperloop app already setted up for production mode here: <a href="https://github.com/ruby-hyperloop/hyperloop-rails-helloworld-advancedconfig">{ Hyperloop with Advanced configuration and production mode}</a></p>
+
+<h4 id="step-2-deploying-on-vps">Step 2: Deploying on VPS</h4>
+
         </div>
       </div>
     </div>

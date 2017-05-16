@@ -410,6 +410,8 @@ end
 </code></pre>
 <p>If for any reasons you want to change those directories places you can do that using the config parameter <code>config.hyperloop.auto_config = false</code>.</p>
 
+<p>You can find the complete source code of a Helloworld sample Hyperloop app using the advanced configuration parameters here: <a href="https://github.com/ruby-hyperloop/hyperloop-rails-helloworld-advancedconfig">{ Hyperloop with Advanced configuration }</a></p>
+
 <p>For example, let&#39;s say you want this architecture:</p>
 
 <ul>
@@ -442,14 +444,13 @@ end
 //= require 'components'
 //= require 'myhyperloop'
 Opal.load('components');
+Opal.load('myhyperloop');
 </code></pre><pre class="highlight plaintext"><code>#app/views/components.rb
 
 require 'opal'
 
-#require 'reactrb/auto-import'
 require 'react/react-source-browser'
 require 'react/react-source-server'
-#require 'webpack/client_and_server.js'
 
 require 'hyper-component'
 
