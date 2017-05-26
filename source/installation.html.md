@@ -128,6 +128,10 @@ To be sure everything is setting up correctly, check your `app/assets/javascript
 
 ```
 
+<i class="flaticon-signs"></i> If you don't have already Ruby On Rails installed on your local machine and you want to try Hyperloop, you can setup a workspace in [Cloud9](https://c9.io/) and also enjoy the co-development ability. 
+
+For that just follow our [{ Hyperloop and cloud9 setup }](/tutorials/hyperlooprails/cloud9) tutorial.
+
 ### <a name="rorsimplehelloworld">Simple HelloWorld</a>
 
 
