@@ -11,7 +11,7 @@ title: Support & Contributing
 
 > Need help? Reach out to us on one of these channels:
 
-> <i class="flaticon-signs"></i>In order to help you in better conditions, we encourage you to push and run your apps you  want to debug in a [Cloud9](https://c9.io/) workspace. So we can use the collaboration feature and help you faster without any platform environment problems.
+> <i class="flaticon-signs"></i>In order to help you in the best conditions, we encourage you to push and run your apps you  want to debug in a [Cloud9](https://c9.io/) workspace. So we can use the collaboration feature and help you faster without any platform environment problems.
 
 > You can follow this tutorial to learn how to do that in few minutes: [{ Hyperloop and cloud9 setup }](/tutorials/hyperlooprails/cloud9)
 
