@@ -133,7 +133,7 @@ Next add the pusher js file to your application.js file
 ```ruby
 # app/assets/javascript/application.js
 ...
-//= require 'hyper-model/pusher'
+//= require 'hyperloop/pusher'
 //= require_tree .
 ```
 
