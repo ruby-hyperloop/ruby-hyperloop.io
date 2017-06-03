@@ -8,7 +8,7 @@
     <meta name="google-site-verification" content="qjqVOvRhHfsuDbLOvaAnj2mkUZJ9Xwzg84TMVXduvUc" />
 
     <meta charset="UTF-8">
-    <title>Hyperloop - Advanced configuration with Ruby On Rails</title>
+    <title>Hyperloop - Components</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <script src="https://unpkg.com/react@15/dist/react.min.js"></script>
@@ -23,16 +23,16 @@
     <script src="https://rawgit.com/ruby-hyperloop/hyperloop-js/master/hyperloop.min.js"></script>
 
     <!-- If you want local copies... -->
-    <!-- <script src="../../javascripts/opal-compiler.js"></script> -->
-    <!-- <script src="../../javascripts/hyperloop.js"></script> -->
+    <!-- <script src="../../../javascripts/opal-compiler.js"></script> -->
+    <!-- <script src="../../../javascripts/hyperloop.js"></script> -->
 
     <script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
 
-    <script src="../../javascripts/bootstrap.min.js"></script>
-    <script src="../../javascripts/codemirror.js"></script>
-    <script src="../../javascripts/ruby.js"></script>
-    <script src="../../javascripts/matchbrackets.js"></script>
-    <script src="../../javascripts/react_player.js"></script>
+    <script src="../../../javascripts/bootstrap.min.js"></script>
+    <script src="../../../javascripts/codemirror.js"></script>
+    <script src="../../../javascripts/ruby.js"></script>
+    <script src="../../../javascripts/matchbrackets.js"></script>
+    <script src="../../../javascripts/react_player.js"></script>
 
     <!-- Components are compiled by Hyperloop Express -->
     <script type="text/ruby">
@@ -70,7 +70,7 @@ class CodeMirror < Hyperloop::Component
       div.card_header { params.heading }
       div(id: @div_code)
       div.card_header do
-        img(src: '../../images/hyperloop-logo-small-white.png' , width:'25')
+        img(src: '../../../images/hyperloop-logo-small-white.png' , width:'25')
         span { ' ' }
         'Live editor results'
       end
@@ -153,24 +153,24 @@ end
 </script>
 
 
-    <link href="../../stylesheets/bootstrap.min.css" rel="stylesheet" />
-    <link href="../../stylesheets/typography.css" rel="stylesheet" />
-    <link href="../../stylesheets/override.css" rel="stylesheet" />
-    <link href="../../stylesheets/divtable.css" rel="stylesheet" />
-    <!-- <link href="../../stylesheets/code.css" rel="stylesheet" /> -->
-    <link href="../../stylesheets/github.css" rel="stylesheet" />
-    <link href="../../stylesheets/highlighting.css" rel="stylesheet" />
-    <link href="../../stylesheets/codemirror.css" rel="stylesheet" />
+    <link href="../../../stylesheets/bootstrap.min.css" rel="stylesheet" />
+    <link href="../../../stylesheets/typography.css" rel="stylesheet" />
+    <link href="../../../stylesheets/override.css" rel="stylesheet" />
+    <link href="../../../stylesheets/divtable.css" rel="stylesheet" />
+    <!-- <link href="../../../stylesheets/code.css" rel="stylesheet" /> -->
+    <link href="../../../stylesheets/github.css" rel="stylesheet" />
+    <link href="../../../stylesheets/highlighting.css" rel="stylesheet" />
+    <link href="../../../stylesheets/codemirror.css" rel="stylesheet" />
 
     <link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/feed.xml" />
 
     <!-- Favicons -->
 
-    <link rel="apple-touch-icon" sizes="180x180" href="../../images/apple-touch-icon.png">
-    <link rel="icon" type="image/png" href="../../images/favicon-32x32.png" sizes="32x32">
-    <link rel="icon" type="image/png" href="../../images/favicon-16x16.png" sizes="16x16">
+    <link rel="apple-touch-icon" sizes="180x180" href="../../../images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" href="../../../images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="../../../images/favicon-16x16.png" sizes="16x16">
     <link rel="manifest" href="/images/manifest.json">
-    <link rel="mask-icon" href="../../images/safari-pinned-tab.svg" color="#e81176">
+    <link rel="mask-icon" href="../../../images/safari-pinned-tab.svg" color="#e81176">
     <meta name="theme-color" content="#ffffff">
 
   </head>
@@ -237,7 +237,7 @@ end
             <h1 class="display-4 project-name">Hyperloop</h1>
 
             <h4 class="display-7 project-tagline">
-              Advanced configuration with Ruby On Rails
+              Components
             </h4>
           </div>
           
@@ -252,7 +252,7 @@ end
             <h1 class="h1 project-name center-text">Hyperloop</h1>
             </br>
             <h2 class="h5 project-tagline center-text">
-              Advanced configuration with Ruby On Rails
+              Components
             </h2>
           </div>
           
@@ -365,146 +365,27 @@ end
           <br>
         </div>
         <div class="col-md-9 main-content">
-          <h1 id="advanced-configuration-with-ruby-on-rails">Advanced configuration with Ruby On Rails</h1>
+          <h2 id="server-side-rendering-or-prerendering">Server-side rendering (or Prerendering)</h2>
 
-<h2 id="initializer">Initializer</h2>
+<p><strong>Prerendering is controllable at three levels:</strong></p>
 
-<p>Hyperloop generator adds an initializer file:</p>
-<pre class="highlight ruby"><code><span class="c1">#config/initializers/hyperloop.rb</span>
-
-<span class="no">Hyperloop</span><span class="p">.</span><span class="nf">configuration</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
-  <span class="n">config</span><span class="p">.</span><span class="nf">transport</span> <span class="o">=</span> <span class="ss">:simple_poller</span>
-<span class="k">end</span>
+<h6 id="in-the-rails-hyperloop-initializer-you-can-say">In the rails hyperloop initializer you can say:</h6>
+<pre class="highlight ruby"><code> <span class="no">Hyperloop</span><span class="p">.</span><span class="nf">configuration</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
+   <span class="n">config</span><span class="p">.</span><span class="nf">prerendering</span> <span class="o">=</span> <span class="ss">:off</span> <span class="c1"># :on by default</span>
+ <span class="k">end</span>
 </code></pre>
-<p>The parameter <code>config.transport = :simple_poller</code> allows us to configure the way push notifications are configured.</p>
-
-<p>Hyperloop implements push notifications (via a number of possible technologies) so changes to records on the server are dynamically pushed to all authorized clients.</p>
-
-<p>More detail in the documentation: <a href="/docs/models/configuring-transport">{ Configuring the Transport }</a></p>
-
-<h2 id="policies">Policies</h2>
-
-<p>Hyperloop generator adds a policy default file:</p>
-<pre class="highlight ruby"><code><span class="c1">#app/policies/application_policy.rb</span>
-
-<span class="k">class</span> <span class="nc">Hyperloop</span><span class="o">::</span><span class="no">ApplicationPolicy</span>
-  <span class="c1"># Allow any session to connect:</span>
-  <span class="n">always_allow_connection</span>
-  <span class="c1"># Send all attributes from all public models</span>
-  <span class="n">regulate_all_broadcasts</span> <span class="p">{</span> <span class="o">|</span><span class="n">policy</span><span class="o">|</span> <span class="n">policy</span><span class="p">.</span><span class="nf">send_all</span> <span class="p">}</span>
-  <span class="c1"># Allow all changes to public models</span>
-  <span class="n">allow_change</span><span class="p">(</span><span class="ss">to: :all</span><span class="p">,</span> <span class="ss">on: </span><span class="p">[</span><span class="ss">:create</span><span class="p">,</span> <span class="ss">:update</span><span class="p">,</span> <span class="ss">:destroy</span><span class="p">])</span> <span class="p">{</span> <span class="kp">true</span> <span class="p">}</span>
-<span class="k">end</span> <span class="k">unless</span> <span class="no">Rails</span><span class="p">.</span><span class="nf">env</span><span class="p">.</span><span class="nf">production?</span>
+<h6 id="in-a-route-you-can-override-the-config-setting-by-setting-a-default-for-hyperloop_prerendering">In a route you can override the config setting by setting a default for hyperloop_prerendering:</h6>
+<pre class="highlight ruby"><code><span class="n">get</span> <span class="s1">'/some_page'</span><span class="p">,</span> <span class="ss">to: </span><span class="s1">'hyperloop#some_page'</span><span class="p">,</span> <span class="ss">defaults: </span><span class="p">{</span><span class="ss">hyperloop_prerendering: :off</span><span class="p">}</span> <span class="c1"># or :on</span>
 </code></pre>
-<p>Hyperloop uses Policies to regulate what connections are opened between clients and the server and what data is distributed over those connections.</p>
+<p>This allows you to override the prerendering option for specific pages. For example the application may have prererendering off by default (via the config setting) but you can still turn it on for a specific page.</p>
 
-<p>More detail in the documentation: <a href="/docs/policies/authorization">{ Configuring the policies }</a></p>
-
-<h2 id="hyperloop-architectures">Hyperloop architectures</h2>
-
-<p>By default the hyperloop install generator creates the hyperloop structure inside the <code>/app</code> directory :</p>
-<pre class="highlight plaintext"><code>/app/hyperloop/
-/app/hyperloop/components
-/app/hyperloop/models
-/app/hyperloop/operations
-/app/hyperloop/stores
+<h6 id="you-can-override-the-route-and-config-setting-using-the-hyperloop-prerendering-query-param">You can override the route, and config setting using the hyperloop-prerendering query param:</h6>
+<pre class="highlight html"><code>http://localhost:3000/my_hyper_app/some_page?hyperloop-prerendering=off
 </code></pre>
-<p>If for any reasons you want to change those directories places you can do that using the config parameter <code>config.hyperloop.auto_config = false</code>.</p>
+<p>This is useful for development and testing</p>
 
-<p>You can find the complete source code of a Helloworld sample Hyperloop app using the advanced configuration parameters here: <a href="https://github.com/ruby-hyperloop/hyperloop-rails-helloworld-advancedconfig">{ Hyperloop with Advanced configuration }</a></p>
+<p>NOTE: in the route you say hyperloop_prererendering but in the query string its hyperloop-prerendering (underscore vs. dash). This is because of rails security protection when using defaults.</p>
 
-<p>For example, let&#39;s say you want this architecture:</p>
-
-<ul>
-<li>Components in the <code>app/views/components</code> directory</li>
-<li>Models in <code>app/models/public</code> directory</li>
-<li>Operations in <code>myhyperloop/operations</code> directory</li>
-<li>Stores in <code>myhyperloop/stores</code> directory</li>
-</ul>
-
-<h4 id="first-you-have-to-modify-some-configurations-files">First you have to modify some configurations files</h4>
-<pre class="highlight ruby"><code><span class="c1">#config/application.rb</span>
-
-<span class="n">config</span><span class="p">.</span><span class="nf">hyperloop</span><span class="p">.</span><span class="nf">auto_config</span> <span class="o">=</span> <span class="kp">false</span>
-
-<span class="n">config</span><span class="p">.</span><span class="nf">eager_load_paths</span> <span class="o">+=</span> <span class="sx">%W(</span><span class="si">#{</span><span class="n">config</span><span class="p">.</span><span class="nf">root</span><span class="si">}</span><span class="sx">/app/models/public)</span>
-<span class="n">config</span><span class="p">.</span><span class="nf">autoload_paths</span> <span class="o">+=</span> <span class="sx">%W(</span><span class="si">#{</span><span class="n">config</span><span class="p">.</span><span class="nf">root</span><span class="si">}</span><span class="sx">/app/models/public)</span>
-<span class="n">config</span><span class="p">.</span><span class="nf">eager_load_paths</span> <span class="o">+=</span> <span class="sx">%W(</span><span class="si">#{</span><span class="n">config</span><span class="p">.</span><span class="nf">root</span><span class="si">}</span><span class="sx">/app/myhyperloop/operations)</span>
-<span class="n">config</span><span class="p">.</span><span class="nf">autoload_paths</span> <span class="o">+=</span> <span class="sx">%W(</span><span class="si">#{</span><span class="n">config</span><span class="p">.</span><span class="nf">root</span><span class="si">}</span><span class="sx">/app/myhyperloop/operations)</span>
-
-<span class="n">config</span><span class="p">.</span><span class="nf">assets</span><span class="p">.</span><span class="nf">paths</span> <span class="o">&lt;&lt;</span> <span class="o">::</span><span class="no">Rails</span><span class="p">.</span><span class="nf">root</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="s1">'app'</span><span class="p">,</span> <span class="s1">'myhyperloop'</span><span class="p">).</span><span class="nf">to_s</span>
-<span class="n">config</span><span class="p">.</span><span class="nf">assets</span><span class="p">.</span><span class="nf">paths</span> <span class="o">&lt;&lt;</span> <span class="o">::</span><span class="no">Rails</span><span class="p">.</span><span class="nf">root</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="s1">'app'</span><span class="p">,</span> <span class="s1">'models'</span><span class="p">).</span><span class="nf">to_s</span>
-</code></pre><pre class="highlight plaintext"><code>#app/assets/javascripts/application.js
-
-//= require 'react_ujs'
-//= require 'jquery'
-//= require 'jquery_ujs'
-//= require 'turbolinks'
-//= require_tree .
-
-//= require 'components'
-//= require 'myhyperloop'
-Opal.load('components');
-Opal.load('myhyperloop');
-</code></pre><pre class="highlight plaintext"><code>#app/views/components.rb
-
-require 'opal'
-
-require 'react/react-source-browser'
-require 'react/react-source-server'
-
-require 'hyper-component'
-
-if React::IsomorphicHelpers.on_opal_client?
-  require 'opal-jquery'
-  require 'browser'
-  require 'browser/interval'
-  require 'browser/delay'
-end
-
-require 'hyper-model'
-require 'hyper-store'
-require 'hyper-operation'
-require 'models'
-
-require_tree './components'
-
-</code></pre><pre class="highlight plaintext"><code>#app/models/models.rb
-
-require_tree './public' if RUBY_ENGINE == 'opal'
-</code></pre>
-<h4 id="your-components">Your Components</h4>
-<pre class="highlight plaintext"><code>#app/views/components/home/helloworld.rb
-
-module Components
-  module Home
-    class Helloworld &lt; Hyperloop::Component
-        ...
-    end
-   end
-end
-</code></pre>
-<h4 id="your-models">Your models</h4>
-<pre class="highlight plaintext"><code>#app/models/public/helloworld.rb
-
-class Helloworld &lt; ApplicationRecord
-end
-
-</code></pre><pre class="highlight plaintext"><code>#app/models/public/application_record.rb
-
-class ApplicationRecord &lt; ActiveRecord::Base
-  self.abstract_class = true
-end
-</code></pre>
-<h4 id="your-operations-and-stores">Your operations and Stores</h4>
-<pre class="highlight plaintext"><code>app/myhyperloop
-app/myhyperloop/operations
-app/nyhyperloop/stores
-</code></pre><pre class="highlight plaintext"><code>#app/myhyperloop/myhyperloop.rb
-
-require_tree './operations'
-require_tree './stores'
-</code></pre>
         </div>
       </div>
     </div>
