@@ -79,8 +79,12 @@ Hyperloop works great with new or existing rails apps, so it's pain free to intr
 
 Hyperloop has been tested with the most recent Ruby On Rails verions:<br> Rails (~> 4.2), Rails (~> 5.0) and the last Rails (5.1.0). For the final Rails 5.1.0, there are still few points to be aware of [Hyperloop and Rails 5.1.0](/installation-rails5.1.0) 
 
+### <a name="rorinstall">Ruby On Rails installation</a>
 
-### <a name="rorsetup">Setup</a>
+If you don't already have Ruby On Rails installed on your local machine you can install it by following one of several existing tutorials (for exemple: [{ Setup Ruby On Rails on
+Ubuntu 16.04 }](https://gorails.com/setup/ubuntu/16.04)) or you can use a cloud development environment like Cloud9 (follow our toturial [Hyperloop and Cloud9 setup](/tutorials/hyperlooprails/cloud9))
+
+### <a name="rorsetup">Hyperloop setup</a>
 
 In your `Gemfile`
 

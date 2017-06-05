@@ -15,15 +15,16 @@ Hyperloop generator adds an initializer file:
 
 Hyperloop.configuration do |config|
   config.transport = :simple_poller
+  config.prerendering = :off
+  config.import 'bootstrap-sprockets', client_only: true
 end
 ```
 
-The parameter `config.transport = :simple_poller` allows us to configure the way push notifications are configured.
+* **`config.transport`** allows us to configure the way push notifications are configured. <br>More detail: [{ Configuring the Transport }](/docs/models/configuring-transport)
 
-Hyperloop implements push notifications (via a number of possible technologies) so changes to records on the server are dynamically pushed to all authorized clients.
+* **`config.prerendering`** allows us to configure the way Server-side rendering works. <br>More detail: [{ Server-side rendering }](/docs/components/serversiderendering)
 
-More detail in the documentation: [{ Configuring the Transport }](/docs/models/configuring-transport)
-
+* **`config.import`** allows us to import any Javascript librairies (they can also be imported or required in your Rails `app/javascripts/application.js` file)
 
 ## Policies
 
