@@ -16,6 +16,7 @@ Hyperloop generator adds an initializer file:
 Hyperloop.configuration do |config|
   config.transport = :simple_poller
   config.prerendering = :off
+  config.console_auto_start = false
   config.import 'bootstrap-sprockets', client_only: true
 end
 ```
@@ -23,6 +24,8 @@ end
 * **`config.transport`** allows us to configure the way push notifications are configured. <br>More detail: [{ Configuring the Transport }](/docs/models/configuring-transport)
 
 * **`config.prerendering`** allows us to configure the way Server-side rendering works. <br>More detail: [{ Server-side rendering }](/docs/components/serversiderendering)
+
+* **`config.console_auto_start`** allows us to turn on/off the Hyper-console debugging tool. <br>More detail: [{ Hyper-console }](/tools/hyperconsole/)
 
 * **`config.import`** allows us to import any Javascript librairies (they can also be imported or required in your Rails `app/javascripts/application.js` file)
 
