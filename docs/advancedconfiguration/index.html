@@ -375,12 +375,14 @@ end
 <span class="no">Hyperloop</span><span class="p">.</span><span class="nf">configuration</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
   <span class="n">config</span><span class="p">.</span><span class="nf">transport</span> <span class="o">=</span> <span class="ss">:simple_poller</span>
   <span class="n">config</span><span class="p">.</span><span class="nf">prerendering</span> <span class="o">=</span> <span class="ss">:off</span>
+  <span class="n">config</span><span class="p">.</span><span class="nf">console_auto_start</span> <span class="o">=</span> <span class="kp">false</span>
   <span class="n">config</span><span class="p">.</span><span class="nf">import</span> <span class="s1">'bootstrap-sprockets'</span><span class="p">,</span> <span class="ss">client_only: </span><span class="kp">true</span>
 <span class="k">end</span>
 </code></pre>
 <ul>
 <li><p><strong><code>config.transport</code></strong> allows us to configure the way push notifications are configured. <br>More detail: <a href="/docs/models/configuring-transport">{ Configuring the Transport }</a></p></li>
 <li><p><strong><code>config.prerendering</code></strong> allows us to configure the way Server-side rendering works. <br>More detail: <a href="/docs/components/serversiderendering">{ Server-side rendering }</a></p></li>
+<li><p><strong><code>config.console_auto_start</code></strong> allows us to turn on/off the Hyper-console debugging tool. <br>More detail: <a href="/tools/hyperconsole/">{ Hyper-console }</a></p></li>
 <li><p><strong><code>config.import</code></strong> allows us to import any Javascript librairies (they can also be imported or required in your Rails <code>app/javascripts/application.js</code> file)</p></li>
 </ul>
 
