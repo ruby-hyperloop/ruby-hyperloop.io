@@ -21,13 +21,15 @@ Hyperloop.configuration do |config|
 end
 ```
 
-* **`config.transport`** allows us to configure the way push notifications are configured. <br>More detail: [{ Configuring the Transport }](/docs/models/configuring-transport)
+* **`config.transport = [ :none | :simple_poller | :action_cable | :pusher ]`** <br>Allows us to configure the way push notifications are configured. <br>More detail: [{ Configuring the Transport }](/docs/models/configuring-transport)
 
-* **`config.prerendering`** allows us to configure the way Server-side rendering works. <br>More detail: [{ Server-side rendering }](/docs/components/serversiderendering)
+* **`config.prerendering = :off (:on by default)`** <br> Allows us to configure the way Server-side rendering works. <br>More detail: [{ Server-side rendering }](/docs/components/serversiderendering)
 
-* **`config.console_auto_start`** allows us to turn on/off the Hyper-console debugging tool. <br>More detail: [{ Hyper-console }](/tools/hyperconsole/)
+* **`config.console_auto_start = false`** <br> Allows us to turn off the Hyper-console debugging tool. <br>More detail: [{ Hyper-console }](/tools/hyperconsole/)
 
-* **`config.import`** allows us to import any Javascript librairies (they can also be imported or required in your Rails `app/javascripts/application.js` file)
+* **`config.compress_system_assets = false`** <br> Allows us to turn off the minifying of all Hyperloop system assets files. During the first boot of the Rails Env, Hyperloop assets files will not be minified).
+
+* **`config.import = 'filename-to-import'`** allows us to import any Javascript librairies (they can also be imported or required in your Rails `app/javascripts/application.js` file)
 
 ## Policies
 
