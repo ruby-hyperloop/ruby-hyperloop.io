@@ -380,10 +380,11 @@ end
 <span class="k">end</span>
 </code></pre>
 <ul>
-<li><p><strong><code>config.transport</code></strong> allows us to configure the way push notifications are configured. <br>More detail: <a href="/docs/models/configuring-transport">{ Configuring the Transport }</a></p></li>
-<li><p><strong><code>config.prerendering</code></strong> allows us to configure the way Server-side rendering works. <br>More detail: <a href="/docs/components/serversiderendering">{ Server-side rendering }</a></p></li>
-<li><p><strong><code>config.console_auto_start</code></strong> allows us to turn on/off the Hyper-console debugging tool. <br>More detail: <a href="/tools/hyperconsole/">{ Hyper-console }</a></p></li>
-<li><p><strong><code>config.import</code></strong> allows us to import any Javascript librairies (they can also be imported or required in your Rails <code>app/javascripts/application.js</code> file)</p></li>
+<li><p><strong><code>config.transport = [ :none | :simple_poller | :action_cable | :pusher ]</code></strong> <br>Allows us to configure the way push notifications are configured. <br>More detail: <a href="/docs/models/configuring-transport">{ Configuring the Transport }</a></p></li>
+<li><p><strong><code>config.prerendering = :off (:on by default)</code></strong> <br> Allows us to configure the way Server-side rendering works. <br>More detail: <a href="/docs/components/serversiderendering">{ Server-side rendering }</a></p></li>
+<li><p><strong><code>config.console_auto_start = false</code></strong> <br> Allows us to turn off the Hyper-console debugging tool. <br>More detail: <a href="/tools/hyperconsole/">{ Hyper-console }</a></p></li>
+<li><p><strong><code>config.compress_system_assets = false</code></strong> <br> Allows us to turn off the minifying of all Hyperloop system assets files. During the first boot of the Rails Env, Hyperloop assets files will not be minified).</p></li>
+<li><p><strong><code>config.import = &#39;filename-to-import&#39;</code></strong> allows us to import any Javascript librairies (they can also be imported or required in your Rails <code>app/javascripts/application.js</code> file)</p></li>
 </ul>
 
 <h2 id="policies">Policies</h2>
