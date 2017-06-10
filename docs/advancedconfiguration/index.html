@@ -384,7 +384,8 @@ end
 <li><p><strong><code>config.prerendering = :off (:on by default)</code></strong> <br> Allows us to configure the way Server-side rendering works. <br>More detail: <a href="/docs/components/serversiderendering">{ Server-side rendering }</a></p></li>
 <li><p><strong><code>config.console_auto_start = false</code></strong> <br> Allows us to turn off the Hyper-console debugging tool. <br>More detail: <a href="/tools/hyperconsole/">{ Hyper-console }</a></p></li>
 <li><p><strong><code>config.compress_system_assets = false</code></strong> <br> Allows us to turn off the minifying of all Hyperloop system assets files. During the first boot of the Rails Env, Hyperloop assets files will not be minified).</p></li>
-<li><p><strong><code>config.import = &#39;filename-to-import&#39;</code></strong> allows us to import any Javascript librairies (they can also be imported or required in your Rails <code>app/javascripts/application.js</code> file)</p></li>
+<li><p><strong><code>config.import &#39;filename-to-import&#39;</code></strong> <br> Allows us to import any Javascript librairies (they can also be imported or required in your Rails <code>app/javascripts/application.js</code> file)</p></li>
+<li><p><strong><code>config.cancel_import(&#39;filename-to-import&#39;)</code></strong> <br> Allows us to cancel the importation into the Ruby on Rails manifests files. Generally files are imported automatically by Hyperloop GEMS or manually by the previous &#39;config.import` param.</p></li>
 </ul>
 
 <h2 id="policies">Policies</h2>
