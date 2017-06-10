@@ -29,7 +29,9 @@ end
 
 * **`config.compress_system_assets = false`** <br> Allows us to turn off the minifying of all Hyperloop system assets files. During the first boot of the Rails Env, Hyperloop assets files will not be minified).
 
-* **`config.import = 'filename-to-import'`** allows us to import any Javascript librairies (they can also be imported or required in your Rails `app/javascripts/application.js` file)
+* **`config.import 'filename-to-import'`** <br> Allows us to import any Javascript librairies (they can also be imported or required in your Rails `app/javascripts/application.js` file)
+
+* **`config.cancel_import('filename-to-import')`** <br> Allows us to cancel the importation into the Ruby on Rails manifests files. Generally files are imported automatically by Hyperloop GEMS or manually by the previous 'config.import` param.
 
 ## Policies
 
