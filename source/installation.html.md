@@ -147,7 +147,7 @@ rails g hyper:component Helloworld
 
 You can view the new Component created in `/app/hyperloop/components/`
 
-Then you create a `home_controller.rb` file, manually or with the command `rails g controller Home helloworld --skip-javascripts`, and updtate it as following:
+<!-- Then you create a `home_controller.rb` file, manually or with the command `rails g controller Home helloworld --skip-javascripts`, and updtate it as following:
 
 ```ruby
 #app/controllers/home_controller.rb
@@ -157,25 +157,24 @@ class HomeController < ApplicationController
     render_component
   end
 end
-```
+``` -->
 
-Don't forget to modify your `routes.rb`:
+Modify your `routes.rb`:
 
 ```ruby
-root 'home#helloworld'
+root 'hyperloop#helloworld'
 ```
 
-Start your Rails server and browse `http://localhost:3000`.<br>
+Start your Rails server and browse `http://localhost:3000`.
+<br><br>
 You should see `Hello world` displayed by the Component.
 
-Note:
-Instead of rendering your component from a controller, you can also render it from a view like this:
+<i class="flaticon-signs"></i> A component can be rendered in different ways, from a controller or view file for example. Please consult the documentation: [{ Elements and rendering }](/docs/components/elements-rendering/)
 
-```erb
-#app/views/home/helloworld.html.erb
 
-<%= react_component '::Helloworld', {}, { prerender: true } %>
-```
+
+
+
 
 
 ### <a name="rortutorials">Tutorials</a>
