@@ -428,27 +428,27 @@ Ubuntu 16.04 }</a>) or you can use a cloud development environment like Cloud9 (
 </code></pre>
 <p>You can view the new Component created in <code>/app/hyperloop/components/</code></p>
 
-<p>Then you create a <code>home_controller.rb</code> file, manually or with the command <code>rails g controller Home helloworld --skip-javascripts</code>, and updtate it as following:</p>
-<pre class="highlight ruby"><code><span class="c1">#app/controllers/home_controller.rb</span>
+<!-- Then you create a `home_controller.rb` file, manually or with the command `rails g controller Home helloworld --skip-javascripts`, and updtate it as following:
 
-<span class="k">class</span> <span class="nc">HomeController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
-  <span class="k">def</span> <span class="nf">helloworld</span>
-    <span class="n">render_component</span>
-  <span class="k">end</span>
-<span class="k">end</span>
+```ruby
+#app/controllers/home_controller.rb
+
+class HomeController < ApplicationController
+  def helloworld
+    render_component
+  end
+end
+``` -->
+
+<p>Modify your <code>routes.rb</code>:</p>
+<pre class="highlight ruby"><code><span class="n">root</span> <span class="s1">'hyperloop#helloworld'</span>
 </code></pre>
-<p>Don&#39;t forget to modify your <code>routes.rb</code>:</p>
-<pre class="highlight ruby"><code><span class="n">root</span> <span class="s1">'home#helloworld'</span>
-</code></pre>
-<p>Start your Rails server and browse <code>http://localhost:3000</code>.<br>
+<p>Start your Rails server and browse <code>http://localhost:3000</code>.
+<br><br>
 You should see <code>Hello world</code> displayed by the Component.</p>
 
-<p>Note:
-Instead of rendering your component from a controller, you can also render it from a view like this:</p>
-<pre class="highlight erb"><code>#app/views/home/helloworld.html.erb
+<p><i class="flaticon-signs"></i> A component can be rendered in different ways, from a controller or view file for example. Please consult the documentation: <a href="/docs/components/elements-rendering/">{ Elements and rendering }</a></p>
 
-<span class="cp">&lt;%=</span> <span class="n">react_component</span> <span class="s1">'::Helloworld'</span><span class="p">,</span> <span class="p">{},</span> <span class="p">{</span> <span class="ss">prerender: </span><span class="kp">true</span> <span class="p">}</span> <span class="cp">%&gt;</span>
-</code></pre>
 <h3 id="tutorials"><a name="rortutorials">Tutorials</a></h3>
 
 <p>You are ready now to implement more interesting and complex Components.<br>

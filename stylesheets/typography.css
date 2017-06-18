@@ -71,7 +71,7 @@ margin-right: 10px;
 
 }
 
-.flaticon-signs:before { content: "\f100"; }
+.flaticon-signs:before { content: "\f100"; font-size: 1.5em !important;}
 .flaticon-professor-teaching:before { content: "\f101"; }
     
     
