@@ -35,7 +35,7 @@ gem 'webpacker'
 Then run:
 
 ```ruby
-bundle update 
+bundle update
 ```
 
 Run the webpacker install generator:
@@ -53,10 +53,10 @@ React, React-dom, Bootstrap and Bootswatch theme.
 
 Run these commands:
 
-```ruby
+```
 yarn add react
 yarn add react-dom
-yarn add bootstrap react-bootstrap 
+yarn add bootstrap react-bootstrap
 yarn add bootswatch
 ```
 
@@ -78,8 +78,22 @@ ReactBootstrap = require('react-bootstrap');
 require('bootswatch/superhero/bootstrap.min.css');
 ```
 
+##### Step 1.4 - Letting Webpack know React and ReactDOM are external
 
-##### Step 1.4 - Updating webpack bundle
+React and ReactDOM are being brought in by Hyperloop, so we need to let Webpack know that these libraries are external so we do not end up with more than one copy of React running. Note that you will also need to do this for your production environment.
+
+In the `module.export` block, add the following to `development.js`:
+
+```javascript
+//config/webpack/development.js
+
+externals: {
+       "react": "React",
+       "react-dom": "ReactDOM"
+   },
+```
+
+##### Step 1.5 - Updating webpack bundle
 
 Before updating our webpack bundle, let's modify a configuration parameter.
 For our sample app we will not serve pack files from a Webpack-dev-server (`http://localhost:8080`). So we will modify a webpack configuration file like this:
@@ -93,13 +107,21 @@ For our sample app we will not serve pack files from a Webpack-dev-server (`http
 
 ```
 
-Then finally we can run the command:
+##### Step 1.6 - Building the webpack bundle
+
+**You will need to do this step whenever you make any changes to Webpack or add additional libraries though Yarn.**
+
+Run the following commands in your console:
 
 ```
+rm -rf tmp/cache/
 bin/webpack
+rake environment
 ```
 
-##### Step 1.5 - Configuring Rails asset pipeline:
+Note in the above, you should always delete your cache before building your webpack assets. `rake environment` will recompile Hyperloop.
+
+##### Step 1.7 - Configuring Rails asset pipeline:
 
 ```ruby
 #config/application.rb
@@ -107,7 +129,7 @@ bin/webpack
 config.assets.paths << ::Rails.root.join('public', 'packs').to_s
 ```
 
-##### Step 1.6 - Adding pack files to the asset pipeline:
+##### Step 1.8 - Adding pack files to the asset pipeline:
 
 By using the Hyperloop configuration file we can directly tell our app to include the pack files in the asset pipeline:
 
@@ -119,7 +141,7 @@ Hyperloop.configuration do |config|
 end
 ```
 
-##### Step 1.7 - Adding CSS pack files to the asset pipeline
+##### Step 1.9 - Adding CSS pack files to the asset pipeline
 
 Add this line:
 
@@ -129,12 +151,10 @@ Add this line:
 *= require client_only.css
 ```
 
-Note: if you prefer that your CSS pack files being directly packed into the `client_only.js` you can modify the `config/webpack/` config files and run the `bin/webpack` again.
-
+Note: if you prefer that your CSS pack files being directly packed into the `client_only.js` you can modify the `config/webpack/` config files and run the `rm -rf tmp/cache/; bin/webpack; rake environment` again.
 
 
 #### Part 2 - Implementing the helloworld app
-
 
 
 ##### Step 2.1 - Creating the Helloworld component
@@ -176,15 +196,15 @@ class Helloworld < Hyperloop::Component
   end
 
   def show_input
-    
-    H4 do 
+
+    H4 do
       span{'Please type '}
       span.colored {'Hello World'}
       span{' in the input field below :'}
       br {}
       span{'Or anything you want (^̮^)'}
     end
-    
+
     INPUT(type: :text, class: 'form-control').on(:change) do |e|
       state.field_value! e.target.value
     end
@@ -219,7 +239,7 @@ end
 #config/routes.rb
 
 root 'home#helloworld'
-``` 
+```
 
 ##### Step 2.5 - Creating the helloworld view file:
 
