@@ -22,7 +22,19 @@ gem 'sass-rails', '~> 5.0'
 
 ### Javascripts libraries
 
-##### JQuery
+Update your `/app/assets/javascripts/application.js` by adding:
+
+```javascript
+//= require react_ujs
+//= require jquery
+//= require jquery_ujs
+```
+
+Note that these must be added before `//= require hyperloop-loader`
+
+# <span class="bigfirstletter">I</span>nstallation with Rails 5.1.1
+
+### Javascripts libraries
 
 Update your `/app/assets/javascripts/application.js` by adding:
 
