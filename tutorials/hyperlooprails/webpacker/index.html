@@ -341,7 +341,7 @@ end
 
 </code></pre>
 <p>Then run:</p>
-<pre class="highlight ruby"><code><span class="n">bundle</span> <span class="n">update</span>
+<pre class="highlight ruby"><code><span class="n">bundle</span> <span class="n">update</span> 
 </code></pre>
 <p>Run the webpacker install generator:</p>
 <pre class="highlight plaintext"><code>bin/rails webpacker:install
@@ -354,10 +354,10 @@ end
 React, React-dom, Bootstrap and Bootswatch theme.</p>
 
 <p>Run these commands:</p>
-<pre class="highlight plaintext"><code>yarn add react
-yarn add react-dom
-yarn add bootstrap react-bootstrap
-yarn add bootswatch
+<pre class="highlight ruby"><code><span class="n">yarn</span> <span class="n">add</span> <span class="n">react</span>
+<span class="n">yarn</span> <span class="n">add</span> <span class="n">react</span><span class="o">-</span><span class="n">dom</span>
+<span class="n">yarn</span> <span class="n">add</span> <span class="n">bootstrap</span> <span class="n">react</span><span class="o">-</span><span class="n">bootstrap</span> 
+<span class="n">yarn</span> <span class="n">add</span> <span class="n">bootswatch</span>
 </code></pre>
 <h5 id="step-1-3-requiring-the-libraires">Step 1.3 - Requiring the libraires</h5>
 
@@ -371,19 +371,7 @@ yarn add bootswatch
 
 <span class="nx">require</span><span class="p">(</span><span class="s1">'bootswatch/superhero/bootstrap.min.css'</span><span class="p">);</span>
 </code></pre>
-<h5 id="step-1-4-letting-webpack-know-react-and-reactdom-are-external">Step 1.4 - Letting Webpack know React and ReactDOM are external</h5>
-
-<p>React and ReactDOM are being brought in by Hyperloop, so we need to let Webpack know that these libraries are external so we do not end up with more than one copy of React running. Note that you will also need to do this for your production environment.</p>
-
-<p>In the <code>module.export</code> block, add the following to <code>development.js</code>:</p>
-<pre class="highlight javascript"><code><span class="c1">//config/webpack/development.js</span>
-
-<span class="nl">externals</span><span class="p">:</span> <span class="p">{</span>
-       <span class="s2">"react"</span><span class="p">:</span> <span class="s2">"React"</span><span class="p">,</span>
-       <span class="s2">"react-dom"</span><span class="p">:</span> <span class="s2">"ReactDOM"</span>
-   <span class="p">},</span>
-</code></pre>
-<h5 id="step-1-5-updating-webpack-bundle">Step 1.5 - Updating webpack bundle</h5>
+<h5 id="step-1-4-updating-webpack-bundle">Step 1.4 - Updating webpack bundle</h5>
 
 <p>Before updating our webpack bundle, let&#39;s modify a configuration parameter.
 For our sample app we will not serve pack files from a Webpack-dev-server (<code>http://localhost:8080</code>). So we will modify a webpack configuration file like this:</p>
@@ -394,23 +382,15 @@ For our sample app we will not serve pack files from a Webpack-dev-server (<code
   <span class="na">port</span><span class="pi">:</span> <span class="s">8080</span>
 
 </code></pre>
-<h5 id="step-1-6-building-the-webpack-bundle">Step 1.6 - Building the webpack bundle</h5>
-
-<p><strong>You will need to do this step whenever you make any changes to Webpack or add additional libraries though Yarn.</strong></p>
-
-<p>Run the following commands in your console:</p>
-<pre class="highlight plaintext"><code>rm -rf tmp/cache/
-bin/webpack
-rake environment
+<p>Then finally we can run the command:</p>
+<pre class="highlight plaintext"><code>bin/webpack
 </code></pre>
-<p>Note in the above, you should always delete your cache before building your webpack assets. <code>rake environment</code> will recompile Hyperloop.</p>
-
-<h5 id="step-1-7-configuring-rails-asset-pipeline">Step 1.7 - Configuring Rails asset pipeline:</h5>
+<h5 id="step-1-5-configuring-rails-asset-pipeline">Step 1.5 - Configuring Rails asset pipeline:</h5>
 <pre class="highlight ruby"><code><span class="c1">#config/application.rb</span>
 
 <span class="n">config</span><span class="p">.</span><span class="nf">assets</span><span class="p">.</span><span class="nf">paths</span> <span class="o">&lt;&lt;</span> <span class="o">::</span><span class="no">Rails</span><span class="p">.</span><span class="nf">root</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="s1">'public'</span><span class="p">,</span> <span class="s1">'packs'</span><span class="p">).</span><span class="nf">to_s</span>
 </code></pre>
-<h5 id="step-1-8-adding-pack-files-to-the-asset-pipeline">Step 1.8 - Adding pack files to the asset pipeline:</h5>
+<h5 id="step-1-6-adding-pack-files-to-the-asset-pipeline">Step 1.6 - Adding pack files to the asset pipeline:</h5>
 
 <p>By using the Hyperloop configuration file we can directly tell our app to include the pack files in the asset pipeline:</p>
 <pre class="highlight ruby"><code><span class="no">Hyperloop</span><span class="p">.</span><span class="nf">configuration</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
@@ -419,14 +399,14 @@ rake environment
   <span class="n">config</span><span class="p">.</span><span class="nf">import</span> <span class="s1">'client_only'</span><span class="p">,</span> <span class="ss">client_only: </span><span class="kp">true</span>
 <span class="k">end</span>
 </code></pre>
-<h5 id="step-1-9-adding-css-pack-files-to-the-asset-pipeline">Step 1.9 - Adding CSS pack files to the asset pipeline</h5>
+<h5 id="step-1-7-adding-css-pack-files-to-the-asset-pipeline">Step 1.7 - Adding CSS pack files to the asset pipeline</h5>
 
 <p>Add this line:</p>
 <pre class="highlight plaintext"><code>//app/assets/stylesheets/application.css
 
 *= require client_only.css
 </code></pre>
-<p>Note: if you prefer that your CSS pack files being directly packed into the <code>client_only.js</code> you can modify the <code>config/webpack/</code> config files and run the <code>rm -rf tmp/cache/; bin/webpack; rake environment</code> again.</p>
+<p>Note: if you prefer that your CSS pack files being directly packed into the <code>client_only.js</code> you can modify the <code>config/webpack/</code> config files and run the <code>bin/webpack</code> again.</p>
 
 <h4 id="part-2-implementing-the-helloworld-app">Part 2 - Implementing the helloworld app</h4>
 
@@ -463,7 +443,7 @@ rake environment
 
   <span class="k">def</span> <span class="nf">show_input</span>
 
-    <span class="no">H4</span> <span class="k">do</span>
+    <span class="no">H4</span> <span class="k">do</span> 
       <span class="n">span</span><span class="p">{</span><span class="s1">'Please type '</span><span class="p">}</span>
       <span class="n">span</span><span class="p">.</span><span class="nf">colored</span> <span class="p">{</span><span class="s1">'Hello World'</span><span class="p">}</span>
       <span class="n">span</span><span class="p">{</span><span class="s1">' in the input field below :'</span><span class="p">}</span>

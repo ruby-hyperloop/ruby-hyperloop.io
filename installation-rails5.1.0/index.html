@@ -327,7 +327,16 @@ end
 </code></pre>
 <h3 id="javascripts-libraries">Javascripts libraries</h3>
 
-<h5 id="jquery">JQuery</h5>
+<p>Update your <code>/app/assets/javascripts/application.js</code> by adding:</p>
+<pre class="highlight javascript"><code><span class="c1">//= require react_ujs</span>
+<span class="c1">//= require jquery</span>
+<span class="c1">//= require jquery_ujs</span>
+</code></pre>
+<p>Note that these must be added before <code>//= require hyperloop-loader</code></p>
+
+<h1 id="installation-with-rails-5-1-1"><span class="bigfirstletter">I</span>nstallation with Rails 5.1.1</h1>
+
+<h3 id="javascripts-libraries">Javascripts libraries</h3>
 
 <p>Update your <code>/app/assets/javascripts/application.js</code> by adding:</p>
 <pre class="highlight javascript"><code><span class="c1">//= require react_ujs</span>
