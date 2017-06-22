@@ -317,6 +317,10 @@ end
 
 A Server Operation will always run on the server even if invoked on the client.  When invoked from the client Server Operations will receive the `acting_user` param with the current value that your ApplicationController's `acting_user` method returns.   Typically the `acting_user` method will return either some User model, or nil (if there is no logged in user.)  Its up to you to define how `acting_user` is computed, but this is easily done with any of the popular authentication gems.  Note that unless you explicitly add `nils: true` to the param declaration, nil will not be accepted.
 
+> **Note regarding Rails Controllers:** Hyperloop is quite flexible and rides along side Rails, without interfering. So you could still have your old controllers, and invoke them the "non-hyperloop" way by doing say an HTTP.post from the client, etc. Hyperloop adds a new mechanism for communicating between client and server called the Server Operation (which is a subclass of Operation.) A ServerOp has no implication on your existing controllers or code, and if used replaces controllers, and client side API calls. HyperModel is built on top of Rails ActiveRecord models, and Server Operations, to keep models in sync across the application. ActiveRecord models that are made public (by moving them to the hyperloop/models folder) will automatically be syncronized across the clients and the server (subject to permissions given in the Policy classes.)
+Like Server Operations, HyperModel completely removes the need to build controllers, and client side API code. However all of your current active record models, controllers will continue to work unaffected.
+
+
 As shown above you can also define a validation to further insure that the acting user (with perhaps other parameters) is allowed to perform the operation.  In the above case that is the only purpose of the Operation.   Another typical use would be to make sure the current acting user has the correct role to perform the operation:
 
 ```ruby
