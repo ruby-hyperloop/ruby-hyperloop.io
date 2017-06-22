@@ -331,6 +331,7 @@ end
       <li class="nav-item"><a href="/docs/operations/overview#handling-failed-operations">Handling Failed Operations</a></li>
       <li class="nav-item"><a href="/docs/operations/overview#running-operations">Running Operations</a></li>
       <li class="nav-item"><a href="/docs/operations/overview#server-operations">Server Operations</a></li>
+      <li class="nav-item"><a href="/docs/operations/overview#keeping-server-code-on-the-server">Keeping server code on the server</a></li>
       <li class="nav-item"><a href="/docs/operations/overview#dispatching-from-server-operations">Dispatching From ServerOps</a></li>
       <li class="nav-item"><a href="/docs/operations/overview#channels">Channels</a></li>
       <li class="nav-item"><a href="/docs/operations/overview#defining-connections-in-serverops">Defining Connections</a></li>
@@ -689,6 +690,76 @@ MyOperation.then(...params...) { alert &#39;operation completed&#39; }
 </code></pre>
 <p>Because Operations always return a promise, there is nothing to change on the client to call a Server Operation. A Server Operation will return a promise that will be resolved (or rejected) when the Operation completes (or fails) on the server.  </p>
 
+<h3 id="keeping-server-code-on-the-server">Keeping server code on the server</h3>
+
+<p>There are valid cases where you will not want your ServerOp&#39;s code to be on the client yet still be able to invoke a ServerOp from client or server code. Good reasons for this would include:</p>
+
+<ul>
+<li>Security concerns where you would not want some part of your code on the client</li>
+<li>Size of code, where there will be unnecessary code downloaded to the client</li>
+<li>Server code using backticks (`) or the %x{ ... } sequence, both of which are interpreted on the client as escape to generate JS code.</li>
+</ul>
+
+<p>To accomplish this, you wrap the server side implementation of the ServerOp in a <code>RUBY_ENGINE == &#39;opal&#39;</code> test which acts as a compiler directive so that this code is not compiled by Opal.</p>
+
+<p>There are several strategies you can use to apply the RUBY_ENGINE == &#39;opal&#39; guard to your code.</p>
+<pre class="highlight ruby"><code><span class="c1"># strategy 1:  guard blocks of code and declarations that you don't want to compile to the client</span>
+<span class="k">class</span> <span class="nc">MyServerOp</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">ServerOp</span>
+  <span class="c1"># stuff that is okay to compile on the client</span>
+  <span class="c1"># ... etc</span>
+  <span class="k">unless</span> <span class="no">RUBY_ENGINE</span> <span class="o">==</span> <span class="s1">'opal'</span>
+     <span class="c1"># other code that should not be compiled to the client...</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre><pre class="highlight ruby"><code><span class="c1"># strategy 2:  guard individual methods</span>
+<span class="k">class</span> <span class="nc">MyServerOp</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">ServerOp</span>
+  <span class="c1"># stuff that is okay to compile on the client</span>
+  <span class="c1"># ... etc</span>
+  <span class="k">def</span> <span class="nf">my_secret_method</span>
+     <span class="c1"># do something we don't want shown on the client</span>
+   <span class="k">end</span> <span class="k">unless</span> <span class="no">RUBY_ENGINE</span> <span class="o">==</span> <span class="s1">'opal'</span>
+<span class="k">end</span>
+</code></pre><pre class="highlight ruby"><code><span class="c1"># strategy 3:  describe class in two pieces</span>
+<span class="k">class</span> <span class="nc">MyServerOp</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">ServerOp</span><span class="p">;</span> <span class="k">end</span>  <span class="c1"># publically declare the operation</span>
+<span class="c1"># provide the private implementation only on the server</span>
+<span class="k">class</span> <span class="nc">MyServerOp</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">ServerOp</span>
+  <span class="c1">#</span>
+<span class="k">end</span> <span class="k">unless</span> <span class="no">RUBY_ENGINE</span> <span class="o">==</span> <span class="s1">'opal'</span>
+</code></pre>
+<p>Here is a fuller example:</p>
+<pre class="highlight ruby"><code><span class="c1"># app/hyperloop/operations/list_files.rb</span>
+<span class="k">class</span> <span class="nc">ListFiles</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">ServerOp</span>
+  <span class="n">param</span> <span class="ss">:acting_user</span><span class="p">,</span> <span class="ss">nils: </span><span class="kp">true</span>
+  <span class="n">param</span> <span class="ss">pattern: </span><span class="s1">'*'</span>
+  <span class="n">step</span> <span class="p">{</span>  <span class="n">run_ls</span> <span class="p">}</span>
+
+  <span class="c1"># because backticks are interpreted by the Opal compiler as escape to JS, we</span>
+  <span class="c1"># have to make sure this does not compile on the client</span>
+  <span class="k">def</span> <span class="nf">run_ls</span>
+    <span class="sb">`ls -l </span><span class="si">#{</span><span class="n">params</span><span class="p">.</span><span class="nf">pattern</span><span class="si">}</span><span class="sb">`</span>
+  <span class="k">end</span> <span class="k">unless</span> <span class="no">RUBY_ENGINE</span> <span class="o">==</span> <span class="s1">'opal'</span>
+<span class="k">end</span>
+
+<span class="c1"># app/hyperloop/components/app.rb</span>
+<span class="k">class</span> <span class="nc">App</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Component</span>
+  <span class="n">state</span> <span class="ss">files: </span><span class="p">[]</span>
+
+  <span class="n">after_mount</span> <span class="k">do</span>
+    <span class="vi">@pattern</span> <span class="o">=</span> <span class="s1">''</span>
+    <span class="n">every</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span> <span class="no">ListFiles</span><span class="p">.</span><span class="nf">run</span><span class="p">(</span><span class="ss">pattern: </span><span class="vi">@pattern</span><span class="p">).</span><span class="nf">then</span> <span class="p">{</span> <span class="o">|</span><span class="n">files</span><span class="o">|</span> <span class="n">mutate</span><span class="p">.</span><span class="nf">files</span> <span class="n">files</span><span class="p">.</span><span class="nf">split</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span> <span class="p">}</span> <span class="p">}</span>
+  <span class="k">end</span>
+
+  <span class="n">render</span><span class="p">(</span><span class="no">DIV</span><span class="p">)</span> <span class="k">do</span>
+    <span class="no">INPUT</span><span class="p">(</span><span class="ss">defaultValue: </span><span class="s1">''</span><span class="p">)</span>
+    <span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:change</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span><span class="n">evt</span><span class="o">|</span> <span class="vi">@pattern</span> <span class="o">=</span> <span class="n">evt</span><span class="p">.</span><span class="nf">target</span><span class="p">.</span><span class="nf">value</span> <span class="p">}</span>
+    <span class="no">DIV</span><span class="p">(</span><span class="ss">style: </span><span class="p">{</span><span class="ss">fontFamily: </span><span class="s1">'Courier'</span><span class="p">})</span> <span class="k">do</span>
+      <span class="n">state</span><span class="p">.</span><span class="nf">files</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">file</span><span class="o">|</span>
+        <span class="no">DIV</span> <span class="p">{</span> <span class="n">file</span> <span class="p">}</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
 <h3 id="dispatching-from-server-operations">Dispatching From Server Operations</h3>
 
 <p>You can also broadcast the dispatch from Server Operations to all authorized clients.  The <code>dispatch_to</code> will determine a list of <em>channels</em> to broadcast the dispatch to:</p>
