@@ -117,7 +117,7 @@ root 'home#helloworld'
 We will add a **Hyperloop** logo
 
 ```erb
-#app/vies/home/helloworld.html.erb
+#app/views/home/helloworld.html.erb
 
 <div class="hyperloophelloword">
 

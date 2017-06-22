@@ -77,7 +77,7 @@ You can start by the first tutorial of the Hyperloop series here :
 
 Hyperloop works great with new or existing rails apps, so it's pain free to introduce it to your application.
 
-Hyperloop has been tested with the most recent Ruby On Rails verions:<br> Rails (~> 4.2), Rails (~> 5.0) and the last Rails (5.1.0). For the final Rails 5.1.0, there are still few points to be aware of [Hyperloop and Rails 5.1.0](/installation-rails5.1.0) 
+Hyperloop has been tested with the most recent Ruby On Rails verions:<br> Rails (~> 4.2), Rails (~> 5.0) and the last Rails (5.1.0). For the final Rails (~> 5.1.0), there are still few points to be aware of [Hyperloop and Rails (~> 5.1.0)](/installation-rails5.1.0) 
 
 ### <a name="rorinstall">Ruby On Rails installation</a>
 
