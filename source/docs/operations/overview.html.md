@@ -343,6 +343,86 @@ end
 
 Because Operations always return a promise, there is nothing to change on the client to call a Server Operation. A Server Operation will return a promise that will be resolved (or rejected) when the Operation completes (or fails) on the server.  
 
+### Keeping server code on the server
+
+There are valid cases where you will not want your ServerOp's code to be on the client yet still be able to invoke a ServerOp from client or server code. Good reasons for this would include:
+
++ Security concerns where you would not want some part of your code on the client
++ Size of code, where there will be unnecessary code downloaded to the client
++ Server code using backticks (`) or the %x{ ... } sequence, both of which are interpreted on the client as escape to generate JS code.
+
+To accomplish this, you wrap the server side implementation of the ServerOp in a `RUBY_ENGINE == 'opal'` test which acts as a compiler directive so that this code is not compiled by Opal.
+
+There are several strategies you can use to apply the RUBY_ENGINE == 'opal' guard to your code.
+
+```ruby
+# strategy 1:  guard blocks of code and declarations that you don't want to compile to the client
+class MyServerOp < Hyperloop::ServerOp
+  # stuff that is okay to compile on the client
+  # ... etc
+  unless RUBY_ENGINE == 'opal'
+     # other code that should not be compiled to the client...
+  end
+end
+```
+
+```ruby
+# strategy 2:  guard individual methods
+class MyServerOp < Hyperloop::ServerOp
+  # stuff that is okay to compile on the client
+  # ... etc
+  def my_secret_method
+     # do something we don't want shown on the client
+   end unless RUBY_ENGINE == 'opal'
+end
+```
+
+```ruby
+# strategy 3:  describe class in two pieces
+class MyServerOp < Hyperloop::ServerOp; end  # publically declare the operation
+# provide the private implementation only on the server
+class MyServerOp < Hyperloop::ServerOp
+  #
+end unless RUBY_ENGINE == 'opal'
+```
+
+Here is a fuller example:
+
+```ruby
+# app/hyperloop/operations/list_files.rb
+class ListFiles < Hyperloop::ServerOp
+  param :acting_user, nils: true
+  param pattern: '*'
+  step {  run_ls }
+
+  # because backticks are interpreted by the Opal compiler as escape to JS, we
+  # have to make sure this does not compile on the client
+  def run_ls
+    `ls -l #{params.pattern}`
+  end unless RUBY_ENGINE == 'opal'
+end
+
+# app/hyperloop/components/app.rb
+class App < Hyperloop::Component
+  state files: []
+
+  after_mount do
+    @pattern = ''
+    every(1) { ListFiles.run(pattern: @pattern).then { |files| mutate.files files.split("\n") } }
+  end
+
+  render(DIV) do
+    INPUT(defaultValue: '')
+    .on(:change) { |evt| @pattern = evt.target.value }
+    DIV(style: {fontFamily: 'Courier'}) do
+      state.files.each do |file|
+        DIV { file }
+      end
+    end
+  end
+end
+```
+
 ### Dispatching From Server Operations
 
 You can also broadcast the dispatch from Server Operations to all authorized clients.  The `dispatch_to` will determine a list of *channels* to broadcast the dispatch to:
