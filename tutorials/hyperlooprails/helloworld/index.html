@@ -1254,6 +1254,256 @@ mv app/models/helloworldmodel.rb app/hyperloop/models
 
 <h3 id="step-5-3-listing-the-saved-data">Step 5.3: Listing the saved data</h3>
 
+<p>We are going to add a TABLE listing all <code>description</code> fields saved in our Database.</p>
+
+<p>For that we need first to load all these data from the database, and just before the <code>Helloworld</code> component will mounted.</p>
+
+<p>To do that, we will use the <code>before_mount</code> Hyperloop block. Everything put inside this block will be executed just before the rendering of the component.</p>
+<pre class="highlight ruby"><code><span class="c1">#/app/hyperloop/components/helloworld.rb</span>
+
+<span class="n">before_mount</span> <span class="k">do</span>
+  <span class="vi">@helloworldmodels</span> <span class="o">=</span> <span class="no">Helloworldmodel</span><span class="p">.</span><span class="nf">all</span>
+<span class="k">end</span>
+
+</code></pre>
+<p>Then we will render the TABLE by calling a <code>description_table</code> method that we will put in our component as well and which will display each <code>description</code> record row by row:</p>
+<pre class="highlight ruby"><code><span class="c1">#/app/hyperloop/components/helloworld.rb</span>
+
+<span class="n">render</span><span class="p">(</span><span class="no">DIV</span><span class="p">)</span> <span class="k">do</span>
+  <span class="n">show_button</span>
+  <span class="no">DIV</span><span class="p">(</span><span class="ss">class: </span><span class="s1">'formdiv'</span><span class="p">)</span> <span class="k">do</span>
+    <span class="no">InputBox2</span><span class="p">()</span>
+    <span class="no">H1</span> <span class="p">{</span> <span class="s2">"</span><span class="si">#{</span><span class="no">MyStore</span><span class="p">.</span><span class="nf">field_value</span><span class="si">}</span><span class="s2">"</span> <span class="p">}</span>
+  <span class="k">end</span> <span class="k">if</span> <span class="no">MyStore</span><span class="p">.</span><span class="nf">field_displayed</span>
+  <span class="n">description_table</span>
+<span class="k">end</span>
+
+<span class="k">def</span> <span class="nf">description_table</span>
+  <span class="no">DIV</span> <span class="k">do</span>
+    <span class="no">BR</span>
+    <span class="no">TABLE</span><span class="p">(</span><span class="ss">class: </span><span class="s1">'table table-hover table-condensed'</span><span class="p">)</span> <span class="k">do</span>
+      <span class="no">THEAD</span> <span class="k">do</span>
+        <span class="no">TR</span><span class="p">(</span><span class="ss">class: </span><span class="s1">'table-danger'</span><span class="p">)</span> <span class="k">do</span>
+          <span class="no">TD</span><span class="p">(</span><span class="ss">width: </span><span class="s1">'33%'</span><span class="p">)</span> <span class="p">{</span> <span class="s2">"SAVED HELLO WORLD"</span> <span class="p">}</span>
+        <span class="k">end</span>
+      <span class="k">end</span>
+      <span class="no">TBODY</span> <span class="k">do</span>
+        <span class="vi">@helloworldmodels</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">helloworldmodel</span><span class="o">|</span>
+          <span class="no">TR</span><span class="p">(</span><span class="ss">class: </span><span class="s1">'table-success'</span><span class="p">)</span> <span class="k">do</span>
+            <span class="no">TD</span><span class="p">(</span><span class="ss">width: </span><span class="s1">'50%'</span><span class="p">)</span> <span class="p">{</span> <span class="n">helloworldmodel</span><span class="p">.</span><span class="nf">description</span> <span class="p">}</span>
+          <span class="k">end</span>
+        <span class="k">end</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+</code></pre>
+<p>So, for this step, the <code>Component</code> code will be like that:</p>
+
+<div class="togglecode" 
+  data-heading="Step 5.3 Helloworld Component" 
+  data-rows=16
+  data-top-level-component="HelloworldComponent5.3">
+
+  <pre>
+    #/app/hyperloop/components/helloworld.rb
+
+    class Helloworld < Hyperloop::Component
+
+      before_mount do
+        @helloworldmodels = Helloworldmodel.all
+      end
+
+      render(DIV) do
+        show_button
+        DIV(class: 'formdiv') do
+          InputBox()
+          show_text
+        end if MyStore.show_field
+        description_table
+      end
+
+      def toggle_logo(ev)
+        ev.prevent_default
+        logo = Element['img']
+        MyStore.show_field ? logo.hide('slow') : logo.show('slow')
+      end
+
+      def show_button
+        BUTTON(class: 'btn btn-info') do
+          MyStore.show_field ? "Click to hide HelloWorld input field" : "Click to show HelloWorld input field"
+        end.on(:click) do |ev|
+          MyStore.toggle_field 
+          toggle_logo(ev)
+        end
+      end
+
+      def show_text
+        H1 { "#{MyStore.field_value}" }
+      end
+
+      def self.save_description
+        Helloworldmodel.create(:description => MyStore.field_value) do |result|
+          alert "unable to save" unless result == true
+        end
+        alert("Data saved : #{MyStore.field_value}")
+        MyStore.mutate.field_value ""
+      end
+
+      def description_table
+        DIV do
+          BR
+          TABLE(class: 'table table-hover table-condensed') do
+            THEAD do
+              TR(class: 'table-danger') do
+                TD(width: '33%') { "SAVED HELLO WORLD" }
+              end
+            end
+            TBODY do
+              @helloworldmodels.each do |helloworldmodel|
+                TR(class: 'table-success') do
+                  TD(width: '50%') { helloworldmodel.description }
+                end
+              end
+            end
+          end
+        end
+      end
+
+    end
+
+  </pre>
+</div>
+
+<p>Refresh you browser page and you should see the Table listing your previous <code>Hello USA</code>. Try to add another <code>Nihao China</code> into your input field, then after clicking the SAVE button, you will see that the Table listing is automatically updated.</p>
+
+<h3 id="step-5-4-simplfiying-code-by-adding-another-component">Step 5.4: Simplfiying code by adding another Component</h3>
+
+<p>We are going to add another <code>Component</code> in order to simplify the code and to show how <code>Components</code> can be nested.</p>
+
+<p>Modify the <code>description_table</code> like that:</p>
+<pre class="highlight ruby"><code><span class="c1">#/app/hyperloop/components/helloworld.rb</span>
+
+<span class="k">def</span> <span class="nf">description_table</span>
+
+  <span class="no">DIV</span> <span class="k">do</span>
+    <span class="no">BR</span>
+    <span class="no">TABLE</span><span class="p">(</span><span class="ss">class: </span><span class="s1">'table table-hover table-condensed'</span><span class="p">)</span> <span class="k">do</span>
+      <span class="no">THEAD</span> <span class="k">do</span>
+        <span class="no">TR</span><span class="p">(</span><span class="ss">class: </span><span class="s1">'table-danger'</span><span class="p">)</span> <span class="k">do</span>
+          <span class="no">TD</span><span class="p">(</span><span class="ss">width: </span><span class="s1">'33%'</span><span class="p">)</span> <span class="p">{</span> <span class="s2">"SAVED HELLO WORLD"</span> <span class="p">}</span>
+        <span class="k">end</span>
+      <span class="k">end</span>
+      <span class="no">TBODY</span> <span class="k">do</span>
+        <span class="vi">@helloworldmodels</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">helloworldmodel</span><span class="o">|</span>
+          <span class="no">DescriptionRow</span><span class="p">(</span><span class="ss">descriptionparam: </span><span class="n">helloworldmodel</span><span class="p">.</span><span class="nf">description</span><span class="p">)</span>
+        <span class="k">end</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+
+<span class="k">end</span>
+
+</code></pre>
+<p>We now mount a new <code>DescriptionRow</code> component and pass a parameter containing the <code>description</code> field value.</p>
+
+<p>We now create this new <code>DescriptionRow</code> component:</p>
+<pre class="highlight ruby"><code><span class="c1">#/app/hyperloop/components/description_row.rb</span>
+
+<span class="k">class</span> <span class="nc">DescriptionRow</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Component</span>
+
+  <span class="n">param</span> <span class="ss">:descriptionparam</span>
+
+  <span class="k">def</span> <span class="nf">render</span>
+    <span class="no">TR</span><span class="p">(</span><span class="ss">class: </span><span class="s1">'table-success'</span><span class="p">)</span> <span class="k">do</span>
+      <span class="no">TD</span><span class="p">(</span><span class="ss">width: </span><span class="s1">'50%'</span><span class="p">)</span> <span class="p">{</span> <span class="n">params</span><span class="p">.</span><span class="nf">descriptionparam</span> <span class="p">}</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+
+<span class="k">end</span>
+
+</code></pre>
+<p>So, for this step, the <code>Component</code> code will be like that:</p>
+
+<div class="togglecode" 
+  data-heading="Step 5.4 Helloworld Component" 
+  data-rows=16
+  data-top-level-component="HelloworldComponent5.4">
+
+  <pre>
+    #/app/hyperloop/components/helloworld.rb
+
+    
+    class Helloworld < Hyperloop::Component
+
+      before_mount do
+        @helloworldmodels = Helloworldmodel.all
+      end
+
+      render(DIV) do
+        show_button
+        DIV(class: 'formdiv') do
+          InputBox()
+          show_text
+        end if MyStore.show_field
+        description_table
+      end
+
+      def toggle_logo(ev)
+        ev.prevent_default
+        logo = Element['img']
+        MyStore.show_field ? logo.hide('slow') : logo.show('slow')
+      end
+
+      def show_button
+        BUTTON(class: 'btn btn-info') do
+          MyStore.show_field ? "Click to hide HelloWorld input field" : "Click to show HelloWorld input field"
+        end.on(:click) do |ev|
+          MyStore.toggle_field 
+          toggle_logo(ev)
+        end
+      end
+
+      def show_text
+        H1 { "#{MyStore.field_value}" }
+      end
+
+      def self.save_description
+        Helloworldmodel.create(:description => MyStore.field_value) do |result|
+          alert "unable to save" unless result == true
+        end
+        alert("Data saved : #{MyStore.field_value}")
+        MyStore.mutate.field_value ""
+      end
+
+      def description_table
+        DIV do
+          BR
+          TABLE(class: 'table table-hover table-condensed') do
+            THEAD do
+              TR(class: 'table-danger') do
+                TD(width: '33%') { "SAVED HELLO WORLD" }
+              end
+            end
+            TBODY do
+              @helloworldmodels.each do |helloworldmodel|
+                DescriptionRow(descriptionparam: helloworldmodel.description)
+              end
+            end
+          end
+        end
+      end
+
+    end
+
+  </pre>
+</div>
+
+<h2 id="chapter-6-first-hyperloop-operation"><a name="chapter6">Chapter 6: First Hyperloop Operation</a></h2>
+
+<h2 id="chapter-7-first-hyperloop-server-operation"><a name="chapter7">Chapter 7: First Hyperloop Server Operation</a></h2>
+
         </div>
       </div>
     </div>
