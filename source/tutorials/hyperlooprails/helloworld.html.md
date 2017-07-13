@@ -929,3 +929,280 @@ So, for this step, the `Component` code will be like that:
 Refresh you browser page and try typing `Hello USA` into the Input field and click the `save` button.
 
 ### Step 5.3: Listing the saved data
+
+We are going to add a TABLE listing all `description` fields saved in our Database.
+
+For that we need first to load all these data from the database, and just before the `Helloworld` component will mounted.
+
+To do that, we will use the `before_mount` Hyperloop block. Everything put inside this block will be executed just before the rendering of the component.
+
+```ruby
+#/app/hyperloop/components/helloworld.rb
+
+before_mount do
+  @helloworldmodels = Helloworldmodel.all
+end
+
+```
+
+Then we will render the TABLE by calling a `description_table` method that we will put in our component as well and which will display each `description` record row by row:
+
+```ruby
+#/app/hyperloop/components/helloworld.rb
+
+render(DIV) do
+  show_button
+  DIV(class: 'formdiv') do
+    InputBox2()
+    H1 { "#{MyStore.field_value}" }
+  end if MyStore.field_displayed
+  description_table
+end
+
+def description_table
+  DIV do
+    BR
+    TABLE(class: 'table table-hover table-condensed') do
+      THEAD do
+        TR(class: 'table-danger') do
+          TD(width: '33%') { "SAVED HELLO WORLD" }
+        end
+      end
+      TBODY do
+        @helloworldmodels.each do |helloworldmodel|
+          TR(class: 'table-success') do
+            TD(width: '50%') { helloworldmodel.description }
+          end
+        end
+      end
+    end
+  end
+end
+
+```
+
+So, for this step, the `Component` code will be like that:
+
+<div class="togglecode" 
+  data-heading="Step 5.3 Helloworld Component" 
+  data-rows=16
+  data-top-level-component="HelloworldComponent5.3">
+
+  <pre>
+    #/app/hyperloop/components/helloworld.rb
+
+    class Helloworld < Hyperloop::Component
+
+      before_mount do
+        @helloworldmodels = Helloworldmodel.all
+      end
+
+      render(DIV) do
+        show_button
+        DIV(class: 'formdiv') do
+          InputBox()
+          show_text
+        end if MyStore.show_field
+        description_table
+      end
+
+      def toggle_logo(ev)
+        ev.prevent_default
+        logo = Element['img']
+        MyStore.show_field ? logo.hide('slow') : logo.show('slow')
+      end
+
+      def show_button
+        BUTTON(class: 'btn btn-info') do
+          MyStore.show_field ? "Click to hide HelloWorld input field" : "Click to show HelloWorld input field"
+        end.on(:click) do |ev|
+          MyStore.toggle_field 
+          toggle_logo(ev)
+        end
+      end
+
+      def show_text
+        H1 { "#{MyStore.field_value}" }
+      end
+
+      def self.save_description
+        Helloworldmodel.create(:description => MyStore.field_value) do |result|
+          alert "unable to save" unless result == true
+        end
+        alert("Data saved : #{MyStore.field_value}")
+        MyStore.mutate.field_value ""
+      end
+
+      def description_table
+        DIV do
+          BR
+          TABLE(class: 'table table-hover table-condensed') do
+            THEAD do
+              TR(class: 'table-danger') do
+                TD(width: '33%') { "SAVED HELLO WORLD" }
+              end
+            end
+            TBODY do
+              @helloworldmodels.each do |helloworldmodel|
+                TR(class: 'table-success') do
+                  TD(width: '50%') { helloworldmodel.description }
+                end
+              end
+            end
+          end
+        end
+      end
+
+    end
+
+  </pre>
+</div>
+
+Refresh you browser page and you should see the Table listing your previous `Hello USA`. Try to add another `Nihao China` into your input field, then after clicking the SAVE button, you will see that the Table listing is automatically updated.
+
+
+### Step 5.4: Simplfiying code by adding another Component
+
+We are going to add another `Component` in order to simplify the code and to show how `Components` can be nested.
+
+Modify the `description_table` like that:
+
+```ruby
+#/app/hyperloop/components/helloworld.rb
+
+def description_table
+
+  DIV do
+    BR
+    TABLE(class: 'table table-hover table-condensed') do
+      THEAD do
+        TR(class: 'table-danger') do
+          TD(width: '33%') { "SAVED HELLO WORLD" }
+        end
+      end
+      TBODY do
+        @helloworldmodels.each do |helloworldmodel|
+          DescriptionRow(descriptionparam: helloworldmodel.description)
+        end
+      end
+    end
+  end
+
+end
+
+```
+
+We now mount a new `DescriptionRow` component and pass a parameter containing the `description` field value.
+
+We now create this new `DescriptionRow` component:
+
+```ruby
+#/app/hyperloop/components/description_row.rb
+
+class DescriptionRow < Hyperloop::Component
+  
+  param :descriptionparam
+
+  def render
+    TR(class: 'table-success') do
+      TD(width: '50%') { params.descriptionparam }
+    end
+  end
+
+end
+
+```
+
+So, for this step, the `Component` code will be like that:
+
+<div class="togglecode" 
+  data-heading="Step 5.4 Helloworld Component" 
+  data-rows=16
+  data-top-level-component="HelloworldComponent5.4">
+
+  <pre>
+    #/app/hyperloop/components/helloworld.rb
+
+    
+    class Helloworld < Hyperloop::Component
+
+      before_mount do
+        @helloworldmodels = Helloworldmodel.all
+      end
+
+      render(DIV) do
+        show_button
+        DIV(class: 'formdiv') do
+          InputBox()
+          show_text
+        end if MyStore.show_field
+        description_table
+      end
+
+      def toggle_logo(ev)
+        ev.prevent_default
+        logo = Element['img']
+        MyStore.show_field ? logo.hide('slow') : logo.show('slow')
+      end
+
+      def show_button
+        BUTTON(class: 'btn btn-info') do
+          MyStore.show_field ? "Click to hide HelloWorld input field" : "Click to show HelloWorld input field"
+        end.on(:click) do |ev|
+          MyStore.toggle_field 
+          toggle_logo(ev)
+        end
+      end
+
+      def show_text
+        H1 { "#{MyStore.field_value}" }
+      end
+
+      def self.save_description
+        Helloworldmodel.create(:description => MyStore.field_value) do |result|
+          alert "unable to save" unless result == true
+        end
+        alert("Data saved : #{MyStore.field_value}")
+        MyStore.mutate.field_value ""
+      end
+
+      def description_table
+        DIV do
+          BR
+          TABLE(class: 'table table-hover table-condensed') do
+            THEAD do
+              TR(class: 'table-danger') do
+                TD(width: '33%') { "SAVED HELLO WORLD" }
+              end
+            end
+            TBODY do
+              @helloworldmodels.each do |helloworldmodel|
+                DescriptionRow(descriptionparam: helloworldmodel.description)
+              end
+            end
+          end
+        end
+      end
+
+    end
+
+  </pre>
+</div>
+
+
+## <a name="chapter6">Chapter 6: First Hyperloop Operation</a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## <a name="chapter7">Chapter 7: First Hyperloop Server Operation</a>
