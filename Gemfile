@@ -14,6 +14,7 @@ gem "middleman-blog"
 gem "middleman-livereload"
 gem 'middleman-gh-pages'
 gem "middleman-syntax"
+gem "middleman-search"
 gem "middleman-deploy", '~> 2.0.0.pre.alpha'
 gem "nokogiri"
 

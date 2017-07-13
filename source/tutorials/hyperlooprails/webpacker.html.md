@@ -93,21 +93,7 @@ externals: {
    },
 ```
 
-##### Step 1.5 - Updating webpack bundle
-
-Before updating our webpack bundle, let's modify a configuration parameter.
-For our sample app we will not serve pack files from a Webpack-dev-server (`http://localhost:8080`). So we will modify a webpack configuration file like this:
-
-```yaml
-#config/webpack/development.server.yml
-
-  enabled: false
-  host: localhost
-  port: 8080
-
-```
-
-##### Step 1.6 - Building the webpack bundle
+##### Step 1.5 - Building the webpack bundle
 
 **You will need to do this step whenever you make any changes to Webpack or add additional libraries though Yarn.**
 
@@ -121,19 +107,21 @@ rake environment
 
 Note in the above, you should always delete your cache before building your webpack assets. `rake environment` will recompile Hyperloop.
 
-##### Step 1.7 - Configuring Rails asset pipeline:
+##### Step 1.6 - Configuring Rails asset pipeline:
 
 ```ruby
-#config/application.rb
+#config/initializers/assets.rb
 
-config.assets.paths << ::Rails.root.join('public', 'packs').to_s
+Rails.application.config.assets.paths << Rails.root.join('public', 'packs').to_s
 ```
 
-##### Step 1.8 - Adding pack files to the asset pipeline:
+##### Step 1.7 - Adding pack files to the asset pipeline:
 
 By using the Hyperloop configuration file we can directly tell our app to include the pack files in the asset pipeline:
 
 ```ruby
+#config/initializers/hyperloop.rb
+
 Hyperloop.configuration do |config|
   config.transport = :simple_poller
   config.import 'client_and_server'
@@ -141,7 +129,7 @@ Hyperloop.configuration do |config|
 end
 ```
 
-##### Step 1.9 - Adding CSS pack files to the asset pipeline
+##### Step 1.8 - Adding CSS pack files to the asset pipeline
 
 Add this line:
 
@@ -244,7 +232,7 @@ root 'home#helloworld'
 ##### Step 2.5 - Creating the helloworld view file:
 
 ```erb
-#app/vies/home/helloworld.html.erb
+#app/views/home/helloworld.html.erb
 
 <div class="hyperloophelloword">
 
@@ -260,7 +248,7 @@ root 'home#helloworld'
 We will add a **Hyperloop** logo
 
 ```erb
-#app/vies/home/helloworld.html.erb
+#app/views/home/helloworld.html.erb
 
 <div class="hyperloophelloword">
 

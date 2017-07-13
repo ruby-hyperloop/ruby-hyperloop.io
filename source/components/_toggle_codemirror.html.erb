@@ -1,0 +1,68 @@
+<script type="text/ruby">
+
+class ToggleCodemirror < Hyperloop::Component
+  param :code, type: String
+  param :heading, default: "Code"
+  param :rows, type: Integer, default: 0
+  param :top_level_component, type: String
+  param :show_code
+
+  before_mount do
+    r=rand(2**256).to_s(36)[0..7]
+    @div_code = "code_#{r}"
+    @div_result = "result_#{r}"
+  end
+
+  after_mount do
+  # puts params.code
+    @editor = `CodeMirror(document.getElementById(#{@div_code}), {
+      value: #{params.code.to_s},
+      mode: 'text/x-ruby',
+      matchBrackets: true,
+      lineNumbers: false,
+      indentUnit: 2,
+      theme: 'github'
+    });`
+
+    `#{@editor}.setSize(null, #{@editor}.defaultTextHeight()*#{params.rows})` unless params.rows == 0
+
+    Element['.codediv'].hide('')
+    mutate.show_code false
+    
+  end
+
+  render(DIV) do
+    div.card {
+      div.card_header do
+        div(class: 'row') do
+          div(class: 'col-md-6') do
+            img(src: '<%= hyperlooplogosource %>' , width:'25') 
+            span { ' ' }
+            span { params.heading }
+          end
+          div(class: 'col-md-6 align-right') do
+
+            toggle_link
+          end
+        end
+      end
+
+      div(id: @div_code, class: 'codediv') 
+    }
+  end
+
+  def toggle_link
+    
+      BUTTON(class: 'btn btn-info btn-sm') do
+        state.show_code ? "Click to hide code" : "Click to show code"
+      end.on(:click) do |ev|
+        mutate.show_code !state.show_code 
+        state.show_code ? Element["##{@div_code}"].show('') : Element["##{@div_code}"].hide('')
+      end
+    
+  end
+
+ 
+end
+
+</script>
