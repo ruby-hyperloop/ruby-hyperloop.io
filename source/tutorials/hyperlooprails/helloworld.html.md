@@ -10,13 +10,22 @@ title: Tutorials, Videos & Quickstarts
 
 You can find the complete source code of this tutorial here: [Hyperloop with Rails Helloworld app](https://github.com/ruby-hyperloop/hyperloop-rails-helloworld)
 
-## Tutorial
+## Table of contents
+
++ <a href="#introduction"><h4>Introduction</h4></a>
++ <a href="#chapter1"><h4>Chapter 1: Setting things up and styling</h4></a>
++ <a href="#chapter2"><h4>Chapter 2: First Hyperloop Component</h4></a>
++ <a href="#chapter3"><h4>Chapter 3: Hyperloop's jQuery wrapper</h4></a>
++ <a href="#chapter4"><h4>Chapter 4: First Hyperloop Store</h4></a>
++ <a href="#chapter5"><h4>Chapter 5: Isomorphic models and ActiveRecord API</h4></a>
+
+## <a name="introduction">Introduction</a>
 
 To set up your **Hyperloop** environment and continue this tutorial, please first follow the [Hyperloop installation with Ruby On Rails](/installation#rorsetup) tutorial.
 
 After **Hyperloop** has been installed properly we can go further.
 
-## Chapter 1: Setting things up and styling
+## <a name="chapter1">Chapter 1: Setting things up and styling</a>
 
 ### Step 1.1: Creating the Helloworld component
 
@@ -122,7 +131,7 @@ And load 2 stylesheets:
 
 ```
 
-## Chapter 2: First Hyperloop Component
+## <a name="chapter2">Chapter 2: First Hyperloop Component</a>
 
 ### Step 2.1: Introduction
 
@@ -393,7 +402,7 @@ Refresh the browser page and try !
 
 Have you seen how it's easy to play with the DOM without any javascript or JQuery piece of code. All in awesome RUBY !
 
-## Chapter 3: Hyperloop's jQuery wrapper
+## <a name="chapter3">Chapter 3: Hyperloop's jQuery wrapper</a>
 
 ### Step 3.1: Introduction
 
@@ -496,7 +505,7 @@ You can refresh and see the logo Hidden or Showed slowly when clicking on the `t
 You can of course try others JQuery methods in order to play with elements of your page.
 
 
-## Chapter 4: First Hyperloop Store
+## <a name="chapter4">Chapter 4: First Hyperloop Store</a>
 
 ### Step 4.1: Introduction
 
@@ -779,7 +788,7 @@ So, for this step, the `Component` code will be like that:
 </div>
 
 
-## Chapter 5: Isomorphic models and ActiveRecord API
+## <a name="chapter5">Chapter 5: Isomorphic models and ActiveRecord API</a>
 
 With Hyperloop, your server side Models are directly accessible from your Components or Stores.
 
