@@ -18,6 +18,8 @@ You can find the complete source code of this tutorial here: [Hyperloop with Rai
 + <a href="#chapter3"><h4>Chapter 3: Hyperloop's jQuery wrapper</h4></a>
 + <a href="#chapter4"><h4>Chapter 4: First Hyperloop Store</h4></a>
 + <a href="#chapter5"><h4>Chapter 5: Isomorphic models and ActiveRecord API</h4></a>
++ <a href="#chapter6"><h4>Chapter 6: First Hyperloop Operation</h4></a>
++ <a href="#chapter7"><h4>Chapter 7: First Hyperloop Server Operation</h4></a>
 
 ## <a name="introduction">Introduction</a>
 
