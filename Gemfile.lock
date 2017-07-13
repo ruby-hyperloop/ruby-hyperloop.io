@@ -42,6 +42,7 @@ GEM
     http_parser.rb (0.6.0)
     i18n (0.7.0)
     kramdown (1.13.2)
+    libv8 (3.16.14.19)
     listen (3.0.8)
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
@@ -93,6 +94,10 @@ GEM
       em-websocket (~> 0.5.1)
       middleman-core (>= 3.3)
       rack-livereload (~> 0.3.15)
+    middleman-search (0.10.0)
+      middleman-core (>= 3.2)
+      nokogiri (~> 1.6)
+      therubyracer (~> 0.12.2)
     middleman-syntax (3.0.0)
       middleman-core (>= 3.2)
       rouge (~> 2.0)
@@ -119,9 +124,13 @@ GEM
     rb-fsevent (0.9.8)
     rb-inotify (0.9.8)
       ffi (>= 0.5.0)
+    ref (2.0.0)
     rouge (2.0.7)
     sass (3.4.23)
     servolux (0.13.0)
+    therubyracer (0.12.3)
+      libv8 (~> 3.16.14.15)
+      ref
     thor (0.19.4)
     thread_safe (0.3.6)
     tilt (1.4.1)
@@ -140,6 +149,7 @@ DEPENDENCIES
   middleman-deploy (~> 2.0.0.pre.alpha)
   middleman-gh-pages
   middleman-livereload
+  middleman-search
   middleman-syntax
   nokogiri
   redcarpet!
