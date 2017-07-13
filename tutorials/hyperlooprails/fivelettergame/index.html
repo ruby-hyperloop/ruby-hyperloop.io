@@ -33,6 +33,8 @@
     <script src="../../../javascripts/ruby.js"></script>
     <script src="../../../javascripts/matchbrackets.js"></script>
     <script src="../../../javascripts/react_player.js"></script>
+    <script src="../../../javascripts/highlight.pack.js"></script>
+
 
     <!-- Components are compiled by Hyperloop Express -->
     <script type="text/ruby">
@@ -152,6 +154,93 @@ end
 
 </script>
 
+    
+    <script type="text/ruby">
+
+class ToggleCodemirror < Hyperloop::Component
+  param :code, type: String
+  param :heading, default: "Code"
+  param :rows, type: Integer, default: 0
+  param :top_level_component, type: String
+  param :show_code
+
+  before_mount do
+    r=rand(2**256).to_s(36)[0..7]
+    @div_code = "code_#{r}"
+    @div_result = "result_#{r}"
+  end
+
+  after_mount do
+  # puts params.code
+    @editor = `CodeMirror(document.getElementById(#{@div_code}), {
+      value: #{params.code.to_s},
+      mode: 'text/x-ruby',
+      matchBrackets: true,
+      lineNumbers: false,
+      indentUnit: 2,
+      theme: 'github'
+    });`
+
+    `#{@editor}.setSize(null, #{@editor}.defaultTextHeight()*#{params.rows})` unless params.rows == 0
+
+    Element['.codediv'].hide('')
+    mutate.show_code false
+    
+  end
+
+  render(DIV) do
+    div.card {
+      div.card_header do
+        div(class: 'row') do
+          div(class: 'col-md-6') do
+            img(src: '../../../images/hyperloop-logo-small-white.png' , width:'25') 
+            span { ' ' }
+            span { params.heading }
+          end
+          div(class: 'col-md-6 align-right') do
+
+            toggle_link
+          end
+        end
+      end
+
+      div(id: @div_code, class: 'codediv') 
+    }
+  end
+
+  def toggle_link
+    
+      BUTTON(class: 'btn btn-info btn-sm') do
+        state.show_code ? "Click to hide code" : "Click to show code"
+      end.on(:click) do |ev|
+        mutate.show_code !state.show_code 
+        state.show_code ? Element["##{@div_code}"].show('') : Element["##{@div_code}"].hide('')
+      end
+    
+  end
+
+ 
+end
+
+</script>
+
+    <script type="text/ruby">
+
+Document.ready? do
+    Element.find('div.togglecode').each do |mount_point|
+        heading = mount_point.attr('data-heading')
+        rows = mount_point.attr('data-rows')
+        top_level_component = mount_point.attr('data-top-level-component')
+        code = Element[mount_point].find('pre').text.strip
+        params = {code: code, top_level_component: top_level_component}
+        params = params.merge({heading: heading}) if heading
+        params = params.merge({rows: rows.to_i}) if rows
+        codemirror_component = Object.const_get('ToggleCodemirror')
+        React.render(React.create_element(codemirror_component, params ), mount_point)
+    end
+end
+
+</script>
 
     <link href="../../../stylesheets/bootstrap.min.css" rel="stylesheet" />
     <link href="../../../stylesheets/typography.css" rel="stylesheet" />
@@ -161,6 +250,7 @@ end
     <link href="../../../stylesheets/github.css" rel="stylesheet" />
     <link href="../../../stylesheets/highlighting.css" rel="stylesheet" />
     <link href="../../../stylesheets/codemirror.css" rel="stylesheet" />
+    <link href="../../../stylesheets/monokai-sublime.css" rel="stylesheet" />
 
     <link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/feed.xml" />
 
@@ -217,6 +307,9 @@ end
       <li class="nav-item">
         <a href="/showcase" class="nav-link"><span class='navfirstletter'>S</span>howcase</a>
       </li>
+      <!-- <li class="nav-item">
+        <input type="text" name="search" />
+      </li> -->
     </ul>
   </div>
 </nav>
@@ -417,6 +510,8 @@ end
 
 
     <script type="text/ruby">puts "Hyperloop JS ok"</script>
+
+    
 
 
   </body>
