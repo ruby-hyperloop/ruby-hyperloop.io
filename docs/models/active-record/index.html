@@ -659,8 +659,6 @@ end
 
 <p>All Ruby objects will respond to these methods.  If you want to put up a &quot;Please Wait&quot; message, spinner, etc, you can use the <code>loaded?</code> or <code>loading?</code> method to determine if the object represents a real loaded value or not.  Any value for which <code>loaded?</code> returns <code>false</code> (or <code>loading?</code> returns <code>true</code>) will eventually load and cause a re-render</p>
 
-<p>TODO check below (was HyperMesh.load)</p>
-
 <h4 id="the-hyperloop-model-load-method">The <code>Hyperloop::Model.load</code> Method</h4>
 
 <p>Sometimes it is necessary to insure values are loaded outside of the rendering cycle.  For this you can use the <code>Hyperloop::Model.load</code> method:</p>
