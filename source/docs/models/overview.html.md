@@ -65,3 +65,29 @@ class WordOfTheDay < Hyperloop::Component
 ```
 
 For complete examples with *push* updates, see any of the apps in the `examples` directory, or build your own in 5 minutes following one of the quickstart guides:
+
+## Isomorphic Models
+
+Depending on the architecture of your application, you may decide that some of your models should be Isomorphic and some should remain server-only. The consideration will be that your Isomorphic models will be compiled by Opal to JavaScript and accessible on he client (without the need for a boilerplate API) - Hyperloop takes care of the communication between your server-side models and their client-side compiled versions and you can use Policy to govern access to the models.
+
+In order for Hyperloop to see your Models (and his make them Isomorphic) you need to move them to the `hyperloop/models` folder. Only models in this folder will be seen by Hyperloop and compiled to Javascript. Once a Model is on this folder it ill be accessable to both your client and server code.
+
+| **Location of Models**        | **Scope**           |
+| ------------------------- |---------------|
+| `app\models` | Server-side code only |
+| `app\hyperloop\models` | Isomorphic code (client and server) |
+
+### Rails 5.1.x
+
+Upto Rails 4.2, all models inherited from `ActiveRecord::Base`. But starting from Rails 5, all models will inherit from `ApplicationRecord`.
+
+To accommodate this change, the following file has been automatically added to models in Rails 5 applications.
+
+```ruby
+# app/models/application_record.rb
+class ApplicationRecord < ActiveRecord::Base
+  self.abstract_class = true
+end
+```
+
+For Hyperloop to see this change, this file needs to be moved (or copied if you have some server-side models) to the `apps/hyperloop` folder.

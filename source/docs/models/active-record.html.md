@@ -236,8 +236,6 @@ After the destroy completes the record's `destroyed?` method will return true.
 
 All Ruby objects will respond to these methods.  If you want to put up a "Please Wait" message, spinner, etc, you can use the `loaded?` or `loading?` method to determine if the object represents a real loaded value or not.  Any value for which `loaded?` returns `false` (or `loading?` returns `true`) will eventually load and cause a re-render
 
-TODO check below (was HyperMesh.load)
-
 #### The `Hyperloop::Model.load` Method
 
 Sometimes it is necessary to insure values are loaded outside of the rendering cycle.  For this you can use the `Hyperloop::Model.load` method:
