@@ -126,3 +126,9 @@ state.show_field ? "Click to hide Hello People input field" : "Click to show Peo
 ```
 
 Save and you should see the text change magically in your browser without having to refresh. Pure joy.  
+
+
+<div>
+  <p>The <strong>best way</strong> to get help and contribute is to join our Gitter Chat</p>
+  <button type="button" class="btn btn-primary btn-lg btn-hyperloopgitter" onclick="location.href='https://gitter.im/ruby-hyperloop/chat';">Gitter Chat</button>
+</div>

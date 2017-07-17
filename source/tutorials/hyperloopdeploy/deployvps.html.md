@@ -61,3 +61,12 @@ RAILS_ENV=production rails s
 You can find the complete source code of a Helloworld sample Hyperloop app already set up for production mode here: [{ Hyperloop with Advanced configuration and production mode}](https://github.com/ruby-hyperloop/hyperloop-rails-helloworld-advancedconfig)
 
 #### Step 2: Deploying on VPS
+
+
+
+
+
+<div>
+  <p>The <strong>best way</strong> to get help and contribute is to join our Gitter Chat</p>
+  <button type="button" class="btn btn-primary btn-lg btn-hyperloopgitter" onclick="location.href='https://gitter.im/ruby-hyperloop/chat';">Gitter Chat</button>
+</div>

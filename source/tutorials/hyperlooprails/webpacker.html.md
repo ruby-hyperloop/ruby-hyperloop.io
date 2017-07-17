@@ -288,3 +288,9 @@ And load 1 small sample stylesheet :
 ##### Final step: Running your app:
 
 Start your Rails server and browse `http://localhost:3000`.
+
+
+<div>
+  <p>The <strong>best way</strong> to get help and contribute is to join our Gitter Chat</p>
+  <button type="button" class="btn btn-primary btn-lg btn-hyperloopgitter" onclick="location.href='https://gitter.im/ruby-hyperloop/chat';">Gitter Chat</button>
+</div>

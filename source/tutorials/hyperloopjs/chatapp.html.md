@@ -1209,3 +1209,10 @@ end
 **Congratulations**
 
 You have built a very nice functional application.   We hope you have enjoyed the process.  Happy Coding!
+
+
+
+<div>
+  <p>The <strong>best way</strong> to get help and contribute is to join our Gitter Chat</p>
+  <button type="button" class="btn btn-primary btn-lg btn-hyperloopgitter" onclick="location.href='https://gitter.im/ruby-hyperloop/chat';">Gitter Chat</button>
+</div>
