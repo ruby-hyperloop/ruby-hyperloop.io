@@ -910,7 +910,7 @@ end
 <h3 id="step-4-2-creating-the-store">Step 4.2: Creating the Store</h3>
 
 <p>The first step is to create a <code>Store</code> in the Hyperloop&#39;s stores directory and declare the 2 <code>state</code> we need:</p>
-<pre class="highlight ruby"><code><span class="c1">#/app/hyperloop/stores/helloworld.rb</span>
+<pre class="highlight ruby"><code><span class="c1">#/app/hyperloop/stores/mystore.rb</span>
 
 <span class="k">class</span> <span class="nc">MyStore</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Store</span>
 
@@ -933,7 +933,7 @@ end
   data-top-level-component="HelloworldComponent4.2">
 
 <pre>
-#/app/hyperloop/components/helloworld.rb
+#/app/hyperloop/components/mystore.rb
 
 
 class Helloworld < Hyperloop::Component
@@ -992,7 +992,7 @@ end
 <p>Often, it can be useful to add a method to a <code>Store</code>, which can be called from any components and which contains all logic relative to the <code>state</code> variables manipulation.</p>
 
 <p>We add the method <code>toggle_field</code> to <code>MyStore</code>: </p>
-<pre class="highlight ruby"><code><span class="c1">#/app/hyperloop/stores/helloworld.rb</span>
+<pre class="highlight ruby"><code><span class="c1">#/app/hyperloop/stores/mystore.rb</span>
 
 <span class="k">class</span> <span class="nc">MyStore</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Store</span>
 
