@@ -549,7 +549,7 @@ In Chapter 2, we saw that Hyperloop `Component` can also hold local variable sta
 The first step is to create a `Store` in the Hyperloop's stores directory and declare the 2 `state` we need:
 
 ```ruby
-#/app/hyperloop/stores/helloworld.rb
+#/app/hyperloop/stores/mystore.rb
 
 class MyStore < Hyperloop::Store
 
@@ -574,7 +574,7 @@ So, for this step, the `Component` code will be like that:
   data-top-level-component="HelloworldComponent4.2">
 
 <pre>
-#/app/hyperloop/components/helloworld.rb
+#/app/hyperloop/components/mystore.rb
 
 
 class Helloworld < Hyperloop::Component
@@ -635,7 +635,7 @@ Often, it can be useful to add a method to a `Store`, which can be called from a
 We add the method `toggle_field` to `MyStore`: 
 
 ```ruby
-#/app/hyperloop/stores/helloworld.rb
+#/app/hyperloop/stores/mystore.rb
 
 class MyStore < Hyperloop::Store
 
