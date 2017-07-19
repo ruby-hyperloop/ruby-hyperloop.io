@@ -40,7 +40,8 @@ At the end of this tutorial, we will have a simple app which will:
 
 ## <a name="chapter1"><div class="hyperlogoalone"><img src="/images/hyperloop-logo-small-pink.png" width="50" alt="Hyperloop"></div>Chapter 1: Setting things up and styling</a>
 
-To set up your **Hyperloop** environment and continue this tutorial, please first follow the [Hyperloop installation with Ruby On Rails](/installation#rorsetup) tutorial.
+To set up your **Hyperloop** environment and continue this tutorial, please first follow the <br><br>
+<button type="button" class="btn btn-primary btn-lg btn-hyperlooppink" onclick="location.href='/installation#rorsetup';">Hyperloop installation with Ruby On Rails tutorial</button>
 
 After **Hyperloop** has been installed properly we can go further.
 
@@ -729,7 +730,7 @@ end
 We are now going to create a new Component named `InputBox`, and call it from our `helloworld` Component.
 This `InputBox` Component will read/update some state of `MyStore`.
 
-We copy the code inside of the `show_input` method a create a new component with it:
+We copy the code from the `show_input` method a create a new component with it:
 
 ```ruby
 #/app/hyperloop/components/input_box.rb
@@ -767,7 +768,7 @@ render(DIV) do
     show_button
     DIV(class: 'formdiv') do
       InputBox()
-      H1 { "#{MyStore.field_value}" }
+      show_text
     end if MyStore.field_displayed
   end
 
@@ -858,7 +859,7 @@ You can restart your Rails server now. (Note: when lot of files has been created
 
 ### Step 5.3: Saving the input field content into the database
 
-We are going to add a `Save` button close to the input field and implement the method in order to save the content into the `description` attribute of HelloworldModel table.
+We are going to add a `Save` button close to the input field and implement the method in order to save the content into the `description` attribute of HelloworldModels table.
 
 We add the `save` button and call the `Helloworld` save_description method that we will implement soon:
 

@@ -13,7 +13,8 @@ You can find the complete source code of this tutorial here: [Hyperloop with Rai
 
 ### Tutorial
 
-To set up your **Hyperloop** environment and continue this tutorial, please first follow the [Hyperloop installation with Ruby On Rails](/installation#rorsetup) tutorial.
+To set up your **Hyperloop** environment and continue this tutorial, please first follow the <br><br>
+<button type="button" class="btn btn-primary btn-lg btn-hyperlooppink" onclick="location.href='/installation#rorsetup';">Hyperloop installation with Ruby On Rails tutorial</button>
 
 After **Hyperloop** has been installed properly we can go further:
 
