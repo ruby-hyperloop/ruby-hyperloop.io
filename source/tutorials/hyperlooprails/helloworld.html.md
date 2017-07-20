@@ -8,7 +8,9 @@ title: Tutorials, Videos & Quickstarts
 <img src="/images/tutorials/Hyperloop-helloworld.png" class="imgborder">
 
 
-You can find the complete source code of this tutorial here: [Hyperloop with Rails Helloworld app](https://github.com/ruby-hyperloop/hyperloop-rails-helloworld)
+You can find the complete source code of this tutorial here: 
+
+<button type="button" class="btn btn-primary btn-lg btn-hyperlooptrace" onclick="location.href='https://github.com/ruby-hyperloop/hyperloop-rails-helloworld';">Hyperloop with Rails Helloworld source code</button>
 
 ## Table of contents
 
@@ -988,8 +990,8 @@ Then we will render the TABLE by calling a `description_table` method that we wi
 render(DIV) do
   show_button
   DIV(class: 'formdiv') do
-    InputBox2()
-    H1 { "#{MyStore.field_value}" }
+    InputBox()
+    show_text
   end if MyStore.field_displayed
   description_table
 end
@@ -1737,8 +1739,8 @@ class Helloworld < Hyperloop::Component
     InputMessage()
     show_button
     DIV(class: 'formdiv') do
-      InputBox3()
-      H1 { "#{MyStore.field_value}" }
+      InputBox()
+      show_text
     end if MyStore.show_field
     
     description_table
@@ -2334,7 +2336,9 @@ And you can try to send messages, they should be displayed on your page.
 You can also try the push notifications mechanism by opening your app in another browser.
 
 
-You can find the complete source code of this tutorial here: [Hyperloop with Rails Helloworld app](https://github.com/ruby-hyperloop/hyperloop-rails-helloworld)
+You can find the complete source code of this tutorial here: 
+
+<button type="button" class="btn btn-primary btn-lg btn-hyperlooptrace" onclick="location.href='https://github.com/ruby-hyperloop/hyperloop-rails-helloworld';">Hyperloop with Rails Helloworld source code</button>
 
 Hope you have been Hyperloop-ed !
 

@@ -6,11 +6,9 @@ title: Tutorials, Videos & Quickstarts
 
 #### Writing this tutorial state : In progress
 
+You can find the complete source code of this tutorial here: 
 
-
-
-
-You can find the complete source code of this tutorial here: [Hyperloop with Rails Event planner app](https://github.com/ruby-hyperloop/hyperloop-rails-eventsplanner)
+<button type="button" class="btn btn-primary btn-lg btn-hyperlooptrace" onclick="location.href='https://github.com/ruby-hyperloop/hyperloop-rails-eventsplanner';">Hyperloop with Rails Event planner app Source code</button>
 
 ### Tutorial
 
@@ -209,6 +207,10 @@ class PlaneventsListItem < Hyperloop::Component
 end
 
 ```
+
+You can find the complete source code of this tutorial here: 
+
+<button type="button" class="btn btn-primary btn-lg btn-hyperlooptrace" onclick="location.href='https://github.com/ruby-hyperloop/hyperloop-rails-eventsplanner';">Hyperloop with Rails Event planner app Source code</button>
 
 <div>
   <p>The <strong>best way</strong> to get help and contribute is to join our Gitter Chat</p>

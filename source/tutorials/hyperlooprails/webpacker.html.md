@@ -8,8 +8,9 @@ title: Tutorials, Videos & Quickstarts
 
 ![Screen](https://raw.githubusercontent.com/ruby-hyperloop/hyperloop-rails-webpackergem-helloworld/master/hyperlooprailswebpackergemhelloworldscreenshot.png)
 
+You can find the complete source code of this tutorial here: 
 
-You can find the complete source code of this tutorial here: [Hyperloop with Rails Webpacker GEM app](https://github.com/ruby-hyperloop/hyperloop-rails-webpackergem-helloworld)
+<button type="button" class="btn btn-primary btn-lg btn-hyperlooptrace" onclick="location.href='https://github.com/ruby-hyperloop/hyperloop-rails-webpackergem-helloworld';">Hyperloop with Rails Webpacker GEM app Source code</button>
 
 ### Tutorial
 
@@ -289,6 +290,10 @@ And load 1 small sample stylesheet :
 ##### Final step: Running your app:
 
 Start your Rails server and browse `http://localhost:3000`.
+
+You can find the complete source code of this tutorial here: 
+
+<button type="button" class="btn btn-primary btn-lg btn-hyperlooptrace" onclick="location.href='https://github.com/ruby-hyperloop/hyperloop-rails-webpackergem-helloworld';">Hyperloop with Rails Webpacker GEM app Source code</button>
 
 
 <div>
