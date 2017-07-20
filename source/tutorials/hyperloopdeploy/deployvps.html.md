@@ -12,8 +12,9 @@ Before deploying your app on a production server you will want to test it locall
 
 The primary difference is that in production you will want to override Hyperloops auto-loader and use normal Rails precompilation.
 
-The first step is turn off Hyperloop's autoloading.
-See [{ Advanced configuration }](/docs/advancedconfiguration) for details.
+The first step is turn off Hyperloop's `auto_config`.
+
+<button type="button" class="btn btn-primary btn-lg btn-hyperlooppink" onclick="location.href='/docs/advancedconfiguration#auto_config';">Turning Hyperloop auto_config OFF tutorial</button>
 
 Once you have manually set up your Hyperloop app, we will need to update some files, so Rails knows what to precompile
 
@@ -58,7 +59,10 @@ Once the assets are precompiled, you can run your app:
 RAILS_ENV=production rails s
 ```
 
-You can find the complete source code of a Helloworld sample Hyperloop app already set up for production mode here: [{ Hyperloop with Advanced configuration and production mode}](https://github.com/ruby-hyperloop/hyperloop-rails-helloworld-advancedconfig)
+You can find the complete source code of a Helloworld sample Hyperloop app already set up for production mode here: 
+
+<button type="button" class="btn btn-primary btn-lg btn-hyperlooptrace" onclick="location.href='https://github.com/ruby-hyperloop/hyperloop-rails-helloworld-advancedconfig';">Hyperloop with Advanced configuration and production mode source code</button>
+
 
 #### Step 2: Deploying on VPS
 
