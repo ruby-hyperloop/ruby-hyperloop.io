@@ -23,17 +23,17 @@
     <script src="https://rawgit.com/ruby-hyperloop/hyperloop-js/master/hyperloop.min.js"></script>
 
     <!-- If you want local copies... -->
-    <!-- <script src="../../javascripts/opal-compiler.js"></script> -->
-    <!-- <script src="../../javascripts/hyperloop.js"></script> -->
+    <!-- <script src="../../../javascripts/opal-compiler.js"></script> -->
+    <!-- <script src="../../../javascripts/hyperloop.js"></script> -->
 
     <script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
 
-    <script src="../../javascripts/bootstrap.min.js"></script>
-    <script src="../../javascripts/codemirror.js"></script>
-    <script src="../../javascripts/ruby.js"></script>
-    <script src="../../javascripts/matchbrackets.js"></script>
-    <script src="../../javascripts/react_player.js"></script>
-    <script src="../../javascripts/highlight.pack.js"></script>
+    <script src="../../../javascripts/bootstrap.min.js"></script>
+    <script src="../../../javascripts/codemirror.js"></script>
+    <script src="../../../javascripts/ruby.js"></script>
+    <script src="../../../javascripts/matchbrackets.js"></script>
+    <script src="../../../javascripts/react_player.js"></script>
+    <script src="../../../javascripts/highlight.pack.js"></script>
 
 
     <!-- Components are compiled by Hyperloop Express -->
@@ -72,7 +72,7 @@ class CodeMirror < Hyperloop::Component
       div.card_header { params.heading }
       div(id: @div_code)
       div.card_header do
-        img(src: '../../images/hyperloop-logo-small-white.png' , width:'25')
+        img(src: '../../../images/hyperloop-logo-small-white.png' , width:'25')
         span { ' ' }
         'Live editor results'
       end
@@ -194,7 +194,7 @@ class ToggleCodemirror < Hyperloop::Component
       div.card_header do
         div(class: 'row') do
           div(class: 'col-md-6') do
-            img(src: '../../images/hyperloop-logo-small-white.png' , width:'25') 
+            img(src: '../../../images/hyperloop-logo-small-white.png' , width:'25') 
             span { ' ' }
             span { params.heading }
           end
@@ -243,25 +243,25 @@ end
 
 </script>
 
-    <link href="../../stylesheets/bootstrap.min.css" rel="stylesheet" />
-    <link href="../../stylesheets/typography.css" rel="stylesheet" />
-    <link href="../../stylesheets/override.css" rel="stylesheet" />
-    <link href="../../stylesheets/divtable.css" rel="stylesheet" />
-    <!-- <link href="../../stylesheets/code.css" rel="stylesheet" /> -->
-    <link href="../../stylesheets/github.css" rel="stylesheet" />
-    <link href="../../stylesheets/highlighting.css" rel="stylesheet" />
-    <link href="../../stylesheets/codemirror.css" rel="stylesheet" />
-    <link href="../../stylesheets/monokai-sublime.css" rel="stylesheet" />
+    <link href="../../../stylesheets/bootstrap.min.css" rel="stylesheet" />
+    <link href="../../../stylesheets/typography.css" rel="stylesheet" />
+    <link href="../../../stylesheets/override.css" rel="stylesheet" />
+    <link href="../../../stylesheets/divtable.css" rel="stylesheet" />
+    <!-- <link href="../../../stylesheets/code.css" rel="stylesheet" /> -->
+    <link href="../../../stylesheets/github.css" rel="stylesheet" />
+    <link href="../../../stylesheets/highlighting.css" rel="stylesheet" />
+    <link href="../../../stylesheets/codemirror.css" rel="stylesheet" />
+    <link href="../../../stylesheets/monokai-sublime.css" rel="stylesheet" />
 
     <link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/feed.xml" />
 
     <!-- Favicons -->
 
-    <link rel="apple-touch-icon" sizes="180x180" href="../../images/apple-touch-icon.png">
-    <link rel="icon" type="image/png" href="../../images/favicon-32x32.png" sizes="32x32">
-    <link rel="icon" type="image/png" href="../../images/favicon-16x16.png" sizes="16x16">
+    <link rel="apple-touch-icon" sizes="180x180" href="../../../images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" href="../../../images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="../../../images/favicon-16x16.png" sizes="16x16">
     <link rel="manifest" href="/images/manifest.json">
-    <link rel="mask-icon" href="../../images/safari-pinned-tab.svg" color="#e81176">
+    <link rel="mask-icon" href="../../../images/safari-pinned-tab.svg" color="#e81176">
     <meta name="theme-color" content="#ffffff">
 
   </head>
@@ -411,20 +411,58 @@ end
           <br>
         </div>
         <div class="col-md-9 main-content">
-          <h2 id="hyperloop-js-tutorials"><span class="bigfirstletter">H</span>yperloop.js tutorials</h2>
+          <h2 id="production-mode-tutorial"><i class="flaticon-professor-teaching"></i><span class="bigfirstletter">P</span>roduction mode Tutorial</h2>
 
-<h5 id="helloworld-tutorial"><i class="flaticon-professor-teaching"></i> <a href="/tutorials/hyperloopjs/helloworld"><span class="bigfirstletter">H</span>elloWorld Tutorial</a></h5>
+<p>In this tutorial we are going to learn how to configure one hyperloop app in order to run it in production mode.</p>
+<pre class="highlight plaintext"><code>RAILS_ENV=production rails s
+</code></pre>
+<h4 id="step-1-turning-hyperloop-auto_config-off">Step 1: Turning Hyperloop auto_config OFF</h4>
 
-<p>This simple tutorial will teach you the basic of using a <strong>Components</strong> within a Hyperloop.js environment. </p>
+<p>The primary difference is that in production you will want to override Hyperloops auto-loader and use normal Rails precompilation.</p>
 
-<p><strong>Skills covered</strong>: <a href="/docs/components/dsl-overview" class="component-blue"><b>C</b>omponents</a>, Opal syntax</p>
+<p>The first step is turn off Hyperloop&#39;s <code>auto_config</code>.</p>
 
-<h5 id="chat-app-tutorial"><i class="flaticon-professor-teaching"></i> <a href="/tutorials/hyperloopjs/chatapp"><span class="bigfirstletter">C</span>hat-App Tutorial</a></h5>
+<p><button type="button" class="btn btn-primary btn-lg btn-hyperlooppink" onclick="location.href='/docs/advancedconfiguration#auto_config';">Turning Hyperloop auto_config OFF tutorial</button></p>
 
-<p>This tutorial will teach you the basics of building a Hyperloop application that <strong>runs purely in your browser</strong> with no need for any back end system (like Rails, Node or Sinatra).
-This work-along tutorial is an excellent place to start to learn the <strong>Hyperloop</strong> DSL without needing to learn how to install it. If you have not used the Hyperloop DSL before, this tutorial will get you going with minimal setup</p>
+<h4 id="step-2-configuring-hyperloop">Step 2: Configuring Hyperloop</h4>
 
-<p><strong>Skills covered</strong>: <a href="/docs/components/dsl-overview" class="component-blue"><b>C</b>omponents</a>, Opal syntax</p>
+<p>Once you have manually set up your Hyperloop app, we will need to update some files, so Rails knows what to precompile</p>
+<pre class="highlight ruby"><code><span class="c1">#config/application.rb</span>
+
+    <span class="n">config</span><span class="p">.</span><span class="nf">autoload_paths</span>   <span class="o">-=</span> <span class="sx">%W(</span><span class="si">#{</span><span class="n">config</span><span class="p">.</span><span class="nf">root</span><span class="si">}</span><span class="sx">/app/hyperloop)</span>
+    <span class="n">config</span><span class="p">.</span><span class="nf">eager_load_paths</span> <span class="o">-=</span> <span class="sx">%W(</span><span class="si">#{</span><span class="n">config</span><span class="p">.</span><span class="nf">root</span><span class="si">}</span><span class="sx">/app/hyperloop)</span>
+
+    <span class="n">config</span><span class="p">.</span><span class="nf">eager_load_paths</span> <span class="o">+=</span> <span class="sx">%W(</span><span class="si">#{</span><span class="n">config</span><span class="p">.</span><span class="nf">root</span><span class="si">}</span><span class="sx">/app/models)</span>
+    <span class="n">config</span><span class="p">.</span><span class="nf">autoload_paths</span> <span class="o">+=</span> <span class="sx">%W(</span><span class="si">#{</span><span class="n">config</span><span class="p">.</span><span class="nf">root</span><span class="si">}</span><span class="sx">/app/models)</span>
+
+    <span class="n">config</span><span class="p">.</span><span class="nf">eager_load_paths</span> <span class="o">+=</span> <span class="sx">%W(</span><span class="si">#{</span><span class="n">config</span><span class="p">.</span><span class="nf">root</span><span class="si">}</span><span class="sx">/app/hyperloop/operations)</span>
+    <span class="n">config</span><span class="p">.</span><span class="nf">autoload_paths</span>   <span class="o">+=</span> <span class="sx">%W(</span><span class="si">#{</span><span class="n">config</span><span class="p">.</span><span class="nf">root</span><span class="si">}</span><span class="sx">/app/hyperloop/operations)</span>
+</code></pre><pre class="highlight ruby"><code><span class="c1">#config/environments/production.rb</span>
+
+    <span class="n">config</span><span class="p">.</span><span class="nf">assets</span><span class="p">.</span><span class="nf">digest</span> <span class="o">=</span> <span class="kp">true</span>
+    <span class="n">config</span><span class="p">.</span><span class="nf">public_file_server</span><span class="p">.</span><span class="nf">enabled</span> <span class="o">=</span> <span class="kp">true</span>
+
+</code></pre><pre class="highlight ruby"><code><span class="c1">#config/initializers/assets.rb</span>
+
+    <span class="no">Rails</span><span class="p">.</span><span class="nf">application</span><span class="p">.</span><span class="nf">config</span><span class="p">.</span><span class="nf">assets</span><span class="p">.</span><span class="nf">precompile</span> <span class="o">+=</span> <span class="sx">%w( react-server.js components.js )</span>
+
+</code></pre>
+<h4 id="step-3-pre-compiling-and-running">Step 3: Pre-compiling and running</h4>
+
+<p>Once these changes are made, to test the setup on your local machine you will need to manually precompile your assets, by running the following:</p>
+<pre class="highlight plaintext"><code>RAILS_ENV=production rails assets:precompile
+</code></pre>
+<p>Once the assets are precompiled, you can run your app:</p>
+<pre class="highlight plaintext"><code>RAILS_ENV=production rails s
+</code></pre>
+<p>You can find the complete source code of a Helloworld sample Hyperloop app already set up for production mode here: </p>
+
+<p><button type="button" class="btn btn-primary btn-lg btn-hyperlooptrace" onclick="location.href='https://github.com/ruby-hyperloop/hyperloop-rails-helloworld-advancedconfig';">Hyperloop with Advanced configuration and production mode source code</button></p>
+
+<div>
+  <p>The <strong>best way</strong> to get help and contribute is to join our Gitter Chat</p>
+  <button type="button" class="btn btn-primary btn-lg btn-hyperloopgitter" onclick="location.href='https://gitter.im/ruby-hyperloop/chat';">Gitter Chat</button>
+</div>
 
         </div>
       </div>
