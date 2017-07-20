@@ -420,8 +420,9 @@ end
 
 <p>The primary difference is that in production you will want to override Hyperloops auto-loader and use normal Rails precompilation.</p>
 
-<p>The first step is turn off Hyperloop&#39;s autoloading.
-See <a href="/docs/advancedconfiguration">{ Advanced configuration }</a> for details.</p>
+<p>The first step is turn off Hyperloop&#39;s <code>auto_config</code>.</p>
+
+<p><button type="button" class="btn btn-primary btn-lg btn-hyperlooppink" onclick="location.href='/docs/advancedconfiguration#auto_config';">Turning Hyperloop auto_config OFF tutorial</button></p>
 
 <p>Once you have manually set up your Hyperloop app, we will need to update some files, so Rails knows what to precompile</p>
 <pre class="highlight ruby"><code><span class="c1">#config/application.rb</span>
@@ -450,7 +451,9 @@ See <a href="/docs/advancedconfiguration">{ Advanced configuration }</a> for det
 <p>Once the assets are precompiled, you can run your app:</p>
 <pre class="highlight plaintext"><code>RAILS_ENV=production rails s
 </code></pre>
-<p>You can find the complete source code of a Helloworld sample Hyperloop app already set up for production mode here: <a href="https://github.com/ruby-hyperloop/hyperloop-rails-helloworld-advancedconfig">{ Hyperloop with Advanced configuration and production mode}</a></p>
+<p>You can find the complete source code of a Helloworld sample Hyperloop app already set up for production mode here: </p>
+
+<p><button type="button" class="btn btn-primary btn-lg btn-hyperlooptrace" onclick="location.href='https://github.com/ruby-hyperloop/hyperloop-rails-helloworld-advancedconfig';">Hyperloop with Advanced configuration and production mode source code</button></p>
 
 <h4 id="step-2-deploying-on-vps">Step 2: Deploying on VPS</h4>
 

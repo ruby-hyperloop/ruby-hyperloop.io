@@ -462,7 +462,7 @@ end
         <div class="col-md-9 main-content">
           <h1 id="advanced-configuration-with-ruby-on-rails">Advanced configuration with Ruby On Rails</h1>
 
-<h2 id="initializer">Initializer</h2>
+<h2 id="initializer"><a name="initializer">Initializer</a></h2>
 
 <p>Hyperloop generator adds an initializer file:</p>
 <pre class="highlight ruby"><code><span class="c1">#config/initializers/hyperloop.rb</span>
@@ -483,7 +483,7 @@ end
 <li><p><strong><code>config.cancel_import(&#39;filename-to-import&#39;)</code></strong> <br> Allows us to cancel the importation into the Ruby on Rails manifests files. Generally files are imported automatically by Hyperloop GEMS or manually by the previous &#39;config.import` param.</p></li>
 </ul>
 
-<h2 id="policies">Policies</h2>
+<h2 id="policies"><a name="policies">Policies</a></h2>
 
 <p>Hyperloop generator adds a policy default file:</p>
 <pre class="highlight ruby"><code><span class="c1">#app/policies/application_policy.rb</span>
@@ -501,7 +501,79 @@ end
 
 <p>More detail in the documentation: <a href="/docs/policies/authorization">{ Configuring the policies }</a></p>
 
-<h2 id="hyperloop-architectures">Hyperloop architectures</h2>
+<h2 id="turning-hyperloop-auto_config-off"><a name="auto_config">Turning Hyperloop auto_config OFF</a></h2>
+
+<p>By default, Hyperloop will automatically import all necessary files and directories.</p>
+
+<p>For different reasons it can be useful to turn this functionnality OFF and manually import all needed files and directories.</p>
+
+<h4 id="turn-auto_config-off">Turn auto_config OFF</h4>
+<pre class="highlight ruby"><code><span class="c1">#config/application.rb</span>
+
+<span class="n">config</span><span class="p">.</span><span class="nf">hyperloop</span><span class="p">.</span><span class="nf">auto_config</span> <span class="o">=</span> <span class="kp">false</span>
+</code></pre>
+<h4 id="load-needed-files">Load needed files</h4>
+<pre class="highlight ruby"><code><span class="c1">#config/application.rb</span>
+
+<span class="c1">###########################################</span>
+<span class="c1"># Hyperloop config for advanced configuration</span>
+<span class="c1">###########################################</span>
+
+<span class="n">config</span><span class="p">.</span><span class="nf">hyperloop</span><span class="p">.</span><span class="nf">auto_config</span> <span class="o">=</span> <span class="kp">false</span>
+
+<span class="n">config</span><span class="p">.</span><span class="nf">eager_load_paths</span> <span class="o">+=</span> <span class="sx">%W(</span><span class="si">#{</span><span class="n">config</span><span class="p">.</span><span class="nf">root</span><span class="si">}</span><span class="sx">/app/hyperloop/models)</span>
+<span class="n">config</span><span class="p">.</span><span class="nf">autoload_paths</span> <span class="o">+=</span> <span class="sx">%W(</span><span class="si">#{</span><span class="n">config</span><span class="p">.</span><span class="nf">root</span><span class="si">}</span><span class="sx">/app/hyperloop/models)</span>
+<span class="n">config</span><span class="p">.</span><span class="nf">eager_load_paths</span> <span class="o">+=</span> <span class="sx">%W(</span><span class="si">#{</span><span class="n">config</span><span class="p">.</span><span class="nf">root</span><span class="si">}</span><span class="sx">/app/hyperloop/operations)</span>
+<span class="n">config</span><span class="p">.</span><span class="nf">autoload_paths</span> <span class="o">+=</span> <span class="sx">%W(</span><span class="si">#{</span><span class="n">config</span><span class="p">.</span><span class="nf">root</span><span class="si">}</span><span class="sx">/app/hyperloop/operations)</span>
+<span class="n">config</span><span class="p">.</span><span class="nf">eager_load_paths</span> <span class="o">+=</span> <span class="sx">%W(</span><span class="si">#{</span><span class="n">config</span><span class="p">.</span><span class="nf">root</span><span class="si">}</span><span class="sx">/app/hyperloop/stores)</span>
+<span class="n">config</span><span class="p">.</span><span class="nf">autoload_paths</span> <span class="o">+=</span> <span class="sx">%W(</span><span class="si">#{</span><span class="n">config</span><span class="p">.</span><span class="nf">root</span><span class="si">}</span><span class="sx">/app/hyperloop/stores)</span>
+
+<span class="n">config</span><span class="p">.</span><span class="nf">assets</span><span class="p">.</span><span class="nf">paths</span> <span class="o">&lt;&lt;</span> <span class="o">::</span><span class="no">Rails</span><span class="p">.</span><span class="nf">root</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="s1">'app'</span><span class="p">,</span> <span class="s1">'hyperloop'</span><span class="p">).</span><span class="nf">to_s</span>
+<span class="n">config</span><span class="p">.</span><span class="nf">assets</span><span class="p">.</span><span class="nf">paths</span> <span class="o">&lt;&lt;</span> <span class="o">::</span><span class="no">Rails</span><span class="p">.</span><span class="nf">root</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="s1">'app'</span><span class="p">,</span> <span class="s1">'hyperloop'</span><span class="p">,</span> <span class="s1">'models'</span><span class="p">).</span><span class="nf">to_s</span>
+</code></pre><pre class="highlight plaintext"><code>#app/assets/javascripts/application.js
+
+//= require 'react_ujs'
+//= require 'jquery'
+//= require 'jquery_ujs'
+//= require 'turbolinks'
+//= require_tree .
+
+//= require 'hyperloop'
+Opal.load('hyperloop');
+</code></pre>
+<p>You create a new file : <code>app/hyperloop/hyperloop.rb</code></p>
+<pre class="highlight ruby"><code><span class="c1">#app/hyperloop/hyperloop.rb</span>
+
+<span class="nb">require</span> <span class="s1">'opal'</span>
+
+<span class="nb">require</span> <span class="s1">'react/react-source-browser'</span>
+<span class="nb">require</span> <span class="s1">'react/react-source-server'</span>
+
+<span class="nb">require</span> <span class="s1">'hyper-component'</span>
+
+<span class="k">if</span> <span class="no">React</span><span class="o">::</span><span class="no">IsomorphicHelpers</span><span class="p">.</span><span class="nf">on_opal_client?</span>
+  <span class="nb">require</span> <span class="s1">'opal-jquery'</span>
+  <span class="nb">require</span> <span class="s1">'browser'</span>
+  <span class="nb">require</span> <span class="s1">'browser/interval'</span>
+  <span class="nb">require</span> <span class="s1">'browser/delay'</span>
+<span class="k">end</span>
+
+<span class="nb">require</span> <span class="s1">'hyper-model'</span>
+<span class="nb">require</span> <span class="s1">'hyper-store'</span>
+<span class="nb">require</span> <span class="s1">'hyper-operation'</span>
+<span class="nb">require</span> <span class="s1">'models'</span>
+
+<span class="n">require_tree</span> <span class="s1">'./components'</span>
+<span class="n">require_tree</span> <span class="s1">'./operations'</span>
+<span class="n">require_tree</span> <span class="s1">'./stores'</span>
+
+</code></pre>
+<p>You create a new file : <code>app/hyperloop/models/models.rb</code></p>
+<pre class="highlight plaintext"><code>#app/hyperloop/models/models.rb
+
+require_tree './' if RUBY_ENGINE == 'opal'
+</code></pre>
+<h2 id="changing-hyperloop-default-directories"><a name="changingdirectories">Changing Hyperloop default directories</a></h2>
 
 <p>By default the hyperloop install generator creates the hyperloop structure inside the <code>/app</code> directory :</p>
 <pre class="highlight plaintext"><code>/app/hyperloop/
@@ -512,7 +584,9 @@ end
 </code></pre>
 <p>If for any reasons you want to change those directories places you can do that using the config parameter <code>config.hyperloop.auto_config = false</code>.</p>
 
-<p>You can find the complete source code of a Helloworld sample Hyperloop app using the advanced configuration parameters here: <a href="https://github.com/ruby-hyperloop/hyperloop-rails-helloworld-advancedconfig">{ Hyperloop with Advanced configuration }</a></p>
+<p>You can find the complete source code of a Helloworld sample Hyperloop app using the advanced configuration parameters here: </p>
+
+<p><button type="button" class="btn btn-primary btn-lg btn-hyperlooptrace" onclick="location.href='https://github.com/ruby-hyperloop/hyperloop-rails-helloworld-advancedconfig';">Hyperloop with Advanced configuration and production mode source code</button></p>
 
 <p>For example, let&#39;s say you want this architecture:</p>
 
