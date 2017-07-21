@@ -1151,7 +1151,7 @@ which gives you three class methods: <code>regulate_class_connection</code> <cod
 </code></pre>
 <h3 id="accessing-the-controller">Accessing the Controller</h3>
 
-<p>ServerOps the ability to receive the &quot;controller&quot; as a param. This is handy for low-level stuff (like login) where you need access to the controller. There is a subclass of ServerOp called ControllerOp that simply declares this param and will delegate any controller methods to the controller param. So within a <code>ControllerOp</code> if you say <code>session</code> you will get the session object from the controller.</p>
+<p>ServerOps has the ability to receive the &quot;controller&quot; as a param. This is handy for low-level stuff (like login) where you need access to the controller. There is a subclass of ServerOp called ControllerOp that simply declares this param and will delegate any controller methods to the controller param. So within a <code>ControllerOp</code> if you say <code>session</code> you will get the session object from the controller.</p>
 
 <p>Here is a sample of the SignIn operation using the Devise Gem:</p>
 <pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">SignIn</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">ControllerOp</span>
