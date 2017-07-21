@@ -6,15 +6,14 @@ title: Tutorials, Videos & Quickstarts
 
 #### Writing this tutorial state : In progress
 
+You can find the complete source code of this tutorial here: 
 
-
-
-
-You can find the complete source code of this tutorial here: [Hyperloop with Rails Event planner app](https://github.com/ruby-hyperloop/hyperloop-rails-eventsplanner)
+<button type="button" class="btn btn-primary btn-lg btn-hyperlooptrace" onclick="location.href='https://github.com/ruby-hyperloop/hyperloop-rails-eventsplanner';">Hyperloop with Rails Event planner app Source code</button>
 
 ### Tutorial
 
-To set up your **Hyperloop** environment and continue this tutorial, please first follow the [Hyperloop installation with Ruby On Rails](/installation#rorsetup) tutorial.
+To set up your **Hyperloop** environment and continue this tutorial, please first follow the <br><br>
+<button type="button" class="btn btn-primary btn-lg btn-hyperlooppink" onclick="location.href='/installation#rorsetup';">Hyperloop installation with Ruby On Rails tutorial</button>
 
 After **Hyperloop** has been installed properly we can go further.
 
@@ -208,3 +207,12 @@ class PlaneventsListItem < Hyperloop::Component
 end
 
 ```
+
+You can find the complete source code of this tutorial here: 
+
+<button type="button" class="btn btn-primary btn-lg btn-hyperlooptrace" onclick="location.href='https://github.com/ruby-hyperloop/hyperloop-rails-eventsplanner';">Hyperloop with Rails Event planner app Source code</button>
+
+<div>
+  <p>The <strong>best way</strong> to get help and contribute is to join our Gitter Chat</p>
+  <button type="button" class="btn btn-primary btn-lg btn-hyperloopgitter" onclick="location.href='https://gitter.im/ruby-hyperloop/chat';">Gitter Chat</button>
+</div>

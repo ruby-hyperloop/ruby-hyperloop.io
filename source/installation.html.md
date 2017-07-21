@@ -71,7 +71,7 @@ Finally, mount your Component(s) as a DOM element and specify the Component and 
 You are ready now to implement more interesting and complex Components.<br>
 You can start by the first tutorial of the Hyperloop series here :
 
-[{ Hyperloop.js HelloWorld tutorial }](/tutorials/hyperloopjs/helloworld)
+<button type="button" class="btn btn-primary btn-lg btn-hyperlooppink" onclick="location.href='/tutorials/hyperloopjs/helloworld';">Hyperloop.js HelloWorld tutorial</button>
 
 ## <a name="ror">With Ruby On Rails</a>
 
@@ -182,7 +182,7 @@ You should see `Hello world` displayed by the Component.
 You are ready now to implement more interesting and complex Components.<br>
 You can start by the first tutorial of the Hyperloop series here:
 
-[{ Hyperloop with Ruby On Rails HelloWorld tutorial }](/tutorials/hyperlooprails/helloworld)
+<button type="button" class="btn btn-primary btn-lg btn-hyperlooppink" onclick="location.href='/tutorials/hyperlooprails/helloworld';">Hyperloop with Ruby On Rails HelloWorld tutorial</button>
 
 
 ### Advanced configuration
@@ -206,6 +206,9 @@ For learning how to deploy a hyperloop application to a production server (parti
 
 ## Next Steps
 
-Check out [the tutorials](/tutorials) to learn more.
+
+Check out our tutorials to learn more.
+
+<button type="button" class="btn btn-primary btn-lg btn-hyperlooppink" onclick="location.href='/tutorials';">Hyperloop tutorials</button>
 
 Good luck, and welcome!

@@ -6,7 +6,7 @@ title: Advanced configuration with Ruby On Rails
 # Advanced configuration with Ruby On Rails
 
 
-## Initializer
+## <a name="initializer">Initializer</a>
 
 Hyperloop generator adds an initializer file:
 
@@ -33,7 +33,7 @@ end
 
 * **`config.cancel_import('filename-to-import')`** <br> Allows us to cancel the importation into the Ruby on Rails manifests files. Generally files are imported automatically by Hyperloop GEMS or manually by the previous 'config.import` param.
 
-## Policies
+## <a name="policies">Policies</a>
 
 Hyperloop generator adds a policy default file:
 
@@ -55,7 +55,96 @@ Hyperloop uses Policies to regulate what connections are opened between clients 
 More detail in the documentation: [{ Configuring the policies }](/docs/policies/authorization)
 
 
-## Hyperloop architectures
+## <a name="auto_config">Turning Hyperloop auto_config OFF</a>
+
+By default, Hyperloop will automatically import all necessary files and directories.
+
+For different reasons it can be useful to turn this functionnality OFF and manually import all needed files and directories.
+
+#### Turn auto_config OFF
+
+```ruby
+#config/application.rb
+
+config.hyperloop.auto_config = false
+```
+
+#### Load needed files
+
+```ruby
+#config/application.rb
+
+###########################################
+# Hyperloop config for advanced configuration
+###########################################
+
+config.hyperloop.auto_config = false
+
+config.eager_load_paths += %W(#{config.root}/app/hyperloop/models)
+config.autoload_paths += %W(#{config.root}/app/hyperloop/models)
+config.eager_load_paths += %W(#{config.root}/app/hyperloop/operations)
+config.autoload_paths += %W(#{config.root}/app/hyperloop/operations)
+config.eager_load_paths += %W(#{config.root}/app/hyperloop/stores)
+config.autoload_paths += %W(#{config.root}/app/hyperloop/stores)
+
+config.assets.paths << ::Rails.root.join('app', 'hyperloop').to_s
+config.assets.paths << ::Rails.root.join('app', 'hyperloop', 'models').to_s
+```
+
+```
+#app/assets/javascripts/application.js
+
+//= require 'react_ujs'
+//= require 'jquery'
+//= require 'jquery_ujs'
+//= require 'turbolinks'
+//= require_tree .
+
+//= require 'hyperloop'
+Opal.load('hyperloop');
+```
+
+You create a new file : `app/hyperloop/hyperloop.rb`
+
+```ruby
+#app/hyperloop/hyperloop.rb
+
+require 'opal'
+
+require 'react/react-source-browser'
+require 'react/react-source-server'
+
+require 'hyper-component'
+
+if React::IsomorphicHelpers.on_opal_client?
+  require 'opal-jquery'
+  require 'browser'
+  require 'browser/interval'
+  require 'browser/delay'
+end
+
+require 'hyper-model'
+require 'hyper-store'
+require 'hyper-operation'
+require 'models'
+
+require_tree './components'
+require_tree './operations'
+require_tree './stores'
+
+```
+
+You create a new file : `app/hyperloop/models/models.rb`
+
+```
+#app/hyperloop/models/models.rb
+
+require_tree './' if RUBY_ENGINE == 'opal'
+```
+
+
+
+## <a name="changingdirectories">Changing Hyperloop default directories</a>
 
 By default the hyperloop install generator creates the hyperloop structure inside the `/app` directory :
 
@@ -69,7 +158,9 @@ By default the hyperloop install generator creates the hyperloop structure insid
 
 If for any reasons you want to change those directories places you can do that using the config parameter `config.hyperloop.auto_config = false`.
 
-You can find the complete source code of a Helloworld sample Hyperloop app using the advanced configuration parameters here: [{ Hyperloop with Advanced configuration }](https://github.com/ruby-hyperloop/hyperloop-rails-helloworld-advancedconfig)
+You can find the complete source code of a Helloworld sample Hyperloop app using the advanced configuration parameters here: 
+
+<button type="button" class="btn btn-primary btn-lg btn-hyperlooptrace" onclick="location.href='https://github.com/ruby-hyperloop/hyperloop-rails-helloworld-advancedconfig';">Hyperloop with Advanced configuration and production mode source code</button>
 
 For example, let's say you want this architecture:
 

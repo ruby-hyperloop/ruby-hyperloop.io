@@ -8,12 +8,14 @@ title: Tutorials, Videos & Quickstarts
 
 ![Screen](https://raw.githubusercontent.com/ruby-hyperloop/hyperloop-rails-webpackergem-helloworld/master/hyperlooprailswebpackergemhelloworldscreenshot.png)
 
+You can find the complete source code of this tutorial here: 
 
-You can find the complete source code of this tutorial here: [Hyperloop with Rails Webpacker GEM app](https://github.com/ruby-hyperloop/hyperloop-rails-webpackergem-helloworld)
+<button type="button" class="btn btn-primary btn-lg btn-hyperlooptrace" onclick="location.href='https://github.com/ruby-hyperloop/hyperloop-rails-webpackergem-helloworld';">Hyperloop with Rails Webpacker GEM app Source code</button>
 
 ### Tutorial
 
-To set up your **Hyperloop** environment and continue this tutorial, please first follow the [Hyperloop installation with Ruby On Rails](/installation#rorsetup) tutorial.
+To set up your **Hyperloop** environment and continue this tutorial, please first follow the <br><br>
+<button type="button" class="btn btn-primary btn-lg btn-hyperlooppink" onclick="location.href='/installation#rorsetup';">Hyperloop installation with Ruby On Rails tutorial</button>
 
 After **Hyperloop** has been installed properly we can go further:
 
@@ -288,3 +290,13 @@ And load 1 small sample stylesheet :
 ##### Final step: Running your app:
 
 Start your Rails server and browse `http://localhost:3000`.
+
+You can find the complete source code of this tutorial here: 
+
+<button type="button" class="btn btn-primary btn-lg btn-hyperlooptrace" onclick="location.href='https://github.com/ruby-hyperloop/hyperloop-rails-webpackergem-helloworld';">Hyperloop with Rails Webpacker GEM app Source code</button>
+
+
+<div>
+  <p>The <strong>best way</strong> to get help and contribute is to join our Gitter Chat</p>
+  <button type="button" class="btn btn-primary btn-lg btn-hyperloopgitter" onclick="location.href='https://gitter.im/ruby-hyperloop/chat';">Gitter Chat</button>
+</div>

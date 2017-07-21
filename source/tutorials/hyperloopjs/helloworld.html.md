@@ -8,7 +8,9 @@ title: Tutorials, Videos & Quickstarts
 ![Screen](https://raw.githubusercontent.com/ruby-hyperloop/hyperloop-js-helloworld/master/hyperloophelloworldscreenshot.png)
 
 
-You can find the complete source code of this tutorial here: [Hyperloop.js Helloworld app](https://github.com/ruby-hyperloop/hyperloop-js-helloworld)
+You can find the complete source code of this tutorial here: 
+
+<button type="button" class="btn btn-primary btn-lg btn-hyperlooptrace" onclick="location.href='https://github.com/ruby-hyperloop/hyperloop-js-helloworld';">Hyperloop.js Helloworld source code</button>
 
 ### Tutorial
 
@@ -85,3 +87,14 @@ Finally, mount your Component(s) as a DOM element and specify the Component and 
   </div>
 </body>
 ```
+
+
+You can find the complete source code of this tutorial here: 
+
+<button type="button" class="btn btn-primary btn-lg btn-hyperlooptrace" onclick="location.href='https://github.com/ruby-hyperloop/hyperloop-js-helloworld';">Hyperloop.js Helloworld source code</button>
+
+
+<div>
+  <p>The <strong>best way</strong> to get help and contribute is to join our Gitter Chat</p>
+  <button type="button" class="btn btn-primary btn-lg btn-hyperloopgitter" onclick="location.href='https://gitter.im/ruby-hyperloop/chat';">Gitter Chat</button>
+</div>

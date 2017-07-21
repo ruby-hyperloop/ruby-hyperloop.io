@@ -9,7 +9,9 @@ We'll be building a simple but realistic chat application, a basic version of a 
 ![Screen](https://raw.githubusercontent.com/ruby-hyperloop/hyperloop-js-chatapp/master/hyperloopjschatappscreenshot.png)
 
 
-You can find the complete source code of this tutorial here: [Hyperloop.js ChatApp](https://github.com/ruby-hyperloop/hyperloop-js-chatapp)
+You can find the complete source code of this tutorial here: 
+
+<button type="button" class="btn btn-primary btn-lg btn-hyperlooptrace" onclick="location.href='https://github.com/ruby-hyperloop/hyperloop-js-chatapp';">Hyperloop.js ChatApp Source code</button>
 
 Our Chat app will provide:
 
@@ -1209,3 +1211,14 @@ end
 **Congratulations**
 
 You have built a very nice functional application.   We hope you have enjoyed the process.  Happy Coding!
+
+
+You can find the complete source code of this tutorial here: 
+
+<button type="button" class="btn btn-primary btn-lg btn-hyperlooptrace" onclick="location.href='https://github.com/ruby-hyperloop/hyperloop-js-chatapp';">Hyperloop.js ChatApp Source code</button>
+
+
+<div>
+  <p>The <strong>best way</strong> to get help and contribute is to join our Gitter Chat</p>
+  <button type="button" class="btn btn-primary btn-lg btn-hyperloopgitter" onclick="location.href='https://gitter.im/ruby-hyperloop/chat';">Gitter Chat</button>
+</div>
