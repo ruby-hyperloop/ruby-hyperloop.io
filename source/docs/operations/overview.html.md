@@ -12,7 +12,7 @@ This documentation will outline Hyperloop's Operations classes and provide you w
 
 The design of Hyperloop Operations have been inspired by three concepts: [Trailblazer Operations](http://trailblazer.to/gems/operation/2.0/) (for encapsulating business logic in `steps`), the [Flux pattern](https://facebook.github.io/flux/) (for dispatchers and receivers), and the [Mutation Gem](https://github.com/cypriss/mutations) (for validating params).
 
-Our Isomorphic Operations borrow from these three concepts to deliver an architecture that spans the client and server divide automagically. Operations can run on the client, the server and traverse between the two.
+Our Isomorphic Operations borrow from these three concepts to deliver an architecture that spans the client and server divide automagically. Operations can run on the client, the server, and traverse between the two.
 
 Operations have the following capabilities:
 
@@ -22,7 +22,7 @@ Operations have the following capabilities:
 + Can run remotely on the server.
 + Can be dispatched from the server to all authorized clients.
 + Can hold their own state data when appropriate.
-+ Operations also serve as the bridge between client and server.  An operation can run on the client or the server, and can be invoked remotely.
++ Operations also serves as the bridge between client and server.  An operation can run on the client or the server and can be invoked remotely.
 
 > Note: Use Operations as you choose. This architecture is descriptive but not prescriptive. Depending on the needs of your application and your overall thoughts on architecture, you may need a little or a lot of the functionality provided by Operations. If you chose, you can keep all your business logic in your Models, Stores or Components - we suggest that it is better application design not to do this but the choice is yours.
 
@@ -66,7 +66,7 @@ The parameter filter types and options are taken from the [Mutations](https://gi
 + In Hyperloop::Operations all params are declared with the param macro.  
 + The type *can* be specified using the `type:` option.
 + Array and hash types can be shortened to `[]` and `{}`
-+ Optional params either have the default value associated with the param name, or by having the `default` option present.
++ Optional params either have the default value associated with the param name or by having the `default` option present.
 + All other [Mutation filter options](https://github.com/cypriss/mutations/wiki/Filtering-Input) (such as `:min`) will work the same.
 
 ```ruby
@@ -107,7 +107,7 @@ end
   failed  {  } # do this if anything above has failed
 ```
 
-Together `step` and `failed` form two *railway tracks*.  Initially execution proceeds down the success track until something goes wrong, then execution switches to the failure track starting at the next `failed` statement.  Once on the failed track execution continues performing each `failed` callback and skipping any `step` callbacks.
+Together `step` and `failed` form two *railway tracks*.  Initially, execution proceeds down the success track until something goes wrong, then execution switches to the failure track starting at the next `failed` statement.  Once on the failed track execution continues performing each `failed` callback and skipping any `step` callbacks.
 
 Failure occurs when either an exception is raised or a promise fails (more on this in the next section.) The Ruby `fail` keyword can be used as a simple way to switch to the failed track.
 
@@ -129,11 +129,11 @@ FYI: You can also use the Ruby `next` keyword as expected to leave the current s
 
 Within the browser, code does not wait for asynchronous methods (such as HTTP requests or timers) to complete.  Operations use Opal's [Promise library](http://opalrb.org/docs/api/v0.10.3/stdlib/Promise.html) to deal with these situations cleanly.  A Promise is an object that has three states:  It is either still pending, or has been rejected (i.e. failed), or has been successfully resolved.  A promise can have callbacks attached to either the failed or resolved state, and these callbacks will be executed once the promise is resolved or rejected.
 
-If a `step` or `failed` callback returns a pending promise then the execution of the operation is suspended, and the Operation will return the promise to the caller.  If there is more track ahead, then execution will resume on the next step when the promise is resolved.  Likewise if the pending promise is rejected execution will resume on the next `failed` callback.  Because of the way promises work, the operation steps will all be completed before the resolved state is passed along to caller, so everything will execute in its original order.
+If a `step` or `failed` callback returns a pending promise then the execution of the operation is suspended, and the Operation will return the promise to the caller.  If there is more track ahead, then execution will resume on the next step when the promise is resolved.  Likewise, if the pending promise is rejected execution will resume on the next `failed` callback.  Because of the way promises work, the operation steps will all be completed before the resolved state is passed along to the caller, so everything will execute in its original order.
 
-Likewise the Operation's dispatch occurs when the promise resolves as well.
+Likewise, the Operation's dispatch occurs when the promise resolves as well.
 
-The `async` method can be used to override the waiting behavior.  If a `step` returns a promise, and there is an `async` callback farther down the track, execution will immediately pick up at the `async`.  Any steps in between will still be run when the promise resolves, but their results will not be passed outside of the operation.
+The `async` method can be used to override the waiting behavior.  If a `step` returns a promise, and there is an `async` callback further down the track, execution will immediately pick up at the `async`.  Any steps in between will still be run when the promise resolves, but their results will not be passed outside of the operation.
 
 These features make it easy to organize, understand and compose asynchronous code:
 
@@ -172,7 +172,7 @@ end
 
 ### Early Exits
 
-In any `step` or `failed` callback, you may do an immediate exit from the Operation using the `abort!` and `succeed!` methods.  The `abort!` method returns a failed Promise with any supplied parameters.  The `succeed!` method does an immediate dispatch, and returns a resolved Promise with any supplied parameters.  If `succeed!` is used in a `failed` callback, it will override the failed status of the Operation.  This is especially useful if you want to dispatch in spite of failures:
+In any `step` or `failed` callback, you may do an immediate exit from the Operation using the `abort!` and `succeed!` methods.  The `abort!` method returns a failed Promise with any supplied parameters.  The `succeed!` method does an immediate dispatch and returns a resolved Promise with any supplied parameters.  If `succeed!` is used in a `failed` callback, it will override the failed status of the Operation.  This is especially useful if you want to dispatch in spite of failures:
 
 ```ruby
 class Pointless < Hyperloop::Operation
@@ -212,11 +212,11 @@ end
 
 If the validate method returns a promise, then execution will wait until the promise resolves.  If the promise fails, then the current validation fails.
 
-You may also call `abort!` from within `validate` or `add_error` to immediately exit the Operation.  Otherwise all validations will be run and collected together and the Operation will move onto the `failed` track.  If `abort!` is called within an `add_error` callback the error will be added before aborting.
+You may also call `abort!` from within `validate` or `add_error` to immediately exit the Operation.  Otherwise, all validations will be run and collected together and the Operation will move onto the `failed` track.  If `abort!` is called within an `add_error` callback the error will be added before aborting.
 
 You can also raise an exception directly in validate if appropriate.  If a `Hyperloop::AccessViolation` exception is raised the Operation will immediately abort, otherwise just the current validation fails.
 
-If you want to avoid further validations if there are any failures in the basic parameter validations you can add do add this
+If you want to avoid further validations if there are any failures in the basic parameter validations you can add to this
 ```ruby
   validate { abort! if has_errors? }
 ```
@@ -354,7 +354,7 @@ Note that multiple stores can receive the same *Dispatch*.
 
 >Operations serve the role of both Action Creators and Dispatchers described in the Flux architecture.  
 
->We chose the name `Operation` rather than `Action` or `Mutation` because we feel it best captures all the capabilities of a `Hyperloop::Operation`.  Nevertheless Operations are fully compatible with the Flux Pattern.  
+>We chose the name `Operation` rather than `Action` or `Mutation` because we feel it best captures all the capabilities of a `Hyperloop::Operation`.  Nevertheless, Operations are fully compatible with the Flux Pattern.  
 
 >| Flux | HyperLoop |
 |-----| --------- |
@@ -389,11 +389,11 @@ There are some Operations that simply do not make sense to run on the client as 
 
 That said, with our highest goal being developer productivity, it should be as invisible as possible to the developer where the Operation will execute. A developer writing front-end code should be able to invoke a server-side resource (like a mailer) just as easily as they might invoke a client-side resource.
 
-Hyperloop `ServerOps` replace the need for a boiler-plate HTTP API. All serialisation and deserialisation of params is handled by Hyperloop. Hyperloop automagically creates the API endpoint needed to invoke a function from the client which executes on the server and returns the results (via a promise) to the calling client-side code.
+Hyperloop `ServerOps` replace the need for a boiler-plate HTTP API. All serialization and de-serialization of params are handled by Hyperloop. Hyperloop automagically creates the API endpoint needed to invoke a function from the client which executes on the server and returns the results (via a promise) to the calling client-side code.
 
 ### Server Operations
 
-Operations will run on the client or the server. However, some Operations like `ValidateUserDefaultCC` probably need to check information server side, and make secure API calls to our credit card processor.  Rather than build an API and controller to "validate the user credentials" you simply specify that the operation must run on the server by using the `Hyperloop::ServerOp` class.
+Operations will run on the client or the server. However, some Operations like `ValidateUserDefaultCC` probably need to check information server side and make secure API calls to our credit card processor.  Rather than build an API and controller to "validate the user credentials" you simply specify that the operation must run on the server by using the `Hyperloop::ServerOp` class.
 
 ```ruby
 class ValidateUserCredentials < Hyperloop::ServerOp
@@ -404,13 +404,13 @@ class ValidateUserCredentials < Hyperloop::ServerOp
 end
 ```
 
-A Server Operation will always run on the server even if invoked on the client.  When invoked from the client Server Operations will receive the `acting_user` param with the current value that your ApplicationController's `acting_user` method returns.   Typically the `acting_user` method will return either some User model, or nil (if there is no logged in user.)  Its up to you to define how `acting_user` is computed, but this is easily done with any of the popular authentication gems.  Note that unless you explicitly add `nils: true` to the param declaration, nil will not be accepted.
+A Server Operation will always run on the server even if invoked on the client.  When invoked from the client Server Operations will receive the `acting_user` param with the current value that your ApplicationController's `acting_user` method returns.   Typically the `acting_user` method will return either some User model or nil (if there is no logged in user.)  Its up to you to define how `acting_user` is computed, but this is easily done with any of the popular authentication gems.  Note that unless you explicitly add `nils: true` to the param declaration, nil will not be accepted.
 
-> **Note regarding Rails Controllers:** Hyperloop is quite flexible and rides along side Rails, without interfering. So you could still have your old controllers, and invoke them the "non-hyperloop" way by doing say an HTTP.post from the client, etc. Hyperloop adds a new mechanism for communicating between client and server called the Server Operation (which is a subclass of Operation.) A ServerOp has no implication on your existing controllers or code, and if used replaces controllers, and client side API calls. HyperModel is built on top of Rails ActiveRecord models, and Server Operations, to keep models in sync across the application. ActiveRecord models that are made public (by moving them to the hyperloop/models folder) will automatically be syncronized across the clients and the server (subject to permissions given in the Policy classes.)
+> **Note regarding Rails Controllers:** Hyperloop is quite flexible and rides along side Rails, without interfering. So you could still have your old controllers, and invoke them the "non-hyperloop" way by doing say an HTTP.post from the client, etc. Hyperloop adds a new mechanism for communicating between client and server called the Server Operation (which is a subclass of Operation.) A ServerOp has no implication on your existing controllers or code, and if used replaces controllers and client side API calls. HyperModel is built on top of Rails ActiveRecord models, and Server Operations, to keep models in sync across the application. ActiveRecord models that are made public (by moving them to the hyperloop/models folder) will automatically be synchronized across the clients and the server (subject to permissions given in the Policy classes.)
 Like Server Operations, HyperModel completely removes the need to build controllers, and client side API code. However all of your current active record models, controllers will continue to work unaffected.
 
 
-As shown above you can also define a validation to further insure that the acting user (with perhaps other parameters) is allowed to perform the operation.  In the above case that is the only purpose of the Operation.   Another typical use would be to make sure the current acting user has the correct role to perform the operation:
+As shown above, you can also define a validation to further ensure that the acting user (with perhaps other parameters) is allowed to perform the operation.  In the above case that is the only purpose of the Operation.   Another typical use would be to make sure the current acting user has the correct role to perform the operation:
 
 ```ruby
   ...
@@ -469,7 +469,7 @@ class MyServerOp < Hyperloop::ServerOp
   # stuff that is okay to compile on the client
   # ... etc
   def my_secret_method
-     # do something we don't want shown on the client
+     # do something we don't want to be shown on the client
    end unless RUBY_ENGINE == 'opal'
 end
 ```
@@ -529,7 +529,7 @@ class Announcement < Hyperloop::ServerOp
   # no acting_user because we don't want clients to invoke the Operation
   param :message
   param :duration, type: Float, nils: true
-  # dispatch to the builtin Hyperloop::Application Channel
+  # dispatch to the built-in Hyperloop::Application Channel
   dispatch_to Hyperloop::Application
 end
 
@@ -549,7 +549,7 @@ end
 
 As seen above broadcasting is done over a *Channel*.  Any Ruby class (including Operations) can be used as *class channel*.  Any Ruby class that responds to the `id` method can be used as an *instance channel.*  
 
-For example the `User` active record model could be a used as channel to broadcast to *all* users.  Each user instance could also be a separate instance channel that would be used to broadcast to a specific user.
+For example, the `User` active record model could be a used as a channel to broadcast to *all* users.  Each user instance could also be a separate instance channel that would be used to broadcast to a specific user.
 
 The purpose of having channels is to restrict what gets broadcast to who, therefore typically channels represent *connections* to
 
@@ -572,7 +572,7 @@ end
 
 will attach the current acting user to the  `User` channel (which is shared with all users) and to that user's private channel.
 
-Both blocks execute with `self` set to the current acting user, but the return value has a different meaning.  If `regulate_class_connection` returns any truthy value, then the class level connection will be made on behalf of the acting user.  On the other hand if `regulate_instance_connection` returns an array (possibly nested) or Active Record relationship then an instance connection is made with each object in the list.  So for example you could add:
+Both blocks execute with `self` set to the current acting user, but the return value has a different meaning.  If `regulate_class_connection` returns any truthy value, then the class level connection will be made on behalf of the acting user.  On the other hand if `regulate_instance_connection` returns an array (possibly nested) or Active Record relationship then an instance connection is made with each object in the list.  So, for example, you could add:
 
 ```ruby
 class User < ActiveRecord::Base
@@ -603,7 +603,7 @@ end
   PrivateAnnouncement(receiver: User.find_by_login(login), message: 'log off now!')
 ```  
 
-The above will work if `PrivateAnnouncement` is invoked from the server, but usually some other client would be sending the message so the operation could look like this:
+The above will work if `PrivateAnnouncement` is invoked from the server, but usually, some other client would be sending the message so the operation could look like this:
 
 ```ruby
 class PrivateAnnouncement < Hyperloop::ServerOp
@@ -616,7 +616,7 @@ class PrivateAnnouncement < Hyperloop::ServerOp
 end
 ```
 
-Now on the client we can say:
+Now on the client, we can say:
 
 ```ruby
   PrivateAnnouncement(receiver: login_name, message: 'log off now!').fail do
@@ -624,7 +624,7 @@ Now on the client we can say:
   end
 ```
 
-and elsewhere in the client code we would have a component like this:
+and elsewhere in the client code, we would have a component like this:
 
 ```ruby
 class Alerts < Hyperloop::Component
@@ -651,13 +651,13 @@ This will (in only 28 lines of code)
 + validate that there is a logged in user at that client
 + validate that we have a non-nil, non-blank receiver and message
 + validate that the acting_user is an admin
-+ lookup the receiver in the database under their login name
++ look up the receiver in the database under their login name
 + dispatch the parameters back to any clients where the receiver is logged in
 + those clients will update their alert_messages state and
 + display the message
 
 
-The `dispatch_to` callback takes a list of classes, representing *Channels.*  The Operation will be dispatched to all clients connected on those Channels.   Alternatively `dispatch_to` can take a block, a symbol (indicating a method to call) or a proc.  The block, proc or method should return a single Channel, or an array of Channels, which the Operation will be dispatched to.   The dispatch_to callback has access to the params object.  For example we can add an optional `to` param to our Operation, and use this to select which Channel we will broadcast to.
+The `dispatch_to` callback takes a list of classes, representing *Channels.*  The Operation will be dispatched to all clients connected to those Channels.   Alternatively `dispatch_to` can take a block, a symbol (indicating a method to call) or a proc.  The block, proc or method should return a single Channel, or an array of Channels, which the Operation will be dispatched to.   The dispatch_to callback has access to the params object.  For example, we can add an optional `to` param to our Operation, and use this to select which Channel we will broadcast to.
 
 ```ruby
 class Announcement < Hyperloop::Operation
@@ -675,8 +675,8 @@ The policy methods `always_allow_connection` and `regulate_class_connection` may
 
 ```ruby
 class Announcement < HyperLoop::ServerOp
-  # all clients will have a Announcement Channel which will
-  # receive all dispatches from the Annoucement Operation
+  # all clients will have an Announcement Channel which will
+  # receive all dispatches from the Announcement Operation
   always_allow_connection
 end
 ```
@@ -739,7 +739,7 @@ end
 def self.serialize_dispatch(hash)
   # input is always key - value pairs
   # return an object ready for to_json
-  # default is just return the input hash
+  # default just returns the input hash
 end
 
 def self.deserialize_dispatch(object)
