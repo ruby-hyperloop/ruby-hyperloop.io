@@ -2,41 +2,33 @@
 title: Operations
 ---
 
-## Hyperloop Operations
+# Hyperloop Operations
 
-Operations encapsulate business logic. In a traditional MVC architecture, Operations end up either in Controllers, Models or some other secondary construct such as service objects, helpers, or concerns. Here they are first class objects. Their job is to mutate state in the Stores and Models.
+This documentation will outline Hyperloop's Operations classes and provide you with enough information and examples to show you how to implement them in your application. It is important for the get-go to understand that Operations are packaged as one neat package but perform three different functions:
 
-+ `Hyperloop::Operation` is the base class for *Operations*.  
-+ An Operation orchestrates the updating of the state of your system.  
-+ Operations also wrap asynchronous operations such as HTTP API requests.  
-+ Operations serve the role of both Action Creators and Dispatchers described in the Flux architecture.  
++ Function 1: Operations encapsulate business logic
++ Function 2: Operations can dispatch messages
++ Function 3: Operations can replace a boiler-plate API through a bi-directional RPC mechanism
+
+The design of Hyperloop Operations have been inspired by three concepts: [Trailblazer Operations](http://trailblazer.to/gems/operation/2.0/) (for encapsulating business logic in `steps`), the [Flux pattern](https://facebook.github.io/flux/) (for dispatchers and receivers), and the [Mutation Gem](https://github.com/cypriss/mutations) (for validating params).
+
+Our Isomorphic Operations borrow from these three concepts to deliver an architecture that spans the client and server divide automagically. Operations can run on the client, the server and traverse between the two.
+
+Operations have the following capabilities:
+
++ Can easily be chained because they always return promises.
++ Clearly declare both their parameters, and what they will dispatch.
++ Parameters can be validated and type checked.
++ Can run remotely on the server.
++ Can be dispatched from the server to all authorized clients.
++ Can hold their own state data when appropriate.
 + Operations also serve as the bridge between client and server.  An operation can run on the client or the server, and can be invoked remotely.
 
-Here is the simplest Operation:
+> Note: Use Operations as you choose. This architecture is descriptive but not prescriptive. Depending on the needs of your application and your overall thoughts on architecture, you may need a little or a lot of the functionality provided by Operations. If you chose, you can keep all your business logic in your Models, Stores or Components - we suggest that it is better application design not to do this but the choice is yours.
 
-```ruby
-class Reset < Hyperloop::Operation
-end
-```
+## Function 1: Operations encapsulate business logic
 
-To 'Reset' the system you would say
-```ruby
-  Reset() # short for Reset.run
-```
-
-Elsewhere your HyperStores can receive the Reset *Dispatch* using the `receives` macro:
-
-```ruby
-class Cart < Hyperloop::Store
-  receives Reset do
-    mutate.items Hash.new { |h, k| h[k] = 0 }
-  end
-end
-```
-
-Note that multiple stores can receive the same *Dispatch*.
-
-### Operation Structure
+Operations can be used to encapsulate business logic. In a traditional MVC architecture, Operations end up either in Controllers, Models or some other secondary construct such as service objects, helpers, or concerns. Here they are first class objects. Their job is to mutate state in the Stores and Models. Operations are discreet logic, which is of course, testable!
 
 An operation does the following things:
 
@@ -48,27 +40,26 @@ An operation does the following things:
 
 These are defined by series of class methods described below.
 
+### Operation Structure
+
++ `Hyperloop::Operation` is the base class for *Operations*.  
++ An Operation orchestrates the updating of the state of your system.  
++ An Operation can be used to encapsulate business logic
++ Operations can also wrap asynchronous operations such as HTTP API requests (we cover this later).
+
+```ruby
+class LuckyDipOp < Hyperloop::Operation
+   def check_usage_policy
+     abort! if Discounter.tries > 2 # Discounter is a Store (defined elsewhere)
+   end
+   step { check_usage_policy }
+   step { Discounter.lucky_dip! }
+end
+```
+
 ### Parameters
 
 Operations can take parameters when they are run.  Parameters are described and accessed with the same syntax as HyperReact components.
-
-```ruby
-class AddItemToCart < Hyperloop::Operation
-  param :sku, type: String
-  param qty: 1, type: Integer, min: 1
-end
-
-class Cart < Hyperloop::Store
-  receives AddItemToCart do
-    mutate.items[params.sku] += params.qty
-  end
-end
-```
-
-In addition unlike Hyperloop::Component params,  Operation params are *not* reactive, and so you can assign to them as well:
-```ruby
-  params.some_value = 12
-```
 
 The parameter filter types and options are taken from the [Mutations](https://github.com/cypriss/mutations) gem with the following changes:
 
@@ -94,30 +85,6 @@ The parameter filter types and options are taken from the [Mutations](https://gi
 
 All incoming params are validated against the param declarations, and any errors are posted to the `@errors` instance variable.  Extra params are ignored, but missing params unless they have a default value will cause a validation error.
 
-### Flux and Operations
-
-Hyperloop is a merger of the concepts of the Flux pattern, the [Mutation Gem](https://github.com/cypriss/mutations), and Trailblazer Operations.
-
-We chose the name `Operation` rather than `Action` or `Mutation` because we feel it best captures all the capabilities of a `Hyperloop::Operation`.  Nevertheless Operations are fully compatible with the Flux Pattern.  
-
-| Flux | HyperLoop |
-|-----| --------- |
-| Action | Hyperloop::Operation subclass |
-| ActionCreator | `Hyperloop::Operation.step/failed/async` methods |
-| Action Data | Hyperloop::Operation parameters |
-| Dispatcher | `Hyperloop::Operation#dispatch` method |
-| Registering a Store | `Store.receives` |
-<br>
-In addition Operations have the following capabilities:
-
-+ Can easily be chained because they always return promises.
-+ Clearly declare both their parameters, and what they will dispatch.
-+ Parameters can be validated and type checked.
-+ Can run remotely on the server.
-+ Can be dispatched from the server to all authorized clients.
-+ Can hold their own state data when appropriate.
-
-
 ### Defining Execution Steps
 
 Operations may define a sequence of steps to be executed when the operation is run, using the `step`, `failed` and `async` callback macros.
@@ -140,9 +107,7 @@ end
   failed  {  } # do this if anything above has failed
 ```
 
-Together `step` and `failed` form two *railway tracks*.  Initially execution proceeds down the success track until something goes wrong, then
-execution switches to the failure track starting at the next `failed` statement.  Once on the failed track execution continues performing each
-`failed` callback and skipping any `step` callbacks.
+Together `step` and `failed` form two *railway tracks*.  Initially execution proceeds down the success track until something goes wrong, then execution switches to the failure track starting at the next `failed` statement.  Once on the failed track execution continues performing each `failed` callback and skipping any `step` callbacks.
 
 Failure occurs when either an exception is raised or a promise fails (more on this in the next section.) The Ruby `fail` keyword can be used as a simple way to switch to the failed track.
 
@@ -271,6 +236,7 @@ end
 end
 ```
 Failures to validate params result in `Hyperloop::ValidationException` which contains a [Mutations error object](https://github.com/cypriss/mutations#what-about-validation-errors).
+
 ```ruby
 MyOperation.run.fail do |e|
   if e.is_a? Hyperloop::ValidationException
@@ -302,9 +268,132 @@ MyOperation.run ...params...
 MyOperation.then(...params...) { alert 'operation completed' }
 ```
 
+### Instance Versus Class Execution Context
+
+Normally the Operation's steps are declared and run in the context of an instance of the Operation.  An instance of the Operation is created, runs and is thrown away.  
+
+Sometimes it's useful to run a step (or other macro such as `validate`) in the context of the class.  This is useful especially for caching values between calls to the Operation.  You can do this by defining the steps in the class context, or by providing the option `scope: :class` to the step.
+
+Note that the primary use should be in interfacing to outside APIs.  Don't hide your application state inside an Operation - Move it to a Store.
+
+```ruby
+class GetRandomGithubUser < Hyperloop::Operation
+  def self.reload_users
+    @promise = HTTP.get("https://api.github.com/users?since=#{rand(500)}").then do |response|
+      @users = response.json.collect do |user|
+        { name: user[:login], website: user[:html_url], avatar: user[:avatar_url] }
+      end
+    end
+  end
+  self.class.step do # as one big step
+    return @users.delete_at(rand(@users.length)) unless @users.blank?
+    reload_users unless @promise && @promise.pending?
+    @promise.then { run }
+  end
+end
+# or
+class GetRandomGithubUser < Hyperloop::Operation
+  class << self # as 4 steps - whatever you like
+    step  { succeed! @users.delete_at(rand(@users.length)) unless @users.blank? }
+    step  { succeed! @promise.then { run } if @promise && @promise.pending? }
+    step  { self.class.reload_users }
+    async { @promise.then { run } }
+  end
+end
+```
+
+An instance of the operation is always created to hold the current parameter values, dispatcher, etc.  The first parameter to a class level `step` block or method (if it takes parameters) will always be the instance.
+
+```ruby
+class Interesting < Hyperloop::Operation
+  param :increment
+  param :multiply
+  outbound :result
+  outbound :total
+  step scope: :class { @total ||= 0 }
+  step scope: :class { |op| op.params.result = op.params.increment * op.params.multiply }
+  step scope: :class { |op| op.params.total = (@total += op.params.result) }
+  dispatch
+end
+```
+
+### The Boot Operation
+
+Hyperloop includes one predefined Operation, `Hyperloop::Application::Boot`, that runs at system initialization.  Stores can receive `Hyperloop::Application::Boot` to initialize their state.  To reset the state of the application you can simply execute `Hyperloop::Application::Boot`
+
+
+## Function 2: Operations can dispatch messages
+
+Hyperloop Operations borrow from the Flux pattern. In our context, Operations are dispatchers and Stores are receivers. The choice to use Operations in this way is entirely yours and depends on the needs and design of your application.
+
+To illustrate this point, here is the simplest Operation:
+
+```ruby
+class Reset < Hyperloop::Operation
+end
+```
+
+To 'Reset' the system you would say
+```ruby
+  Reset() # short for Reset.run
+```
+
+Elsewhere your HyperStores can receive the Reset *Dispatch* using the `receives` macro:
+
+```ruby
+class Cart < Hyperloop::Store
+  receives Reset do
+    mutate.items Hash.new { |h, k| h[k] = 0 }
+  end
+end
+```
+
+Note that multiple stores can receive the same *Dispatch*.
+
+**Note: Flux pattern vs. Hyperloop Operations**
+
+>Operations serve the role of both Action Creators and Dispatchers described in the Flux architecture.  
+
+>We chose the name `Operation` rather than `Action` or `Mutation` because we feel it best captures all the capabilities of a `Hyperloop::Operation`.  Nevertheless Operations are fully compatible with the Flux Pattern.  
+
+>| Flux | HyperLoop |
+|-----| --------- |
+| Action | Hyperloop::Operation subclass |
+| ActionCreator | `Hyperloop::Operation.step/failed/async` methods |
+| Action Data | Hyperloop::Operation parameters |
+| Dispatcher | `Hyperloop::Operation#dispatch` method |
+| Registering a Store | `Store.receives` |
+<br>
+
+
+### Dispatching With New Parameters
+
+The `dispatch` method sends the `params` object on to any registered receivers.  Sometimes it's useful to add additional outbound params before dispatching.  Additional params can be declared using the `outbound` macro:
+
+```ruby
+class AddItemToCart < Hyperloop::Operation
+  param :sku, type: String
+  param qty: 1, type: Integer, minimum: 1
+  outbound :available
+
+  step { HTTP.get('/inventory/#{params.sku}/qty') }
+  step { |response| params.available = response.to_i }
+  step { fail if params.qty > params.available }
+  dispatch
+end
+```
+
+## Function 3: Operations can replace an API through a bi-directional RPC mechanism
+
+There are some Operations that simply do not make sense to run on the client as the resources they depend on may not be available on the client. For example, consider an Operation that needs to send an email - there is no mailer on the client so the Operation has to execute from the server.
+
+That said, with our highest goal being developer productivity, it should be as invisible as possible to the developer where the Operation will execute. A developer writing front-end code should be able to invoke a server-side resource (like a mailer) just as easily as they might invoke a client-side resource.
+
+Hyperloop `ServerOps` replace the need for a boiler-plate HTTP API. All serialisation and deserialisation of params is handled by Hyperloop. Hyperloop automagically creates the API endpoint needed to invoke a function from the client which executes on the server and returns the results (via a promise) to the calling client-side code.
+
 ### Server Operations
 
-Operations will run on the client or the server.  Some Operations like `ValidateUserDefaultCC` probably need to check information server side, and make secure API calls to our credit card processor.  Rather than build an API and controller to "validate the user credentials" you simply specify that the operation must run on the server by using the `Hyperloop::ServerOp` class.
+Operations will run on the client or the server. However, some Operations like `ValidateUserDefaultCC` probably need to check information server side, and make secure API calls to our credit card processor.  Rather than build an API and controller to "validate the user credentials" you simply specify that the operation must run on the server by using the `Hyperloop::ServerOp` class.
 
 ```ruby
 class ValidateUserCredentials < Hyperloop::ServerOp
@@ -347,7 +436,11 @@ end
 
 Because Operations always return a promise, there is nothing to change on the client to call a Server Operation. A Server Operation will return a promise that will be resolved (or rejected) when the Operation completes (or fails) on the server.  
 
-### Keeping server code on the server
+### Isomorphic Operations
+
+Unless the Operation is a Server Operation it will run where it was invoked.   This can be handy if you have an Operation that needs to run on both the server and the client.  For example, an Operation that calculates the customers discount will want to run on the client so the user gets immediate feedback, and then will be run again on the server when the order is submitted as a double check.
+
+### Restricting server code to the server
 
 There are valid cases where you will not want your ServerOp's code to be on the client yet still be able to invoke a ServerOp from client or server code. Good reasons for this would include:
 
@@ -657,76 +750,46 @@ def self.deserialize_dispatch(object)
 end
 ```
 
-### Isomorphic Operations
+### Accessing the Controller
 
-Unless the Operation is a Server Operation it will run where it was invoked.   This can be handy if you have an Operation that needs to run on both the server and the client.  For example an Operation that calculates the customers discount, will want to run on the client so the user gets immediate feedback, and then will be run again on the server when the order is submitted as a double check.
+ServerOps the ability to receive the "controller" as a param. This is handy for low-level stuff (like login) where you need access to the controller. There is a subclass of ServerOp called ControllerOp that simply declares this param and will delegate any controller methods to the controller param. So within a `ControllerOp` if you say `session` you will get the session object from the controller.
 
-### Dispatching With New Parameters
-
-The `dispatch` method sends the `params` object on to any registered receivers.  Sometimes it's useful to add additional outbound params before dispatching.  Additional params can be declared using the `outbound` macro:
+Here is a sample of the SignIn operation using the Devise Gem:
 
 ```ruby
-class AddItemToCart < Hyperloop::Operation
-  param :sku, type: String
-  param qty: 1, type: Integer, minimum: 1
-  outbound :available
-
-  step { HTTP.get('/inventory/#{params.sku}/qty') }
-  step { |response| params.available = response.to_i }
-  step { fail if params.qty > params.available }
-  dispatch
+class SignIn < Hyperloop::ControllerOp
+  param :email
+  inbound :password
+  add_error(:email, :does_not_exist, 'that login does not exist') { !(@user = User.find_by_email(params.email)) }
+  add_error(:password, :is_incorrect, 'password is incorrect') { !@user.valid_password?(params.password)  }
+ # no longer have to do this step { params.password = nil }
+  step { sign_in(:user, @user)  }
 end
 ```
 
-### Instance Versus Class Execution Context
+You will notice in the code above that we have another parameter type in ServerOps, called inbound, which will not get dispatched.
 
-Normally the Operation's steps are declared and run in the context of an instance of the Operation.  An instance of the Operation is created, runs and is thrown away.  
+### Broadcasting to the current_session
 
-Sometimes it's useful to run a step (or other macro such as `validate`) in the context of the class.  This is useful especially for caching values between calls to the Operation.  You can do this by defining the steps in the class context, or by providing the option `scope: :class` to the step.
+Let's say you would like to be able to broadcast to the current session. For example, after the user signs in we want to broadcast to all the browser windows the user happens to have open, so they can update.
 
-Note that the primary use should be in interfacing to outside APIs.  Don't hide your application state inside an Operation - Move it to a Store.
+For this, we have a `current_session` method in the `ControllerOp` that you can dispatch to.
 
 ```ruby
-class GetRandomGithubUser < Hyperloop::Operation
-  def self.reload_users
-    @promise = HTTP.get("https://api.github.com/users?since=#{rand(500)}").then do |response|
-      @users = response.json.collect do |user|
-        { name: user[:login], website: user[:html_url], avatar: user[:avatar_url] }
-      end
-    end
-  end
-  self.class.step do # as one big step
-    return @users.delete_at(rand(@users.length)) unless @users.blank?
-    reload_users unless @promise && @promise.pending?
-    @promise.then { run }
-  end
-end
-# or
-class GetRandomGithubUser < Hyperloop::Operation
-  class << self # as 4 steps - whatever you like
-    step  { succeed! @users.delete_at(rand(@users.length)) unless @users.blank? }
-    step  { succeed! @promise.then { run } if @promise && @promise.pending? }
-    step  { self.class.reload_users }
-    async { @promise.then { run } }
-  end
+class SignIn < Hyperloop::ControllerOp
+  param :email
+  inbound :password
+  add_error(:email, :does_not_exist, 'that login does not exist') { !(@user = User.find_by_email(params.email)) }
+  add_error(:password, :is_incorrect, 'password is incorrect') { !@user.valid_password?(params.password)  }
+  step { sign_in(:user, @user)  }
+  dispatch_to { current_session }
 end
 ```
 
-An instance of the operation is always created to hold the current parameter values, dispatcher, etc.  The first parameter to a class level `step` block or method (if it takes parameters) will always be the instance.
+The Session channel is special so to attach to the application to it you would say in the top level component:
 
 ```ruby
-class Interesting < Hyperloop::Operation
-  param :increment
-  param :multiply
-  outbound :result
-  outbound :total
-  step scope: :class { @total ||= 0 }
-  step scope: :class { |op| op.params.result = op.params.increment * op.params.multiply }
-  step scope: :class { |op| op.params.total = (@total += op.params.result) }
-  dispatch
+class App < Hyperloop::Component
+  after_mount :connect_session
 end
 ```
-
-### The Boot Operation
-
-Hyperloop includes one predefined Operation, `Hyperloop::Application::Boot`, that runs at system initialization.  Stores can receive `Hyperloop::Application::Boot` to initialize their state.  To reset the state of the application you can simply execute `Hyperloop::Application::Boot`
