@@ -11,7 +11,7 @@ There are several ways to install Hyperloop into your development environment.
 + Integrating with Sinatra
 
 
-## <a name="hyperloopjs">Hyperloop.js</a>
+## <a name="hyperloopjs"><div class="hyperlogoalone"><img src="/images/HyperloopJS.png" width="50" alt="Hypercomponents"></div>Hyperloop.js</a>
 
 For small static sites that don't need a server backend you can use the `hyperloop.js` javascript library.
 Simply include the `hyperloop.js` file with your other javascript code, or access it directly via the CDN, and you are good to go.
@@ -71,9 +71,9 @@ Finally, mount your Component(s) as a DOM element and specify the Component and 
 You are ready now to implement more interesting and complex Components.<br>
 You can start by the first tutorial of the Hyperloop series here :
 
-<button type="button" class="btn btn-primary btn-lg btn-hyperlooppink" onclick="location.href='/tutorials/hyperloopjs/helloworld';">Hyperloop.js HelloWorld tutorial</button>
+<button type="button" class="btn btn-primary btn-lg btn-hyperloopjs" onclick="location.href='/tutorials/hyperloopjs/helloworld';">Hyperloop.js HelloWorld tutorial</button>
 
-## <a name="ror">With Ruby On Rails</a>
+## <a name="ror"><div class="hyperlogoalone"><img src="/images/hyperloop-logo-small-pink.png" width="50" alt="Hyperloop"></div>With Ruby On Rails</a>
 
 Hyperloop works great with new or existing rails apps, so it's pain free to introduce it to your application.
 

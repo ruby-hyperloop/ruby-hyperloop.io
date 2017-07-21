@@ -57,20 +57,9 @@ rails g hyper:component Helloworld
 
 You can view the new Component created in `/app/hyperloop/components/`
 
-### Step 1.2: Creating the controller
+### Step 1.2: Updating the routes.rb file
 
-Create a `home_controller.rb` file, manually or with the command `rails g controller Home helloworld --skip-javascripts`:
-
-```ruby
-#app/controllers/home_controller.rb
-
-class HomeController < ApplicationController
-  def helloworld
-  end
-end
-```
-
-### Step 1.3: Updating the routes.rb file
+In order to mount your component we are going to create an URL in the routes file which will dispatch to the `helloworld` component.
 
 Add this line in your `routes.rb` file (better to keep the line `mount Hyperloop::Engine => '/hyperloop'` at the top of the file)
 
@@ -78,31 +67,38 @@ Add this line in your `routes.rb` file (better to keep the line `mount Hyperloop
 #config/routes.rb
 
 mount Hyperloop::Engine => '/hyperloop'
-root 'home#helloworld'
+root 'hyperloop#helloworld'
 ``` 
 
-### Step 1.4: Creating the helloworld view file
+
+<br><br>
+<hr>
+
+<i class="flaticon-signs"></i> A component can be mounted in different ways, from a controller or view file for example. Please consult the documentation: [{ Elements and rendering }](/docs/components/elements-rendering/)
+
+For example, from a View:
 
 ```erb
-#app/views/home/helloworld.html.erb
-
-<div class="hyperloophelloword">
-
-  <div>
     <%= react_component '::Helloworld', {}, { prerender: true } %>
-  </div>
-
-</div>
 ```
 
-### Step 1.5: Testing your app
+Or, from a Controller:
+
+```erb
+    render_component("Helloworld")
+```
+
+<hr>
+<br>
+
+### Step 1.3: Testing your app
 
 Start your Rails server and browse `http://localhost:3000`.
 
 You should see the text `Helloworld` rendered by the generic hyperloop `Component`
 
 
-### Step 1.6: Styling
+### Step 1.4: Styling
 
 Before going further and play with the `Component`, we will add some style and logo.
 
@@ -771,7 +767,7 @@ render(DIV) do
     DIV(class: 'formdiv') do
       InputBox()
       show_text
-    end if MyStore.field_displayed
+    end if MyStore.show_field
   end
 
 ```

@@ -752,7 +752,7 @@ end
 
 ### Accessing the Controller
 
-ServerOps the ability to receive the "controller" as a param. This is handy for low-level stuff (like login) where you need access to the controller. There is a subclass of ServerOp called ControllerOp that simply declares this param and will delegate any controller methods to the controller param. So within a `ControllerOp` if you say `session` you will get the session object from the controller.
+ServerOps has the ability to receive the "controller" as a param. This is handy for low-level stuff (like login) where you need access to the controller. There is a subclass of ServerOp called ControllerOp that simply declares this param and will delegate any controller methods to the controller param. So within a `ControllerOp` if you say `session` you will get the session object from the controller.
 
 Here is a sample of the SignIn operation using the Devise Gem:
 
