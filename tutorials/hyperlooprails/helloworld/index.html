@@ -481,7 +481,7 @@ end
 <p><i class="flaticon-signs"></i> A component can be mounted in different ways, from a controller or view file for example. Please consult the documentation: <a href="/docs/components/elements-rendering/">{ Elements and rendering }</a></p>
 
 <p>For example, from a View:</p>
-<pre class="highlight erb"><code>    <span class="cp">&lt;%=</span> <span class="n">react_component</span> <span class="s1">'::Helloworld'</span><span class="p">,</span> <span class="p">{},</span> <span class="p">{</span> <span class="ss">prerender: </span><span class="kp">true</span> <span class="p">}</span> <span class="cp">%&gt;</span>
+<pre class="highlight erb"><code>    <span class="cp">&lt;%=</span> <span class="n">react_component</span> <span class="s1">'::Helloworld'</span> <span class="cp">%&gt;</span>
 </code></pre>
 <p>Or, from a Controller:</p>
 <pre class="highlight erb"><code>    render_component("Helloworld")
@@ -499,21 +499,25 @@ end
 
 <p>Before going further and play with the <code>Component</code>, we will add some style and logo.</p>
 
-<p>Add a <strong>Hyperloop</strong> logo</p>
-<pre class="highlight erb"><code>#app/views/home/helloworld.html.erb
+<p>We are going to add an <strong>Hyperloop</strong> logo. To do that you can replace the generic code of the <code>Helloword</code> Component by this one:</p>
+<pre class="highlight ruby"><code><span class="c1">#/app/hyperloop/components/helloworld.rb</span>
 
-<span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"hyperloophelloword"</span><span class="nt">&gt;</span>
+<span class="k">class</span> <span class="nc">Helloworld</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Component</span>
 
-  <span class="nt">&lt;img</span> <span class="na">src=</span><span class="s">"https://rawgit.com/ruby-hyperloop/hyperloop-js-helloworld/master/hyperloop-logo-medium-white.png?raw=true"</span><span class="nt">&gt;</span>
+  <span class="n">render</span><span class="p">(</span><span class="no">DIV</span><span class="p">)</span> <span class="k">do</span>
 
-  <span class="nt">&lt;h3&gt;</span>The complete isomorphic ruby framework<span class="nt">&lt;/h3&gt;</span>
-  <span class="nt">&lt;br&gt;</span>
+    <span class="no">DIV</span><span class="p">(</span><span class="ss">class: </span><span class="s1">'hyperloophelloword'</span><span class="p">)</span> <span class="k">do</span>
 
-  <span class="nt">&lt;div&gt;</span>
-    <span class="cp">&lt;%=</span> <span class="n">react_component</span> <span class="s1">'::Helloworld'</span><span class="p">,</span> <span class="p">{},</span> <span class="p">{</span> <span class="ss">prerender: </span><span class="kp">true</span> <span class="p">}</span> <span class="cp">%&gt;</span>
-  <span class="nt">&lt;/div&gt;</span>
+      <span class="no">IMG</span><span class="p">(</span><span class="ss">src: </span><span class="s1">'https://rawgit.com/ruby-hyperloop/hyperloop-js-helloworld/master/hyperloop-logo-medium-white.png?raw=true'</span><span class="p">)</span>
+      <span class="no">H3</span> <span class="p">{</span> <span class="s2">"The complete isomorphic ruby framework"</span> <span class="p">}</span>
+      <span class="no">BR</span><span class="p">{}</span>
 
-<span class="nt">&lt;/div&gt;</span>
+    <span class="k">end</span>
+
+  <span class="k">end</span>
+
+<span class="k">end</span>
+
 </code></pre>
 <p>And load 2 stylesheets:</p>
 <pre class="highlight erb"><code>#app/views/layouts/application.html.erb
@@ -538,6 +542,37 @@ end
 <span class="nt">&lt;/html&gt;</span>
 
 </code></pre>
+<p><br></p>
+
+<p>So, for this step, the <code>Component</code> code will be like that:</p>
+
+<div class="togglecode" 
+  data-heading="Step 1.4 Helloworld Component" 
+  data-rows=16
+  data-top-level-component="HelloworldComponent1.4">
+
+<pre>
+#/app/hyperloop/components/helloworld.rb
+
+class Helloworld < Hyperloop::Component
+
+  render(DIV) do
+
+    DIV(class: 'hyperloophelloword') do
+
+      IMG(src: 'https://rawgit.com/ruby-hyperloop/hyperloop-js-helloworld/master/hyperloop-logo-medium-white.png?raw=true')
+      H3 { "The complete isomorphic ruby framework" }
+      BR{}
+
+    end
+
+  end
+
+end
+
+</pre>
+</div>
+
 <p><br>
 <br></p>
 
@@ -560,11 +595,21 @@ end
 <span class="k">class</span> <span class="nc">Helloworld</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Component</span>
 
   <span class="n">render</span><span class="p">(</span><span class="no">DIV</span><span class="p">)</span> <span class="k">do</span>
-    <span class="n">show_button</span>
-    <span class="no">DIV</span><span class="p">(</span><span class="ss">class: </span><span class="s1">'formdiv'</span><span class="p">)</span> <span class="k">do</span>
-      <span class="n">show_input</span>
-      <span class="n">show_text</span>
+
+    <span class="no">DIV</span><span class="p">(</span><span class="ss">class: </span><span class="s1">'hyperloophelloword'</span><span class="p">)</span> <span class="k">do</span>
+
+      <span class="no">IMG</span><span class="p">(</span><span class="ss">src: </span><span class="s1">'https://rawgit.com/ruby-hyperloop/hyperloop-js-helloworld/master/hyperloop-logo-medium-white.png?raw=true'</span><span class="p">)</span>
+      <span class="no">H3</span> <span class="p">{</span> <span class="s2">"The complete isomorphic ruby framework"</span> <span class="p">}</span>
+      <span class="no">BR</span><span class="p">{}</span>
+
+      <span class="n">show_button</span>
+      <span class="no">DIV</span><span class="p">(</span><span class="ss">class: </span><span class="s1">'formdiv'</span><span class="p">)</span> <span class="k">do</span>
+        <span class="n">show_input</span>
+        <span class="n">show_text</span>
+      <span class="k">end</span>
+
     <span class="k">end</span>
+
   <span class="k">end</span>
 
   <span class="k">def</span> <span class="nf">show_button</span>
@@ -607,6 +652,8 @@ end
 <p>And can be changed like that:</p>
 <pre class="highlight ruby"><code><span class="n">mutate</span><span class="p">.</span><span class="nf">show_field</span>
 </code></pre>
+<p><br></p>
+
 <p>So, for this step, the <code>Component</code> code will be like that:</p>
 
 <div class="togglecode" 
@@ -622,11 +669,21 @@ class Helloworld < Hyperloop::Component
   state show_field: false
 
   render(DIV) do
-    show_button
-    DIV(class: 'formdiv') do
-      show_input
-      show_text
-    end if state.show_field
+
+    DIV(class: 'hyperloophelloword') do
+
+      IMG(src: 'https://rawgit.com/ruby-hyperloop/hyperloop-js-helloworld/master/hyperloop-logo-medium-white.png?raw=true')
+      H3 { "The complete isomorphic ruby framework" }
+      BR{}
+
+      show_button
+      DIV(class: 'formdiv') do
+        show_input
+        show_text
+      end if state.show_field
+
+    end
+
   end
 
   def show_button
@@ -670,6 +727,8 @@ end
   <span class="n">mutate</span><span class="p">.</span><span class="nf">field_value</span> <span class="n">e</span><span class="p">.</span><span class="nf">target</span><span class="p">.</span><span class="nf">value</span>
 <span class="k">end</span>
 </code></pre>
+<p><br></p>
+
 <p>So, for this step, the <code>Component</code> code will be like that:</p>
 
 <div class="togglecode" 
@@ -686,11 +745,21 @@ class Helloworld < Hyperloop::Component
   state field_value: ""
 
   render(DIV) do
-    show_button
-    DIV(class: 'formdiv') do
-      show_input
-      show_text
-    end if state.show_field
+
+    DIV(class: 'hyperloophelloword') do
+
+      IMG(src: 'https://rawgit.com/ruby-hyperloop/hyperloop-js-helloworld/master/hyperloop-logo-medium-white.png?raw=true')
+      H3 { "The complete isomorphic ruby framework" }
+      BR{}
+
+      show_button
+      DIV(class: 'formdiv') do
+        show_input
+        show_text
+      end if state.show_field
+
+    end
+
   end
 
   def show_button
@@ -733,6 +802,8 @@ end
   <span class="no">H1</span> <span class="p">{</span> <span class="s2">"</span><span class="si">#{</span><span class="n">state</span><span class="p">.</span><span class="nf">field_value</span><span class="si">}</span><span class="s2">"</span> <span class="p">}</span>
 <span class="k">end</span>
 </code></pre>
+<p><br></p>
+
 <p>So, for this step, the <code>Component</code> code will be like that:</p>
 
 <div class="togglecode" 
@@ -749,11 +820,21 @@ class Helloworld < Hyperloop::Component
   state field_value: ""
 
   render(DIV) do
-    show_button
-    DIV(class: 'formdiv') do
-      show_input
-      show_text
-    end if state.show_field
+
+    DIV(class: 'hyperloophelloword') do
+
+      IMG(src: 'https://rawgit.com/ruby-hyperloop/hyperloop-js-helloworld/master/hyperloop-logo-medium-white.png?raw=true')
+      H3 { "The complete isomorphic ruby framework" }
+      BR{}
+
+      show_button
+      DIV(class: 'formdiv') do
+        show_input
+        show_text
+      end if state.show_field
+
+    end
+
   end
 
   def show_button
@@ -825,6 +906,8 @@ end
 </code></pre>
 <p>As you can see, we first test the <code>state.show_field</code> value, if it&#39;s <code>True</code>, we hide the logo, if not, we show it.</p>
 
+<p><br></p>
+
 <p>So, for this step, the <code>Component</code> code will be like that:</p>
 
 <div class="togglecode" 
@@ -832,26 +915,36 @@ end
   data-rows=16
   data-top-level-component="HelloworldComponent3.2">
 
-  <pre>
-    #/app/hyperloop/components/helloworld.rb
+<pre>
+#/app/hyperloop/components/helloworld.rb
 
-    class Helloworld < Hyperloop::Component
+class Helloworld < Hyperloop::Component
 
-      state show_field: false
-      state field_value: ""
+  state show_field: false
+  state field_value: ""
 
-      render(DIV) do
-        show_button
-        DIV(class: 'formdiv') do
-          show_input
-          show_text
-        end if state.show_field
-      end
+  render(DIV) do
 
-      def toggle_logo(ev)
-        ev.prevent_default
-        logo = Element['img']
-        state.show_field ? logo.hide('slow') : logo.show('slow')
+    DIV(class: 'hyperloophelloword') do
+
+      IMG(src: 'https://rawgit.com/ruby-hyperloop/hyperloop-js-helloworld/master/hyperloop-logo-medium-white.png?raw=true')
+      H3 { "The complete isomorphic ruby framework" }
+      BR{}
+
+      show_button
+      DIV(class: 'formdiv') do
+        show_input
+        show_text
+      end if state.show_field
+
+    end
+
+  end
+
+  def toggle_logo(ev)
+    ev.prevent_default
+    logo = Element['img']
+    state.show_field ? logo.hide('slow') : logo.show('slow')
   end
 
   def show_button
@@ -924,6 +1017,8 @@ end
 
 <p>We will replace all <code>state.show_field</code> by <code>MyStore.show_field</code> and all <code>mutate.show_field</code> by <code>MyStore.mutate.show_field</code>. The same of course for the <code>field_value</code> variable.</p>
 
+<p><br></p>
+
 <p>So, for this step, the <code>Component</code> code will be like that:</p>
 
 <div class="togglecode" 
@@ -937,13 +1032,22 @@ end
 
 class Helloworld < Hyperloop::Component
 
-  
   render(DIV) do
-    show_button
-    DIV(class: 'formdiv') do
-      show_input
-      show_text
-    end if MyStore.show_field
+
+    DIV(class: 'hyperloophelloword') do
+
+      IMG(src: 'https://rawgit.com/ruby-hyperloop/hyperloop-js-helloworld/master/hyperloop-logo-medium-white.png?raw=true')
+      H3 { "The complete isomorphic ruby framework" }
+      BR{}
+
+      show_button
+      DIV(class: 'formdiv') do
+        show_input
+        show_text
+      end if MyStore.show_field
+
+    end
+
   end
 
   def toggle_logo(ev)
@@ -1012,6 +1116,8 @@ end
 <pre class="highlight ruby"><code><span class="no">MyStore</span><span class="p">.</span><span class="nf">toggle_field</span>
 
 </code></pre>
+<p><br></p>
+
 <p>So, for this step, the <code>Component</code> code will be like that:</p>
 
 <div class="togglecode" 
@@ -1025,11 +1131,21 @@ end
 class Helloworld < Hyperloop::Component
 
   render(DIV) do
-    show_button
-    DIV(class: 'formdiv') do
-      show_input
-      show_text
-    end if MyStore.show_field
+
+    DIV(class: 'hyperloophelloword') do
+
+      IMG(src: 'https://rawgit.com/ruby-hyperloop/hyperloop-js-helloworld/master/hyperloop-logo-medium-white.png?raw=true')
+      H3 { "The complete isomorphic ruby framework" }
+      BR{}
+
+      show_button
+      DIV(class: 'formdiv') do
+        show_input
+        show_text
+      end if MyStore.show_field
+
+    end
+
   end
 
   def toggle_logo(ev)
@@ -1107,14 +1223,26 @@ This <code>InputBox</code> Component will read/update some state of <code>MyStor
 <pre class="highlight ruby"><code><span class="c1">#/app/hyperloop/components/helloworld.rb</span>
 
 <span class="n">render</span><span class="p">(</span><span class="no">DIV</span><span class="p">)</span> <span class="k">do</span>
+
+  <span class="no">DIV</span><span class="p">(</span><span class="ss">class: </span><span class="s1">'hyperloophelloword'</span><span class="p">)</span> <span class="k">do</span>
+
+    <span class="no">IMG</span><span class="p">(</span><span class="ss">src: </span><span class="s1">'https://rawgit.com/ruby-hyperloop/hyperloop-js-helloworld/master/hyperloop-logo-medium-white.png?raw=true'</span><span class="p">)</span>
+    <span class="no">H3</span> <span class="p">{</span> <span class="s2">"The complete isomorphic ruby framework"</span> <span class="p">}</span>
+    <span class="no">BR</span><span class="p">{}</span>
+
     <span class="n">show_button</span>
     <span class="no">DIV</span><span class="p">(</span><span class="ss">class: </span><span class="s1">'formdiv'</span><span class="p">)</span> <span class="k">do</span>
       <span class="no">InputBox</span><span class="p">()</span>
       <span class="n">show_text</span>
     <span class="k">end</span> <span class="k">if</span> <span class="no">MyStore</span><span class="p">.</span><span class="nf">show_field</span>
+
   <span class="k">end</span>
 
+<span class="k">end</span>
+
 </code></pre>
+<p><br></p>
+
 <p>So, for this step, the <code>Component</code> code will be like that:</p>
 
 <div class="togglecode" 
@@ -1128,11 +1256,21 @@ This <code>InputBox</code> Component will read/update some state of <code>MyStor
 class Helloworld < Hyperloop::Component
 
   render(DIV) do
-    show_button
-    DIV(class: 'formdiv') do
-      InputBox()
-      show_text
-    end if MyStore.show_field
+
+    DIV(class: 'hyperloophelloword') do
+
+      IMG(src: 'https://rawgit.com/ruby-hyperloop/hyperloop-js-helloworld/master/hyperloop-logo-medium-white.png?raw=true')
+      H3 { "The complete isomorphic ruby framework" }
+      BR{}
+
+      show_button
+      DIV(class: 'formdiv') do
+        InputBox()
+        show_text
+      end if MyStore.show_field
+
+    end
+
   end
 
   def toggle_logo(ev)
@@ -1235,6 +1373,8 @@ mv app/models/helloworldmodel.rb app/hyperloop/models
   <span class="no">MyStore</span><span class="p">.</span><span class="nf">mutate</span><span class="p">.</span><span class="nf">field_value</span> <span class="s2">""</span>
 <span class="k">end</span>
 </code></pre>
+<p><br></p>
+
 <p>So, for this step, the <code>Component</code> code will be like that:</p>
 
 <div class="togglecode" 
@@ -1248,11 +1388,21 @@ mv app/models/helloworldmodel.rb app/hyperloop/models
 class Helloworld < Hyperloop::Component
 
   render(DIV) do
-    show_button
-    DIV(class: 'formdiv') do
-      InputBox()
-      show_text
-    end if MyStore.show_field
+
+    DIV(class: 'hyperloophelloword') do
+
+      IMG(src: 'https://rawgit.com/ruby-hyperloop/hyperloop-js-helloworld/master/hyperloop-logo-medium-white.png?raw=true')
+      H3 { "The complete isomorphic ruby framework" }
+      BR{}
+
+      show_button
+      DIV(class: 'formdiv') do
+        InputBox()
+        show_text
+      end if MyStore.show_field
+
+    end
+
   end
 
   def toggle_logo(ev)
@@ -1307,12 +1457,22 @@ end
 <pre class="highlight ruby"><code><span class="c1">#/app/hyperloop/components/helloworld.rb</span>
 
 <span class="n">render</span><span class="p">(</span><span class="no">DIV</span><span class="p">)</span> <span class="k">do</span>
-  <span class="n">show_button</span>
-  <span class="no">DIV</span><span class="p">(</span><span class="ss">class: </span><span class="s1">'formdiv'</span><span class="p">)</span> <span class="k">do</span>
-    <span class="no">InputBox</span><span class="p">()</span>
-    <span class="n">show_text</span>
-  <span class="k">end</span> <span class="k">if</span> <span class="no">MyStore</span><span class="p">.</span><span class="nf">field_displayed</span>
-  <span class="n">description_table</span>
+
+  <span class="no">DIV</span><span class="p">(</span><span class="ss">class: </span><span class="s1">'hyperloophelloword'</span><span class="p">)</span> <span class="k">do</span>
+
+    <span class="no">IMG</span><span class="p">(</span><span class="ss">src: </span><span class="s1">'https://rawgit.com/ruby-hyperloop/hyperloop-js-helloworld/master/hyperloop-logo-medium-white.png?raw=true'</span><span class="p">)</span>
+    <span class="no">H3</span> <span class="p">{</span> <span class="s2">"The complete isomorphic ruby framework"</span> <span class="p">}</span>
+    <span class="no">BR</span><span class="p">{}</span>
+
+    <span class="n">show_button</span>
+    <span class="no">DIV</span><span class="p">(</span><span class="ss">class: </span><span class="s1">'formdiv'</span><span class="p">)</span> <span class="k">do</span>
+      <span class="no">InputBox</span><span class="p">()</span>
+      <span class="n">show_text</span>
+    <span class="k">end</span> <span class="k">if</span> <span class="no">MyStore</span><span class="p">.</span><span class="nf">field_displayed</span>
+    <span class="n">description_table</span>
+
+  <span class="k">end</span>
+
 <span class="k">end</span>
 
 <span class="k">def</span> <span class="nf">description_table</span>
@@ -1336,6 +1496,8 @@ end
 <span class="k">end</span>
 
 </code></pre>
+<p><br></p>
+
 <p>So, for this step, the <code>Component</code> code will be like that:</p>
 
 <div class="togglecode" 
@@ -1353,12 +1515,22 @@ class Helloworld < Hyperloop::Component
   end
 
   render(DIV) do
-    show_button
-    DIV(class: 'formdiv') do
-      InputBox()
-      show_text
-    end if MyStore.show_field
-    description_table
+
+    DIV(class: 'hyperloophelloword') do
+
+      IMG(src: 'https://rawgit.com/ruby-hyperloop/hyperloop-js-helloworld/master/hyperloop-logo-medium-white.png?raw=true')
+      H3 { "The complete isomorphic ruby framework" }
+      BR{}
+
+      show_button
+      DIV(class: 'formdiv') do
+        InputBox()
+        show_text
+      end if MyStore.show_field
+      description_table
+
+    end
+
   end
 
   def toggle_logo(ev)
@@ -1471,6 +1643,8 @@ end
 <span class="k">end</span>
 
 </code></pre>
+<p><br></p>
+
 <p>So, for this step, the <code>Component</code> code will be like that:</p>
 
 <div class="togglecode" 
@@ -1489,12 +1663,22 @@ class Helloworld < Hyperloop::Component
   end
 
   render(DIV) do
-    show_button
-    DIV(class: 'formdiv') do
-      InputBox()
-      show_text
-    end if MyStore.show_field
-    description_table
+
+    DIV(class: 'hyperloophelloword') do
+
+      IMG(src: 'https://rawgit.com/ruby-hyperloop/hyperloop-js-helloworld/master/hyperloop-logo-medium-white.png?raw=true')
+      H3 { "The complete isomorphic ruby framework" }
+      BR{}
+
+      show_button
+      DIV(class: 'formdiv') do
+        InputBox()
+        show_text
+      end if MyStore.show_field
+      description_table
+
+    end
+
   end
 
   def toggle_logo(ev)
@@ -1622,6 +1806,8 @@ end
   <span class="no">MyStore</span><span class="p">.</span><span class="nf">show_field</span> <span class="p">?</span> <span class="n">logo</span><span class="p">.</span><span class="nf">hide</span><span class="p">(</span><span class="s1">'slow'</span><span class="p">)</span> <span class="p">:</span> <span class="n">logo</span><span class="p">.</span><span class="nf">show</span><span class="p">(</span><span class="s1">'slow'</span><span class="p">)</span>
 <span class="k">end</span>
 </code></pre>
+<p><br></p>
+
 <p>So, for this step, the <code>Component</code> code will be like that:</p>
 
 <div class="togglecode" 
@@ -1640,12 +1826,22 @@ class Helloworld < Hyperloop::Component
   end
 
   render(DIV) do
-    show_button
-    DIV(class: 'formdiv') do
-      InputBox()
-      show_text
-    end if MyStore.show_field
-    description_table
+
+    DIV(class: 'hyperloophelloword') do
+
+      IMG(src: 'https://rawgit.com/ruby-hyperloop/hyperloop-js-helloworld/master/hyperloop-logo-medium-white.png?raw=true')
+      H3 { "The complete isomorphic ruby framework" }
+      BR{}
+
+      show_button
+      DIV(class: 'formdiv') do
+        InputBox()
+        show_text
+      end if MyStore.show_field
+      description_table
+
+    end
+
   end
 
   def self.toggle_logo(ev)
@@ -1786,6 +1982,8 @@ end
 </code></pre>
 <p>You can notice the <code>receives SaveDescriptionOp do .... end</code> block. <a href="http://ruby-hyperloop.io/docs/stores/overview/#receiving-operation-dispatches">{ Stores documentation }</a></p>
 
+<p><br></p>
+
 <p>So, for this step, the <code>Component</code> code will be like that:</p>
 
 <div class="togglecode" 
@@ -1803,12 +2001,22 @@ class Helloworld < Hyperloop::Component
   end
 
   render(DIV) do
-    show_button
-    DIV(class: 'formdiv') do
-      InputBox()
-      show_text
-    end if MyStore.show_field
-    description_table
+
+    DIV(class: 'hyperloophelloword') do
+
+      IMG(src: 'https://rawgit.com/ruby-hyperloop/hyperloop-js-helloworld/master/hyperloop-logo-medium-white.png?raw=true')
+      H3 { "The complete isomorphic ruby framework" }
+      BR{}
+
+      show_button
+      DIV(class: 'formdiv') do
+        InputBox()
+        show_text
+      end if MyStore.show_field
+      description_table
+
+    end
+
   end
 
   def toggle_logo(ev)
@@ -1869,7 +2077,7 @@ end
 
 <p><code>Server Operations</code> start to be usefull when your application becomes complex and needs, for example, Server side authorization, Server side payment or Server side files maniupulation.</p>
 
-<p>So for our simple tutorial it will be more question of being familiar with the syntax than implementing a useful fonctionnality.</p>
+<p>So for our simple tutorial it will be more question of being familiar with the syntax than implementing a useful fonctionality.</p>
 
 <p>You will have a better idea of the power of <code>Server Operations</code> by following this Tutorial:<br>
 <a href="http://ruby-hyperloop.io/tutorials/hyperlooprails/chatapp/">{ Chat App Tutorial }</a></p>
@@ -1914,7 +2122,7 @@ end
 <p>1 module (named <code>MessagesOperations</code>) containing 2 Server Operations:</p>
 
 <blockquote>
-<p><code>app/hyperlopp/operations/messages_operations.rb</code></p>
+<p><code>app/hyperloop/operations/messages_operations.rb</code></p>
 </blockquote>
 
 <h3 id="step-7-4-execution-cycles-description">Step 7.4: Execution cycles description</h3>
@@ -2017,6 +2225,8 @@ end
 
 <p><code>MessagesOperations</code> is the name of the module we will create and containing the 2 Server Operations <code>Send</code> and <code>GetMessages</code>.</p>
 
+<p><br></p>
+
 <p>So, for this step, the <code>Component</code> code will be like that:</p>
 
 <div class="togglecode" 
@@ -2039,17 +2249,26 @@ class Helloworld < Hyperloop::Component
   end
 
   render(DIV) do
-    InputMessage()
-    show_button
-    DIV(class: 'formdiv') do
-      InputBox()
-      show_text
-    end if MyStore.show_field
-    
-    description_table
 
-    if MessageStore.messages?
-        Messages()
+    DIV(class: 'hyperloophelloword') do
+
+      IMG(src: 'https://rawgit.com/ruby-hyperloop/hyperloop-js-helloworld/master/hyperloop-logo-medium-white.png?raw=true')
+      H3 { "The complete isomorphic ruby framework" }
+      BR{}
+
+      InputMessage()
+      show_button
+      DIV(class: 'formdiv') do
+        InputBox()
+        show_text
+      end if MyStore.show_field
+      
+      description_table
+
+      if MessageStore.messages?
+          Messages()
+      end
+
     end
 
   end
@@ -2114,6 +2333,8 @@ end
   <span class="no">MessagesOperations</span><span class="o">::</span><span class="no">Send</span><span class="p">(</span><span class="ss">message: </span><span class="n">state</span><span class="p">.</span><span class="nf">message_field</span><span class="p">)</span>
 <span class="k">end</span>
 </code></pre>
+<p><br></p>
+
 <p>The <code>InputMessage</code> Component code will be like that:</p>
 
 <div class="togglecode" 
@@ -2181,6 +2402,8 @@ end
 </code></pre>
 <p>The <code>all</code> method will be defined in our <code>MessageStore</code> in the next steps.</p>
 
+<p><br></p>
+
 <p>The <code>Messages</code> Component code will be like that:</p>
 
 <div class="togglecode" 
@@ -2231,6 +2454,8 @@ end
 <span class="p">.</span><span class="nf">.</span><span class="o">.</span>
 
 </code></pre>
+<p><br></p>
+
 <p>The <code>Messages</code> Component code will be like that:</p>
 
 <div class="togglecode" 
@@ -2288,6 +2513,8 @@ end
 <span class="k">end</span>
 </code></pre>
 <p>Note: You can see the <code>PUTS</code> instruction. It is really usefull when debugging your code. Everything you <code>PUTS</code> will be displayed in your Browser Javascript Console.</p>
+
+<p><br></p>
 
 <p>The <code>MessageStore</code> Store code will be like that:</p>
 
