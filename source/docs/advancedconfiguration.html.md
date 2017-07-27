@@ -80,13 +80,8 @@ config.hyperloop.auto_config = false
 
 config.hyperloop.auto_config = false
 
-config.autoload_paths   -= %W[#{config.root}/app/hyperloop]
-config.autoload_paths   += %W[#{config.root}/app/hyperloop/models]
-config.autoload_paths   += %W[#{config.root}/app/models/public]
-config.autoload_paths   += %W[#{config.root}/app/hyperloop/operations]
 config.eager_load_paths -= %W[#{config.root}/app/hyperloop]
 config.eager_load_paths += %W[#{config.root}/app/hyperloop/models]
-config.eager_load_paths += %W[#{config.root}/app/models/public]
 config.eager_load_paths += %W[#{config.root}/app/hyperloop/operations]
 ```
 
@@ -94,7 +89,6 @@ config.eager_load_paths += %W[#{config.root}/app/hyperloop/operations]
 #config/initializers/assets.rb
 
 Rails.application.config.assets.paths << Rails.root.join('app', 'hyperloop').to_s
-Rails.application.config.assets.paths << Rails.root.join('app', 'models').to_s
 
 ```
 
@@ -136,27 +130,14 @@ require 'hyper-store'
 require 'hyper-operation'
 require 'hyper-router/react-router-source'
 require 'hyper-router'
-require 'models'
 
+require_tree './models' if RUBY_ENGINE == 'opal'
 require_tree './components'
 require_tree './operations'
 require_tree './stores'
 
 ```
 
-You create a new file : `app/models/models.rb`
-
-```
-#app/hyperloop/models/models.rb
-
-require_tree './public' if RUBY_ENGINE == 'opal'
-```
-
-You create a new directory: `app/models/public`.
-
-In this directory you can move all you models files that can be accessible by the client.
-
-Then finally you move the `app/models/application_record.rb` file to `app/models/public/application_record.rb`
 
 ## <a name="changingdirectories">Changing Hyperloop default directories</a>
 
