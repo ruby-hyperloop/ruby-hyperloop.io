@@ -533,18 +533,12 @@ end
 
 <span class="n">config</span><span class="p">.</span><span class="nf">hyperloop</span><span class="p">.</span><span class="nf">auto_config</span> <span class="o">=</span> <span class="kp">false</span>
 
-<span class="n">config</span><span class="p">.</span><span class="nf">autoload_paths</span>   <span class="o">-=</span> <span class="sx">%W[</span><span class="si">#{</span><span class="n">config</span><span class="p">.</span><span class="nf">root</span><span class="si">}</span><span class="sx">/app/hyperloop]</span>
-<span class="n">config</span><span class="p">.</span><span class="nf">autoload_paths</span>   <span class="o">+=</span> <span class="sx">%W[</span><span class="si">#{</span><span class="n">config</span><span class="p">.</span><span class="nf">root</span><span class="si">}</span><span class="sx">/app/hyperloop/models]</span>
-<span class="n">config</span><span class="p">.</span><span class="nf">autoload_paths</span>   <span class="o">+=</span> <span class="sx">%W[</span><span class="si">#{</span><span class="n">config</span><span class="p">.</span><span class="nf">root</span><span class="si">}</span><span class="sx">/app/models/public]</span>
-<span class="n">config</span><span class="p">.</span><span class="nf">autoload_paths</span>   <span class="o">+=</span> <span class="sx">%W[</span><span class="si">#{</span><span class="n">config</span><span class="p">.</span><span class="nf">root</span><span class="si">}</span><span class="sx">/app/hyperloop/operations]</span>
 <span class="n">config</span><span class="p">.</span><span class="nf">eager_load_paths</span> <span class="o">-=</span> <span class="sx">%W[</span><span class="si">#{</span><span class="n">config</span><span class="p">.</span><span class="nf">root</span><span class="si">}</span><span class="sx">/app/hyperloop]</span>
 <span class="n">config</span><span class="p">.</span><span class="nf">eager_load_paths</span> <span class="o">+=</span> <span class="sx">%W[</span><span class="si">#{</span><span class="n">config</span><span class="p">.</span><span class="nf">root</span><span class="si">}</span><span class="sx">/app/hyperloop/models]</span>
-<span class="n">config</span><span class="p">.</span><span class="nf">eager_load_paths</span> <span class="o">+=</span> <span class="sx">%W[</span><span class="si">#{</span><span class="n">config</span><span class="p">.</span><span class="nf">root</span><span class="si">}</span><span class="sx">/app/models/public]</span>
 <span class="n">config</span><span class="p">.</span><span class="nf">eager_load_paths</span> <span class="o">+=</span> <span class="sx">%W[</span><span class="si">#{</span><span class="n">config</span><span class="p">.</span><span class="nf">root</span><span class="si">}</span><span class="sx">/app/hyperloop/operations]</span>
 </code></pre><pre class="highlight ruby"><code><span class="c1">#config/initializers/assets.rb</span>
 
 <span class="no">Rails</span><span class="p">.</span><span class="nf">application</span><span class="p">.</span><span class="nf">config</span><span class="p">.</span><span class="nf">assets</span><span class="p">.</span><span class="nf">paths</span> <span class="o">&lt;&lt;</span> <span class="no">Rails</span><span class="p">.</span><span class="nf">root</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="s1">'app'</span><span class="p">,</span> <span class="s1">'hyperloop'</span><span class="p">).</span><span class="nf">to_s</span>
-<span class="no">Rails</span><span class="p">.</span><span class="nf">application</span><span class="p">.</span><span class="nf">config</span><span class="p">.</span><span class="nf">assets</span><span class="p">.</span><span class="nf">paths</span> <span class="o">&lt;&lt;</span> <span class="no">Rails</span><span class="p">.</span><span class="nf">root</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="s1">'app'</span><span class="p">,</span> <span class="s1">'models'</span><span class="p">).</span><span class="nf">to_s</span>
 
 </code></pre><pre class="highlight plaintext"><code>#app/assets/javascripts/application.js
 
@@ -579,24 +573,13 @@ Opal.load('components');
 <span class="nb">require</span> <span class="s1">'hyper-operation'</span>
 <span class="nb">require</span> <span class="s1">'hyper-router/react-router-source'</span>
 <span class="nb">require</span> <span class="s1">'hyper-router'</span>
-<span class="nb">require</span> <span class="s1">'models'</span>
 
+<span class="n">require_tree</span> <span class="s1">'./models'</span> <span class="k">if</span> <span class="no">RUBY_ENGINE</span> <span class="o">==</span> <span class="s1">'opal'</span>
 <span class="n">require_tree</span> <span class="s1">'./components'</span>
 <span class="n">require_tree</span> <span class="s1">'./operations'</span>
 <span class="n">require_tree</span> <span class="s1">'./stores'</span>
 
 </code></pre>
-<p>You create a new file : <code>app/models/models.rb</code></p>
-<pre class="highlight plaintext"><code>#app/hyperloop/models/models.rb
-
-require_tree './public' if RUBY_ENGINE == 'opal'
-</code></pre>
-<p>You create a new directory: <code>app/models/public</code>.</p>
-
-<p>In this directory you can move all you models files that can be accessible by the client.</p>
-
-<p>Then finally you move the <code>app/models/application_record.rb</code> file to <code>app/models/public/application_record.rb</code></p>
-
 <h2 id="changing-hyperloop-default-directories"><a name="changingdirectories">Changing Hyperloop default directories</a></h2>
 
 <p>By default the hyperloop install generator creates the hyperloop structure inside the <code>/app</code> directory :</p>
