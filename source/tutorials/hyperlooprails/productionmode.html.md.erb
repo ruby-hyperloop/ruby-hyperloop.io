@@ -18,7 +18,13 @@ The first step is turn off Hyperloop's `auto_config`.
 
 <button type="button" class="btn btn-primary btn-lg btn-hyperlooppink" onclick="location.href='/docs/advancedconfiguration#auto_config';">Turning Hyperloop auto_config OFF tutorial</button>
 
-#### Step 2: Configuring Hyperloop
+#### Step 2: Configuring the transport
+
+For development, the default transport mode used by Hyperloop is `simple_poller`, but for production it is advised to use `action_cable` or `pusher`.
+
+<button type="button" class="btn btn-primary btn-lg btn-hyperlooppink" onclick="location.href='/docs/models/configuring-transport';">Hyperloop transport configuration</button>
+
+#### Step 3: Configuring Hyperloop
 
 Once you have manually set up your Hyperloop app, we will need to update some files, so Rails knows what to precompile
 
@@ -26,14 +32,14 @@ Once you have manually set up your Hyperloop app, we will need to update some fi
 ```ruby
 #config/application.rb
 
-	config.autoload_paths   -= %W(#{config.root}/app/hyperloop)
-    config.eager_load_paths -= %W(#{config.root}/app/hyperloop)
+  config.autoload_paths   -= %W(#{config.root}/app/hyperloop)
+  config.eager_load_paths -= %W(#{config.root}/app/hyperloop)
 
-    config.eager_load_paths += %W(#{config.root}/app/models)
-    config.autoload_paths += %W(#{config.root}/app/models)
-    
-    config.eager_load_paths += %W(#{config.root}/app/hyperloop/operations)
-    config.autoload_paths   += %W(#{config.root}/app/hyperloop/operations)
+  config.eager_load_paths += %W(#{config.root}/app/hyperloop/models)
+  config.autoload_paths += %W(#{config.root}/app/hyperloop/models)
+  
+  config.eager_load_paths += %W(#{config.root}/app/hyperloop/operations)
+  config.autoload_paths   += %W(#{config.root}/app/hyperloop/operations)
 ```
 
 ```ruby
@@ -51,7 +57,22 @@ Once you have manually set up your Hyperloop app, we will need to update some fi
 
 ```
 
-#### Step 3: Pre-compiling and running
+And don't forget to update your `app/policies/application_policy.rb` file by removing the `unless Rails.env.production?`
+
+```ruby
+#app/policies/application_policy.rb
+
+class Hyperloop::ApplicationPolicy
+  # Allow any session to connect:
+  always_allow_connection
+  # Send all attributes from all public models
+  regulate_all_broadcasts { |policy| policy.send_all }
+  # Allow all changes to public models
+  allow_change(to: :all, on: [:create, :update, :destroy]) { true }
+end
+```
+
+#### Step 4: Pre-compiling and running
 
 Once these changes are made, to test the setup on your local machine you will need to manually precompile your assets, by running the following:
 
@@ -64,6 +85,14 @@ Once the assets are precompiled, you can run your app:
 ```
 RAILS_ENV=production rails s
 ```
+
+You can test your Application on `http://localhost:3000`.
+
+Once everything is working you can deploy your application to a VPS or Heroku.
+
+Please follow those tutorials to accomplish a proper deployment:
+
+<button type="button" class="btn btn-primary btn-lg btn-hyperlooppink" onclick="location.href='/tutorials/hyperloopdeploy';">Hyperloop deployment tutorials</button>
 
 You can find the complete source code of a Helloworld sample Hyperloop app already set up for production mode here: 
 

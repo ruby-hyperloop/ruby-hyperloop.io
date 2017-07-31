@@ -22,6 +22,7 @@ You can find the complete source code of this tutorial here:
 > <a href="#chapter5"><h4>Chapter 5: First Isomorphic Model</h4></a>
 > <a href="#chapter6"><h4>Chapter 6: First Hyperloop Operation</h4></a>
 > <a href="#chapter7"><h4>Chapter 7: First Hyperloop Server Operation</h4></a>
+> <a href="#chapter8"><h4>Chapter 8: Deploy to production</h4></a>
 
 <br>
 <br>
@@ -2546,6 +2547,25 @@ Restart your Rails server. Refresh your `localhost:3000` page.
 And you can try to send messages, they should be displayed on your page.
 You can also try the push notifications mechanism by opening your app in another browser.
 
+
+## <a name="chapter8">Chapter 8: Deploy to production</a>
+
+First you need to configure properly your Rails cache by modifying your `config/environments/production.rb` file.
+
+```ruby
+#config/environments/production.rb
+
+config.action_controller.perform_caching = true
+config.cache_store = :file_store, "tmp/cache"
+```
+
+Then, in order to configure your Helloworld Tutorial application for production, please follow the `production mode` tutorial:
+<br>
+
+<button type="button" class="btn btn-primary btn-lg btn-hyperlooppink" onclick="location.href='/tutorials/hyperlooprails/productionmode';">Hyperloop Production mode tutorial</button>
+
+
+<br><br>
 
 You can find the complete source code of this tutorial here: 
 
