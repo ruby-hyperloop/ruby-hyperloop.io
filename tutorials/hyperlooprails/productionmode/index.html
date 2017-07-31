@@ -424,19 +424,25 @@ end
 
 <p><button type="button" class="btn btn-primary btn-lg btn-hyperlooppink" onclick="location.href='/docs/advancedconfiguration#auto_config';">Turning Hyperloop auto_config OFF tutorial</button></p>
 
-<h4 id="step-2-configuring-hyperloop">Step 2: Configuring Hyperloop</h4>
+<h4 id="step-2-configuring-the-transport">Step 2: Configuring the transport</h4>
+
+<p>For development, the default transport mode used by Hyperloop is <code>simple_poller</code>, but for production it is advised to use <code>action_cable</code> or <code>pusher</code>.</p>
+
+<p><button type="button" class="btn btn-primary btn-lg btn-hyperlooppink" onclick="location.href='/docs/models/configuring-transport';">Hyperloop transport configuration</button></p>
+
+<h4 id="step-3-configuring-hyperloop">Step 3: Configuring Hyperloop</h4>
 
 <p>Once you have manually set up your Hyperloop app, we will need to update some files, so Rails knows what to precompile</p>
 <pre class="highlight ruby"><code><span class="c1">#config/application.rb</span>
 
-    <span class="n">config</span><span class="p">.</span><span class="nf">autoload_paths</span>   <span class="o">-=</span> <span class="sx">%W(</span><span class="si">#{</span><span class="n">config</span><span class="p">.</span><span class="nf">root</span><span class="si">}</span><span class="sx">/app/hyperloop)</span>
-    <span class="n">config</span><span class="p">.</span><span class="nf">eager_load_paths</span> <span class="o">-=</span> <span class="sx">%W(</span><span class="si">#{</span><span class="n">config</span><span class="p">.</span><span class="nf">root</span><span class="si">}</span><span class="sx">/app/hyperloop)</span>
+  <span class="n">config</span><span class="p">.</span><span class="nf">autoload_paths</span>   <span class="o">-=</span> <span class="sx">%W(</span><span class="si">#{</span><span class="n">config</span><span class="p">.</span><span class="nf">root</span><span class="si">}</span><span class="sx">/app/hyperloop)</span>
+  <span class="n">config</span><span class="p">.</span><span class="nf">eager_load_paths</span> <span class="o">-=</span> <span class="sx">%W(</span><span class="si">#{</span><span class="n">config</span><span class="p">.</span><span class="nf">root</span><span class="si">}</span><span class="sx">/app/hyperloop)</span>
 
-    <span class="n">config</span><span class="p">.</span><span class="nf">eager_load_paths</span> <span class="o">+=</span> <span class="sx">%W(</span><span class="si">#{</span><span class="n">config</span><span class="p">.</span><span class="nf">root</span><span class="si">}</span><span class="sx">/app/models)</span>
-    <span class="n">config</span><span class="p">.</span><span class="nf">autoload_paths</span> <span class="o">+=</span> <span class="sx">%W(</span><span class="si">#{</span><span class="n">config</span><span class="p">.</span><span class="nf">root</span><span class="si">}</span><span class="sx">/app/models)</span>
+  <span class="n">config</span><span class="p">.</span><span class="nf">eager_load_paths</span> <span class="o">+=</span> <span class="sx">%W(</span><span class="si">#{</span><span class="n">config</span><span class="p">.</span><span class="nf">root</span><span class="si">}</span><span class="sx">/app/hyperloop/models)</span>
+  <span class="n">config</span><span class="p">.</span><span class="nf">autoload_paths</span> <span class="o">+=</span> <span class="sx">%W(</span><span class="si">#{</span><span class="n">config</span><span class="p">.</span><span class="nf">root</span><span class="si">}</span><span class="sx">/app/hyperloop/models)</span>
 
-    <span class="n">config</span><span class="p">.</span><span class="nf">eager_load_paths</span> <span class="o">+=</span> <span class="sx">%W(</span><span class="si">#{</span><span class="n">config</span><span class="p">.</span><span class="nf">root</span><span class="si">}</span><span class="sx">/app/hyperloop/operations)</span>
-    <span class="n">config</span><span class="p">.</span><span class="nf">autoload_paths</span>   <span class="o">+=</span> <span class="sx">%W(</span><span class="si">#{</span><span class="n">config</span><span class="p">.</span><span class="nf">root</span><span class="si">}</span><span class="sx">/app/hyperloop/operations)</span>
+  <span class="n">config</span><span class="p">.</span><span class="nf">eager_load_paths</span> <span class="o">+=</span> <span class="sx">%W(</span><span class="si">#{</span><span class="n">config</span><span class="p">.</span><span class="nf">root</span><span class="si">}</span><span class="sx">/app/hyperloop/operations)</span>
+  <span class="n">config</span><span class="p">.</span><span class="nf">autoload_paths</span>   <span class="o">+=</span> <span class="sx">%W(</span><span class="si">#{</span><span class="n">config</span><span class="p">.</span><span class="nf">root</span><span class="si">}</span><span class="sx">/app/hyperloop/operations)</span>
 </code></pre><pre class="highlight ruby"><code><span class="c1">#config/environments/production.rb</span>
 
     <span class="n">config</span><span class="p">.</span><span class="nf">assets</span><span class="p">.</span><span class="nf">digest</span> <span class="o">=</span> <span class="kp">true</span>
@@ -447,7 +453,19 @@ end
     <span class="no">Rails</span><span class="p">.</span><span class="nf">application</span><span class="p">.</span><span class="nf">config</span><span class="p">.</span><span class="nf">assets</span><span class="p">.</span><span class="nf">precompile</span> <span class="o">+=</span> <span class="sx">%w( react-server.js components.js )</span>
 
 </code></pre>
-<h4 id="step-3-pre-compiling-and-running">Step 3: Pre-compiling and running</h4>
+<p>And don&#39;t forget to update your <code>app/policies/application_policy.rb</code> file by removing the <code>unless Rails.env.production?</code></p>
+<pre class="highlight ruby"><code><span class="c1">#app/policies/application_policy.rb</span>
+
+<span class="k">class</span> <span class="nc">Hyperloop</span><span class="o">::</span><span class="no">ApplicationPolicy</span>
+  <span class="c1"># Allow any session to connect:</span>
+  <span class="n">always_allow_connection</span>
+  <span class="c1"># Send all attributes from all public models</span>
+  <span class="n">regulate_all_broadcasts</span> <span class="p">{</span> <span class="o">|</span><span class="n">policy</span><span class="o">|</span> <span class="n">policy</span><span class="p">.</span><span class="nf">send_all</span> <span class="p">}</span>
+  <span class="c1"># Allow all changes to public models</span>
+  <span class="n">allow_change</span><span class="p">(</span><span class="ss">to: :all</span><span class="p">,</span> <span class="ss">on: </span><span class="p">[</span><span class="ss">:create</span><span class="p">,</span> <span class="ss">:update</span><span class="p">,</span> <span class="ss">:destroy</span><span class="p">])</span> <span class="p">{</span> <span class="kp">true</span> <span class="p">}</span>
+<span class="k">end</span>
+</code></pre>
+<h4 id="step-4-pre-compiling-and-running">Step 4: Pre-compiling and running</h4>
 
 <p>Once these changes are made, to test the setup on your local machine you will need to manually precompile your assets, by running the following:</p>
 <pre class="highlight plaintext"><code>RAILS_ENV=production rails assets:precompile
@@ -455,6 +473,14 @@ end
 <p>Once the assets are precompiled, you can run your app:</p>
 <pre class="highlight plaintext"><code>RAILS_ENV=production rails s
 </code></pre>
+<p>You can test your Application on <code>http://localhost:3000</code>.</p>
+
+<p>Once everything is working you can deploy your application to a VPS or Heroku.</p>
+
+<p>Please follow those tutorials to accomplish a proper deployment:</p>
+
+<p><button type="button" class="btn btn-primary btn-lg btn-hyperlooppink" onclick="location.href='/tutorials/hyperloopdeploy';">Hyperloop deployment tutorials</button></p>
+
 <p>You can find the complete source code of a Helloworld sample Hyperloop app already set up for production mode here: </p>
 
 <p><button type="button" class="btn btn-primary btn-lg btn-hyperlooptrace" onclick="location.href='https://github.com/ruby-hyperloop/hyperloop-rails-helloworld-advancedconfig';">Hyperloop with Advanced configuration and production mode source code</button></p>
