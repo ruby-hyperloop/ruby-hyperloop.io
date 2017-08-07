@@ -1,5 +1,8 @@
 ## <i class="flaticon-professor-teaching"></i> <span class="bigfirstletter">O</span>pal Hot Reloader Tutorial
 
+<img src="/images/tutorials/Hyperloop-Railsopalhotreloader.gif" class="imgborder">
+
+
 In this tutorial we are going to install a fantastic tool written by Forrest Chang:
 
 + [Opal Hot Reloader](https://github.com/fkchang/opal-hot-reloader)

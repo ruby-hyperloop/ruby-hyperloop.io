@@ -5,7 +5,7 @@ title: Tutorials, Videos & Quickstarts
 
 ## <i class="flaticon-professor-teaching"></i><span class="bigfirstletter">H</span>elloWorld Tutorial
 
-<img src="/images/tutorials/Hyperloop-helloworld.png" class="imgborder">
+<img src="/images/tutorials/Hyperloop-Railshelloworld.gif" class="imgborder">
 
 
 You can find the complete source code of this tutorial here: 

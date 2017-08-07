@@ -4,6 +4,8 @@ title: Tutorials, Videos & Quickstarts
 
 ## <i class="flaticon-professor-teaching"></i><span class="bigfirstletter">D</span>eploy on VPS Tutorial
 
+<img src="/images/tutorials/Hyperloop-Deployingvps.jpg" class="imgborder">
+
 ### Step 1: Running your app in production
 
 Before deploying your application onto your VPS, be sure having followed this tutorial:

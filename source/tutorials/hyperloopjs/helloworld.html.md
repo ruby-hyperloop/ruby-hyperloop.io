@@ -5,7 +5,8 @@ title: Tutorials, Videos & Quickstarts
 
 ## <i class="flaticon-professor-teaching"></i><span class="bigfirstletter">H</span>elloWorld Tutorial
 
-![Screen](https://raw.githubusercontent.com/ruby-hyperloop/hyperloop-js-helloworld/master/hyperloophelloworldscreenshot.png)
+
+<img src="/images/tutorials/HyperloopJS-Helloworld.gif" class="imgborder">
 
 
 You can find the complete source code of this tutorial here: 

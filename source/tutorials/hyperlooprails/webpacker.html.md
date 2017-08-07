@@ -6,7 +6,8 @@ title: Tutorials, Videos & Quickstarts
 ## <i class="flaticon-professor-teaching"></i><span class="bigfirstletter">W</span>ebpacker GEM Tutorial
 
 
-![Screen](https://raw.githubusercontent.com/ruby-hyperloop/hyperloop-rails-webpackergem-helloworld/master/hyperlooprailswebpackergemhelloworldscreenshot.png)
+<img src="/images/tutorials/Hyperloop-Railswebpacker.gif" class="imgborder">
+
 
 You can find the complete source code of this tutorial here: 
 

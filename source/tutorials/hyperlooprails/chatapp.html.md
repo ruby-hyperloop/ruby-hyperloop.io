@@ -2,17 +2,15 @@
 title: Tutorials, Videos & Quickstarts
 ---
 
-## <i class="flaticon-professor-teaching"></i><span class="bigfirstletter">C</span>hat-App Tutorial
-
-#### Writing this tutorial state : In progress
 
 We'll be building a simple but realistic chat application, a basic version of a chat room offered by a service like gitter.im.
 
-During this tutorial we will learn how to use Hyperloop <%= componentslink %>, <%= storeslink %> and <%= operationslink %>. 
+During this tutorial we will learn how to use Hyperloop <a href="/docs/components/dsl-overview" class="component-blue"><b>C</b>omponents</a>, <a href="/docs/stores/overview" class="store-green"><b>S</b>tores</a> and <a href="/docs/operations/overview" class="operation-purple"><b>O</b>perations</a>. 
 
-We will also see also how the <%= pushnotificationslink %> works. So every chatters will se all messages updated in realtime in their browser.  
+We will also see also how the <a href="/docs/models/configuring-transport" class="policies-black"><b>P</b>ush notifications</a> works. So every chatters will se all messages updated in realtime in their browser.  
 
-![Screen](https://raw.githubusercontent.com/ruby-hyperloop/hyperloop-js-chatapp/master/hyperloopjschatappscreenshot.png)
+<img src="/images/tutorials/HyperloopJS-Chatapp.gif" class="imgborder">
+
 
 You can find the complete source code of this tutorial here: 
 

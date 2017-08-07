@@ -4,9 +4,14 @@ title: Tutorials, Videos & Quickstarts
 
 ## <i class="flaticon-professor-teaching"></i><span class="bigfirstletter">F</span>irst simple app using Components, Stores <br>and Operations Tutorial
 
+<img src="/images/tutorials/Hyperloop-Compsimple.gif" class="imgborder">
+
 The code below implements few examples using Hyperloop **Components** which wrap React, **Stores** to hold state which is shared between **Components** and an **Operation** for mutating the **Store**'s state. Finally, a Clock which demonstrates local state and a callback which triggers every second.
 
-To set up your hyperloop environment and run this code, please first follow the [installation](/installation) tutorial.
+To set up your **Hyperloop** environment and continue this tutorial, please first follow the <br><br>
+<button type="button" class="btn btn-primary btn-lg btn-hyperlooppink" onclick="location.href='/installation';">Hyperloop installation tutorial</button>
+
+After **Hyperloop** has been installed properly we can go further.
 
 ```ruby
 

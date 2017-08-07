@@ -5,7 +5,7 @@ title: Tutorials, Videos & Quickstarts
 
 ## <i class="flaticon-professor-teaching"></i><span class="bigfirstletter">N</span>pm and Webpack Tutorial
 
-![Screen](https://raw.githubusercontent.com/ruby-hyperloop/hyperloop-rails-webpackergem-helloworld/master/hyperlooprailswebpackergemhelloworldscreenshot.png)
+<img src="/images/tutorials/Hyperloop-Railswebpack.gif" class="imgborder">
 
 You can find the complete source code of this tutorial here: 
 
