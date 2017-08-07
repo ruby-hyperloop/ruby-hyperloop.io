@@ -2,7 +2,7 @@
 title: Tutorials, Videos & Quickstarts
 ---
 
-## <i class="flaticon-professor-teaching"></i><span class="bigfirstletter">D</span>eploy on HEROKU Tutorial
+## <i class="flaticon-professor-teaching"></i><span class="bigfirstletter">D</span>eploying on HEROKU Tutorial
 
 <img src="/images/tutorials/Hyperloop-Deployingheroku.jpg" class="imgborder">
 

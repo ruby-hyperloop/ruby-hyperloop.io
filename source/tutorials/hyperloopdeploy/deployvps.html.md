@@ -2,7 +2,7 @@
 title: Tutorials, Videos & Quickstarts
 ---
 
-## <i class="flaticon-professor-teaching"></i><span class="bigfirstletter">D</span>eploy on VPS Tutorial
+## <i class="flaticon-professor-teaching"></i><span class="bigfirstletter">D</span>eploying on VPS Tutorial
 
 <img src="/images/tutorials/Hyperloop-Deployingvps.jpg" class="imgborder">
 
