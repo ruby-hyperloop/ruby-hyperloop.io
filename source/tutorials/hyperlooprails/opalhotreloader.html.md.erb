@@ -14,7 +14,7 @@ Opal Hot Reloader is going to just dynamically (via a websocket connection) chun
 
 We are also going to add the Foreman gem to run our Rails server and the Hot Reloader service for us.
 
-### Tutorial
+## Tutorial
 
 To set up your **Hyperloop** environment and continue this tutorial, please first follow the <br><br>
 <button type="button" class="btn btn-primary btn-lg btn-hyperlooppink" onclick="location.href='/installation#rorsetup';">Hyperloop installation with Ruby On Rails tutorial</button>
@@ -23,7 +23,7 @@ After **Hyperloop** has been installed properly we can go further.
 
 Then in order to test or `Opal Hot Reloader` Gem, you need to have at least a basic **Hyperloop** application. For that you can follow the simple Tutorial: [HelloWorld Tutorial](/tutorials/hyperlooprails/helloworld).
 
-##### Step 1: Updating Gemfile
+### Step 1: Updating Gemfile
 
 Add the following lines to your `gemfile` and run `bundle`:
 
@@ -36,7 +36,11 @@ gem 'foreman'
 
 `bundle install`
 
-##### Step 2: Configuring your application
+### Step 2: Configuring your application
+
+#### Step 2.1: If Hyperloop AUTO_CONFIG is ON (By default)
+
+By default, Hyperloop AUTO_CONFIG mode is turned ON. So if you have not changed this configuration, please foollow instructions below:
 
 Modify your `hyperloop.rb` initializer, adding the following lines inside the if statement so they only run on the client and not as part of the server pre-rendering process:
 
@@ -70,7 +74,41 @@ Opal.OpalHotReloader.$listen(25222, true)
 
 ```
 
-##### Step 3: Creating the Procfile
+#### Step 2.2: If Hyperloop AUTO_CONFIG is OFF
+
+If you already have turned OFF the Hyperloop AUTO_CONFIG mode then follow instructions below.
+
+Modify your `app/hyperloop/components.rb` file, adding **OpalHotReloader** configuration:
+ 
+```ruby
+#app/hyperloop/components.rb
+
+...
+
+require 'hyper-model'
+require 'hyper-store'
+require 'hyper-operation'
+require 'hyper-router/react-router-source'
+require 'hyper-router'
+
+require 'opal_hot_reloader'
+OpalHotReloader.listen(25222, true)
+
+require_tree './models' if RUBY_ENGINE == 'opal'
+require_tree './operations'
+require_tree './stores'
+require_tree './components'
+
+```
+
+
+If you want to learn why and how turn this AUTO_CONFIG OFF:
+
+<button type="button" class="btn btn-primary btn-lg btn-hyperlooppink" onclick="location.href='/docs/advancedconfiguration#auto_config';">Turning Hyperloop auto_config OFF tutorial</button>
+
+
+
+### Step 3: Creating the Procfile
 
 Then create a `Procfile` in your Rails app root so the Hot Reloader service will start whenever you start your server:
 
@@ -81,14 +119,14 @@ rails: bundle exec rails server -p 3000
 hotloader: opal-hot-reloader -p 25222 -d app/hyperloop/components
 ```
 
-##### Step 4: Running the application
+### Step 4: Running the application
 
 To start both servers:
 
 `bundle exec foreman start`
 
 
-##### Step 5: Playing 
+### Step 5: Playing 
 
 Refresh your browser and edit a Hyperloop Component, for example `helloworld.rb`:
 
