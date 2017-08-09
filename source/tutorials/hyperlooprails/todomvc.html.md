@@ -1,7 +1,7 @@
 # Hyperloop TodoMVC Tutorial
 
 In this tutorial you will build the classic [TodoMVC](http://todomvc.com) application using Hyperloop
-![](todo-chapter-1.png?raw=true)
+![](http://ruby-hyperloop.io/images/tutorials/Hyperloop-Railstodomvc.gif)
 
 The finished application will
 1. have the ability to add and edit todos;
