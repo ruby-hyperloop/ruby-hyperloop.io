@@ -63,6 +63,12 @@ helpers do
     end
   end
 
+  def routerlink
+    link_to '/docs/router', :class => 'router-blue' do
+      "<b>R</b>outer"
+    end
+  end
+
   def isomodelsapilink 
     link_to '/docs/models/active-record', :class => 'model-orange' do
       "<b>I</b>somorphic models and ActiveRecord API"
