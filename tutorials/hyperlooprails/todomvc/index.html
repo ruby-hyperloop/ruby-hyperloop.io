@@ -1,0 +1,1239 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv='X-UA-Compatible' content='IE=edge;chrome=1' />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <meta name="google-site-verification" content="qjqVOvRhHfsuDbLOvaAnj2mkUZJ9Xwzg84TMVXduvUc" />
+
+    <meta charset="UTF-8">
+    <title>Hyperloop - Tutorials, Videos, & Quickstarts</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <script src="https://unpkg.com/react@15/dist/react.min.js"></script>
+    <script src="https://unpkg.com/react-dom@15/dist/react-dom.min.js"></script>
+
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.5/marked.min.js"></script>
+
+
+    <!-- Opal and Hyperloop -->
+    <script src="https://rawgit.com/ruby-hyperloop/hyperloop-js/master/opal-compiler.min.js"></script>
+    <script src="https://rawgit.com/ruby-hyperloop/hyperloop-js/master/hyperloop.min.js"></script>
+
+    <!-- If you want local copies... -->
+    <!-- <script src="../../../javascripts/opal-compiler.js"></script> -->
+    <!-- <script src="../../../javascripts/hyperloop.js"></script> -->
+
+    <script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
+
+    <script src="../../../javascripts/bootstrap.min.js"></script>
+    <script src="../../../javascripts/codemirror.js"></script>
+    <script src="../../../javascripts/ruby.js"></script>
+    <script src="../../../javascripts/matchbrackets.js"></script>
+    <script src="../../../javascripts/react_player.js"></script>
+    <script src="../../../javascripts/highlight.pack.js"></script>
+
+
+    <!-- Components are compiled by Hyperloop Express -->
+    <script type="text/ruby">
+
+class CodeMirror < Hyperloop::Component
+  param :code, type: String
+  param :heading, default: "Code"
+  param :rows, type: Integer, default: 0
+  param :top_level_component, type: String
+
+  before_mount do
+    r=rand(2**256).to_s(36)[0..7]
+    @div_code = "code_#{r}"
+    @div_result = "result_#{r}"
+  end
+
+  after_mount do
+  # puts params.code
+    @editor = `CodeMirror(document.getElementById(#{@div_code}), {
+      value: #{params.code.to_s},
+      mode: 'text/x-ruby',
+      matchBrackets: true,
+      lineNumbers: false,
+      indentUnit: 2,
+      theme: 'github'
+    });`
+
+    `#{@editor}.on('change', #{lambda {on_change} })`
+    `#{@editor}.setSize(null, #{@editor}.defaultTextHeight()*#{params.rows})` unless params.rows == 0
+    execute_code
+  end
+
+  render(DIV) do
+    div.card {
+      div.card_header { params.heading }
+      div(id: @div_code)
+      div.card_header do
+        img(src: '../../../images/hyperloop-logo-small-white.png' , width:'25')
+        span { ' ' }
+        'Live editor results'
+      end
+      div.card_block(id: @div_result)
+    }
+  end
+
+  def on_change
+    execute_code
+  end
+
+  def execute_code
+    begin
+      code = `#{@editor}.getValue()`
+      # puts code
+      code += "\nElement['##{@div_result}'].render(#{params.top_level_component})"
+      compiled_code = Opal::Compiler.new(code).compile
+
+      `ReactDOM.unmountComponentAtNode(document.getElementById(#{@div_result}));`
+
+      # Dispatchers and Receivers example works but Steps example breaks
+      # Hyperloop::Context.reset!
+      # `eval(#{compiled_code})`
+      # Hyperloop::Application::Boot.run()
+
+      # Steps example works but Dispatchers and Receivers example breaks
+      `eval(#{compiled_code})`
+      Hyperloop::Context.reset!
+      Hyperloop::Application::Boot.run()
+
+      component = Module.const_get params.top_level_component
+      # we need to see if the component is valid - try checking if it can render static markup
+      # the following line generates: `undefined method to_n for SimpleComponent`
+      # if React.render_to_static_markup( component ).empty?
+      #   invalid_component_message
+      # end
+    rescue Exception => e
+      @time_out = after(0.1) do
+        unable_to_compile_message e.message
+      end
+    end
+  end
+
+  def invalid_component_message
+    message = div.text_danger do
+      h3.text_danger {"Oops, invalid Component..."}
+      p { "Your Component has been rejected by React. A valid Component must have a render macro and return just one HTML element." }
+    end
+    Element["##{@div_result}"].render{ message }
+  end
+
+  def unable_to_compile_message reason
+    message = div.text_danger do
+      h3.text_danger {"Can't compile..."}
+      p { reason }
+    end
+    Element["##{@div_result}"].render{ message }
+  end
+
+end
+
+</script>
+
+    <script type="text/ruby">
+
+Document.ready? do
+   Element.find('div.codemirror-live-edit').each do |mount_point|
+     heading = mount_point.attr('data-heading')
+     rows = mount_point.attr('data-rows')
+     top_level_component = mount_point.attr('data-top-level-component')
+     code = Element[mount_point].find('pre').text.strip
+     params = {code: code, top_level_component: top_level_component}
+     params = params.merge({heading: heading}) if heading
+     params = params.merge({rows: rows.to_i}) if rows
+     codemirror_component = Object.const_get('CodeMirror')
+     React.render(React.create_element(codemirror_component, params ), mount_point)
+   end
+end
+
+</script>
+
+    
+    <script type="text/ruby">
+
+class ToggleCodemirror < Hyperloop::Component
+  param :code, type: String
+  param :heading, default: "Code"
+  param :rows, type: Integer, default: 0
+  param :top_level_component, type: String
+  param :show_code
+
+  before_mount do
+    r=rand(2**256).to_s(36)[0..7]
+    @div_code = "code_#{r}"
+    @div_result = "result_#{r}"
+  end
+
+  after_mount do
+  # puts params.code
+    @editor = `CodeMirror(document.getElementById(#{@div_code}), {
+      value: #{params.code.to_s},
+      mode: 'text/x-ruby',
+      matchBrackets: true,
+      lineNumbers: false,
+      indentUnit: 2,
+      readOnly: true,
+      theme: 'github'
+    });`
+
+    `#{@editor}.setSize(null, #{@editor}.defaultTextHeight()*#{params.rows})` unless params.rows == 0
+
+    Element['.codediv'].hide('')
+    mutate.show_code false
+    
+  end
+
+  render(DIV) do
+    div.card {
+      div.card_header do
+        div(class: 'row') do
+          div(class: 'col-md-6') do
+            img(src: '../../../images/hyperloop-logo-small-white.png' , width:'25') 
+            span { ' ' }
+            span { params.heading }
+          end
+          div(class: 'col-md-6 align-right') do
+
+            toggle_link
+          end
+        end
+      end
+
+      div(id: @div_code, class: 'codediv') 
+    }
+  end
+
+  def toggle_link
+    
+      BUTTON(class: 'btn btn-info btn-sm') do
+        state.show_code ? "Click to hide code" : "Click to show code"
+      end.on(:click) do |ev|
+        mutate.show_code !state.show_code 
+        state.show_code ? Element["##{@div_code}"].show('') : Element["##{@div_code}"].hide('')
+      end
+    
+  end
+
+ 
+end
+
+</script>
+
+    <script type="text/ruby">
+
+Document.ready? do
+    Element.find('div.togglecode').each do |mount_point|
+        heading = mount_point.attr('data-heading')
+        rows = mount_point.attr('data-rows')
+        top_level_component = mount_point.attr('data-top-level-component')
+        code = Element[mount_point].find('pre').text.strip
+        params = {code: code, top_level_component: top_level_component}
+        params = params.merge({heading: heading}) if heading
+        params = params.merge({rows: rows.to_i}) if rows
+        codemirror_component = Object.const_get('ToggleCodemirror')
+        React.render(React.create_element(codemirror_component, params ), mount_point)
+    end
+end
+
+</script>
+
+    <link href="../../../stylesheets/bootstrap.min.css" rel="stylesheet" />
+    <link href="../../../stylesheets/typography.css" rel="stylesheet" />
+    <link href="../../../stylesheets/override.css" rel="stylesheet" />
+    <link href="../../../stylesheets/divtable.css" rel="stylesheet" />
+    <!-- <link href="../../../stylesheets/code.css" rel="stylesheet" /> -->
+    <link href="../../../stylesheets/github.css" rel="stylesheet" />
+    <link href="../../../stylesheets/highlighting.css" rel="stylesheet" />
+    <link href="../../../stylesheets/codemirror.css" rel="stylesheet" />
+    <link href="../../../stylesheets/monokai-sublime.css" rel="stylesheet" />
+
+    <link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/feed.xml" />
+
+    <!-- Favicons -->
+
+    <link rel="apple-touch-icon" sizes="180x180" href="../../../images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" href="../../../images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="../../../images/favicon-16x16.png" sizes="16x16">
+    <link rel="manifest" href="/images/manifest.json">
+    <link rel="mask-icon" href="../../../images/safari-pinned-tab.svg" color="#e81176">
+    <meta name="theme-color" content="#ffffff">
+
+  </head>
+
+  <body>
+    <div class="navbarbackgroundcolor">
+      <div class="container">
+        <nav class="navbar navbar-ligh">
+  <button class="navbar-toggler hidden-sm-up" type="button" data-toggle="collapse" data-target="#exCollapsingNavbar2" aria-controls="exCollapsingNavbar2" aria-expanded="false" aria-label="Toggle navigation">
+    &#9776;
+  </button>
+  <div class="collapse navbar-toggleable-xs" id="exCollapsingNavbar2">
+    <ul class="nav navbar-nav">
+      <li class="nav-item">
+        <a href="/" class="nav-link"><span class='navfirstletter'>H</span>yperloop</a>
+      </li>
+      <li class="nav-item">
+        <a href="/start/components" class="nav-link active"><span class='navfirstletter'>S</span>tart</a>
+      </li>
+      <li class="nav-item">
+        <a href="/installation" class="nav-link"><span class='navfirstletter'>I</span>nstallation</a>
+      </li>
+      <li class="nav-item">
+        <a href="/tutorials" class="nav-link"><span class='navfirstletter'>T</span>utorials</a>
+      </li>
+      <li class="nav-item">
+        <a href="/gems" class="nav-link"><span class='navfirstletter'>G</span>ems</a>
+      </li>
+      <li class="nav-item">
+        <a href="https://github.com/ruby-hyperloop" class="nav-link"><span class='navfirstletter'>G</span>ithub</a>
+      </li>
+      <li class="nav-item">
+        <a href="/tools" class="nav-link"><span class='navfirstletter'>T</span>ools</a>
+      </li>
+      <li class="nav-item">
+        <a href="/docs/architecture" class="nav-link"><span class='navfirstletter'>D</span>ocs</a>
+      </li>
+      <li class="nav-item">
+        <a href="/help" class="nav-link"><span class='navfirstletter'>H</span>elp</a>
+      </li>
+      <li class="nav-item">
+        <a href="/blog" class="nav-link"><span class='navfirstletter'>B</span>log</a>
+      </li>
+      <li class="nav-item">
+        <a href="/showcase" class="nav-link"><span class='navfirstletter'>S</span>howcase</a>
+      </li>
+      <!-- <li class="nav-item">
+        <input type="text" name="search" />
+      </li> -->
+    </ul>
+  </div>
+</nav>
+
+      </div>
+    </div>
+
+    <div class="jumbotron page-header">
+      <div class="container">
+
+        <div class="row hidden-sm-down">
+          <div class="col-md-2">
+            <div class="hyperlooplogo">
+            </div>
+          </div>
+          <div class="col-md-8">
+
+            <h1 class="display-4 project-name">Hyperloop</h1>
+
+            <h4 class="display-7 project-tagline">
+              Tutorials, Videos, & Quickstarts
+            </h4>
+          </div>
+          
+        </div>
+
+        <div class="row hidden-md-up">
+          <div class="col-md-3">
+            <div class="hyperlooplogo">
+            </div>
+          </div>
+          <div class="col-md-9">
+            <h1 class="h1 project-name center-text">Hyperloop</h1>
+            </br>
+            <h2 class="h5 project-tagline center-text">
+              Tutorials, Videos, & Quickstarts
+            </h2>
+          </div>
+          
+        </div>
+
+
+      </div>
+    </div>
+
+    <div class="page-header-underline">
+      <div class="container">
+
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-md-3 sidenavcol">
+            <ul class="nav">
+
+    <li class="nav-item"><strong><a href="/tutorials/hyperloopcomps">Hyperloop COMPS</a></strong></li>
+    <ul class="nav">
+      <li class="nav-item"><a href="/tutorials/hyperloopcomps/compstoreop-first">Simple COMPS App</a></li>
+    </ul>
+    <br>
+
+    <li class="nav-item"><strong><a href="/tutorials/hyperloopjs">Hyperloop.js</a></strong></li>
+    <ul class="nav">
+      <li class="nav-item"><a href="/tutorials/hyperloopjs/helloworld">Hello World</a></li>
+      <li class="nav-item"><a href="/tutorials/hyperloopjs/chatapp">Chat App</a></li>
+    </ul>
+    <br>
+
+    <li class="nav-item"><strong><a href="/tutorials/hyperlooprails">Hyperloop and Rails</a></strong></li>
+    <ul class="nav">
+      <li class="nav-item"><a href="/tutorials/hyperlooprails/helloworld">Hello World</a></li>
+      <li class="nav-item"><a href="/tutorials/hyperlooprails/chatapp">Chat App</a></li>
+      <li class="nav-item"><a href="/tutorials/hyperlooprails/devise">Devise</a></li>
+      <li class="nav-item"><a href="/tutorials/hyperlooprails/todomvc">Todo MVC</a></li>
+      <li class="nav-item"><a href="/tutorials/hyperlooprails/eventsplanner">Events planner</a></li>
+      <li class="nav-item"><a href="/tutorials/hyperlooprails/fivelettergame">Five letter word game</a></li>
+      <li class="nav-item"><a href="/tutorials/hyperlooprails/cloud9">Hyperloop and Cloud9</a></li>
+      <li class="nav-item"><a href="/tutorials/hyperlooprails/webpack">NPM and Webpack</a></li>
+      <li class="nav-item"><a href="/tutorials/hyperlooprails/webpacker">Webpacker GEM</a></li>
+      <li class="nav-item"><a href="/tutorials/hyperlooprails/opalhotreloader">Opal Hot Reloader</a></li>
+      <li class="nav-item"><a href="/tutorials/hyperlooprails/productionmode">Production mode</a></li>
+    </ul>
+    <br>
+
+    <li class="nav-item"><strong><a href="/tutorials/hyperloopdeploy">Hyperloop deployment</a></strong></li>
+    <ul class="nav">
+      <li class="nav-item"><a href="/tutorials/hyperloopdeploy/deployvps">Deploying on VPS</a></li>
+      <li class="nav-item"><a href="/tutorials/hyperloopdeploy/deployheroku">Deploying on Heroku</a></li>
+    </ul>
+    <br>
+
+    <li class="nav-item"><strong><a href="/tutorials/opal">Opal</a></strong></li>
+    <br>
+    <li class="nav-item"><strong><a href="/tutorials/videos">Videos</a></strong></li>
+
+  </ul>
+
+
+          <br>
+        </div>
+        <div class="col-md-9 main-content">
+          <h2 id="todo-mvc-tutorials"><i class="flaticon-professor-teaching"></i><span class="bigfirstletter">T</span>odo MVC Tutorials</h2>
+
+<p>The tutorial below implements the classic Todo MVC tutorial using Hyperloop Components. The first thing we&#39;ll need to do is set up the Hyperloop environment. For this tutorial we&#39;ll be working of of Cloud9. The set-up instructions for this follows below, but you do not have to use Cloud9 if you so choose. You can follow the other set-up tutorials on this site as well.</p>
+
+<h3 id="chapter-1-setting-things-up">Chapter 1: Setting Things Up</h3>
+
+<p>Running Hyperloop in Cloud9</p>
+
+<p>This is probably the easiest way to get started doing full stack development with Hyperloop if you don&#39;t already have Rails setup on your machine.</p>
+
+<p>Even if you are an experienced Rails developer there are some advantages to doing your first experiments on cloud 9:</p>
+
+<p>You will get a consistent setup, which will avoid any possible configuration problems between linux/mac/windows OS versions, etc.
+Cloud9 supports co-development, so if you hit a snag it makes it even easier to get help from others.
+Your development server can be accessed by others through your unique cloud9 url so you can immediately show people on other machines the Hyperloop multi-client synchronization.
+Once you are comfortable with Hyperloop, transitioning your app back to your normal development environment is as easy as doing a git pull of your saved repo.</p>
+
+<p><strong>Step 1: Get a Cloud9 account</strong></p>
+
+<p>Go to cloud 9&#39;s <a href="https://www.google.com/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=1&amp;cad=rja&amp;uact=8&amp;ved=0ahUKEwi-1o7vpqnUAhVFwiYKHa_IAZYQFggmMAA&amp;url=https%3A%2F%2Fc9.io%2F&amp;usg=AFQjCNHeXGx8w99yPGVSzgrH-Wa2kB_mQw&amp;sig2=fBVKBbZ90G8VhrFRJQc70g">website</a></p>
+
+<p>and signup for an account (you can use your github account for signup.) You will have to supply a credit card, but to our knowledge Cloud9 can be trusted!</p>
+
+<p>make sure to Connect your Cloud9 account to your github account by going to settings (upper right corner) and clicking the connected services tab, click the connect button next to github and allow it access</p>
+
+<p><strong>Step 2: Create Your New Workspace</strong></p>
+
+<p>You will be invited to create your first workspace. Cloud9 gives you one private workspace and any number of public workspaces. We recommend you use the public option for your first experiments.</p>
+
+<p>Put <code>git@github.com:ruby-hyperloop/rails-clone-and-go.git</code> into the field titled titled Clone from Git or Mercurial URL (optional).</p>
+
+<p>Select the &quot;Ruby on Rails&quot; template type, and</p>
+
+<p>Create Your Workspace!</p>
+
+<p><strong>Step 3: Run the Setup Script</strong></p>
+
+<p>Once your workspace is created you should see the readme displayed. Just follow the directions and run</p>
+
+<p><code>bin/setup</code> to complete the initialization process.</p>
+
+<p><strong>Step 4: Fire Up The Server</strong></p>
+
+<p>run <code>bin/hyperloop</code> or use the cloud9 run command (along the nav top bar)</p>
+
+<p><strong>Step 5: Visit the App</strong></p>
+
+<p>You can see the App running right in the IDE window by clicking on preview in the top nav bar, or by pasting your unique cloud9 url into another browser window. If you&#39;ve used the clone from github, you should see a display of the current time</p>
+
+<p>Be advised that load times may very according to your machine. The program is not broken if load times get longer.</p>
+
+<p>To see if you have setup correctly, naviagate to /app/hyperloop/components/app.rb. In this file, you should see some code printing out to the screen. Try changing the string that is being printed and save then refresh you&#39;re preview to see if it changes in the preview!</p>
+
+<p>WARNING STOP FOLLOWING OTHER INSTRUCTIONS WHEN YOU GET TO THE BOLDED PHRASE, &quot;HYPERLOOP QUICK START&quot;</p>
+
+<h3 id="chapter-2-hyperloop-models-are-rails-models">Chapter 2:  Hyperloop Models are Rails Models</h3>
+
+<p>We are going to add our Todo Model, and discover that Hyperloop models are in fact Rails models.
++ You can access the your rails models on the client using the same syntax you use on the server.
++ Changes on the client are mirrored on the server.
++ Changes to models on the server are synchronized with all participating browsers.
++ Data access is is protected by a robust <em>policy</em> mechanism.</p>
+
+<p>Okay lets see it in action:</p>
+
+<ol>
+<li><strong>Add the Todo Model:</strong><br>
+In a new terminal window (click on circular green plus sign about current terminals) run:<br>
+<code>bundle exec rails g model Todo title:string completed:boolean priority:integer</code><br>
+<strong>VERY IMPORTANT!</strong> Now look in the db/migrate/ directory, and edit the migration file you have just created. It should be titled with a long string of numbers then &quot;create_todos&quot; at the end. Change the line creating the completed boolean field so that it looks like this:<br>
+<code>ruby
+...
+  t.boolean :completed, null: false, default: false
+...
+</code>
+For details on &#39;why&#39; see <a href="https://robots.thoughtbot.com/avoid-the-threestate-boolean-problem">this blog post.</a>  Basically this keeps completed as a true boolean, and will avoid having to check between <code>false</code> and <code>nil</code> later on.<br></li>
+</ol>
+
+<p>Now run <code>bundle exec rails db:migrate</code></p>
+
+<ul>
+<li><strong>Make your Model Public:</strong><br>
+<em>Move</em> <code>todo.rb</code> <strong>and</strong> <code>application_record.rb</code> from <code>app/models/</code> to <code>app/hyperloop/models</code>.<br>
+This will make the model accessible on the clients, subject to any data access policies.<br>
+<em>Note: The hyperloop installer adds a policy that gives full permission to all clients but only in development and test modes.  Have a look at <code>app/policies/application_policy</code> if you are interested.</em></li>
+<li><strong>Try It</strong><br></li>
+<li>Change your <code>App</code> component&#39;s render method to
+<code>ruby
+class App &lt; Hyperloop::Component
+render(DIV) do
+    &quot;Number of Todos: #{Todo.count}&quot;
+  end
+end
+end
+</code>
+Reload the page you will see <em>Number of Todos: 0</em> displayed.
+<em>Note: If this does not work, try adding the line <code>require_relative ‘application_record&#39;</code> to the top of todo.rb</em></li>
+</ul>
+
+<p><br>
+Now in another terminal window start a rails console (enter <code>rails c</code> into terminal) and type:<br>
+Todo.create(title: &#39;my first todo&#39;)<br>
+and you will see the count change to 1!
+<br><br>
+Now in a window type:<br>
+Todo.create(title: &#39;my second todo&#39;)
+and you will see the count change to 2!
+<br><br>
+Go back to your rails console and type:
+Todo.last.title<br>
+and you will get back &quot;my second todo&quot;
+<br>
+Are we having fun yet?  I hope so!  As you can see Hyperloop is synchronizing the Todo model between the client and server.  As the state of the database changes HyperReact buzzes around updating whatever parts of the DOM were dependent on that data (in this case the count of Todos).</p>
+
+<h3 id="chapter-3-creating-the-top-level-app-structure">Chapter 3: Creating the Top Level App Structure</h3>
+
+<p>Now that we have all of our pieces in place, lets build our application.</p>
+
+<p>Replace the entire contents of <code>app.rb</code> with:</p>
+<pre class="highlight ruby"><code>
+<span class="c1"># app/hyperloop/components/show.rb</span>
+<span class="k">class</span> <span class="nc">App</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Component</span>
+  <span class="n">render</span><span class="p">(</span><span class="no">DIV</span><span class="p">)</span> <span class="k">do</span>
+    <span class="no">Header</span><span class="p">()</span>
+    <span class="no">Index</span><span class="p">()</span>
+    <span class="no">Footer</span><span class="p">()</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+</code></pre>
+<p>and the stub out the three sub components by adding three new ruby files to the app/hyperloop/components folder:</p>
+<pre class="highlight ruby"><code>
+<span class="c1"># app/hyperloop/components/header.rb</span>
+<span class="k">class</span> <span class="nc">Header</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Component</span>
+  <span class="n">render</span><span class="p">(</span><span class="no">DIV</span><span class="p">)</span> <span class="k">do</span>
+    <span class="s2">"Header will go here"</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+</code></pre><pre class="highlight ruby"><code>
+<span class="c1"># app/hyperloop/components/index.rb</span>
+<span class="k">class</span> <span class="nc">Index</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Component</span>
+  <span class="n">render</span><span class="p">(</span><span class="no">DIV</span><span class="p">)</span> <span class="k">do</span>
+    <span class="s2">"list of Todos will go here"</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+</code></pre><pre class="highlight ruby"><code>
+<span class="c1"># app/hyperloop/components/footer.rb</span>
+<span class="k">class</span> <span class="nc">Footer</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Component</span>
+  <span class="n">render</span><span class="p">(</span><span class="no">DIV</span><span class="p">)</span> <span class="k">do</span>
+    <span class="s2">"Footer will go here"</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+</code></pre>
+<p>Once you add the Footer component you should see:</p>
+
+<p>Header will go here<br>
+list of Todos will go here<br>
+Footer will go here  </p>
+
+<h3 id="chapter-4-listing-the-todos-hyperreact-params-and-prerendering">Chapter 4: Listing the Todos, HyperReact Params, and Prerendering</h3>
+
+<p>To display each Todo we will create a TodoItem component that takes a parameter:</p>
+<pre class="highlight ruby"><code>
+<span class="c1"># app/hyperloop/components/todo_item.rb</span>
+<span class="k">class</span> <span class="nc">TodoItem</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Component</span>
+  <span class="n">param</span> <span class="ss">:todo</span>
+  <span class="n">render</span><span class="p">(</span><span class="no">LI</span><span class="p">)</span> <span class="k">do</span>
+    <span class="n">params</span><span class="p">.</span><span class="nf">todo</span><span class="p">.</span><span class="nf">title</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+</code></pre>
+<p>We can use this component in our Index component:</p>
+<pre class="highlight ruby"><code>
+<span class="c1"># app/hyperloop/components/index.rb</span>
+<span class="k">class</span> <span class="nc">Index</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Component</span>
+  <span class="n">render</span><span class="p">(</span><span class="no">UL</span><span class="p">)</span> <span class="k">do</span>
+    <span class="no">Todo</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">todo</span><span class="o">|</span>
+      <span class="no">TodoItem</span><span class="p">(</span><span class="ss">todo: </span><span class="n">todo</span><span class="p">)</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+</code></pre>
+<p>Now you will see something like
+<div style="border:solid; margin-left: 10px; padding: 10px">
+  <div>Header will go here</div>
+  <ul>
+    <li>my first todo</li>
+    <li>my second todo</li>
+  </ul>
+  <div>Footer will go here</div>
+</div></p>
+
+<p><br></p>
+
+<p>As you can see components can take parameters (or props in react.js terminology.)</p>
+
+<p>Params are declared using the <code>param</code> macro and are accessed via the <code>params</code> object.
+In our case we <em>mount</em> a new TodoItem with each Todo record and pass the Todo as the parameter.   </p>
+
+<p>Now open a rails or hyper-loop console and type <code>Todo.last.update(title: &#39;updated todo&#39;)</code> and you will see the last Todo in the list changing.</p>
+
+<p>Try adding another Todo using <code>create</code> like you did before.</p>
+
+<p>As you can see as the Model state changes Hyperloop keeps everything synchronized.</p>
+
+<p>This is good time to talk about <em>prerendering</em>.  Prerendering (or server side rendering) means that the initial state of the browser window is computed server side and delivered to the browser with no javascript execution.  This is great for your initial page load times, and SEO.  You can think of HyperReact as a templating language that uses Ruby instead of ERB or HAML.  To prove this to yourself, try turning off javascript and reloading the page.  <em>To turn off javascript in the Chrome Developer Tools see this <a href="http://stackoverflow.com/questions/13405383/how-to-disable-javascript-in-chrome-developer-tools">Stack Overflow Question</a></em></p>
+
+<p>You will see that the page loads fine, but of course it can no longer react to external changes in state.</p>
+
+<p>Make sure you turn javascript back on before proceeding.</p>
+
+<h3 id="chapter-5-adding-inputs-to-components">Chapter 5: Adding Inputs to Components</h3>
+
+<p>So far we have seen how our components are synchronized to the data that they display.  Next let&#39;s add the ability for the component to <em>change</em> the underlying data.</p>
+
+<p>First add an <code>INPUT</code> html tag to your TodoItem component like this:</p>
+<pre class="highlight ruby"><code>
+<span class="c1"># app/hyperloop/components/todo_item.rb</span>
+<span class="k">class</span> <span class="nc">TodoItem</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Component</span>
+  <span class="n">param</span> <span class="ss">:todo</span>
+  <span class="n">render</span><span class="p">(</span><span class="no">LI</span><span class="p">)</span> <span class="k">do</span>
+    <span class="no">INPUT</span><span class="p">(</span><span class="ss">type: :checkbox</span><span class="p">,</span> <span class="ss">checked: </span><span class="n">params</span><span class="p">.</span><span class="nf">todo</span><span class="p">.</span><span class="nf">completed</span><span class="p">)</span>
+    <span class="n">params</span><span class="p">.</span><span class="nf">todo</span><span class="p">.</span><span class="nf">title</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+</code></pre>
+<p>Now your display should look like this:
+<div style="border:solid; margin-left: 10px; padding: 10px">
+  <div>Header will go here</div>
+  <ul>
+    <li>
+      <input type="checkbox" value="on">
+      my first todo
+    </li>
+    <li>
+      <input type="checkbox" value="on">
+      my second todo
+    </li>
+  </ul>
+  <div>Footer will go here</div>
+</div>
+<br>
+You will notice that while it does display the checkboxes, you can not change them by clicking on them.</p>
+
+<p>You can of course change them via the console (or the hyper-console).  Try<br>
+<code>Todo.last.update(completed: true)</code><br>
+and you should see the last Todo&#39;s <code>completed</code> checkbox changing state.</p>
+
+<p>To make our checkbox input change its own state, we will add an <code>event handler</code> for the click event:</p>
+<pre class="highlight ruby"><code>
+<span class="c1"># app/hyperloop/components/todo_item.rb</span>
+<span class="k">class</span> <span class="nc">TodoItem</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Component</span>
+  <span class="n">param</span> <span class="ss">:todo</span>
+  <span class="n">render</span><span class="p">(</span><span class="no">LI</span><span class="p">)</span> <span class="k">do</span>
+    <span class="no">INPUT</span><span class="p">(</span><span class="ss">type: :checkbox</span><span class="p">,</span> <span class="ss">checked: </span><span class="n">params</span><span class="p">.</span><span class="nf">todo</span><span class="p">.</span><span class="nf">completed</span><span class="p">)</span>
+    <span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:click</span><span class="p">)</span> <span class="p">{</span> <span class="n">params</span><span class="p">.</span><span class="nf">todo</span><span class="p">.</span><span class="nf">update</span><span class="p">(</span><span class="ss">completed: </span><span class="o">!</span><span class="n">params</span><span class="p">.</span><span class="nf">todo</span><span class="p">.</span><span class="nf">completed</span><span class="p">)</span> <span class="p">}</span>
+    <span class="n">params</span><span class="p">.</span><span class="nf">todo</span><span class="p">.</span><span class="nf">title</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+</code></pre>
+<p>It reads like a good novel doesn&#39;t it?  On a <code>click</code> event update the todo, setting the completed attribute to the opposite of its current value.</p>
+
+<p>Meanwhile HyperReact sees the value of <code>params.todo.checked</code> changing, and this causes the associated HTML INPUT tag to be re-rendered.</p>
+
+<p>We will finish up by adding a delete link at the end of the Todo item:</p>
+<pre class="highlight ruby"><code>
+<span class="c1"># app/hyperloop/components/todo_item.rb</span>
+<span class="k">class</span> <span class="nc">TodoItem</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Component</span>
+  <span class="n">param</span> <span class="ss">:todo</span>
+  <span class="n">render</span><span class="p">(</span><span class="no">LI</span><span class="p">)</span> <span class="k">do</span>
+    <span class="no">INPUT</span><span class="p">(</span><span class="ss">type: :checkbox</span><span class="p">,</span> <span class="ss">checked: </span><span class="n">params</span><span class="p">.</span><span class="nf">todo</span><span class="p">.</span><span class="nf">completed</span><span class="p">)</span>
+    <span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:click</span><span class="p">)</span> <span class="p">{</span> <span class="n">params</span><span class="p">.</span><span class="nf">todo</span><span class="p">.</span><span class="nf">update</span><span class="p">(</span><span class="ss">completed: </span><span class="o">!</span><span class="n">params</span><span class="p">.</span><span class="nf">todo</span><span class="p">.</span><span class="nf">completed</span><span class="p">)</span> <span class="p">}</span>
+    <span class="no">SPAN</span> <span class="p">{</span> <span class="n">params</span><span class="p">.</span><span class="nf">todo</span><span class="p">.</span><span class="nf">title</span> <span class="p">}</span> <span class="c1"># See note below...</span>
+    <span class="no">A</span> <span class="p">{</span> <span class="s1">' -X-'</span> <span class="p">}.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:click</span><span class="p">)</span> <span class="p">{</span> <span class="n">params</span><span class="p">.</span><span class="nf">todo</span><span class="p">.</span><span class="nf">destroy</span> <span class="p">}</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+</code></pre>
+<p><em>Note: If a component or tag block returns a string it is automatically wrapped in a SPAN, to insert a string in the middle you have to wrap it a SPAN like we did above.</em></p>
+
+<p>I hope you are starting to see a pattern here.  HyperReact components determine what to display based on the <code>state</code> of some objects.  External events, such as mouse clicks, the arrival of new data from the server, and even timers, update the <code>state</code>.  HyperReact recomputes whatever portion of the display depends on the <code>state</code> so that the display is always in sync with the <code>state</code>.  In our case the objects are the Todo model and its associated records, which has a number of associated internal <code>states</code>.  </p>
+
+<p>By the way, you don&#39;t have to use models to have states.  We will see later that states can be as simple as boolean instance variables.</p>
+
+<h3 id="chapter-6-routing">Chapter 6: Routing</h3>
+
+<p>Now that Todos can be <em>completed</em> or <em>active</em>, we would like our user to be able display either &quot;all&quot; Todos, only &quot;completed&quot; Todos, or &quot;active&quot; (or incomplete) Todos.  We want our URL to reflect which filter is currently being displayed.  So <code>/all</code> will display all todos, <code>/completed</code> will display the completed Todos, and of course <code>/active</code> will display only active (or incomplete) Todos.</p>
+
+<p>To achieve this we first need to be able to <em>scope</em> (or filter) the Todo Model. So let&#39;s edit the Todo model file so it looks like this:</p>
+<pre class="highlight ruby"><code>
+<span class="c1"># app/hyperloop/models/todo.rb</span>
+<span class="k">class</span> <span class="nc">Todo</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">scope</span> <span class="ss">:completed</span><span class="p">,</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="p">{</span> <span class="n">where</span><span class="p">(</span><span class="ss">completed: </span><span class="kp">true</span><span class="p">)</span>  <span class="p">}</span>
+  <span class="n">scope</span> <span class="ss">:active</span><span class="p">,</span>    <span class="o">-&gt;</span> <span class="p">()</span> <span class="p">{</span> <span class="n">where</span><span class="p">(</span><span class="ss">completed: </span><span class="kp">false</span><span class="p">)</span> <span class="p">}</span>
+<span class="k">end</span>
+
+</code></pre>
+<p>Now we can say <code>Todo.all</code>, <code>Todo.completed</code>, and <code>Todo.active</code>, and get the desired subset of Todos.  You might want to try it now in the hyper-console or the rails console.  <em>Note: if you use the rails console you will have to do a <code>reload!</code> to load the changes to the model.</em></p>
+
+<p>Having the application display different data (or whole different components) based on the URL is called routing.  Rails also has routing, but in our case we are letting our Hyperloop application take care of routing, so the first step is to tell rails to simply accept any url as valid, and pass it to our <code>App</code> component.  </p>
+
+<p>So the next step is have our top level <code>App</code> component <em>route</em> the URL, and the <code>Index</code> component react to changes in the URL.  Change <code>App</code> to look like this:</p>
+<pre class="highlight ruby"><code>
+<span class="c1"># app/hyperloop/components/show.rb</span>
+<span class="k">class</span> <span class="nc">App</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Router</span>
+  <span class="n">history</span> <span class="ss">:browser</span>
+  <span class="n">route</span> <span class="k">do</span>
+    <span class="no">DIV</span> <span class="k">do</span>
+      <span class="no">Header</span><span class="p">()</span>
+      <span class="no">Route</span><span class="p">(</span><span class="s1">'/:scope'</span><span class="p">,</span> <span class="ss">mounts: </span><span class="no">Index</span><span class="p">)</span>
+      <span class="no">Footer</span><span class="p">()</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+</code></pre>
+<p>and the <code>Index</code> component to look like this:</p>
+<pre class="highlight ruby"><code>
+<span class="c1"># app/hyperloop/components/index.rb</span>
+<span class="k">class</span> <span class="nc">Index</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Router</span><span class="o">::</span><span class="no">Component</span>
+  <span class="n">render</span><span class="p">(</span><span class="no">UL</span><span class="p">)</span> <span class="k">do</span>
+    <span class="no">Todo</span><span class="p">.</span><span class="nf">send</span><span class="p">(</span><span class="n">match</span><span class="p">.</span><span class="nf">params</span><span class="p">[</span><span class="ss">:scope</span><span class="p">]).</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">todo</span><span class="o">|</span>
+      <span class="no">TodoItem</span><span class="p">(</span><span class="ss">todo: </span><span class="n">todo</span><span class="p">)</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+</code></pre>
+<p>Note that because we have changed the class of these components the hot reloader will break, and you will have to refresh the page.</p>
+
+<p>Lets walk through the changes:
++ <code>App</code> now inherits from <code>Hyperloop::Router</code> which is a subclass of <code>Hyperloop::Component</code> with <em>router</em> capabilities added.
++ The <code>history</code> macro tells the router how to track the history (back/forward buttons).<br>
+The <code>:browser</code> history tracks the history invisibly in the html5 browser history.
+The other common option is the <code>:hash</code> history which tracks the history in the url hash.
++ The <code>render</code> macro is replaced by <code>route</code>, and the <code>DIV</code> tag is moved inside the route block.
++ Instead of directly mounting the <code>Index</code> component, we <em>route</em> to it based on the URL.  In this case if the url must look like <code>/xxx</code>.<br>
+Later we will also add the ability to match the root (&#39;/&#39;) URL as well.
++ <code>Index</code> now inherits from <code>Hyperloop::Router::Component</code> which is a subclass of <code>Hyperloop::Component</code> with methods like <code>match</code> added.
++ Instead of simply enumerating all the Todos, we decide which <em>scope</em> to filter using the URL fragment <em>matched</em> by <code>:scope</code>.  </p>
+
+<p>Notice the relationship between <code>Route(&#39;/:scope&#39;, mounts: Index)</code> and <code>match.params[:scope]</code>:<br>
+During routing each <code>Route</code> is checked.  If it <em>matches</em> then the
+indicated component is mounted, and the match parameters are saved for that component to use.</p>
+
+<p>You should now be able to change the url from <code>/all</code>, to <code>/completed</code>, to <code>/active</code>, and see a different set of Todos.  For example if you are displaying the <code>/active</code> Todos, you will only see the Todos that are not complete.  If you check one of these it will disappear from the list.</p>
+
+<h3 id="chapter-7-helper-methods-inline-styling-active-support-and-router-nav-links">Chapter 7:  Helper Methods, Inline Styling, Active Support and Router Nav Links</h3>
+
+<p>Of course we will want to add navigation to move between these routes.  We will put the navigation in the footer:</p>
+<pre class="highlight ruby"><code>
+<span class="c1"># app/hyperloop/components/footer.rb</span>
+<span class="k">class</span> <span class="nc">Footer</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Component</span>
+  <span class="k">def</span> <span class="nf">link_item</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+    <span class="no">A</span><span class="p">(</span><span class="ss">href: </span><span class="s2">"/</span><span class="si">#{</span><span class="n">path</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="ss">style: </span><span class="p">{</span><span class="ss">marginRight: </span><span class="mi">10</span><span class="p">})</span> <span class="p">{</span> <span class="n">path</span><span class="p">.</span><span class="nf">camelize</span> <span class="p">}</span>
+  <span class="k">end</span>
+  <span class="n">render</span><span class="p">(</span><span class="no">DIV</span><span class="p">)</span> <span class="k">do</span>
+    <span class="n">link_item</span><span class="p">(</span><span class="ss">:all</span><span class="p">)</span>
+    <span class="n">link_item</span><span class="p">(</span><span class="ss">:active</span><span class="p">)</span>
+    <span class="n">link_item</span><span class="p">(</span><span class="ss">:completed</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+</code></pre>
+<p>Save the file, and you will now have 3 links, that you will change the path between the three options.  </p>
+
+<p>Here is how the changes work:
++ Hyperloop is just Ruby, you are free to use all of Ruby&#39;s rich feature set to structure your code. For example the <code>link_item</code> method is just a <em>helper</em> method to save us some typing.
++ The <code>link_item</code> method uses the <code>path</code> argument to construct an <em>Anchor</em> tag.
++ Hyperloop comes with a large portion of the rails active-support library.  For the text of the anchor tag we use the active-support method <code>camelize</code>.
++ Later we will add proper classes, but for now we use an inline style.  Notice that <code>margin-right</code> becomes <code>marginRight</code>, and that the integer 10 becomes <code>10px</code>.</p>
+
+<p>What we really want here is for the links to simply change the route, without reloading the page.  To make this happen we will replace the anchor tag with the Router&#39;s NavLink component:</p>
+
+<p>Change</p>
+<pre class="highlight ruby"><code>
+  <span class="no">A</span><span class="p">(</span><span class="ss">href: </span><span class="s2">"/</span><span class="si">#{</span><span class="n">path</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="ss">style: </span><span class="p">{</span><span class="ss">marginRight: </span><span class="mi">10</span><span class="p">})</span> <span class="p">{</span> <span class="n">path</span><span class="p">.</span><span class="nf">camelize</span> <span class="p">}</span>
+
+</code></pre>
+<p>to</p>
+<pre class="highlight ruby"><code>
+  <span class="no">NavLink</span><span class="p">(</span><span class="s2">"/</span><span class="si">#{</span><span class="n">path</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="ss">style: </span><span class="p">{</span><span class="ss">marginRight: </span><span class="mi">10</span><span class="p">})</span> <span class="p">{</span> <span class="n">path</span><span class="p">.</span><span class="nf">camelize</span> <span class="p">}</span>
+
+</code></pre>
+<p>After this change you will notice that changing routes <em>does not</em> reload the page, and after clicking to different routes, you can use the browsers forward and back buttons.</p>
+
+<p>How does it work?  The <code>NavLink</code> component reacts to a click just like an anchor tag, but instead of changing the window&#39;s URL directly, it updates the <em>HTML5 history object.</em>  Associated with this history is a (you guessed it I hope) a <em>state</em>.  So when the history changes it causes any components depending on the current URL to be re-rendered.</p>
+
+<h3 id="chapter-8-create-a-basic-edititem-component">Chapter 8: Create a Basic EditItem Component</h3>
+
+<p>So far we can mark Todos as completed, delete them, and filter them.  Now we create an <code>EditItem</code> component so we can change the Todo title.</p>
+
+<p>Add a new component like this:</p>
+<pre class="highlight ruby"><code>
+<span class="c1"># app/hyperloop/components/edit_item.rb</span>
+<span class="k">class</span> <span class="nc">EditItem</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Component</span>
+  <span class="n">param</span> <span class="ss">:todo</span>
+  <span class="n">render</span> <span class="k">do</span>
+    <span class="no">INPUT</span><span class="p">(</span><span class="ss">value: </span><span class="n">params</span><span class="p">.</span><span class="nf">todo</span><span class="p">.</span><span class="nf">title</span><span class="p">)</span>
+    <span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:change</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">evt</span><span class="o">|</span>
+      <span class="n">params</span><span class="p">.</span><span class="nf">todo</span><span class="p">.</span><span class="nf">title</span> <span class="o">=</span> <span class="n">evt</span><span class="p">.</span><span class="nf">target</span><span class="p">.</span><span class="nf">value</span>
+    <span class="k">end</span>
+    <span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:key_down</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">evt</span><span class="o">|</span>
+      <span class="k">next</span> <span class="k">unless</span> <span class="n">evt</span><span class="p">.</span><span class="nf">key_code</span> <span class="o">==</span> <span class="mi">13</span>
+      <span class="n">params</span><span class="p">.</span><span class="nf">todo</span><span class="p">.</span><span class="nf">save</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+</code></pre>
+<p>Before we use this component let&#39;s understand how it works.
++ It receives a <code>todo</code> param which will be edited by the user;
++ The <code>title</code> of the todo is displayed in an input;
++ As the user types, <code>change</code> events are fired which will update the title and
++ When the user types the enter key (key code 13) the todo is saved
+Now update the <code>TodoItem</code> component replacing</p>
+<pre class="highlight ruby"><code>
+  <span class="no">SPAN</span> <span class="p">{</span> <span class="n">params</span><span class="p">.</span><span class="nf">todo</span><span class="p">.</span><span class="nf">title</span> <span class="p">}</span>
+
+</code></pre>
+<p>with</p>
+<pre class="highlight ruby"><code>
+  <span class="no">EditItem</span><span class="p">(</span><span class="ss">todo: </span><span class="n">params</span><span class="p">.</span><span class="nf">todo</span><span class="p">)</span>
+
+</code></pre>
+<p>Try it out by changing the text of some our your Todos followed by the enter key.  Then refresh the page to see that the Todos have changed.</p>
+
+<h3 id="chapter-9-adding-state-to-a-component-defining-custom-events-and-a-lifecycle-callback">Chapter 9: Adding State to a Component, Defining Custom Events, and a Lifecycle Callback.</h3>
+
+<p>This all works, but its hard to use.  There is no feed back indicating that a Todo has been saved, and there is no way to cancel after starting to edit.
+We can make the user interface much nicer by adding <em>state</em> (there is that word again) to the <code>TodoItem</code>.
+We will call our state <code>editing</code>.  If <code>editing</code> is true, then we will display the title in a <code>EditItem</code> component, otherwise we will display it in a <code>LABEL</code> tag.
+The user will change the state to <code>editing</code> by double clicking on the label.  When the user saves the Todo, we will change the state of <code>editing</code> back to false.
+Finally we will let the user <em>cancel</em> the edit by movig the focus away (the <code>blur</code> event) from the <code>EditItem</code>.
+To summarize:
++ User double clicks on any Todo title: editing changes to <code>true</code>.
++ User saves the Todo being edited: editing changes to <code>false</code>.
++ User changes focus away (<code>blur</code>) from the Todo being edited: editing changes to <code>false</code>.
+In order to accomplish this our <code>EditItem</code> component is going to communicate via two callbacks - <code>on_save</code> and <code>on_cancel</code> - with the parent component.  We can think of these callbacks as custom events, and indeed as we shall see they will work just like any other event.
+Add the following 5 lines to the <code>EditItem</code> component like this:</p>
+<pre class="highlight ruby"><code>
+<span class="c1"># app/hyperloop/components/edit_item.rb</span>
+<span class="k">class</span> <span class="nc">EditItem</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Component</span>
+  <span class="n">param</span> <span class="ss">:todo</span>
+  <span class="n">param</span> <span class="ss">:on_save</span><span class="p">,</span> <span class="ss">type: </span><span class="no">Proc</span>               <span class="c1"># add</span>
+  <span class="n">param</span> <span class="ss">:on_cancel</span><span class="p">,</span> <span class="ss">type: </span><span class="no">Proc</span>             <span class="c1"># add</span>
+  <span class="n">after_mount</span> <span class="p">{</span> <span class="no">Element</span><span class="p">[</span><span class="n">dom_node</span><span class="p">].</span><span class="nf">focus</span> <span class="p">}</span>  <span class="c1"># add</span>
+  <span class="n">render</span> <span class="k">do</span>
+    <span class="no">INPUT</span><span class="p">(</span><span class="ss">value: </span><span class="n">params</span><span class="p">.</span><span class="nf">todo</span><span class="p">.</span><span class="nf">title</span><span class="p">)</span>
+    <span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:change</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">evt</span><span class="o">|</span>
+      <span class="n">params</span><span class="p">.</span><span class="nf">todo</span><span class="p">.</span><span class="nf">title</span> <span class="o">=</span> <span class="n">evt</span><span class="p">.</span><span class="nf">target</span><span class="p">.</span><span class="nf">value</span>
+    <span class="k">end</span>
+    <span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:key_down</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">evt</span><span class="o">|</span>
+      <span class="k">next</span> <span class="k">unless</span> <span class="n">evt</span><span class="p">.</span><span class="nf">key_code</span> <span class="o">==</span> <span class="mi">13</span>
+      <span class="n">params</span><span class="p">.</span><span class="nf">todo</span><span class="p">.</span><span class="nf">save</span>
+      <span class="n">params</span><span class="p">.</span><span class="nf">on_save</span>                       <span class="c1"># add</span>
+    <span class="k">end</span>
+    <span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:blur</span><span class="p">)</span> <span class="p">{</span> <span class="n">params</span><span class="p">.</span><span class="nf">on_cancel</span> <span class="p">}</span>        <span class="c1"># add</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+</code></pre>
+<p>The first two lines add our callbacks.  In HyperReact (and React.js) callbacks are just params.  Giving them <code>type: Proc</code> and beginning their name with <code>on_</code> means that HyperReact will treat them syntactically like events (as we will see.)  </p>
+
+<p>The next line uses one of several <em>Lifecycle Callbacks</em>.  In this case we need to move the focus to the <code>EditItem</code> component after is mounted.  The <code>Element</code> class is Hyperloop&#39;s jQuery wrapper, and <code>dom_node</code> is the method that returns the actual dom node where this instance of the component is mounted.</p>
+
+<p>The <code>params.on_save</code> line will call the provided callback.  Notice that because we declared <code>on_save</code> as type <code>Proc</code>, when we refer to it in the component it invokes the callback rather than returning the value.  for example, if we had left off <code>type: Proc</code> we would have to say <code>params.on_save.call</code>.</p>
+
+<p>Finally we add the <code>blur</code> event handler and simply transform it into our custom <code>cancel</code> event.</p>
+
+<p>Now we can update our <code>TodoItem</code> component to be a little state machine, which will react to three events:  <code>double_click</code>, <code>save</code> and <code>cancel</code>.</p>
+<pre class="highlight ruby"><code>
+<span class="c1"># app/hyperloop/components/todo_item.rb</span>
+<span class="k">class</span> <span class="nc">TodoItem</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Component</span>
+  <span class="n">param</span> <span class="ss">:todo</span>
+  <span class="n">state</span> <span class="ss">editing: </span><span class="kp">false</span>
+  <span class="n">render</span><span class="p">(</span><span class="no">LI</span><span class="p">)</span> <span class="k">do</span>
+    <span class="k">if</span> <span class="n">state</span><span class="p">.</span><span class="nf">editing</span>
+      <span class="no">EditItem</span><span class="p">(</span><span class="ss">todo: </span><span class="n">params</span><span class="p">.</span><span class="nf">todo</span><span class="p">)</span>
+      <span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:save</span><span class="p">,</span> <span class="ss">:cancel</span><span class="p">)</span> <span class="p">{</span> <span class="n">mutate</span><span class="p">.</span><span class="nf">editing</span> <span class="kp">false</span> <span class="p">}</span>
+    <span class="k">else</span>
+      <span class="no">INPUT</span><span class="p">(</span><span class="ss">type: :checkbox</span><span class="p">,</span> <span class="ss">checked: </span><span class="n">params</span><span class="p">.</span><span class="nf">todo</span><span class="p">.</span><span class="nf">completed</span><span class="p">)</span>
+      <span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:click</span><span class="p">)</span> <span class="p">{</span> <span class="n">params</span><span class="p">.</span><span class="nf">todo</span><span class="p">.</span><span class="nf">update</span><span class="p">(</span><span class="ss">completed: </span><span class="o">!</span><span class="n">params</span><span class="p">.</span><span class="nf">todo</span><span class="p">.</span><span class="nf">completed</span><span class="p">)</span> <span class="p">}</span>
+      <span class="no">LABEL</span> <span class="p">{</span> <span class="n">params</span><span class="p">.</span><span class="nf">todo</span><span class="p">.</span><span class="nf">title</span> <span class="p">}</span>
+      <span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:double_click</span><span class="p">)</span> <span class="p">{</span> <span class="n">mutate</span><span class="p">.</span><span class="nf">editing</span> <span class="kp">true</span> <span class="p">}</span>
+      <span class="no">A</span> <span class="p">{</span> <span class="s1">' -X-'</span> <span class="p">}</span>
+      <span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:click</span><span class="p">)</span> <span class="p">{</span> <span class="n">params</span><span class="p">.</span><span class="nf">todo</span><span class="p">.</span><span class="nf">destroy</span> <span class="p">}</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+</code></pre>
+<p>First we declare a <em>state variable</em> called <code>editing</code> that is initialized to <code>false</code>.</p>
+
+<p>We have already used a lot of states that are built into the HyperModel and HyperRouter.  The state machines in these complex objects are built out of simple state variables like the <code>editing</code>.</p>
+
+<p>State variables are <em>just like instance variables</em> with the added power that when they change, any dependent components will be updated with the change.</p>
+
+<p>You read a state variable using the <code>state</code> method (similar to the <code>params</code> method) and you change state variables using the <code>mutate</code> method.  Whenever you want to change a state variable whether its a simple assignment or changing the internal value of a complex structure like a hash or array you use the <code>mutate</code> method.</p>
+
+<p>Lets read on:  Next we see <code>if state.editing...</code>.  When the component executes this if statement, it reads the value of the <code>editing</code> state variable and will either render the <code>EditItem</code> or the input, label, and anchor tags.  In this way <code>editing</code> state variable is acting no different than any other Ruby instance variable.  <em>But here is the key:  The component now knows that if the value of the editing state changes, it must re-render this TodoItem.  When state variables are referenced by a component the component will keep track of this, and will re-rerender when the state changes.</em></p>
+
+<p>Because <code>editing</code> starts off false, when the TodoItem first mounts, it renders the input, label, and anchor tags.  Attached to the label tag is a <code>double_click</code> handler which does one thing:  <em>mutates</em> the editing state.  This then causes the component to re-render, and now instead of the three tags, we will render the <code>EditItem</code> component.</p>
+
+<p>Attached to the <code>EditItem</code> component is the <code>save</code> and <code>cancel</code> handler (which is shared between the two events) that <em>mutates</em> the editing state, setting it back to false.</p>
+
+<p>Notice that just as you read params using the <code>params</code> method, you read state variables using the <code>state</code> method.  Note that <code>state</code> is singular because we commonly think of the &#39;state&#39; of an object as singular entity.</p>
+
+<h3 id="chapter-10-using-edititem-to-create-new-todos">Chapter 10: Using EditItem to create new Todos</h3>
+
+<p>Our EditItem component has a good robust interface.  It takes a Todo, and lets the user edit the title, and then either save or cancel, using two event style callbacks to communicate back outwards.</p>
+
+<p>Because of this we can easily reuse EditItem to create new Todos.  Not only does this save us time, but it also insures that the user interface acts consistently.</p>
+
+<p>We have no way for a user to enter a new Todo.  At the top of our little Todo App there should be &#39;new&#39; Todo waiting for the user to enter a title and hit return to save.</p>
+
+<p>We can reuse our EditItem component by updating the <code>Header</code> component like this:</p>
+<pre class="highlight ruby"><code>
+<span class="c1"># app/hyperloop/components/header.</span>
+<span class="k">class</span> <span class="nc">Header</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Component</span>
+  <span class="n">state</span><span class="p">(</span><span class="ss">:new_todo</span><span class="p">)</span> <span class="p">{</span> <span class="no">Todo</span><span class="p">.</span><span class="nf">new</span> <span class="p">}</span>
+  <span class="n">render</span><span class="p">(</span><span class="no">DIV</span><span class="p">)</span> <span class="k">do</span>
+    <span class="no">EditItem</span><span class="p">(</span><span class="ss">todo: </span><span class="n">state</span><span class="p">.</span><span class="nf">new_todo</span><span class="p">)</span>
+    <span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:save</span><span class="p">)</span> <span class="p">{</span> <span class="n">mutate</span><span class="p">.</span><span class="nf">new_todo</span> <span class="no">Todo</span><span class="p">.</span><span class="nf">new</span> <span class="p">}</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+</code></pre>
+<p>What we have done is create a state variable called <code>new_todo</code> and we have initialized it using a block that will return <code>Todo.new</code>.  The reason we use a block is to insure that we don&#39;t call <code>Todo.new</code> until after the system is loaded, at which point all state initialization blocks will be run.  A good rule of thumb is to use the block notation unless the initial value is a constant.</p>
+
+<p>Then we pass the value of the state variable to EditItem, and when it is saved, we generate another new Todo and save it the <code>new_todo</code> state variable.</p>
+
+<p>Notice <code>new_todo</code> is a state variable that is used in Header, so when it is mutated, it will cause a re-render of the Header, which will then pass the new value of <code>new_todo</code>, to EditItem, causing that component to re-render.  </p>
+
+<p>We don&#39;t care if the user cancels the edit, so we simply don&#39;t provide a <code>:cancel</code> event handler.</p>
+
+<h3 id="chapter-11-adding-styling">Chapter 11: Adding Styling</h3>
+
+<p>We are just going to steal the style sheet from the benchmark Todo app, and add it to our assets.</p>
+
+<p><strong>GO GRAB THE FILE</strong> at <a href="https://github.com/JustinManno/todo-tutorial/blob/hyperloop/app/assets/stylesheets/todo.css">https://github.com/JustinManno/todo-tutorial/blob/hyperloop/app/assets/stylesheets/todo.css</a>
+you will need to make a file in app/assests/stylesheets called, todo.css. paste the file there. Make sure to make it a css file.</p>
+
+<p>You will have to refresh the page after changing the style sheet</p>
+
+<p>Now its a matter of updating the classes (which are passed via the class parameter) and also changing some of the DIVs to other HTML tags.</p>
+
+<p>Lets do the <code>App</code> component.  With styling it will look like this:</p>
+<pre class="highlight ruby"><code>
+<span class="c1"># app/hyperloop/components/show.rb</span>
+<span class="k">class</span> <span class="nc">App</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Router</span>
+  <span class="n">history</span> <span class="ss">:browser</span>
+  <span class="n">route</span> <span class="k">do</span>
+    <span class="no">SECTION</span><span class="p">(</span><span class="ss">class: </span><span class="s1">'todo-app'</span><span class="p">)</span> <span class="k">do</span> <span class="c1"># change to SECTION and add class</span>
+      <span class="no">Header</span><span class="p">()</span>
+      <span class="no">Route</span><span class="p">(</span><span class="s1">'/:scope'</span><span class="p">,</span> <span class="ss">mounts: </span><span class="no">Index</span><span class="p">)</span>
+      <span class="no">Footer</span><span class="p">()</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+</code></pre>
+<p>Now the <code>Header</code>:</p>
+<pre class="highlight ruby"><code>
+<span class="c1"># app/hyperloop/components/header.rb</span>
+<span class="k">class</span> <span class="nc">Header</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Component</span>
+  <span class="n">state</span><span class="p">(</span><span class="ss">:new_todo</span><span class="p">)</span> <span class="p">{</span> <span class="no">Todo</span><span class="p">.</span><span class="nf">new</span> <span class="p">}</span>
+  <span class="n">render</span><span class="p">(</span><span class="no">HEADER</span><span class="p">,</span> <span class="ss">class: :header</span><span class="p">)</span> <span class="k">do</span> <span class="c1"># change from DIV to HEADER, and add class</span>
+    <span class="no">H1</span> <span class="p">{</span> <span class="s1">'todos'</span> <span class="p">}</span> <span class="c1"># Add this H1 tag.</span>
+    <span class="no">EditItem</span><span class="p">(</span><span class="ss">todo: </span><span class="n">state</span><span class="p">.</span><span class="nf">new_todo</span><span class="p">,</span> <span class="ss">class: </span><span class="s1">'new-todo'</span><span class="p">)</span> <span class="c1"># add class</span>
+    <span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:save</span><span class="p">)</span> <span class="p">{</span> <span class="n">mutate</span><span class="p">.</span><span class="nf">new_todo</span> <span class="no">Todo</span><span class="p">.</span><span class="nf">new</span> <span class="p">}</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+</code></pre>
+<p>The <code>Footer</code> components needs have <code>UL</code> added to hold the links nicely, and we can also use a built-in feature of <code>NavLinks</code> that will highlight the currently selected link:</p>
+<pre class="highlight ruby"><code>
+<span class="c1"># app/hyperloop/components/footer.rb</span>
+<span class="k">class</span> <span class="nc">Footer</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Component</span>
+  <span class="kp">include</span> <span class="no">HyperRouter</span><span class="o">::</span><span class="no">ComponentMethods</span>
+  <span class="k">def</span> <span class="nf">link_item</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+    <span class="c1"># wrap the NavLink in a LI and...</span>
+    <span class="c1"># pass the class (selected) to be added when the current</span>
+    <span class="c1"># path equals the NavLink's path.</span>
+    <span class="no">LI</span> <span class="p">{</span> <span class="no">NavLink</span><span class="p">(</span><span class="s2">"/</span><span class="si">#{</span><span class="n">path</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="ss">active_class: :selected</span><span class="p">)</span> <span class="p">{</span> <span class="n">path</span><span class="p">.</span><span class="nf">camelize</span> <span class="p">}</span> <span class="p">}</span>
+  <span class="k">end</span>
+  <span class="n">render</span><span class="p">(</span><span class="no">DIV</span><span class="p">,</span> <span class="ss">class: :footer</span><span class="p">)</span> <span class="k">do</span> <span class="c1"># add class</span>
+    <span class="no">UL</span><span class="p">(</span><span class="ss">class: :filters</span><span class="p">)</span> <span class="k">do</span> <span class="c1"># make links into a UL</span>
+      <span class="n">link_item</span><span class="p">(</span><span class="ss">:all</span><span class="p">)</span>
+      <span class="n">link_item</span><span class="p">(</span><span class="ss">:active</span><span class="p">)</span>
+      <span class="n">link_item</span><span class="p">(</span><span class="ss">:completed</span><span class="p">)</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+</code></pre>
+<p>Wrap <code>Index</code>&#39;s <code>UL</code> in a <code>SECTION</code> and add the <code>todo-list</code> class to the <code>UL</code></p>
+<pre class="highlight ruby"><code><span class="c1"># app/hyperloop/components/index.rb</span>
+<span class="k">class</span> <span class="nc">Index</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Router</span><span class="o">::</span><span class="no">Component</span>
+  <span class="n">render</span><span class="p">(</span><span class="no">SECTION</span><span class="p">,</span> <span class="ss">class: :main</span><span class="p">)</span> <span class="k">do</span> <span class="c1"># wrap the UL in a section with class main</span>
+    <span class="no">UL</span><span class="p">(</span><span class="ss">class: </span><span class="s1">'todo-list'</span><span class="p">)</span> <span class="k">do</span> <span class="c1"># add the class</span>
+      <span class="no">Todo</span><span class="p">.</span><span class="nf">send</span><span class="p">(</span><span class="n">match</span><span class="p">.</span><span class="nf">params</span><span class="p">[</span><span class="ss">:scope</span><span class="p">]).</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">todo</span><span class="o">|</span>
+        <span class="no">TodoItem</span><span class="p">(</span><span class="ss">todo: </span><span class="n">todo</span><span class="p">)</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+</code></pre>
+<p>Add classes to the TodoItem&#39;s list-item, input, and anchor tags, as well as to the <code>EditItem</code> component:</p>
+<pre class="highlight ruby"><code>
+<span class="c1"># app/hyperloop/components/todo_item.rb</span>
+<span class="k">class</span> <span class="nc">TodoItem</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Component</span>
+  <span class="n">param</span> <span class="ss">:todo</span>
+  <span class="n">state</span> <span class="ss">editing: </span><span class="kp">false</span>
+  <span class="n">render</span><span class="p">(</span><span class="no">LI</span><span class="p">,</span> <span class="ss">class: </span><span class="s1">'todo-item'</span><span class="p">)</span> <span class="k">do</span>
+    <span class="k">if</span> <span class="n">state</span><span class="p">.</span><span class="nf">editing</span>
+      <span class="no">EditItem</span><span class="p">(</span><span class="ss">class: :edit</span><span class="p">,</span> <span class="ss">todo: </span><span class="n">params</span><span class="p">.</span><span class="nf">todo</span><span class="p">)</span>
+      <span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:save</span><span class="p">,</span> <span class="ss">:cancel</span><span class="p">)</span> <span class="p">{</span> <span class="n">mutate</span><span class="p">.</span><span class="nf">editing</span> <span class="kp">false</span> <span class="p">}</span>
+    <span class="k">else</span>
+      <span class="no">INPUT</span><span class="p">(</span><span class="ss">type: :checkbox</span><span class="p">,</span> <span class="ss">class: :toggle</span><span class="p">,</span> <span class="ss">checked: </span><span class="n">params</span><span class="p">.</span><span class="nf">todo</span><span class="p">.</span><span class="nf">completed</span><span class="p">)</span>
+      <span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:click</span><span class="p">)</span> <span class="p">{</span> <span class="n">params</span><span class="p">.</span><span class="nf">todo</span><span class="p">.</span><span class="nf">update</span><span class="p">(</span><span class="ss">completed: </span><span class="o">!</span><span class="n">params</span><span class="p">.</span><span class="nf">todo</span><span class="p">.</span><span class="nf">completed</span><span class="p">)</span> <span class="p">}</span>
+      <span class="no">LABEL</span> <span class="p">{</span> <span class="n">params</span><span class="p">.</span><span class="nf">todo</span><span class="p">.</span><span class="nf">title</span> <span class="p">}</span>
+      <span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:double_click</span><span class="p">)</span> <span class="p">{</span> <span class="n">mutate</span><span class="p">.</span><span class="nf">editing</span> <span class="kp">true</span> <span class="p">}</span>
+      <span class="no">A</span><span class="p">(</span><span class="ss">class: :destroy</span><span class="p">)</span> <span class="c1"># also remove the { '-X-' } placeholder</span>
+      <span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:click</span><span class="p">)</span> <span class="p">{</span> <span class="n">params</span><span class="p">.</span><span class="nf">todo</span><span class="p">.</span><span class="nf">destroy</span> <span class="p">}</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+</code></pre>
+<p>Finally for the EditItem component we are going to let the caller specify the class.  To keep things compatible with React.js components we name the param <code>className</code>, which will receive any classes passed to it.</p>
+<pre class="highlight ruby"><code>
+<span class="c1"># app/hyperloop/components/edit_item.rb</span>
+<span class="k">class</span> <span class="nc">EditItem</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Component</span>
+  <span class="n">param</span> <span class="ss">:todo</span>
+  <span class="n">param</span> <span class="ss">:on_save</span><span class="p">,</span> <span class="ss">type: </span><span class="no">Proc</span>
+  <span class="n">param</span> <span class="ss">:on_cancel</span><span class="p">,</span> <span class="ss">type: </span><span class="no">Proc</span>
+  <span class="n">param</span> <span class="ss">:className</span> <span class="c1"># recieves class params</span>
+  <span class="n">after_mount</span> <span class="p">{</span> <span class="no">Element</span><span class="p">[</span><span class="n">dom_node</span><span class="p">].</span><span class="nf">focus</span> <span class="p">}</span>
+  <span class="n">render</span> <span class="k">do</span>
+    <span class="c1"># pass the className param as the INPUT's class</span>
+    <span class="no">INPUT</span><span class="p">(</span><span class="ss">class: </span><span class="n">params</span><span class="p">.</span><span class="nf">className</span><span class="p">,</span> <span class="ss">value: </span><span class="n">params</span><span class="p">.</span><span class="nf">todo</span><span class="p">.</span><span class="nf">title</span><span class="p">)</span>
+    <span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:change</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">evt</span><span class="o">|</span>
+      <span class="n">params</span><span class="p">.</span><span class="nf">todo</span><span class="p">.</span><span class="nf">title</span> <span class="o">=</span> <span class="n">evt</span><span class="p">.</span><span class="nf">target</span><span class="p">.</span><span class="nf">value</span>
+    <span class="k">end</span>
+    <span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:key_down</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">evt</span><span class="o">|</span>
+      <span class="k">next</span> <span class="k">unless</span> <span class="n">evt</span><span class="p">.</span><span class="nf">key_code</span> <span class="o">==</span> <span class="mi">13</span>
+      <span class="n">params</span><span class="p">.</span><span class="nf">todo</span><span class="p">.</span><span class="nf">save</span>
+      <span class="n">params</span><span class="p">.</span><span class="nf">on_save</span>
+    <span class="k">end</span>
+    <span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:blur</span><span class="p">)</span> <span class="p">{</span> <span class="n">params</span><span class="p">.</span><span class="nf">on_cancel</span> <span class="p">}</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+</code></pre>
+<h3 id="chapter-12-other-features">Chapter 12: Other Features</h3>
+
+<ul>
+<li><strong>Show How Many Items Left In Footer</strong>
+This is just a span that we add before the link tags list in the Footer component:</li>
+</ul>
+<pre class="highlight ruby"><code>
+  <span class="p">.</span><span class="nf">.</span><span class="p">.</span>
+  <span class="nf">render</span><span class="p">(</span><span class="no">DIV</span><span class="p">,</span> <span class="ss">class: :footer</span><span class="p">)</span> <span class="k">do</span>
+    <span class="no">SPAN</span><span class="p">(</span><span class="ss">class: </span><span class="s1">'todo-count'</span><span class="p">)</span> <span class="k">do</span>
+      <span class="s2">"</span><span class="si">#{</span><span class="no">Todo</span><span class="p">.</span><span class="nf">active</span><span class="p">.</span><span class="nf">count</span><span class="si">}</span><span class="s2"> item</span><span class="si">#{</span><span class="s1">'s'</span> <span class="k">if</span> <span class="no">Todo</span><span class="p">.</span><span class="nf">active</span><span class="p">.</span><span class="nf">count</span> <span class="o">!=</span> <span class="mi">1</span><span class="si">}</span><span class="s2"> left"</span>
+    <span class="k">end</span>
+    <span class="no">UL</span><span class="p">(</span><span class="ss">class: :filters</span><span class="p">)</span> <span class="k">do</span>
+  <span class="p">.</span><span class="nf">.</span><span class="o">.</span>
+
+</code></pre>
+<ul>
+<li><strong>Add &#39;placeholder&#39; Text To Edit Item</strong>
+EditItem should display a meaningful placeholder hint if the title is blank:</li>
+</ul>
+<pre class="highlight ruby"><code>
+  <span class="p">.</span><span class="nf">.</span><span class="o">.</span>
+  <span class="no">INPUT</span><span class="p">(</span><span class="ss">class: </span><span class="n">params</span><span class="p">.</span><span class="nf">className</span><span class="p">,</span> <span class="ss">value: </span><span class="n">params</span><span class="p">.</span><span class="nf">todo</span><span class="p">.</span><span class="nf">title</span><span class="p">,</span> <span class="ss">placeholder: </span><span class="s2">"What is left to do today?"</span><span class="p">)</span>
+  <span class="p">.</span><span class="nf">.</span><span class="o">.</span>
+
+</code></pre>
+<ul>
+<li><strong>Don&#39;t Show the Footer If There are No Todos</strong>
+In the <code>App</code> component add a guard so that we won&#39;t show the Footer if there are no Todos:</li>
+</ul>
+<pre class="highlight ruby"><code>
+  <span class="p">.</span><span class="nf">.</span><span class="o">.</span>
+      <span class="no">Footer</span><span class="p">()</span> <span class="k">unless</span> <span class="no">Todo</span><span class="p">.</span><span class="nf">count</span><span class="p">.</span><span class="nf">zero?</span>
+  <span class="p">.</span><span class="nf">.</span><span class="o">.</span>
+
+</code></pre>
+<ul>
+<li><strong>Add a Root Route</strong>
+The home path (&#39;/&#39;) should redirect to the &#39;/all&#39; path:</li>
+</ul>
+<pre class="highlight ruby"><code>
+<span class="c1"># app/hyperloop/components/app.rb</span>
+<span class="k">class</span> <span class="nc">App</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Router</span>
+  <span class="n">history</span> <span class="ss">:browser</span>
+  <span class="n">route</span> <span class="k">do</span>
+    <span class="no">SECTION</span><span class="p">(</span><span class="ss">class: </span><span class="s1">'todo-app'</span><span class="p">)</span> <span class="k">do</span>
+      <span class="no">Header</span><span class="p">()</span>
+      <span class="c1"># we have to have exact: true otherwise it will match /xxx</span>
+      <span class="no">Route</span><span class="p">(</span><span class="s1">'/'</span><span class="p">,</span> <span class="ss">exact: </span><span class="kp">true</span><span class="p">)</span> <span class="p">{</span> <span class="no">Redirect</span><span class="p">(</span><span class="s1">'/all'</span><span class="p">)</span> <span class="p">}</span>
+      <span class="no">Route</span><span class="p">(</span><span class="s1">'/:scope'</span><span class="p">,</span> <span class="ss">mounts: </span><span class="no">Index</span><span class="p">)</span>
+      <span class="no">Footer</span><span class="p">()</span> <span class="k">unless</span> <span class="no">Todo</span><span class="p">.</span><span class="nf">count</span><span class="p">.</span><span class="nf">zero?</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+</code></pre>
+<p>Congratulations! you have completed the tutorial.</p>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="page-footer-upperline">
+      <div class="container">
+
+      </div>
+    </div>
+
+    <footer class="nav-footer">
+  <section class="sitemap">
+
+    <a href="/" class="nav-home"></a>
+
+    <div>
+      <h6><a href="/start/components" class="hyperloop-white">Start</a></h6>
+      <a href="/start/components">Components</a>
+      <a href="/start/stores">Stores</a>
+      <a href="/start/models">Models</a>
+      <a href="/start/operations">Operations</a>
+      <a href="/start/policies">Policies</a>
+      <a href="/start/pragmatic">Pragmatic Thinking</a>
+    </div>
+    <div>
+
+
+      <h6><a href="/tutorials" class="hyperloop-white">Tutorials</a></h6>
+      <a href="/tutorials/hyperloopcomps">Hyperloop COMPS</a>
+      <a href="/tutorials/hyperloopjs">Hyperloop.js</a>
+      <a href="/tutorials/hyperlooprails">Hyperloop and Rails</a>
+      <a href="/tutorials/hyperloopdeploy">Hyperloop deployment</a>
+      <a href="/tutorials/opal">Opal</a>
+      <a href="/tutorials/videos">Videos</a>
+    </div>
+    <div>
+      <h6><a href="/installation" class="hyperloop-white">Installation</a></h6>
+      <a href="/installation#opal-playground">Hyperloop.js</a>
+  	  <a href="/installation#ror">With Ruby On Rails</a>
+  	  <a href="/installation#with-sinatra">With Sinatra</a>
+  	  <a href="/installation#deployment">Deployment</a>
+    </div>
+    <div>
+      <h6><a href="/gems" class="hyperloop-white">Gems</a></h6>
+      <a href="https://github.com/ruby-hyperloop/hyperloop">hyperloop</a>
+      <a href="https://github.com/ruby-hyperloop/hyperloop-js">hyperloop-js</a>
+      <a href="https://github.com/ruby-hyperloop/hyper-react">hyper-component</a>
+      <a href="https://github.com/ruby-hyperloop/hyper-store">hyper-store</a>
+      <a href="https://github.com/ruby-hyperloop/hyper-mesh">hyper-model</a>
+      <a href="https://github.com/ruby-hyperloop/hyper-operation">hyper-operation</a>
+      <a href="https://github.com/ruby-hyperloop/reactrb-router/tree/v2-4-0">hyper-router</a>
+      <a href="https://github.com/ruby-hyperloop/hyper-spec">hyper-spec</a>
+      <a href="https://github.com/ruby-hyperloop/hyper-trace">hyper-trace</a>
+    </div>
+    <div>
+      <h6><a href="/tools" class="hyperloop-white">Tools</a></h6>
+      <a href="#testing">Testing</a>
+    	<a href="#tools">Tools</a>
+    	<a href="#debugging">Debugging</a>
+    </div>
+    <div>
+      <h6><a href="/docs/architecture" class="hyperloop-white">Docs</a></h6>
+      <a href="/docs/architecture">Architecture</a>
+      <a href="/docs/components/dsl-overview">Components</a>
+      <a href="/docs/stores/overview">Stores</a>
+      <a href="/docs/models/overview">Models</a>
+      <a href="/docs/operations/overview">Operations</a>
+      <a href="/docs/policies/authorization">Policies</a>
+    </div>
+
+  </section>
+
+  <section class="otherlinks">
+    <a href="https://github.com/ruby-hyperloop" class="hyperloop-white">Github</a>
+    <a href="/support" class="hyperloop-white">Help</a>
+    <a href="/blog" class="hyperloop-white">Blog</a>
+    <a href="/showcase" class="hyperloop-white">Showcase</a>
+  </section>
+
+  <section class="copyright">
+    Copyright © 2017 Hyperloop.
+  </section>
+</footer>
+
+
+    <script>
+      (function(Opal) {
+        var self = Opal.top, $scope = Opal, nil = Opal.nil, $breaker = Opal.breaker, $slice = Opal.slice;
+        Opal.add_stubs(['$puts']);
+        return self.$puts("Opal ok")
+      })(Opal);
+    </script>
+
+    <!-- <script   src="http://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script> -->
+
+
+    <script type="text/ruby">puts "Hyperloop JS ok"</script>
+
+    
+
+
+  </body>
+</html>

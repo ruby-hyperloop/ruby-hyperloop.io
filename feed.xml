@@ -5,7 +5,7 @@
   <id>http://blog.url.com/</id>
   <link href="http://blog.url.com/"/>
   <link href="http://blog.url.com/feed.xml" rel="self"/>
-  <updated>2017-02-28T00:00:00+00:00</updated>
+  <updated>2017-02-27T19:00:00-05:00</updated>
   <author>
     <name>Blog Author</name>
   </author>
@@ -13,8 +13,8 @@
     <title>Spring 2017 COMPS Release</title>
     <link rel="alternate" href="http://blog.url.com/blog/2017/02/28/spring-2017-comps-release/"/>
     <id>http://blog.url.com/blog/2017/02/28/spring-2017-comps-release/</id>
-    <published>2017-02-28T00:00:00+00:00</published>
-    <updated>2017-08-08T18:54:05+01:00</updated>
+    <published>2017-02-27T19:00:00-05:00</published>
+    <updated>2017-08-09T09:08:42-04:00</updated>
     <author>
       <name>Article Author</name>
     </author>
@@ -170,8 +170,8 @@
     <title>Editing Flux Loop verses Decoupling</title>
     <link rel="alternate" href="http://blog.url.com/blog/2017/01/28/editing-flux-loop-verses-decoupling/"/>
     <id>http://blog.url.com/blog/2017/01/28/editing-flux-loop-verses-decoupling/</id>
-    <published>2017-01-28T00:00:00+00:00</published>
-    <updated>2017-08-08T18:54:05+01:00</updated>
+    <published>2017-01-27T19:00:00-05:00</published>
+    <updated>2017-08-09T09:08:42-04:00</updated>
     <author>
       <name>Article Author</name>
     </author>
@@ -322,8 +322,8 @@ Yes.  Note that Operations return promises, so asynchronous operation is assumed
     <title>Comparing Redux with Hyperloop</title>
     <link rel="alternate" href="http://blog.url.com/blog/2017/01/17/comparing-redux-with-hyperloop/"/>
     <id>http://blog.url.com/blog/2017/01/17/comparing-redux-with-hyperloop/</id>
-    <published>2017-01-17T00:00:00+00:00</published>
-    <updated>2017-08-08T18:54:05+01:00</updated>
+    <published>2017-01-16T19:00:00-05:00</published>
+    <updated>2017-08-09T09:08:42-04:00</updated>
     <author>
       <name>Article Author</name>
     </author>
@@ -654,8 +654,8 @@ return (
     <title>Hyperloop is born</title>
     <link rel="alternate" href="http://blog.url.com/blog/2016/09/08/Hyperloop-is-born/"/>
     <id>http://blog.url.com/blog/2016/09/08/Hyperloop-is-born/</id>
-    <published>2016-09-08T06:50:00+01:00</published>
-    <updated>2017-08-08T18:54:05+01:00</updated>
+    <published>2016-09-08T01:50:00-04:00</published>
+    <updated>2017-08-09T09:08:42-04:00</updated>
     <author>
       <name>Article Author</name>
     </author>
@@ -709,8 +709,8 @@ return (
     <title>Reactrb v0.8.5</title>
     <link rel="alternate" href="http://blog.url.com/blog/2016/06/29/reactrb-v0-8-5/"/>
     <id>http://blog.url.com/blog/2016/06/29/reactrb-v0-8-5/</id>
-    <published>2016-06-29T01:00:00+01:00</published>
-    <updated>2017-08-08T18:54:05+01:00</updated>
+    <published>2016-06-28T20:00:00-04:00</published>
+    <updated>2017-08-09T09:08:42-04:00</updated>
     <author>
       <name>Article Author</name>
     </author>
@@ -811,8 +811,8 @@ return (
     <title>Getting Started with Reactrb and Rails</title>
     <link rel="alternate" href="http://blog.url.com/blog/2016/01/26/getting-started-with-reactrb-and-rails/"/>
     <id>http://blog.url.com/blog/2016/01/26/getting-started-with-reactrb-and-rails/</id>
-    <published>2016-01-26T16:29:00+00:00</published>
-    <updated>2017-08-08T18:54:05+01:00</updated>
+    <published>2016-01-26T11:29:00-05:00</published>
+    <updated>2017-08-09T09:08:42-04:00</updated>
     <author>
       <name>Article Author</name>
     </author>
