@@ -265,6 +265,9 @@ h1 {
 .imgborder {
   border: 1px solid #149c8e; }
 
+img[src*="http://ruby-hyperloop.io/images/tutorials"] {
+  border: 1px solid #149c8e; }
+
 .hyperlooplogo {
   width: 150px;
   height: 145px;
