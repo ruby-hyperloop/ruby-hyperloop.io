@@ -140,6 +140,17 @@ Run the command:
 webpack
 ```
 
+<i class="flaticon-signs"></i> In the future, when you will add a new library with webpack, it can happen that it is not correctly loaded. So, in this case, we advise to delete the `node_modules` directory, re-install libraires, re-generate the webpack file and clear Hyperloop cache and browser cache:
+
+```
+rm -rf node_modules
+npm install
+rm -rf tmp/cache
+webpack
+
+Clear Browser cache
+```
+
 ##### Step 1.6 - Configuring Rails asset pipeline:
 
 ```ruby
@@ -160,6 +171,13 @@ Hyperloop.configuration do |config|
 end
 ```
 
+<i class="flaticon-signs"></i> In Rails production mode it would be necessary to include the pack files in your application main layout:
+
+```erb
+#app/views/layouts/application.tml.erb
+
+<%= javascript_pack_tag 'client_and_server' %>
+```
 
 #### Part 2 - Implementing the helloworld app
 
