@@ -494,6 +494,14 @@ rake environment
 </code></pre>
 <p>Note in the above, you should always delete your cache before building your webpack assets. <code>rake environment</code> will recompile Hyperloop.</p>
 
+<p><i class="flaticon-signs"></i> In the future, when you will add a new library with webpack, it can happen that it is not correctly loaded. So, in this case, we advise to delete the <code>node_modules</code> directory, re-install libraires, re-generate the webpack file and clear Hyperloop cache and browser cache:</p>
+<pre class="highlight plaintext"><code>rm -rf node_modules
+yarn
+rm -rf tmp/cache
+bin/webpack
+
+Clear Browser cache
+</code></pre>
 <h5 id="step-1-6-configuring-rails-asset-pipeline">Step 1.6 - Configuring Rails asset pipeline:</h5>
 <pre class="highlight ruby"><code><span class="c1">#config/initializers/assets.rb</span>
 
@@ -509,6 +517,11 @@ rake environment
   <span class="n">config</span><span class="p">.</span><span class="nf">import</span> <span class="s1">'client_and_server'</span>
   <span class="n">config</span><span class="p">.</span><span class="nf">import</span> <span class="s1">'client_only'</span><span class="p">,</span> <span class="ss">client_only: </span><span class="kp">true</span>
 <span class="k">end</span>
+</code></pre>
+<p><i class="flaticon-signs"></i> In Rails production mode it would be necessary to include the pack files in your application main layout:</p>
+<pre class="highlight erb"><code>#app/views/layouts/application.tml.erb
+
+<span class="cp">&lt;%=</span> <span class="n">javascript_pack_tag</span> <span class="s1">'client_and_server'</span> <span class="cp">%&gt;</span>
 </code></pre>
 <h5 id="step-1-8-adding-css-pack-files-to-the-asset-pipeline">Step 1.8 - Adding CSS pack files to the asset pipeline</h5>
 
