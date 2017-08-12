@@ -10,7 +10,7 @@ title: Tutorials, Videos & Quickstarts
 
 You can find the complete source code of this tutorial here: 
 
-<button type="button" class="btn btn-primary btn-lg btn-hyperlooptrace" onclick="location.href='https://github.com/ruby-hyperloop/hyperloop-rails-helloworld';">Hyperloop with Rails Helloworld source code</button>
+<button type="button" class="btn btn-primary btn-lg btn-hyperlooptrace" onclick="location.href='https://github.com/ruby-hyperloop/hyperloop-rails-helloworld-tutorial';">Hyperloop with Rails Helloworld source code</button>
 
 ## Table of contents
 
