@@ -4,12 +4,12 @@
 <p align="center">
 
 <a href="http://ruby-hyperloop.io/" alt="Hyperloop" title="Hyperloop">
-<img src="http://ruby-hyperloop.io/images/hyperloop-github-logo.png">
+<img width="350px" src="http://ruby-hyperloop.io/images/hyperloop-github-logo.png">
 </a>
 
 </p>
 
-<h3 align="center">The Complete Isomorphic Ruby Framework</h3>
+<h2 align="center">The Complete Isomorphic Ruby Framework</h2>
 
 <br>
 
@@ -47,6 +47,11 @@ To set up the **Hyperloop** GEM onto the Ruby On Rails environment, please follo
 
 We are going to setup the [Webpacker GEM](https://github.com/rails/webpacker) and implement a simple HelloWorld app to show how Hyperloop and [webpack](https://webpack.js.org/) are running well together.
 
+You can find the final application source code here:<br>
+
+<a href="https://github.com/ruby-hyperloop/hyperloop-rails-webpackergem-helloworld" alt="Tutorial source code" title="Tutorial source code">
+<img src="http://ruby-hyperloop.io/images/githubsourcecodebadge.png">
+</a>
 
 ### Skills required
 
@@ -345,11 +350,20 @@ And load 1 small sample stylesheet :
 
 Start your Rails server and browse `http://localhost:3000`.
 
+<hr>
 
-<div>
-  <p>The <strong>best way</strong> to get help and contribute is to join our Gitter Chat</p>
-  <a href="https://gitter.im/ruby-hyperloop/chat" alt="Gitter chat" title="Gitter chat">
-  <img src="http://ruby-hyperloop.io/images/githubgitterbadge.png">
+You can find the final application source code here:<br>
+
+<a href="https://github.com/ruby-hyperloop/hyperloop-rails-webpackergem-helloworld" alt="Tutorial source code" title="Tutorial source code">
+<img src="http://ruby-hyperloop.io/images/githubsourcecodebadge.png">
 </a>
-</div>
 
+<br><br>
+
+The best way to get help and contribute is to join our Gitter Chat
+
+<a href="https://gitter.im/ruby-hyperloop/chat" alt="Gitter chat" title="Gitter chat">
+<img src="http://ruby-hyperloop.io/images/githubgitterbadge.png">
+</a>
+
+</div>
