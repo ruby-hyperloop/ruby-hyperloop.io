@@ -47,7 +47,8 @@ The rake tasks below will build and deploy to `master`
 
 ### Rake Tasks
 ```text
+$ rake update   # Clones all hyperloop repos and copies README.md files to website folders
 $ rake build    # Compile all files into the build directory
-$ rake publish # Publish to master branch
+$ rake publish  # Publish to master branch
 ```
 **Note `rake publish` uses REMOTE_NAME=origin  BRANCH_NAME=master (see Rakefile)**
