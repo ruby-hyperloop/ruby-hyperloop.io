@@ -15,8 +15,15 @@ task :update do
       cp 'README.md', '../../source/tutorials/hyperlooprails/devise.html.md'
     end
 
-    # hyperloop-todonvc-tutorial
+    # hyperloop-todomvc-tutorial
     sh 'git clone https://github.com/ruby-hyperloop/todo-tutorial.git' unless File.directory?('todo-tutorial')
+    cd 'todo-tutorial' do
+      sh 'git pull'
+      cp 'README.md', '../../source/tutorials/hyperlooprails/todomvc.html.md'
+    end
+
+    # hyperloop-webpackergem-helloworld-tutorial
+    sh 'https://github.com/ruby-hyperloop/hyperloop-rails-webpackergem-helloworld.git' unless File.directory?('todo-tutorial')
     cd 'todo-tutorial' do
       sh 'git pull'
       cp 'README.md', '../../source/tutorials/hyperlooprails/todomvc.html.md'
