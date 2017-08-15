@@ -1,63 +1,30 @@
-
-<div class="githubhyperloopheader">
-
-<p align="center">
-
-<a href="http://ruby-hyperloop.io/" alt="Hyperloop" title="Hyperloop">
-<img src="http://ruby-hyperloop.io/images/hyperloop-github-logo.png">
-</a>
-
-</p>
-
-<h3 align="center">The Complete Isomorphic Ruby Framework</h3>
-
-<br>
-
-<a href="http://ruby-hyperloop.io/" alt="Hyperloop" title="Hyperloop">
-<img src="http://ruby-hyperloop.io/images/githubhyperloopbadge.png">
-</a>
-
-<a href="http://ruby-hyperloop.io/tutorials/hyperlooprails/webpacker/" alt="Tutorial page" title="Tutorial page">
-<img src="http://ruby-hyperloop.io/images/githubtutorialbadge.png">
-</a>
-
-<a href="https://gitter.im/ruby-hyperloop/chat" alt="Gitter chat" title="Gitter chat">
-<img src="http://ruby-hyperloop.io/images/githubgitterbadge.png">
-</a>
-
-</div>
-
-## <i class="flaticon-professor-teaching"></i><span class="bigfirstletter">H</span>yperloop and webpacker GEM Tutorial
+---
+title: Tutorials, Videos & Quickstarts
+---
 
 
-<img src="http://ruby-hyperloop.io/images/tutorials/Hyperloop-Railswebpacker.gif" class="imgborder">
+## <i class="flaticon-professor-teaching"></i><span class="bigfirstletter">W</span>ebpacker GEM Tutorial
 
 
-### Prerequisites
+<img src="/images/tutorials/Hyperloop-Railswebpacker.gif" class="imgborder">
 
-{ [Ruby On Rails](http://rubyonrails.org/) }, { [hyperloop GEM](http://ruby-hyperloop.io) }
 
-To set up the **Hyperloop** GEM onto the Ruby On Rails environment, please follow the <br>
+You can find the complete source code of this tutorial here: 
 
-<a href="http://ruby-hyperloop.io/installation/#ror" alt="Tutorial page" title="Tutorial page">
-<img src="http://ruby-hyperloop.io/images/githubinstallationrorbadge.png">
-</a>
+<button type="button" class="btn btn-primary btn-lg btn-hyperlooptrace" onclick="location.href='https://github.com/ruby-hyperloop/hyperloop-rails-webpackergem-helloworld';">Hyperloop with Rails Webpacker GEM app Source code</button>
 
-### The Goals of this Tutorial
+### Tutorial
+
+To set up your **Hyperloop** environment and continue this tutorial, please first follow the <br><br>
+<button type="button" class="btn btn-primary btn-lg btn-hyperlooppink" onclick="location.href='/installation#rorsetup';">Hyperloop installation with Ruby On Rails tutorial</button>
+
+After **Hyperloop** has been installed properly we can go further:
 
 We are going to setup the [Webpacker GEM](https://github.com/rails/webpacker) and implement a simple HelloWorld app to show how Hyperloop and [webpack](https://webpack.js.org/) are running well together.
 
-### Skills required
+#### Part 1 - Webpacker GEM
 
-Working knowledge of Rails and Hyperloop required
-
-<br>
-
-## TUTORIAL
-
-### Part 1 - Webpacker GEM
-
-#### Step 1.1 - Installing and setting up the Webpacker GEM:
+##### Step 1.1 - Installing and setting up the Webpacker GEM:
 
 Update your Gemfile file:
 
@@ -80,7 +47,7 @@ Run the webpacker install generator:
 bin/rails webpacker:install
 ```
 
-#### Step 1.2 - Adding libraries into Webpack:
+##### Step 1.2 - Adding libraries into Webpack:
 
 [Webpacker GEM](https://github.com/rails/webpacker) comes with the the [YARN](https://yarnpkg.com/en/) package manager in order to install needed libraries.
 
@@ -96,7 +63,7 @@ yarn add bootstrap react-bootstrap
 yarn add bootswatch
 ```
 
-#### Step 1.3 - Requiring the libraires
+##### Step 1.3 - Requiring the libraires
 
 In the `app/javascript/packs` add the following two files:
 
@@ -114,7 +81,7 @@ ReactBootstrap = require('react-bootstrap');
 require('bootswatch/superhero/bootstrap.min.css');
 ```
 
-#### Step 1.4 - Letting Webpack know React and ReactDOM are external
+##### Step 1.4 - Letting Webpack know React and ReactDOM are external
 
 React and ReactDOM are being brought in by Hyperloop, so we need to let Webpack know that these libraries are external so we do not end up with more than one copy of React running. Note that you will also need to do this for your production environment.
 
@@ -129,7 +96,7 @@ externals: {
    },
 ```
 
-#### Step 1.5 - Building the webpack bundle
+##### Step 1.5 - Building the webpack bundle
 
 **You will need to do this step whenever you make any changes to Webpack or add additional libraries though Yarn.**
 
@@ -154,7 +121,7 @@ bin/webpack
 Clear Browser cache
 ```
 
-#### Step 1.6 - Configuring Rails asset pipeline:
+##### Step 1.6 - Configuring Rails asset pipeline:
 
 ```ruby
 #config/initializers/assets.rb
@@ -162,7 +129,7 @@ Clear Browser cache
 Rails.application.config.assets.paths << Rails.root.join('public', 'packs').to_s
 ```
 
-#### Step 1.7 - Adding pack files to the asset pipeline:
+##### Step 1.7 - Adding pack files to the asset pipeline:
 
 By using the Hyperloop configuration file we can directly tell our app to include the pack files in the asset pipeline:
 
@@ -184,7 +151,7 @@ end
 <%= javascript_pack_tag 'client_and_server' %>
 ```
 
-#### Step 1.8 - Adding CSS pack files to the asset pipeline
+##### Step 1.8 - Adding CSS pack files to the asset pipeline
 
 Add this line:
 
@@ -197,10 +164,10 @@ Add this line:
 Note: if you prefer that your CSS pack files being directly packed into the `client_only.js` you can modify the `config/webpack/` config files and run the `rm -rf tmp/cache/; bin/webpack; rake environment` again.
 
 
-### Part 2 - Implementing the helloworld app
+#### Part 2 - Implementing the helloworld app
 
 
-#### Step 2.1 - Creating the Helloworld component
+##### Step 2.1 - Creating the Helloworld component
 
 Run the hyperloop generator:
 
@@ -212,7 +179,7 @@ You can view the new Component created in `/app/hyperloop/components/`
 
 
 
-#### Step 2.2 - Updating Helloworld component code
+##### Step 2.2 - Updating Helloworld component code
 
 Copy and paste this code into the component file you've just generated:
 
@@ -263,7 +230,7 @@ end
 ```
 
 
-#### Step 2.3 - Creating the controller
+##### Step 2.3 - Creating the controller
 
 Create a `home_controller.rb` file, manually or with the command `rails g controller Home helloworld --skip-javascripts`:
 
@@ -276,7 +243,7 @@ class HomeController < ApplicationController
 end
 ```
 
-#### Step 2.4 - Updating the routes.rb file
+##### Step 2.4 - Updating the routes.rb file
 
 ```ruby
 #config/routes.rb
@@ -284,7 +251,7 @@ end
 root 'home#helloworld'
 ```
 
-#### Step 2.5 - Creating the helloworld view file:
+##### Step 2.5 - Creating the helloworld view file:
 
 ```erb
 #app/views/home/helloworld.html.erb
@@ -292,13 +259,13 @@ root 'home#helloworld'
 <div class="hyperloophelloword">
 
   <div>
-    <%= react_component '::Helloworld', {}, { prerender: true } %>
+  	<%= react_component '::Helloworld', {}, { prerender: true } %>
   </div>
 
 </div>
 ```
 
-#### Step 2.6 - Styling
+##### Step 2.6 - Styling
 
 We will add a **Hyperloop** logo
 
@@ -310,7 +277,7 @@ We will add a **Hyperloop** logo
   <img src="https://rawgit.com/ruby-hyperloop/hyperloop-js-helloworld/master/hyperloop-logo-medium-white.png?raw=true">
 
   <div>
-    <%= react_component '::Helloworld', {}, { prerender: true } %>
+  	<%= react_component '::Helloworld', {}, { prerender: true } %>
   </div>
 
 </div>
@@ -327,7 +294,7 @@ And load 1 small sample stylesheet :
     <title>HyperloopRailsHelloworld</title>
     <%= csrf_meta_tags %>
 
-  <link rel="stylesheet" href="https://rawgit.com/ruby-hyperloop/hyperloop-js-helloworld/master/style.css" >
+	<link rel="stylesheet" href="https://rawgit.com/ruby-hyperloop/hyperloop-js-helloworld/master/style.css" >
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
@@ -340,13 +307,16 @@ And load 1 small sample stylesheet :
 
 ```
 
-#### Final step: Running your app:
+##### Final step: Running your app:
 
 Start your Rails server and browse `http://localhost:3000`.
 
+You can find the complete source code of this tutorial here: 
+
+<button type="button" class="btn btn-primary btn-lg btn-hyperlooptrace" onclick="location.href='https://github.com/ruby-hyperloop/hyperloop-rails-webpackergem-helloworld';">Hyperloop with Rails Webpacker GEM app Source code</button>
+
+
 <div>
   <p>The <strong>best way</strong> to get help and contribute is to join our Gitter Chat</p>
-  <a href="https://gitter.im/ruby-hyperloop/chat" alt="Gitter chat" title="Gitter chat">
-  <img src="http://ruby-hyperloop.io/images/githubgitterbadge.png">
-</a>
+  <button type="button" class="btn btn-primary btn-lg btn-hyperloopgitter" onclick="location.href='https://gitter.im/ruby-hyperloop/chat';">Gitter Chat</button>
 </div>

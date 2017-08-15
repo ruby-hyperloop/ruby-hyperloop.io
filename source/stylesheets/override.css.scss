@@ -296,6 +296,22 @@ img[src*="http://ruby-hyperloop.io/images/tutorials"] {
     border: 1px solid #149c8e;
 }
 
+.githubhyperloopheader {
+  display: none;
+}
+
+.githubhyperloopheader + h2 {
+  margin-top: 0 !important;
+}
+
+img[src*="badge.png"] {
+    opacity: 0.8;
+}
+
+img[src*="badge.png"]:hover {
+    opacity: 1;
+}
+
 .hyperlooplogo {
   width: 150px;
   height: 145px;

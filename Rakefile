@@ -4,10 +4,11 @@ ENV["BRANCH_NAME"] = "master"
 ENV["REMOTE_NAME"] = "origin"
 
 def clone_and_pull repo
-  sh "git clone https://github.com/ruby-hyperloop/#{repo}.git" unless File.directory?(repo)
-  cd repo do
-    sh 'git pull'
-  end
+  #sh "git clone https://github.com/ruby-hyperloop/#{repo}.git" unless File.directory?(repo)
+  sh "wget -N 'https://raw.githubusercontent.com/ruby-hyperloop/#{repo}/master/README.md' -P #{repo}"
+  # cd repo do
+  #   sh 'git pull'
+  # end
 end
 
 task :update do
@@ -22,6 +23,9 @@ task :update do
 
     clone_and_pull 'todo-tutorial'
     cp 'todo-tutorial/README.md', '../source/tutorials/hyperlooprails/todomvc.html.md'
+
+    clone_and_pull 'hyperloop-rails-webpackergem-helloworld'
+    cp 'hyperloop-rails-webpackergem-helloworld/README.md', '../source/tutorials/hyperlooprails/webpacker.html.md'
 
   # ---------------------------- GEMS
 
