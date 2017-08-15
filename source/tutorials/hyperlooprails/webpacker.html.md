@@ -47,6 +47,7 @@ To set up the **Hyperloop** GEM onto the Ruby On Rails environment, please follo
 
 We are going to setup the [Webpacker GEM](https://github.com/rails/webpacker) and implement a simple HelloWorld app to show how Hyperloop and [webpack](https://webpack.js.org/) are running well together.
 
+
 ### Skills required
 
 Working knowledge of Rails and Hyperloop required
@@ -344,9 +345,11 @@ And load 1 small sample stylesheet :
 
 Start your Rails server and browse `http://localhost:3000`.
 
+
 <div>
   <p>The <strong>best way</strong> to get help and contribute is to join our Gitter Chat</p>
   <a href="https://gitter.im/ruby-hyperloop/chat" alt="Gitter chat" title="Gitter chat">
   <img src="http://ruby-hyperloop.io/images/githubgitterbadge.png">
 </a>
 </div>
+
