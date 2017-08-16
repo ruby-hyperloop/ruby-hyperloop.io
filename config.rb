@@ -31,7 +31,10 @@ helpers do
     toc_renderer = Redcarpet::Render::HTML_TOC.new(nesting_level: 1)
     markdown = Redcarpet::Markdown.new(toc_renderer)
     markdown.render(content)
+    # toc = toc.gsub('<ul>', '<ul class="nav">')
+    # toc = toc.gsub('<li>', '<li class="nav-item">')
   end
+
 
   def componentslink
     link_to '/docs/components/dsl-overview', :class => 'component-blue' do
