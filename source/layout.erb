@@ -73,6 +73,11 @@
       </div>
     </div>
 
+    <% if current_page.path.include?("tutorials")
+        current_page.data.title = "Tutorials, screencasts & videos"
+      end
+    %>
+
     <div class="jumbotron page-header">
       <div class="container">
 
@@ -86,6 +91,7 @@
             <h1 class="display-4 project-name">Hyperloop</h1>
 
             <h4 class="display-7 project-tagline">
+              
               <%=
               current_page.data.title ? current_page.data.title : "The Complete Isomorphic Ruby Framework"
               %>
