@@ -248,10 +248,22 @@ nav .navbar-nav .nav-item .nav-link:hover .navfirstletter {
   font-weight: normal;
   font-size: 1rem;
   text-align: left;
+  //border: 0px;
 }
 
 .getstarted  {
   text-align: left;
+}
+
+.getstarted img {
+  width: 90%;
+  height: auto;
+  opacity: 0.8;
+  border: 1px solid #149c8e;
+}
+
+.getstarted img:hover {
+  opacity: 1;
 }
 
 a {
