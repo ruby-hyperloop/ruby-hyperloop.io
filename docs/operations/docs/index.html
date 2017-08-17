@@ -8,7 +8,7 @@
     <meta name="google-site-verification" content="qjqVOvRhHfsuDbLOvaAnj2mkUZJ9Xwzg84TMVXduvUc" />
 
     <meta charset="UTF-8">
-    <title>Hyperloop - Operations</title>
+    <title>Hyperloop</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <script src="https://unpkg.com/react@15/dist/react.min.js"></script>
@@ -406,18 +406,23 @@ end
   
     <ul class="navtoc">
 <li class="navtoc-item">
-<a href="#title-operations">title: Operations</a>
+<a href="#hyperloop-operation">Hyperloop Operation</a>
+<ul class="navtoc">
+<li class="navtoc-item">
+<ul class="navtoc">
+<li class="navtoc-item">
+<a href="#what-do-operations-do">What do Operations do?</a>
 </li>
 </ul>
 </li>
 <li class="navtoc-item">
-<a href="#hyperloop-operations">Hyperloop Operations</a>
-<ul class="navtoc">
-<li class="navtoc-item">
-<a href="#function-1-operations-encapsulate-business-logic">Function 1: Operations encapsulate business logic</a>
+<a href="#operations-encapsulate-business-logic">Operations encapsulate business logic</a>
 <ul class="navtoc">
 <li class="navtoc-item">
 <a href="#operation-structure">Operation Structure</a>
+</li>
+<li class="navtoc-item">
+<a href="#running-operations">Running Operations</a>
 </li>
 <li class="navtoc-item">
 <a href="#parameters">Parameters</a>
@@ -438,9 +443,6 @@ end
 <a href="#handling-failed-operations">Handling Failed Operations</a>
 </li>
 <li class="navtoc-item">
-<a href="#running-operations">Running Operations</a>
-</li>
-<li class="navtoc-item">
 <a href="#instance-versus-class-execution-context">Instance Versus Class Execution Context</a>
 </li>
 <li class="navtoc-item">
@@ -449,21 +451,27 @@ end
 </ul>
 </li>
 <li class="navtoc-item">
-<a href="#function-2-operations-can-dispatch-messages">Function 2: Operations can dispatch messages</a>
+<a href="#operations-can-dispatch-messages">Operations can dispatch messages</a>
 <ul class="navtoc">
 <li class="navtoc-item">
 <a href="#dispatching-with-new-parameters">Dispatching With New Parameters</a>
 </li>
+<li class="navtoc-item">
+<a href="#dispatching-messages-or-invoking-steps-or-both">Dispatching messages or invoking steps (or both)?</a>
+</li>
 </ul>
 </li>
 <li class="navtoc-item">
-<a href="#function-3-operations-can-replace-an-api-through-a-bi-directional-rpc-mechanism">Function 3: Operations can replace an API through a bi-directional RPC mechanism</a>
+<a href="#operations-as-an-api-serverops">Operations as an API - ServerOps</a>
 <ul class="navtoc">
 <li class="navtoc-item">
 <a href="#server-operations">Server Operations</a>
 </li>
 <li class="navtoc-item">
 <a href="#isomorphic-operations">Isomorphic Operations</a>
+</li>
+<li class="navtoc-item">
+<a href="#parameters-and-serverops">Parameters and ServerOps</a>
 </li>
 <li class="navtoc-item">
 <a href="#restricting-server-code-to-the-server">Restricting server code to the server</a>
@@ -494,6 +502,8 @@ end
 </ul>
 </li>
 </ul>
+</li>
+</ul>
 
   
   <br>
@@ -508,41 +518,56 @@ end
           <br>
         </div>
         <div class="col-md-9 main-content">
-          <h1 id="hyperloop-operations">Hyperloop Operations</h1>
+          <h1 id="hyperloop-operation">Hyperloop Operation</h1>
 
-<p>This documentation will outline Hyperloop&#39;s Operations classes and provide you with enough information and examples to show you how to implement them in your application. It is important for the get-go to understand that Operations are packaged as one neat package but perform three different functions:</p>
+<p>Operations are the engine rooms of Hyperloop; they orchestrate the interactions between Components, external services, Models, and Stores. Operations are where your business logic lives.</p>
 
-<ul>
-<li>Function 1: Operations encapsulate business logic</li>
-<li>Function 2: Operations can dispatch messages</li>
-<li>Function 3: Operations can replace a boiler-plate API through a bi-directional RPC mechanism</li>
-</ul>
+<p>Operations receive parameters and execute a series of steps. They have a simple structure which is not dissimilar to a Component:</p>
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">SimpleOperation</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Operation</span>
+  <span class="n">param</span> <span class="ss">:anything</span>
+  <span class="n">step</span> <span class="p">{</span> <span class="n">do_something</span> <span class="p">}</span>
+<span class="k">end</span>
+</code></pre>
+<p>This goal of this documentation is to outline Hyperloop&#39;s Operations classes and provides enough information and examples to show how to implement Operations in an application.</p>
 
-<p>The design of Hyperloop Operations have been inspired by three concepts: <a href="http://trailblazer.to/gems/operation/2.0/">Trailblazer Operations</a> (for encapsulating business logic in <code>steps</code>), the <a href="https://facebook.github.io/flux/">Flux pattern</a> (for dispatchers and receivers), and the <a href="https://github.com/cypriss/mutations">Mutation Gem</a> (for validating params).</p>
+<h3 id="what-do-operations-do">What do Operations do?</h3>
 
-<p>Our Isomorphic Operations borrow from these three concepts to deliver an architecture that spans the client and server divide automagically. Operations can run on the client, the server, and traverse between the two.</p>
+<p>Operations are packaged as one neat package but perform three different functions:</p>
+
+<ol>
+<li>Operations encapsulate business logic</li>
+<li>They can dispatch messages (either on the client or between the client and server)</li>
+<li>They can be used to replace boiler-plate APIs through a bi-directional RPC mechanism</li>
+</ol>
+
+<blockquote>
+<p>The design of Hyperloop&#39;s Operations have been inspired by three concepts: <a href="http://trailblazer.to/gems/operation/2.0/">Trailblazer Operations</a> (for encapsulating business logic in <code>steps</code>), the <a href="https://facebook.github.io/flux/">Flux pattern</a> (for dispatchers and receivers), and the <a href="https://github.com/cypriss/mutations">Mutation Gem</a> (for validating params).</p>
+</blockquote>
+
+<p>Hyperloop&#39;s Isomorphic Operations span the client and server divide automagically. Operations can run on the client, the server, and traverse between the two.</p>
 
 <p>Operations have the following capabilities:</p>
 
 <ul>
-<li>Can easily be chained because they always return promises.</li>
-<li>Clearly declare both their parameters, and what they will dispatch.</li>
-<li>Parameters can be validated and type checked.</li>
-<li>Can run remotely on the server.</li>
+<li>Can easily be chained because they always return promises</li>
+<li>declare both their parameters and what they will dispatch</li>
+<li>Parameters can be validated and type checked</li>
+<li>Can run remotely on the server</li>
 <li>Can be dispatched from the server to all authorized clients.</li>
-<li>Can hold their own state data when appropriate.</li>
-<li>Operations also serves as the bridge between client and server.  An operation can run on the client or the server and can be invoked remotely.</li>
+<li>Can hold their own state data when appropriate</li>
+<li>Operations also serves as the bridge between client and server</li>
+<li>An operation can run on the client or the server and can be invoked remotely.</li>
 </ul>
 
 <blockquote>
-<p>Note: Use Operations as you choose. This architecture is descriptive but not prescriptive. Depending on the needs of your application and your overall thoughts on architecture, you may need a little or a lot of the functionality provided by Operations. If you chose, you can keep all your business logic in your Models, Stores or Components - we suggest that it is better application design not to do this but the choice is yours.</p>
+<p><strong>Use Operations as you choose</strong>. This architecture is descriptive but not prescriptive. Depending on the needs of your application and your overall thoughts on architecture, you may need a little or a lot of the functionality provided by Operations. If you chose, you could keep all your business logic in your Models, Stores or Components - we suggest that it is better application design not to do this, but the choice is yours.</p>
 </blockquote>
 
-<h2 id="function-1-operations-encapsulate-business-logic">Function 1: Operations encapsulate business logic</h2>
+<h2 id="operations-encapsulate-business-logic">Operations encapsulate business logic</h2>
 
-<p>Operations can be used to encapsulate business logic. In a traditional MVC architecture, Operations end up either in Controllers, Models or some other secondary construct such as service objects, helpers, or concerns. Here they are first class objects. Their job is to mutate state in the Stores and Models. Operations are discreet logic, which is of course, testable!</p>
+<p>In a traditional MVC architecture, the business logic ends up either in Controllers, Models, Views or some other secondary construct such as service objects, helpers, or concerns. In Hyperloop,  Operations are first class objects who&#39;s job is to mutate state in the Stores, Models, and Components. Operations are discreet logic, which is of course, testable and maintainable.</p>
 
-<p>An operation does the following things:</p>
+<p>An Operation does the following things:</p>
 
 <ol>
 <li>receives incoming parameters, and does basic validations<br></li>
@@ -557,31 +582,72 @@ end
 <h3 id="operation-structure">Operation Structure</h3>
 
 <ul>
-<li><code>Hyperloop::Operation</code> is the base class for <em>Operations</em>.<br></li>
-<li>An Operation orchestrates the updating of the state of your system.<br></li>
+<li><code>Hyperloop::Operation</code> is the base class for an <em>Operation</em></li>
+<li>An Operation orchestrates the updating of the state of your system</li>
 <li>An Operation can be used to encapsulate business logic</li>
-<li>Operations can also wrap asynchronous operations such as HTTP API requests (we cover this later).</li>
+<li>Operations can also wrap asynchronous operations such as HTTP API requests (this will be covered later)</li>
 </ul>
-<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">LuckyDipOp</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Operation</span>
-   <span class="k">def</span> <span class="nf">check_usage_policy</span>
-     <span class="nb">abort</span><span class="o">!</span> <span class="k">if</span> <span class="no">Discounter</span><span class="p">.</span><span class="nf">tries</span> <span class="o">&gt;</span> <span class="mi">2</span> <span class="c1"># Discounter is a Store (defined elsewhere)</span>
-   <span class="k">end</span>
-   <span class="n">step</span> <span class="p">{</span> <span class="n">check_usage_policy</span> <span class="p">}</span>
-   <span class="n">step</span> <span class="p">{</span> <span class="no">Discounter</span><span class="p">.</span><span class="nf">lucky_dip!</span> <span class="p">}</span>
+
+<p>As an example, here is an Operation which ensures that the Model being saved always has the current <code>created_by</code> and <code>updated_by</code> <code>Member</code>.</p>
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">SaveWithUpdatingMemberOp</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Operation</span>
+  <span class="n">param</span> <span class="ss">:model</span>
+  <span class="n">step</span> <span class="p">{</span> <span class="n">params</span><span class="p">.</span><span class="nf">model</span><span class="p">.</span><span class="nf">created_by</span> <span class="o">=</span> <span class="no">Member</span><span class="p">.</span><span class="nf">current</span> <span class="k">if</span> <span class="n">params</span><span class="p">.</span><span class="nf">model</span><span class="p">.</span><span class="nf">new?</span> <span class="p">}</span>
+  <span class="n">step</span> <span class="p">{</span> <span class="n">params</span><span class="p">.</span><span class="nf">model</span><span class="p">.</span><span class="nf">updated_by</span> <span class="o">=</span> <span class="no">Member</span><span class="p">.</span><span class="nf">current</span> <span class="p">}</span>
+  <span class="n">step</span> <span class="p">{</span> <span class="n">model</span><span class="p">.</span><span class="nf">save</span><span class="p">.</span><span class="nf">then</span> <span class="p">{</span> <span class="p">}</span> <span class="p">}</span>
 <span class="k">end</span>
 </code></pre>
+<p>This Operation is run from anywhere in the client or server code:</p>
+<pre class="highlight ruby"><code><span class="no">SaveWithUpdatingMemberOp</span><span class="p">.</span><span class="nf">run</span><span class="p">(</span><span class="ss">model: </span><span class="no">MyModel</span><span class="p">)</span>
+</code></pre>
+<p>This example of encapsulated business logic (ensuring that created<em>by and updated</em>by are always correctly set), in a traditional MVC architecture, would have at best, kept in the Model itself, or at worst scattered around the Controllers or Views and duplicated whenever a Model was saved or updated. <strong>Operations provide a tidy place to keep this logic.</strong></p>
+
+<p>Operations always return Promises, and those promises can be chained together. Please see the section on Promises later in this documentation for details on how Promises work.</p>
+
+<p>Operations can invoke other Operations so you can chain a sequence of <code>steps</code> and Promises which proceed unless the previous <code>step</code> fails:</p>
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">InvoiceOpertion</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Operation</span>
+  <span class="n">param</span> <span class="ss">:order</span><span class="p">,</span> <span class="ss">type: </span><span class="no">Order</span>
+  <span class="n">param</span> <span class="ss">:customer</span><span class="p">,</span> <span class="ss">type: </span><span class="no">Customer</span>
+
+  <span class="n">step</span> <span class="p">{</span> <span class="no">CheckInventoryOp</span><span class="p">.</span><span class="nf">run</span><span class="p">(</span><span class="ss">order: </span><span class="n">params</span><span class="p">.</span><span class="nf">order</span><span class="p">)</span> <span class="p">}</span>
+  <span class="n">step</span> <span class="p">{</span> <span class="no">BillCustomerOp</span><span class="p">.</span><span class="nf">run</span><span class="p">(</span><span class="ss">order: </span><span class="n">params</span><span class="p">.</span><span class="nf">order</span><span class="p">,</span> <span class="ss">customer: </span><span class="n">params</span><span class="p">.</span><span class="nf">customer</span><span class="p">)</span> <span class="p">}</span>
+  <span class="n">step</span> <span class="p">{</span> <span class="no">DispatchOrderOp</span><span class="p">.</span><span class="nf">run</span><span class="p">(</span><span class="ss">order: </span><span class="n">params</span><span class="p">.</span><span class="nf">order</span><span class="p">,</span> <span class="ss">customer: </span><span class="n">params</span><span class="p">.</span><span class="nf">customer</span><span class="p">)</span> <span class="p">}</span>
+<span class="k">end</span>
+</code></pre>
+<p>This approach allows you to build complicated, yet fully testable workflows in your application.</p>
+
+<h3 id="running-operations">Running Operations</h3>
+
+<p>To run an Operation:</p>
+
+<ul>
+<li><p>use the <code>run</code> method:<br>
+<code>ruby
+MyOperation.run
+</code></p></li>
+<li><p>passing params:
+<code>ruby
+MyOperation.run(params)
+</code></p></li>
+<li><p>the <code>then</code> and <code>fail</code> methods, which will dispatch the operation and attach a promise handler:<br>
+<code>ruby
+MyOperation.run(params)
+.then { do_the_next_thing }
+.fail { puts &#39;failed&#39; }
+</code></p></li>
+</ul>
+
 <h3 id="parameters">Parameters</h3>
 
-<p>Operations can take parameters when they are run.  Parameters are described and accessed with the same syntax as HyperReact components.</p>
+<p>Operations can take parameters when they are run.  Parameters are described and accessed with the same syntax as Hyperloop Components.</p>
 
 <p>The parameter filter types and options are taken from the <a href="https://github.com/cypriss/mutations">Mutations</a> gem with the following changes:</p>
 
 <ul>
-<li>In Hyperloop::Operations all params are declared with the param macro.<br></li>
-<li>The type <em>can</em> be specified using the <code>type:</code> option.</li>
+<li>In Hyperloop::Operations all params are declared with the param macro<br></li>
+<li>The type <em>can</em> be specified using the <code>type:</code> option</li>
 <li>Array and hash types can be shortened to <code>[]</code> and <code>{}</code></li>
-<li>Optional params either have the default value associated with the param name or by having the <code>default</code> option present.</li>
-<li>All other <a href="https://github.com/cypriss/mutations/wiki/Filtering-Input">Mutation filter options</a> (such as <code>:min</code>) will work the same.</li>
+<li>Optional params either have the default value associated with the param name or by having the <code>default</code> option present</li>
+<li>All other <a href="https://github.com/cypriss/mutations/wiki/Filtering-Input">Mutation filter options</a> (such as <code>:min</code>) will work the same</li>
 </ul>
 <pre class="highlight ruby"><code>  <span class="c1"># required param (does not have a default value)</span>
   <span class="n">param</span> <span class="ss">:sku</span><span class="p">,</span> <span class="ss">type: </span><span class="no">String</span>
@@ -615,11 +681,11 @@ end
   <span class="n">step</span>    <span class="p">{</span>  <span class="p">}</span> <span class="c1"># do a third thing, unless we are on the failed track</span>
   <span class="n">failed</span>  <span class="p">{</span>  <span class="p">}</span> <span class="c1"># do this if anything above has failed</span>
 </code></pre>
-<p>Together <code>step</code> and <code>failed</code> form two <em>railway tracks</em>.  Initially, execution proceeds down the success track until something goes wrong, then execution switches to the failure track starting at the next <code>failed</code> statement.  Once on the failed track execution continues performing each <code>failed</code> callback and skipping any <code>step</code> callbacks.</p>
+<p>Together <code>step</code> and <code>failed</code> form two <em>railway tracks</em>.  Initially, execution proceeds down the success track until something goes wrong; then execution switches to the failure track starting at the next <code>failed</code> statement.  Once on the failed track execution continues performing each <code>failed</code> callback and skipping any <code>step</code> callbacks.</p>
 
-<p>Failure occurs when either an exception is raised or a promise fails (more on this in the next section.) The Ruby <code>fail</code> keyword can be used as a simple way to switch to the failed track.</p>
+<p>Failure occurs when either an exception is raised, or a promise fails (more on this in the next section.) The Ruby <code>fail</code> keyword can be used as a simple way to switch to the failed track.</p>
 
-<p>Both <code>step</code> and <code>failed</code> can receive any results delivered by the previous step.   If the previous step raised an exception (outside a promise) the failure track will receive the exception object.</p>
+<p>Both <code>step</code> and <code>failed</code> can receive any results delivered by the previous step.   If the last step raised an exception (outside a promise), the failure track would receive the exception object.</p>
 
 <p>The callback may be provided to <code>step</code> and <code>failed</code> either as a block, a symbol (which will name a method), a proc, a lambda, or an Operation.</p>
 <pre class="highlight ruby"><code>  <span class="n">step</span> <span class="p">{</span> <span class="nb">puts</span> <span class="s1">'hello'</span> <span class="p">}</span>
@@ -632,9 +698,9 @@ end
 
 <h3 id="promises-and-operations">Promises and Operations</h3>
 
-<p>Within the browser, code does not wait for asynchronous methods (such as HTTP requests or timers) to complete.  Operations use Opal&#39;s <a href="http://opalrb.org/docs/api/v0.10.3/stdlib/Promise.html">Promise library</a> to deal with these situations cleanly.  A Promise is an object that has three states:  It is either still pending, or has been rejected (i.e. failed), or has been successfully resolved.  A promise can have callbacks attached to either the failed or resolved state, and these callbacks will be executed once the promise is resolved or rejected.</p>
+<p>Within the browser, the code does not wait for asynchronous methods (such as HTTP requests or timers) to complete.  Operations use Opal&#39;s <a href="http://opalrb.org/docs/api/v0.10.3/stdlib/Promise.html">Promise library</a> to deal with these situations cleanly.  A Promise is an object that has three states:  It is either still pending, or has been rejected (i.e. failed), or has been successfully resolved.  A promise can have callbacks attached to either the failed or resolved state, and these callbacks will be executed once the promise is resolved or rejected.</p>
 
-<p>If a <code>step</code> or <code>failed</code> callback returns a pending promise then the execution of the operation is suspended, and the Operation will return the promise to the caller.  If there is more track ahead, then execution will resume on the next step when the promise is resolved.  Likewise, if the pending promise is rejected execution will resume on the next <code>failed</code> callback.  Because of the way promises work, the operation steps will all be completed before the resolved state is passed along to the caller, so everything will execute in its original order.</p>
+<p>If a <code>step</code> or <code>failed</code> callback returns a pending promise then the execution of the operation is suspended, and the Operation will return the promise to the caller.  If there is more track ahead, then execution will resume at the next step when the promise is resolved.  Likewise, if the pending promise is rejected execution will resume on the next <code>failed</code> callback.  Because of the way promises work, the operation steps will all be completed before the resolved state is passed along to the caller so that everything will execute in its original order.</p>
 
 <p>Likewise, the Operation&#39;s dispatch occurs when the promise resolves as well.</p>
 
@@ -650,7 +716,7 @@ end
   <span class="c1"># to any listening stores.</span>
 <span class="k">end</span>
 </code></pre>
-<p>Operations will <em>always</em> return a <em>Promise</em>.  If an Operation has no steps that return a promise the value of the last step will be wrapped in a resolved promise.  This lets you easily chain Operations, regardless of their internal implementation:</p>
+<p>Operations will <em>always</em> return a <em>Promise</em>.  If an Operation has no steps that return a promise the value of the last step will be wrapped in a resolved promise.  Operations can be essily chaned regardless of their internal implementation:</p>
 <pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">QuickCheckout</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Operation</span>
   <span class="n">param</span> <span class="ss">:sku</span><span class="p">,</span> <span class="ss">type: </span><span class="no">String</span>
   <span class="n">param</span> <span class="ss">qty: </span><span class="mi">1</span><span class="p">,</span> <span class="ss">type: </span><span class="no">Integer</span><span class="p">,</span> <span class="ss">minimum: </span><span class="mi">1</span>
@@ -668,7 +734,7 @@ end
 </code></pre>
 <h3 id="early-exits">Early Exits</h3>
 
-<p>In any <code>step</code> or <code>failed</code> callback, you may do an immediate exit from the Operation using the <code>abort!</code> and <code>succeed!</code> methods.  The <code>abort!</code> method returns a failed Promise with any supplied parameters.  The <code>succeed!</code> method does an immediate dispatch and returns a resolved Promise with any supplied parameters.  If <code>succeed!</code> is used in a <code>failed</code> callback, it will override the failed status of the Operation.  This is especially useful if you want to dispatch in spite of failures:</p>
+<p>Any <code>step</code> or <code>failed</code> callback, can have an immediate exit from the Operation using the <code>abort!</code> and <code>succeed!</code> methods.  The <code>abort!</code> method returns a failed Promise with any supplied parameters.  The <code>succeed!</code> method does an immediate dispatch and returns a resolved Promise with any supplied parameters.  If <code>succeed!</code> is used in a <code>failed</code> callback, it will override the failed status of the Operation.  This is especially useful if you want to dispatch in spite of failures:</p>
 <pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">Pointless</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Operation</span>
   <span class="n">step</span> <span class="p">{</span> <span class="nb">fail</span> <span class="p">}</span>       <span class="c1"># go to failure track</span>
   <span class="n">failed</span> <span class="p">{</span> <span class="n">succeed!</span> <span class="p">}</span> <span class="c1"># dispatch and exit</span>
@@ -676,7 +742,7 @@ end
 </code></pre>
 <h3 id="validation">Validation</h3>
 
-<p>An Operation can also have a number of <code>validate</code> callbacks which will run before the first step.  This is a handy place to put any additional validations.  In the validate method you can add validation type messages using the <code>add_error</code> method, and these will be passed along like any other param validation failures.</p>
+<p>An Operation can also have some <code>validate</code> callbacks which will run before the first step.  This is a handy place to put any additional validations.  In the validate method you can add validation type messages using the <code>add_error</code> method, and these will be passed along like any other param validation failures.</p>
 <pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">UpdateProfile</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Operation</span>
   <span class="n">param</span> <span class="ss">:first_name</span><span class="p">,</span> <span class="ss">type: </span><span class="no">String</span>  
   <span class="n">param</span> <span class="ss">:last_name</span><span class="p">,</span> <span class="ss">type: </span><span class="no">String</span>
@@ -700,21 +766,20 @@ end
   <span class="p">.</span><span class="nf">.</span><span class="p">.</span>
 <span class="nf">end</span>
 </code></pre>
-<p>If the validate method returns a promise, then execution will wait until the promise resolves.  If the promise fails, then the current validation fails.</p>
+<p>If the validate method returns a Promise, then execution will wait until the Promise resolves.  If the promise fails, then the current validation fails.</p>
 
-<p>You may also call <code>abort!</code> from within <code>validate</code> or <code>add_error</code> to immediately exit the Operation.  Otherwise, all validations will be run and collected together and the Operation will move onto the <code>failed</code> track.  If <code>abort!</code> is called within an <code>add_error</code> callback the error will be added before aborting.</p>
+<p><code>abort!</code> can be called from within <code>validate</code> or <code>add_error</code> to exit the Operation immediately.  Otherwise, all validations will be run and collected together, and the Operation will move onto the <code>failed</code> track.  If <code>abort!</code> is called within an <code>add_error</code> callback the error will be added before aborting.</p>
 
 <p>You can also raise an exception directly in validate if appropriate.  If a <code>Hyperloop::AccessViolation</code> exception is raised the Operation will immediately abort, otherwise just the current validation fails.</p>
 
-<p>If you want to avoid further validations if there are any failures in the basic parameter validations you can add to this
-<code>ruby
-  validate { abort! if has_errors? }
-</code>
-before the first <code>validate</code> or <code>add_error</code> call.  </p>
+<p>To avoid further validations if there are any failures in the basic parameter validations, this can be added</p>
+<pre class="highlight ruby"><code>  <span class="n">validate</span> <span class="p">{</span> <span class="nb">abort</span><span class="o">!</span> <span class="k">if</span> <span class="n">has_errors?</span> <span class="p">}</span>
+</code></pre>
+<p>before the first <code>validate</code> or <code>add_error</code> call.  </p>
 
 <h3 id="handling-failed-operations">Handling Failed Operations</h3>
 
-<p>Because Operations always return a promise, you can use the Promise&#39;s <code>fail</code> method on the Operation&#39;s result to detect failures.</p>
+<p>Because Operations always return a promise, the Promise&#39;s <code>fail</code> method can be used on the Operation&#39;s result to detect failures.</p>
 <pre class="highlight ruby"><code><span class="no">QuickCheckout</span><span class="p">(</span><span class="ss">sku: </span><span class="n">selected_item</span><span class="p">,</span> <span class="ss">qty: </span><span class="n">selected_qty</span><span class="p">)</span>
 <span class="p">.</span><span class="nf">then</span> <span class="k">do</span>
   <span class="c1"># show confirmation</span>
@@ -734,32 +799,13 @@ before the first <code>validate</code> or <code>add_error</code> call.  </p>
   <span class="k">end</span>
 <span class="k">end</span>
 </code></pre>
-<h3 id="running-operations">Running Operations</h3>
-
-<p>You can run an Operation by using ...</p>
-
-<ul>
-<li><p>the Operation class name as a method:<br>
-<code>ruby
-MyOperation(...params...)
-</code></p></li>
-<li><p>the <code>run</code> method:<br>
-<code>ruby
-MyOperation.run ...params...
-</code></p></li>
-<li><p>the <code>then</code> and <code>fail</code> methods, which will dispatch the operation and attach a promise handler:<br>
-<code>ruby
-MyOperation.then(...params...) { alert &#39;operation completed&#39; }
-</code></p></li>
-</ul>
-
 <h3 id="instance-versus-class-execution-context">Instance Versus Class Execution Context</h3>
 
-<p>Normally the Operation&#39;s steps are declared and run in the context of an instance of the Operation.  An instance of the Operation is created, runs and is thrown away.  </p>
+<p>Typically the Operation&#39;s steps are declared and run in the context of an instance of the Operation.  An instance of the Operation is created, runs and is thrown away.  </p>
 
-<p>Sometimes it&#39;s useful to run a step (or other macro such as <code>validate</code>) in the context of the class.  This is useful especially for caching values between calls to the Operation.  You can do this by defining the steps in the class context, or by providing the option <code>scope: :class</code> to the step.</p>
+<p>Sometimes it&#39;s useful to run a step (or other macro such as <code>validate</code>) in the context of the class.  This is useful especially for caching values between calls to the Operation.  This can be done by defining the steps in the class context, or by providing the option <code>scope: :class</code> to the step.</p>
 
-<p>Note that the primary use should be in interfacing to outside APIs.  Don&#39;t hide your application state inside an Operation - Move it to a Store.</p>
+<p>Note that the primary use should be in interfacing to an outside APIs. Application state should not be hidden inside an Operation, and it should be moved to a Store.</p>
 <pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">GetRandomGithubUser</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Operation</span>
   <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">reload_users</span>
     <span class="vi">@promise</span> <span class="o">=</span> <span class="no">HTTP</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="s2">"https://api.github.com/users?since=</span><span class="si">#{</span><span class="nb">rand</span><span class="p">(</span><span class="mi">500</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">).</span><span class="nf">then</span> <span class="k">do</span> <span class="o">|</span><span class="n">response</span><span class="o">|</span>
@@ -798,11 +844,11 @@ MyOperation.then(...params...) { alert &#39;operation completed&#39; }
 </code></pre>
 <h3 id="the-boot-operation">The Boot Operation</h3>
 
-<p>Hyperloop includes one predefined Operation, <code>Hyperloop::Application::Boot</code>, that runs at system initialization.  Stores can receive <code>Hyperloop::Application::Boot</code> to initialize their state.  To reset the state of the application you can simply execute <code>Hyperloop::Application::Boot</code></p>
+<p>Hyperloop includes one predefined Operation, <code>Hyperloop::Application::Boot</code>, that runs at system initialization.  Stores can receive <code>Hyperloop::Application::Boot</code> to initialize their state.  To reset the state of the application, you can just execute <code>Hyperloop::Application::Boot</code></p>
 
-<h2 id="function-2-operations-can-dispatch-messages">Function 2: Operations can dispatch messages</h2>
+<h2 id="operations-can-dispatch-messages">Operations can dispatch messages</h2>
 
-<p>Hyperloop Operations borrow from the Flux pattern. In our context, Operations are dispatchers and Stores are receivers. The choice to use Operations in this way is entirely yours and depends on the needs and design of your application.</p>
+<p>Hyperloop Operations borrow from the Flux pattern where Operations are dispatchers and Stores are receivers.  The choice to use Operations in this depends entirely on the needs and design of your application.</p>
 
 <p>To illustrate this point, here is the simplest Operation:</p>
 <pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">Reset</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Operation</span>
@@ -810,7 +856,7 @@ MyOperation.then(...params...) { alert &#39;operation completed&#39; }
 </code></pre>
 <p>To &#39;Reset&#39; the system you would say
 <code>ruby
-  Reset() # short for Reset.run
+  Reset.run
 </code></p>
 
 <p>Elsewhere your HyperStores can receive the Reset <em>Dispatch</em> using the <code>receives</code> macro:</p>
@@ -822,12 +868,9 @@ MyOperation.then(...params...) { alert &#39;operation completed&#39; }
 </code></pre>
 <p>Note that multiple stores can receive the same <em>Dispatch</em>.</p>
 
-<p><strong>Note: Flux pattern vs. Hyperloop Operations</strong></p>
-
 <blockquote>
-<p>Operations serve the role of both Action Creators and Dispatchers described in the Flux architecture.  </p>
-
-<p>We chose the name <code>Operation</code> rather than <code>Action</code> or <code>Mutation</code> because we feel it best captures all the capabilities of a <code>Hyperloop::Operation</code>.  Nevertheless, Operations are fully compatible with the Flux Pattern.  </p>
+<p><strong>Note: Flux pattern vs. Hyperloop Operations</strong> Operations serve the role of both Action Creators and Dispatchers described in the Flux architecture. We chose the name <code>Operation</code> rather than <code>Action</code> or <code>Mutation</code> because we feel it best captures all the capabilities of a <code>Hyperloop::Operation</code>.  Nevertheless, Operations are fully compatible with the Flux Pattern.  </p>
+</blockquote>
 
 <table><thead>
 <tr>
@@ -857,9 +900,6 @@ MyOperation.then(...params...) { alert &#39;operation completed&#39; }
 </tr>
 </tbody></table>
 
-<p><br></p>
-</blockquote>
-
 <h3 id="dispatching-with-new-parameters">Dispatching With New Parameters</h3>
 
 <p>The <code>dispatch</code> method sends the <code>params</code> object on to any registered receivers.  Sometimes it&#39;s useful to add additional outbound params before dispatching.  Additional params can be declared using the <code>outbound</code> macro:</p>
@@ -874,9 +914,17 @@ MyOperation.then(...params...) { alert &#39;operation completed&#39; }
   <span class="n">dispatch</span>
 <span class="k">end</span>
 </code></pre>
-<h2 id="function-3-operations-can-replace-an-api-through-a-bi-directional-rpc-mechanism">Function 3: Operations can replace an API through a bi-directional RPC mechanism</h2>
+<h3 id="dispatching-messages-or-invoking-steps-or-both">Dispatching messages or invoking steps (or both)?</h3>
 
-<p>There are some Operations that simply do not make sense to run on the client as the resources they depend on may not be available on the client. For example, consider an Operation that needs to send an email - there is no mailer on the client so the Operation has to execute from the server.</p>
+<p>Facebook is very keen on their Flux architecture where messages are dispatched between receivers. In an extensive and complicated front end application it is easy to see why they are drawn to this architecture as it creates an independence and isolation between Components.</p>
+
+<p>As stated earlier in this documentation, the <code>step</code> idea came from Trailblazer, which is an alternative Rails architecture that posits that business functionality should not be kept in the Models, Controllers or Views.</p>
+
+<p>In designing Hyperloop&#39;s Isomorphic Operations (which would run on the client and the server), we decided to borrow from the best of both architectures and let Operations work in either way.  The decision as to adopt the dispatching or stepping based model is left down to the programmer as determined by their preference or the needs of their application.</p>
+
+<h2 id="operations-as-an-api-serverops">Operations as an API - ServerOps</h2>
+
+<p>Some Operations simply do not make sense to run on the client as the resources they depend on may not be available on the client. For example, consider an Operation that needs to send an email - there is no mailer on the client so the Operation has to execute from the server.</p>
 
 <p>That said, with our highest goal being developer productivity, it should be as invisible as possible to the developer where the Operation will execute. A developer writing front-end code should be able to invoke a server-side resource (like a mailer) just as easily as they might invoke a client-side resource.</p>
 
@@ -884,7 +932,7 @@ MyOperation.then(...params...) { alert &#39;operation completed&#39; }
 
 <h3 id="server-operations">Server Operations</h3>
 
-<p>Operations will run on the client or the server. However, some Operations like <code>ValidateUserDefaultCC</code> probably need to check information server side and make secure API calls to our credit card processor.  Rather than build an API and controller to &quot;validate the user credentials&quot; you simply specify that the operation must run on the server by using the <code>Hyperloop::ServerOp</code> class.</p>
+<p>Operations will run on the client or the server. However, some Operations like <code>ValidateUserDefaultCC</code> probably need to check information server side and make secure API calls to our credit card processor.  Rather than build an API and controller to &quot;validate the user credentials&quot; you just specify that the operation must run on the server by using the <code>Hyperloop::ServerOp</code> class.</p>
 <pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">ValidateUserCredentials</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">ServerOp</span>
   <span class="n">param</span> <span class="ss">:acting_user</span>
   <span class="n">add_error</span> <span class="ss">:acting_user</span><span class="p">,</span> <span class="ss">:no_valid_default_cc</span><span class="p">,</span> <span class="s2">"No valid default credit card"</span> <span class="k">do</span>
@@ -892,14 +940,14 @@ MyOperation.then(...params...) { alert &#39;operation completed&#39; }
   <span class="k">end</span>
 <span class="k">end</span>
 </code></pre>
-<p>A Server Operation will always run on the server even if invoked on the client.  When invoked from the client Server Operations will receive the <code>acting_user</code> param with the current value that your ApplicationController&#39;s <code>acting_user</code> method returns.   Typically the <code>acting_user</code> method will return either some User model or nil (if there is no logged in user.)  Its up to you to define how <code>acting_user</code> is computed, but this is easily done with any of the popular authentication gems.  Note that unless you explicitly add <code>nils: true</code> to the param declaration, nil will not be accepted.</p>
+<p>A Server Operation will always run on the server even if invoked on the client.  When invoked from the client, the ServerOp will receive the <code>acting_user</code> param with the current value that your ApplicationController&#39;s <code>acting_user</code> method returns.   Typically the <code>acting_user</code> method will return either some User model or nil (if there is no logged in user.)  It&#39;s up to you to define how <code>acting_user</code> is computed, but this is easily done with any of the popular authentication gems.  Note that unless you explicitly add <code>nils: true</code> to the param declaration, nil will not be accepted.</p>
 
 <blockquote>
 <p><strong>Note regarding Rails Controllers:</strong> Hyperloop is quite flexible and rides along side Rails, without interfering. So you could still have your old controllers, and invoke them the &quot;non-hyperloop&quot; way by doing say an HTTP.post from the client, etc. Hyperloop adds a new mechanism for communicating between client and server called the Server Operation (which is a subclass of Operation.) A ServerOp has no implication on your existing controllers or code, and if used replaces controllers and client side API calls. HyperModel is built on top of Rails ActiveRecord models, and Server Operations, to keep models in sync across the application. ActiveRecord models that are made public (by moving them to the hyperloop/models folder) will automatically be synchronized across the clients and the server (subject to permissions given in the Policy classes.)
 Like Server Operations, HyperModel completely removes the need to build controllers, and client side API code. However all of your current active record models, controllers will continue to work unaffected.</p>
 </blockquote>
 
-<p>As shown above, you can also define a validation to further ensure that the acting user (with perhaps other parameters) is allowed to perform the operation.  In the above case that is the only purpose of the Operation.   Another typical use would be to make sure the current acting user has the correct role to perform the operation:</p>
+<p>As shown above, you can also define a validation to ensure further that the acting user (with perhaps other parameters) is allowed to perform the operation.  In the above case that is the only purpose of the Operation.   Another typical use would be to make sure the current acting user has the correct role to perform the operation:</p>
 <pre class="highlight ruby"><code>  <span class="p">.</span><span class="nf">.</span><span class="p">.</span>
   <span class="nf">validate</span> <span class="p">{</span> <span class="k">raise</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">AccessViolation</span> <span class="k">unless</span> <span class="n">params</span><span class="p">.</span><span class="nf">acting_user</span><span class="p">.</span><span class="nf">admin?</span> <span class="p">}</span>
   <span class="p">.</span><span class="nf">.</span><span class="o">.</span>
@@ -921,8 +969,16 @@ Like Server Operations, HyperModel completely removes the need to build controll
 
 <h3 id="isomorphic-operations">Isomorphic Operations</h3>
 
-<p>Unless the Operation is a Server Operation it will run where it was invoked.   This can be handy if you have an Operation that needs to run on both the server and the client.  For example, an Operation that calculates the customers discount will want to run on the client so the user gets immediate feedback, and then will be run again on the server when the order is submitted as a double check.</p>
+<p>Unless the Operation is a Server Operation, it will run where it was invoked.   This can be handy if you have an Operation that needs to run on both the server and the client.  For example, an Operation that calculates the customers discount will want to run on the client so the user gets immediate feedback, and then will be run again on the server when the order is submitted as a double check.</p>
 
+<h3 id="parameters-and-serverops">Parameters and ServerOps</h3>
+
+<p>You cannot pass an object from the client to the server as a parameter as the server has no way of knowing the state of the object. Hyperloop takes a traditional implementation approach where an id (or some unique identifier) is passed as the parameter and the receiving code finds and created an instance of that object. For example:</p>
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">IndexBookOp</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">ServerOp</span>
+  <span class="n">param</span> <span class="ss">:book_id</span>
+  <span class="n">step</span> <span class="p">{</span> <span class="n">index_book</span> <span class="no">Book</span><span class="p">.</span><span class="nf">find_by_id</span> <span class="n">params</span><span class="p">.</span><span class="nf">book_id</span> <span class="p">}</span>
+<span class="k">end</span>
+</code></pre>
 <h3 id="restricting-server-code-to-the-server">Restricting server code to the server</h3>
 
 <p>There are valid cases where you will not want your ServerOp&#39;s code to be on the client yet still be able to invoke a ServerOp from client or server code. Good reasons for this would include:</p>
@@ -1031,8 +1087,10 @@ Like Server Operations, HyperModel completely removes the need to build controll
 <li>or instances of classes in some relationship - like a <code>team</code> that a <code>user</code> belongs to.</li>
 </ul>
 
-<p>You create a channel by including the <code>Hyperloop::Policy::Mixin</code>,
-which gives you three class methods: <code>regulate_class_connection</code> <code>always_allow_connection</code> and <code>regulate_instance_connections</code>.  For example:</p>
+<p>A channel can be created by including the <code>Hyperloop::Policy::Mixin</code>,
+which gives three class methods: <code>regulate_class_connection</code> <code>always_allow_connection</code> and <code>regulate_instance_connections</code>.  </p>
+
+<p>For example...</p>
 <pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">User</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
   <span class="kp">include</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Policy</span><span class="o">::</span><span class="no">Mixin</span>
   <span class="n">regulate_class_connection</span> <span class="p">{</span> <span class="nb">self</span> <span class="p">}</span>  
@@ -1041,14 +1099,14 @@ which gives you three class methods: <code>regulate_class_connection</code> <cod
 </code></pre>
 <p>will attach the current acting user to the  <code>User</code> channel (which is shared with all users) and to that user&#39;s private channel.</p>
 
-<p>Both blocks execute with <code>self</code> set to the current acting user, but the return value has a different meaning.  If <code>regulate_class_connection</code> returns any truthy value, then the class level connection will be made on behalf of the acting user.  On the other hand if <code>regulate_instance_connection</code> returns an array (possibly nested) or Active Record relationship then an instance connection is made with each object in the list.  So, for example, you could add:</p>
+<p>Both blocks execute with <code>self</code> set to the current acting user, but the return value has a different meaning.  If <code>regulate_class_connection</code> returns any truthy value, then the class level connection will be made on behalf of the acting user.  On the other hand, if <code>regulate_instance_connection</code> returns an array (possibly nested) or Active Record relationship then an instance connection is made with each object in the list.  So, for example, you could add:</p>
 <pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">User</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
   <span class="n">has_many</span> <span class="n">chat_rooms</span>
   <span class="n">regulate_instance_connection</span> <span class="p">{</span> <span class="n">chat_rooms</span> <span class="p">}</span>
   <span class="c1"># we will connect to all the chat room channels we are members of</span>
 <span class="k">end</span>
 </code></pre>
-<p>Now if we want to broadcast to all users our Operation would have</p>
+<p>To broadcast to all users, the Operation would have</p>
 <pre class="highlight ruby"><code>  <span class="n">dispatch_to</span> <span class="p">{</span> <span class="no">User</span> <span class="p">}</span> <span class="c1"># dispatch to the User class channel</span>
 </code></pre>
 <p>or to send an announcement to a specific user</p>
@@ -1073,12 +1131,12 @@ which gives you three class methods: <code>regulate_class_connection</code> <cod
   <span class="n">dispatch_to</span> <span class="p">{</span> <span class="n">params</span><span class="p">.</span><span class="nf">receiver</span> <span class="p">}</span>
 <span class="k">end</span>
 </code></pre>
-<p>Now on the client, we can say:</p>
+<p>On the client::</p>
 <pre class="highlight ruby"><code>  <span class="no">PrivateAnnouncement</span><span class="p">(</span><span class="ss">receiver: </span><span class="n">login_name</span><span class="p">,</span> <span class="ss">message: </span><span class="s1">'log off now!'</span><span class="p">).</span><span class="nf">fail</span> <span class="k">do</span>
     <span class="n">alert</span><span class="p">(</span><span class="s1">'message could not be sent'</span><span class="p">)</span>
   <span class="k">end</span>
 </code></pre>
-<p>and elsewhere in the client code, we would have a component like this:</p>
+<p>and elsewhere in the client code, there would be a component like this:</p>
 <pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">Alerts</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Component</span>
   <span class="kp">include</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Store</span><span class="o">::</span><span class="no">Mixin</span>
   <span class="c1"># for simplicity we are going to merge our store with the component</span>
@@ -1187,7 +1245,7 @@ which gives you three class methods: <code>regulate_class_connection</code> <cod
 </code></pre>
 <h3 id="accessing-the-controller">Accessing the Controller</h3>
 
-<p>ServerOps has the ability to receive the &quot;controller&quot; as a param. This is handy for low-level stuff (like login) where you need access to the controller. There is a subclass of ServerOp called ControllerOp that simply declares this param and will delegate any controller methods to the controller param. So within a <code>ControllerOp</code> if you say <code>session</code> you will get the session object from the controller.</p>
+<p>ServerOps have the ability to receive the &quot;controller&quot; as a param. This is handy for low-level stuff (like login) where you need access to the controller. There is a subclass of ServerOp called ControllerOp that simply declares this param and will delegate any controller methods to the controller param. So within a <code>ControllerOp</code> if you say <code>session</code> you will get the session object from the controller.</p>
 
 <p>Here is a sample of the SignIn operation using the Devise Gem:</p>
 <pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">SignIn</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">ControllerOp</span>
@@ -1199,11 +1257,11 @@ which gives you three class methods: <code>regulate_class_connection</code> <cod
   <span class="n">step</span> <span class="p">{</span> <span class="n">sign_in</span><span class="p">(</span><span class="ss">:user</span><span class="p">,</span> <span class="vi">@user</span><span class="p">)</span>  <span class="p">}</span>
 <span class="k">end</span>
 </code></pre>
-<p>You will notice in the code above that we have another parameter type in ServerOps, called inbound, which will not get dispatched.</p>
+<p>In the code above there is another parameter type in ServerOps, called inbound, which will not get dispatched.</p>
 
 <h3 id="broadcasting-to-the-current_session">Broadcasting to the current_session</h3>
 
-<p>Let&#39;s say you would like to be able to broadcast to the current session. For example, after the user signs in we want to broadcast to all the browser windows the user happens to have open, so they can update.</p>
+<p>Let&#39;s say you would like to be able to broadcast to the current session. For example, after the user signs in we want to broadcast to all the browser windows the user happens to have open so that they can update.</p>
 
 <p>For this, we have a <code>current_session</code> method in the <code>ControllerOp</code> that you can dispatch to.</p>
 <pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">SignIn</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">ControllerOp</span>

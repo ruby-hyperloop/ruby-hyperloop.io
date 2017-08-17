@@ -8,7 +8,7 @@
     <meta name="google-site-verification" content="qjqVOvRhHfsuDbLOvaAnj2mkUZJ9Xwzg84TMVXduvUc" />
 
     <meta charset="UTF-8">
-    <title>Hyperloop - Tutorials, Videos & Quickstarts</title>
+    <title>Hyperloop</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <script src="https://unpkg.com/react@15/dist/react.min.js"></script>
@@ -319,6 +319,7 @@ end
     </div>
 
 
+
     <div class="jumbotron page-header">
       <div class="container">
 
@@ -385,14 +386,14 @@ end
     <li class="nav-item"><strong><a href="/tutorials/hyperlooprails">Hyperloop and Rails</a></strong></li>
     <ul class="nav">
       <li class="nav-item"><a href="/tutorials/hyperlooprails/helloworld">Hello World</a></li>
-      <li class="nav-item"><a href="/tutorials/hyperlooprails/todomvc">Todo MVC</a></li>
+      <li class="nav-item"><a href="/tutorials/hyperlooprails/todo-tutorial">Todo MVC</a></li>
       <li class="nav-item"><a href="/tutorials/hyperlooprails/chatapp">Chat App</a></li>
-      <li class="nav-item"><a href="/tutorials/hyperlooprails/devise">Devise</a></li>
+      <li class="nav-item"><a href="/tutorials/hyperlooprails/hyperloop-devise-tutorial">Devise</a></li>
       <li class="nav-item"><a href="/tutorials/hyperlooprails/eventsplanner">Events planner</a></li>
       <li class="nav-item"><a href="/tutorials/hyperlooprails/fivelettergame">Five letter word game</a></li>
       <li class="nav-item"><a href="/tutorials/hyperlooprails/cloud9">Hyperloop and Cloud9</a></li>
       <li class="nav-item"><a href="/tutorials/hyperlooprails/webpack">NPM and Webpack</a></li>
-      <li class="nav-item"><a href="/tutorials/hyperlooprails/webpacker">Webpacker GEM</a></li>
+      <li class="nav-item"><a href="/tutorials/hyperlooprails/hyperloop-rails-webpackergem-helloworld">Webpacker GEM</a></li>
       <li class="nav-item"><a href="/tutorials/hyperlooprails/opalhotreloader">Opal Hot Reloader</a></li>
       <li class="nav-item"><a href="/tutorials/hyperlooprails/productionmode">Production mode</a></li>
     </ul>
@@ -415,256 +416,172 @@ end
           <br>
         </div>
         <div class="col-md-9 main-content">
-          <h2 id="webpacker-gem-tutorial"><i class="flaticon-professor-teaching"></i><span class="bigfirstletter">W</span>ebpacker GEM Tutorial</h2>
+          <h2 id="devise-with-hyperloop-tutorial"><i class="flaticon-professor-teaching"></i><span class="bigfirstletter">D</span>evise with Hyperloop Tutorial</h2>
 
-<p><img src="../../../images/tutorials/Hyperloop-Railswebpacker.gif" class="imgborder"></p>
+<p>This tutorial will demonstrate how to use the popular <a href="https://github.com/plataformatec/devise">Devise Gem</a> with Hyperloop. In this tutorial, we will be using the standard Devise user session ERB views for all Devise related activity (creating the user, changing the password, etc), and demonstrating how Hyperloop co-exists with Devise.</p>
 
-<p>You can find the complete source code of this tutorial here: </p>
+<p>The goal of this tutorial is to show the interactivity between Hyperloop and Devise, so we will go quickly through the setup of Hyperloop and Devise. If these technologies are new to you, then this is not the ideal tutorial to start with. Please be sure to see the <a href="http://ruby-hyperloop.io/tutorials/hyperlooprails/">Hyperloop with Rails tutorials</a> and the <a href="https://github.com/plataformatec/devise">Devise Gem</a> first.</p>
 
-<p><button type="button" class="btn btn-primary btn-lg btn-hyperlooptrace" onclick="location.href='https://github.com/ruby-hyperloop/hyperloop-rails-webpackergem-helloworld';">Hyperloop with Rails Webpacker GEM app Source code</button></p>
+<h2 id="setup">Setup</h2>
 
-<h3 id="tutorial">Tutorial</h3>
+<p>Before continuing, you will need a Rails app with Hyperloop and Devise setup and working. Either clone the source code of this tutorial or run through the setup steps detailed here.</p>
 
-<p>To set up your <strong>Hyperloop</strong> environment and continue this tutorial, please first follow the <br><br>
-<button type="button" class="btn btn-primary btn-lg btn-hyperlooppink" onclick="location.href='/installation#rorsetup';">Hyperloop installation with Ruby On Rails tutorial</button></p>
+<h2 id="setup-rails-hyperloop-and-devise">Setup Rails, Hyperloop and Devise</h2>
 
-<p>After <strong>Hyperloop</strong> has been installed properly we can go further:</p>
+<p>If you already have Devise and Hyperloop setup you can skip this section and go directly to <a href="#using-devise-with-hyperloop">Using Devise with Hyperloop</a></p>
 
-<p>We are going to setup the <a href="https://github.com/rails/webpacker">Webpacker GEM</a> and implement a simple HelloWorld app to show how Hyperloop and <a href="https://webpack.js.org/">webpack</a> are running well together.</p>
+<p>This chapter that you through a basic installation of Devise and Hyperloop.</p>
 
-<h4 id="part-1-webpacker-gem">Part 1 - Webpacker GEM</h4>
+<h3 id="creating-a-new-rails-app">Creating a new Rails app</h3>
 
-<h5 id="step-1-1-installing-and-setting-up-the-webpacker-gem">Step 1.1 - Installing and setting up the Webpacker GEM:</h5>
+<p>Assuming you have Ruby and Rails installed, from the command line type:</p>
 
-<p>Update your Gemfile file:</p>
-<pre class="highlight ruby"><code><span class="c1">#Gemfile</span>
+<p><code>rails new devise_hyperloop</code>
+<code>cd devise_hyperloop</code>
+<code>bundel install</code></p>
 
-<span class="n">gem</span> <span class="s1">'webpacker'</span>
-
+<p>We are going to need a User model, so let&#39;s create a simple one now:</p>
+<pre class="highlight plaintext"><code>rails g model User first_name:string last_name:string
+rails db:migrate
 </code></pre>
-<p>Then run:</p>
-<pre class="highlight ruby"><code><span class="n">bundle</span> <span class="n">update</span>
+<h3 id="installing-hyperloop-and-creating-a-simple-component">Installing Hyperloop and creating a simple Component</h3>
+
+<p>Firstly add the master Hyperloop gem to your Gemfile.</p>
+<pre class="highlight ruby"><code><span class="c1"># Gemfile</span>
+<span class="n">gem</span> <span class="s1">'hyperloop'</span>
 </code></pre>
-<p>Run the webpacker install generator:</p>
-<pre class="highlight plaintext"><code>bin/rails webpacker:install
+<p>Next run bundle:</p>
+
+<p><code>bundle install</code></p>
+
+<p>Then run the Hyperloop generator and create a simple Component:</p>
+<pre class="highlight plaintext"><code>rails g hyperloop:install
+rails g hyper:component Helloworld
 </code></pre>
-<h5 id="step-1-2-adding-libraries-into-webpack">Step 1.2 - Adding libraries into Webpack:</h5>
+<p>Next, create a route in <code>routes.rb</code> which points to the Helloworld Component we have just created.</p>
 
-<p><a href="https://github.com/rails/webpacker">Webpacker GEM</a> comes with the the <a href="https://yarnpkg.com/en/">YARN</a> package manager in order to install needed libraries.</p>
+<blockquote>
+<p>Note that this shortcut replaces the need for a Rails controller and view. There is an automagical <code>hyperloop</code> controller which will load the component specified. If you prefer not to take this shortcut, you can create a controller and view which will load your Helloworld Component instead. See the Hyperloop website for details on how to do this.</p>
+</blockquote>
 
-<p>We are going to install 4 libraries required by our application:
-React, React-dom, Bootstrap and Bootswatch theme.</p>
-
-<p>Run these commands:</p>
-<pre class="highlight plaintext"><code>yarn add react
-yarn add react-dom
-yarn add bootstrap react-bootstrap
-yarn add bootswatch
+<p>For this tutorial we will take the shortcut:</p>
+<pre class="highlight ruby"><code><span class="c1"># routes.rb</span>
+<span class="n">root</span> <span class="s1">'hyperloop#helloworld'</span>
 </code></pre>
-<h5 id="step-1-3-requiring-the-libraires">Step 1.3 - Requiring the libraires</h5>
-
-<p>In the <code>app/javascript/packs</code> add the following two files:</p>
-<pre class="highlight javascript"><code><span class="c1">//app/javascript/packs/client_and_server.js</span>
-
-<span class="nx">ReactDOM</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'react-dom'</span><span class="p">);</span>
-<span class="nx">React</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'react'</span><span class="p">);</span>
-<span class="nx">ReactBootstrap</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'react-bootstrap'</span><span class="p">);</span>
-</code></pre><pre class="highlight javascript"><code><span class="c1">//app/javascript/packs/client_only.js</span>
-
-<span class="nx">require</span><span class="p">(</span><span class="s1">'bootswatch/superhero/bootstrap.min.css'</span><span class="p">);</span>
-</code></pre>
-<h5 id="step-1-4-letting-webpack-know-react-and-reactdom-are-external">Step 1.4 - Letting Webpack know React and ReactDOM are external</h5>
-
-<p>React and ReactDOM are being brought in by Hyperloop, so we need to let Webpack know that these libraries are external so we do not end up with more than one copy of React running. Note that you will also need to do this for your production environment.</p>
-
-<p>In the <code>module.export</code> block, add the following to <code>development.js</code>:</p>
-<pre class="highlight javascript"><code><span class="c1">//config/webpack/development.js</span>
-
-<span class="nl">externals</span><span class="p">:</span> <span class="p">{</span>
-       <span class="s2">"react"</span><span class="p">:</span> <span class="s2">"React"</span><span class="p">,</span>
-       <span class="s2">"react-dom"</span><span class="p">:</span> <span class="s2">"ReactDOM"</span>
-   <span class="p">},</span>
-</code></pre>
-<h5 id="step-1-5-building-the-webpack-bundle">Step 1.5 - Building the webpack bundle</h5>
-
-<p><strong>You will need to do this step whenever you make any changes to Webpack or add additional libraries though Yarn.</strong></p>
-
-<p>Run the following commands in your console:</p>
-<pre class="highlight plaintext"><code>rm -rf tmp/cache/
-bin/webpack
-rake environment
-</code></pre>
-<p>Note in the above, you should always delete your cache before building your webpack assets. <code>rake environment</code> will recompile Hyperloop.</p>
-
-<p><i class="flaticon-signs"></i> In the future, when you will add a new library with webpack, it can happen that it is not correctly loaded. So, in this case, we advise to delete the <code>node_modules</code> directory, re-install libraires, re-generate the webpack file and clear Hyperloop cache and browser cache:</p>
-<pre class="highlight plaintext"><code>rm -rf node_modules
-yarn
-rm -rf tmp/cache
-bin/webpack
-
-Clear Browser cache
-</code></pre>
-<h5 id="step-1-6-configuring-rails-asset-pipeline">Step 1.6 - Configuring Rails asset pipeline:</h5>
-<pre class="highlight ruby"><code><span class="c1">#config/initializers/assets.rb</span>
-
-<span class="no">Rails</span><span class="p">.</span><span class="nf">application</span><span class="p">.</span><span class="nf">config</span><span class="p">.</span><span class="nf">assets</span><span class="p">.</span><span class="nf">paths</span> <span class="o">&lt;&lt;</span> <span class="no">Rails</span><span class="p">.</span><span class="nf">root</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="s1">'public'</span><span class="p">,</span> <span class="s1">'packs'</span><span class="p">).</span><span class="nf">to_s</span>
-</code></pre>
-<h5 id="step-1-7-adding-pack-files-to-the-asset-pipeline">Step 1.7 - Adding pack files to the asset pipeline:</h5>
-
-<p>By using the Hyperloop configuration file we can directly tell our app to include the pack files in the asset pipeline:</p>
-<pre class="highlight ruby"><code><span class="c1">#config/initializers/hyperloop.rb</span>
-
+<p>Next, we should check that out transport is correctly configured. This tutorial uses ActionCable. In <code>config/initializers/hyperloop.rb</code> ensure that we have a valid transport:</p>
+<pre class="highlight ruby"><code><span class="c1"># config/initializers/hyperloop.rb</span>
 <span class="no">Hyperloop</span><span class="p">.</span><span class="nf">configuration</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
-  <span class="n">config</span><span class="p">.</span><span class="nf">transport</span> <span class="o">=</span> <span class="ss">:simple_poller</span>
-  <span class="n">config</span><span class="p">.</span><span class="nf">import</span> <span class="s1">'client_and_server'</span>
-  <span class="n">config</span><span class="p">.</span><span class="nf">import</span> <span class="s1">'client_only'</span><span class="p">,</span> <span class="ss">client_only: </span><span class="kp">true</span>
+  <span class="n">config</span><span class="p">.</span><span class="nf">transport</span> <span class="o">=</span> <span class="ss">:action_cable</span>
 <span class="k">end</span>
 </code></pre>
-<p><i class="flaticon-signs"></i> In Rails production mode it would be necessary to include the pack files in your application main layout:</p>
-<pre class="highlight erb"><code>#app/views/layouts/application.tml.erb
+<p>To access our User Model on the client, we need to move it (and applciation_record.rb for Rails 5.x) to the <code>hyperloop/models</code> folder.</p>
 
-<span class="cp">&lt;%=</span> <span class="n">javascript_pack_tag</span> <span class="s1">'client_and_server'</span> <span class="cp">%&gt;</span>
+<p><code>mv app/models/user.rb app/hyperloop/models/</code>
+<code>mv app/models/application_record.rb app/hyperloop/models/</code></p>
+
+<p>If you start your rails server and navigate to <code>localhost:3000</code>. <code>Helloworld</code> should be displayed in your browser. Admittedly this is not very exciting, but it does prove that Hyperloop is correctly installed.</p>
+
+<h3 id="installing-devise">Installing Devise</h3>
+
+<p>Next, we will install Devise. In your <code>Gemfile</code> add:</p>
+<pre class="highlight ruby"><code><span class="c1"># Gemfile</span>
+<span class="n">gem</span> <span class="s1">'devise'</span>
 </code></pre>
-<h5 id="step-1-8-adding-css-pack-files-to-the-asset-pipeline">Step 1.8 - Adding CSS pack files to the asset pipeline</h5>
+<p>Then bundle:</p>
 
-<p>Add this line:</p>
-<pre class="highlight plaintext"><code>//app/assets/stylesheets/application.css
+<p><code>bundle install</code></p>
 
-*= require client_only.css
+<p>Then run the Devise generator:</p>
+
+<p><code>rails generate devise:install</code></p>
+
+<p>As this tutorial is not about Devise but rather its connection to Hyperloop, we will do the minimal Devise setup required. Please see the Devise website for more information on setting up Devise thoroughly.</p>
+
+<p>Devise needs to augment our User model, so we will run a generator for that:</p>
+<pre class="highlight plaintext"><code>rails g devise User
+rails db:migrate
 </code></pre>
-<p>Note: if you prefer that your CSS pack files being directly packed into the <code>client_only.js</code> you can modify the <code>config/webpack/</code> config files and run the <code>rm -rf tmp/cache/; bin/webpack; rake environment</code> again.</p>
+<p>At this point, Devise should be setup and working. Let&#39;s test that by starting your Rails server and navigating to:</p>
 
-<h4 id="part-2-implementing-the-helloworld-app">Part 2 - Implementing the helloworld app</h4>
+<p><code>http://localhost:3000/users/sign_up</code></p>
 
-<h5 id="step-2-1-creating-the-helloworld-component">Step 2.1 - Creating the Helloworld component</h5>
+<p>You should see a very basic looking signup page! Now we know that Devise is setup and working.</p>
 
-<p>Run the hyperloop generator:</p>
-<pre class="highlight plaintext"><code>rails g hyper:component Helloworld
+<p>As a final step, we need to tell Rails to protect all our controllers with Devise. Add the following line to your <code>application_controller.rb</code></p>
+<pre class="highlight ruby"><code><span class="c1"># application_controller.rb</span>
+<span class="n">before_action</span> <span class="ss">:authenticate_user!</span>
 </code></pre>
-<p>You can view the new Component created in <code>/app/hyperloop/components/</code></p>
+<p>At this stage, we have Hyperloop and Devise installed so now we will discuss how to connect them.</p>
 
-<h5 id="step-2-2-updating-helloworld-component-code">Step 2.2 - Updating Helloworld component code</h5>
+<p>You will have one more configuration step to complete which is detailed here: <a href="#using-devise-with-hyperloop">Using Devise with Hyperloop</a></p>
 
-<p>Copy and paste this code into the component file you&#39;ve just generated:</p>
-<pre class="highlight ruby"><code><span class="c1">#/app/hyperloop/components/helloworld.rb</span>
+<h3 id="adding-devise-or-hyperloop-to-an-existing-app">Adding Devise or Hyperloop to an existing app</h3>
 
-<span class="k">class</span> <span class="nc">Helloworld</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Component</span>
+<p>If you are adding Devise or Hyperloop to an existing app, please ensure that you have completed the following steps:</p>
 
-  <span class="n">state</span> <span class="ss">show_field: </span><span class="kp">false</span>
-  <span class="n">state</span> <span class="ss">field_value: </span><span class="s2">""</span>
+<ul>
+<li>You have a Rails app with a User model</li>
+<li>Hyperloop is installed and rendering Components</li>
+<li>Hyperloop&#39;s transport is configured so data can move from the server to the client</li>
+<li>You have moved your User model to the <code>hyperloop/models</code> folder, so that is accessible to both the client and server code</li>
+<li>Devise is installed, and you have run the generator for Devise</li>
+<li>Devise is protecting all our Rail controllers through a <code>before_action</code> on your ApplicationController</li>
+</ul>
 
-  <span class="n">render</span><span class="p">(</span><span class="no">DIV</span><span class="p">)</span> <span class="k">do</span>
-    <span class="n">show_button</span>
-    <span class="no">DIV</span><span class="p">(</span><span class="ss">class: </span><span class="s1">'formdiv'</span><span class="p">)</span> <span class="k">do</span>
-      <span class="n">show_input</span>
-      <span class="no">H1</span> <span class="p">{</span> <span class="s2">"</span><span class="si">#{</span><span class="n">state</span><span class="p">.</span><span class="nf">field_value</span><span class="si">}</span><span class="s2">"</span> <span class="p">}</span>
-    <span class="k">end</span> <span class="k">if</span> <span class="n">state</span><span class="p">.</span><span class="nf">show_field</span>
-  <span class="k">end</span>
+<h2 id="using-devise-with-hyperloop">Using Devise with Hyperloop</h2>
 
-  <span class="k">def</span> <span class="nf">show_button</span>
-    <span class="no">BUTTON</span><span class="p">(</span><span class="ss">class: </span><span class="s1">'btn btn-info'</span><span class="p">)</span> <span class="k">do</span>
-      <span class="n">state</span><span class="p">.</span><span class="nf">show_field</span> <span class="p">?</span> <span class="s2">"Click to hide HelloWorld input field"</span> <span class="p">:</span> <span class="s2">"Click to show HelloWorld input field"</span>
-    <span class="k">end</span><span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:click</span><span class="p">)</span> <span class="p">{</span> <span class="n">mutate</span><span class="p">.</span><span class="nf">show_field</span> <span class="o">!</span><span class="n">state</span><span class="p">.</span><span class="nf">show_field</span> <span class="p">}</span>
-  <span class="k">end</span>
+<h3 id="keeping-devise-code-on-the-server">Keeping Devise code on the server</h3>
 
-  <span class="k">def</span> <span class="nf">show_input</span>
+<p><strong>There is one last configuration step we need to perform. Devise has added code to our User model which we want on the server but not on the client.</strong></p>
 
-    <span class="no">H4</span> <span class="k">do</span>
-      <span class="n">span</span><span class="p">{</span><span class="s1">'Please type '</span><span class="p">}</span>
-      <span class="n">span</span><span class="p">.</span><span class="nf">colored</span> <span class="p">{</span><span class="s1">'Hello World'</span><span class="p">}</span>
-      <span class="n">span</span><span class="p">{</span><span class="s1">' in the input field below :'</span><span class="p">}</span>
-      <span class="n">br</span> <span class="p">{}</span>
-      <span class="n">span</span><span class="p">{</span><span class="s1">'Or anything you want (^̮^)'</span><span class="p">}</span>
-    <span class="k">end</span>
-
-    <span class="no">INPUT</span><span class="p">(</span><span class="ss">type: :text</span><span class="p">,</span> <span class="ss">class: </span><span class="s1">'form-control'</span><span class="p">).</span><span class="nf">on</span><span class="p">(</span><span class="ss">:change</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">e</span><span class="o">|</span>
-      <span class="n">state</span><span class="p">.</span><span class="nf">field_value!</span> <span class="n">e</span><span class="p">.</span><span class="nf">target</span><span class="p">.</span><span class="nf">value</span>
-    <span class="k">end</span>
-  <span class="k">end</span>
-
-  <span class="k">def</span> <span class="nf">show_text</span>
-    <span class="no">H1</span> <span class="p">{</span> <span class="s2">"</span><span class="si">#{</span><span class="n">state</span><span class="p">.</span><span class="nf">field_value</span><span class="si">}</span><span class="s2">"</span> <span class="p">}</span>
-  <span class="k">end</span>
-
-<span class="k">end</span>
-
-
-</code></pre>
-<h5 id="step-2-3-creating-the-controller">Step 2.3 - Creating the controller</h5>
-
-<p>Create a <code>home_controller.rb</code> file, manually or with the command <code>rails g controller Home helloworld --skip-javascripts</code>:</p>
-<pre class="highlight ruby"><code><span class="c1">#app/controllers/home_controller.rb</span>
-
-<span class="k">class</span> <span class="nc">HomeController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
-  <span class="k">def</span> <span class="nf">helloworld</span>
-  <span class="k">end</span>
+<p>To achieve this we simply wrap the <code>devise</code> macro in an <code>unless RUBY_ENGINE == &#39;opal&#39;</code> test:</p>
+<pre class="highlight ruby"><code><span class="c1"># app/hyperloop/models/user.rb</span>
+<span class="k">class</span> <span class="nc">User</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">devise</span> <span class="ss">:database_authenticatable</span><span class="p">,</span> <span class="ss">:registerable</span><span class="p">,</span>
+         <span class="ss">:recoverable</span><span class="p">,</span> <span class="ss">:rememberable</span><span class="p">,</span> <span class="ss">:trackable</span><span class="p">,</span> <span class="ss">:validatable</span> <span class="k">unless</span> <span class="no">RUBY_ENGINE</span> <span class="o">==</span> <span class="s1">'opal'</span>
 <span class="k">end</span>
 </code></pre>
-<h5 id="step-2-4-updating-the-routes-rb-file">Step 2.4 - Updating the routes.rb file</h5>
-<pre class="highlight ruby"><code><span class="c1">#config/routes.rb</span>
+<h3 id="hyperloop-and-devise-co-existing">Hyperloop and Devise co-existing</h3>
 
-<span class="n">root</span> <span class="s1">'home#helloworld'</span>
+<p>If you restart your Rails server and navigate to <code>http://localhost:3000/</code> you should be redirected to a Signup page.</p>
+
+<p>Complete the signup, and you should be redirected to Hyperloop route which renders our Helloworld component. You should see this in your browser:</p>
+<pre class="highlight plaintext"><code>Welcome! You have signed up successfully.
+
+Helloworld
 </code></pre>
-<h5 id="step-2-5-creating-the-helloworld-view-file">Step 2.5 - Creating the helloworld view file:</h5>
-<pre class="highlight erb"><code>#app/views/home/helloworld.html.erb
+<p>This proves that both Devise and Hyperloop are working properly, so our next step is to link them together.</p>
 
-<span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"hyperloophelloword"</span><span class="nt">&gt;</span>
+<h3 id="linking-hyperloop-and-devise">Linking Hyperloop and Devise</h3>
 
-  <span class="nt">&lt;div&gt;</span>
-    <span class="cp">&lt;%=</span> <span class="n">react_component</span> <span class="s1">'::Helloworld'</span><span class="p">,</span> <span class="p">{},</span> <span class="p">{</span> <span class="ss">prerender: </span><span class="kp">true</span> <span class="p">}</span> <span class="cp">%&gt;</span>
-  <span class="nt">&lt;/div&gt;</span>
+<p>Devise makes it easy to access the currently logged in User through a <code>current_user</code> helper which is available (servers-side) in your Rails Controllers and Views.</p>
 
-<span class="nt">&lt;/div&gt;</span>
+<p>To get this information client-side, we need to link Hyperloop&#39;s (server-side) <code>acting_user</code> with Devise&#39;s <code>current_user</code> by creating an <code>acting_user</code> method on our <code>ApplicationController</code> which aliases Devise&#39;s <code>current_user</code>:</p>
+<pre class="highlight ruby"><code><span class="c1"># app/controllers/application_controller.rb</span>
+<span class="k">def</span> <span class="nf">acting_user</span>
+  <span class="n">current_user</span>
+<span class="k">end</span>
 </code></pre>
-<h5 id="step-2-6-styling">Step 2.6 - Styling</h5>
+<p>Hyperloop will then call <code>ApplicationController::acting_user</code>, and set <code>Hyperloop::Application.acting_user_id</code> to the ID of <code>current_user</code>.</p>
 
-<p>We will add a <strong>Hyperloop</strong> logo</p>
-<pre class="highlight erb"><code>#app/views/home/helloworld.html.erb
+<p><code>Hyperloop::Application.acting_user_id</code> will then be available to your server and client-side code.</p>
 
-<span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"hyperloophelloword"</span><span class="nt">&gt;</span>
+<h3 id="accessing-user-current-on-the-client">Accessing <code>User.current</code> on the client</h3>
 
-  <span class="nt">&lt;img</span> <span class="na">src=</span><span class="s">"https://rawgit.com/ruby-hyperloop/hyperloop-js-helloworld/master/hyperloop-logo-medium-white.png?raw=true"</span><span class="nt">&gt;</span>
+<p>Let&#39;s update our <code>Helloworld</code> Component so that it renders the current users&#39; email.</p>
 
-  <span class="nt">&lt;div&gt;</span>
-    <span class="cp">&lt;%=</span> <span class="n">react_component</span> <span class="s1">'::Helloworld'</span><span class="p">,</span> <span class="p">{},</span> <span class="p">{</span> <span class="ss">prerender: </span><span class="kp">true</span> <span class="p">}</span> <span class="cp">%&gt;</span>
-  <span class="nt">&lt;/div&gt;</span>
-
-<span class="nt">&lt;/div&gt;</span>
+<p>To keep the concept of <code>Hyperloop::Application.acting_user_id</code> out of our client-side code, we will add a class method to <code>User</code> which will find and return the <code>current_user</code> if one exists or an empty User object if no user is current:</p>
+<pre class="highlight ruby"><code><span class="c1"># app/hyperloop/models/user.rb</span>
+<span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">current</span>
+  <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Application</span><span class="p">.</span><span class="nf">acting_user_id</span> <span class="p">?</span> <span class="n">find</span><span class="p">(</span><span class="no">Hyperloop</span><span class="o">::</span><span class="no">Application</span><span class="p">.</span><span class="nf">acting_user_id</span><span class="p">)</span> <span class="p">:</span> <span class="no">User</span><span class="p">.</span><span class="nf">new</span>
+<span class="k">end</span>
 </code></pre>
-<p>And load 1 small sample stylesheet :</p>
-<pre class="highlight erb"><code>#app/views/layouts/application.html.erb
-
-<span class="cp">&lt;!DOCTYPE html&gt;</span>
-<span class="nt">&lt;html&gt;</span>
-  <span class="nt">&lt;head&gt;</span>
-    <span class="nt">&lt;title&gt;</span>HyperloopRailsHelloworld<span class="nt">&lt;/title&gt;</span>
-    <span class="cp">&lt;%=</span> <span class="n">csrf_meta_tags</span> <span class="cp">%&gt;</span>
-
-    <span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">"stylesheet"</span> <span class="na">href=</span><span class="s">"https://rawgit.com/ruby-hyperloop/hyperloop-js-helloworld/master/style.css"</span> <span class="nt">&gt;</span>
-
-    <span class="cp">&lt;%=</span> <span class="n">stylesheet_link_tag</span>    <span class="s1">'application'</span><span class="p">,</span> <span class="ss">media: </span><span class="s1">'all'</span><span class="p">,</span> <span class="s1">'data-turbolinks-track'</span><span class="p">:</span> <span class="s1">'reload'</span> <span class="cp">%&gt;</span>
-    <span class="cp">&lt;%=</span> <span class="n">javascript_include_tag</span> <span class="s1">'application'</span><span class="p">,</span> <span class="s1">'data-turbolinks-track'</span><span class="p">:</span> <span class="s1">'reload'</span> <span class="cp">%&gt;</span>
-  <span class="nt">&lt;/head&gt;</span>
-
-  <span class="nt">&lt;body&gt;</span>
-    <span class="cp">&lt;%=</span> <span class="k">yield</span> <span class="cp">%&gt;</span>
-  <span class="nt">&lt;/body&gt;</span>
-<span class="nt">&lt;/html&gt;</span>
-
+<p>Now to access out <code>current_user</code> object we simply say <code>User.current</code>, so in the Helloworld Component to render the current user&#39;s email:</p>
+<pre class="highlight ruby"><code><span class="c1"># app/hyperloop/components/helloworld.rb</span>
+<span class="no">DIV</span> <span class="k">do</span>
+  <span class="no">H1</span> <span class="p">{</span><span class="s2">"Helloworld - </span><span class="si">#{</span><span class="no">User</span><span class="p">.</span><span class="nf">current</span><span class="p">.</span><span class="nf">email</span><span class="si">}</span><span class="s2">"</span><span class="p">}</span>
+<span class="k">end</span>
 </code></pre>
-<h5 id="final-step-running-your-app">Final step: Running your app:</h5>
-
-<p>Start your Rails server and browse <code>http://localhost:3000</code>.</p>
-
-<p>You can find the complete source code of this tutorial here: </p>
-
-<p><button type="button" class="btn btn-primary btn-lg btn-hyperlooptrace" onclick="location.href='https://github.com/ruby-hyperloop/hyperloop-rails-webpackergem-helloworld';">Hyperloop with Rails Webpacker GEM app Source code</button></p>
-
-<div>
-  <p>The <strong>best way</strong> to get help and contribute is to join our Gitter Chat</p>
-  <button type="button" class="btn btn-primary btn-lg btn-hyperloopgitter" onclick="location.href='https://gitter.im/ruby-hyperloop/chat';">Gitter Chat</button>
-</div>
-
         </div>
       </div>
     </div>
@@ -731,7 +648,7 @@ Clear Browser cache
       <a href="/docs/components/dsl-overview">Components</a>
       <a href="/docs/stores/overview">Stores</a>
       <a href="/docs/models/overview">Models</a>
-      <a href="/docs/operations/overview">Operations</a>
+      <a href="/docs/operations/docs">Operations</a>
       <a href="/docs/policies/authorization">Policies</a>
     </div>
 

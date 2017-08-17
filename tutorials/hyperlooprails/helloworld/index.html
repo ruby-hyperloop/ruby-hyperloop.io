@@ -319,6 +319,7 @@ end
     </div>
 
 
+
     <div class="jumbotron page-header">
       <div class="container">
 
@@ -385,14 +386,14 @@ end
     <li class="nav-item"><strong><a href="/tutorials/hyperlooprails">Hyperloop and Rails</a></strong></li>
     <ul class="nav">
       <li class="nav-item"><a href="/tutorials/hyperlooprails/helloworld">Hello World</a></li>
-      <li class="nav-item"><a href="/tutorials/hyperlooprails/todomvc">Todo MVC</a></li>
+      <li class="nav-item"><a href="/tutorials/hyperlooprails/todo-tutorial">Todo MVC</a></li>
       <li class="nav-item"><a href="/tutorials/hyperlooprails/chatapp">Chat App</a></li>
-      <li class="nav-item"><a href="/tutorials/hyperlooprails/devise">Devise</a></li>
+      <li class="nav-item"><a href="/tutorials/hyperlooprails/hyperloop-devise-tutorial">Devise</a></li>
       <li class="nav-item"><a href="/tutorials/hyperlooprails/eventsplanner">Events planner</a></li>
       <li class="nav-item"><a href="/tutorials/hyperlooprails/fivelettergame">Five letter word game</a></li>
       <li class="nav-item"><a href="/tutorials/hyperlooprails/cloud9">Hyperloop and Cloud9</a></li>
       <li class="nav-item"><a href="/tutorials/hyperlooprails/webpack">NPM and Webpack</a></li>
-      <li class="nav-item"><a href="/tutorials/hyperlooprails/webpacker">Webpacker GEM</a></li>
+      <li class="nav-item"><a href="/tutorials/hyperlooprails/hyperloop-rails-webpackergem-helloworld">Webpacker GEM</a></li>
       <li class="nav-item"><a href="/tutorials/hyperlooprails/opalhotreloader">Opal Hot Reloader</a></li>
       <li class="nav-item"><a href="/tutorials/hyperlooprails/productionmode">Production mode</a></li>
     </ul>
@@ -442,7 +443,7 @@ end
 
 <h2 id="introduction"><a name="introduction">Introduction</a></h2>
 
-<p>This simple tutorial will teach you the basic of using each Hyperloop architecture brick: <a href="/docs/components/dsl-overview" class="component-blue"><b>C</b>omponents</a>, <a href="/docs/stores/overview" class="store-green"><b>S</b>tores</a>, <a href="/docs/models/active-record" class="model-orange"><b>I</b>somorphic models and ActiveRecord API</a>,  <a href="/docs/operations/overview" class="operation-purple"><b>O</b>perations</a>, <a href="/docs/operations/overview/#server-operations" class="operation-purple"><b>S</b>erver <b>O</b>perations</a>, each one introduced step by step, within a Ruby On Rails environment. </p>
+<p>This simple tutorial will teach you the basic of using each Hyperloop architecture brick: <a href="/docs/components/dsl-overview" class="component-blue"><b>C</b>omponents</a>, <a href="/docs/stores/overview" class="store-green"><b>S</b>tores</a>, <a href="/docs/models/active-record" class="model-orange"><b>I</b>somorphic models and ActiveRecord API</a>,  <a href="/docs/operations/overview" class="operation-purple"><b>O</b>perations</a>, <a href="/docs/operations/docs/#server-operations" class="operation-purple"><b>S</b>erver <b>O</b>perations</a>, each one introduced step by step, within a Ruby On Rails environment. </p>
 
 <p>At the end of this tutorial, we will have a simple app which will:</p>
 
@@ -1744,7 +1745,7 @@ end
 <h3 id="step-6-1-introduction">Step 6.1: Introduction</h3>
 
 <p>Hyperloop Operations classes are subclasses of <code>Hyperloop::Operation</code>.<br>
-<a href="http://ruby-hyperloop.io/docs/operations/overview/">{ Hyperloop Operations documentation}</a></p>
+<a href="http://ruby-hyperloop.io/docs/operations/docs">{ Hyperloop Operations documentation}</a></p>
 
 <p><code>Operations</code> are the engine rooms of Hyperloop, they orchestrate the interactions between <code>Components</code>, external services, Models and Stores. <strong>Operations are where your business logic lives</strong>.</p>
 
@@ -2076,7 +2077,7 @@ end
 <h3 id="step-7-1-introduction">Step 7.1: Introduction</h3>
 
 <p>Hyperloop Server Operations are subclasses of <code>Hyperloop::ServerOp</code>.<br>
-<a href="http://ruby-hyperloop.io/docs/operations/overview/#server-operations">{ Hyperloop Server Operations documentation }</a></p>
+<a href="http://ruby-hyperloop.io/docs/operations/docs/#server-operations">{ Hyperloop Server Operations documentation }</a></p>
 
 <p><code>Operations</code> will run on the client or the server, but <code>Server Operations</code> will always run on the server even if invoked on the client.</p>
 
@@ -2604,8 +2605,8 @@ end
 <p>For the purpose of our tutorial we set up them as basic as possible.</p>
 
 <p>You can know more about:<br>
-<a href="http://ruby-hyperloop.io/docs/operations/overview/#server-operations">{ Hyperloop Server Operations documentation }</a><br>
-<a href="http://ruby-hyperloop.io/docs/operations/overview/#dispatching-from-server-operations">{ Hyperloop dispatching from Server Operations documentation }</a><br>
+<a href="http://ruby-hyperloop.io/docs/operations/docs/#server-operations">{ Hyperloop Server Operations documentation }</a><br>
+<a href="http://ruby-hyperloop.io/docs/operations/docs/#dispatching-from-server-operations">{ Hyperloop dispatching from Server Operations documentation }</a><br>
 <a href="http://ruby-hyperloop.io/docs/policies/authorization/">{ Hyperloop policies for Authorizations }</a><br></p>
 
 <h4 id="step-7-11-c-writing-the-getmessages-server-operation">Step 7.11.c: Writing the GetMessages Server Operation</h4>
@@ -2911,7 +2912,7 @@ You can also try the push notifications mechanism by opening your app in another
       <a href="/docs/components/dsl-overview">Components</a>
       <a href="/docs/stores/overview">Stores</a>
       <a href="/docs/models/overview">Models</a>
-      <a href="/docs/operations/overview">Operations</a>
+      <a href="/docs/operations/docs">Operations</a>
       <a href="/docs/policies/authorization">Policies</a>
     </div>
 
