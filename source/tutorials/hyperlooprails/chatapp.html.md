@@ -5,7 +5,7 @@ title: Tutorials, Videos & Quickstarts
 
 We'll be building a simple but realistic chat application, a basic version of a chat room offered by a service like gitter.im.
 
-During this tutorial we will learn how to use Hyperloop <a href="/docs/components/dsl-overview" class="component-blue"><b>C</b>omponents</a>, <a href="/docs/stores/overview" class="store-green"><b>S</b>tores</a> and <a href="/docs/operations/overview" class="operation-purple"><b>O</b>perations</a>. 
+During this tutorial we will learn how to use Hyperloop <a href="/docs/components/dsl-overview" class="component-blue"><b>C</b>omponents</a>, <a href="/docs/stores/overview" class="store-green"><b>S</b>tores</a> and <a href="/docs/operations/docs" class="operation-purple"><b>O</b>perations</a>. 
 
 We will also see also how the <a href="/docs/models/configuring-transport" class="policies-black"><b>P</b>ush notifications</a> works. So every chatters will se all messages updated in realtime in their browser.  
 

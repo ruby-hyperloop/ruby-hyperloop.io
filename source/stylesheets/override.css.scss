@@ -119,6 +119,15 @@ ul.nav {
   text-align: left;
 }
 
+ul.navtoc {
+  text-align: left;
+  padding-left: 0;
+  margin-bottom: 0;
+  list-style: none;
+}
+
+
+
 .navbar-nav .nav-item+.nav-item {
   margin-left: 1.5rem !important;
 }
@@ -151,6 +160,7 @@ nav .navbar-nav .nav-item .nav-link:hover .navfirstletter {
 .sidenavcol ul.nav li.nav-item a {
   color: #e81176;
   font-weight: bold;
+  font-size: 110%;
 }
 
 .sidenavcol ul.nav li.nav-item a:hover {
@@ -161,12 +171,58 @@ nav .navbar-nav .nav-item .nav-link:hover .navfirstletter {
 .sidenavcol ul.nav > li.nav-item + ul.nav > li.nav-item > a {
   color: #149c8e;
   font-weight: normal;
+  font-size: 100%;
 }
 
 .sidenavcol ul.nav > li.nav-item + ul.nav > li.nav-item > a:hover {
   color: #1bd6c3;
   text-decoration: none;
 }
+
+
+
+.sidenavcol ul.navtoc > li.navtoc-item > a {
+  color: #e81176;
+  font-weight: bold;
+  font-size: 110%;
+  display: inline-block;
+  margin-top: 0.5em;
+}
+
+.sidenavcol ul.navtoc > li.navtoc-item > a:hover {
+  color: #ed5a9f;
+  text-decoration: none;
+}
+
+.sidenavcol ul.navtoc > li.navtoc-item > ul.navtoc > li.navtoc-item > a {
+  color: #149c8e;
+  font-weight: bold;
+  font-size: 100%;
+  display: inline-block;
+  margin-top: 1.3em;
+}
+
+.sidenavcol ul.navtoc > li.navtoc-item > ul.navtoc > li.navtoc-item > a:hover {
+  color: #1bd6c3;
+  text-decoration: none;
+}
+
+.sidenavcol ul.navtoc > li.navtoc-item > ul.navtoc > li.navtoc-item > ul.navtoc > li.navtoc-item > a {
+  color: #149c8e;
+  font-weight: normal;
+  font-size: 90%;
+  display: inline-block;
+  height: 1.7em !important;
+  line-height: 1.7em !important;
+  margin-top: 0;
+}
+
+.sidenavcol ul.navtoc > li.navtoc-item > ul.navtoc > li.navtoc-item > ul.navtoc > li.navtoc-item > a:hover {
+  color: #1bd6c3;
+  text-decoration: none;
+}
+
+
 
 .btn-hyperloopgreen {
   background-color: #1bd6c3 !important;

@@ -29,7 +29,7 @@ You can find the complete source code of this tutorial here:
 
 ## <a name="introduction">Introduction</a>
 
-This simple tutorial will teach you the basic of using each Hyperloop architecture brick: <a href="/docs/components/dsl-overview" class="component-blue"><b>C</b>omponents</a>, <a href="/docs/stores/overview" class="store-green"><b>S</b>tores</a>, <a href="/docs/models/active-record" class="model-orange"><b>I</b>somorphic models and ActiveRecord API</a>,  <a href="/docs/operations/overview" class="operation-purple"><b>O</b>perations</a>, <a href="/docs/operations/overview/#server-operations" class="operation-purple"><b>S</b>erver <b>O</b>perations</a>, each one introduced step by step, within a Ruby On Rails environment. 
+This simple tutorial will teach you the basic of using each Hyperloop architecture brick: <a href="/docs/components/dsl-overview" class="component-blue"><b>C</b>omponents</a>, <a href="/docs/stores/overview" class="store-green"><b>S</b>tores</a>, <a href="/docs/models/active-record" class="model-orange"><b>I</b>somorphic models and ActiveRecord API</a>,  <a href="/docs/operations/overview" class="operation-purple"><b>O</b>perations</a>, <a href="/docs/operations/docs/#server-operations" class="operation-purple"><b>S</b>erver <b>O</b>perations</a>, each one introduced step by step, within a Ruby On Rails environment. 
 
 At the end of this tutorial, we will have a simple app which will:
 
@@ -1416,7 +1416,7 @@ end
 ### Step 6.1: Introduction
 
 Hyperloop Operations classes are subclasses of `Hyperloop::Operation`.<br>
-[{ Hyperloop Operations documentation}](http://ruby-hyperloop.io/docs/operations/overview/)
+[{ Hyperloop Operations documentation}](http://ruby-hyperloop.io/docs/operations/docs)
 
 `Operations` are the engine rooms of Hyperloop, they orchestrate the interactions between `Components`, external services, Models and Stores. **Operations are where your business logic lives**.
 
@@ -1777,7 +1777,7 @@ end
 ### Step 7.1: Introduction
 
 Hyperloop Server Operations are subclasses of `Hyperloop::ServerOp`.<br>
-[{ Hyperloop Server Operations documentation }](http://ruby-hyperloop.io/docs/operations/overview/#server-operations)
+[{ Hyperloop Server Operations documentation }](http://ruby-hyperloop.io/docs/operations/docs/#server-operations)
 
 `Operations` will run on the client or the server, but `Server Operations` will always run on the server even if invoked on the client.
 
@@ -2313,8 +2313,8 @@ These 2 instructions are necessary for Authorization (because Server Operations 
 For the purpose of our tutorial we set up them as basic as possible.
 
 You can know more about:<br>
-[{ Hyperloop Server Operations documentation }](http://ruby-hyperloop.io/docs/operations/overview/#server-operations)<br>
-[{ Hyperloop dispatching from Server Operations documentation }](http://ruby-hyperloop.io/docs/operations/overview/#dispatching-from-server-operations)<br>
+[{ Hyperloop Server Operations documentation }](http://ruby-hyperloop.io/docs/operations/docs/#server-operations)<br>
+[{ Hyperloop dispatching from Server Operations documentation }](http://ruby-hyperloop.io/docs/operations/docs/#dispatching-from-server-operations)<br>
 [{ Hyperloop policies for Authorizations }](http://ruby-hyperloop.io/docs/policies/authorization/)<br>
 
 #### Step 7.11.c: Writing the GetMessages Server Operation
