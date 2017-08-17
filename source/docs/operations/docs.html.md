@@ -1,5 +1,4 @@
 
-
 # Hyperloop Operation
 
 Operations are the engine rooms of Hyperloop; they orchestrate the interactions between Components, external services, Models, and Stores. Operations are where your business logic lives.
@@ -15,7 +14,7 @@ end
 
 This goal of this documentation is to outline Hyperloop's Operations classes and provides enough information and examples to show how to implement Operations in an application.
 
-## What do Operations do?
+### What do Operations do?
 
 Operations are packaged as one neat package but perform three different functions:
 

@@ -82,69 +82,117 @@
   </ul>
 
   <br>
-  <ul class="nav">
-    <li class="nav-item"><a href="/docs/components/dsl-overview">Components</a></li>
+
+  <% if current_page.path.include?('docs/components') %>
+
     <ul class="nav">
-      <li class="nav-item"><a href="/docs/components/components-and-state">Components and State</a></br></li>
-      <li class="nav-item"><a href="/docs/components/lifecycle-callbacks">Lifecycle Callbacks</a></br></li>
-      <li class="nav-item"><a href="/docs/components/lifecycle-methods">Lifecycle Methods</a></br></li>
-      <li class="nav-item"><a href="/docs/components/event-handlers">Event Handlers</a></br></li>
-      <li class="nav-item"><a href="/docs/components/elements-rendering">Elements and Rendering</a></br></li>
-      <li class="nav-item"><a href="/docs/components/javascript-components">Javascript Components</a></br></li>
-      <li class="nav-item"><a href="/docs/components/serversiderendering">Server-side rendering</a></br></li>
-      <li class="nav-item"><a href="/docs/components/further-reading">Further Reading</a></br></li>
+      <li class="nav-item"><a href="/docs/components/dsl-overview">Hyperloop Components</a></li>
+      <ul class="nav">
+        <li class="nav-item"><a href="/docs/components/components-and-state">Components and State</a></br></li>
+        <li class="nav-item"><a href="/docs/components/lifecycle-callbacks">Lifecycle Callbacks</a></br></li>
+        <li class="nav-item"><a href="/docs/components/lifecycle-methods">Lifecycle Methods</a></br></li>
+        <li class="nav-item"><a href="/docs/components/event-handlers">Event Handlers</a></br></li>
+        <li class="nav-item"><a href="/docs/components/elements-rendering">Elements and Rendering</a></br></li>
+        <li class="nav-item"><a href="/docs/components/javascript-components">Javascript Components</a></br></li>
+        <li class="nav-item"><a href="/docs/components/serversiderendering">Server-side rendering</a></br></li>
+        <li class="nav-item"><a href="/docs/components/further-reading">Further Reading</a></br></li>
+      </ul>
     </ul>
-  </ul>
+
+  <% else %>
+
+    <ul class="nav">
+      <li class="nav-item"><a href="/docs/components/dsl-overview">Hyperloop Components</a></li>
+    </ul>    
+
+  <% end %>
 
   <br>
-  <ul class="nav">
-    <li class="nav-item"><a href="/docs/stores/overview">Stores</a></li>
+
+  <% if current_page.path.include?('docs/stores') %>
+
     <ul class="nav">
-      <li class="nav-item"><a href="/docs/stores/overview#receiving-operation-dispatches">Receiving Operation Dispatches</a></li>
-      <li class="nav-item"><a href="/docs/stores/overview#reading-and-mutating-states">Reading and Mutating States</a></li>
-      <li class="nav-item"><a href="/docs/stores/overview#instances-and-classes">Instances and Classes</a></li>
-      <li class="nav-item"><a href="/docs/stores/overview#explicitly-declaring-states">Explicitly Declaring States</a></li>
-      <li class="nav-item"><a href="/docs/stores/overview#hyperloop-store-mixin">Store Mixin</a></li>
+      <li class="nav-item"><a href="/docs/stores/overview">Hyperloop Stores</a></li>
+      <ul class="nav">
+        <li class="nav-item"><a href="/docs/stores/overview#receiving-operation-dispatches">Receiving Operation Dispatches</a></li>
+        <li class="nav-item"><a href="/docs/stores/overview#reading-and-mutating-states">Reading and Mutating States</a></li>
+        <li class="nav-item"><a href="/docs/stores/overview#instances-and-classes">Instances and Classes</a></li>
+        <li class="nav-item"><a href="/docs/stores/overview#explicitly-declaring-states">Explicitly Declaring States</a></li>
+        <li class="nav-item"><a href="/docs/stores/overview#hyperloop-store-mixin">Store Mixin</a></li>
+      </ul>
     </ul>
-  </ul>
+
+  <% else %>
+
+    <ul class="nav">
+      <li class="nav-item"><a href="/docs/stores/overview">Hyperloop Stores</a></li>
+    </ul>
+
+  <% end %>
 
   <br>
-  <ul class="nav">
-    <li class="nav-item"><a href="/docs/models/overview">Models</a></li>
+
+  <% if current_page.path.include?('docs/models') %>
+
     <ul class="nav">
-      <li class="nav-item"><a href="/docs/models/active-record">ActiveRecord API</a></li>
-      <li class="nav-item"><a href="/docs/models/scoping">Scoping</a></br></li>
-      <li class="nav-item"><a href="/docs/models/configuring-transport">Configuring the Transport</a></li>
-      <li class="nav-item"><a href="/docs/models/debugging">Debugging</a></li>
-      <li class="nav-item"><a href="/docs/models/common-errors">Common Errors</a></li>
+      <li class="nav-item"><a href="/docs/models/overview">Hyperloop Models</a></li>
+      <ul class="nav">
+        <li class="nav-item"><a href="/docs/models/active-record">ActiveRecord API</a></li>
+        <li class="nav-item"><a href="/docs/models/scoping">Scoping</a></br></li>
+        <li class="nav-item"><a href="/docs/models/configuring-transport">Configuring the Transport</a></li>
+        <li class="nav-item"><a href="/docs/models/debugging">Debugging</a></li>
+        <li class="nav-item"><a href="/docs/models/common-errors">Common Errors</a></li>
+      </ul>
     </ul>
-  </ul>
+
+  <% else %>
+
+    <ul class="nav">
+      <li class="nav-item"><a href="/docs/models/overview">Hyperloop Models</a></li>
+    </ul>
+
+  <% end %>
+
 
   <br>
   
-    
-  <%= table_of_contents(sitemap.find_resource_by_path("/docs/operations/docs.html")) %>
- 
-  
-
-  <br>
-  <ul class="nav">
-    <li class="nav-item"><strong><a href="/docs/policies/authorization">Policies</a></strong></li>
-    <ul class="nav">
-      <li class="nav-item"><a href="/docs/policies/authorization#details">Details</a></li>
-      <li class="nav-item"><a href="/docs/policies/authorization#defining-policies-and-policy-classes">Policy Classes</a></li>
-      <li class="nav-item"><a href="/docs/policies/authorization#channels-and-connection-policies">Channels and connection Policies</a></li>
-      <li class="nav-item"><a href="/docs/policies/authorization#class-names-instances-and-ids">Class Names Instances and IDs</a></li>
-      <li class="nav-item"><a href="/docs/policies/authorization#acting-user">Acting User</a></li>
-      <li class="nav-item"><a href="/docs/policies/authorization#automatic-connection">Automatic Connection</a></li>
-      <li class="nav-item"><a href="/docs/policies/authorization#manually-connecting-to-channels">Manually Connecting to Channels</a></li>
-      <li class="nav-item"><a href="/docs/policies/authorization#connection-sequence-summary">Connection Sequence Summary</a></li>
-      <li class="nav-item"><a href="/docs/policies/authorization#disconnecting">Disconnecting</a></li>
-      <li class="nav-item"><a href="/docs/policies/authorization#broadcasting-and-broadcast-policies">Broadcasting and Broadcast Policies</a></li>
-      <li class="nav-item"><a href="/docs/policies/authorization#browser-initiated-change-policies">Browser Initiated Change policies</a></li>
-      <li class="nav-item"><a href="/docs/policies/authorization#method-summary-and-name-space-conflicts">Method Summary and Name Space Conflicts</a></li>
-    </ul>
+  <% if current_page.path.include?('docs/operations') %>
+    <%= table_of_contents(current_page)  %>
+  <% else %>
+   <ul class="nav">
+      <li class="nav-item"><a href="/docs/operations/docs">Hyperloop Operations</a></li>
   </ul>
+  <% end %>
+  
+  <br>
+
+  <% if current_page.path.include?('docs/policies') %>
+
+    <ul class="nav">
+      <li class="nav-item"><strong><a href="/docs/policies/authorization">Hyperloop Policies</a></strong></li>
+      <ul class="nav">
+        <li class="nav-item"><a href="/docs/policies/authorization#details">Details</a></li>
+        <li class="nav-item"><a href="/docs/policies/authorization#defining-policies-and-policy-classes">Policy Classes</a></li>
+        <li class="nav-item"><a href="/docs/policies/authorization#channels-and-connection-policies">Channels and connection Policies</a></li>
+        <li class="nav-item"><a href="/docs/policies/authorization#class-names-instances-and-ids">Class Names Instances and IDs</a></li>
+        <li class="nav-item"><a href="/docs/policies/authorization#acting-user">Acting User</a></li>
+        <li class="nav-item"><a href="/docs/policies/authorization#automatic-connection">Automatic Connection</a></li>
+        <li class="nav-item"><a href="/docs/policies/authorization#manually-connecting-to-channels">Manually Connecting to Channels</a></li>
+        <li class="nav-item"><a href="/docs/policies/authorization#connection-sequence-summary">Connection Sequence Summary</a></li>
+        <li class="nav-item"><a href="/docs/policies/authorization#disconnecting">Disconnecting</a></li>
+        <li class="nav-item"><a href="/docs/policies/authorization#broadcasting-and-broadcast-policies">Broadcasting and Broadcast Policies</a></li>
+        <li class="nav-item"><a href="/docs/policies/authorization#browser-initiated-change-policies">Browser Initiated Change policies</a></li>
+        <li class="nav-item"><a href="/docs/policies/authorization#method-summary-and-name-space-conflicts">Method Summary and Name Space Conflicts</a></li>
+      </ul>
+    </ul>
+
+  <% else %>
+
+    <ul class="nav">
+      <li class="nav-item"><strong><a href="/docs/policies/authorization">Hyperloop Policies</a></strong></li>
+    </ul>
+
+  <% end %>
 
 <% when current_page.path.include?("start") %>
   <ul class="nav">

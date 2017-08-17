@@ -78,6 +78,11 @@
       end
     %>
 
+    <% if current_page.path.include?("docs/operations")
+        current_page.data.title = "Operations"
+      end
+    %>
+
     <div class="jumbotron page-header">
       <div class="container">
 
