@@ -103,29 +103,17 @@
 
     <ul class="nav">
       <li class="nav-item"><a href="/docs/components/dsl-overview">Hyperloop Components</a></li>
-    </ul>    
+    </ul>
 
   <% end %>
 
   <br>
 
   <% if current_page.path.include?('docs/stores') %>
-
-    <ul class="nav">
-      <li class="nav-item"><a href="/docs/stores/overview">Hyperloop Stores</a></li>
-      <ul class="nav">
-        <li class="nav-item"><a href="/docs/stores/overview#receiving-operation-dispatches">Receiving Operation Dispatches</a></li>
-        <li class="nav-item"><a href="/docs/stores/overview#reading-and-mutating-states">Reading and Mutating States</a></li>
-        <li class="nav-item"><a href="/docs/stores/overview#instances-and-classes">Instances and Classes</a></li>
-        <li class="nav-item"><a href="/docs/stores/overview#explicitly-declaring-states">Explicitly Declaring States</a></li>
-        <li class="nav-item"><a href="/docs/stores/overview#hyperloop-store-mixin">Store Mixin</a></li>
-      </ul>
-    </ul>
-
+    <%= table_of_contents(current_page)  %>
   <% else %>
-
     <ul class="nav">
-      <li class="nav-item"><a href="/docs/stores/overview">Hyperloop Stores</a></li>
+      <li class="nav-item"><a href="/docs/stores/docs">Hyperloop Stores</a></li>
     </ul>
 
   <% end %>
@@ -155,7 +143,7 @@
 
 
   <br>
-  
+
   <% if current_page.path.include?('docs/operations') %>
     <%= table_of_contents(current_page)  %>
   <% else %>
@@ -163,7 +151,7 @@
       <li class="nav-item"><a href="/docs/operations/docs">Hyperloop Operations</a></li>
   </ul>
   <% end %>
-  
+
   <br>
 
   <% if current_page.path.include?('docs/policies') %>

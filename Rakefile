@@ -7,27 +7,29 @@ ENV["REMOTE_NAME"] = "origin"
 
 task :update do
 
-  TUTORIALS_REPOS = ['hyperloop-devise-tutorial', 
-                     'todo-tutorial', 
-                     'hyperloop-rails-webpackergem-helloworld' ]
+  TUTORIALS_REPOS = ['hyperloop-devise-tutorial',
+                     'todo-tutorial',
+                     'hyperloop-rails-webpackergem-helloworld'
+  ]
 
-  GEMS_REPOS = {"hyper-operation" => "operations" }
+  GEMS_REPOS = [ {   "hyper-operation" => "operations",
+                     "hyper-store" => "stores" }
+  ]
 
-  # GEMS_REPOS = ["hyper-mesh" => "hypermesh", 
-  #               "hyperloop-js" => "hyperloopjs", 
-  #               "hyper-store" => "stores", 
-  #               "hyperloop" => "hyperloop", 
-  #               "hyper-operation" => "operations", 
-  #               "hyper-router" => "router", 
-  #               "hyper-react" => "hyperreact", 
-  #               "hyperloop-config" => "hyperloopconfig", 
-  #               "hyper-model" => "models", 
-  #               "hyper-spec" => "hyperspec",  
-  #               "hyper-component" => "components", 
+  # GEMS_REPOS = ["hyper-mesh" => "hypermesh",
+  #               "hyperloop-js" => "hyperloopjs",
+  #               "hyperloop" => "hyperloop",
+  #               "hyper-operation" => "operations",
+  #               "hyper-router" => "router",
+  #               "hyper-react" => "hyperreact",
+  #               "hyperloop-config" => "hyperloopconfig",
+  #               "hyper-model" => "models",
+  #               "hyper-spec" => "hyperspec",
+  #               "hyper-component" => "components",
   #               "hyper-trace" => "hypertrace",
   #               "hyper-console" => "hyperconsole"]
-  
-  
+
+
   mkdir 'hyperloop-repos' unless File.directory?('hyperloop-repos')
 
   cd 'hyperloop-repos' do
