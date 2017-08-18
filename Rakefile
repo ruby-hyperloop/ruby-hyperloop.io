@@ -14,7 +14,7 @@ task :update do
 
   GEMS_REPOS = [     { "hyper-operation" => "operations" },
                      { "hyper-store" => "stores" },
-                     { "hyper-model" => "models" }
+                     { "hyper-mesh" => "models" }
   ]
 
   # GEMS_REPOS = ["hyper-mesh" => "hypermesh",
