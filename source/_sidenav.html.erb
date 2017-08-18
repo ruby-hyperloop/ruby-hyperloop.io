@@ -121,22 +121,11 @@
   <br>
 
   <% if current_page.path.include?('docs/models') %>
-
-    <ul class="nav">
-      <li class="nav-item"><a href="/docs/models/overview">Hyperloop Models</a></li>
-      <ul class="nav">
-        <li class="nav-item"><a href="/docs/models/active-record">ActiveRecord API</a></li>
-        <li class="nav-item"><a href="/docs/models/scoping">Scoping</a></br></li>
-        <li class="nav-item"><a href="/docs/models/configuring-transport">Configuring the Transport</a></li>
-        <li class="nav-item"><a href="/docs/models/debugging">Debugging</a></li>
-        <li class="nav-item"><a href="/docs/models/common-errors">Common Errors</a></li>
-      </ul>
-    </ul>
-
+    <%= table_of_contents(current_page)  %>
   <% else %>
 
     <ul class="nav">
-      <li class="nav-item"><a href="/docs/models/overview">Hyperloop Models</a></li>
+      <li class="nav-item"><a href="/docs/models/docs">Hyperloop Models</a></li>
     </ul>
 
   <% end %>

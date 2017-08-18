@@ -12,8 +12,9 @@ task :update do
                      'hyperloop-rails-webpackergem-helloworld'
   ]
 
-  GEMS_REPOS = [ {   "hyper-operation" => "operations",
-                     "hyper-store" => "stores" }
+  GEMS_REPOS = [     { "hyper-operation" => "operations" },
+                     { "hyper-store" => "stores" },
+                     { "hyper-model" => "models" }
   ]
 
   # GEMS_REPOS = ["hyper-mesh" => "hypermesh",
@@ -23,7 +24,6 @@ task :update do
   #               "hyper-router" => "router",
   #               "hyper-react" => "hyperreact",
   #               "hyperloop-config" => "hyperloopconfig",
-  #               "hyper-model" => "models",
   #               "hyper-spec" => "hyperspec",
   #               "hyper-component" => "components",
   #               "hyper-trace" => "hypertrace",
