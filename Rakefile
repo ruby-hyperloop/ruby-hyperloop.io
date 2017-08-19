@@ -12,11 +12,11 @@ task :update do
                      'hyperloop-rails-webpackergem-helloworld'
   ]
 
-  GEMS_REPOS = [     { "hyper-operation" => "operations" },
-                     { "hyper-operation" => "policies", file: 'DOCS-POLICIES.md' },
-                     { "hyper-store" => "stores" },
-                     { "hyper-mesh" => "models" },
-                     { "hyper-router" => "router" },
+  GEMS_REPOS = [     { repo: 'hyper-operation', folder: 'operations' },
+                     { repo: 'hyper-operation' , folder: 'policies', file: 'DOCS-POLICIES.md' },
+                     { repo: 'hyper-store', folder: 'stores' },
+                     { repo: 'hyper-mesh', folder: 'models' },
+                     { repo: 'hyper-router', folder: 'router' },
   ]
 
   # GEMS_REPOS = ["hyper-mesh" => "hypermesh",
@@ -40,10 +40,12 @@ task :update do
       cp "#{tutorial_repo}/README.md", "../source/tutorials/hyperlooprails/#{tutorial_repo}.html.md"
     end
 
-    GEMS_REPOS.each do |key, value, file|
-      file = 'DOCS.md' unless file
-      sh "wget -N 'https://raw.githubusercontent.com/ruby-hyperloop/#{key}/master/#{file}' -P #{key}"
-      cp "#{key}/DOCS.md", "../source/docs/#{value}/docs.html.md"
+    GEMS_REPOS.each do |item|
+      repo = item[:repo]
+      folder = item[:folder]
+      file = item[:file] || 'DOCS.md'
+      sh "wget -N 'https://raw.githubusercontent.com/ruby-hyperloop/#{repo}/master/#{file}' -P #{repo}"
+      cp "#{repo}/#{file}", "../source/docs/#{folder}/docs.html.md"
     end
 
   end
