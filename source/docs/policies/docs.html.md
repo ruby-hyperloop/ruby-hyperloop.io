@@ -1,6 +1,4 @@
----
-title: Policies
----
+# <span class="bigfirstletter">H</span>yperloop Policies
 
 ## Authorization
 
@@ -180,10 +178,10 @@ The `regulate_class_connection` takes a block that will execute in the context o
 
 The `regulate_instance_connections` likewise takes a block that is executed in the context of the current acting_user.  The block may do one of following:
 
-+ raise an error meaning the connection cannot be made,
-+ return a falsy value also meaning the connection cannot be made,
-+ return a single object meaning the connection can be made to that object,
-+ return a enumerable of objects meaning the connection can made to any member of the enumerable.
++ raise an error meaning the connection cannot be made
++ return a falsy value also meaning the connection cannot be made
++ return a single object meaning the connection can be made to that object
++ return a enumerable of objects meaning the connection can made to any member of the enumerable
 
 Note that the object (or objects) returned are expected to be of the same class as the regulated policy.  
 
@@ -212,7 +210,7 @@ While establishing connections, classes are represented as their fully scoped na
 
 Typically connections are made to ActiveRecord models, and if those are in the `app/hyperloop/models` folder everything will work fine.
 
-#### Acting User
+## Acting User
 
 Hyperloop looks for an `acting_user` method typically defined in the ApplicationController and would normally pick up the current session user, and return an appropriate object.
 
@@ -237,10 +235,7 @@ class TeamPolicy
 end
 ```
 
-Its important to consider turning off automatic connections for cases like the above where
-the user is likely to be a member of many teams.  Typically the client application will
-want to dynamically determine which specific teams to connect to given the current state of
-the application.
+Its important to consider turning off automatic connections for cases like the above where the user is likely to be a member of many teams.  Typically the client application will want to dynamically determine which specific teams to connect to given the current state of the application.
 
 ### Manually Connecting to Channels
 
@@ -323,7 +318,7 @@ Note that the same sequence is used for auto connections and manually invoked co
 
 Calling `Hyperloop.disconnect(channel)` or `channel.disconnect!` will disconnect from the channel.
 
-#### Broadcasting and Broadcast Policies
+## Broadcasting and Broadcast Policies
 
 Broadcast policies can be defined for channels using the `regulate_all_broadcasts` method, and for individual objects (typically ActiveRecord models) using the `regulate_broadcast` method.  A `regulate_all_broadcasts` policy is essentially a `regulate_broadcast` that will be run for every record that changes in the system.
 
@@ -396,8 +391,7 @@ policy.send_only(:baz).to(MyChannel)
 # MyChannel gets nothing
 ```
 
-Keep in mind that the broadcast policies are sent a copy of the policy object so you can use helper methods in your policies. Also you can add policy specific methods to your models using
-`class_eval` thus keeping policy logic out of your models.
+Keep in mind that the broadcast policies are sent a copy of the policy object so you can use helper methods in your policies. Also you can add policy specific methods to your models using `class_eval` thus keeping policy logic out of your models.
 
 So we could for example we can rewrite the above MessagePolicy like this:
 
@@ -413,7 +407,7 @@ class MessagePolicy
 end
 ```
 
-#### Browser Initiated Change policies
+## Browser Initiated Change policies
 
 To allow code in the browser to create, update or destroy a model, there must be a change access policy defined for that operation.
 
@@ -465,7 +459,7 @@ end
 
 Note that there is no `allow_read` method.  Read access is granted if this browser would have the attribute broadcast to it.  
 
-#### Method Summary and Name Space Conflicts
+## Method Summary and Name Space Conflicts
 
 Policy classes (and the Hyperloop::PolicyMethods module) define the following class methods:
 

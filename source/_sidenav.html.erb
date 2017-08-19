@@ -120,6 +120,16 @@
 
   <br>
 
+  <% if current_page.path.include?('docs/router') %>
+    <%= table_of_contents(current_page)  %>
+  <% else %>
+    <ul class="nav">
+      <li class="nav-item"><a href="/docs/router/docs">Hyperloop Router</a></li>
+    </ul>
+  <% end %>
+
+  <br>
+
   <% if current_page.path.include?('docs/models') %>
     <%= table_of_contents(current_page)  %>
   <% else %>
@@ -141,43 +151,14 @@
   <br>
 
   <% if current_page.path.include?('docs/policies') %>
-
-    <ul class="nav">
-      <li class="nav-item"><strong><a href="/docs/policies/authorization">Hyperloop Policies</a></strong></li>
-      <ul class="nav">
-        <li class="nav-item"><a href="/docs/policies/authorization#details">Details</a></li>
-        <li class="nav-item"><a href="/docs/policies/authorization#defining-policies-and-policy-classes">Policy Classes</a></li>
-        <li class="nav-item"><a href="/docs/policies/authorization#channels-and-connection-policies">Channels and connection Policies</a></li>
-        <li class="nav-item"><a href="/docs/policies/authorization#class-names-instances-and-ids">Class Names Instances and IDs</a></li>
-        <li class="nav-item"><a href="/docs/policies/authorization#acting-user">Acting User</a></li>
-        <li class="nav-item"><a href="/docs/policies/authorization#automatic-connection">Automatic Connection</a></li>
-        <li class="nav-item"><a href="/docs/policies/authorization#manually-connecting-to-channels">Manually Connecting to Channels</a></li>
-        <li class="nav-item"><a href="/docs/policies/authorization#connection-sequence-summary">Connection Sequence Summary</a></li>
-        <li class="nav-item"><a href="/docs/policies/authorization#disconnecting">Disconnecting</a></li>
-        <li class="nav-item"><a href="/docs/policies/authorization#broadcasting-and-broadcast-policies">Broadcasting and Broadcast Policies</a></li>
-        <li class="nav-item"><a href="/docs/policies/authorization#browser-initiated-change-policies">Browser Initiated Change policies</a></li>
-        <li class="nav-item"><a href="/docs/policies/authorization#method-summary-and-name-space-conflicts">Method Summary and Name Space Conflicts</a></li>
-      </ul>
-    </ul>
-
-  <% else %>
-
-    <ul class="nav">
-      <li class="nav-item"><strong><a href="/docs/policies/authorization">Hyperloop Policies</a></strong></li>
-    </ul>
-
-  <% end %>
-
-  <br>
-
-  <% if current_page.path.include?('docs/router') %>
     <%= table_of_contents(current_page)  %>
   <% else %>
-    <ul class="nav">
-      <li class="nav-item"><a href="/docs/router/docs">Hyperloop Router</a></li>
-    </ul>
-  <% end %>
 
+    <ul class="nav">
+      <li class="nav-item"><strong><a href="/docs/policies/docs">Hyperloop Policies</a></strong></li>
+    </ul>
+
+  <% end %>
 
 <% when current_page.path.include?("start") %>
   <ul class="nav">

@@ -13,6 +13,7 @@ task :update do
   ]
 
   GEMS_REPOS = [     { "hyper-operation" => "operations" },
+                     { "hyper-operation" => "policies", file: 'DOCS-POLICIES.md' },
                      { "hyper-store" => "stores" },
                      { "hyper-mesh" => "models" },
                      { "hyper-router" => "router" },
@@ -39,8 +40,9 @@ task :update do
       cp "#{tutorial_repo}/README.md", "../source/tutorials/hyperlooprails/#{tutorial_repo}.html.md"
     end
 
-    GEMS_REPOS.each do |key, value|
-      sh "wget -N 'https://raw.githubusercontent.com/ruby-hyperloop/#{key}/master/DOCS.md' -P #{key}"
+    GEMS_REPOS.each do |key, value, file|
+      file = 'DOCS.md' unless file
+      sh "wget -N 'https://raw.githubusercontent.com/ruby-hyperloop/#{key}/master/#{file}' -P #{key}"
       cp "#{key}/DOCS.md", "../source/docs/#{value}/docs.html.md"
     end
 
