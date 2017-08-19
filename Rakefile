@@ -19,18 +19,6 @@ task :update do
                      { repo: 'hyper-router', folder: 'router' },
   ]
 
-  # GEMS_REPOS = ["hyper-mesh" => "hypermesh",
-  #               "hyperloop-js" => "hyperloopjs",
-  #               "hyperloop" => "hyperloop",
-  #               "hyper-operation" => "operations",
-  #               "hyper-react" => "hyperreact",
-  #               "hyperloop-config" => "hyperloopconfig",
-  #               "hyper-spec" => "hyperspec",
-  #               "hyper-component" => "components",
-  #               "hyper-trace" => "hypertrace",
-  #               "hyper-console" => "hyperconsole"]
-
-
   mkdir 'hyperloop-repos' unless File.directory?('hyperloop-repos')
 
   cd 'hyperloop-repos' do
