@@ -8,7 +8,7 @@
     <meta name="google-site-verification" content="qjqVOvRhHfsuDbLOvaAnj2mkUZJ9Xwzg84TMVXduvUc" />
 
     <meta charset="UTF-8">
-    <title>Hyperloop - Policies</title>
+    <title>Hyperloop</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <script src="https://unpkg.com/react@15/dist/react.min.js"></script>
@@ -334,7 +334,7 @@ end
 
             <h4 class="display-7 project-tagline">
               
-              Policies
+              The Complete Isomorphic Ruby Framework
             </h4>
           </div>
           
@@ -349,7 +349,7 @@ end
             <h1 class="h1 project-name center-text">Hyperloop</h1>
             </br>
             <h2 class="h5 project-tagline center-text">
-              Policies
+              The Complete Isomorphic Ruby Framework
             </h2>
           </div>
           
@@ -382,59 +382,103 @@ end
 
     <ul class="nav">
       <li class="nav-item"><a href="/docs/components/dsl-overview">Hyperloop Components</a></li>
-    </ul>    
-
-
-  <br>
-
-
-    <ul class="nav">
-      <li class="nav-item"><a href="/docs/stores/overview">Hyperloop Stores</a></li>
     </ul>
 
 
   <br>
 
-
     <ul class="nav">
-      <li class="nav-item"><a href="/docs/models/overview">Hyperloop Models</a></li>
+      <li class="nav-item"><a href="/docs/stores/docs">Hyperloop Stores</a></li>
     </ul>
 
 
+  <br>
+
+    <ul class="nav">
+      <li class="nav-item"><a href="/docs/router/docs">Hyperloop Router</a></li>
+    </ul>
 
   <br>
-  
+
+    <ul class="nav">
+      <li class="nav-item"><a href="/docs/models/docs">Hyperloop Models</a></li>
+    </ul>
+
+  <br>
+
    <ul class="nav">
       <li class="nav-item"><a href="/docs/operations/docs">Hyperloop Operations</a></li>
   </ul>
-  
+
   <br>
 
-
-    <ul class="nav">
-      <li class="nav-item"><strong><a href="/docs/policies/authorization">Hyperloop Policies</a></strong></li>
-      <ul class="nav">
-        <li class="nav-item"><a href="/docs/policies/authorization#details">Details</a></li>
-        <li class="nav-item"><a href="/docs/policies/authorization#defining-policies-and-policy-classes">Policy Classes</a></li>
-        <li class="nav-item"><a href="/docs/policies/authorization#channels-and-connection-policies">Channels and connection Policies</a></li>
-        <li class="nav-item"><a href="/docs/policies/authorization#class-names-instances-and-ids">Class Names Instances and IDs</a></li>
-        <li class="nav-item"><a href="/docs/policies/authorization#acting-user">Acting User</a></li>
-        <li class="nav-item"><a href="/docs/policies/authorization#automatic-connection">Automatic Connection</a></li>
-        <li class="nav-item"><a href="/docs/policies/authorization#manually-connecting-to-channels">Manually Connecting to Channels</a></li>
-        <li class="nav-item"><a href="/docs/policies/authorization#connection-sequence-summary">Connection Sequence Summary</a></li>
-        <li class="nav-item"><a href="/docs/policies/authorization#disconnecting">Disconnecting</a></li>
-        <li class="nav-item"><a href="/docs/policies/authorization#broadcasting-and-broadcast-policies">Broadcasting and Broadcast Policies</a></li>
-        <li class="nav-item"><a href="/docs/policies/authorization#browser-initiated-change-policies">Browser Initiated Change policies</a></li>
-        <li class="nav-item"><a href="/docs/policies/authorization#method-summary-and-name-space-conflicts">Method Summary and Name Space Conflicts</a></li>
-      </ul>
-    </ul>
+    <ul class="navtoc">
+<li class="navtoc-item">
+<a href="#hyperloop-policies"><span class="bigfirstletter">H</span>yperloop Policies</a>
+<ul class="navtoc">
+<li class="navtoc-item">
+<a href="#authorization">Authorization</a>
+<ul class="navtoc">
+<li class="navtoc-item">
+<a href="#details">Details</a>
+<ul class="navtoc">
+<li class="navtoc-item">
+<a href="#defining-policies-and-policy-classes">Defining Policies and Policy Classes</a>
+</li>
+<li class="navtoc-item">
+<a href="#channels-and-connection-policies">Channels and connection policies</a>
+</li>
+<li class="navtoc-item">
+<a href="#class-names-instances-and-ids">Class Names Instances and IDs</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="navtoc-item">
+<a href="#acting-user">Acting User</a>
+<ul class="navtoc">
+<li class="navtoc-item">
+<ul class="navtoc">
+<li class="navtoc-item">
+<a href="#automatic-connection">Automatic Connection</a>
+</li>
+</ul>
+</li>
+<li class="navtoc-item">
+<a href="#manually-connecting-to-channels">Manually Connecting to Channels</a>
+<ul class="navtoc">
+<li class="navtoc-item">
+<a href="#connection-sequence-summary">Connection Sequence Summary</a>
+</li>
+<li class="navtoc-item">
+<a href="#disconnecting">Disconnecting</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="navtoc-item">
+<a href="#broadcasting-and-broadcast-policies">Broadcasting and Broadcast Policies</a>
+</li>
+<li class="navtoc-item">
+<a href="#browser-initiated-change-policies">Browser Initiated Change policies</a>
+</li>
+<li class="navtoc-item">
+<a href="#method-summary-and-name-space-conflicts">Method Summary and Name Space Conflicts</a>
+</li>
+</ul>
+</li>
+</ul>
 
 
 
           <br>
         </div>
         <div class="col-md-9 main-content">
-          <h2 id="authorization">Authorization</h2>
+          <h1 id="hyperloop-policies"><span class="bigfirstletter">H</span>yperloop Policies</h1>
+
+<h2 id="authorization">Authorization</h2>
 
 <p>Access to your Isomorphic Models is controlled by <em>Policies</em> that describe how the current <em>acting_user</em> and <em>channels</em> may access your Models.</p>
 
@@ -600,10 +644,10 @@ end
 <p>The <code>regulate_instance_connections</code> likewise takes a block that is executed in the context of the current acting_user.  The block may do one of following:</p>
 
 <ul>
-<li>raise an error meaning the connection cannot be made,</li>
-<li>return a falsy value also meaning the connection cannot be made,</li>
-<li>return a single object meaning the connection can be made to that object,</li>
-<li>return a enumerable of objects meaning the connection can made to any member of the enumerable.</li>
+<li>raise an error meaning the connection cannot be made</li>
+<li>return a falsy value also meaning the connection cannot be made</li>
+<li>return a single object meaning the connection can be made to that object</li>
+<li>return a enumerable of objects meaning the connection can made to any member of the enumerable</li>
 </ul>
 
 <p>Note that the object (or objects) returned are expected to be of the same class as the regulated policy.  </p>
@@ -630,7 +674,7 @@ end
 
 <p>Typically connections are made to ActiveRecord models, and if those are in the <code>app/hyperloop/models</code> folder everything will work fine.</p>
 
-<h4 id="acting-user">Acting User</h4>
+<h2 id="acting-user">Acting User</h2>
 
 <p>Hyperloop looks for an <code>acting_user</code> method typically defined in the ApplicationController and would normally pick up the current session user, and return an appropriate object.</p>
 <pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">ApplicationController</span> <span class="o">&lt;</span> <span class="no">ActiveController</span><span class="o">::</span><span class="no">Base</span>
@@ -649,10 +693,7 @@ end
   <span class="n">regulate_instance_connections</span><span class="p">(</span><span class="ss">auto_connect: </span><span class="kp">false</span><span class="p">)</span> <span class="p">{</span> <span class="n">teams</span> <span class="p">}</span>
 <span class="k">end</span>
 </code></pre>
-<p>Its important to consider turning off automatic connections for cases like the above where
-the user is likely to be a member of many teams.  Typically the client application will
-want to dynamically determine which specific teams to connect to given the current state of
-the application.</p>
+<p>Its important to consider turning off automatic connections for cases like the above where the user is likely to be a member of many teams.  Typically the client application will want to dynamically determine which specific teams to connect to given the current state of the application.</p>
 
 <h3 id="manually-connecting-to-channels">Manually Connecting to Channels</h3>
 
@@ -724,7 +765,7 @@ Hyperloop.connect(AdminUser, current_user)
 
 <p>Calling <code>Hyperloop.disconnect(channel)</code> or <code>channel.disconnect!</code> will disconnect from the channel.</p>
 
-<h4 id="broadcasting-and-broadcast-policies">Broadcasting and Broadcast Policies</h4>
+<h2 id="broadcasting-and-broadcast-policies">Broadcasting and Broadcast Policies</h2>
 
 <p>Broadcast policies can be defined for channels using the <code>regulate_all_broadcasts</code> method, and for individual objects (typically ActiveRecord models) using the <code>regulate_broadcast</code> method.  A <code>regulate_all_broadcasts</code> policy is essentially a <code>regulate_broadcast</code> that will be run for every record that changes in the system.</p>
 
@@ -786,8 +827,7 @@ Hyperloop.connect(AdminUser, current_user)
 <span class="n">policy</span><span class="p">.</span><span class="nf">send_only</span><span class="p">(</span><span class="ss">:baz</span><span class="p">).</span><span class="nf">to</span><span class="p">(</span><span class="no">MyChannel</span><span class="p">)</span>
 <span class="c1"># MyChannel gets nothing</span>
 </code></pre>
-<p>Keep in mind that the broadcast policies are sent a copy of the policy object so you can use helper methods in your policies. Also you can add policy specific methods to your models using
-<code>class_eval</code> thus keeping policy logic out of your models.</p>
+<p>Keep in mind that the broadcast policies are sent a copy of the policy object so you can use helper methods in your policies. Also you can add policy specific methods to your models using <code>class_eval</code> thus keeping policy logic out of your models.</p>
 
 <p>So we could for example we can rewrite the above MessagePolicy like this:</p>
 <pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">MessagePolicy</span>
@@ -800,7 +840,7 @@ Hyperloop.connect(AdminUser, current_user)
   <span class="n">regulate_broadcast</span> <span class="p">{</span> <span class="o">|</span><span class="n">policy</span><span class="o">|</span> <span class="n">policy</span><span class="p">.</span><span class="nf">send_all</span><span class="p">.</span><span class="nf">to</span><span class="p">(</span><span class="n">policy</span><span class="p">.</span><span class="nf">teams</span><span class="p">)</span> <span class="p">}</span>
 <span class="k">end</span>
 </code></pre>
-<h4 id="browser-initiated-change-policies">Browser Initiated Change policies</h4>
+<h2 id="browser-initiated-change-policies">Browser Initiated Change policies</h2>
 
 <p>To allow code in the browser to create, update or destroy a model, there must be a change access policy defined for that operation.</p>
 
@@ -843,7 +883,7 @@ Hyperloop.connect(AdminUser, current_user)
 </code></pre>
 <p>Note that there is no <code>allow_read</code> method.  Read access is granted if this browser would have the attribute broadcast to it.  </p>
 
-<h4 id="method-summary-and-name-space-conflicts">Method Summary and Name Space Conflicts</h4>
+<h2 id="method-summary-and-name-space-conflicts">Method Summary and Name Space Conflicts</h2>
 
 <p>Policy classes (and the Hyperloop::PolicyMethods module) define the following class methods:</p>
 

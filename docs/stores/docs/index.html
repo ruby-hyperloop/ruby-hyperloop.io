@@ -8,7 +8,7 @@
     <meta name="google-site-verification" content="qjqVOvRhHfsuDbLOvaAnj2mkUZJ9Xwzg84TMVXduvUc" />
 
     <meta charset="UTF-8">
-    <title>Hyperloop - Stores</title>
+    <title>Hyperloop</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <script src="https://unpkg.com/react@15/dist/react.min.js"></script>
@@ -334,7 +334,7 @@ end
 
             <h4 class="display-7 project-tagline">
               
-              Stores
+              The Complete Isomorphic Ruby Framework
             </h4>
           </div>
           
@@ -349,7 +349,7 @@ end
             <h1 class="h1 project-name center-text">Hyperloop</h1>
             </br>
             <h2 class="h5 project-tagline center-text">
-              Stores
+              The Complete Isomorphic Ruby Framework
             </h2>
           </div>
           
@@ -382,44 +382,73 @@ end
 
     <ul class="nav">
       <li class="nav-item"><a href="/docs/components/dsl-overview">Hyperloop Components</a></li>
-    </ul>    
-
-
-  <br>
-
-
-    <ul class="nav">
-      <li class="nav-item"><a href="/docs/stores/overview">Hyperloop Stores</a></li>
-      <ul class="nav">
-        <li class="nav-item"><a href="/docs/stores/overview#receiving-operation-dispatches">Receiving Operation Dispatches</a></li>
-        <li class="nav-item"><a href="/docs/stores/overview#reading-and-mutating-states">Reading and Mutating States</a></li>
-        <li class="nav-item"><a href="/docs/stores/overview#instances-and-classes">Instances and Classes</a></li>
-        <li class="nav-item"><a href="/docs/stores/overview#explicitly-declaring-states">Explicitly Declaring States</a></li>
-        <li class="nav-item"><a href="/docs/stores/overview#hyperloop-store-mixin">Store Mixin</a></li>
-      </ul>
     </ul>
 
 
   <br>
 
-
-    <ul class="nav">
-      <li class="nav-item"><a href="/docs/models/overview">Hyperloop Models</a></li>
-    </ul>
-
+    <ul class="navtoc">
+<li class="navtoc-item">
+<a href="#hyperloop-stores"><span class="bigfirstletter">H</span>yperloop Stores</a>
+<ul class="navtoc">
+<li class="navtoc-item">
+<a href="#reading-and-mutating-states">Reading and Mutating States</a>
+<ul class="navtoc">
+<li class="navtoc-item">
+<ul class="navtoc">
+<li class="navtoc-item">
+<a href="#initializing-states">Initializing States</a>
+</li>
+<li class="navtoc-item">
+<a href="#reading-states">Reading States</a>
+</li>
+<li class="navtoc-item">
+<a href="#mutating-states">Mutating States</a>
+</li>
+</ul>
+</li>
+<li class="navtoc-item">
+<a href="#instances-and-classes">Instances and Classes</a>
+</li>
+<li class="navtoc-item">
+<a href="#states-and-promises">States and Promises</a>
+</li>
+<li class="navtoc-item">
+<a href="#explicitly-declaring-states">Explicitly Declaring States</a>
+</li>
+</ul>
+</li>
+<li class="navtoc-item">
+<a href="#receiving-operation-dispatches">Receiving Operation Dispatches</a>
+</li>
+</ul>
+</li>
+</ul>
 
 
   <br>
-  
+
+    <ul class="nav">
+      <li class="nav-item"><a href="/docs/router/docs">Hyperloop Router</a></li>
+    </ul>
+
+  <br>
+
+    <ul class="nav">
+      <li class="nav-item"><a href="/docs/models/docs">Hyperloop Models</a></li>
+    </ul>
+
+  <br>
+
    <ul class="nav">
       <li class="nav-item"><a href="/docs/operations/docs">Hyperloop Operations</a></li>
   </ul>
-  
+
   <br>
 
 
     <ul class="nav">
-      <li class="nav-item"><strong><a href="/docs/policies/authorization">Hyperloop Policies</a></strong></li>
+      <li class="nav-item"><strong><a href="/docs/policies/docs">Hyperloop Policies</a></strong></li>
     </ul>
 
 
@@ -427,12 +456,23 @@ end
           <br>
         </div>
         <div class="col-md-9 main-content">
-          <h2 id="stores">Stores</h2>
+          <h1 id="hyperloop-stores"><span class="bigfirstletter">H</span>yperloop Stores</h1>
 
 <p>Hyperloop <strong>Stores</strong> are implemented in the <strong>HyperStore Gem</strong>.</p>
 
 <p>Stores are where the state of your Application lives. Anything but a completely static web page will have dynamic states that change because of user inputs, the passage of time, or other external events.</p>
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">UserStore</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Store</span>
+  <span class="n">state</span> <span class="ss">:current</span><span class="p">,</span> <span class="ss">scope: :class</span><span class="p">,</span> <span class="ss">reader: </span><span class="kp">true</span>
 
+  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">set_current!</span> <span class="n">user</span>
+    <span class="n">mutate</span><span class="p">.</span><span class="nf">current</span> <span class="n">user</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="c1"># to access the store</span>
+<span class="no">UserStore</span><span class="p">.</span><span class="nf">set_current!</span> <span class="n">user</span>
+<span class="no">UserStore</span><span class="p">.</span><span class="nf">current_user</span>
+</code></pre>
 <p><strong>Stores are Ruby classes that keep the dynamic parts of the state in special state variables</strong></p>
 
 <ul>
@@ -443,76 +483,6 @@ end
 <li>All of your <strong>shared</strong> reactive state should be Stores - <em>The Store is the Truth</em>!</li>
 <li>Stores can <em>receive</em> <strong>dispatches</strong> from <em>Operations</em></li>
 </ul>
-
-<p>Here is a simple shopping cart Store that receives Add, Remove and Empty Operations:</p>
-<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">Cart</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Store</span>
-  <span class="c1"># First we will define the two Operations.</span>
-  <span class="c1"># Because these are closely associated with the Cart</span>
-  <span class="c1"># we will name space them inside the cart.</span>
-  <span class="k">class</span> <span class="nc">Add</span> <span class="o">&lt;</span> <span class="no">HyperOperation</span>
-    <span class="n">param</span> <span class="ss">:item</span>
-    <span class="n">param</span> <span class="ss">:qty</span><span class="p">,</span> <span class="ss">type: </span><span class="no">Integer</span><span class="p">,</span> <span class="ss">min: </span><span class="mi">1</span>
-  <span class="k">end</span>
-  <span class="k">class</span> <span class="nc">Remove</span> <span class="o">&lt;</span> <span class="no">HyperOperation</span>
-    <span class="n">param</span> <span class="ss">:item</span>
-    <span class="n">param</span> <span class="ss">:qty</span><span class="p">,</span> <span class="ss">type: </span><span class="no">Integer</span><span class="p">,</span> <span class="ss">nils: </span><span class="kp">true</span><span class="p">,</span> <span class="ss">min: </span><span class="mi">1</span>
-  <span class="k">end</span>
-  <span class="k">class</span> <span class="nc">Empty</span> <span class="o">&lt;</span> <span class="no">HyperOperation</span>
-  <span class="k">end</span>
-
-  <span class="c1"># The cart's state is represented as a hash, items are the keys, qty is the value</span>
-  <span class="c1"># initialize the hash by receiving the system Hyperloop::Application::Boot or Empty dispatches</span>
-
-  <span class="n">receives</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Application</span><span class="o">::</span><span class="no">Boot</span><span class="p">,</span> <span class="no">Empty</span> <span class="k">do</span>
-    <span class="n">mutate</span><span class="p">.</span><span class="nf">items</span><span class="p">(</span><span class="no">Hash</span><span class="p">.</span><span class="nf">new</span> <span class="p">{</span> <span class="o">|</span><span class="n">h</span><span class="p">,</span> <span class="n">k</span><span class="o">|</span> <span class="n">h</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">})</span>
-  <span class="k">end</span>
-
-  <span class="c1"># The stores getter (or reader) method</span>
-
-  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">items</span>
-    <span class="n">state</span><span class="p">.</span><span class="nf">items</span>
-  <span class="k">end</span>
-
-  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">empty?</span>
-    <span class="n">state</span><span class="p">.</span><span class="nf">items</span><span class="p">.</span><span class="nf">empty?</span>
-  <span class="k">end</span>
-
-  <span class="n">receives</span> <span class="no">Add</span> <span class="k">do</span>
-    <span class="c1"># notice we use mutate.items since we are modifying the hash</span>
-    <span class="n">mutate</span><span class="p">.</span><span class="nf">items</span><span class="p">[</span><span class="n">params</span><span class="p">.</span><span class="nf">item</span><span class="p">]</span> <span class="o">+=</span> <span class="n">params</span><span class="p">.</span><span class="nf">qty</span>
-  <span class="k">end</span>
-
-  <span class="n">receives</span> <span class="no">Remove</span> <span class="k">do</span>
-    <span class="n">mutate</span><span class="p">.</span><span class="nf">items</span><span class="p">[</span><span class="n">params</span><span class="p">.</span><span class="nf">item</span><span class="p">]</span> <span class="o">-=</span> <span class="n">params</span><span class="p">.</span><span class="nf">qty</span>
-    <span class="c1"># remove any items with zero qty from the cart</span>
-    <span class="n">mutate</span><span class="p">.</span><span class="nf">items</span><span class="p">.</span><span class="nf">delete</span><span class="p">(</span><span class="n">params</span><span class="p">.</span><span class="nf">item</span><span class="p">)</span> <span class="k">if</span> <span class="n">state</span><span class="p">.</span><span class="nf">items</span><span class="p">[</span><span class="n">params</span><span class="p">.</span><span class="nf">item</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">1</span>
-  <span class="k">end</span>
-<span class="k">end</span>
-</code></pre>
-<p>This example demonstrates the two ingredients of a Store:</p>
-
-<ul>
-<li>Receiving Operation Dispatches and</li>
-<li>Reading, and Mutating <em>states</em>.</li>
-</ul>
-
-<p>These are explained in detail below.</p>
-
-<h2 id="receiving-operation-dispatches">Receiving Operation Dispatches</h2>
-
-<p>Stores can receive Operation dispatches using the receive method.</p>
-
-<p>The <code>receive</code> method takes an list of Operations, and either a symbol (indicating a class method to call), a proc, or a block.</p>
-
-<p>When the dispatch is received the method, proc, or block will be run within the context of the Store&#39;s class (not an instance.)  In addition the <code>params</code> method from the Operation will be available to access the Operations parameters.</p>
-
-<p>The <em>Flux</em> paradigm promotes only mutating state inside of receivers.</p>
-
-<p>Hyperloop is less opinionated.  You may also add mutator methods to your class.  Our recommendation is that you append an exclamation (!) to methods that mutate state.</p>
-
-<p>Note that it is reasonable to have several receivers for the same Operation.  This allows subclassing, mixins, and separation of concerns.</p>
-
-<p>Note also that the Ruby scoping rules make it very reasonable to define the Operations to be received by a Store inside the Store&#39;s scope.  This does not change the semantics of either the Store or the Operation, but simply keeps the name space organized.</p>
 
 <h2 id="reading-and-mutating-states">Reading and Mutating States</h2>
 
@@ -702,10 +672,75 @@ items for each instance.</p>
 </code></pre>
 <p>In the first case <code>my_state</code> will be re-initialized to nil on every boot, in the second case it will not.</p>
 
-<h3 id="hyperloop-store-mixin">Hyperloop::Store::Mixin</h3>
+<h2 id="receiving-operation-dispatches">Receiving Operation Dispatches</h2>
 
-<p>You can also include <code>Hyperloop::Store::Mixin</code> in any class and then use all the methods described above.
-Useful when you want to add HyperStore capabilities to another class.</p>
+<p>Stores can receive Operation dispatches using the receive method.</p>
+
+<p>Here is a simple shopping cart Store that receives Add, Remove and Empty Operations:</p>
+<pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">Cart</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Store</span>
+  <span class="c1"># First we will define the two Operations.</span>
+  <span class="c1"># Because these are closely associated with the Cart</span>
+  <span class="c1"># we will name space them inside the cart.</span>
+  <span class="k">class</span> <span class="nc">Add</span> <span class="o">&lt;</span> <span class="no">HyperOperation</span>
+    <span class="n">param</span> <span class="ss">:item</span>
+    <span class="n">param</span> <span class="ss">:qty</span><span class="p">,</span> <span class="ss">type: </span><span class="no">Integer</span><span class="p">,</span> <span class="ss">min: </span><span class="mi">1</span>
+  <span class="k">end</span>
+  <span class="k">class</span> <span class="nc">Remove</span> <span class="o">&lt;</span> <span class="no">HyperOperation</span>
+    <span class="n">param</span> <span class="ss">:item</span>
+    <span class="n">param</span> <span class="ss">:qty</span><span class="p">,</span> <span class="ss">type: </span><span class="no">Integer</span><span class="p">,</span> <span class="ss">nils: </span><span class="kp">true</span><span class="p">,</span> <span class="ss">min: </span><span class="mi">1</span>
+  <span class="k">end</span>
+  <span class="k">class</span> <span class="nc">Empty</span> <span class="o">&lt;</span> <span class="no">HyperOperation</span>
+  <span class="k">end</span>
+
+  <span class="c1"># The cart's state is represented as a hash, items are the keys, qty is the value</span>
+  <span class="c1"># initialize the hash by receiving the system Hyperloop::Application::Boot or Empty dispatches</span>
+
+  <span class="n">receives</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Application</span><span class="o">::</span><span class="no">Boot</span><span class="p">,</span> <span class="no">Empty</span> <span class="k">do</span>
+    <span class="n">mutate</span><span class="p">.</span><span class="nf">items</span><span class="p">(</span><span class="no">Hash</span><span class="p">.</span><span class="nf">new</span> <span class="p">{</span> <span class="o">|</span><span class="n">h</span><span class="p">,</span> <span class="n">k</span><span class="o">|</span> <span class="n">h</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">})</span>
+  <span class="k">end</span>
+
+  <span class="c1"># The stores getter (or reader) method</span>
+
+  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">items</span>
+    <span class="n">state</span><span class="p">.</span><span class="nf">items</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">empty?</span>
+    <span class="n">state</span><span class="p">.</span><span class="nf">items</span><span class="p">.</span><span class="nf">empty?</span>
+  <span class="k">end</span>
+
+  <span class="n">receives</span> <span class="no">Add</span> <span class="k">do</span>
+    <span class="c1"># notice we use mutate.items since we are modifying the hash</span>
+    <span class="n">mutate</span><span class="p">.</span><span class="nf">items</span><span class="p">[</span><span class="n">params</span><span class="p">.</span><span class="nf">item</span><span class="p">]</span> <span class="o">+=</span> <span class="n">params</span><span class="p">.</span><span class="nf">qty</span>
+  <span class="k">end</span>
+
+  <span class="n">receives</span> <span class="no">Remove</span> <span class="k">do</span>
+    <span class="n">mutate</span><span class="p">.</span><span class="nf">items</span><span class="p">[</span><span class="n">params</span><span class="p">.</span><span class="nf">item</span><span class="p">]</span> <span class="o">-=</span> <span class="n">params</span><span class="p">.</span><span class="nf">qty</span>
+    <span class="c1"># remove any items with zero qty from the cart</span>
+    <span class="n">mutate</span><span class="p">.</span><span class="nf">items</span><span class="p">.</span><span class="nf">delete</span><span class="p">(</span><span class="n">params</span><span class="p">.</span><span class="nf">item</span><span class="p">)</span> <span class="k">if</span> <span class="n">state</span><span class="p">.</span><span class="nf">items</span><span class="p">[</span><span class="n">params</span><span class="p">.</span><span class="nf">item</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">1</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<p>This example demonstrates the two ingredients of a Store:</p>
+
+<ul>
+<li>Receiving Operation Dispatches and</li>
+<li>Reading, and Mutating <em>states</em>.</li>
+</ul>
+
+<p>These are explained in detail below.</p>
+
+<p>The <code>receive</code> method takes an list of Operations, and either a symbol (indicating a class method to call), a proc, or a block.</p>
+
+<p>When the dispatch is received the method, proc, or block will be run within the context of the Store&#39;s class (not an instance.)  In addition the <code>params</code> method from the Operation will be available to access the Operations parameters.</p>
+
+<p>The <em>Flux</em> paradigm promotes only mutating state inside of receivers.</p>
+
+<p>Hyperloop is less opinionated.  You may also add mutator methods to your class.  Our recommendation is that you append an exclamation (!) to methods that mutate state.</p>
+
+<p>Note that it is reasonable to have several receivers for the same Operation.  This allows subclassing, mixins, and separation of concerns.</p>
+
+<p>Note also that the Ruby scoping rules make it very reasonable to define the Operations to be received by a Store inside the Store&#39;s scope.  This does not change the semantics of either the Store or the Operation, but simply keeps the name space organized.</p>
 
         </div>
       </div>
