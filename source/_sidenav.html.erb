@@ -123,13 +123,10 @@
   <% if current_page.path.include?('docs/models') %>
     <%= table_of_contents(current_page)  %>
   <% else %>
-
     <ul class="nav">
       <li class="nav-item"><a href="/docs/models/docs">Hyperloop Models</a></li>
     </ul>
-
   <% end %>
-
 
   <br>
 
@@ -170,6 +167,17 @@
     </ul>
 
   <% end %>
+
+  <br>
+
+  <% if current_page.path.include?('docs/router') %>
+    <%= table_of_contents(current_page)  %>
+  <% else %>
+    <ul class="nav">
+      <li class="nav-item"><a href="/docs/router/docs">Hyperloop Router</a></li>
+    </ul>
+  <% end %>
+
 
 <% when current_page.path.include?("start") %>
   <ul class="nav">

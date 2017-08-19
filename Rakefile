@@ -14,14 +14,14 @@ task :update do
 
   GEMS_REPOS = [     { "hyper-operation" => "operations" },
                      { "hyper-store" => "stores" },
-                     { "hyper-mesh" => "models" }
+                     { "hyper-mesh" => "models" },
+                     { "hyper-router" => "router" },
   ]
 
   # GEMS_REPOS = ["hyper-mesh" => "hypermesh",
   #               "hyperloop-js" => "hyperloopjs",
   #               "hyperloop" => "hyperloop",
   #               "hyper-operation" => "operations",
-  #               "hyper-router" => "router",
   #               "hyper-react" => "hyperreact",
   #               "hyperloop-config" => "hyperloopconfig",
   #               "hyper-spec" => "hyperspec",
