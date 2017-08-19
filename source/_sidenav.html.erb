@@ -72,14 +72,21 @@
   </ul>
 
 <% when current_page.path.include?("docs") %>
-  <ul class="nav">
-    <li class="nav-item"><a href="/docs/architecture">Hyperloop Architecture</a></li>
-    <ul class="nav">
-      <li class="nav-item"><a href="/docs/architecture#comps-overview">COMPS Overview</a></li>
-      <li class="nav-item"><a href="/docs/architecture#pragmatic-thinking">Pragmatic Thinking</a></li>
-      <li class="nav-item"><a href="/docs/advancedconfiguration">Advanced configuration</a></li>
-    </ul>
-  </ul>
+
+  <% if current_page.path.include?('docs/architecture') %>
+      <ul class="nav">
+        <li class="nav-item"><a href="/docs/architecture">Hyperloop Architecture</a></li>
+        <ul class="nav">
+          <li class="nav-item"><a href="/docs/architecture#comps-overview">COMPS Overview</a></li>
+          <li class="nav-item"><a href="/docs/architecture#pragmatic-thinking">Pragmatic Thinking</a></li>
+          <li class="nav-item"><a href="/docs/advancedconfiguration">Advanced configuration</a></li>
+        </ul>
+      </ul>
+    <% else %>
+      <ul class="nav">
+        <li class="nav-item"><a href="/docs/architecture">Hyperloop Architecture</a></li>
+      </ul>
+  <% end %>
 
   <br>
 
