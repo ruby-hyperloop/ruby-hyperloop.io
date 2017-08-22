@@ -13,6 +13,7 @@ task :update do
   ]
 
   GEMS_REPOS = [     { repo: 'hyper-operation', folder: 'operations' },
+                     { repo: 'hyper-react', folder: 'components' },
                      { repo: 'hyper-operation' , folder: 'policies', file: 'DOCS-POLICIES.md' },
                      { repo: 'hyper-store', folder: 'stores' },
                      { repo: 'hyper-mesh', folder: 'models' },
