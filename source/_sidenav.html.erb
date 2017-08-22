@@ -91,25 +91,11 @@
   <br>
 
   <% if current_page.path.include?('docs/components') %>
-
-    <ul class="nav">
-      <li class="nav-item"><a href="/docs/components/dsl-overview">Hyperloop Components</a></li>
-      <ul class="nav">
-        <li class="nav-item"><a href="/docs/components/components-and-state">Components and State</a></br></li>
-        <li class="nav-item"><a href="/docs/components/lifecycle-callbacks">Lifecycle Callbacks</a></br></li>
-        <li class="nav-item"><a href="/docs/components/lifecycle-methods">Lifecycle Methods</a></br></li>
-        <li class="nav-item"><a href="/docs/components/event-handlers">Event Handlers</a></br></li>
-        <li class="nav-item"><a href="/docs/components/elements-rendering">Elements and Rendering</a></br></li>
-        <li class="nav-item"><a href="/docs/components/javascript-components">Javascript Components</a></br></li>
-        <li class="nav-item"><a href="/docs/components/serversiderendering">Server-side rendering</a></br></li>
-        <li class="nav-item"><a href="/docs/components/further-reading">Further Reading</a></br></li>
-      </ul>
-    </ul>
-
+    <%= table_of_contents(current_page)  %>
   <% else %>
 
     <ul class="nav">
-      <li class="nav-item"><a href="/docs/components/dsl-overview">Hyperloop Components</a></li>
+      <li class="nav-item"><a href="/docs/components/docs">Hyperloop Components</a></li>
     </ul>
 
   <% end %>
