@@ -320,6 +320,8 @@ end
 
 
 
+    
+
     <div class="jumbotron page-header">
       <div class="container">
 
@@ -587,7 +589,7 @@ end
 <h3 id="step-2-1-introduction">Step 2.1: Introduction</h3>
 
 <p>Hyperloop Components are subclasses of <code>Hyperloop::Component</code>.<br>
-<a href="http://ruby-hyperloop.io/docs/components/dsl-overview/">{ Hyperloop Components documentation }</a></p>
+<a href="http://ruby-hyperloop.org/docs/components/dsl-overview/">{ Hyperloop Components documentation }</a></p>
 
 <p>We are going to improve our <code>Helloworld</code> component and play with <code>state</code> params, which allows us to easily change the value of a variable and so create interactive interface.</p>
 
@@ -999,7 +1001,7 @@ end
 <h3 id="step-4-1-introduction">Step 4.1: Introduction</h3>
 
 <p>Hyperloop Stores are subclasses of <code>Hyperloop::Store</code>.<br>
-<a href="http://ruby-hyperloop.io/docs/stores/overview/">{ Hyperloop Stores documentation }</a></p>
+<a href="http://ruby-hyperloop.org/docs/stores/overview/">{ Hyperloop Stores documentation }</a></p>
 
 <p>Hyperloop Stores exist to hold local application state. Components read state from Stores and render accordingly.</p>
 
@@ -1312,7 +1314,7 @@ end
 <h3 id="step-5-1-introduction">Step 5.1: Introduction</h3>
 
 <p>With Hyperloop, your server side Models are directly accessible from your Components or Stores.<br>
-<a href="http://ruby-hyperloop.io/docs/models/overview/">{ Hyperloop Isomorphic Models documentation }</a></p>
+<a href="http://ruby-hyperloop.org/docs/models/overview/">{ Hyperloop Isomorphic Models documentation }</a></p>
 
 <p>We are going to create a Model associated to a Table inside your database with one column.
 And we will see how we can easily read, update, create or delete any values of your Model, just like Ruby On Rails can do with ActiveRecord on the server side.</p>
@@ -1597,9 +1599,9 @@ end
 
 <p>Hyperloop includes by default a push notifications mechanism. Components datas are directly updated via browsers <code>Web Sockets</code>. Of course everything is parametrable, like which mechanism you want to use (Action-cable, pusher, ...) and more important, Hyperloop uses Policies to regulate what connections are opened between clients and the server and what data is distributed over those connections.
 <br>
-<a href="http://ruby-hyperloop.io/docs/models/configuring-transport/">{ Configuring Push notifications transport }</a>
+<a href="http://ruby-hyperloop.org/docs/models/configuring-transport/">{ Configuring Push notifications transport }</a>
 <br>
-<a href="http://ruby-hyperloop.io/docs/policies/authorization/">{ Hyperloop Policies }</a></p>
+<a href="http://ruby-hyperloop.org/docs/policies/authorization/">{ Hyperloop Policies }</a></p>
 
 <p>In order to see Puch Notifications in action, you just have to open 2 different browsers, go to <code>http://localhost:3000</code> on each browser, add and save a message in the input field, and you will see that the saved record will be displayed directly in both browsers.</p>
 
@@ -1745,7 +1747,7 @@ end
 <h3 id="step-6-1-introduction">Step 6.1: Introduction</h3>
 
 <p>Hyperloop Operations classes are subclasses of <code>Hyperloop::Operation</code>.<br>
-<a href="http://ruby-hyperloop.io/docs/operations/docs">{ Hyperloop Operations documentation}</a></p>
+<a href="http://ruby-hyperloop.org/docs/operations/docs">{ Hyperloop Operations documentation}</a></p>
 
 <p><code>Operations</code> are the engine rooms of Hyperloop, they orchestrate the interactions between <code>Components</code>, external services, Models and Stores. <strong>Operations are where your business logic lives</strong>.</p>
 
@@ -1754,8 +1756,8 @@ end
 <p>So the using of <code>Operations</code> in our Tutorial could seem inappropriate, but it allows us to introduce the syntax and gives us a preview of its utility.</p>
 
 <p>You will have a better idea of the power of <code>Operations</code> by following these 2 Tutorials:<br>
-<a href="http://ruby-hyperloop.io/tutorials/hyperlooprails/fivelettergame/">{ Five letters game tutorial }</a><br>
-<a href="http://ruby-hyperloop.io/tutorials/hyperlooprails/chatapp/">{ Chat App Tutorial }</a></p>
+<a href="http://ruby-hyperloop.org/tutorials/hyperlooprails/fivelettergame/">{ Five letters game tutorial }</a><br>
+<a href="http://ruby-hyperloop.org/tutorials/hyperlooprails/chatapp/">{ Chat App Tutorial }</a></p>
 
 <h3 id="step-6-2-the-showbutton-operation">Step 6.2: The ShowButton Operation</h3>
 
@@ -1803,7 +1805,7 @@ end
 <span class="k">end</span>
 
 </code></pre>
-<p>You can notice specific syntax: <code>Hyperloop::Operation</code> declaration and the <code>step</code> instruction. <a href="http://ruby-hyperloop.io/docs/operations/overview/#defining-execution-steps">{ Operations documentation }</a></p>
+<p>You can notice specific syntax: <code>Hyperloop::Operation</code> declaration and the <code>step</code> instruction. <a href="http://ruby-hyperloop.org/docs/operations/overview/#defining-execution-steps">{ Operations documentation }</a></p>
 
 <p>And one last modification, the <code>toggle_logo</code> definition method needs to be updated by adding <code>self</code>:</p>
 <pre class="highlight ruby"><code><span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">toggle_logo</span><span class="p">(</span><span class="n">ev</span><span class="p">)</span>
@@ -1986,7 +1988,7 @@ end
 <span class="k">end</span>
 
 </code></pre>
-<p>You can notice the <code>receives SaveDescriptionOp do .... end</code> block. <a href="http://ruby-hyperloop.io/docs/stores/overview/#receiving-operation-dispatches">{ Stores documentation }</a></p>
+<p>You can notice the <code>receives SaveDescriptionOp do .... end</code> block. <a href="http://ruby-hyperloop.org/docs/stores/overview/#receiving-operation-dispatches">{ Stores documentation }</a></p>
 
 <p><br></p>
 
@@ -2077,7 +2079,7 @@ end
 <h3 id="step-7-1-introduction">Step 7.1: Introduction</h3>
 
 <p>Hyperloop Server Operations are subclasses of <code>Hyperloop::ServerOp</code>.<br>
-<a href="http://ruby-hyperloop.io/docs/operations/docs/#server-operations">{ Hyperloop Server Operations documentation }</a></p>
+<a href="http://ruby-hyperloop.org/docs/operations/docs/#server-operations">{ Hyperloop Server Operations documentation }</a></p>
 
 <p><code>Operations</code> will run on the client or the server, but <code>Server Operations</code> will always run on the server even if invoked on the client.</p>
 
@@ -2086,7 +2088,7 @@ end
 <p>So for our simple tutorial it will be more question of being familiar with the syntax than implementing a useful fonctionality.</p>
 
 <p>You will have a better idea of the power of <code>Server Operations</code> by following this Tutorial:<br>
-<a href="http://ruby-hyperloop.io/tutorials/hyperlooprails/chatapp/">{ Chat App Tutorial }</a></p>
+<a href="http://ruby-hyperloop.org/tutorials/hyperlooprails/chatapp/">{ Chat App Tutorial }</a></p>
 
 <h3 id="step-7-2-what-functionality-we-will-implement">Step 7.2: What functionality we will implement ?</h3>
 
@@ -2605,9 +2607,9 @@ end
 <p>For the purpose of our tutorial we set up them as basic as possible.</p>
 
 <p>You can know more about:<br>
-<a href="http://ruby-hyperloop.io/docs/operations/docs/#server-operations">{ Hyperloop Server Operations documentation }</a><br>
-<a href="http://ruby-hyperloop.io/docs/operations/docs/#dispatching-from-server-operations">{ Hyperloop dispatching from Server Operations documentation }</a><br>
-<a href="http://ruby-hyperloop.io/docs/policies/authorization/">{ Hyperloop policies for Authorizations }</a><br></p>
+<a href="http://ruby-hyperloop.org/docs/operations/docs/#server-operations">{ Hyperloop Server Operations documentation }</a><br>
+<a href="http://ruby-hyperloop.org/docs/operations/docs/#dispatching-from-server-operations">{ Hyperloop dispatching from Server Operations documentation }</a><br>
+<a href="http://ruby-hyperloop.org/docs/policies/authorization/">{ Hyperloop policies for Authorizations }</a><br></p>
 
 <h4 id="step-7-11-c-writing-the-getmessages-server-operation">Step 7.11.c: Writing the GetMessages Server Operation</h4>
 

@@ -34,7 +34,7 @@ It will also have a few neat features:
     <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.5/marked.min.js"></script>
     <script src="https://rawgit.com/reactrb/reactrb-express/master/reactrb-express.js"></script>
-    <script src="http://ruby-hyperloop.io/javascripts/test_chat_service.js"></script>
+    <script src="http://ruby-hyperloop.org/javascripts/test_chat_service.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
@@ -775,7 +775,7 @@ We will use **Bootstrap** styles, which has already been included.  We just need
     height: 50px;
     margin-right: 8px;
     background-size: contain;
-    background-image: url("http://ruby-hyperloop.io/images/hyperloop_white.svg");
+    background-image: url("http://ruby-hyperloop.org/images/hyperloop_white.svg");
 }
 ```
 
@@ -1101,13 +1101,13 @@ Now that you are all done make sure you change from the test fixture so your app
 Update this line in the html header
 
 ```HTML
-<script src="http://ruby-hyperloop.io/javascripts/test_chat_service.js"></script>
+<script src="http://ruby-hyperloop.org/javascripts/test_chat_service.js"></script>
 ```
 
 to read
 
 ```HTML
-<script src="http://ruby-hyperloop.io/javascripts/chat_service.js"></script>
+<script src="http://ruby-hyperloop.org/javascripts/chat_service.js"></script>
 ```
 
 and you will be sending and receiving messages from the chat server.  Try opening your a second browser window to get the full experience.
