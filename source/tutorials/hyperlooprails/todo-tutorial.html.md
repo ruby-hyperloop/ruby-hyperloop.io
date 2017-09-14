@@ -2,8 +2,8 @@
 
 <p align="center">
 
-<a href="http://ruby-hyperloop.io/" alt="Hyperloop" title="Hyperloop">
-<img width="350px" src="http://ruby-hyperloop.io/images/hyperloop-github-logo.png">
+<a href="http://ruby-hyperloop.org/" alt="Hyperloop" title="Hyperloop">
+<img width="350px" src="http://ruby-hyperloop.org/images/hyperloop-github-logo.png">
 </a>
 
 </p>
@@ -12,33 +12,33 @@
 
 <br>
 
-<a href="http://ruby-hyperloop.io/" alt="Hyperloop" title="Hyperloop">
-<img src="http://ruby-hyperloop.io/images/githubhyperloopbadge.png">
+<a href="http://ruby-hyperloop.org/" alt="Hyperloop" title="Hyperloop">
+<img src="http://ruby-hyperloop.org/images/githubhyperloopbadge.png">
 </a>
 
-<a href="http://ruby-hyperloop.io/tutorials/hyperlooprails/webpacker/" alt="Tutorial page" title="Tutorial page">
-<img src="http://ruby-hyperloop.io/images/githubtutorialbadge.png">
+<a href="http://ruby-hyperloop.org/tutorials/hyperlooprails/todo-tutorial/" alt="Tutorial page" title="Tutorial page">
+<img src="http://ruby-hyperloop.org/images/githubtutorialbadge.png">
 </a>
 
 <a href="https://gitter.im/ruby-hyperloop/chat" alt="Gitter chat" title="Gitter chat">
-<img src="http://ruby-hyperloop.io/images/githubgitterbadge.png">
+<img src="http://ruby-hyperloop.org/images/githubgitterbadge.png">
 </a>
 
 </div>
 
 ## <i class="flaticon-professor-teaching"></i><span class="bigfirstletter">H</span>yperloop TodoMVC Tutorial
 
-![](http://ruby-hyperloop.io/images/tutorials/Hyperloop-Railstodomvc.gif)
+![](http://ruby-hyperloop.org/images/tutorials/Hyperloop-Railstodomvc.gif)
 
-<img src="http://ruby-hyperloop.io/images/youtube-logo.jpg"> <b>Also follow the TodoMVC screencast:</b>
+<img src="http://ruby-hyperloop.org/images/youtube-logo.jpg"> <b>Also follow the TodoMVC screencast:</b>
 
 <a href="https://www.youtube.com/watch?v=gtL4kAKUt_g" alt="TodoMVC screencast" title="TodoMVC screencast">
-<img src="http://ruby-hyperloop.io/images/tutorials/Hyperloop-Railstodomvc-youtube.png">
+<img src="http://ruby-hyperloop.org/images/tutorials/Hyperloop-Railstodomvc-youtube.png">
 </a>
 
 ### Prerequisites
 
-{ [Ruby On Rails](http://rubyonrails.org/) }, { [hyperloop GEM](http://ruby-hyperloop.io) }
+{ [Ruby On Rails](http://rubyonrails.org/) }, { [hyperloop GEM](http://ruby-hyperloop.org) }
 
 ### The Goals of this Tutorial
 
@@ -58,7 +58,7 @@ You will write less than 100 lines of code, and the tutorial should take about 1
 You can find the final application source code here:<br>
 
 <a href="https://github.com/ruby-hyperloop/todo-tutorial" alt="Tutorial source code" title="Tutorial source code">
-<img src="http://ruby-hyperloop.io/images/githubsourcecodebadge.png">
+<img src="http://ruby-hyperloop.org/images/githubsourcecodebadge.png">
 </a>
 
 ### Skills required
@@ -1012,7 +1012,7 @@ end
 You can find the final application source code here:<br>
 
 <a href="https://github.com/ruby-hyperloop/hyperloop-rails-webpackergem-helloworld" alt="Tutorial source code" title="Tutorial source code">
-<img src="http://ruby-hyperloop.io/images/githubsourcecodebadge.png">
+<img src="http://ruby-hyperloop.org/images/githubsourcecodebadge.png">
 </a>
 
 <br><br>
@@ -1020,7 +1020,7 @@ You can find the final application source code here:<br>
 The best way to get help and contribute is to join our Gitter Chat
 
 <a href="https://gitter.im/ruby-hyperloop/chat" alt="Gitter chat" title="Gitter chat">
-<img src="http://ruby-hyperloop.io/images/githubgitterbadge.png">
+<img src="http://ruby-hyperloop.org/images/githubgitterbadge.png">
 </a>
 
 </div>

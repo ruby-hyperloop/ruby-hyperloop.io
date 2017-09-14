@@ -3,8 +3,8 @@
 
 <p align="center">
 
-<a href="http://ruby-hyperloop.io/" alt="Hyperloop" title="Hyperloop">
-<img width="350px" src="http://ruby-hyperloop.io/images/hyperloop-github-logo.png">
+<a href="http://ruby-hyperloop.org/" alt="Hyperloop" title="Hyperloop">
+<img width="350px" src="http://ruby-hyperloop.org/images/hyperloop-github-logo.png">
 </a>
 
 </p>
@@ -13,16 +13,16 @@
 
 <br>
 
-<a href="http://ruby-hyperloop.io/" alt="Hyperloop" title="Hyperloop">
-<img src="http://ruby-hyperloop.io/images/githubhyperloopbadge.png">
+<a href="http://ruby-hyperloop.org/" alt="Hyperloop" title="Hyperloop">
+<img src="http://ruby-hyperloop.org/images/githubhyperloopbadge.png">
 </a>
 
-<a href="http://ruby-hyperloop.io/tutorials/hyperlooprails/webpacker/" alt="Tutorial page" title="Tutorial page">
-<img src="http://ruby-hyperloop.io/images/githubtutorialbadge.png">
+<a href="http://ruby-hyperloop.org/tutorials/hyperlooprails/webpacker/" alt="Tutorial page" title="Tutorial page">
+<img src="http://ruby-hyperloop.org/images/githubtutorialbadge.png">
 </a>
 
 <a href="https://gitter.im/ruby-hyperloop/chat" alt="Gitter chat" title="Gitter chat">
-<img src="http://ruby-hyperloop.io/images/githubgitterbadge.png">
+<img src="http://ruby-hyperloop.org/images/githubgitterbadge.png">
 </a>
 
 </div>
@@ -30,17 +30,17 @@
 ## <i class="flaticon-professor-teaching"></i><span class="bigfirstletter">H</span>yperloop and webpacker GEM Tutorial
 
 
-<img src="http://ruby-hyperloop.io/images/tutorials/Hyperloop-Railswebpacker.gif" class="imgborder">
+<img src="http://ruby-hyperloop.org/images/tutorials/Hyperloop-Railswebpacker.gif" class="imgborder">
 
 
 ### Prerequisites
 
-{ [Ruby On Rails](http://rubyonrails.org/) }, { [hyperloop GEM](http://ruby-hyperloop.io) }
+{ [Ruby On Rails](http://rubyonrails.org/) }, { [hyperloop GEM](http://ruby-hyperloop.org) }
 
 To set up the **Hyperloop** GEM onto the Ruby On Rails environment, please follow the <br>
 
-<a href="http://ruby-hyperloop.io/installation/#ror" alt="Tutorial page" title="Tutorial page">
-<img src="http://ruby-hyperloop.io/images/githubinstallationrorbadge.png">
+<a href="http://ruby-hyperloop.org/installation/#ror" alt="Tutorial page" title="Tutorial page">
+<img src="http://ruby-hyperloop.org/images/githubinstallationrorbadge.png">
 </a>
 
 ### The Goals of this Tutorial
@@ -50,7 +50,7 @@ We are going to setup the [Webpacker GEM](https://github.com/rails/webpacker) an
 You can find the final application source code here:<br>
 
 <a href="https://github.com/ruby-hyperloop/hyperloop-rails-webpackergem-helloworld" alt="Tutorial source code" title="Tutorial source code">
-<img src="http://ruby-hyperloop.io/images/githubsourcecodebadge.png">
+<img src="http://ruby-hyperloop.org/images/githubsourcecodebadge.png">
 </a>
 
 ### Skills required
@@ -355,7 +355,7 @@ Start your Rails server and browse `http://localhost:3000`.
 You can find the final application source code here:<br>
 
 <a href="https://github.com/ruby-hyperloop/hyperloop-rails-webpackergem-helloworld" alt="Tutorial source code" title="Tutorial source code">
-<img src="http://ruby-hyperloop.io/images/githubsourcecodebadge.png">
+<img src="http://ruby-hyperloop.org/images/githubsourcecodebadge.png">
 </a>
 
 <br><br>
@@ -363,7 +363,7 @@ You can find the final application source code here:<br>
 The best way to get help and contribute is to join our Gitter Chat
 
 <a href="https://gitter.im/ruby-hyperloop/chat" alt="Gitter chat" title="Gitter chat">
-<img src="http://ruby-hyperloop.io/images/githubgitterbadge.png">
+<img src="http://ruby-hyperloop.org/images/githubgitterbadge.png">
 </a>
 
 </div>

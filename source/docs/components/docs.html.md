@@ -1,8 +1,8 @@
-# <span class="bigfirstletter">H</span>yperloop Components
+# Hyperloop Components
 
 ## Components DSL Overview
 
-Hyperloop **Components** are implemented in the hyper-component Gem.
+Hyperloop **Components** are implemented in the hyper-component and hyper-react Gems.
 
 Hyperloop Component DSL (Domain Specific Language) is a set of class and instance methods that are used to describe your React components.
 

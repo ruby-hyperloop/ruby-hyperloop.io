@@ -10,7 +10,7 @@ This tutorial will take you through [Setup](#setup) of NPM and Webpack, [Usage](
 
 This tutorial assumes that NPM is installed. Please see the [NPM website](https://www.npmjs.com/) for installation instructions.
 
-Additionally, this tutorial starts with an existing Rails app with **HyperReact already setup and working**. For more information on how to get to that stage, please see the [HyperReact and Rails Tutorial](http://ruby-hyperloop.io/tutorials/hyperreact_with_rails/).
+Additionally, this tutorial starts with an existing Rails app with **HyperReact already setup and working**. For more information on how to get to that stage, please see the [HyperReact and Rails Tutorial](http://ruby-hyperloop.org/tutorials/hyperreact_with_rails/).
 
 The source of this tutorial is avaiable as a [Quickstart](https://github.com/ruby-hyperloop/quickstart) which you can clone.
 

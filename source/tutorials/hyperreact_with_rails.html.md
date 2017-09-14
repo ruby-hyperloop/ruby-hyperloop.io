@@ -27,7 +27,7 @@ rails g hyperloop:install
 bundle update
 ```
 
-HyperRails will add all the necessary Gem's and configuration to our new Rails app. If you are interested in the steps the generator has completed, please see the [Manual Rails Install](http://ruby-hyperloop.io/installation/#manual-rails-install) section on the website.
+HyperRails will add all the necessary Gem's and configuration to our new Rails app. If you are interested in the steps the generator has completed, please see the [Manual Rails Install](http://ruby-hyperloop.org/installation/#manual-rails-install) section on the website.
 
 ## Adding a component
 
@@ -92,9 +92,9 @@ The params at the top of the class are the parameters that will be passed into t
 param :name, type: String
 ```
 
-Next come the lifecycle call-backs. You can read more about these in the [HyperReact documentation](http://ruby-hyperloop.io/docs/lifecycle_callbacks/).
+Next come the lifecycle call-backs. You can read more about these in the [HyperReact documentation](http://ruby-hyperloop.org/docs/lifecycle_callbacks/).
 
-Finally we have the `render` method. Every HyperReact component will have a `render` method. There are some exceptions, which you can learn more about in the [Flux Store Tutorial](http://ruby-hyperloop.io/tutorials/flux_store/) later.
+Finally we have the `render` method. Every HyperReact component will have a `render` method. There are some exceptions, which you can learn more about in the [Flux Store Tutorial](http://ruby-hyperloop.org/tutorials/flux_store/) later.
 
 Back to our example, the `render` method must render just one HTML element, so as you can see, this method render just one `div` element. Note that `div` and `DIV` are functionally the same - all the HTML elements can be upper or lower case depending on which style you prefer.  
 
@@ -140,4 +140,4 @@ root 'home#welcome'
 
 In a few simple steps, we have created a Rails application that uses Opal to compile Ruby and pre-renders (on the server) then renders React components in your browser - all in just a few lines of Ruby code. **Welcome to Hyperloop!**
 
-Make sure you see the [Docs](http://ruby-hyperloop.io/docs/dsl_overview/) for more information on the DSL.
+Make sure you see the [Docs](http://ruby-hyperloop.org/docs/dsl_overview/) for more information on the DSL.

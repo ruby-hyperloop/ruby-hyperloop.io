@@ -2,7 +2,7 @@
 
 This tutorial will demonstrate how to use the popular [Devise Gem](https://github.com/plataformatec/devise) with Hyperloop. In this tutorial, we will be using the standard Devise user session ERB views for all Devise related activity (creating the user, changing the password, etc), and demonstrating how Hyperloop co-exists with Devise.
 
-The goal of this tutorial is to show the interactivity between Hyperloop and Devise, so we will go quickly through the setup of Hyperloop and Devise. If these technologies are new to you, then this is not the ideal tutorial to start with. Please be sure to see the [Hyperloop with Rails tutorials](http://ruby-hyperloop.io/tutorials/hyperlooprails/) and the [Devise Gem](https://github.com/plataformatec/devise) first.
+The goal of this tutorial is to show the interactivity between Hyperloop and Devise, so we will go quickly through the setup of Hyperloop and Devise. If these technologies are new to you, then this is not the ideal tutorial to start with. Please be sure to see the [Hyperloop with Rails tutorials](http://ruby-hyperloop.org/tutorials/hyperlooprails/) and the [Devise Gem](https://github.com/plataformatec/devise) first.
 
 ## Setup
 
