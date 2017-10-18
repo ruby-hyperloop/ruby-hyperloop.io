@@ -169,7 +169,7 @@ Start your Rails server and browse `http://localhost:3000`.
 <br><br>
 You should see `Hello world` displayed by the Component.
 
-<i class="flaticon-signs"></i> A component can be rendered in different ways, from a controller or view file for example. Please consult the documentation: [{ Elements and rendering }](/docs/components/elements-rendering/)
+<i class="flaticon-signs"></i> A component can be rendered in different ways, from a controller or view file for example. Please consult the documentation: [{ Elements and rendering }](/docs/components/docs#elements-and-rendering)
 
 
 
