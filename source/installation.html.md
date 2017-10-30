@@ -123,6 +123,7 @@ And updates your `app/assets/javascripts/application.js` file adding this line:
 To be sure everything is setting up correctly, check your `app/assets/javascripts/application.js`:
 
 ```javascript
+//= require rails-ujs
 //= require react_ujs
 //= require jquery
 //= require jquery_ujs

@@ -21,9 +21,9 @@ Hyperloop.configuration do |config|
 end
 ```
 
-* **`config.transport = [ :none | :simple_poller | :action_cable | :pusher ]`** <br>Allows us to configure the way push notifications are configured. <br>More detail: [{ Configuring the Transport }](/docs/models/configuring-transport)
+* **`config.transport = [ :none | :simple_poller | :action_cable | :pusher ]`** <br>Allows us to configure the way push notifications are configured. <br>More detail: [{ Configuring the Transport }](/docs/models/docs/#configuring-the-transport)
 
-* **`config.prerendering = :off (:on by default)`** <br> Allows us to configure the way Server-side rendering works. <br>More detail: [{ Server-side rendering }](/docs/components/serversiderendering)
+* **`config.prerendering = :off (:on by default)`** <br> Allows us to configure the way Server-side rendering works. <br>More detail: [{ Server-side rendering }](/docs/components/docs/#server-side-rendering-or-prerendering)
 
 * **`config.console_auto_start = false`** <br> Allows us to turn off the Hyper-console debugging tool. <br>More detail: [{ Hyper-console }](/tools/hyperconsole/)
 
@@ -52,7 +52,7 @@ end unless Rails.env.production?
 
 Hyperloop uses Policies to regulate what connections are opened between clients and the server and what data is distributed over those connections.
 
-More detail in the documentation: [{ Configuring the policies }](/docs/policies/authorization)
+More detail in the documentation: [{ Configuring the policies }](/docs/policies/docs/#authorization)
 
 
 ## <a name="auto_config">Turning Hyperloop auto_config OFF</a>
