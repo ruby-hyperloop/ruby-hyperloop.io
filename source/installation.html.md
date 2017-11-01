@@ -124,7 +124,6 @@ To be sure everything is setting up correctly, check your `app/assets/javascript
 
 ```javascript
 //= require rails-ujs
-//= require react_ujs
 //= require jquery
 //= require jquery_ujs
 //= require turbolinks
