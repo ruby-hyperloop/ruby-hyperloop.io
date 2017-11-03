@@ -33,13 +33,13 @@ npm init
 Press enter at each prompt to leave the fields empty. Agree when asked if it is okay to write the package.json file. This will create an empty package.json (which is similar to a Gemfile) in your root folder.
 
 ```
-npm install webpack --save-dev
+npm install webpack@3.8.1 --save-dev
 ```
 
 This installs Webpack and creates a node_modules folder. This folder contains hundreds of JavaScript dependencies.
 
 ```
-npm install webpack -g
+npm install webpack@3.8.1 -g
 ```
 
 This enables us to run Webpack from the command line.
@@ -52,8 +52,8 @@ React, React-dom, Bootstrap and Bootswatch theme.
 Run these commands:
 
 ```ruby
-npm install react --save
-npm install react-dom --save
+npm install react@15.6.2 --save
+npm install react-dom@15.6.2 --save
 npm install css-loader file-loader style-loader url-loader --save-dev
 npm install bootstrap react-bootstrap --save
 npm install bootswatch
