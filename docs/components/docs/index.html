@@ -1934,8 +1934,10 @@ different browsers.</p>
 <p>If you are in the business of importing components with a tool like Webpack, then you will need to let Webpack (or whatever dependency manager you are using) take care of including the React source code.  Just make sure that you are <em>not</em> including it on the ruby side of things. Hyperloop is currently tested with React versions 13, 14, and 15, so its not sensitive to the version you use.</p>
 
 <p>However it gets a little tricky if you are using the react-rails gem.  Each version of this gem depends on a specific version of React, and so you will need to manually declare this dependency in your Javascript dependency manager.  Consult this <a href="https://github.com/reactjs/react-rails/blob/master/VERSIONS.md">table</a> to determine which version of React you need. For example assuming you are using <code>npm</code> to install modules and you are using version 1.7.2 of react-rails you would say something like this:</p>
-<pre class="highlight shell"><code>npm install react@15.0.2 react-dom@15.0.2 --save
+<pre class="highlight shell"><code>npm install react@15.6.2 react-dom@15.6.2 --save
 </code></pre>
+<p>See <a href="/tutorials/hyperlooprails/webpack/">{ NPM and Webpack Tutorial }</a> or <a href="/tutorials/hyperlooprails/hyperloop-rails-webpackergem-helloworld/">{ Webpacker GEM Tutorial }</a> for more information.</p>
+
 <h4 id="using-webpack">Using Webpack</h4>
 
 <p>Just a word on Webpack: If you a Ruby developer who is new to using Javascript libraries then we recommend using Webpack to manage javascript component dependencies.  Webpack is essentially bundler for Javascript. Please see our Tutorials section for more information.</p>
