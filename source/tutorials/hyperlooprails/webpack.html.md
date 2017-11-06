@@ -56,7 +56,7 @@ npm install react@15.6.2 --save
 npm install react-dom@15.6.2 --save
 npm install css-loader file-loader style-loader url-loader --save-dev
 npm install bootstrap react-bootstrap --save
-npm install bootswatch
+npm install bootswatch@3.3.7
 ```
 
 ##### Step 1.3 - Requiring the libraires

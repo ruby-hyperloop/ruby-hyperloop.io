@@ -83,7 +83,7 @@ bundle update
 Run the webpacker install generator:
 
 ```
-bin/rails webpacker:install
+bundle exec rails webpacker:install
 ```
 
 #### Step 1.2 - Adding libraries into Webpack:
@@ -96,10 +96,10 @@ React, React-dom, Bootstrap and Bootswatch theme.
 Run these commands:
 
 ```
-yarn add react
-yarn add react-dom
+yarn add react@15.6.2
+yarn add react-dom@15.6.2
 yarn add bootstrap react-bootstrap
-yarn add bootswatch
+yarn add bootswatch@3.3.7
 ```
 
 #### Step 1.3 - Requiring the libraires
@@ -124,10 +124,10 @@ require('bootswatch/superhero/bootstrap.min.css');
 
 React and ReactDOM are being brought in by Hyperloop, so we need to let Webpack know that these libraries are external so we do not end up with more than one copy of React running. Note that you will also need to do this for your production environment.
 
-In the `module.export` block, add the following to `development.js`:
+In the `module.export` block, add the following to `shared.js`:
 
 ```javascript
-//config/webpack/development.js
+//config/webpack/shared.js
 
 externals: {
        "react": "React",
@@ -182,6 +182,29 @@ Hyperloop.configuration do |config|
 end
 ```
 
+<i class="flaticon-signs"></i> The `bin/webpack` command generates pack files with digest (`client_and_server-d26d4f81d82860ae4db0.js`).
+
+So there are 3 ways to get those packs files imported with Rails and Hyperloop in development mode:
+
+1/ Rename all packs files generated with deleting there digests:
+`client_and_server-d26d4f81d82860ae4db0.js` -> `client_and_server.js`
+
+2/ Find a way to configure Webpack in order to not generate packs files with digests (For now, we don't know how to do that).
+
+3/ Use the command `bin/webpack-dev-server`. But in this this case you will have to:
+
+1. Delete the 2 lines in the `config/initializers/hyperloop.rb` file: `config.import 'client_and_server'` and `config.import 'client_only', client_only: true`. 
+
+2. Also [{ set Hyperloop in AUTO-CONFIG MODE = OFF }](/docs/advancedconfiguration/#auto_config) in order to choose manually which libraries will be imported.
+
+3. Include the pack files into your application main layout:
+
+```erb
+#app/views/layouts/application.tml.erb
+
+<%= javascript_pack_tag 'client_and_server' %>
+```
+
 <i class="flaticon-signs"></i> In Rails production mode it would be necessary to include the pack files in your application main layout:
 
 ```erb
@@ -189,6 +212,8 @@ end
 
 <%= javascript_pack_tag 'client_and_server' %>
 ```
+
+And [{ set Hyperloop in AUTO-CONFIG MODE = OFF }](/docs/advancedconfiguration/#auto_config) in order to choose manually which libraries will be imported.
 
 #### Step 1.8 - Adding CSS pack files to the asset pipeline
 

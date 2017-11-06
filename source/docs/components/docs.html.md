@@ -1451,8 +1451,10 @@ If you are in the business of importing components with a tool like Webpack, the
 However it gets a little tricky if you are using the react-rails gem.  Each version of this gem depends on a specific version of React, and so you will need to manually declare this dependency in your Javascript dependency manager.  Consult this [table](https://github.com/reactjs/react-rails/blob/master/VERSIONS.md) to determine which version of React you need. For example assuming you are using `npm` to install modules and you are using version 1.7.2 of react-rails you would say something like this:
 
 ```bash
-npm install react@15.0.2 react-dom@15.0.2 --save
+npm install react@15.6.2 react-dom@15.6.2 --save
 ```  
+
+See [{ NPM and Webpack Tutorial }](/tutorials/hyperlooprails/webpack/) or [{ Webpacker GEM Tutorial }](/tutorials/hyperlooprails/hyperloop-rails-webpackergem-helloworld/) for more information.
 
 #### Using Webpack
 
