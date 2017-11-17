@@ -177,33 +177,17 @@ By using the Hyperloop configuration file we can directly tell our app to includ
 
 Hyperloop.configuration do |config|
   config.transport = :simple_poller
+
+  # If your Webpacker version DO NOT generate Manifest files
   config.import 'client_and_server'
   config.import 'client_only', client_only: true
+
+  # If your Webpacker version DOES generate Manifest files
+  # config.import Webpacker.manifest.lookup("client_and_server.js").split("/").last
+  # config.import Webpacker.manifest.lookup("client_only.js").split("/").last
 end
 ```
 
-<i class="flaticon-signs"></i> The `bin/webpack` command generates pack files with digest (`client_and_server-d26d4f81d82860ae4db0.js`).
-
-So there are 3 ways to get those packs files imported with Rails and Hyperloop in development mode:
-
-1/ Rename all packs files generated with deleting there digests:
-`client_and_server-d26d4f81d82860ae4db0.js` -> `client_and_server.js`
-
-2/ Find a way to configure Webpack in order to not generate packs files with digests (For now, we don't know how to do that).
-
-3/ Use the command `bin/webpack-dev-server`. But in this this case you will have to:
-
-1. Delete the 2 lines in the `config/initializers/hyperloop.rb` file: `config.import 'client_and_server'` and `config.import 'client_only', client_only: true`. 
-
-2. Also [{ set Hyperloop in AUTO-CONFIG MODE = OFF }](/docs/advancedconfiguration/#auto_config) in order to choose manually which libraries will be imported.
-
-3. Include the pack files into your application main layout:
-
-```erb
-#app/views/layouts/application.tml.erb
-
-<%= javascript_pack_tag 'client_and_server' %>
-```
 
 <i class="flaticon-signs"></i> In Rails production mode it would be necessary to include the pack files in your application main layout:
 
