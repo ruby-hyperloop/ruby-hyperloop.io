@@ -445,7 +445,7 @@ end
 
 <h2 id="introduction"><a name="introduction">Introduction</a></h2>
 
-<p>This simple tutorial will teach you the basic of using each Hyperloop architecture brick: <a href="/docs/components/dsl-overview" class="component-blue"><b>C</b>omponents</a>, <a href="/docs/stores/overview" class="store-green"><b>S</b>tores</a>, <a href="/docs/models/active-record" class="model-orange"><b>I</b>somorphic models and ActiveRecord API</a>,  <a href="/docs/operations/overview" class="operation-purple"><b>O</b>perations</a>, <a href="/docs/operations/docs/#server-operations" class="operation-purple"><b>S</b>erver <b>O</b>perations</a>, each one introduced step by step, within a Ruby On Rails environment. </p>
+<p>This simple tutorial will teach you the basic of using each Hyperloop architecture brick: <a href="/docs/components/docs#components-dsl-overview" class="component-blue"><b>C</b>omponents</a>, <a href="/docs/stores/docs" class="store-green"><b>S</b>tores</a>, <a href="/docs/models/docs#activerecord-api" class="model-orange"><b>I</b>somorphic models and ActiveRecord API</a>,  <a href="/docs/operations/docs" class="operation-purple"><b>O</b>perations</a>, <a href="/docs/operations/docs/#server-operations" class="operation-purple"><b>S</b>erver <b>O</b>perations</a>, each one introduced step by step, within a Ruby On Rails environment. </p>
 
 <p>At the end of this tutorial, we will have a simple app which will:</p>
 
@@ -486,7 +486,7 @@ end
 <p><br><br>
 <hr></p>
 
-<p><i class="flaticon-signs"></i> A component can be mounted in different ways, from a controller or view file for example. Please consult the documentation: <a href="/docs/components/elements-rendering/">{ Elements and rendering }</a></p>
+<p><i class="flaticon-signs"></i> A component can be mounted in different ways, from a controller or view file for example. Please consult the documentation: <a href="/docs/components/docs/#elements-and-rendering">{ Elements and rendering }</a></p>
 
 <p>For example, from a View:</p>
 <pre class="highlight erb"><code>    <span class="cp">&lt;%=</span> <span class="n">react_component</span> <span class="s1">'::Helloworld'</span> <span class="cp">%&gt;</span>
@@ -589,7 +589,7 @@ end
 <h3 id="step-2-1-introduction">Step 2.1: Introduction</h3>
 
 <p>Hyperloop Components are subclasses of <code>Hyperloop::Component</code>.<br>
-<a href="http://ruby-hyperloop.org/docs/components/dsl-overview/">{ Hyperloop Components documentation }</a></p>
+<a href="http://ruby-hyperloop.org/docs/components/docs#components-dsl-overview">{ Hyperloop Components documentation }</a></p>
 
 <p>We are going to improve our <code>Helloworld</code> component and play with <code>state</code> params, which allows us to easily change the value of a variable and so create interactive interface.</p>
 
@@ -1001,7 +1001,7 @@ end
 <h3 id="step-4-1-introduction">Step 4.1: Introduction</h3>
 
 <p>Hyperloop Stores are subclasses of <code>Hyperloop::Store</code>.<br>
-<a href="http://ruby-hyperloop.org/docs/stores/overview/">{ Hyperloop Stores documentation }</a></p>
+<a href="http://ruby-hyperloop.org/docs/stores/docs/">{ Hyperloop Stores documentation }</a></p>
 
 <p>Hyperloop Stores exist to hold local application state. Components read state from Stores and render accordingly.</p>
 
@@ -1314,7 +1314,7 @@ end
 <h3 id="step-5-1-introduction">Step 5.1: Introduction</h3>
 
 <p>With Hyperloop, your server side Models are directly accessible from your Components or Stores.<br>
-<a href="http://ruby-hyperloop.org/docs/models/overview/">{ Hyperloop Isomorphic Models documentation }</a></p>
+<a href="http://ruby-hyperloop.org/docs/models/docs/models/docs#activerecord-api">{ Hyperloop Isomorphic Models documentation }</a></p>
 
 <p>We are going to create a Model associated to a Table inside your database with one column.
 And we will see how we can easily read, update, create or delete any values of your Model, just like Ruby On Rails can do with ActiveRecord on the server side.</p>
@@ -1599,9 +1599,9 @@ end
 
 <p>Hyperloop includes by default a push notifications mechanism. Components datas are directly updated via browsers <code>Web Sockets</code>. Of course everything is parametrable, like which mechanism you want to use (Action-cable, pusher, ...) and more important, Hyperloop uses Policies to regulate what connections are opened between clients and the server and what data is distributed over those connections.
 <br>
-<a href="http://ruby-hyperloop.org/docs/models/configuring-transport/">{ Configuring Push notifications transport }</a>
+<a href="http://ruby-hyperloop.org/docs/models/docs#configuring-the-transport">{ Configuring Push notifications transport }</a>
 <br>
-<a href="http://ruby-hyperloop.org/docs/policies/authorization/">{ Hyperloop Policies }</a></p>
+<a href="http://ruby-hyperloop.org/docs/policies/docs/">{ Hyperloop Policies }</a></p>
 
 <p>In order to see Puch Notifications in action, you just have to open 2 different browsers, go to <code>http://localhost:3000</code> on each browser, add and save a message in the input field, and you will see that the saved record will be displayed directly in both browsers.</p>
 
@@ -1805,7 +1805,7 @@ end
 <span class="k">end</span>
 
 </code></pre>
-<p>You can notice specific syntax: <code>Hyperloop::Operation</code> declaration and the <code>step</code> instruction. <a href="http://ruby-hyperloop.org/docs/operations/overview/#defining-execution-steps">{ Operations documentation }</a></p>
+<p>You can notice specific syntax: <code>Hyperloop::Operation</code> declaration and the <code>step</code> instruction. <a href="http://ruby-hyperloop.org/docs/operations/docs/#defining-execution-steps">{ Operations documentation }</a></p>
 
 <p>And one last modification, the <code>toggle_logo</code> definition method needs to be updated by adding <code>self</code>:</p>
 <pre class="highlight ruby"><code><span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">toggle_logo</span><span class="p">(</span><span class="n">ev</span><span class="p">)</span>
@@ -1988,7 +1988,7 @@ end
 <span class="k">end</span>
 
 </code></pre>
-<p>You can notice the <code>receives SaveDescriptionOp do .... end</code> block. <a href="http://ruby-hyperloop.org/docs/stores/overview/#receiving-operation-dispatches">{ Stores documentation }</a></p>
+<p>You can notice the <code>receives SaveDescriptionOp do .... end</code> block. <a href="http://ruby-hyperloop.org/docs/stores/docs/#receiving-operation-dispatches">{ Stores documentation }</a></p>
 
 <p><br></p>
 
@@ -2609,7 +2609,7 @@ end
 <p>You can know more about:<br>
 <a href="http://ruby-hyperloop.org/docs/operations/docs/#server-operations">{ Hyperloop Server Operations documentation }</a><br>
 <a href="http://ruby-hyperloop.org/docs/operations/docs/#dispatching-from-server-operations">{ Hyperloop dispatching from Server Operations documentation }</a><br>
-<a href="http://ruby-hyperloop.org/docs/policies/authorization/">{ Hyperloop policies for Authorizations }</a><br></p>
+<a href="http://ruby-hyperloop.org/docs/policies/docs/#authorization">{ Hyperloop policies for Authorizations }</a><br></p>
 
 <h4 id="step-7-11-c-writing-the-getmessages-server-operation">Step 7.11.c: Writing the GetMessages Server Operation</h4>
 
@@ -2911,11 +2911,11 @@ You can also try the push notifications mechanism by opening your app in another
     <div>
       <h6><a href="/docs/architecture" class="hyperloop-white">Docs</a></h6>
       <a href="/docs/architecture">Architecture</a>
-      <a href="/docs/components/dsl-overview">Components</a>
-      <a href="/docs/stores/overview">Stores</a>
-      <a href="/docs/models/overview">Models</a>
+      <a href="/docs/components/docs#components-dsl-overview">Components</a>
+      <a href="/docs/stores/docs">Stores</a>
+      <a href="/docs/models/docs">Models</a>
       <a href="/docs/operations/docs">Operations</a>
-      <a href="/docs/policies/authorization">Policies</a>
+      <a href="/docs/policies/docs">Policies</a>
     </div>
 
   </section>
