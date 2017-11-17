@@ -29,7 +29,7 @@ You can find the complete source code of this tutorial here:
 
 ## <a name="introduction">Introduction</a>
 
-This simple tutorial will teach you the basic of using each Hyperloop architecture brick: <a href="/docs/components/dsl-overview" class="component-blue"><b>C</b>omponents</a>, <a href="/docs/stores/overview" class="store-green"><b>S</b>tores</a>, <a href="/docs/models/active-record" class="model-orange"><b>I</b>somorphic models and ActiveRecord API</a>,  <a href="/docs/operations/overview" class="operation-purple"><b>O</b>perations</a>, <a href="/docs/operations/docs/#server-operations" class="operation-purple"><b>S</b>erver <b>O</b>perations</a>, each one introduced step by step, within a Ruby On Rails environment. 
+This simple tutorial will teach you the basic of using each Hyperloop architecture brick: <a href="/docs/components/docs#components-dsl-overview" class="component-blue"><b>C</b>omponents</a>, <a href="/docs/stores/docs" class="store-green"><b>S</b>tores</a>, <a href="/docs/models/docs#activerecord-api" class="model-orange"><b>I</b>somorphic models and ActiveRecord API</a>,  <a href="/docs/operations/docs" class="operation-purple"><b>O</b>perations</a>, <a href="/docs/operations/docs/#server-operations" class="operation-purple"><b>S</b>erver <b>O</b>perations</a>, each one introduced step by step, within a Ruby On Rails environment. 
 
 At the end of this tutorial, we will have a simple app which will:
 
@@ -75,7 +75,7 @@ root 'hyperloop#helloworld'
 <br><br>
 <hr>
 
-<i class="flaticon-signs"></i> A component can be mounted in different ways, from a controller or view file for example. Please consult the documentation: [{ Elements and rendering }](/docs/components/elements-rendering/)
+<i class="flaticon-signs"></i> A component can be mounted in different ways, from a controller or view file for example. Please consult the documentation: [{ Elements and rendering }](/docs/components/docs/#elements-and-rendering)
 
 For example, from a View:
 
@@ -190,7 +190,7 @@ end
 ### Step 2.1: Introduction
 
 Hyperloop Components are subclasses of `Hyperloop::Component`.<br>
-[{ Hyperloop Components documentation }](http://ruby-hyperloop.org/docs/components/dsl-overview/)
+[{ Hyperloop Components documentation }](http://ruby-hyperloop.org/docs/components/docs#components-dsl-overview)
 
 We are going to improve our `Helloworld` component and play with `state` params, which allows us to easily change the value of a variable and so create interactive interface.
 
@@ -627,7 +627,7 @@ You can of course try others JQuery methods in order to play with elements of yo
 ### Step 4.1: Introduction
 
 Hyperloop Stores are subclasses of `Hyperloop::Store`.<br>
-[{ Hyperloop Stores documentation }](http://ruby-hyperloop.org/docs/stores/overview/)
+[{ Hyperloop Stores documentation }](http://ruby-hyperloop.org/docs/stores/docs/)
 
 Hyperloop Stores exist to hold local application state. Components read state from Stores and render accordingly.
 
@@ -958,7 +958,7 @@ end
 ### Step 5.1: Introduction
 
 With Hyperloop, your server side Models are directly accessible from your Components or Stores.<br>
-[{ Hyperloop Isomorphic Models documentation }](http://ruby-hyperloop.org/docs/models/overview/)
+[{ Hyperloop Isomorphic Models documentation }](http://ruby-hyperloop.org/docs/models/docs/models/docs#activerecord-api)
 
 We are going to create a Model associated to a Table inside your database with one column.
 And we will see how we can easily read, update, create or delete any values of your Model, just like Ruby On Rails can do with ActiveRecord on the server side.
@@ -1263,9 +1263,9 @@ Refresh you browser page and you should see the Table listing your previous `Hel
 
 Hyperloop includes by default a push notifications mechanism. Components datas are directly updated via browsers `Web Sockets`. Of course everything is parametrable, like which mechanism you want to use (Action-cable, pusher, ...) and more important, Hyperloop uses Policies to regulate what connections are opened between clients and the server and what data is distributed over those connections.
 <br>
-[{ Configuring Push notifications transport }](http://ruby-hyperloop.org/docs/models/configuring-transport/)
+[{ Configuring Push notifications transport }](http://ruby-hyperloop.org/docs/models/docs#configuring-the-transport)
 <br>
-[{ Hyperloop Policies }](http://ruby-hyperloop.org/docs/policies/authorization/)
+[{ Hyperloop Policies }](http://ruby-hyperloop.org/docs/policies/docs/)
 
 In order to see Puch Notifications in action, you just have to open 2 different browsers, go to `http://localhost:3000` on each browser, add and save a message in the input field, and you will see that the saved record will be displayed directly in both browsers.
 
@@ -1486,7 +1486,7 @@ end
 
 ```
 
-You can notice specific syntax: `Hyperloop::Operation` declaration and the `step` instruction. [{ Operations documentation }](http://ruby-hyperloop.org/docs/operations/overview/#defining-execution-steps)
+You can notice specific syntax: `Hyperloop::Operation` declaration and the `step` instruction. [{ Operations documentation }](http://ruby-hyperloop.org/docs/operations/docs/#defining-execution-steps)
 
 And one last modification, the `toggle_logo` definition method needs to be updated by adding `self`:
 
@@ -1685,7 +1685,7 @@ end
 
 ```
 
-You can notice the `receives SaveDescriptionOp do .... end` block. [{ Stores documentation }](http://ruby-hyperloop.org/docs/stores/overview/#receiving-operation-dispatches)
+You can notice the `receives SaveDescriptionOp do .... end` block. [{ Stores documentation }](http://ruby-hyperloop.org/docs/stores/docs/#receiving-operation-dispatches)
 
 <br>
 
@@ -2315,7 +2315,7 @@ For the purpose of our tutorial we set up them as basic as possible.
 You can know more about:<br>
 [{ Hyperloop Server Operations documentation }](http://ruby-hyperloop.org/docs/operations/docs/#server-operations)<br>
 [{ Hyperloop dispatching from Server Operations documentation }](http://ruby-hyperloop.org/docs/operations/docs/#dispatching-from-server-operations)<br>
-[{ Hyperloop policies for Authorizations }](http://ruby-hyperloop.org/docs/policies/authorization/)<br>
+[{ Hyperloop policies for Authorizations }](http://ruby-hyperloop.org/docs/policies/docs/#authorization)<br>
 
 #### Step 7.11.c: Writing the GetMessages Server Operation
 

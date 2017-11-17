@@ -535,7 +535,7 @@ In React, data flows from owner to owned component through the params as discuss
 
 ### Stores
 
-Managing state between components is best done using Stores as many Components can access one store. This saves passing data btween Components. Please see the [Store documentation](/docs/stores/overview) for details.
+Managing state between components is best done using Stores as many Components can access one store. This saves passing data btween Components. Please see the [Store documentation](/docs/stores/docs) for details.
 
 ### Reusable Components
 

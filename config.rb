@@ -38,55 +38,55 @@ helpers do
 
 
   def componentslink
-    link_to '/docs/components/dsl-overview', :class => 'component-blue' do
+    link_to '/docs/components/docs#components-dsl-overview', :class => 'component-blue' do
       "<b>C</b>omponents"
     end
   end
 
   def operationslink
-    link_to '/docs/operations/overview', :class => 'operation-purple' do
+    link_to '/docs/operations/docs', :class => 'operation-purple' do
       "<b>O</b>perations"
     end
   end
 
   def modelslink
-    link_to '/docs/models/overview', :class => 'model-orange' do
+    link_to '/docs/models/docs', :class => 'model-orange' do
       "<b>M</b>odels"
     end
   end
 
   def policieslink
-    link_to '/docs/policies/authorization', :class => 'policies-black' do
+    link_to '/docs/policies/docs', :class => 'policies-black' do
       "<b>P</b>olicies"
     end
   end
 
   def storeslink
-    link_to '/docs/stores/overview', :class => 'store-green' do
+    link_to '/docs/stores/docs', :class => 'store-green' do
       "<b>S</b>tores"
     end
   end
 
   def routerlink
-    link_to '/docs/router', :class => 'router-blue' do
+    link_to '/docs/router/docs', :class => 'router-blue' do
       "<b>R</b>outer"
     end
   end
 
   def isomodelsapilink 
-    link_to '/docs/models/active-record', :class => 'model-orange' do
+    link_to '/docs/models/docs#activerecord-api', :class => 'model-orange' do
       "<b>I</b>somorphic models and ActiveRecord API"
     end
   end
 
   def pushnotificationslink 
-    link_to '/docs/models/configuring-transport', :class => 'policies-black' do
+    link_to '/docs/models/docs#configuring-the-transport', :class => 'policies-black' do
       "<b>P</b>ush notifications"
     end
   end
 
   def broadcastpoliciesslink 
-    link_to '/docs/policies/authorization#details', :class => 'policies-black' do
+    link_to '/docs/policies/docs#details', :class => 'policies-black' do
       "<b>B</b>roadcast policies"
     end
   end
