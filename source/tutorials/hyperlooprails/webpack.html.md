@@ -171,13 +171,6 @@ Hyperloop.configuration do |config|
 end
 ```
 
-<i class="flaticon-signs"></i> In Rails production mode it would be necessary to include the pack files in your application main layout:
-
-```erb
-#app/views/layouts/application.tml.erb
-
-<%= javascript_pack_tag 'client_and_server' %>
-```
 
 #### Part 2 - Implementing the helloworld app
 
