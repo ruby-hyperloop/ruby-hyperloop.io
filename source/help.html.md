@@ -5,6 +5,8 @@ title: Support & Contributing
 
 > **Hyperloop** is developed by a team of contributors. Many features and concepts are a result of early adopters like you.  Please get in touch, there is so much to do!
 
+> [Developing and contributing](/developing_contributing.html)
+
 > [Code of Conduct for Contributors](/code_of_conduct.html)
 
 # <span class="bigfirstletter">S</span>upport
