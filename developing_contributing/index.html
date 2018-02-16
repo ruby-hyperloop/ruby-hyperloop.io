@@ -8,7 +8,7 @@
     <meta name="google-site-verification" content="qjqVOvRhHfsuDbLOvaAnj2mkUZJ9Xwzg84TMVXduvUc" />
 
     <meta charset="UTF-8">
-    <title>Hyperloop - Support & Contributing</title>
+    <title>Hyperloop - Developing and contributing</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <script src="https://unpkg.com/react@15/dist/react.min.js"></script>
@@ -336,7 +336,7 @@ end
 
             <h4 class="display-7 project-tagline">
               
-              Support & Contributing
+              Developing and contributing
             </h4>
           </div>
           
@@ -351,7 +351,7 @@ end
             <h1 class="h1 project-name center-text">Hyperloop</h1>
             </br>
             <h2 class="h5 project-tagline center-text">
-              Support & Contributing
+              Developing and contributing
             </h2>
           </div>
           
@@ -370,51 +370,62 @@ end
     <div class="container">
       <div class="row">
         <div class="col-md-3 sidenavcol">
-            <div>
-    <p>The <strong>best way</strong> to get help and contribute is to join our Gitter Chat</p>
-    <button type="button" class="btn btn-primary btn-lg btn-hyperloopgitter" onclick="location.href='https://gitter.im/ruby-hyperloop/chat';">Gitter Chat</button>
-  </div>
-
+          
           <br>
         </div>
         <div class="col-md-9 main-content">
-          <h1 id="contributing"><span class="bigfirstletter">C</span>ontributing</h1>
+          <h1 id="developing-and-contributing">Developing and Contributing</h1>
 
-<blockquote>
-<p><strong>Hyperloop</strong> is developed by a team of contributors. Many features and concepts are a result of early adopters like you.  Please get in touch, there is so much to do!</p>
+<h3 id="version-control">Version control</h3>
 
-<p><a href="/developing_contributing/">Developing and contributing</a></p>
+<p>We use semantic versioning.</p>
 
-<p><a href="/code_of_conduct/">Code of Conduct for Contributors</a></p>
-</blockquote>
+<p>X.Y.Z</p>
 
-<h1 id="support"><span class="bigfirstletter">S</span>upport</h1>
+<p>Major revision change (X) implies new functionality and non-backwards compatible changes
+Minor revision change (Y) implies new functionality with backwards compatible changes
+Patch revision change (Z) is for bug fixes, and internal algorithm changes</p>
 
-<blockquote>
-<p>Need help? Reach out to us on one of these channels:</p>
+<p>This implies that all gems with the same Major revision should work together.  However testing is always done on a
+per gem basis with the latest current version of all gems.  This means that if you do a bundle update you should
+have the latest tested version.  </p>
 
-<p><i class="flaticon-signs"></i>In order to help you in the best conditions, we encourage you to push and run your apps you  want to debug in a <a href="https://c9.io/">Cloud9</a> workspace. So we can use the collaboration feature and help you faster without any platform environment problems.</p>
+<h4 id="edge-development">Edge Development</h4>
 
-<p>You can follow this tutorial to learn how to do that in few minutes: <a href="/tutorials/hyperlooprails/cloud9">{ Hyperloop and cloud9 setup }</a></p>
+<p>During each major release development, stable sets of gems are pushed called X.0.0.lapN. For example to use the latest 2.0.0
+release candidate you would specify <code>gem &#39;hyperloop&#39; &#39;~&gt; 2.0.0.lap0&#39;</code>  and this will get you the highest numbered lap.
+During major release development the individual gems are updated together, with possibily breaking changes across gems, 
+so its important that you do a bundle update to get the latest set with working with Edge.</p>
 
-<h2 id="gitter">Gitter</h2>
+<p>On github you will find</p>
 
-<p>There is almost always someone available to ask a quick question or discuss a concept on <a href="https://gitter.im/ruby-hyperloop/chat">gitter.im</a></p>
+<ul>
+<li>master -&gt; the latest released gem.  I.e. master is updated when the gem is released.</li>
+<li>edge -&gt; work in progress for <em>next</em> major release.  The edge branch should work but there may be caveats etc.</li>
+<li>tags -&gt; each release (including patches) will have a git tag associated.</li>
+<li>other branches -&gt; other branches may exist for the pleasure of the core team as they develop fixes and features</li>
+</ul>
 
-<h2 id="stack-overflow">Stack Overflow</h2>
+<h3 id="development-and-testing">Development and Testing</h3>
 
-<p>Although its early days we encourage you to use stack overflow to ask specific questions. <a href="http://stackoverflow.com/questions/tagged/react.rb">existing questions</a> tagged with <strong>react.rb</strong> or <a href="http://stackoverflow.com/questions/ask?tags=react.rb">ask your own</a>!</p>
+<p>Please Contribute!  Issues welcome. PRs even more welcome.  We strive to add specs for all new features and bug fixes.
+So please try to add a test spec with your change.</p>
 
-<h2 id="github-issues">Github issues</h2>
+<p>We use the <code>hyper-spec</code> gem for testing, which adds isomorphic helpers to rspec.  This allows a specs to exercise
+both the client and server.  Have a look at some of the 700+ existing specs for ideas on how this works.</p>
 
-<p>If you think you found a bug, or want to suggest a new feature <a href="https://github.com/ruby-hyperloop">github</a> is the place to go.</p>
+<p>To get started clone the gem&#39;s repo, and switch to either the <code>master</code> (for minor and patch changes) 
+or <code>edge</code> (for new breaking feature content) branch, run </p>
 
-<h2 id="twitter">Twitter</h2>
+<p><code>rake spec:prepare</code>  <strong>note no bundle exec... this will do a bundle update for you</strong><br>
+then<br>
+<code>bundle exec rake</code></p>
 
-<p>For the latest news about React, <a href="https://twitter.com/reactrb">follow <strong>@reactrb</strong> on Twitter</a>. In addition, you can use the #reactrb hashtag to see what others are saying or add to the conversation.</p>
+<p>Once everything passes you are good to begin creating a new spec, and implement your changes.</p>
 
-<div><a class="twitter-timeline" data-dnt="true" data-chrome="nofooter noheader transparent" href="https://twitter.com/search?q=reactrb" data-widget-id="671852842790055940"></a></div>
-</blockquote>
+<p>Once you have everything passing again, submit your pull request.</p>
+
+<p>Any questions? There are usually core team members around at <a href="https://gitter.im/ruby-hyperloop/chat">https://gitter.im/ruby-hyperloop/chat</a></p>
 
         </div>
       </div>
