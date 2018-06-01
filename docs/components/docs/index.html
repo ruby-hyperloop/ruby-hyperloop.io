@@ -456,10 +456,10 @@ end
 <a href="#what-components-should-have-state">What Components Should Have State?</a>
 </li>
 <li class="navtoc-item">
-<a href="#what-should-go-in-state">What <em>Should</em> Go in State?</a>
+<a href="#what-should-go-in-state">What Should Go in State?</a>
 </li>
 <li class="navtoc-item">
-<a href="#what-shouldn-t-go-in-state">What <em>Shouldn't</em> Go in State?</a>
+<a href="#what-shouldn-t-go-in-state">What Shouldn't Go in State?</a>
 </li>
 </ul>
 </li>
@@ -1012,22 +1012,18 @@ with standard html tags.</p>
 
 <h4 id="a-simple-example">A Simple Example</h4>
 
-<div class="codemirror-live-edit"
-  data-heading="A simple Component rendering state"
-  data-rows=12
-  data-top-level-component="LikeButton">
-<pre>
-class LikeButton < Hyperloop::Component
+<p>```ruby runable
+class LikeButton &lt; Hyperloop::Component</p>
 
-  render(DIV) do
+<p>render(DIV) do
     P do
-      "You #{state.liked ? 'like' : 'haven\'t liked'} this. Click to toggle."
+      &quot;You #{state.liked ? &#39;like&#39; : &#39;haven\&#39;t liked&#39;} this. Click to toggle.&quot;
     end.on(:click) do
       mutate.liked !state.liked
     end
   end
 end
-</pre></div>
+```</p>
 
 <h3 id="components-are-just-state-machines">Components are Just State Machines</h3>
 
@@ -1047,14 +1043,14 @@ end
 
 <p>A common pattern is to create several stateless components that just render data, and have a stateful component above them in the hierarchy that passes its state to its children via <code>params</code>. The stateful component encapsulates all of the interaction logic, while the stateless components take care of rendering data in a declarative way.</p>
 
-<h3 id="what-should-go-in-state">What <em>Should</em> Go in State?</h3>
+<h3 id="what-should-go-in-state">What Should Go in State?</h3>
 
 <p><strong>State should contain data that a component&#39;s event handlers, timers, or http requests may change and trigger a UI update.</strong></p>
 
 <p>When building a stateful component, think about the minimal possible representation of its state, and only store those properties in <code>state</code>.  Add to your class methods to compute higher level values from your state variables.  Avoid adding redundant or computed values as state variables as
 these values must then be kept in sync whenever state changes.</p>
 
-<h3 id="what-shouldnt-go-in-state">What <em>Shouldn&#39;t</em> Go in State?</h3>
+<h3 id="what-shouldnt-go-in-state">What Shouldn&#39;t Go in State?</h3>
 
 <p><code>state</code> should only contain the minimal amount of data needed to represent your UI&#39;s state. As such, it should not contain:</p>
 
@@ -1196,7 +1192,7 @@ Intuitively, the paragraph <code>&lt;p&gt;foo&lt;/p&gt;</code> was removed. Inst
 
 <h3 id="stores">Stores</h3>
 
-<p>Managing state between components is best done using Stores as many Components can access one store. This saves passing data btween Components. Please see the <a href="/docs/stores/docs">Store documentation</a> for details.</p>
+<p>Managing state between components is best done using Stores as many Components can access one store. This saves passing data btween Components. Please see the <a href="/docs/stores/overview">Store documentation</a> for details.</p>
 
 <h3 id="reusable-components">Reusable Components</h3>
 
@@ -1260,44 +1256,40 @@ Intuitively, the paragraph <code>&lt;p&gt;foo&lt;/p&gt;</code> was removed. Inst
 </code></pre>
 <p>One common use case is a component wanting to update itself on a time interval. It&#39;s easy to use the kernel method <code>every</code>, but it&#39;s important to cancel your interval when you don&#39;t need it anymore to save memory. React provides <a href="/docs/working-with-the-browser.html#component-lifecycle">lifecycle methods</a> that let you know when a component is about to be created or destroyed. Let&#39;s create a simple mixin that uses these methods to provide a React friendly <code>every</code> function that will automatically get cleaned up when your component is destroyed.</p>
 
-<div class="codemirror-live-edit"
-  data-heading="Using state"
-  data-rows=33
-  data-top-level-component="TickTock">
-<pre>
-module ReactInterval
+<p>```ruby runable
+module ReactInterval</p>
 
-  def self.included(base)
+<p>def self.included(base)
     base.before_mount do
       @intervals = []
-    end
-
-    base.before_unmount do
-      @intervals.each(&:stop)
-    end
-  end
-
-  def every(seconds, &block)
-    Kernel.every(seconds, &block).tap { |i| @intervals << i }
-  end
+    end</p>
+<pre class="highlight plaintext"><code>base.before_unmount do
+  @intervals.each(&amp;:stop)
 end
+</code></pre>
+<p>end</p>
 
-class TickTock < Hyperloop::Component
-  include ReactInterval
+<p>def every(seconds, &amp;block)
+    Kernel.every(seconds, &amp;block).tap { |i| @intervals &lt;&lt; i }
+  end
+end</p>
 
-  before_mount do
+<p>class TickTock &lt; Hyperloop::Component
+  include ReactInterval</p>
+
+<p>before_mount do
     state.seconds! 0
-  end
+  end</p>
 
-  after_mount do
+<p>after_mount do
     every(1) { mutate.seconds state.seconds+1}
-  end
+  end</p>
 
-  render(DIV) do
-    "Hyperloop has been running for #{state.seconds} seconds".para
+<p>render(DIV) do
+    &quot;Hyperloop has been running for #{state.seconds} seconds&quot;.para
   end
 end
-</pre></div>
+```</p>
 
 <p>Notice that TickTock effectively has two before_mount callbacks, one that is called to initialize the <code>@intervals</code> array and another to initialize <code>state.seconds</code></p>
 
@@ -1432,31 +1424,27 @@ call the proc when the param is accessed.</p>
 
 <p>The instance method <code>children</code> returns an enumerable that is used to access the unrendered children of a component.</p>
 
-<div class="codemirror-live-edit"
-  data-heading="The children method"
-  data-rows=20
-  data-top-level-component="Indenter">
-<pre>
-class IndentEachLine < Hyperloop::Component
-  param by: 20, type: Integer
+<p>```ruby runable
+class IndentEachLine &lt; Hyperloop::Component
+  param by: 20, type: Integer</p>
 
-  render(DIV) do
-    children.each_with_index do |child, i|
-      child.render(style: {"margin-left" => params.by*i})
+<p>render(DIV) do
+    children.each<em>with</em>index do |child, i|
+      child.render(style: {&quot;margin-left&quot; =&gt; params.by*i})
     end
   end
-end
+end</p>
 
-class Indenter < Hyperloop::Component
+<p>class Indenter &lt; Hyperloop::Component
   render(DIV) do
     IndentEachLine(by: 100) do
-      DIV {"Line 1"}
-      DIV {"Line 2"}
-      DIV {"Line 3"}
+      DIV {&quot;Line 1&quot;}
+      DIV {&quot;Line 2&quot;}
+      DIV {&quot;Line 3&quot;}
     end
   end
 end
-</pre></div>
+```</p>
 
 <h3 id="lifecycle-methods">Lifecycle Methods</h3>
 
@@ -1934,10 +1922,8 @@ different browsers.</p>
 <p>If you are in the business of importing components with a tool like Webpack, then you will need to let Webpack (or whatever dependency manager you are using) take care of including the React source code.  Just make sure that you are <em>not</em> including it on the ruby side of things. Hyperloop is currently tested with React versions 13, 14, and 15, so its not sensitive to the version you use.</p>
 
 <p>However it gets a little tricky if you are using the react-rails gem.  Each version of this gem depends on a specific version of React, and so you will need to manually declare this dependency in your Javascript dependency manager.  Consult this <a href="https://github.com/reactjs/react-rails/blob/master/VERSIONS.md">table</a> to determine which version of React you need. For example assuming you are using <code>npm</code> to install modules and you are using version 1.7.2 of react-rails you would say something like this:</p>
-<pre class="highlight shell"><code>npm install react@15.6.2 react-dom@15.6.2 --save
+<pre class="highlight shell"><code>npm install react@15.0.2 react-dom@15.0.2 --save
 </code></pre>
-<p>See <a href="/tutorials/hyperlooprails/webpack/">{ NPM and Webpack Tutorial }</a> or <a href="/tutorials/hyperlooprails/hyperloop-rails-webpackergem-helloworld/">{ Webpacker GEM Tutorial }</a> for more information.</p>
-
 <h4 id="using-webpack">Using Webpack</h4>
 
 <p>Just a word on Webpack: If you a Ruby developer who is new to using Javascript libraries then we recommend using Webpack to manage javascript component dependencies.  Webpack is essentially bundler for Javascript. Please see our Tutorials section for more information.</p>
@@ -1996,7 +1982,7 @@ different browsers.</p>
 <p>Hyperloop Components are a DSL wrapper of React which uses Opal to compile Ruby code to ES5 native JavaScript. If you have not used Opal before then you should at a minimum read the excellent guides as they will teach you enough Opal to get you started with Hyperloop.</p>
 
 <ul>
-<li><a href="http://opalrb.org/">Opal</a></li>
+<li><a href="http://opalrb.com/">Opal</a></li>
 <li><a href="http://opalrb.org/docs/guides/v0.9.2/index.html">Opal Guides</a></li>
 <li><a href="https://www.youtube.com/watch?v=vhIrrlcWphU">To see the full power of Opal in action watch this video</a></li>
 </ul>
