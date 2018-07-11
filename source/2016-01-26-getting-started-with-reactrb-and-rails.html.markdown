@@ -23,7 +23,7 @@ server and client
 sides. [React.rb/reactive-ruby](https://github.com/zetachang/react.rb)
 (**react.rb** from here on) builds on top of `react-rails` by allowing
 one to write React components in Ruby, courtesy of
-[Opal](http://opalrb.org).  Now the Rails programmer can also enjoy
+[Opal](http://opalrb.com).  Now the Rails programmer can also enjoy
 universal domain logic and views written in Ruby via react.js.
 
 The focus of this article will be limited to just getting `react.rb`
@@ -31,7 +31,7 @@ up and running on Rails from scratch.
 
 # Generate a rails project that uses Opal
 
-The easiest way to create a Rails project that uses [Opal](http://opalrb.org) is to use the
+The easiest way to create a Rails project that uses [Opal](http://opalrb.com) is to use the
 `--javascript=opal` option. Manual instructions on how add Opal
 support to an existing Rails project are given on the [opal-rails](https://github.com/opal/opal-rails)
 site. Create a new Rails project with the following command:
