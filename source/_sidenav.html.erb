@@ -9,7 +9,7 @@
     <p>Your website or applications use <b>Hyperloop</b>, don't hesitate to tell us!</p>
     <button type="button" class="btn btn-primary btn-lg btn-hyperloopgitter" onclick="location.href='https://gitter.im/ruby-hyperloop/chat';">Gitter Chat</button>
   </div>
-<% when current_page.path.include?("blog") %>
+<% when current_page.url.include?("blog") %>
   <ul class="nav">
     <% blog.articles.each do |article| %>
         <li class="nav-item"><a href="<%= article.url %>"><%= article.title %></a></li>

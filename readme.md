@@ -2,16 +2,13 @@
 
 The static site is built with [Middleman](https://middlemanapp.com/).
 
-## Start Middleman
-```text
-$ middleman server
-```
+## Clone this branch
 
-## Create a post
+`git clone https://github.com/ruby-hyperloop/ruby-hyperloop.io.git -b source`
 
-```text
-$ middleman article "Test Post"
-```
++ Then `bundle install`
++ Start Middleman `middleman server`
++ Navigate to: `http://10.0.1.63:4567/`
 
 ## Live edit code snippets
 
@@ -52,3 +49,9 @@ $ rake build    # Compile all files into the build directory
 $ rake publish  # Publish to master branch
 ```
 **Note `rake publish` uses REMOTE_NAME=origin  BRANCH_NAME=master (see Rakefile)**
+
+## To create a blog post
+
+```text
+$ middleman article "Test Post"
+```
