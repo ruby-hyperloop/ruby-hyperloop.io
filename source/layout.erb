@@ -19,8 +19,11 @@
 
 
     <!-- Opal and Hyperloop -->
-    <script src="https://rawgit.com/ruby-hyperloop/hyperloop-js/master/opal-compiler.min.js"></script>
-    <script src="https://rawgit.com/ruby-hyperloop/hyperloop-js/master/hyperloop.min.js"></script>
+    <script src="http://cdn.opalrb.org/opal/current/opal.min.js"></script>
+    <script src="https://rawgit.com/ruby-hyperloop/hyperloop-js/master/dist/opal.min.js"></script>
+    <script src="https://rawgit.com/ruby-hyperloop/hyperloop-js/master/dist/hyperloop.min.js"></script>
+    <script src="https://rawgit.com/ruby-hyperloop/hyperloop-js/master/dist/hyperloop-compiler.min.js"></script>
+
 
     <!-- If you want local copies... -->
     <!-- <%= javascript_include_tag 'opal-compiler.js' %> -->
@@ -39,7 +42,7 @@
     <!-- Components are compiled by Hyperloop Express -->
     <%= partial("/components/_code_mirror", :locals => { :hyperlooplogosource => '/images/hyperloop-logo-small-white.png'}) %>
     <%= partial("/components/_live_edit") %>
-    
+
     <%= partial("/components/_toggle_codemirror", :locals => { :hyperlooplogosource => '/images/hyperloop-logo-small-white.png'}) %>
     <%= partial("/components/_toggle_code") %>
 
@@ -83,7 +86,7 @@
       end
     %>
 
-    
+
 
     <div class="jumbotron page-header">
       <div class="container">
@@ -98,13 +101,13 @@
             <h1 class="display-4 project-name">Hyperloop</h1>
 
             <h4 class="display-7 project-tagline">
-              
+
               <%=
               current_page.data.title ? current_page.data.title : "The Complete Isomorphic Ruby Framework"
               %>
             </h4>
           </div>
-          
+
         </div>
 
         <div class="row hidden-md-up">
@@ -121,7 +124,7 @@
               %>
             </h2>
           </div>
-          
+
         </div>
 
 
@@ -167,7 +170,7 @@
 
     <script type="text/ruby">puts "Hyperloop JS ok"</script>
 
-    
+
 
 
   </body>
