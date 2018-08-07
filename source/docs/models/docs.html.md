@@ -74,7 +74,7 @@ In order for Hyperloop to see your Models (and his make them Isomorphic) you nee
 
 ### Rails 5.1.x
 
-Upto Rails 4.2, all models inherited from `ActiveRecord::Base`. But starting from Rails 5, all models will inherit from `ApplicationRecord`.
+Up until Rails 4.2, all models inherited from `ActiveRecord::Base`. But starting from Rails 5, all models will inherit from `ApplicationRecord`.
 
 To accommodate this change, the following file has been automatically added to models in Rails 5 applications.
 
@@ -86,6 +86,18 @@ end
 ```
 
 For Hyperloop to see this change, this file needs to be moved (or copied if you have some server-side models) to the `apps/hyperloop` folder.
+
+### Explicit Scope Access
+
+In order to prevent unauthorized access to information like scope counts, lists of record ids, etc, Hyperloop now (see issue https://github.com/ruby-hyperloop/hyper-mesh/issues/43) requires you explicitly allow scopes to be viewed on the client, otherwise you will get an AccessViolation.
+
+To globally allow access to all scopes add this to the ApplicationRecord class
+
+```ruby
+class ApplicationRecord < ActiveRecord::Base
+  regulate_scope :all
+end
+```
 
 ## ActiveRecord API
 
