@@ -418,16 +418,17 @@ end
           <div class="githubhyperloopheader">
 
 <p align="center">
+
 <a href="http://ruby-hyperloop.org/" alt="Hyperloop" title="Hyperloop">
 <img width="350px" src="http://ruby-hyperloop.org/images/hyperloop-github-logo.png">
 </a>
+
 </p>
 
 <h2 align="center">The Complete Isomorphic Ruby Framework</h2>
 
 <br>
 
-<p align="center">
 <a href="http://ruby-hyperloop.org/" alt="Hyperloop" title="Hyperloop">
 <img src="http://ruby-hyperloop.org/images/githubhyperloopbadge.png">
 </a>
@@ -439,15 +440,18 @@ end
 <a href="https://gitter.im/ruby-hyperloop/chat" alt="Gitter chat" title="Gitter chat">
 <img src="http://ruby-hyperloop.org/images/githubgitterbadge.png">
 </a>
-</p>
 
 </div>
 
-<h2 align="center">Hyperloop TodoMVC Tutorial (Rails 5.2.0)</h2>
+<h2 id="hyperloop-todomvc-tutorial"><i class="flaticon-professor-teaching"></i><span class="bigfirstletter">H</span>yperloop TodoMVC Tutorial</h2>
 
-<p align="center">
-![](http://ruby-hyperloop.org/images/tutorials/Hyperloop-Railstodomvc.gif)
-</p>
+<p><img src="http://ruby-hyperloop.org/images/tutorials/Hyperloop-Railstodomvc.gif" alt="Hyperloop railstodomvc" /></p>
+
+<p><img src="http://ruby-hyperloop.org/images/youtube-logo.jpg"> <b>Also follow the TodoMVC screencast:</b></p>
+
+<p><a href="https://www.youtube.com/watch?v=gtL4kAKUt_g" alt="TodoMVC screencast" title="TodoMVC screencast">
+<img src="http://ruby-hyperloop.org/images/tutorials/Hyperloop-Railstodomvc-youtube.png">
+</a></p>
 
 <h3 id="prerequisites">Prerequisites</h3>
 
@@ -470,7 +474,7 @@ end
 
 <p>You will write less than 100 lines of code, and the tutorial should take about 1-2 hours to complete.</p>
 
-<p>You can find the older application source code here:<br></p>
+<p>You can find the final application source code here:<br></p>
 
 <p><a href="https://github.com/ruby-hyperloop/todo-tutorial" alt="Tutorial source code" title="Tutorial source code">
 <img src="http://ruby-hyperloop.org/images/githubsourcecodebadge.png">
@@ -486,65 +490,69 @@ end
 
 <h3 id="chapter-1-setting-things-up">Chapter 1: Setting Things Up</h3>
 
-<p>Create a new rails application
-<code>ruby
-  rails _5.2.0_ new hyperloop_todo
+<p>If you do not already have Git, Ruby, Rails, and bundler setup on your development machine then the easiest way to get started doing full stack development with Hyperloop is to use <a href="http://c9.io">Cloud9</a>.  </p>
+
+<p>Even if you are an experienced Rails developer there are some advantages to doing your first experiments on Cloud 9:</p>
+
+<ul>
+<li>You will get a consistent setup, which will avoid any possible configuration problems between linux/mac/windows OS versions, etc.</li>
+<li>Cloud9 supports co-development, so if you hit a snag it makes it even easier to get help from others.</li>
+<li>Your development server can be accessed by others through your unique cloud9 url so you can immediately show people on other machines the Hyperloop multi-client synchronization.</li>
+</ul>
+
+<p>Once you are comfortable with Hyperloop, transitioning your app back to your normal development environment is as easy as doing a git pull of your saved repo.</p>
+
+<p><strong>If you want to go ahead and setup hyperloop on your development machine (not using Cloud9) follow these <a href="https://github.com/ruby-hyperloop/rails-clone-and-go">instructions.</a></strong></p>
+
+<p>Otherwise continue for Cloud9 setup:</p>
+
+<p><strong>Step 1: Get a Cloud9 account</strong></p>
+
+<p>Go to Cloud 9&#39;s <a href="http://c9.io">website</a></p>
+
+<p>and signup for an account (you can use your github account for signup.) You will have to supply a credit card, but to our knowledge Cloud9 can be trusted!</p>
+
+<p>Make sure to Connect your Cloud9 account to your github account by going to settings (upper right corner) and clicking the connected services tab, click the connect button next to github and allow it access.</p>
+
+<p><strong>Step 2: Create Your New Workspace</strong></p>
+
+<p>You will be invited to create your first workspace. Cloud9 gives you one private workspace and any number of public workspaces. We recommend you use the public option for your first experiments.</p>
+
+<p>Put &quot;<code>git@github.com:ruby-hyperloop/rails-clone-and-go.git</code>&quot; into the field titled <strong>&quot;Clone from Git or Mercurial URL&quot;</strong>.</p>
+
+<p>Select the &quot;Ruby on Rails&quot; template type, and click the <strong>[Create workspace]</strong> button.</p>
+
+<p><strong>Step 3: Choose Your Branch</strong></p>
+
+<p>The Hyperloop clone and go repo has two branches: <code>master</code> and <code>thin</code>.  If you are running on the default Cloud9 512MB workspace
+then you should switch the <code>thin</code> branch before proceeding.  This will use a lot less resources (but will be using polling
+instead of ActionCable) for push communications.  To checkout the <code>thin</code> branch run 
+<code>bash
+git checkout thin
 </code>
-<em>5.2.0</em>  will insure you are creating a rails 5.2 appear (tested with 5.0 and 5.1)</p>
+in the terminal (bash) window.</p>
 
-<p>Add Hyperloop to your Gemfile</p>
+<p><strong>Step 4: Run the Setup Script</strong></p>
 
-<p>Until our official release, add the following to your Gemfile:
-<code>ruby
-  ...
-  # lap0 will use the latest release candidate
-  gem &#39;hyperloop&#39;, &#39;~&gt; 1.0.0.lap0&#39;, git: &#39;https://github.com/ruby-hyperloop/hyperloop.git&#39;, branch: &#39;edge&#39;
-  gem &#39;hyperloop-config&#39;, &#39;~&gt; 1.0.0.lap0&#39;, git: &#39;https://github.com/ruby-hyperloop/hyperloop-config.git&#39;, branch: &#39;edge&#39;
-  ...
-</code></p>
+<p>Once your workspace is created you should see a readme displayed. Just follow the directions and run</p>
 
-<p>then
-<code>ruby
-  bundle install
-</code></p>
+<p><code>./bin/setup</code> in the terminal window to complete the initialization process.</p>
 
-<p>Once the Hyperloop Gem and all its dependencies have been installed, it&#39;s time to run the hyperloop install generator.
-<code>ruby
-  rails g hyperloop:install
-</code></p>
+<p><strong>Make sure you do an <code>rvm use 2.3.1</code> when the script completes!!!</strong></p>
 
-<p>The generator creates the hyperloop structure inside the /app directory :
-<code>ruby
-  /app/hyperloop/
-  /app/hyperloop/components
-  /app/hyperloop/models
-  /app/hyperloop/operations
-  /app/hyperloop/stores
-</code></p>
+<p><strong>Step 5: Fire Up The Server</strong></p>
 
-<p>And updates your app/assets/javascripts/application.js file adding these lines:
-<code>ruby
-  //= require hyperloop-loader
-  Opal.OpalHotReloader.$listen() // optional (port, false, poll_seconds) i.e. (8081, false, 1)
-</code></p>
+<p>On cloud9 use the<br>
+  <strong>[Run Project]</strong><br>
+command.</p>
 
-<p>To be sure everything is setting up correctly, check your app/assets/javascripts/application.js:
-<code>ruby
-  ...
-  //= require rails-ujs
-  //= require activestorage
-  //= require turbolinks
-  //= require_tree .
-  //= require hyperloop-loader
-  Opal.OpalHotReloader.$listen() // optional (port, false, poll_seconds) i.e. (8081, false, 1)
-</code></p>
+<p>If outside of cloud9 in a terminal window run <code>./bin/hyperloop</code></p>
 
-<p>Run foreman
-<code>ruby
-  $ foreman start
-</code></p>
+<p><strong>Step 6: Visit the App</strong></p>
 
-<p>Navigate to the given location and you should see the word <strong>App</strong> displayed on the page.</p>
+<p>On Cloud9 you can see the App running right in the IDE window by clicking on &quot;preview&quot; in the top nav bar, otherwise visit localhost:3000 in your browser.</p>
+
+<p>To see if you have everything setup correctly, find the <code>app/hyperloop/components/app.rb</code> file. In this file, you should be able to recognize the code printing out to the screen.  Try changing the string (and saving) and you should see the change instantly reflected in the browser or IDE preview screen.</p>
 
 <h3 id="chapter-2-hyperloop-models-are-rails-models">Chapter 2:  Hyperloop Models are Rails Models</h3>
 
@@ -566,33 +574,27 @@ automatically for you.  So now <code>Todo.all</code> can be evaluated on the ser
 
 <ol>
 <li><strong>Add the Todo Model:</strong><br>
-In a new terminal window run <strong>on a single line</strong>:<br>
-<code>ruby
-bundle exec rails g model Todo title:string completed:boolean priority:integer
-</code></li>
+In the terminal window run <strong>on a single line</strong>:<br></li>
 </ol>
 
-<p>This runs a Rails <em>generator</em> which will create the skeleton Todo model class, and create a <em>migration</em> which will
-  add the necessary tables and columns to the database.  </p>
+<p><code>bundle exec rails g model Todo title:string completed:boolean priority:integer</code>   </p>
 
-<p><strong>VERY IMPORTANT!</strong> Now look in the db/migrate/ directory, and edit the migration file you have just created. The file will be titled with a long string of numbers then &quot;create_todos&quot; at the end. Change the line creating the completed boolean field so that it looks like this:
-  <code>ruby  
+<p>This runs a Rails <em>generator</em> which will create the skeleton Todo model class, and create a <em>migration</em> which will
+   add the necessary tables and columns to the database.  </p>
+
+<p><strong>VERY IMPORTANT!</strong> Now look in the db/migrate/ directory, and edit the migration file you have just created. The file will be titled with a long string of numbers then &quot;create_todos&quot; at the end. Change the line creating the completed boolean field so that it looks like this:<br>
+    <code>ruby  
     ...
-    t.boolean :completed, null: false, default: false
+        t.boolean :completed, null: false, default: false
     ...
 </code><br>
-  For details on &#39;why&#39; see <a href="https://robots.thoughtbot.com/avoid-the-threestate-boolean-problem">this blog post.</a>
-  Basically this insures <code>completed</code> is treated as a true boolean, and will avoid having to check between <code>false</code> and <code>null</code> later on.   </p>
-
-<p>Now run
-  <code>ruby
-    bundle exec rails db:migrate
-</code>
-  which will create the table.</p>
-
+    For details on &#39;why&#39; see <a href="https://robots.thoughtbot.com/avoid-the-threestate-boolean-problem">this blog post.</a>
+    Basically this insures <code>completed</code> is treated as a true boolean, and will avoid having to check between <code>false</code> and <code>null</code> later on.   </p>
+<pre class="highlight plaintext"><code>Now run `bundle exec rails db:migrate` which will create the table.
+</code></pre>
 <ol>
-<li><strong>Make Some Models Public:</strong><br>
-<em>Move</em> <code>models/todo.rb</code> and <code>models/application_record.rb</code> to <code>hyperloop/models</code>.<br></li>
+<li><strong>Make your Model Public:</strong><br>
+<em>Move</em> <code>todo.rb</code> to <code>app/hyperloop/models</code>.<br></li>
 </ol>
 
 <p>This will make the model accessible on the clients <em>and the server</em>, subject to any data access policies.  </p>
@@ -600,8 +602,8 @@ bundle exec rails g model Todo title:string completed:boolean priority:integer
 <p><em>Note: The hyperloop installer adds a policy that gives full permission to all clients but only in development and test modes.  Have a look at <code>app/policies/application_policy</code> if you are interested.</em></p>
 
 <ol>
-<li><strong>Try It</strong>
-Change your <code>App</code> component&#39;s render method to:<br>
+<li><strong>Try It</strong><br>
+Replace the current contents of <code>app/hyperloop/components/app.rb</code> with<br>
 <code>ruby
 # app/hyperloop/components/app.rb
 class App &lt; Hyperloop::Component
@@ -609,26 +611,16 @@ class App &lt; Hyperloop::Component
    &quot;Number of Todos: #{Todo.count}&quot;
  end
 end
-</code><br></li>
+</code><br>
+<strong>Reload the page</strong> you will see <em>Number of Todos: 0</em> displayed.  <em>You must reload the page as you have changed the class of App from <code>Router</code> to <code>Component</code></em></li>
 </ol>
 
-<p><strong>Reload the Page</strong>
-   You will now see <em>Number of Todos: 0</em> displayed.  <em>You must reload the page as you have changed the class of App from <code>Router</code> to <code>Component</code></em></p>
-
-<p>Now start a rails console
-   <code>ruby
-    bundle exec rails c
-</code>
-   and type:<br>
-   <code>ruby
-     Todo.create(title: &#39;my first todo&#39;)
-</code><br>
-   This is telling the server to create a new todo, which will update your hyperloop application, and you will see the count change to 1!   </p>
+<p>Now start a rails console (enter <code>bundle exec rails c</code> into a new terminal window) and type:<br>
+   <code>Todo.create(title: &#39;my first todo&#39;)</code><br>
+   this is telling the server to create a new todo, which will update your hyperloop application, and you will see the count change to 1!   </p>
 
 <p>Try it again:<br>
-   <code>ruby
-     Todo.create(title: &#39;my second todo&#39;)
-</code><br>
+   <code>Todo.create(title: &#39;my second todo&#39;)</code><br>
    and you will see the count change to 2!   </p>
 
 <p>Are we having fun yet?  I hope so!  As you can see Hyperloop is synchronizing the Todo model between the client and server.  As the state of the database changes, HyperReact buzzes around updating whatever parts of the DOM were dependent on that data (in this case the count of Todos).</p>
@@ -655,19 +647,19 @@ end
 <pre class="highlight ruby"><code><span class="c1"># app/hyperloop/components/header.rb</span>
 <span class="k">class</span> <span class="nc">Header</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Component</span>
   <span class="n">render</span><span class="p">(</span><span class="no">HEADER</span><span class="p">)</span> <span class="k">do</span>
-    <span class="s1">'Header will go here'</span>
+    <span class="s2">"Header will go here"</span>
   <span class="k">end</span>
 <span class="k">end</span>
 </code></pre><pre class="highlight ruby"><code><span class="c1"># app/hyperloop/components/index.rb</span>
 <span class="k">class</span> <span class="nc">Index</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Component</span>
   <span class="n">render</span><span class="p">(</span><span class="no">SECTION</span><span class="p">)</span> <span class="k">do</span>
-    <span class="s1">'List of Todos will go here'</span>
+    <span class="s2">"list of Todos will go here"</span>
   <span class="k">end</span>
 <span class="k">end</span>
 </code></pre><pre class="highlight ruby"><code><span class="c1"># app/hyperloop/components/footer.rb</span>
 <span class="k">class</span> <span class="nc">Footer</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Component</span>
   <span class="n">render</span><span class="p">(</span><span class="no">DIV</span><span class="p">)</span> <span class="k">do</span>
-    <span class="s1">'Footer will go here'</span>
+    <span class="s2">"Footer will go here"</span>
   <span class="k">end</span>
 <span class="k">end</span>
 </code></pre>
@@ -675,7 +667,7 @@ end
 
 <p><div style="border:solid; margin-left: 10px; padding: 10px">
     <div>Header will go here</div>
-    <div>List of Todos will go here</div><br>
+    <div>list of Todos will go here</div><br>
     <div>Footer will go here</div><br>
   </div>
   <br></p>
@@ -728,13 +720,9 @@ end
 <p>Params are declared using the <code>param</code> macro and are accessed via the <code>params</code> object.
 In our case we <em>mount</em> a new TodoItem with each Todo record and pass the Todo as the parameter.   </p>
 
-<p>Now go back to Rails console and type
-<code>ruby
-  Todo.last.update(title: &#39;updated todo&#39;)
-</code>
-and you will see the last Todo in the list changing.</p>
+<p>Now go back to Rails console and type <code>Todo.last.update(title: &#39;updated todo&#39;)</code> and you will see the last Todo in the list changing.</p>
 
-<p>Try adding another Todo using <code>create</code> like you did before. You will see the new Todo is added to the list.</p>
+<p>Try adding another Todo using <code>create</code> like you did before.  You will see the new Todo is added to the list.</p>
 
 <h3 id="chapter-5-adding-inputs-to-components">Chapter 5: Adding Inputs to Components</h3>
 
@@ -750,21 +738,35 @@ and you will see the last Todo in the list changing.</p>
   <span class="k">end</span>
 <span class="k">end</span>
 </code></pre>
-<p>You will notice that while it does display the checkboxes, you can not change them by clicking on them.</p>
+<p>Now your display should look like this:
+<div style="border:solid; margin-left: 10px; padding: 10px">
+  <div>Header will go here</div>
+  <ul>
+    <li>
+      <input type="checkbox" value="on">
+      my first todo
+    </li>
+    <li>
+      <input type="checkbox" value="on">
+      my second todo
+    </li>
+  </ul>
+  <div>Footer will go here</div>
+</div>
+<br>
+You will notice that while it does display the checkboxes, you can not change them by clicking on them.</p>
 
-<p>For now we can change them via the console like we did before.  Try executing
-<code>ruby
-  Todo.last.update(completed: true)
-</code><br>
+<p>For now we can change them via the console like we did before.  Try executing 
+<code>Todo.last.update(completed: true)</code><br>
 and you should see the last Todo&#39;s <code>completed</code> checkbox changing state.</p>
 
-<p>To make our checkbox input change its own state, we will add an <code>event handler</code> for the change event:</p>
+<p>To make our checkbox input change its own state, we will add an <code>event handler</code> for the click event:</p>
 <pre class="highlight ruby"><code><span class="c1"># app/hyperloop/components/todo_item.rb</span>
 <span class="k">class</span> <span class="nc">TodoItem</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Component</span>
   <span class="n">param</span> <span class="ss">:todo</span>
   <span class="n">render</span><span class="p">(</span><span class="no">LI</span><span class="p">)</span> <span class="k">do</span>
     <span class="no">INPUT</span><span class="p">(</span><span class="ss">type: :checkbox</span><span class="p">,</span> <span class="ss">checked: </span><span class="n">params</span><span class="p">.</span><span class="nf">todo</span><span class="p">.</span><span class="nf">completed</span><span class="p">)</span>
-      <span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:click</span><span class="p">)</span> <span class="p">{</span> <span class="n">params</span><span class="p">.</span><span class="nf">todo</span><span class="p">.</span><span class="nf">update</span><span class="p">(</span><span class="ss">completed: </span><span class="o">!</span><span class="n">params</span><span class="p">.</span><span class="nf">todo</span><span class="p">.</span><span class="nf">completed</span><span class="p">)</span> <span class="p">}</span>
+    <span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:click</span><span class="p">)</span> <span class="p">{</span> <span class="n">params</span><span class="p">.</span><span class="nf">todo</span><span class="p">.</span><span class="nf">update</span><span class="p">(</span><span class="ss">completed: </span><span class="o">!</span><span class="n">params</span><span class="p">.</span><span class="nf">todo</span><span class="p">.</span><span class="nf">completed</span><span class="p">)</span> <span class="p">}</span>
     <span class="n">params</span><span class="p">.</span><span class="nf">todo</span><span class="p">.</span><span class="nf">title</span>
   <span class="k">end</span>
 <span class="k">end</span>
@@ -779,7 +781,7 @@ and you should see the last Todo&#39;s <code>completed</code> checkbox changing 
   <span class="n">param</span> <span class="ss">:todo</span>
   <span class="n">render</span><span class="p">(</span><span class="no">LI</span><span class="p">)</span> <span class="k">do</span>
     <span class="no">INPUT</span><span class="p">(</span><span class="ss">type: :checkbox</span><span class="p">,</span> <span class="ss">checked: </span><span class="n">params</span><span class="p">.</span><span class="nf">todo</span><span class="p">.</span><span class="nf">completed</span><span class="p">)</span>
-      <span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:click</span><span class="p">)</span> <span class="p">{</span> <span class="n">params</span><span class="p">.</span><span class="nf">todo</span><span class="p">.</span><span class="nf">update</span><span class="p">(</span><span class="ss">completed: </span><span class="o">!</span><span class="n">params</span><span class="p">.</span><span class="nf">todo</span><span class="p">.</span><span class="nf">completed</span><span class="p">)</span> <span class="p">}</span>
+    <span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:click</span><span class="p">)</span> <span class="p">{</span> <span class="n">params</span><span class="p">.</span><span class="nf">todo</span><span class="p">.</span><span class="nf">update</span><span class="p">(</span><span class="ss">completed: </span><span class="o">!</span><span class="n">params</span><span class="p">.</span><span class="nf">todo</span><span class="p">.</span><span class="nf">completed</span><span class="p">)</span> <span class="p">}</span>
     <span class="no">SPAN</span> <span class="p">{</span> <span class="n">params</span><span class="p">.</span><span class="nf">todo</span><span class="p">.</span><span class="nf">title</span> <span class="p">}</span> <span class="c1"># See note below...</span>
     <span class="no">A</span> <span class="p">{</span> <span class="s1">' -X-'</span> <span class="p">}.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:click</span><span class="p">)</span> <span class="p">{</span> <span class="n">params</span><span class="p">.</span><span class="nf">todo</span><span class="p">.</span><span class="nf">destroy</span> <span class="p">}</span>
   <span class="k">end</span>
@@ -823,7 +825,7 @@ You might want to try it now in the rails console.  <em>Note: you will have to d
 <p>Lets change <code>App</code> to look like this:</p>
 <pre class="highlight ruby"><code><span class="c1"># app/hyperloop/components/app.rb</span>
 <span class="k">class</span> <span class="nc">App</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Router</span>
-  <span class="n">history</span> <span class="ss">:browser</span>
+  <span class="n">history</span> <span class="ss">:browser</span> 
   <span class="n">route</span> <span class="k">do</span> <span class="c1"># note instead of render we use the route method</span>
     <span class="no">SECTION</span> <span class="k">do</span>
       <span class="no">Header</span><span class="p">()</span>
@@ -846,7 +848,7 @@ You might want to try it now in the rails console.  <em>Note: you will have to d
   <span class="k">end</span>
 <span class="k">end</span>
 </code></pre>
-<p><em>Note that because we have changed the class of these components the hot reloader will break, and you will have to refresh the page and possibly your local server.</em></p>
+<p><em>Note that because we have changed the class of these components the hot reloader will break, and you will have to refresh the page.</em></p>
 
 <p>Lets walk through the changes:
 + <code>App</code> now inherits from <code>Hyperloop::Router</code> which is a subclass of <code>Hyperloop::Component</code> with <em>router</em> capabilities added.
@@ -860,7 +862,7 @@ The other common option is the <code>:hash</code> history which tracks the histo
 + <code>Index</code> now inherits from <code>Hyperloop::Router::Component</code> which is a subclass of <code>Hyperloop::Component</code> with methods like <code>match</code> added.
 + Instead of simply enumerating all the Todos, we decide which <em>scope</em> to filter using the URL fragment <em>matched</em> by <code>:scope</code>.  </p>
 
-<p>Notice the relationship between <code>Route(&#39;/:scope&#39;, mounts: Index)</code> and <code>match.params[:scope]</code>:</p>
+<p>Notice the relationship between <code>Route(&#39;/:scope&#39;, mounts: Index)</code> and <code>match.params[:scope]</code>: </p>
 
 <p>During routing each <code>Route</code> is checked.  If it <em>matches</em> then the
 indicated component is mounted, and the match parameters are saved for that component to use.</p>
@@ -881,7 +883,7 @@ This is telling Rails to accept all requests and to process them using the</code
 <pre class="highlight ruby"><code><span class="c1"># app/hyperloop/components/footer.rb</span>
 <span class="k">class</span> <span class="nc">Footer</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Component</span>
   <span class="k">def</span> <span class="nf">link_item</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
-    <span class="no">A</span><span class="p">(</span><span class="ss">href: </span><span class="s2">"/</span><span class="si">#{</span><span class="n">path</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="ss">style: </span><span class="p">{</span> <span class="ss">marginRight: </span><span class="mi">10</span> <span class="p">})</span> <span class="p">{</span> <span class="n">path</span><span class="p">.</span><span class="nf">camelize</span> <span class="p">}</span>
+    <span class="no">A</span><span class="p">(</span><span class="ss">href: </span><span class="s2">"/</span><span class="si">#{</span><span class="n">path</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="ss">style: </span><span class="p">{</span><span class="ss">marginRight: </span><span class="mi">10</span><span class="p">})</span> <span class="p">{</span> <span class="n">path</span><span class="p">.</span><span class="nf">camelize</span> <span class="p">}</span>
   <span class="k">end</span>
   <span class="n">render</span><span class="p">(</span><span class="no">DIV</span><span class="p">)</span> <span class="k">do</span>
     <span class="n">link_item</span><span class="p">(</span><span class="ss">:all</span><span class="p">)</span>
@@ -905,17 +907,17 @@ This is telling Rails to accept all requests and to process them using the</code
 <p>Then we can replace the anchor tag with the Router&#39;s <code>NavLink</code> component:</p>
 
 <p>Change</p>
-<pre class="highlight ruby"><code>  <span class="no">A</span><span class="p">(</span><span class="ss">href: </span><span class="s2">"/</span><span class="si">#{</span><span class="n">path</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="ss">style: </span><span class="p">{</span> <span class="ss">marginRight: </span><span class="mi">10</span> <span class="p">})</span> <span class="p">{</span> <span class="n">path</span><span class="p">.</span><span class="nf">camelize</span> <span class="p">}</span>
+<pre class="highlight ruby"><code>  <span class="no">A</span><span class="p">(</span><span class="ss">href: </span><span class="s2">"/</span><span class="si">#{</span><span class="n">path</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="ss">style: </span><span class="p">{</span><span class="ss">marginRight: </span><span class="mi">10</span><span class="p">})</span> <span class="p">{</span> <span class="n">path</span><span class="p">.</span><span class="nf">camelize</span> <span class="p">}</span>
 </code></pre>
 <p>to</p>
-<pre class="highlight ruby"><code>  <span class="no">NavLink</span><span class="p">(</span><span class="s2">"/</span><span class="si">#{</span><span class="n">path</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="ss">style: </span><span class="p">{</span> <span class="ss">marginRight: </span><span class="mi">10</span> <span class="p">})</span> <span class="p">{</span> <span class="n">path</span><span class="p">.</span><span class="nf">camelize</span> <span class="p">}</span>
+<pre class="highlight ruby"><code>  <span class="no">NavLink</span><span class="p">(</span><span class="s2">"/</span><span class="si">#{</span><span class="n">path</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="ss">style: </span><span class="p">{</span><span class="ss">marginRight: </span><span class="mi">10</span><span class="p">})</span> <span class="p">{</span> <span class="n">path</span><span class="p">.</span><span class="nf">camelize</span> <span class="p">}</span>
 </code></pre>
 <p>Our component should now look like this:</p>
 <pre class="highlight ruby"><code><span class="c1"># app/hyperloop/components/footer.rb</span>
 <span class="k">class</span> <span class="nc">Footer</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Component</span>
   <span class="kp">include</span> <span class="no">HyperRouter</span><span class="o">::</span><span class="no">ComponentMethods</span>
   <span class="k">def</span> <span class="nf">link_item</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
-    <span class="no">NavLink</span><span class="p">(</span><span class="s2">"/</span><span class="si">#{</span><span class="n">path</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="ss">style: </span><span class="p">{</span> <span class="ss">marginRight: </span><span class="mi">10</span> <span class="p">})</span> <span class="p">{</span> <span class="n">path</span><span class="p">.</span><span class="nf">camelize</span> <span class="p">}</span>
+    <span class="no">NavLink</span><span class="p">(</span><span class="s2">"/</span><span class="si">#{</span><span class="n">path</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="ss">style: </span><span class="p">{</span><span class="ss">marginRight: </span><span class="mi">10</span><span class="p">})</span> <span class="p">{</span> <span class="n">path</span><span class="p">.</span><span class="nf">camelize</span> <span class="p">}</span>
   <span class="k">end</span>
   <span class="n">render</span><span class="p">(</span><span class="no">DIV</span><span class="p">)</span> <span class="k">do</span>
     <span class="n">link_item</span><span class="p">(</span><span class="ss">:all</span><span class="p">)</span>
@@ -927,7 +929,7 @@ This is telling Rails to accept all requests and to process them using the</code
 <p>After this change you will notice that changing routes <em>does not</em> reload the page, and after clicking to different routes, you can use the browsers forward and back buttons.</p>
 
 <p>How does it work?  The <code>NavLink</code> component reacts to a click just like an anchor tag, but instead of changing the window&#39;s URL directly, it updates the <em>HTML5 history object.</em>
-Associated with this history is a (you guessed it, I hope) <em>state</em>.  So when the history changes it causes any components depending on the current URL to be re-rendered.</p>
+Associated with this history is a (you guessed it I hope) <em>state</em>.  So when the history changes it causes any components depending on the current URL to be re-rendered.</p>
 
 <h3 id="chapter-8-create-a-basic-edititem-component">Chapter 8: Create a Basic EditItem Component</h3>
 
@@ -939,10 +941,10 @@ Associated with this history is a (you guessed it, I hope) <em>state</em>.  So w
   <span class="n">param</span> <span class="ss">:todo</span>
   <span class="n">render</span> <span class="k">do</span>
     <span class="no">INPUT</span><span class="p">(</span><span class="ss">defaultValue: </span><span class="n">params</span><span class="p">.</span><span class="nf">todo</span><span class="p">.</span><span class="nf">title</span><span class="p">)</span>
-      <span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:key_down</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">evt</span><span class="o">|</span>
-        <span class="k">next</span> <span class="k">unless</span> <span class="n">evt</span><span class="p">.</span><span class="nf">key_code</span> <span class="o">==</span> <span class="mi">13</span>
-        <span class="n">params</span><span class="p">.</span><span class="nf">todo</span><span class="p">.</span><span class="nf">update</span><span class="p">(</span><span class="ss">title: </span><span class="n">evt</span><span class="p">.</span><span class="nf">target</span><span class="p">.</span><span class="nf">value</span><span class="p">)</span>
-      <span class="k">end</span>
+    <span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:key_down</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">evt</span><span class="o">|</span>
+      <span class="k">next</span> <span class="k">unless</span> <span class="n">evt</span><span class="p">.</span><span class="nf">key_code</span> <span class="o">==</span> <span class="mi">13</span>
+      <span class="n">params</span><span class="p">.</span><span class="nf">todo</span><span class="p">.</span><span class="nf">update</span><span class="p">(</span><span class="ss">title: </span><span class="n">evt</span><span class="p">.</span><span class="nf">target</span><span class="p">.</span><span class="nf">value</span><span class="p">)</span>
+    <span class="k">end</span>
   <span class="k">end</span>
 <span class="k">end</span>
 </code></pre>
@@ -965,7 +967,7 @@ Associated with this history is a (you guessed it, I hope) <em>state</em>.  So w
 We can make the user interface much nicer by adding <em>state</em> (there is that word again) to the <code>TodoItem</code>.
 We will call our state <code>editing</code>.  If <code>editing</code> is true, then we will display the title in a <code>EditItem</code> component, otherwise we will display it in a <code>LABEL</code> tag.
 The user will change the state to <code>editing</code> by double clicking on the label.  When the user saves the Todo, we will change the state of <code>editing</code> back to false.
-Finally we will let the user <em>cancel</em> the edit by moving the focus away (the <code>blur</code> event) from the <code>EditItem</code>.
+Finally we will let the user <em>cancel</em> the edit by movig the focus away (the <code>blur</code> event) from the <code>EditItem</code>.
 To summarize:
 + User double clicks on any Todo title: editing changes to <code>true</code>.
 + User saves the Todo being edited: editing changes to <code>false</code>.
@@ -981,12 +983,12 @@ Add the following 5 lines to the <code>EditItem</code> component like this:</p>
 
   <span class="n">render</span> <span class="k">do</span>
     <span class="no">INPUT</span><span class="p">(</span><span class="ss">defaultValue: </span><span class="n">params</span><span class="p">.</span><span class="nf">todo</span><span class="p">.</span><span class="nf">title</span><span class="p">)</span>
-      <span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:key_down</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">evt</span><span class="o">|</span>
-        <span class="k">next</span> <span class="k">unless</span> <span class="n">evt</span><span class="p">.</span><span class="nf">key_code</span> <span class="o">==</span> <span class="mi">13</span>
-        <span class="n">params</span><span class="p">.</span><span class="nf">todo</span><span class="p">.</span><span class="nf">update</span><span class="p">(</span><span class="ss">title: </span><span class="n">evt</span><span class="p">.</span><span class="nf">target</span><span class="p">.</span><span class="nf">value</span><span class="p">)</span>
-        <span class="n">params</span><span class="p">.</span><span class="nf">on_save</span>                       <span class="c1"># add</span>
-      <span class="k">end</span>
-      <span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:blur</span><span class="p">)</span> <span class="p">{</span> <span class="n">params</span><span class="p">.</span><span class="nf">on_cancel</span> <span class="p">}</span>        <span class="c1"># add</span>
+    <span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:key_down</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">evt</span><span class="o">|</span>
+      <span class="k">next</span> <span class="k">unless</span> <span class="n">evt</span><span class="p">.</span><span class="nf">key_code</span> <span class="o">==</span> <span class="mi">13</span>
+      <span class="n">params</span><span class="p">.</span><span class="nf">todo</span><span class="p">.</span><span class="nf">update</span><span class="p">(</span><span class="ss">title: </span><span class="n">evt</span><span class="p">.</span><span class="nf">target</span><span class="p">.</span><span class="nf">value</span><span class="p">)</span>
+      <span class="n">params</span><span class="p">.</span><span class="nf">on_save</span>                       <span class="c1"># add</span>
+    <span class="k">end</span>
+    <span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:blur</span><span class="p">)</span> <span class="p">{</span> <span class="n">params</span><span class="p">.</span><span class="nf">on_cancel</span> <span class="p">}</span>        <span class="c1"># add</span>
   <span class="k">end</span>
 <span class="k">end</span>
 </code></pre>
@@ -1011,27 +1013,27 @@ For example, if we had left off <code>type: Proc</code> we would have to say <co
   <span class="n">render</span><span class="p">(</span><span class="no">LI</span><span class="p">)</span> <span class="k">do</span>
     <span class="k">if</span> <span class="n">state</span><span class="p">.</span><span class="nf">editing</span>
       <span class="no">EditItem</span><span class="p">(</span><span class="ss">todo: </span><span class="n">params</span><span class="p">.</span><span class="nf">todo</span><span class="p">)</span>
-        <span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:save</span><span class="p">,</span> <span class="ss">:cancel</span><span class="p">)</span> <span class="p">{</span> <span class="n">mutate</span><span class="p">.</span><span class="nf">editing</span> <span class="kp">false</span> <span class="p">}</span>
+      <span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:save</span><span class="p">,</span> <span class="ss">:cancel</span><span class="p">)</span> <span class="p">{</span> <span class="n">mutate</span><span class="p">.</span><span class="nf">editing</span> <span class="kp">false</span> <span class="p">}</span>
     <span class="k">else</span>
       <span class="no">INPUT</span><span class="p">(</span><span class="ss">type: :checkbox</span><span class="p">,</span> <span class="ss">checked: </span><span class="n">params</span><span class="p">.</span><span class="nf">todo</span><span class="p">.</span><span class="nf">completed</span><span class="p">)</span>
-        <span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:click</span><span class="p">)</span> <span class="p">{</span> <span class="n">params</span><span class="p">.</span><span class="nf">todo</span><span class="p">.</span><span class="nf">update</span><span class="p">(</span><span class="ss">completed: </span><span class="o">!</span><span class="n">params</span><span class="p">.</span><span class="nf">todo</span><span class="p">.</span><span class="nf">completed</span><span class="p">)</span> <span class="p">}</span>
+      <span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:click</span><span class="p">)</span> <span class="p">{</span> <span class="n">params</span><span class="p">.</span><span class="nf">todo</span><span class="p">.</span><span class="nf">update</span><span class="p">(</span><span class="ss">completed: </span><span class="o">!</span><span class="n">params</span><span class="p">.</span><span class="nf">todo</span><span class="p">.</span><span class="nf">completed</span><span class="p">)</span> <span class="p">}</span>
       <span class="no">LABEL</span> <span class="p">{</span> <span class="n">params</span><span class="p">.</span><span class="nf">todo</span><span class="p">.</span><span class="nf">title</span> <span class="p">}</span>
-        <span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:double_click</span><span class="p">)</span> <span class="p">{</span> <span class="n">mutate</span><span class="p">.</span><span class="nf">editing</span> <span class="kp">true</span> <span class="p">}</span>
+      <span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:double_click</span><span class="p">)</span> <span class="p">{</span> <span class="n">mutate</span><span class="p">.</span><span class="nf">editing</span> <span class="kp">true</span> <span class="p">}</span>
       <span class="no">A</span> <span class="p">{</span> <span class="s1">' -X-'</span> <span class="p">}</span>
-        <span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:click</span><span class="p">)</span> <span class="p">{</span> <span class="n">params</span><span class="p">.</span><span class="nf">todo</span><span class="p">.</span><span class="nf">destroy</span> <span class="p">}</span>
+      <span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:click</span><span class="p">)</span> <span class="p">{</span> <span class="n">params</span><span class="p">.</span><span class="nf">todo</span><span class="p">.</span><span class="nf">destroy</span> <span class="p">}</span>
     <span class="k">end</span>
   <span class="k">end</span>
 <span class="k">end</span>
 </code></pre>
 <p>First we declare a <em>state variable</em> called <code>editing</code> that is initialized to <code>false</code>.</p>
 
-<p>We have already used a lot of states that are built into the HyperModel and HyperRouter. The state machines in these complex objects are built out of simple state variables like the <code>editing</code>.</p>
+<p>We have already used a lot of states that are built into the HyperModel and HyperRouter.  The state machines in these complex objects are built out of simple state variables like the <code>editing</code>.</p>
 
 <p>State variables are <em>just like instance variables</em> with the added power that when they change, any dependent components will be updated with the change.</p>
 
 <p>You read a state variable using the <code>state</code> method (similar to the <code>params</code> method) and you change state variables using the <code>mutate</code> method.  Whenever you want to change a state variable whether its a simple assignment or changing the internal value of a complex structure like a hash or array you use the <code>mutate</code> method.</p>
 
-<p>Lets read on:  Next, we see <code>if state.editing...</code>.  When the component executes this <code>if</code> statement, it reads the value of the <code>editing</code> state variable and will either render the <code>EditItem</code> or the input, label, and anchor tags.  In this way the <code>editing</code> state variable is acting no different than any other Ruby instance variable.  <em>But here is the key: The component now knows that if the value of the editing state changes, it must re-render this TodoItem.  When state variables are referenced by a component the component will keep track of this, and will re-rerender when the state changes.</em></p>
+<p>Lets read on:  Next we see <code>if state.editing...</code>.  When the component executes this <code>if</code> statement, it reads the value of the <code>editing</code> state variable and will either render the <code>EditItem</code> or the input, label, and anchor tags.  In this way the <code>editing</code> state variable is acting no different than any other Ruby instance variable.  <em>But here is the key:  The component now knows that if the value of the editing state changes, it must re-render this TodoItem.  When state variables are referenced by a component the component will keep track of this, and will re-rerender when the state changes.</em></p>
 
 <p>Because <code>editing</code> starts off false, when the TodoItem first mounts, it renders the input, label, and anchor tags.  Attached to the label tag is a <code>double_click</code> handler which does one thing:  <em>mutates</em> the editing state.  This then causes the component to re-render, and now instead of the three tags, we will render the <code>EditItem</code> component.</p>
 
@@ -1051,7 +1053,7 @@ For example, if we had left off <code>type: Proc</code> we would have to say <co
   <span class="n">state</span><span class="p">(</span><span class="ss">:new_todo</span><span class="p">)</span> <span class="p">{</span> <span class="no">Todo</span><span class="p">.</span><span class="nf">new</span> <span class="p">}</span>
   <span class="n">render</span><span class="p">(</span><span class="no">HEADER</span><span class="p">)</span> <span class="k">do</span>
     <span class="no">EditItem</span><span class="p">(</span><span class="ss">todo: </span><span class="n">state</span><span class="p">.</span><span class="nf">new_todo</span><span class="p">)</span>
-      <span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:save</span><span class="p">)</span> <span class="p">{</span> <span class="n">mutate</span><span class="p">.</span><span class="nf">new_todo</span> <span class="no">Todo</span><span class="p">.</span><span class="nf">new</span> <span class="p">}</span>
+    <span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:save</span><span class="p">)</span> <span class="p">{</span> <span class="n">mutate</span><span class="p">.</span><span class="nf">new_todo</span> <span class="no">Todo</span><span class="p">.</span><span class="nf">new</span> <span class="p">}</span>
   <span class="k">end</span>
 <span class="k">end</span>
 </code></pre>
@@ -1074,10 +1076,10 @@ new Todo records, but even though they are changing React <em>does not</em> upda
 <p>We can easily fix this by adding a <code>key</code> param to the <code>INPUT</code> that is associated with each unique Todo.
 In Ruby this is easy as every object has an <code>object_id</code> method that is guaranteed to return a unique value.</p>
 
-<p>Changing the value of the key, will inform React that we are referring to a new Todo, and thus a  new <code>INPUT</code> element will have to be mounted.</p>
-<pre class="highlight ruby"><code>  <span class="p">.</span><span class="nf">.</span><span class="o">.</span>
-  <span class="no">INPUT</span><span class="p">(</span><span class="ss">defaultValue: </span><span class="n">params</span><span class="p">.</span><span class="nf">todo</span><span class="p">.</span><span class="nf">title</span><span class="p">,</span> <span class="ss">key: </span><span class="n">params</span><span class="p">.</span><span class="nf">todo</span><span class="p">.</span><span class="nf">object_id</span><span class="p">)</span>
-  <span class="p">.</span><span class="nf">.</span><span class="o">.</span>
+<p>Changing the value of the key, will inform React that we are refering to a new Todo, and thus a  new <code>INPUT</code> element will have to be mounted.</p>
+<pre class="highlight ruby"><code><span class="p">.</span><span class="nf">.</span><span class="o">.</span>
+    <span class="no">INPUT</span><span class="p">(</span><span class="ss">defaultValue: </span><span class="n">params</span><span class="p">.</span><span class="nf">todo</span><span class="p">.</span><span class="nf">title</span><span class="p">,</span> <span class="ss">key: </span><span class="n">params</span><span class="p">.</span><span class="nf">todo</span><span class="p">.</span><span class="nf">object_id</span><span class="p">)</span>
+<span class="p">.</span><span class="nf">.</span><span class="o">.</span>
 </code></pre>
 <h3 id="chapter-11-adding-styling">Chapter 11: Adding Styling</h3>
 
@@ -1110,7 +1112,7 @@ and we can also use the <code>NavLinks</code> <code>active_class</code> param to
   <span class="kp">include</span> <span class="no">HyperRouter</span><span class="o">::</span><span class="no">ComponentMethods</span>
   <span class="k">def</span> <span class="nf">link_item</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
     <span class="c1"># wrap the NavLink in a LI and</span>
-    <span class="c1"># tell the NavLink to change the class to :selected when</span>
+    <span class="c1"># tell the NavLink to change the class to :selected when </span>
     <span class="c1"># the current (active) path equals the NavLink's path.</span>
     <span class="no">LI</span> <span class="p">{</span> <span class="no">NavLink</span><span class="p">(</span><span class="s2">"/</span><span class="si">#{</span><span class="n">path</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="ss">active_class: :selected</span><span class="p">)</span> <span class="p">{</span> <span class="n">path</span><span class="p">.</span><span class="nf">camelize</span> <span class="p">}</span> <span class="p">}</span>
   <span class="k">end</span>
@@ -1147,12 +1149,12 @@ but we can still send it to EditItem with the usual hyperloop style <code>class<
   <span class="n">render</span> <span class="k">do</span>
     <span class="c1"># pass the className param as the INPUT's class</span>
     <span class="no">INPUT</span><span class="p">(</span>
-      <span class="ss">class: </span><span class="n">params</span><span class="p">.</span><span class="nf">className</span><span class="p">,</span>
-      <span class="ss">defaultValue: </span><span class="n">params</span><span class="p">.</span><span class="nf">todo</span><span class="p">.</span><span class="nf">title</span><span class="p">,</span>
+      <span class="ss">class: </span><span class="n">params</span><span class="p">.</span><span class="nf">className</span><span class="p">,</span> 
+      <span class="ss">defaultValue: </span><span class="n">params</span><span class="p">.</span><span class="nf">todo</span><span class="p">.</span><span class="nf">title</span><span class="p">,</span> 
       <span class="ss">key: </span><span class="n">params</span><span class="p">.</span><span class="nf">todo</span><span class="p">.</span><span class="nf">object_id</span>
     <span class="p">).</span><span class="nf">on</span><span class="p">(</span><span class="ss">:key_down</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">evt</span><span class="o">|</span>
       <span class="k">next</span> <span class="k">unless</span> <span class="n">evt</span><span class="p">.</span><span class="nf">key_code</span> <span class="o">==</span> <span class="mi">13</span>
-      <span class="n">params</span><span class="p">.</span><span class="nf">todo</span><span class="p">.</span><span class="nf">update</span><span class="p">(</span><span class="ss">title: </span><span class="n">evt</span><span class="p">.</span><span class="nf">target</span><span class="p">.</span><span class="nf">value</span><span class="p">)</span>
+      <span class="n">params</span><span class="p">.</span><span class="nf">todo</span><span class="p">.</span><span class="nf">save</span>
       <span class="n">params</span><span class="p">.</span><span class="nf">on_save</span>
     <span class="k">end</span>
     <span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:blur</span><span class="p">)</span> <span class="p">{</span> <span class="n">params</span><span class="p">.</span><span class="nf">on_cancel</span> <span class="p">}</span>
@@ -1167,14 +1169,14 @@ but we can still send it to EditItem with the usual hyperloop style <code>class<
   <span class="n">render</span><span class="p">(</span><span class="no">LI</span><span class="p">,</span> <span class="ss">class: </span><span class="s1">'todo-item'</span><span class="p">)</span> <span class="k">do</span>
     <span class="k">if</span> <span class="n">state</span><span class="p">.</span><span class="nf">editing</span>
       <span class="no">EditItem</span><span class="p">(</span><span class="ss">class: :edit</span><span class="p">,</span> <span class="ss">todo: </span><span class="n">params</span><span class="p">.</span><span class="nf">todo</span><span class="p">)</span>
-        <span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:save</span><span class="p">,</span> <span class="ss">:cancel</span><span class="p">)</span> <span class="p">{</span> <span class="n">mutate</span><span class="p">.</span><span class="nf">editing</span> <span class="kp">false</span> <span class="p">}</span>
+      <span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:save</span><span class="p">,</span> <span class="ss">:cancel</span><span class="p">)</span> <span class="p">{</span> <span class="n">mutate</span><span class="p">.</span><span class="nf">editing</span> <span class="kp">false</span> <span class="p">}</span>
     <span class="k">else</span>
       <span class="no">INPUT</span><span class="p">(</span><span class="ss">type: :checkbox</span><span class="p">,</span> <span class="ss">class: :toggle</span><span class="p">,</span> <span class="ss">checked: </span><span class="n">params</span><span class="p">.</span><span class="nf">todo</span><span class="p">.</span><span class="nf">completed</span><span class="p">)</span>
-        <span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:click</span><span class="p">)</span> <span class="p">{</span> <span class="n">params</span><span class="p">.</span><span class="nf">todo</span><span class="p">.</span><span class="nf">update</span><span class="p">(</span><span class="ss">completed: </span><span class="o">!</span><span class="n">params</span><span class="p">.</span><span class="nf">todo</span><span class="p">.</span><span class="nf">completed</span><span class="p">)</span> <span class="p">}</span>
+      <span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:click</span><span class="p">)</span> <span class="p">{</span> <span class="n">params</span><span class="p">.</span><span class="nf">todo</span><span class="p">.</span><span class="nf">update</span><span class="p">(</span><span class="ss">completed: </span><span class="o">!</span><span class="n">params</span><span class="p">.</span><span class="nf">todo</span><span class="p">.</span><span class="nf">completed</span><span class="p">)</span> <span class="p">}</span>
       <span class="no">LABEL</span> <span class="p">{</span> <span class="n">params</span><span class="p">.</span><span class="nf">todo</span><span class="p">.</span><span class="nf">title</span> <span class="p">}</span>
-        <span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:double_click</span><span class="p">)</span> <span class="p">{</span> <span class="n">mutate</span><span class="p">.</span><span class="nf">editing</span> <span class="kp">true</span> <span class="p">}</span>
+      <span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:double_click</span><span class="p">)</span> <span class="p">{</span> <span class="n">mutate</span><span class="p">.</span><span class="nf">editing</span> <span class="kp">true</span> <span class="p">}</span>
       <span class="no">A</span><span class="p">(</span><span class="ss">class: :destroy</span><span class="p">)</span> <span class="c1"># also remove the { '-X-' } placeholder</span>
-        <span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:click</span><span class="p">)</span> <span class="p">{</span> <span class="n">params</span><span class="p">.</span><span class="nf">todo</span><span class="p">.</span><span class="nf">destroy</span> <span class="p">}</span>
+      <span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:click</span><span class="p">)</span> <span class="p">{</span> <span class="n">params</span><span class="p">.</span><span class="nf">todo</span><span class="p">.</span><span class="nf">destroy</span> <span class="p">}</span>
     <span class="k">end</span>
   <span class="k">end</span>
 <span class="k">end</span>
@@ -1187,7 +1189,7 @@ we will add the <code>H1 { &#39;todos&#39; }</code> hero unit.</p>
   <span class="n">render</span><span class="p">(</span><span class="no">HEADER</span><span class="p">,</span> <span class="ss">class: :header</span><span class="p">)</span> <span class="k">do</span>                   <span class="c1"># add the 'header' class</span>
     <span class="no">H1</span> <span class="p">{</span> <span class="s1">'todos'</span> <span class="p">}</span>                                    <span class="c1"># Add the hero unit.</span>
     <span class="no">EditItem</span><span class="p">(</span><span class="ss">class: </span><span class="s1">'new-todo'</span><span class="p">,</span> <span class="ss">todo: </span><span class="n">state</span><span class="p">.</span><span class="nf">new_todo</span><span class="p">)</span> <span class="c1"># add 'new-todo' class</span>
-      <span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:save</span><span class="p">)</span> <span class="p">{</span> <span class="n">mutate</span><span class="p">.</span><span class="nf">new_todo</span> <span class="no">Todo</span><span class="p">.</span><span class="nf">new</span> <span class="p">}</span>
+    <span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:save</span><span class="p">)</span> <span class="p">{</span> <span class="n">mutate</span><span class="p">.</span><span class="nf">new_todo</span> <span class="no">Todo</span><span class="p">.</span><span class="nf">new</span> <span class="p">}</span>
   <span class="k">end</span>
 <span class="k">end</span>
 </code></pre>
@@ -1197,7 +1199,7 @@ we will add the <code>H1 { &#39;todos&#39; }</code> hero unit.</p>
 
 <ul>
 <li><strong>Show How Many Items Left In Footer</strong><br>
-This is just a span that we add before the link tags list in the Footer component:</li>
+This is just a span that we add before the link tags list in the Footer component: </li>
 </ul>
 <pre class="highlight ruby"><code>  <span class="p">.</span><span class="nf">.</span><span class="p">.</span>
   <span class="nf">render</span><span class="p">(</span><span class="no">DIV</span><span class="p">,</span> <span class="ss">class: :footer</span><span class="p">)</span> <span class="k">do</span>
@@ -1213,10 +1215,10 @@ EditItem should display a meaningful placeholder hint if the title is blank:<br>
 </ul>
 <pre class="highlight ruby"><code>    <span class="p">.</span><span class="nf">.</span><span class="o">.</span>
     <span class="no">INPUT</span><span class="p">(</span>
-      <span class="ss">class: </span><span class="n">params</span><span class="p">.</span><span class="nf">className</span><span class="p">,</span>
+      <span class="ss">class: </span><span class="n">params</span><span class="p">.</span><span class="nf">className</span><span class="p">,</span> 
       <span class="ss">defaultValue: </span><span class="n">params</span><span class="p">.</span><span class="nf">todo</span><span class="p">.</span><span class="nf">title</span><span class="p">,</span>
       <span class="ss">key: </span><span class="n">params</span><span class="p">.</span><span class="nf">todo</span><span class="p">.</span><span class="nf">object_id</span><span class="p">,</span>
-      <span class="ss">placeholder: </span><span class="s1">'What is left to do today?'</span>
+      <span class="ss">placeholder: </span><span class="s2">"What is left to do today?"</span>
     <span class="p">).</span><span class="nf">on</span><span class="p">(</span><span class="ss">:key_down</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">evt</span><span class="o">|</span> <span class="p">.</span><span class="nf">.</span><span class="p">.</span>
     <span class="nf">.</span><span class="p">.</span><span class="nf">.</span>
 </code></pre>
@@ -1249,7 +1251,7 @@ Total:      87
 <p>The complete application is shown here:</p>
 <pre class="highlight ruby"><code><span class="c1"># app/hyperloop/components/app.rb</span>
 <span class="k">class</span> <span class="nc">App</span> <span class="o">&lt;</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Router</span>
-  <span class="n">history</span> <span class="ss">:browser</span>
+  <span class="n">history</span> <span class="ss">:browser</span> 
   <span class="n">route</span> <span class="k">do</span> <span class="c1"># note instead of render we use the route method</span>
     <span class="no">SECTION</span><span class="p">(</span><span class="ss">class: </span><span class="s1">'todo-app'</span><span class="p">)</span> <span class="k">do</span>
       <span class="no">Header</span><span class="p">()</span>
@@ -1266,7 +1268,7 @@ Total:      87
   <span class="n">render</span><span class="p">(</span><span class="no">HEADER</span><span class="p">,</span> <span class="ss">class: :header</span><span class="p">)</span> <span class="k">do</span>
     <span class="no">H1</span> <span class="p">{</span> <span class="s1">'todos'</span> <span class="p">}</span>
     <span class="no">EditItem</span><span class="p">(</span><span class="ss">class: </span><span class="s1">'new-todo'</span><span class="p">,</span> <span class="ss">todo: </span><span class="n">state</span><span class="p">.</span><span class="nf">new_todo</span><span class="p">)</span>
-      <span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:save</span><span class="p">)</span> <span class="p">{</span> <span class="n">mutate</span><span class="p">.</span><span class="nf">new_todo</span> <span class="no">Todo</span><span class="p">.</span><span class="nf">new</span> <span class="p">}</span>
+    <span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:save</span><span class="p">)</span> <span class="p">{</span> <span class="n">mutate</span><span class="p">.</span><span class="nf">new_todo</span> <span class="no">Todo</span><span class="p">.</span><span class="nf">new</span> <span class="p">}</span>
   <span class="k">end</span>
 <span class="k">end</span>
 
@@ -1306,13 +1308,14 @@ Total:      87
   <span class="n">render</span><span class="p">(</span><span class="no">LI</span><span class="p">,</span> <span class="ss">class: </span><span class="s1">'todo-item'</span><span class="p">)</span> <span class="k">do</span>
     <span class="k">if</span> <span class="n">state</span><span class="p">.</span><span class="nf">editing</span>
       <span class="no">EditItem</span><span class="p">(</span><span class="ss">todo: </span><span class="n">params</span><span class="p">.</span><span class="nf">todo</span><span class="p">,</span> <span class="ss">class: :edit</span><span class="p">)</span>
-        <span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:save</span><span class="p">,</span> <span class="ss">:cancel</span><span class="p">)</span> <span class="p">{</span> <span class="n">mutate</span><span class="p">.</span><span class="nf">editing</span> <span class="kp">false</span> <span class="p">}</span>
+      <span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:save</span><span class="p">,</span> <span class="ss">:cancel</span><span class="p">)</span> <span class="p">{</span> <span class="n">mutate</span><span class="p">.</span><span class="nf">editing</span> <span class="kp">false</span> <span class="p">}</span>
     <span class="k">else</span>
       <span class="no">INPUT</span><span class="p">(</span><span class="ss">type: :checkbox</span><span class="p">,</span> <span class="ss">class: :toggle</span><span class="p">,</span> <span class="ss">checked: </span><span class="n">params</span><span class="p">.</span><span class="nf">todo</span><span class="p">.</span><span class="nf">completed</span><span class="p">)</span>
-        <span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:click</span><span class="p">)</span> <span class="p">{</span> <span class="n">params</span><span class="p">.</span><span class="nf">todo</span><span class="p">.</span><span class="nf">update</span><span class="p">(</span><span class="ss">completed: </span><span class="o">!</span><span class="n">params</span><span class="p">.</span><span class="nf">todo</span><span class="p">.</span><span class="nf">completed</span><span class="p">)</span> <span class="p">}</span>
+      <span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:click</span><span class="p">)</span> <span class="p">{</span> <span class="n">params</span><span class="p">.</span><span class="nf">todo</span><span class="p">.</span><span class="nf">update</span><span class="p">(</span><span class="ss">completed: </span><span class="o">!</span><span class="n">params</span><span class="p">.</span><span class="nf">todo</span><span class="p">.</span><span class="nf">completed</span><span class="p">)</span> <span class="p">}</span>
       <span class="no">LABEL</span> <span class="p">{</span> <span class="n">params</span><span class="p">.</span><span class="nf">todo</span><span class="p">.</span><span class="nf">title</span> <span class="p">}</span>
-        <span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:double_click</span><span class="p">)</span> <span class="p">{</span> <span class="n">mutate</span><span class="p">.</span><span class="nf">editing</span> <span class="kp">true</span> <span class="p">}</span>
-      <span class="no">A</span><span class="p">(</span><span class="ss">class: :destroy</span><span class="p">).</span><span class="nf">on</span><span class="p">(</span><span class="ss">:click</span><span class="p">)</span> <span class="p">{</span> <span class="n">params</span><span class="p">.</span><span class="nf">todo</span><span class="p">.</span><span class="nf">destroy</span> <span class="p">}</span>
+      <span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:double_click</span><span class="p">)</span> <span class="p">{</span> <span class="n">mutate</span><span class="p">.</span><span class="nf">editing</span> <span class="kp">true</span> <span class="p">}</span>
+      <span class="no">A</span><span class="p">(</span><span class="ss">class: :destroy</span><span class="p">)</span>
+      <span class="p">.</span><span class="nf">on</span><span class="p">(</span><span class="ss">:click</span><span class="p">)</span> <span class="p">{</span> <span class="n">params</span><span class="p">.</span><span class="nf">todo</span><span class="p">.</span><span class="nf">destroy</span> <span class="p">}</span>
     <span class="k">end</span>
   <span class="k">end</span>
 <span class="k">end</span>
@@ -1327,10 +1330,10 @@ Total:      87
 
   <span class="n">render</span> <span class="k">do</span>
     <span class="no">INPUT</span><span class="p">(</span>
-      <span class="ss">class: </span><span class="n">params</span><span class="p">.</span><span class="nf">className</span><span class="p">,</span>
+      <span class="ss">class: </span><span class="n">params</span><span class="p">.</span><span class="nf">className</span><span class="p">,</span> 
       <span class="ss">defaultValue: </span><span class="n">params</span><span class="p">.</span><span class="nf">todo</span><span class="p">.</span><span class="nf">title</span><span class="p">,</span>
       <span class="ss">key: </span><span class="n">params</span><span class="p">.</span><span class="nf">todo</span><span class="p">.</span><span class="nf">object_id</span><span class="p">,</span>
-      <span class="ss">placeholder: </span><span class="s1">'What is left to do today?'</span>
+      <span class="ss">placeholder: </span><span class="s2">"What is left to do today?"</span>
     <span class="p">).</span><span class="nf">on</span><span class="p">(</span><span class="ss">:key_down</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">evt</span><span class="o">|</span>
       <span class="k">next</span> <span class="k">unless</span> <span class="n">evt</span><span class="p">.</span><span class="nf">key_code</span> <span class="o">==</span> <span class="mi">13</span>
       <span class="n">params</span><span class="p">.</span><span class="nf">todo</span><span class="p">.</span><span class="nf">update</span><span class="p">(</span><span class="ss">title: </span><span class="n">evt</span><span class="p">.</span><span class="nf">target</span><span class="p">.</span><span class="nf">value</span><span class="p">)</span>
@@ -1349,8 +1352,7 @@ Total:      87
 <span class="c1"># config/routes.rb</span>
 <span class="no">Rails</span><span class="p">.</span><span class="nf">application</span><span class="p">.</span><span class="nf">routes</span><span class="p">.</span><span class="nf">draw</span> <span class="k">do</span>
   <span class="n">mount</span> <span class="no">Hyperloop</span><span class="o">::</span><span class="no">Engine</span> <span class="o">=&gt;</span> <span class="s1">'/hyperloop'</span>
-  <span class="n">get</span> <span class="s1">'/(*other)'</span><span class="p">,</span> <span class="ss">to: </span><span class="s1">'hyperloop#app'</span>
-  <span class="c1"># For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html</span>
+  <span class="n">get</span> <span class="s1">'/(*other)'</span><span class="p">,</span> <span class="ss">to: </span><span class="s1">'hyperloop#app'</span> <span class="c1"># route everything to the App component</span>
 <span class="k">end</span>
 </code></pre>
 <h3 id="general-troubleshooting">General troubleshooting</h3>
@@ -1363,9 +1365,7 @@ Total:      87
 
 <p><hr></p>
 
-<p>You can find the final application source code here:</p>
-
-<p><br></p>
+<p>You can find the final application source code here:<br></p>
 
 <p><a href="https://github.com/ruby-hyperloop/hyperloop-rails-webpackergem-helloworld" alt="Tutorial source code" title="Tutorial source code">
 <img src="http://ruby-hyperloop.org/images/githubsourcecodebadge.png">

@@ -14,7 +14,7 @@
     <link rel="alternate" href="http://blog.url.com/blog/2018/07/28/Statement-of-Direction/"/>
     <id>http://blog.url.com/blog/2018/07/28/Statement-of-Direction/</id>
     <published>2018-07-28T09:47:00+01:00</published>
-    <updated>2018-07-31T09:52:45+01:00</updated>
+    <updated>2018-07-27T12:49:31+01:00</updated>
     <author>
       <name>Article Author</name>
     </author>
@@ -65,7 +65,7 @@
     <link rel="alternate" href="http://blog.url.com/blog/2018/07/26/hyperloop-2018-update/"/>
     <id>http://blog.url.com/blog/2018/07/26/hyperloop-2018-update/</id>
     <published>2018-07-26T09:47:00+01:00</published>
-    <updated>2018-07-31T09:52:45+01:00</updated>
+    <updated>2018-07-27T12:50:09+01:00</updated>
     <author>
       <name>Article Author</name>
     </author>
@@ -87,7 +87,7 @@
     <link rel="alternate" href="http://blog.url.com/blog/2017/02/28/spring-2017-comps-release/"/>
     <id>http://blog.url.com/blog/2017/02/28/spring-2017-comps-release/</id>
     <published>2017-02-28T00:00:00+00:00</published>
-    <updated>2018-06-01T08:14:59+01:00</updated>
+    <updated>2018-07-26T09:39:17+01:00</updated>
     <author>
       <name>Article Author</name>
     </author>
@@ -244,7 +244,7 @@
     <link rel="alternate" href="http://blog.url.com/blog/2017/01/28/editing-flux-loop-verses-decoupling/"/>
     <id>http://blog.url.com/blog/2017/01/28/editing-flux-loop-verses-decoupling/</id>
     <published>2017-01-28T00:00:00+00:00</published>
-    <updated>2018-06-01T08:14:59+01:00</updated>
+    <updated>2018-07-26T09:39:17+01:00</updated>
     <author>
       <name>Article Author</name>
     </author>
@@ -396,7 +396,7 @@ Yes.  Note that Operations return promises, so asynchronous operation is assumed
     <link rel="alternate" href="http://blog.url.com/blog/2017/01/17/comparing-redux-with-hyperloop/"/>
     <id>http://blog.url.com/blog/2017/01/17/comparing-redux-with-hyperloop/</id>
     <published>2017-01-17T00:00:00+00:00</published>
-    <updated>2018-06-01T08:14:59+01:00</updated>
+    <updated>2018-07-26T09:39:17+01:00</updated>
     <author>
       <name>Article Author</name>
     </author>
@@ -728,7 +728,7 @@ return (
     <link rel="alternate" href="http://blog.url.com/blog/2016/09/08/Hyperloop-is-born/"/>
     <id>http://blog.url.com/blog/2016/09/08/Hyperloop-is-born/</id>
     <published>2016-09-08T06:50:00+01:00</published>
-    <updated>2018-06-01T08:14:59+01:00</updated>
+    <updated>2018-07-26T09:39:17+01:00</updated>
     <author>
       <name>Article Author</name>
     </author>
