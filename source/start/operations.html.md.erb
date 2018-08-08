@@ -37,23 +37,23 @@ class Discounter < Hyperloop::Store
     mutate.discount( state.discount + rand(-5..5) )
     mutate.tries(state.tries + 1)
   end
+end
 
-  class LuckyDipOp < Hyperloop::Operation
-    def check_tries
-      puts Discounter.tries
-      abort! if Discounter.tries > 2
-    end
-    step { check_tries }
-    step { Discounter.lucky_dip! }
+class LuckyDipOp < Hyperloop::Operation
+  step { see_if_tries_are_exhausted }
+  step { Discounter.lucky_dip! }
+
+  def see_if_tries_are_exhausted
+    puts "#{Discounter.tries} tries so far"
+    abort! if Discounter.tries > 20
   end
 end
 
 class OfferLuckyDip < Hyperloop::Component
-
   render(DIV) do
     H1 {"Your discount is #{Discounter.discount}%"}
     BUTTON { "Lucky Dip" }.on(:click) do
-      Discounter.LuckyDipOp
+      LuckyDipOp.run
     end
   end
 end
