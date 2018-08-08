@@ -48,11 +48,10 @@ Modify your `hyperloop.rb` initializer, adding the following lines inside the if
 #config/initializers/hyperloop.rb
 
 Hyperloop.configuration do |config|
+  config.transport = :action_cable # or :simple_poller
 
-  config.transport = :simple_poller
-  
+  config.import 'reactrb/auto-import'
   config.import 'opal_hot_reloader'
- 
 end
 ```
 
@@ -79,7 +78,7 @@ Opal.OpalHotReloader.$listen(25222, true)
 If you already have turned OFF the Hyperloop AUTO_CONFIG mode then follow instructions below.
 
 Modify your `app/hyperloop/components.rb` file, adding **OpalHotReloader** configuration:
- 
+
 ```ruby
 #app/hyperloop/components.rb
 
@@ -121,12 +120,14 @@ hotloader: opal-hot-reloader -p 25222 -d app/hyperloop/components
 
 ### Step 4: Running the application
 
+> If you already started the rails app before and have a build the hyperloop assets already, you'll need to rebuild it, by issuing a `rm -r tmp/cache`.
+
 To start both servers:
 
 `bundle exec foreman start`
 
 
-### Step 5: Playing 
+### Step 5: Playing
 
 Refresh your browser and edit a Hyperloop Component, for example `helloworld.rb`:
 
@@ -167,7 +168,7 @@ by
 state.show_field ? "Click to hide Hello People input field" : "Click to show People input field"
 ```
 
-Save and you should see the text change magically in your browser without having to refresh. Pure joy.  
+Save and you should see the text change magically in your browser without having to refresh. Pure joy.
 
 
 <div>
